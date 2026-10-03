@@ -1,0 +1,69 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P06
+P06 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/shipments.test.ts (17 tests) 13ms
+
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+   Start at  01:46:07
+   Duration  2.24s (environment 56%, import 25%, setup 11%, transform 7%, tests 1%)
+
+P06 unit: PASSED
+P06 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/shipments.test.ts (16 tests) 36310ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  01:46:10
+   Duration  38.26s (tests 95%, import 4%, transform 1%)
+
+P06 database: PASSED
+P06 browser: test:p06:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2632 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Bvg_HxDw.css                           81.35 kB │ gzip: 16.07 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-DNYbpMWN.js                           171.26 kB │ gzip: 43.40 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 560ms
+[WebServer] (node:17276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:15388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\p06\shipments.spec.ts:88:1 › mobile ready intake commits 300, shows actual timeline, and appears in P05 parcel custody (2.9s)
+  ok  2 tests\p06\shipments.spec.ts:115:1 › company-packed 305 requires explicit completion once without extra receipt or money (2.2s)
+  ok  3 tests\p06\shipments.spec.ts:135:1 › shipping-only and fully prepaid forms preserve zero goods and commercial tariff (2.1s)
+  ok  4 tests\p06\shipments.spec.ts:149:1 › missing tariff and invalid phone/URL retain input, then correction of the form registers once (2.0s)
+  ok  5 tests\p06\shipments.spec.ts:170:1 › duplicate brand reference has a deliberate independent-order warning distinct from retry recovery (2.2s)
+  ok  6 tests\p06\shipments.spec.ts:187:1 › dropped committed confirmation response survives reload and recovers original reference exactly once (1.7s)
+  ok  7 tests\p06\shipments.spec.ts:209:1 › lost preparation response recovers from the waiting-only queue after reload (2.7s)
+  ok  8 tests\p06\shipments.spec.ts:230:1 › mobile advanced combined filters, reset, detail/back and assigned-branch denial (2.8s)
+  ok  9 tests\p06\shipments.spec.ts:261:1 › 320/768/1440 layouts preserve long Arabic content, keyboard focus and responsive timeline (5.5s)
+  ok 10 tests\p06\shipments.spec.ts:283:1 › tariff edits preserve old detail; correction preview/commit reviews service and cancellation retains parcel (2.9s)
+
+  10 passed (1.1m)
+P06 browser: PASSED
+P06 publicIntegration: NOT APPLICABLE — P06 native intake/preparation only; real PostgreSQL and authenticated HTTP run in DB/browser suites. Tawsel dispatch adapter is later-owned.
+P06: all required layers passed

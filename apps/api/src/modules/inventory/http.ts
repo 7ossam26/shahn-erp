@@ -11,6 +11,8 @@ import {
 import { sessionToken } from '../access/http.js';
 import { sessionIdentity } from '../access/sessions.js';
 import { RetainedCommandError } from '../kernel/commands.js';
+import { listShipmentParcels } from '../shipments/service.js';
+import { shipmentFilter } from '../shipments/http.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import {
   authorizeInventoryBranches,
@@ -82,7 +84,20 @@ export function registerInventory(app: FastifyInstance, pool: Pool, origin: stri
               view === 'products'
                 ? ['companyId', ...Object.keys(defaultInventoryFilter([]))]
                 : view === 'parcels'
-                  ? ['companyId', 'branches', 'custody']
+                  ? [
+                      'companyId',
+                      'branches',
+                      'custody',
+                      'brands',
+                      'service',
+                      'preparation',
+                      'state',
+                      'search',
+                      'from',
+                      'to',
+                      'page',
+                      'limit',
+                    ]
                   : view === 'history'
                     ? ['companyId', 'branchId', 'page', 'limit']
                     : view === 'result'
@@ -136,7 +151,11 @@ export function registerInventory(app: FastifyInstance, pool: Pool, origin: stri
                     const custody = query.custody ?? 'branch';
                     if (!['branch', 'external'].includes(custody))
                       throw new AccessError('VALIDATION_FAILED', 400);
-                    return { items: [], total: 0, boundary: 'P06_NOT_IMPLEMENTED', custody };
+                    return listShipmentParcels(
+                      uow,
+                      shipmentFilter(query, branches),
+                      custody as 'branch' | 'external',
+                    );
                   }
                   const filter = {
                     ...defaultInventoryFilter(branches),

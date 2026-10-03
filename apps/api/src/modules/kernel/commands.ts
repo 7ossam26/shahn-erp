@@ -43,7 +43,10 @@ export interface CommandDefinition<I extends CommandInput> {
     afterVersion: number | null;
   }>;
   resolve(uow: UnitOfWork, reference: Record<string, unknown>, status: number): Promise<unknown>;
-  rejectionReference(input: I): { entityId: string; branchId: string };
+  rejectionReference(
+    input: I,
+    uow: UnitOfWork,
+  ): { entityId: string; branchId: string } | Promise<{ entityId: string; branchId: string }>;
 }
 export class RetainedCommandError extends AccessError {
   constructor(readonly reply: CommandReply) {
@@ -119,7 +122,7 @@ export class CommandService<I extends CommandInput> {
       } catch (error) {
         if (!(error instanceof AccessError) || error.status !== 409) throw error;
         await client.query('ROLLBACK TO SAVEPOINT command_effects');
-        const reference = definition.rejectionReference(input);
+        const reference = await definition.rejectionReference(input, uow);
         const body = {
           code: error.code,
           messageKey: 'kernel.' + error.code.toLowerCase(),

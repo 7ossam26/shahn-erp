@@ -1,0 +1,10 @@
+npm notice run shahn-erp@0.1.0 lint
+npm notice run eslint apps packages tests scripts && prettier --check apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml
+
+C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\apps\web\src\features\shipments\shipments.tsx
+  229:20  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+
+C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\db\shipments.test.ts
+  10:3  error  'ShipmentDetail' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+✖ 2 problems (2 errors, 0 warnings)

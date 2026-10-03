@@ -25,3 +25,4 @@ export function createPool(connectionString: string, max = 5): pg.Pool {
   });
   return pool;
 }
+export * from './shipments/index.js';

@@ -16,6 +16,7 @@ import type { ReceiptDetail, StockList, StockRow, VariantHistory } from '@shahn/
 import { Field, ErrorNotice, CommercialError } from '../brands/api.js';
 import { conditionNames, inventoryApi, useInventoryCatalog, useInventoryMutation } from './api.js';
 import './inventory.css';
+import { ParcelMonitorPage } from '../preparation/preparation.js';
 export function Balances({ row }: { row: StockRow }) {
   return (
     <dl className="stock-balances">
@@ -38,6 +39,14 @@ export function Balances({ row }: { row: StockRow }) {
   );
 }
 export function InventoryPage() {
+  const [params] = useSearchParams();
+  return params.get('view') === 'parcels' ? (
+    <ParcelMonitorPage inventory />
+  ) : (
+    <ProductInventoryPage />
+  );
+}
+function ProductInventoryPage() {
   const catalog = useInventoryCatalog(),
     [params, setParams] = useSearchParams(),
     [advanced, setAdvanced] = useState(false),
@@ -50,6 +59,13 @@ export function InventoryPage() {
     .filter(Boolean)
     .every((id) => branches.some((b) => b.id === id));
   const change = (key: string, value: string) => {
+    if (key === 'view' && value === 'parcels') {
+      const parcelParams = new URLSearchParams({ view: 'parcels' });
+      if (selected) parcelParams.set('branches', selected);
+      if (params.get('search')) parcelParams.set('search', params.get('search')!);
+      setParams(parcelParams);
+      return;
+    }
     const next = new URLSearchParams(params);
     if (value) next.set(key, value);
     else next.delete(key);

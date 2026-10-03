@@ -1,0 +1,42 @@
+npm notice run shahn-erp@0.1.0 test:p05:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p05.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2632 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Bvg_HxDw.css                           81.35 kB │ gzip: 16.07 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-r0lnrPbv.js                           172.09 kB │ gzip: 43.61 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 776ms
+[WebServer] (node:3092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:14968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\p05\inventory.spec.ts:43:1 › registry module entry, explicit multi-branch choice, and A-only denied browser request (2.0s)
+  ok  2 tests\p05\inventory.spec.ts:72:1 › phone product setup starts at zero and multi-line receipt creates immutable history (2.3s)
+  ok  3 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 320px (1.4s)
+  ok  4 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 390px (1.4s)
+  ok  5 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 768px (1.4s)
+  ok  6 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 1440px (1.4s)
+  ok  7 tests\p05\inventory.spec.ts:145:1 › negative quantity retains input and connection failure differs from no results (1.4s)
+  ok  8 tests\p05\inventory.spec.ts:165:1 › lost response after real commit persists original identity across reload and recovers once (1.6s)
+  ok  9 tests\p05\inventory.spec.ts:202:1 › offline confirmation waits for connection without sending a command (780ms)
+  ok 10 tests\p05\inventory.spec.ts:218:1 › stale product edit retains draft and requires explicit review of current revision (1.0s)
+  ok 11 tests\p05\inventory.spec.ts:265:1 › permission refresh clears a revoked selected branch and rejects old receipt recovery (915ms)
+
+  11 passed (60.0s)

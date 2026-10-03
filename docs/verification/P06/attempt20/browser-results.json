@@ -1,0 +1,593 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p05.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p05.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p05",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p05",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P05/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p05/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4298/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "inventory.spec.ts",
+      "file": "inventory.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "registry module entry, explicit multi-branch choice, and A-only denied browser request",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1764,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:54:05.821Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-02fe9edb062ba3f99ffa",
+          "file": "inventory.spec.ts",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "phone product setup starts at zero and multi-line receipt creates immutable history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1843,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:54:07.702Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-a40fea5fd161949a0a6e",
+          "file": "inventory.spec.ts",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 320px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16207,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 85,
+                      "line": 139
+                    },
+                    "snippet": "  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 85,
+                        "line": 139
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n\n  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:54:09.556Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-3a122-te-and-long-labels-at-320px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 85,
+                    "line": 139
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-2225a9289e3bb9346bf1",
+          "file": "inventory.spec.ts",
+          "line": 116,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 390px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16323,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 85,
+                      "line": 139
+                    },
+                    "snippet": "  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 85,
+                        "line": 139
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n\n  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:54:26.268Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-b7e83-te-and-long-labels-at-390px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 85,
+                    "line": 139
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-ed72d5c5e21a86546222",
+          "file": "inventory.spec.ts",
+          "line": 116,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 768px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16463,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 85,
+                      "line": 139
+                    },
+                    "snippet": "  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 85,
+                        "line": 139
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n\n  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:54:43.134Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-27dd6-te-and-long-labels-at-768px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 85,
+                    "line": 139
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-d4c98cc352a3896e29f7",
+          "file": "inventory.spec.ts",
+          "line": 116,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 1440px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16420,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 85,
+                      "line": 139
+                    },
+                    "snippet": "  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 85,
+                        "line": 139
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')\u001b[22m\n\n\n  137 |     await expect(page).toHaveURL(/categories=unavailable/);\n  138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();\n> 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();\n      |                                                                                     ^\n  140 |     await page.getByLabel('موقع العهدة').selectOption('external');\n  141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');\n  142 |     await noOverflow(page);\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:139:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:00.151Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-e9381-e-and-long-labels-at-1440px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 85,
+                    "line": 139
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-9a8307a136f71a0d01fa",
+          "file": "inventory.spec.ts",
+          "line": 116,
+          "column": 3
+        },
+        {
+          "title": "negative quantity retains input and connection failure differs from no results",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1506,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:17.114Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-b4177ea9299ad6bb1059",
+          "file": "inventory.spec.ts",
+          "line": 144,
+          "column": 1
+        },
+        {
+          "title": "lost response after real commit persists original identity across reload and recovers once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1550,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:18.725Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-505f442c1bb696c4eb46",
+          "file": "inventory.spec.ts",
+          "line": 164,
+          "column": 1
+        },
+        {
+          "title": "offline confirmation waits for connection without sending a command",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 835,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:20.288Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-d40b50573efaf3e5a022",
+          "file": "inventory.spec.ts",
+          "line": 201,
+          "column": 1
+        },
+        {
+          "title": "stale product edit retains draft and requires explicit review of current revision",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:21.135Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-9a8e785e497af4bf3000",
+          "file": "inventory.spec.ts",
+          "line": 217,
+          "column": 1
+        },
+        {
+          "title": "permission refresh clears a revoked selected branch and rejects old receipt recovery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 979,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T22:55:22.135Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-1beefbe7bed6475a90b4",
+          "file": "inventory.spec.ts",
+          "line": 264,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T22:53:26.976Z",
+    "duration": 116912.382,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

@@ -1,4 +1,5 @@
 import AjvModule from 'ajv';
+import { parcelListSchema } from '../shipments/index.js';
 import formatsModule from 'ajv-formats';
 export type StockCondition = 'sound' | 'damaged' | 'uncertain';
 export interface VariantFields {
@@ -242,12 +243,7 @@ export const inventoryViews = {
     products: array(product, 0, 100000),
   }),
   products: closed({ items: array(stock), ...pagination, asOf: instant }),
-  parcels: closed({
-    items: { type: 'array', maxItems: 0 },
-    total: { const: 0 },
-    boundary: { const: 'P06_NOT_IMPLEMENTED' },
-    custody: { type: 'string', enum: ['branch', 'external'] },
-  }),
+  parcels: parcelListSchema,
   product: closed({
     product,
     history: array(

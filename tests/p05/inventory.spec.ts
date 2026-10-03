@@ -136,7 +136,8 @@ for (const width of [320, 390, 768, 1440])
     await expect(page.getByLabel('بحث', { exact: true })).toHaveValue('Blue');
     await expect(page).toHaveURL(/categories=unavailable/);
     await page.getByRole('button', { name: 'الطرود', exact: true }).click();
-    await expect(page.getByRole('heading', { name: 'لا توجد طرود مسجلة بعد' })).toBeVisible();
+    await expect(page).not.toHaveURL(/categories=/);
+    await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();
     await page.getByLabel('موقع العهدة').selectOption('external');
     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');
     await noOverflow(page);

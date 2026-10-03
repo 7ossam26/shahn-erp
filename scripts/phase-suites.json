@@ -115,5 +115,29 @@
       "applicable": false,
       "reason": "P05 local stock uses real PostgreSQL and native authenticated HTTP; no Tawsel transport is implemented or required."
     }
+  },
+  "P06": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/shipments.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/shipments.test.ts"]
+    },
+    "browser": {
+      "script": "test:p06:browser",
+      "directory": "tests/p06",
+      "extension": ".spec",
+      "config": "playwright.p06.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P06 native intake/preparation only; real PostgreSQL and authenticated HTTP run in DB/browser suites. Tawsel dispatch adapter is later-owned."
+    }
   }
 }

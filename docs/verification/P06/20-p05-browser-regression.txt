@@ -1,0 +1,156 @@
+npm notice run shahn-erp@0.1.0 test:p05:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p05.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2632 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Bvg_HxDw.css                           81.35 kB │ gzip: 16.07 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-BfYvTICN.js                           171.73 kB │ gzip: 43.53 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 1.05s
+[WebServer] (node:19436) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:4212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\p05\inventory.spec.ts:43:1 › registry module entry, explicit multi-branch choice, and A-only denied browser request (1.8s)
+  ok  2 tests\p05\inventory.spec.ts:72:1 › phone product setup starts at zero and multi-line receipt creates immutable history (1.8s)
+  x   3 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 320px (16.2s)
+(node:22308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   4 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 390px (16.3s)
+(node:11328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   5 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 768px (16.5s)
+(node:10720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   6 tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 1440px (16.4s)
+(node:22940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  7 tests\p05\inventory.spec.ts:144:1 › negative quantity retains input and connection failure differs from no results (1.5s)
+  ok  8 tests\p05\inventory.spec.ts:164:1 › lost response after real commit persists original identity across reload and recovers once (1.6s)
+  ok  9 tests\p05\inventory.spec.ts:201:1 › offline confirmation waits for connection without sending a command (835ms)
+  ok 10 tests\p05\inventory.spec.ts:217:1 › stale product edit retains draft and requires explicit review of current revision (985ms)
+  ok 11 tests\p05\inventory.spec.ts:264:1 › permission refresh clears a revoked selected branch and rejects old receipt recovery (979ms)
+
+
+  1) tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 320px
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms
+      - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+
+
+      137 |     await expect(page).toHaveURL(/categories=unavailable/);
+      138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();
+    > 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();
+          |                                                                                     ^
+      140 |     await page.getByLabel('موقع العهدة').selectOption('external');
+      141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');
+      142 |     await noOverflow(page);
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p05\inventory.spec.ts:139:85
+
+    Error Context: test-results\inventory-current-inventor-3a122-te-and-long-labels-at-320px\error-context.md
+
+  2) tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 390px
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms
+      - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+
+
+      137 |     await expect(page).toHaveURL(/categories=unavailable/);
+      138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();
+    > 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();
+          |                                                                                     ^
+      140 |     await page.getByLabel('موقع العهدة').selectOption('external');
+      141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');
+      142 |     await noOverflow(page);
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p05\inventory.spec.ts:139:85
+
+    Error Context: test-results\inventory-current-inventor-b7e83-te-and-long-labels-at-390px\error-context.md
+
+  3) tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 768px
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms
+      - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+
+
+      137 |     await expect(page).toHaveURL(/categories=unavailable/);
+      138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();
+    > 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();
+          |                                                                                     ^
+      140 |     await page.getByLabel('موقع العهدة').selectOption('external');
+      141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');
+      142 |     await noOverflow(page);
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p05\inventory.spec.ts:139:85
+
+    Error Context: test-results\inventory-current-inventor-27dd6-te-and-long-labels-at-768px\error-context.md
+
+  4) tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 1440px
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.') with timeout 15000ms
+      - waiting for getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')
+
+
+      137 |     await expect(page).toHaveURL(/categories=unavailable/);
+      138 |     await page.getByRole('button', { name: 'الطرود', exact: true }).click();
+    > 139 |     await expect(page.getByText('لا توجد طرود بهذه الفلاتر. راجع الفرع والفلاتر.')).toBeVisible();
+          |                                                                                     ^
+      140 |     await page.getByLabel('موقع العهدة').selectOption('external');
+      141 |     await expect(page.locator('.stock-empty')).toContainText('لا يضيف مخزونًا');
+      142 |     await noOverflow(page);
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p05\inventory.spec.ts:139:85
+
+    Error Context: test-results\inventory-current-inventor-e9381-e-and-long-labels-at-1440px\error-context.md
+
+  4 failed
+    tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 320px
+    tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 390px
+    tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 768px
+    tests\p05\inventory.spec.ts:116:3 › current inventory, advanced filter/back state and long labels at 1440px
+  7 passed (1.9m)

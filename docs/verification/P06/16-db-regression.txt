@@ -1,0 +1,20 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/kernel.test.ts tests/db/access.test.ts tests/db/inventory.test.ts tests/db/shipments.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 40197ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 4278ms
+ ✓ tests/db/inventory.test.ts (17 tests) 35917ms
+   ✓ P05 committed inventory and real authenticated HTTP (17)
+     ✓ creates immutable product/variant IDs without stock or financial effects 379ms
+ ✓ tests/db/shipments.test.ts (17 tests) 36367ms
+ ✓ tests/db/access.test.ts (17 tests) 37563ms
+   ✓ P02 real PostgreSQL and server authorization (17)
+     ✓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide 335ms
+
+ Test Files  4 passed (4)
+      Tests  72 passed (72)
+   Start at  01:49:02
+   Duration  155.79s (tests 97%, import 3%)

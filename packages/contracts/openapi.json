@@ -8,6 +8,4090 @@
     }
   },
   "paths": {
+    "/api/v1/shipments": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "shipment.confirm" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "actualReceipt": { "const": true },
+                      "duplicateAcknowledged": { "type": "boolean" },
+                      "expectedPolicyVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "actualReceipt",
+                      "duplicateAcknowledged",
+                      "expectedPolicyVersion",
+                      "expectedTariffVersion",
+                      "expectedTariffId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.correct" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "actualAtCorrectedBranch": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "fields",
+                      "reason",
+                      "actualAtCorrectedBranch",
+                      "duplicateAcknowledged"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.cancel" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.prepare" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/catalog": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "companyId": { "type": "string", "format": "uuid" },
+                    "references": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "parentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "volumeRange": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "kind",
+                          "name",
+                          "active",
+                          "parentId",
+                          "volumeRange"
+                        ]
+                      }
+                    },
+                    "tariffs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "active": { "type": "boolean" }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "tierId",
+                          "governorateId",
+                          "areaId",
+                          "amountMinor",
+                          "active"
+                        ]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "contact": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "externalReference": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "services": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "uniqueItems": true
+                          },
+                          "defaultService": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "packingUpliftMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "partialDelivery": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "allowNegativeBalance": { "type": "boolean" },
+                          "storage": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "monthlyFeeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "startDate": { "type": "string", "format": "date" },
+                                  "anniversaryDay": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "active": { "type": "boolean" },
+                                  "stopDate": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "date" },
+                                      { "type": "null" }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "monthlyFeeMinor",
+                                  "startDate",
+                                  "anniversaryDay",
+                                  "branchId",
+                                  "active",
+                                  "stopDate"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "name",
+                          "active",
+                          "contact",
+                          "externalReference",
+                          "services",
+                          "defaultService",
+                          "tierId",
+                          "packingUpliftMinor",
+                          "partialDelivery",
+                          "payoutWeekdays",
+                          "allowNegativeBalance",
+                          "storage"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["companyId", "references", "tariffs", "branches", "brands"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{reference}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "path",
+            "name": "reference",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": {
+                      "type": "string",
+                      "maxLength": 20,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "brandReference": { "type": "string", "maxLength": 256 },
+                        "recipientName": {
+                          "type": "string",
+                          "maxLength": 200,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "phoneDisplay": {
+                          "type": "string",
+                          "maxLength": 100,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "address": {
+                          "type": "string",
+                          "maxLength": 500,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "governorateId": { "type": "string", "format": "uuid" },
+                        "areaId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "locationUrl": { "type": "string", "maxLength": 2048 },
+                        "lines": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "description": {
+                                "type": "string",
+                                "maxLength": 200,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                              "unitDue": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              }
+                            },
+                            "required": ["id", "description", "quantity", "unitDue"]
+                          },
+                          "minItems": 1,
+                          "maxItems": 100
+                        },
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                        "recipientShippingDue": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "currency": { "const": "EGP" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                }
+                              },
+                              "required": ["currency", "amountMinor"]
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "inspectionAllowed": { "type": "boolean" },
+                        "comment": { "type": "string", "maxLength": 1000 }
+                      },
+                      "required": [
+                        "branchId",
+                        "brandId",
+                        "service",
+                        "brandReference",
+                        "recipientName",
+                        "phoneDisplay",
+                        "address",
+                        "governorateId",
+                        "areaId",
+                        "locationUrl",
+                        "lines",
+                        "shippingPayer",
+                        "recipientShippingDue",
+                        "inspectionAllowed",
+                        "comment"
+                      ]
+                    },
+                    "phoneCanonical": {
+                      "type": "string",
+                      "pattern": "^(?:\\+[1-9][0-9]{7,14}|01[0125][0-9]{8})$"
+                    },
+                    "price": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "schemaVersion": { "const": 1 },
+                        "currency": { "const": "EGP" },
+                        "companyId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "partialDelivery": { "type": "boolean" },
+                        "tierId": { "type": "string", "format": "uuid" },
+                        "tierName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "governorateId": { "type": "string", "format": "uuid" },
+                        "governorateName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "areaId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "areaName": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 180,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "tariffId": { "type": "string", "format": "uuid" },
+                        "tariffVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "source": { "enum": ["area_override", "governorate"] },
+                        "baseShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "packingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "commissionBaseMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "goodsDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "recipientShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "recipientDueMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "capturedAt": { "type": "string", "format": "date-time" },
+                        "agreedPackingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "brandShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "currency",
+                        "companyId",
+                        "brandId",
+                        "brandName",
+                        "policyVersion",
+                        "branchId",
+                        "service",
+                        "partialDelivery",
+                        "tierId",
+                        "tierName",
+                        "governorateId",
+                        "governorateName",
+                        "areaId",
+                        "areaName",
+                        "tariffId",
+                        "tariffVersion",
+                        "source",
+                        "baseShippingMinor",
+                        "packingUpliftMinor",
+                        "tariffMinor",
+                        "commissionBaseMinor",
+                        "goodsDueMinor",
+                        "recipientShippingMinor",
+                        "recipientDueMinor",
+                        "capturedAt",
+                        "agreedPackingUpliftMinor",
+                        "brandShippingMinor",
+                        "shippingPayer"
+                      ]
+                    },
+                    "state": { "enum": ["active", "cancelled"] },
+                    "preparation": { "enum": ["not_required", "awaiting_preparation", "complete"] },
+                    "branchName": {
+                      "type": "string",
+                      "maxLength": 180,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "receivedAt": { "type": "string", "format": "date-time" },
+                    "sourceState": { "enum": ["local", "integrated"] },
+                    "handedOver": { "type": "boolean" },
+                    "timeline": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "kind": { "enum": ["received", "corrected", "prepared", "cancelled"] },
+                          "at": { "type": "string", "format": "date-time" },
+                          "actor": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "reason": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": ["version", "kind", "at", "actor", "reason"]
+                      }
+                    },
+                    "revisions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "fields": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "brandId": { "type": "string", "format": "uuid" },
+                              "service": { "enum": ["brand_packed", "company_packed"] },
+                              "brandReference": { "type": "string", "maxLength": 256 },
+                              "recipientName": {
+                                "type": "string",
+                                "maxLength": 200,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "phoneDisplay": {
+                                "type": "string",
+                                "maxLength": 100,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "address": {
+                                "type": "string",
+                                "maxLength": 500,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "governorateId": { "type": "string", "format": "uuid" },
+                              "areaId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "locationUrl": { "type": "string", "maxLength": 2048 },
+                              "lines": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "id": { "type": "string", "format": "uuid" },
+                                    "description": {
+                                      "type": "string",
+                                      "maxLength": 200,
+                                      "minLength": 1,
+                                      "pattern": "\\S"
+                                    },
+                                    "quantity": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 1000000
+                                    },
+                                    "unitDue": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "currency": { "const": "EGP" },
+                                        "amountMinor": {
+                                          "type": "string",
+                                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                        }
+                                      },
+                                      "required": ["currency", "amountMinor"]
+                                    }
+                                  },
+                                  "required": ["id", "description", "quantity", "unitDue"]
+                                },
+                                "minItems": 1,
+                                "maxItems": 100
+                              },
+                              "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                              "recipientShippingDue": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "currency": { "const": "EGP" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                      }
+                                    },
+                                    "required": ["currency", "amountMinor"]
+                                  },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "inspectionAllowed": { "type": "boolean" },
+                              "comment": { "type": "string", "maxLength": 1000 }
+                            },
+                            "required": [
+                              "branchId",
+                              "brandId",
+                              "service",
+                              "brandReference",
+                              "recipientName",
+                              "phoneDisplay",
+                              "address",
+                              "governorateId",
+                              "areaId",
+                              "locationUrl",
+                              "lines",
+                              "shippingPayer",
+                              "recipientShippingDue",
+                              "inspectionAllowed",
+                              "comment"
+                            ]
+                          },
+                          "price": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "schemaVersion": { "const": 1 },
+                              "currency": { "const": "EGP" },
+                              "companyId": { "type": "string", "format": "uuid" },
+                              "brandId": { "type": "string", "format": "uuid" },
+                              "brandName": {
+                                "type": "string",
+                                "maxLength": 180,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "policyVersion": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 2147483647
+                              },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "service": { "enum": ["brand_packed", "company_packed"] },
+                              "partialDelivery": { "type": "boolean" },
+                              "tierId": { "type": "string", "format": "uuid" },
+                              "tierName": {
+                                "type": "string",
+                                "maxLength": 180,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "governorateId": { "type": "string", "format": "uuid" },
+                              "governorateName": {
+                                "type": "string",
+                                "maxLength": 180,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "areaId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "areaName": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 180,
+                                    "minLength": 1,
+                                    "pattern": "\\S"
+                                  },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "tariffId": { "type": "string", "format": "uuid" },
+                              "tariffVersion": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 2147483647
+                              },
+                              "source": { "enum": ["area_override", "governorate"] },
+                              "baseShippingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "packingUpliftMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "tariffMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "commissionBaseMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "goodsDueMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "recipientShippingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "recipientDueMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "capturedAt": { "type": "string", "format": "date-time" },
+                              "agreedPackingUpliftMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "brandShippingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                            },
+                            "required": [
+                              "schemaVersion",
+                              "currency",
+                              "companyId",
+                              "brandId",
+                              "brandName",
+                              "policyVersion",
+                              "branchId",
+                              "service",
+                              "partialDelivery",
+                              "tierId",
+                              "tierName",
+                              "governorateId",
+                              "governorateName",
+                              "areaId",
+                              "areaName",
+                              "tariffId",
+                              "tariffVersion",
+                              "source",
+                              "baseShippingMinor",
+                              "packingUpliftMinor",
+                              "tariffMinor",
+                              "commissionBaseMinor",
+                              "goodsDueMinor",
+                              "recipientShippingMinor",
+                              "recipientDueMinor",
+                              "capturedAt",
+                              "agreedPackingUpliftMinor",
+                              "brandShippingMinor",
+                              "shippingPayer"
+                            ]
+                          },
+                          "phoneCanonical": {
+                            "type": "string",
+                            "maxLength": 16,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["revision", "fields", "price", "phoneCanonical"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "reference",
+                    "version",
+                    "revision",
+                    "fields",
+                    "phoneCanonical",
+                    "price",
+                    "state",
+                    "preparation",
+                    "branchName",
+                    "receivedAt",
+                    "sourceState",
+                    "handedOver",
+                    "timeline",
+                    "revisions"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{id}/corrections/preview": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "shipmentId": { "type": "string", "format": "uuid" },
+                  "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "service": { "enum": ["brand_packed", "company_packed"] },
+                      "brandReference": { "type": "string", "maxLength": 256 },
+                      "recipientName": {
+                        "type": "string",
+                        "maxLength": 200,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "phoneDisplay": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "address": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "governorateId": { "type": "string", "format": "uuid" },
+                      "areaId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "locationUrl": { "type": "string", "maxLength": 2048 },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "description": {
+                              "type": "string",
+                              "maxLength": 200,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                            "unitDue": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "currency": { "const": "EGP" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                }
+                              },
+                              "required": ["currency", "amountMinor"]
+                            }
+                          },
+                          "required": ["id", "description", "quantity", "unitDue"]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      },
+                      "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                      "recipientShippingDue": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "currency": { "const": "EGP" },
+                              "amountMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": ["currency", "amountMinor"]
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "inspectionAllowed": { "type": "boolean" },
+                      "comment": { "type": "string", "maxLength": 1000 }
+                    },
+                    "required": [
+                      "branchId",
+                      "brandId",
+                      "service",
+                      "brandReference",
+                      "recipientName",
+                      "phoneDisplay",
+                      "address",
+                      "governorateId",
+                      "areaId",
+                      "locationUrl",
+                      "lines",
+                      "shippingPayer",
+                      "recipientShippingDue",
+                      "inspectionAllowed",
+                      "comment"
+                    ]
+                  },
+                  "actualAtCorrectedBranch": { "type": "boolean" }
+                },
+                "required": [
+                  "companyId",
+                  "shipmentId",
+                  "expectedVersion",
+                  "fields",
+                  "actualAtCorrectedBranch"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "before": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "schemaVersion": { "const": 1 },
+                        "currency": { "const": "EGP" },
+                        "companyId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "partialDelivery": { "type": "boolean" },
+                        "tierId": { "type": "string", "format": "uuid" },
+                        "tierName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "governorateId": { "type": "string", "format": "uuid" },
+                        "governorateName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "areaId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "areaName": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 180,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "tariffId": { "type": "string", "format": "uuid" },
+                        "tariffVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "source": { "enum": ["area_override", "governorate"] },
+                        "baseShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "packingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "commissionBaseMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "goodsDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "recipientShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "recipientDueMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "capturedAt": { "type": "string", "format": "date-time" },
+                        "agreedPackingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "brandShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "currency",
+                        "companyId",
+                        "brandId",
+                        "brandName",
+                        "policyVersion",
+                        "branchId",
+                        "service",
+                        "partialDelivery",
+                        "tierId",
+                        "tierName",
+                        "governorateId",
+                        "governorateName",
+                        "areaId",
+                        "areaName",
+                        "tariffId",
+                        "tariffVersion",
+                        "source",
+                        "baseShippingMinor",
+                        "packingUpliftMinor",
+                        "tariffMinor",
+                        "commissionBaseMinor",
+                        "goodsDueMinor",
+                        "recipientShippingMinor",
+                        "recipientDueMinor",
+                        "capturedAt",
+                        "agreedPackingUpliftMinor",
+                        "brandShippingMinor",
+                        "shippingPayer"
+                      ]
+                    },
+                    "after": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "schemaVersion": { "const": 1 },
+                        "currency": { "const": "EGP" },
+                        "companyId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "partialDelivery": { "type": "boolean" },
+                        "tierId": { "type": "string", "format": "uuid" },
+                        "tierName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "governorateId": { "type": "string", "format": "uuid" },
+                        "governorateName": {
+                          "type": "string",
+                          "maxLength": 180,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "areaId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "areaName": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 180,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "tariffId": { "type": "string", "format": "uuid" },
+                        "tariffVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "source": { "enum": ["area_override", "governorate"] },
+                        "baseShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "packingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "commissionBaseMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "goodsDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "recipientShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "recipientDueMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "capturedAt": { "type": "string", "format": "date-time" },
+                        "agreedPackingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "brandShippingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "currency",
+                        "companyId",
+                        "brandId",
+                        "brandName",
+                        "policyVersion",
+                        "branchId",
+                        "service",
+                        "partialDelivery",
+                        "tierId",
+                        "tierName",
+                        "governorateId",
+                        "governorateName",
+                        "areaId",
+                        "areaName",
+                        "tariffId",
+                        "tariffVersion",
+                        "source",
+                        "baseShippingMinor",
+                        "packingUpliftMinor",
+                        "tariffMinor",
+                        "commissionBaseMinor",
+                        "goodsDueMinor",
+                        "recipientShippingMinor",
+                        "recipientDueMinor",
+                        "capturedAt",
+                        "agreedPackingUpliftMinor",
+                        "brandShippingMinor",
+                        "shippingPayer"
+                      ]
+                    },
+                    "beforeBranchId": { "type": "string", "format": "uuid" },
+                    "afterBranchId": { "type": "string", "format": "uuid" },
+                    "beforePreparation": {
+                      "enum": ["not_required", "awaiting_preparation", "complete"]
+                    },
+                    "afterPreparation": {
+                      "enum": ["not_required", "awaiting_preparation", "complete"]
+                    },
+                    "custodyEffect": { "enum": ["unchanged", "recorded_branch_correction"] },
+                    "duplicateReference": { "type": "boolean" }
+                  },
+                  "required": [
+                    "expectedVersion",
+                    "before",
+                    "after",
+                    "beforeBranchId",
+                    "afterBranchId",
+                    "beforePreparation",
+                    "afterPreparation",
+                    "custodyEffect",
+                    "duplicateReference"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{id}/corrections": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "shipment.confirm" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "actualReceipt": { "const": true },
+                      "duplicateAcknowledged": { "type": "boolean" },
+                      "expectedPolicyVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "actualReceipt",
+                      "duplicateAcknowledged",
+                      "expectedPolicyVersion",
+                      "expectedTariffVersion",
+                      "expectedTariffId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.correct" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "actualAtCorrectedBranch": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "fields",
+                      "reason",
+                      "actualAtCorrectedBranch",
+                      "duplicateAcknowledged"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.cancel" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.prepare" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{id}/cancel": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "shipment.confirm" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "actualReceipt": { "const": true },
+                      "duplicateAcknowledged": { "type": "boolean" },
+                      "expectedPolicyVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "actualReceipt",
+                      "duplicateAcknowledged",
+                      "expectedPolicyVersion",
+                      "expectedTariffVersion",
+                      "expectedTariffId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.correct" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "actualAtCorrectedBranch": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "fields",
+                      "reason",
+                      "actualAtCorrectedBranch",
+                      "duplicateAcknowledged"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.cancel" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.prepare" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/preparation": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branches",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "maxItems": 100,
+              "uniqueItems": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "service",
+            "required": false,
+            "schema": { "enum": ["all", "brand_packed", "company_packed"] }
+          },
+          {
+            "in": "query",
+            "name": "preparation",
+            "required": false,
+            "schema": { "enum": ["all", "not_required", "awaiting_preparation", "complete"] }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": { "enum": ["all", "active", "cancelled"] }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 256 }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+          },
+          { "in": "query", "name": "limit", "required": false, "schema": { "enum": [25, 50, 100] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": {
+                            "type": "string",
+                            "maxLength": 180,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": {
+                            "type": "string",
+                            "maxLength": 180,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "state": { "enum": ["active", "cancelled"] },
+                          "preparation": {
+                            "enum": ["not_required", "awaiting_preparation", "complete"]
+                          },
+                          "receivedAt": { "type": "string", "format": "date-time" },
+                          "ageDays": { "type": "integer", "minimum": 0 },
+                          "custody": { "const": "branch" }
+                        },
+                        "required": [
+                          "id",
+                          "reference",
+                          "brandId",
+                          "brandName",
+                          "recipientName",
+                          "branchId",
+                          "branchName",
+                          "service",
+                          "state",
+                          "preparation",
+                          "receivedAt",
+                          "ageDays",
+                          "custody"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "enum": [25, 50, 100] },
+                    "custody": { "enum": ["branch", "external"] },
+                    "boundary": { "const": "LOCAL_CUSTODY_ONLY" }
+                  },
+                  "required": ["items", "total", "page", "limit", "custody", "boundary"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{id}/preparation/complete": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "shipment.confirm" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "actualReceipt": { "const": true },
+                      "duplicateAcknowledged": { "type": "boolean" },
+                      "expectedPolicyVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "actualReceipt",
+                      "duplicateAcknowledged",
+                      "expectedPolicyVersion",
+                      "expectedTariffVersion",
+                      "expectedTariffId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.correct" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "actualAtCorrectedBranch": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "fields",
+                      "reason",
+                      "actualAtCorrectedBranch",
+                      "duplicateAcknowledged"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.cancel" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.prepare" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/commands/{commandId}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/brands": {
       "get": {
         "security": [{ "erpSession": [] }],
@@ -3921,14 +8005,69 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "items": { "type": "array", "maxItems": 0 },
-                    "total": { "const": 0 },
-                    "boundary": { "const": "P06_NOT_IMPLEMENTED" },
-                    "custody": { "type": "string", "enum": ["branch", "external"] }
-                  },
                   "additionalProperties": false,
-                  "required": ["items", "total", "boundary", "custody"]
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": {
+                            "type": "string",
+                            "maxLength": 180,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": {
+                            "type": "string",
+                            "maxLength": 180,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "state": { "enum": ["active", "cancelled"] },
+                          "preparation": {
+                            "enum": ["not_required", "awaiting_preparation", "complete"]
+                          },
+                          "receivedAt": { "type": "string", "format": "date-time" },
+                          "ageDays": { "type": "integer", "minimum": 0 },
+                          "custody": { "const": "branch" }
+                        },
+                        "required": [
+                          "id",
+                          "reference",
+                          "brandId",
+                          "brandName",
+                          "recipientName",
+                          "branchId",
+                          "branchName",
+                          "service",
+                          "state",
+                          "preparation",
+                          "receivedAt",
+                          "ageDays",
+                          "custody"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "enum": [25, 50, 100] },
+                    "custody": { "enum": ["branch", "external"] },
+                    "boundary": { "const": "LOCAL_CUSTODY_ONLY" }
+                  },
+                  "required": ["items", "total", "page", "limit", "custody", "boundary"]
                 }
               }
             }

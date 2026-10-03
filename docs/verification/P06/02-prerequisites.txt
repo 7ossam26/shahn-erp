@@ -1,0 +1,75 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/brands.test.ts tests/db/inventory.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/brands.test.ts (13 tests | 13 skipped) 37ms
+   ↓ P04 committed commercial configuration, history and HTTP (13)
+     ↓ runs 50/60/55 lookup, wrong-parent rejection, fallback and explicit zero through server pricing
+     ↓ creates one empty shared wallet and immutable policy with concurrent lost-response replay
+     ↓ rolls back brand, policy, wallet, command and audit on failure after insert
+     ↓ retains snapshots A/B across rate and manually chosen tier changes; no measured-volume input exists
+     ↓ accepts one concurrent policy edit and reports currentVersion without losing the rejected intent
+     ↓ rejects missing base at snapshot creation without a snapshot or commercial writes
+     ↓ enforces same-company tier/area/branch, immutable reference keys and SQL uniqueness/defaults
+     ↓ uses screen grants, current branch scope, closed schemas and real CSRF on every query/recovery
+     ↓ rejects actual foreign company references at PostgreSQL composite foreign keys
+     ↓ preserves snapshot labels across renaming/deactivation and allows referenced masters to stop
+     ↓ reauthorizes snapshot result recovery after branch revocation; ordinary reference staff need no support
+     ↓ returns retained stale rejection and repeatable seed identity without additional master rows
+     ↓ normalizes Arabic digits for indexed brand search and treats wildcard input literally
+ ❯ tests/db/inventory.test.ts (17 tests | 17 skipped) 20ms
+   ↓ P05 committed inventory and real authenticated HTTP (17)
+     ↓ creates immutable product/variant IDs without stock or financial effects
+     ↓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit
+     ↓ replays lost response once, rejects changed payload, and recovers compacted original reference
+     ↓ allows two independent first-receipt transactions to add exactly 3+4 into absent position
+     ↓ interrupts after first movement with zero committed receipt/position/audit/result effects
+     ↓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects
+     ↓ denies branch B query, receipt/history/name leakage despite company tracking grant
+     ↓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture
+     ↓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots
+     ↓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable
+     ↓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow
+     ↓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination
+     ↓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL
+     ↓ rejects real mixed-brand variants and repeated display names remain separate identities
+     ↓ shared reserve/release/condition interfaces conserve units, retain history and deduplicate source effects
+     ↓ rejects absent module grant and missing CSRF on mutations
+     ↓ returns truthful authorized parcel boundary and reconciles every persisted position to movements
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/brands.test.ts [ tests/db/brands.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/brands.test.ts:64:8
+     62| };
+     63| beforeAll(async () => {
+     64|   db = await isolatedPostgres();
+       |        ^
+     65|   const migrations = await readMigrations();
+     66|   await migrate(db.pool, migrations.slice(0, 7));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/inventory.test.ts [ tests/db/inventory.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/inventory.test.ts:91:8
+     89|   ).rows[0];
+     90| beforeAll(async () => {
+     91|   db = await isolatedPostgres();
+       |        ^
+     92|   const migrations = await readMigrations();
+     93|   await migrate(db.pool, migrations.slice(0, 8));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  30 skipped (30)
+   Start at  01:26:32
+   Duration  13.22s (import 91%, transform 8%)

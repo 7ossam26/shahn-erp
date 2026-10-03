@@ -5,6 +5,8 @@ import { accessReadPaths, accessAuthPaths } from './access-views.js';
 import { kernelPaths } from './kernel.js';
 import { commercialPaths } from './brands.js';
 import { inventoryPaths } from './inventory/index.js';
+import { shipmentPaths } from './shipments/index.js';
+export * from './shipments/index.js';
 export * from './brands.js';
 export * from './kernel.js';
 export * from './access.js';
@@ -116,6 +118,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...shipmentPaths,
     ...commercialPaths,
     ...inventoryPaths,
     ...kernelPaths,

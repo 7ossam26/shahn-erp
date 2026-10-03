@@ -5,6 +5,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Direction } from 'radix-ui';
 import '@shahn/ui/styles.css';
 import { Shell, Home, MissingPage } from './app.js';
+import {
+  ShipmentNewPage,
+  ShipmentDetailPage,
+  ShipmentCorrectionPage,
+} from './features/shipments/shipments.js';
+import { ParcelMonitorPage } from './features/preparation/preparation.js';
 import { BrandsPage, BrandSetupPage } from './features/brands/brands.js';
 import {
   InventoryPage,
@@ -55,6 +61,10 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/shipments/new', element: <ShipmentNewPage /> },
+      { path: '/shipments/:reference', element: <ShipmentDetailPage /> },
+      { path: '/shipments/:reference/correction', element: <ShipmentCorrectionPage /> },
+      { path: '/preparation', element: <ParcelMonitorPage /> },
       { path: '/inventory', element: <InventoryPage /> },
       { path: '/inventory/receipts/new', element: <ReceiptPage /> },
       { path: '/inventory/receipts/:id', element: <ReceiptDetailPage /> },

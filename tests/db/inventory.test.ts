@@ -762,7 +762,14 @@ describe('P05 committed inventory and real authenticated HTTP', () => {
           f.staffA,
         )
       ).body,
-    ).toEqual({ items: [], total: 0, boundary: 'P06_NOT_IMPLEMENTED', custody: 'external' });
+    ).toEqual({
+      items: [],
+      total: 0,
+      page: 1,
+      limit: 25,
+      boundary: 'LOCAL_CUSTODY_ONLY',
+      custody: 'external',
+    });
     expect(
       (await http(`/inventory/parcels?companyId=${f.company}&branches=${f.b}`, undefined, f.staffA))
         .status,
