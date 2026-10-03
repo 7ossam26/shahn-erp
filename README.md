@@ -1,8 +1,8 @@
-# Shahn ERP — foundation, access, brands and pricing
+# Shahn ERP — foundation, access, brands and stock
 
-This workspace implements P01 foundation, P02 company access/identity, P03 shared transaction kernel and P04 brands/geography/pricing. P04 adds company brands, reference/tariff history, storage configuration and immutable pricing snapshots through P03's atomic commands and shared wallet primitive. Real payment, stock, shipment, storage billing, payroll and Tawsel workflows belong to later phases.
+This workspace implements P01 foundation, P02 company access/identity, P03 shared transaction kernel, P04 brands/geography/pricing and P05 products/actual stock receipt/monitoring. P04 adds company brands, reference/tariff history, storage configuration and immutable pricing snapshots through P03's atomic commands and shared wallet primitive. P05 adds stable products/variants, atomic physical receipts and assigned-branch inventory/history. Real order reservations, returns/transfers, adjustment screens, payment, shipments, storage billing, payroll and Tawsel workflows belong to later phases.
 
-Start with the [P04 verification and isolated trial](docs/verification/P04/README.md), [pricing consumer interface](docs/verification/P04/HANDOFF.md), [kernel interfaces](docs/verification/P03/HANDOFF.md), or [P02 access setup](docs/verification/P02/README.md).
+Start with the [P05 verification and isolated trial](docs/verification/P05/README.md), [stock consumer interface](docs/verification/P05/HANDOFF.md), [P04 verification and isolated trial](docs/verification/P04/README.md), [pricing consumer interface](docs/verification/P04/HANDOFF.md), [kernel interfaces](docs/verification/P03/HANDOFF.md), or [P02 access setup](docs/verification/P02/README.md).
 
 Start with [the verified setup, commands and owner trial](docs/verification/P01/README.md). The [version manifest](docs/verification/P01/VERSIONS.md), [execution record](phases/execution/P01.md) and [phase catalog](phases/README.md) distinguish local evidence from future phase acceptance.
 

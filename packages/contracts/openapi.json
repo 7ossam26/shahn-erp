@@ -2416,6 +2416,2390 @@
         }
       }
     },
+    "/api/v1/brands/{brandId}/products": {
+      "post": {
+        "summary": "P05 result; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "schemaVersion": { "const": 1 },
+                  "type": { "const": "product.create" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 180,
+                        "pattern": "\\S"
+                      },
+                      "active": { "type": "boolean" },
+                      "variants": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "options": { "type": "string", "maxLength": 180 },
+                            "active": { "type": "boolean" }
+                          },
+                          "additionalProperties": false,
+                          "required": ["name", "options", "active"]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": ["name", "active", "variants"]
+                  }
+                },
+                "additionalProperties": false,
+                "required": ["companyId", "commandId", "schemaVersion", "type", "brandId", "fields"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["DUPLICATE_DISPLAY"] },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["commandId", "entityId", "version", "branchId", "warnings"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{productId}": {
+      "patch": {
+        "summary": "P05 result; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "schemaVersion": { "const": 1 },
+                  "type": { "const": "product.update" },
+                  "productId": { "type": "string", "format": "uuid" },
+                  "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 180,
+                        "pattern": "\\S"
+                      },
+                      "active": { "type": "boolean" },
+                      "variants": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "options": { "type": "string", "maxLength": 180 },
+                            "active": { "type": "boolean" }
+                          },
+                          "additionalProperties": false,
+                          "required": ["name", "options", "active"]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": ["name", "active", "variants"]
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "companyId",
+                  "commandId",
+                  "schemaVersion",
+                  "type",
+                  "productId",
+                  "expectedVersion",
+                  "fields"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["DUPLICATE_DISPLAY"] },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["commandId", "entityId", "version", "branchId", "warnings"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "P05 product; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "active": { "type": "boolean" },
+                        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "variants": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "options": { "type": "string", "maxLength": 180 },
+                              "active": { "type": "boolean" }
+                            },
+                            "additionalProperties": false,
+                            "required": ["id", "name", "options", "active"]
+                          },
+                          "minItems": 1,
+                          "maxItems": 100
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": ["id", "brandId", "name", "active", "version", "variants"]
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "fields": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "active": { "type": "boolean" },
+                              "variants": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": { "type": "string", "format": "uuid" },
+                                    "name": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 180,
+                                      "pattern": "\\S"
+                                    },
+                                    "options": { "type": "string", "maxLength": 180 },
+                                    "active": { "type": "boolean" }
+                                  },
+                                  "additionalProperties": false,
+                                  "required": ["name", "options", "active"]
+                                },
+                                "minItems": 1,
+                                "maxItems": 100
+                              }
+                            },
+                            "additionalProperties": false,
+                            "required": ["name", "active", "variants"]
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": ["version", "recordedAt", "fields"]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100000
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["product", "history"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/receipts": {
+      "post": {
+        "summary": "P05 result; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "schemaVersion": { "const": 1 },
+                  "type": { "const": "stock.receive" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "actualDate": { "type": "string", "format": "date" },
+                  "lines": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "variantId": { "type": "string", "format": "uuid" },
+                        "quantity": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "condition": { "type": "string", "enum": ["sound", "damaged", "uncertain"] }
+                      },
+                      "additionalProperties": false,
+                      "required": ["variantId", "quantity", "condition"]
+                    },
+                    "minItems": 1,
+                    "maxItems": 100
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "companyId",
+                  "commandId",
+                  "schemaVersion",
+                  "type",
+                  "branchId",
+                  "brandId",
+                  "actualDate",
+                  "lines"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["DUPLICATE_DISPLAY"] },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["commandId", "entityId", "version", "branchId", "warnings"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/catalog": {
+      "get": {
+        "summary": "P05 catalog; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" }
+                        },
+                        "additionalProperties": false,
+                        "required": ["id", "name", "active"]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100000
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": ["id", "name"]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    },
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "variants": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "name": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 180,
+                                  "pattern": "\\S"
+                                },
+                                "options": { "type": "string", "maxLength": 180 },
+                                "active": { "type": "boolean" }
+                              },
+                              "additionalProperties": false,
+                              "required": ["id", "name", "options", "active"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": ["id", "brandId", "name", "active", "version", "variants"]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100000
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["brands", "branches", "products"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/products": {
+      "get": {
+        "summary": "P05 products; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branches",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 0,
+              "maxItems": 100,
+              "uniqueItems": true
+            }
+          },
+          { "in": "query", "name": "search", "schema": { "type": "string", "maxLength": 180 } },
+          {
+            "in": "query",
+            "name": "productId",
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "variantId",
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "categories",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["available", "reserved", "unavailable", "shortage"]
+              },
+              "minItems": 0,
+              "maxItems": 4,
+              "uniqueItems": true
+            }
+          },
+          { "in": "query", "name": "noAvailable", "schema": { "type": "boolean" } },
+          {
+            "in": "query",
+            "name": "movementFrom",
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "movementTo",
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+          },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "enum": [25, 50, 100] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "productId": { "type": "string", "format": "uuid" },
+                          "productName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "options": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "version": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                          "lastMovementAt": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "soundOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "unavailableOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "physicalOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "reserved": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "reservationShortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "branchId",
+                          "branchName",
+                          "brandId",
+                          "brandName",
+                          "productId",
+                          "productName",
+                          "variantId",
+                          "variantName",
+                          "options",
+                          "active",
+                          "version",
+                          "lastMovementAt",
+                          "soundOnHand",
+                          "unavailableOnHand",
+                          "physicalOnHand",
+                          "reserved",
+                          "available",
+                          "reservationShortage"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "limit": { "type": "integer", "enum": [25, 50, 100] },
+                    "asOf": { "type": "string", "format": "date-time" }
+                  },
+                  "additionalProperties": false,
+                  "required": ["items", "total", "page", "limit", "asOf"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/parcels": {
+      "get": {
+        "summary": "P05 parcels; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branches",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1,
+              "maxItems": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "custody",
+            "schema": { "type": "string", "enum": ["branch", "external"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": { "type": "array", "maxItems": 0 },
+                    "total": { "const": 0 },
+                    "boundary": { "const": "P06_NOT_IMPLEMENTED" },
+                    "custody": { "type": "string", "enum": ["branch", "external"] }
+                  },
+                  "additionalProperties": false,
+                  "required": ["items", "total", "boundary", "custody"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/receipts/{id}": {
+      "get": {
+        "summary": "P05 receipt; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "branchName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "actorName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "lines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "productName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "variantName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "options": { "type": "string", "maxLength": 180 },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "condition": {
+                            "type": "string",
+                            "enum": ["sound", "damaged", "uncertain"]
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "variantId",
+                          "productName",
+                          "variantName",
+                          "options",
+                          "quantity",
+                          "condition"
+                        ]
+                      },
+                      "minItems": 1,
+                      "maxItems": 100
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "reference",
+                    "branchId",
+                    "branchName",
+                    "brandId",
+                    "brandName",
+                    "actualDate",
+                    "recordedAt",
+                    "actorName",
+                    "lines"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/variants/{id}/history": {
+      "get": {
+        "summary": "P05 history; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branchId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }
+          },
+          { "in": "query", "name": "limit", "schema": { "type": "integer", "enum": [25, 50, 100] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "position": {
+                      "type": "object",
+                      "properties": {
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "branchName": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "productId": { "type": "string", "format": "uuid" },
+                        "productName": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "variantId": { "type": "string", "format": "uuid" },
+                        "variantName": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "options": { "type": "string", "maxLength": 180 },
+                        "active": { "type": "boolean" },
+                        "version": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "lastMovementAt": {
+                          "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                        },
+                        "soundOnHand": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "unavailableOnHand": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "physicalOnHand": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "reserved": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "available": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "reservationShortage": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "branchId",
+                        "branchName",
+                        "brandId",
+                        "brandName",
+                        "productId",
+                        "productName",
+                        "variantId",
+                        "variantName",
+                        "options",
+                        "active",
+                        "version",
+                        "lastMovementAt",
+                        "soundOnHand",
+                        "unavailableOnHand",
+                        "physicalOnHand",
+                        "reserved",
+                        "available",
+                        "reservationShortage"
+                      ]
+                    },
+                    "movements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "receiptId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "condition": {
+                            "type": "string",
+                            "enum": ["sound", "damaged", "uncertain"]
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "productName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "variantName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "options": { "type": "string", "maxLength": 180 }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "receiptId",
+                          "reference",
+                          "condition",
+                          "quantity",
+                          "actualDate",
+                          "recordedAt",
+                          "productName",
+                          "variantName",
+                          "options"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "limit": { "type": "integer", "enum": [25, 50, 100] }
+                  },
+                  "additionalProperties": false,
+                  "required": ["position", "movements", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/commands/{commandId}": {
+      "get": {
+        "summary": "P05 result; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "family",
+            "required": true,
+            "schema": { "type": "string", "enum": ["inventory.product", "inventory.receipt"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": { "type": "string", "enum": ["DUPLICATE_DISPLAY"] },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": ["commandId", "entityId", "version", "branchId", "warnings"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/kernel/commands": {
       "post": {
         "summary": "Isolated kernel trial; absent in production",

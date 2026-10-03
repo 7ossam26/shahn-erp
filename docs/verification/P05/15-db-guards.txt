@@ -1,0 +1,51 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/inventory.test.ts (14 tests | 14 skipped) 35169ms
+   ↓ P05 committed inventory and real authenticated HTTP (14)
+     ↓ creates immutable product/variant IDs without stock or financial effects
+     ↓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit
+     ↓ replays lost response once, rejects changed payload, and recovers compacted original reference
+     ↓ allows two independent first-receipt transactions to add exactly 3+4 into absent position
+     ↓ interrupts after first movement with zero committed receipt/position/audit/result effects
+     ↓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects
+     ↓ denies branch B query, receipt/history/name leakage despite company tracking grant
+     ↓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture
+     ↓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots
+     ↓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable
+     ↓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow
+     ↓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination
+     ↓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL
+     ↓ returns truthful authorized parcel boundary and reconciles every persisted position to movements
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/inventory.test.ts [ tests/db/inventory.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/db/inventory.test.ts:93:3
+     91|   f = await accessFixture(db.pool);
+     92|   seed = await seedCommercial(db.pool, f.admin.token, f.company, f.a, …
+     93|   await migrate(db.pool);
+       |   ^
+     94|   expect((await migrationStatus(db.pool)).state).toBe('current');
+     95|   expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/inventory.test.ts [ tests/db/inventory.test.ts ]
+error: relation "inventory.stock_receipt" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ counts tests/db/inventory.test.ts:83:5
+
+ ❯ tests/db/inventory.test.ts:138:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  14 skipped (14)
+   Start at  23:48:40
+   Duration  37.05s (tests 95%, import 4%, transform 1%)
+

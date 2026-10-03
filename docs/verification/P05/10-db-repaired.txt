@@ -1,0 +1,38 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/inventory.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/inventory.test.ts (14 tests | 1 failed) 35818ms
+   ❯ P05 committed inventory and real authenticated HTTP (14)
+     ✓ creates immutable product/variant IDs without stock or financial effects 128ms
+     ✓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit 42ms
+     × replays lost response once, rejects changed payload, and recovers compacted original reference 34ms
+     ✓ allows two independent first-receipt transactions to add exactly 3+4 into absent position 159ms
+     ✓ interrupts after first movement with zero committed receipt/position/audit/result effects 21ms
+     ✓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects 28ms
+     ✓ denies branch B query, receipt/history/name leakage despite company tracking grant 33ms
+     ✓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture 24ms
+     ✓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots 48ms
+     ✓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable 44ms
+     ✓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow 26ms
+     ✓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination 29ms
+     ✓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL 91ms
+     ✓ returns truthful authorized parcel boundary and reconciles every persisted position to movements 38ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/inventory.test.ts > P05 committed inventory and real authenticated HTTP > replays lost response once, rejects changed payload, and recovers compacted original reference
+error: IMMUTABLE_INTENT
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/db/inventory.test.ts:49:5
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  23:45:16
+   Duration  37.56s (tests 96%, import 3%, transform 1%)
+

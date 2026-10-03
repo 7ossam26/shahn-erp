@@ -1,0 +1,8 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/web/src/features/inventory/inventory.tsx(23,173): error TS2322: Type '{ eyebrow: string; title: string; description: string; action: Element; }' is not assignable to type 'IntrinsicAttributes & { title: string; description: string; eyebrow: string; }'.
+  Property 'action' does not exist on type 'IntrinsicAttributes & { title: string; description: string; eyebrow: string; }'.
+apps/web/src/features/inventory/inventory.tsx(30,989): error TS2741: Property 'description' is missing in type '{ children: Element[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+apps/web/src/features/inventory/inventory.tsx(30,1899): error TS2741: Property 'description' is missing in type '{ children: (Element | Element[])[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+apps/web/src/features/products/products.tsx(18,797): error TS2741: Property 'description' is missing in type '{ children: Element[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+apps/web/src/features/products/products.tsx(18,1235): error TS2741: Property 'description' is missing in type '{ children: (Element | Element[])[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.

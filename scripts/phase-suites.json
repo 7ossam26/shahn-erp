@@ -72,12 +72,48 @@
     }
   },
   "P01": {
-    "unit": { "script": "test:unit", "directory": "tests/unit", "extension": ".test" },
-    "database": { "script": "test:db", "directory": "tests/db", "extension": ".test" },
-    "browser": { "script": "test:browser", "directory": "tests/browser", "extension": ".spec" },
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test"
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test"
+    },
+    "browser": {
+      "script": "test:browser",
+      "directory": "tests/browser",
+      "extension": ".spec"
+    },
     "publicIntegration": {
       "applicable": false,
       "reason": "P01 exposes foundation status only; no Tawsel/public business integration exists."
+    }
+  },
+  "P05": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/inventory.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/inventory.test.ts"]
+    },
+    "browser": {
+      "script": "test:p05:browser",
+      "directory": "tests/p05",
+      "extension": ".spec",
+      "config": "playwright.p05.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P05 local stock uses real PostgreSQL and native authenticated HTTP; no Tawsel transport is implemented or required."
     }
   }
 }

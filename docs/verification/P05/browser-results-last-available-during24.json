@@ -1,0 +1,559 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p05.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p05.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p05",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p05",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P05/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p05/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4298/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "inventory.spec.ts",
+      "file": "inventory.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "registry module entry, explicit multi-branch choice, and A-only denied browser request",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17255,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('الفرع', { exact: true })\nExpected: \u001b[32m\"الفرع أ\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByLabel('الفرع', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('الفرع', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('الفرع', { exact: true })\nExpected: \u001b[32m\"الفرع أ\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByLabel('الفرع', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('الفرع', { exact: true })\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:55:59",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 59,
+                      "line": 55
+                    },
+                    "snippet": "  53 |   await page.getByRole('link', { name: /المخزون/ }).click();\n  54 |   await expect(page.locator('.stock-row').first()).toBeVisible();\n> 55 |   await expect(page.getByLabel('الفرع', { exact: true })).toHaveText('الفرع أ');\n     |                                                           ^\n  56 |   const denied = await page.request.get(\n  57 |     `/api/v1/inventory/products?companyId=${runtime.companyId}&branches=${runtime.branchB}`,\n  58 |   );"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 59,
+                        "line": 55
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('الفرع', { exact: true })\nExpected: \u001b[32m\"الفرع أ\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByLabel('الفرع', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('الفرع', { exact: true })\u001b[22m\n\n\n  53 |   await page.getByRole('link', { name: /المخزون/ }).click();\n  54 |   await expect(page.locator('.stock-row').first()).toBeVisible();\n> 55 |   await expect(page.getByLabel('الفرع', { exact: true })).toHaveText('الفرع أ');\n     |                                                           ^\n  56 |   const denied = await page.request.get(\n  57 |     `/api/v1/inventory/products?companyId=${runtime.companyId}&branches=${runtime.branchB}`,\n  58 |   );\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:55:59"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:51:23.854Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-registry-module--a54a6-only-denied-browser-request\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 59,
+                    "line": 55
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-02fe9edb062ba3f99ffa",
+          "file": "inventory.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "phone product setup starts at zero and multi-line receipt creates immutable history",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16171,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:79:44",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 44,
+                      "line": 79
+                    },
+                    "snippet": "  77 |     `/inventory?branches=${runtime.inventorySeed.branchA}&search=${encodeURIComponent('منتج رحلة الهاتف')}`,\n  78 |   );\n> 79 |   await expect(page.locator('.stock-row')).toHaveCount(2);\n     |                                            ^\n  80 |   for (const row of await page.locator('.stock-row').all())\n  81 |     await expect(row.locator('dd')).toHaveText(['٠', '٠', '٠', '٠', '٠', '٠']);\n  82 |   await page.getByRole('link', { name: 'تسجيل استلام مخزون', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 44,
+                        "line": 79
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  77 |     `/inventory?branches=${runtime.inventorySeed.branchA}&search=${encodeURIComponent('منتج رحلة الهاتف')}`,\n  78 |   );\n> 79 |   await expect(page.locator('.stock-row')).toHaveCount(2);\n     |                                            ^\n  80 |   for (const row of await page.locator('.stock-row').all())\n  81 |     await expect(row.locator('dd')).toHaveText(['٠', '٠', '٠', '٠', '٠', '٠']);\n  82 |   await page.getByRole('link', { name: 'تسجيل استلام مخزون', exact: true }).click();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:79:44"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:51:42.761Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-phone-product-se-aecba-t-creates-immutable-history\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 44,
+                    "line": 79
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-a40fea5fd161949a0a6e",
+          "file": "inventory.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 320px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15561,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:116:46",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 46,
+                      "line": 116
+                    },
+                    "snippet": "  114 |       `/inventory?branches=${runtime.inventorySeed.branchA}&search=Blue&categories=unavailable`,\n  115 |     );\n> 116 |     await expect(page.locator('.stock-row')).toHaveCount(1);\n      |                                              ^\n  117 |     await expect(page.locator('.stock-balances dd')).toHaveText(['١٢', '١٠', '٠', '١٠', '٢', '٠']);\n  118 |     await page.getByRole('button', { name: /فلاتر متقدمة/ }).click();\n  119 |     await expect(page.getByLabel('غير متاح', { exact: true })).toBeChecked();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 46,
+                        "line": 116
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  114 |       `/inventory?branches=${runtime.inventorySeed.branchA}&search=Blue&categories=unavailable`,\n  115 |     );\n> 116 |     await expect(page.locator('.stock-row')).toHaveCount(1);\n      |                                              ^\n  117 |     await expect(page.locator('.stock-balances dd')).toHaveText(['١٢', '١٠', '٠', '١٠', '٢', '٠']);\n  118 |     await page.getByRole('button', { name: /فلاتر متقدمة/ }).click();\n  119 |     await expect(page.getByLabel('غير متاح', { exact: true })).toBeChecked();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:116:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:51:59.488Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-3a122-te-and-long-labels-at-320px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 46,
+                    "line": 116
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-2225a9289e3bb9346bf1",
+          "file": "inventory.spec.ts",
+          "line": 109,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 390px",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15541,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:116:46",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                      "column": 46,
+                      "line": 116
+                    },
+                    "snippet": "  114 |       `/inventory?branches=${runtime.inventorySeed.branchA}&search=Blue&categories=unavailable`,\n  115 |     );\n> 116 |     await expect(page.locator('.stock-row')).toHaveCount(1);\n      |                                              ^\n  117 |     await expect(page.locator('.stock-balances dd')).toHaveText(['١٢', '١٠', '٠', '١٠', '٢', '٠']);\n  118 |     await page.getByRole('button', { name: /فلاتر متقدمة/ }).click();\n  119 |     await expect(page.getByLabel('غير متاح', { exact: true })).toBeChecked();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                        "column": 46,
+                        "line": 116
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.stock-row')\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.stock-row') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('.stock-row')\u001b[22m\n\u001b[2m    33 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  114 |       `/inventory?branches=${runtime.inventorySeed.branchA}&search=Blue&categories=unavailable`,\n  115 |     );\n> 116 |     await expect(page.locator('.stock-row')).toHaveCount(1);\n      |                                              ^\n  117 |     await expect(page.locator('.stock-balances dd')).toHaveText(['١٢', '١٠', '٠', '١٠', '٢', '٠']);\n  118 |     await page.getByRole('button', { name: /فلاتر متقدمة/ }).click();\n  119 |     await expect(page.getByLabel('غير متاح', { exact: true })).toBeChecked();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts:116:46"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:15.570Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\inventory-current-inventor-b7e83-te-and-long-labels-at-390px\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p05\\inventory.spec.ts",
+                    "column": 46,
+                    "line": 116
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "491382254a121adeeb47-ed72d5c5e21a86546222",
+          "file": "inventory.spec.ts",
+          "line": 109,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1270,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:31.632Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-d4c98cc352a3896e29f7",
+          "file": "inventory.spec.ts",
+          "line": 109,
+          "column": 3
+        },
+        {
+          "title": "current inventory, advanced filter/back state and long labels at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1053,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:33.002Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-9a8307a136f71a0d01fa",
+          "file": "inventory.spec.ts",
+          "line": 109,
+          "column": 3
+        },
+        {
+          "title": "negative quantity retains input and connection failure differs from no results",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1634,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:34.067Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-b4177ea9299ad6bb1059",
+          "file": "inventory.spec.ts",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "lost response after real commit persists original identity across reload and recovers once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1534,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:35.712Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-505f442c1bb696c4eb46",
+          "file": "inventory.spec.ts",
+          "line": 155,
+          "column": 1
+        },
+        {
+          "title": "offline confirmation waits for connection without sending a command",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 838,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:37.260Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-d40b50573efaf3e5a022",
+          "file": "inventory.spec.ts",
+          "line": 192,
+          "column": 1
+        },
+        {
+          "title": "stale product edit retains draft and requires explicit review of current revision",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1039,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T20:52:38.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "491382254a121adeeb47-9a8e785e497af4bf3000",
+          "file": "inventory.spec.ts",
+          "line": 208,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T20:50:45.549Z",
+    "duration": 114330.239,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

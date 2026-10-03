@@ -7,6 +7,13 @@ import '@shahn/ui/styles.css';
 import { Shell, Home, MissingPage } from './app.js';
 import { BrandsPage, BrandSetupPage } from './features/brands/brands.js';
 import {
+  InventoryPage,
+  ReceiptPage,
+  ReceiptDetailPage,
+  VariantHistoryPage,
+} from './features/inventory/inventory.js';
+import { ProductsPage, ProductEditPage } from './features/products/products.js';
+import {
   ReferenceHome,
   ReferencePage,
   TariffsPage,
@@ -48,6 +55,12 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/inventory', element: <InventoryPage /> },
+      { path: '/inventory/receipts/new', element: <ReceiptPage /> },
+      { path: '/inventory/receipts/:id', element: <ReceiptDetailPage /> },
+      { path: '/inventory/variants/:id', element: <VariantHistoryPage /> },
+      { path: '/brands/:id/products', element: <ProductsPage /> },
+      { path: '/products/:id/edit', element: <ProductEditPage /> },
       { path: '/brands/new', element: <BrandSetupPage /> },
       { path: '/brands/tariffs', element: <TariffsPage /> },
       { path: '/brands/:id', element: <BrandSetupPage /> },

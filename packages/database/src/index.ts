@@ -1,5 +1,6 @@
 import pg from 'pg';
 export * from './commercial.js';
+export * from './inventory/index.js';
 export { databaseConfig, loadEnvironment, type DatabaseConfig } from './config.js';
 export { transaction, type TransactionClient } from './transaction.js';
 export {
