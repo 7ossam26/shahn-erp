@@ -1,0 +1,6 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+packages/database/src/shipments/index.ts(184,227): error TS2304: Cannot find name 'blocked'.
+packages/database/src/shipments/index.ts(190,230): error TS2304: Cannot find name 'blocked'.
+apps/web/src/features/shipments/shipments.tsx(728,23): error TS2339: Property 'reserved' does not exist on type '{ received: string; corrected: string; prepared: string; cancelled: string; }'.
+apps/web/src/features/shipments/shipments.tsx(728,23): error TS2339: Property 'unpack_inspected' does not exist on type '{ received: string; corrected: string; prepared: string; cancelled: string; }'.

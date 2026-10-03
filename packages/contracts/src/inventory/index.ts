@@ -119,6 +119,20 @@ export interface Movement {
   options: string;
 }
 export interface VariantHistory {
+  reservations: {
+    shipmentId: string;
+    reference: string;
+    quantity: number;
+    active: boolean;
+    held: boolean;
+  }[];
+  conditions: {
+    id: string;
+    soundDelta: number;
+    unavailableDelta: number;
+    recordedAt: string;
+    shipmentReference: string | null;
+  }[];
   position: StockRow;
   movements: Movement[];
   total: number;
@@ -243,6 +257,7 @@ export const inventoryViews = {
     products: array(product, 0, 100000),
   }),
   products: closed({ items: array(stock), ...pagination, asOf: instant }),
+  selection: closed({ items: array(stock, 0, 100000), asOf: instant }),
   parcels: parcelListSchema,
   product: closed({
     product,
@@ -276,6 +291,28 @@ export const inventoryViews = {
     ),
   }),
   history: closed({
+    reservations: array(
+      closed({
+        shipmentId: uuid,
+        reference: { type: 'string', pattern: '^[0-9]+$' },
+        quantity: positive,
+        active: bool,
+        held: bool,
+      }),
+    ),
+    conditions: array(
+      closed({
+        id: uuid,
+        soundDelta: { type: 'integer', minimum: -9007199254740991, maximum: 9007199254740991 },
+        unavailableDelta: {
+          type: 'integer',
+          minimum: -9007199254740991,
+          maximum: 9007199254740991,
+        },
+        recordedAt: instant,
+        shipmentReference: nullable({ type: 'string', pattern: '^[0-9]+$' }),
+      }),
+    ),
     position: stock,
     movements: array(
       closed({
@@ -319,6 +356,7 @@ const inventoryRouteEntries = [
   ['post', '/api/v1/inventory/receipts', 'result', 'stock.receive'],
   ['get', '/api/v1/inventory/catalog', 'catalog'],
   ['get', '/api/v1/inventory/products', 'products'],
+  ['get', '/api/v1/shipments/stock', 'selection'],
   ['get', '/api/v1/inventory/parcels', 'parcels'],
   ['get', '/api/v1/inventory/receipts/{id}', 'receipt'],
   ['get', '/api/v1/products/{productId}', 'product'],
@@ -340,7 +378,15 @@ const inventoryRouteEntries = [
         ...(method === 'get'
           ? [
               { in: 'query', name: 'companyId', required: true, schema: uuid },
-              ...(view === 'products'
+              ...(path === '/api/v1/shipments/stock'
+                ? ['branchId', 'brandId'].map((name) => ({
+                    in: 'query',
+                    name,
+                    required: true,
+                    schema: uuid,
+                  }))
+                : []),
+              ...(view === 'products' && path !== '/api/v1/shipments/stock'
                 ? Object.entries(inventoryFilterSchema.properties).map(([name, schema]) => ({
                     in: 'query',
                     name,

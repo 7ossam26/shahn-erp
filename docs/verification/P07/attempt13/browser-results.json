@@ -1,0 +1,403 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p07.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p07.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p07",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p07",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P07/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p07/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4310/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "stock-orders.spec.ts",
+      "file": "stock-orders.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60056,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 48,
+                        "line": 11
+                      },
+                      "message": "Error: locator.selectOption: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('الصنف 1', { exact: true })\u001b[22m\n\n\n   9 |  await page.goto('/preparation/orders/new');await page.getByLabel('فرع الاستلام').selectOption(runtime.stockSeed.branchA);await page.getByLabel('البراند',{exact:true}).selectOption(runtime.seed.brand);await expect(page.getByLabel('الخدمة',{exact:true})).toHaveValue('stored_stock');\n  10 |  await page.getByLabel('اسم المستلم').fill('مستلم طلب المخزون — اسم طويل للتحقق من العربية والهاتف');await page.getByLabel('رقم الهاتف').fill('٠١٠ ١٢٣٤ ٥٦٧٨');await page.getByLabel('المحافظة',{exact:true}).selectOption(runtime.seed.cairo);await page.getByLabel('العنوان المكتوب').fill('القاهرة — شارع البوليصة — الطابق الثالث');\n> 11 |  await page.getByLabel('الصنف 1',{exact:true}).selectOption(blue);await page.getByLabel('الكمية 1',{exact:true}).fill('2');await page.getByLabel('المستحق للقطعة 1 (ج.م)').fill('50');\n     |                                                ^\n  12 |  await page.getByRole('button',{name:'إضافة قطعة',exact:true}).click();await page.getByLabel('الصنف 2',{exact:true}).selectOption(runtime.stockSeed.red);await page.getByLabel('المستحق للقطعة 2 (ج.م)').fill('150');await page.getByLabel('السماح بالفحص').selectOption('true');\n  13 | }\n  14 | async function submit(page:Page) {await page.getByRole('button',{name:'مراجعة طلب المخزون',exact:true}).click();await page.getByLabel('راجعت الفرع والأصناف والكميات المطلوب حجزها').check();await page.getByRole('button',{name:'تأكيد طلب المخزون',exact:true}).click();}\n    at fill (C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:11:48)\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:16:95"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:30:04.002Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-Arabic-mobile-dde5e-ellation-and-partial-unpack\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-1f22014bc7fc2ba919fc",
+          "file": "stock-orders.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "desktop/mobile shortage and missing tariff retain input; branch change revalidates selections",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60050,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 48,
+                        "line": 11
+                      },
+                      "message": "Error: locator.selectOption: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('الصنف 1', { exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <select required=\"\" aria-label=\"الصنف 1\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - did not find some options\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - did not find some options\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    75 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m       - did not find some options\u001b[22m\n\u001b[2m     - retrying select option action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   9 |   seed: { brand: string; cairo: string; giza: string };\n  10 |   stockSeed: {\n> 11 |     blue: string;\n     |                  ^\n  12 |     red: string;\n  13 |     held: string;\n  14 |     branchA: string;\n    at fill (C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:11:48)\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:24:2"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:31:05.640Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-desktop-mobil-548b5-ange-revalidates-selections\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-1cd9bc3482a3f9fac209",
+          "file": "stock-orders.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 25,
+                  "error": {
+                    "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'",
+                    "stack": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                      "column": 55,
+                      "line": 4
+                    },
+                    "snippet": "  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 55,
+                        "line": 4
+                      },
+                      "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n\n  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:32:06.318Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-blocked-5-7-o-bb74f-ion-shortcut-at320-768-1440\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                    "column": 55,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-fa88a23610e5d3593999",
+          "file": "stock-orders.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "lost committed confirmation response recovers original stock order after reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 25,
+                  "error": {
+                    "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'",
+                    "stack": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                      "column": 55,
+                      "line": 4
+                    },
+                    "snippet": "  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 55,
+                        "line": 4
+                      },
+                      "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n\n  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:32:06.922Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-lost-committe-55b8f-al-stock-order-after-reload\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                    "column": 55,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-54a114dde0e9f8ac45ac",
+          "file": "stock-orders.spec.ts",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "server denies branch revoked after form load and preserves entered recipient",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 21,
+                  "error": {
+                    "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'",
+                    "stack": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                      "column": 55,
+                      "line": 4
+                    },
+                    "snippet": "  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 55,
+                        "line": 4
+                      },
+                      "message": "Error: ENOENT: no such file or directory, open 'C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\.p07-runtime.json'\n\n  2 | import { readFile, mkdir } from 'node:fs/promises';\n  3 | let runtime: {\n> 4 |   token: string;\n    |                 ^\n  5 |   secret: string;\n  6 |   companyId: string;\n  7 |   csrfToken: string;\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:4:55"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:32:07.483Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-server-denies-f00b5-preserves-entered-recipient\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                    "column": 55,
+                    "line": 4
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-cd9f211ccb3146e58207",
+          "file": "stock-orders.spec.ts",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T23:29:21.038Z",
+    "duration": 166679.279,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

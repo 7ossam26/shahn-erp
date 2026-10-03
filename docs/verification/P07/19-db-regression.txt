@@ -1,0 +1,19 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.db.config.ts tests/db/kernel.test.ts tests/db/inventory.test.ts tests/db/shipments.test.ts tests/db/brands.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/brands.test.ts (13 tests) 39467ms
+ ✓ tests/db/kernel.test.ts (21 tests) 42240ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 5224ms
+ ✓ tests/db/shipments.test.ts (17 tests) 38062ms
+   ✓ P06 real PostgreSQL atomic shipment confirmation and authenticated HTTP (17)
+     ✓ creates concurrent legitimate references and replays concurrent same-command only once 349ms
+ ✓ tests/db/inventory.test.ts (17 tests) 37650ms
+
+ Test Files  4 passed (4)
+      Tests  68 passed (68)
+   Start at  02:33:04
+   Duration  164.77s (tests 96%, import 4%)
+

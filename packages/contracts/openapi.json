@@ -32,7 +32,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -82,7 +82,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -128,7 +129,7 @@
                           "comment"
                         ]
                       },
-                      "actualReceipt": { "const": true },
+                      "actualReceipt": { "type": "boolean" },
                       "duplicateAcknowledged": { "type": "boolean" },
                       "expectedPolicyVersion": {
                         "type": "integer",
@@ -171,7 +172,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -221,7 +222,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -335,6 +337,74 @@
                       "expectedVersion",
                       "type"
                     ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.unpack" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "pendingId": { "type": "string", "format": "uuid" },
+                            "expectedRemaining": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "sound": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "damaged": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "uncertain": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "pendingId",
+                            "expectedRemaining",
+                            "sound",
+                            "damaged",
+                            "uncertain"
+                          ]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason",
+                      "lines"
+                    ]
                   }
                 ]
               }
@@ -389,6 +459,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -423,6 +531,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -459,6 +605,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -493,6 +677,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -742,6 +964,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -776,6 +1036,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -812,6 +1110,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -846,6 +1182,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -898,7 +1272,7 @@
                       "properties": {
                         "branchId": { "type": "string", "format": "uuid" },
                         "brandId": { "type": "string", "format": "uuid" },
-                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                         "brandReference": { "type": "string", "maxLength": 256 },
                         "recipientName": {
                           "type": "string",
@@ -948,7 +1322,8 @@
                                   }
                                 },
                                 "required": ["currency", "amountMinor"]
-                              }
+                              },
+                              "variantId": { "type": "string", "format": "uuid" }
                             },
                             "required": ["id", "description", "quantity", "unitDue"]
                           },
@@ -1014,7 +1389,7 @@
                         },
                         "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
                         "branchId": { "type": "string", "format": "uuid" },
-                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                         "partialDelivery": { "type": "boolean" },
                         "tierId": { "type": "string", "format": "uuid" },
                         "tierName": {
@@ -1123,6 +1498,110 @@
                     "receivedAt": { "type": "string", "format": "date-time" },
                     "sourceState": { "enum": ["local", "integrated"] },
                     "handedOver": { "type": "boolean" },
+                    "stock": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "allocations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "reservationId": { "type": "string", "format": "uuid" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "variantId": { "type": "string", "format": "uuid" },
+                              "variantName": {
+                                "type": "string",
+                                "maxLength": 400,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "quantity": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "active": { "type": "boolean" },
+                              "held": { "type": "boolean" },
+                              "shortage": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                            },
+                            "required": [
+                              "reservationId",
+                              "branchId",
+                              "variantId",
+                              "variantName",
+                              "quantity",
+                              "active",
+                              "held",
+                              "shortage",
+                              "revision"
+                            ]
+                          }
+                        },
+                        "unpack": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "pendingId": { "type": "string", "format": "uuid" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "variantId": { "type": "string", "format": "uuid" },
+                              "variantName": {
+                                "type": "string",
+                                "maxLength": 400,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "remaining": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "quantity": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "sound": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "damaged": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "uncertain": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "pendingId",
+                              "branchId",
+                              "variantId",
+                              "variantName",
+                              "remaining",
+                              "quantity",
+                              "sound",
+                              "damaged",
+                              "uncertain"
+                            ]
+                          }
+                        },
+                        "eligible": { "type": "boolean" }
+                      },
+                      "required": ["allocations", "unpack", "eligible"]
+                    },
                     "timeline": {
                       "type": "array",
                       "items": {
@@ -1130,7 +1609,16 @@
                         "additionalProperties": false,
                         "properties": {
                           "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
-                          "kind": { "enum": ["received", "corrected", "prepared", "cancelled"] },
+                          "kind": {
+                            "enum": [
+                              "received",
+                              "reserved",
+                              "corrected",
+                              "prepared",
+                              "cancelled",
+                              "unpack_inspected"
+                            ]
+                          },
                           "at": { "type": "string", "format": "date-time" },
                           "actor": {
                             "type": "string",
@@ -1156,7 +1644,9 @@
                             "properties": {
                               "branchId": { "type": "string", "format": "uuid" },
                               "brandId": { "type": "string", "format": "uuid" },
-                              "service": { "enum": ["brand_packed", "company_packed"] },
+                              "service": {
+                                "enum": ["brand_packed", "company_packed", "stored_stock"]
+                              },
                               "brandReference": { "type": "string", "maxLength": 256 },
                               "recipientName": {
                                 "type": "string",
@@ -1213,7 +1703,8 @@
                                         }
                                       },
                                       "required": ["currency", "amountMinor"]
-                                    }
+                                    },
+                                    "variantId": { "type": "string", "format": "uuid" }
                                   },
                                   "required": ["id", "description", "quantity", "unitDue"]
                                 },
@@ -1279,7 +1770,9 @@
                                 "maximum": 2147483647
                               },
                               "branchId": { "type": "string", "format": "uuid" },
-                              "service": { "enum": ["brand_packed", "company_packed"] },
+                              "service": {
+                                "enum": ["brand_packed", "company_packed", "stored_stock"]
+                              },
                               "partialDelivery": { "type": "boolean" },
                               "tierId": { "type": "string", "format": "uuid" },
                               "tierName": {
@@ -1415,6 +1908,7 @@
                     "receivedAt",
                     "sourceState",
                     "handedOver",
+                    "stock",
                     "timeline",
                     "revisions"
                   ]
@@ -1449,6 +1943,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -1485,6 +2017,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -1520,6 +2090,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -1554,6 +2162,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -1593,7 +2239,7 @@
                     "properties": {
                       "branchId": { "type": "string", "format": "uuid" },
                       "brandId": { "type": "string", "format": "uuid" },
-                      "service": { "enum": ["brand_packed", "company_packed"] },
+                      "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                       "brandReference": { "type": "string", "maxLength": 256 },
                       "recipientName": {
                         "type": "string",
@@ -1643,7 +2289,8 @@
                                 }
                               },
                               "required": ["currency", "amountMinor"]
-                            }
+                            },
+                            "variantId": { "type": "string", "format": "uuid" }
                           },
                           "required": ["id", "description", "quantity", "unitDue"]
                         },
@@ -1728,7 +2375,7 @@
                         },
                         "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
                         "branchId": { "type": "string", "format": "uuid" },
-                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                         "partialDelivery": { "type": "boolean" },
                         "tierId": { "type": "string", "format": "uuid" },
                         "tierName": {
@@ -1842,7 +2489,7 @@
                         },
                         "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
                         "branchId": { "type": "string", "format": "uuid" },
-                        "service": { "enum": ["brand_packed", "company_packed"] },
+                        "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                         "partialDelivery": { "type": "boolean" },
                         "tierId": { "type": "string", "format": "uuid" },
                         "tierName": {
@@ -1949,7 +2596,42 @@
                       "enum": ["not_required", "awaiting_preparation", "complete"]
                     },
                     "custodyEffect": { "enum": ["unchanged", "recorded_branch_correction"] },
-                    "duplicateReference": { "type": "boolean" }
+                    "duplicateReference": { "type": "boolean" },
+                    "stockDelta": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "before": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "after": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "branchId",
+                          "variantId",
+                          "before",
+                          "after",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    }
                   },
                   "required": [
                     "expectedVersion",
@@ -1960,7 +2642,8 @@
                     "beforePreparation",
                     "afterPreparation",
                     "custodyEffect",
-                    "duplicateReference"
+                    "duplicateReference",
+                    "stockDelta"
                   ]
                 }
               }
@@ -1993,6 +2676,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -2029,6 +2750,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -2064,6 +2823,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -2098,6 +2895,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -2140,7 +2975,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -2190,7 +3025,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -2236,7 +3072,7 @@
                           "comment"
                         ]
                       },
-                      "actualReceipt": { "const": true },
+                      "actualReceipt": { "type": "boolean" },
                       "duplicateAcknowledged": { "type": "boolean" },
                       "expectedPolicyVersion": {
                         "type": "integer",
@@ -2279,7 +3115,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -2329,7 +3165,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -2443,6 +3280,74 @@
                       "expectedVersion",
                       "type"
                     ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.unpack" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "pendingId": { "type": "string", "format": "uuid" },
+                            "expectedRemaining": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "sound": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "damaged": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "uncertain": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "pendingId",
+                            "expectedRemaining",
+                            "sound",
+                            "damaged",
+                            "uncertain"
+                          ]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason",
+                      "lines"
+                    ]
                   }
                 ]
               }
@@ -2497,6 +3402,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -2531,6 +3474,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -2567,6 +3548,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -2601,6 +3620,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -2643,7 +3700,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -2693,7 +3750,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -2739,7 +3797,7 @@
                           "comment"
                         ]
                       },
-                      "actualReceipt": { "const": true },
+                      "actualReceipt": { "type": "boolean" },
                       "duplicateAcknowledged": { "type": "boolean" },
                       "expectedPolicyVersion": {
                         "type": "integer",
@@ -2782,7 +3840,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -2832,7 +3890,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -2946,6 +4005,74 @@
                       "expectedVersion",
                       "type"
                     ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.unpack" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "pendingId": { "type": "string", "format": "uuid" },
+                            "expectedRemaining": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "sound": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "damaged": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "uncertain": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "pendingId",
+                            "expectedRemaining",
+                            "sound",
+                            "damaged",
+                            "uncertain"
+                          ]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason",
+                      "lines"
+                    ]
                   }
                 ]
               }
@@ -3000,6 +4127,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3034,6 +4199,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3070,6 +4273,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3104,6 +4345,769 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/shipments/{id}/unpack-inspection": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "shipment.confirm" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "actualReceipt": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" },
+                      "expectedPolicyVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffVersion": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 2147483647
+                      },
+                      "expectedTariffId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "actualReceipt",
+                      "duplicateAcknowledged",
+                      "expectedPolicyVersion",
+                      "expectedTariffVersion",
+                      "expectedTariffId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.correct" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
+                          "brandReference": { "type": "string", "maxLength": 256 },
+                          "recipientName": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "phoneDisplay": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "address": {
+                            "type": "string",
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "locationUrl": { "type": "string", "maxLength": 2048 },
+                          "lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "description": {
+                                  "type": "string",
+                                  "maxLength": 200,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "unitDue": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "currency": { "const": "EGP" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                    }
+                                  },
+                                  "required": ["currency", "amountMinor"]
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
+                              },
+                              "required": ["id", "description", "quantity", "unitDue"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                          "recipientShippingDue": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "currency": { "const": "EGP" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": ["currency", "amountMinor"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "inspectionAllowed": { "type": "boolean" },
+                          "comment": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "branchId",
+                          "brandId",
+                          "service",
+                          "brandReference",
+                          "recipientName",
+                          "phoneDisplay",
+                          "address",
+                          "governorateId",
+                          "areaId",
+                          "locationUrl",
+                          "lines",
+                          "shippingPayer",
+                          "recipientShippingDue",
+                          "inspectionAllowed",
+                          "comment"
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "actualAtCorrectedBranch": { "type": "boolean" },
+                      "duplicateAcknowledged": { "type": "boolean" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "fields",
+                      "reason",
+                      "actualAtCorrectedBranch",
+                      "duplicateAcknowledged"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.cancel" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.prepare" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.unpack" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "pendingId": { "type": "string", "format": "uuid" },
+                            "expectedRemaining": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "sound": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "damaged": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "uncertain": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "pendingId",
+                            "expectedRemaining",
+                            "sound",
+                            "damaged",
+                            "uncertain"
+                          ]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason",
+                      "lines"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "shipmentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "shipmentId", "reference", "version", "branchId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed field/scope/state error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "maxLength": 100,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "messageKey": {
+                      "type": "string",
+                      "maxLength": 150,
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "fieldErrors": {
+                      "type": "object",
+                      "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3152,13 +5156,15 @@
             "in": "query",
             "name": "service",
             "required": false,
-            "schema": { "enum": ["all", "brand_packed", "company_packed"] }
+            "schema": { "enum": ["all", "brand_packed", "company_packed", "stored_stock"] }
           },
           {
             "in": "query",
             "name": "preparation",
             "required": false,
-            "schema": { "enum": ["all", "not_required", "awaiting_preparation", "complete"] }
+            "schema": {
+              "enum": ["all", "not_required", "awaiting_preparation", "complete", "blocked"]
+            }
           },
           {
             "in": "query",
@@ -3229,13 +5235,14 @@
                             "minLength": 1,
                             "pattern": "\\S"
                           },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "state": { "enum": ["active", "cancelled"] },
                           "preparation": {
                             "enum": ["not_required", "awaiting_preparation", "complete"]
                           },
                           "receivedAt": { "type": "string", "format": "date-time" },
                           "ageDays": { "type": "integer", "minimum": 0 },
+                          "blocked": { "type": "boolean" },
                           "custody": { "const": "branch" }
                         },
                         "required": [
@@ -3251,6 +5258,7 @@
                           "preparation",
                           "receivedAt",
                           "ageDays",
+                          "blocked",
                           "custody"
                         ]
                       }
@@ -3294,6 +5302,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3328,6 +5374,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3364,6 +5448,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3398,6 +5520,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3440,7 +5600,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -3490,7 +5650,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -3536,7 +5697,7 @@
                           "comment"
                         ]
                       },
-                      "actualReceipt": { "const": true },
+                      "actualReceipt": { "type": "boolean" },
                       "duplicateAcknowledged": { "type": "boolean" },
                       "expectedPolicyVersion": {
                         "type": "integer",
@@ -3579,7 +5740,7 @@
                         "properties": {
                           "branchId": { "type": "string", "format": "uuid" },
                           "brandId": { "type": "string", "format": "uuid" },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "brandReference": { "type": "string", "maxLength": 256 },
                           "recipientName": {
                             "type": "string",
@@ -3629,7 +5790,8 @@
                                     }
                                   },
                                   "required": ["currency", "amountMinor"]
-                                }
+                                },
+                                "variantId": { "type": "string", "format": "uuid" }
                               },
                               "required": ["id", "description", "quantity", "unitDue"]
                             },
@@ -3743,6 +5905,74 @@
                       "expectedVersion",
                       "type"
                     ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "shipmentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "type": { "const": "shipment.unpack" },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 1000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "lines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "pendingId": { "type": "string", "format": "uuid" },
+                            "expectedRemaining": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "sound": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "damaged": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "uncertain": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "pendingId",
+                            "expectedRemaining",
+                            "sound",
+                            "damaged",
+                            "uncertain"
+                          ]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "shipmentId",
+                      "expectedVersion",
+                      "type",
+                      "reason",
+                      "lines"
+                    ]
                   }
                 ]
               }
@@ -3797,6 +6027,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3831,6 +6099,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3867,6 +6173,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -3901,6 +6245,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -3977,6 +6359,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -4011,6 +6431,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -4047,6 +6505,44 @@
                       "type": "object",
                       "additionalProperties": { "type": "string" }
                     },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
+                    },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
                   "required": ["code", "messageKey", "commandId", "correlationId", "fieldErrors"]
@@ -4081,6 +6577,44 @@
                     "fieldErrors": {
                       "type": "object",
                       "additionalProperties": { "type": "string" }
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "maxLength": 400,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "required": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "shortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "variantId",
+                          "variantName",
+                          "required",
+                          "available",
+                          "shortage"
+                        ]
+                      }
                     },
                     "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
                   },
@@ -7970,6 +10504,273 @@
         }
       }
     },
+    "/api/v1/shipments/stock": {
+      "get": {
+        "summary": "P05 selection; authenticated module and assigned inventory branches",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branchId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "brandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted authorized result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "productId": { "type": "string", "format": "uuid" },
+                          "productName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "variantId": { "type": "string", "format": "uuid" },
+                          "variantName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "options": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "version": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                          "lastMovementAt": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "soundOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "unavailableOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "physicalOnHand": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "reserved": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "available": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "reservationShortage": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "branchId",
+                          "branchName",
+                          "brandId",
+                          "brandName",
+                          "productId",
+                          "productName",
+                          "variantId",
+                          "variantName",
+                          "options",
+                          "active",
+                          "version",
+                          "lastMovementAt",
+                          "soundOnHand",
+                          "unavailableOnHand",
+                          "physicalOnHand",
+                          "reserved",
+                          "available",
+                          "reservationShortage"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100000
+                    },
+                    "asOf": { "type": "string", "format": "date-time" }
+                  },
+                  "additionalProperties": false,
+                  "required": ["items", "asOf"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; unknown transport outcome must recover original command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/inventory/parcels": {
       "get": {
         "summary": "P05 parcels; authenticated module and assigned inventory branches",
@@ -8035,13 +10836,14 @@
                             "minLength": 1,
                             "pattern": "\\S"
                           },
-                          "service": { "enum": ["brand_packed", "company_packed"] },
+                          "service": { "enum": ["brand_packed", "company_packed", "stored_stock"] },
                           "state": { "enum": ["active", "cancelled"] },
                           "preparation": {
                             "enum": ["not_required", "awaiting_preparation", "complete"]
                           },
                           "receivedAt": { "type": "string", "format": "date-time" },
                           "ageDays": { "type": "integer", "minimum": 0 },
+                          "blocked": { "type": "boolean" },
                           "custody": { "const": "branch" }
                         },
                         "required": [
@@ -8057,6 +10859,7 @@
                           "preparation",
                           "receivedAt",
                           "ageDays",
+                          "blocked",
                           "custody"
                         ]
                       }
@@ -8480,6 +11283,63 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "reservations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "shipmentId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "active": { "type": "boolean" },
+                          "held": { "type": "boolean" }
+                        },
+                        "additionalProperties": false,
+                        "required": ["shipmentId", "reference", "quantity", "active", "held"]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    },
+                    "conditions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "soundDelta": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "unavailableDelta": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "shipmentReference": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]+$" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "soundDelta",
+                          "unavailableDelta",
+                          "recordedAt",
+                          "shipmentReference"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    },
                     "position": {
                       "type": "object",
                       "properties": {
@@ -8625,7 +11485,15 @@
                     "limit": { "type": "integer", "enum": [25, 50, 100] }
                   },
                   "additionalProperties": false,
-                  "required": ["position", "movements", "total", "page", "limit"]
+                  "required": [
+                    "reservations",
+                    "conditions",
+                    "position",
+                    "movements",
+                    "total",
+                    "page",
+                    "limit"
+                  ]
                 }
               }
             }

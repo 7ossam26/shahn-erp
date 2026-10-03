@@ -128,6 +128,7 @@ export class CommandService<I extends CommandInput> {
           messageKey: 'kernel.' + error.code.toLowerCase(),
           commandId: input.commandId,
           correlationId: randomUUID(),
+          ...('details' in error ? { details: error.details } : {}),
           ...(error.currentVersion === undefined ? {} : { currentVersion: error.currentVersion }),
         };
         await client.query(

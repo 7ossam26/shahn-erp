@@ -168,6 +168,18 @@ export async function variantHistory(
   ).rows[0]!;
   return {
     position,
+    reservations: (
+      await uow.client.query<VariantHistory['reservations'][number]>(
+        `SELECT sh.id AS "shipmentId",sh.reference,r.quantity::float8 AS quantity,r.active,r.shortage_held AS held FROM inventory.stock_reservation r JOIN shipments.stock_allocation a ON (a.company_id,a.reservation_id)=(r.company_id,r.id) JOIN shipments.shipment sh ON (sh.company_id,sh.id)=(a.company_id,a.shipment_id) WHERE r.company_id=$1 AND r.branch_id=$2 AND r.variant_id=$3 ORDER BY r.recorded_at DESC,r.id`,
+        [uow.access.companyId, branch, id],
+      )
+    ).rows,
+    conditions: (
+      await uow.client.query<VariantHistory['conditions'][number]>(
+        `SELECT m.id,m.sound_delta::float8 AS "soundDelta",m.unavailable_delta::float8 AS "unavailableDelta",m.recorded_at::text AS "recordedAt",sh.reference AS "shipmentReference" FROM inventory.stock_movement m JOIN inventory.stock_source src ON (src.company_id,src.id)=(m.company_id,m.source_id) LEFT JOIN shipments.shipment sh ON sh.company_id=src.company_id AND sh.id::text=src.source_identity AND src.source_system='shipment' WHERE m.company_id=$1 AND m.branch_id=$2 AND m.variant_id=$3 AND m.receipt_line_id IS NULL ORDER BY m.recorded_at,m.id`,
+        [uow.access.companyId, branch, id],
+      )
+    ).rows,
     movements: row.items.map((m) => ({ ...m, quantity: safeStockNumber(m.quantity) })),
     total: Number(row.total),
     page,

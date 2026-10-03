@@ -849,6 +849,39 @@ export function VariantHistoryPage() {
             {row.position.brandName} · {row.position.branchName} · {row.position.options}
           </p>
           <Balances row={row.position} />
+          {row.reservations.length > 0 && (
+            <section>
+              <h2>أين تلتزم الكميات</h2>
+              {row.reservations.map((r, i) => (
+                <p key={i}>
+                  <Link to={'/shipments/' + r.reference}>
+                    طلب <bdi>{r.reference}</bdi>
+                  </Link>{' '}
+                  · <bdi>{r.quantity}</bdi> · {r.active ? 'حجز نشط' : 'حجز محرر'}{' '}
+                  {r.held && '· موقوف بعجز'}
+                </p>
+              ))}
+            </section>
+          )}
+          {row.conditions.length > 0 && (
+            <section>
+              <h2>تاريخ حالة القطع</h2>
+              {row.conditions.map((m) => (
+                <p key={m.id}>
+                  سليم <bdi>{m.soundDelta}</bdi> · غير متاح <bdi>{m.unavailableDelta}</bdi> ·{' '}
+                  {m.shipmentReference && (
+                    <Link to={'/shipments/' + m.shipmentReference}>
+                      طلب <bdi>{m.shipmentReference}</bdi>
+                    </Link>
+                  )}{' '}
+                  ·{' '}
+                  <bdi>
+                    {new Date(m.recordedAt).toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' })}
+                  </bdi>
+                </p>
+              ))}
+            </section>
+          )}
           {row.movements.length === 0 ? (
             <p>لم تسجل حركات لهذا المتغير في هذا الفرع.</p>
           ) : (

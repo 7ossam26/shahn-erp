@@ -1,0 +1,337 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p07.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p07.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p07",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p07",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P07/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p07/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4310/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "stock-orders.spec.ts",
+      "file": "stock-orders.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17898,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText('تم التجهيز').first()\nExpected: visible\nReceived: hidden\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تم التجهيز').first() with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تم التجهيز').first()\u001b[22m\n\u001b[2m    33 × locator resolved to <option value=\"complete\">تم التجهيز</option>\u001b[22m\n\u001b[2m       - unexpected value \"hidden\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText('تم التجهيز').first()\nExpected: visible\nReceived: hidden\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تم التجهيز').first() with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تم التجهيز').first()\u001b[22m\n\u001b[2m    33 × locator resolved to <option value=\"complete\">تم التجهيز</option>\u001b[22m\n\u001b[2m       - unexpected value \"hidden\"\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:94:72",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                      "column": 72,
+                      "line": 94
+                    },
+                    "snippet": "  92 |   await page.getByRole('button', { name: 'إكمال التجهيز', exact: true }).click();\n  93 |   await page.getByRole('button', { name: 'تم التجهيز بالفعل', exact: true }).click();\n> 94 |   await expect(page.getByText('تم التجهيز', { exact: false }).first()).toBeVisible();\n     |                                                                        ^\n  95 |   await page.goto(url);\n  96 |   await page.getByText('إجراءات قبل التسليم ونتيجة آخر طلب', { exact: true }).click();\n  97 |   await page.getByRole('button', { name: 'إلغاء الطلب', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 72,
+                        "line": 94
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText('تم التجهيز').first()\nExpected: visible\nReceived: hidden\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تم التجهيز').first() with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تم التجهيز').first()\u001b[22m\n\u001b[2m    33 × locator resolved to <option value=\"complete\">تم التجهيز</option>\u001b[22m\n\u001b[2m       - unexpected value \"hidden\"\u001b[22m\n\n\n  92 |   await page.getByRole('button', { name: 'إكمال التجهيز', exact: true }).click();\n  93 |   await page.getByRole('button', { name: 'تم التجهيز بالفعل', exact: true }).click();\n> 94 |   await expect(page.getByText('تم التجهيز', { exact: false }).first()).toBeVisible();\n     |                                                                        ^\n  95 |   await page.goto(url);\n  96 |   await page.getByText('إجراءات قبل التسليم ونتيجة آخر طلب', { exact: true }).click();\n  97 |   await page.getByRole('button', { name: 'إلغاء الطلب', exact: true }).click();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:94:72"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:38:02.086Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-Arabic-mobile-dde5e-ellation-and-partial-unpack\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                    "column": 72,
+                    "line": 94
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-1f22014bc7fc2ba919fc",
+          "file": "stock-orders.spec.ts",
+          "line": 71,
+          "column": 1
+        },
+        {
+          "title": "desktop/mobile shortage and missing tariff retain input; branch change revalidates selections",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1494,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:38:20.755Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-1cd9bc3482a3f9fac209",
+          "file": "stock-orders.spec.ts",
+          "line": 116,
+          "column": 1
+        },
+        {
+          "title": "blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2350,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:38:22.379Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-fa88a23610e5d3593999",
+          "file": "stock-orders.spec.ts",
+          "line": 141,
+          "column": 1
+        },
+        {
+          "title": "lost committed confirmation response recovers original stock order after reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1562,
+                  "error": {
+                    "message": "Error: route.abort: Route is already handled!",
+                    "stack": "Error: route.abort: Route is already handled!\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:169:19",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                      "column": 19,
+                      "line": 169
+                    },
+                    "snippet": "  167 |     if (route.request().method() === 'POST') {\n  168 |       await route.fetch();\n> 169 |       await route.abort('failed');\n      |                   ^\n  170 |     } else await route.continue();\n  171 |   });\n  172 |   await submit(page);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 19,
+                        "line": 169
+                      },
+                      "message": "Error: route.abort: Route is already handled!\n\n  167 |     if (route.request().method() === 'POST') {\n  168 |       await route.fetch();\n> 169 |       await route.abort('failed');\n      |                   ^\n  170 |     } else await route.continue();\n  171 |   });\n  172 |   await submit(page);\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:169:19"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                        "column": 14,
+                        "line": 175
+                      },
+                      "message": "Error: page.reload: Test ended.\nCall log:\n\u001b[2m  - waiting for navigation until \"load\"\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:5309/preparation/orders/new\"\u001b[22m\n\n\n  173 |   await expect(page.getByRole('button', { name: 'استرد نتيجة الحفظ' })).toBeVisible();\n  174 |   await page.unroute('**/api/v1/shipments');\n> 175 |   await page.reload();\n      |              ^\n  176 |   await page.getByRole('button', { name: 'استرد نتيجة الحفظ' }).click();\n  177 |   await expect(page).toHaveURL(/\\/shipments\\/\\d+$/);\n  178 |   const after = await control('/statistics');\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts:175:14"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:38:24.744Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\stock-orders-lost-committe-55b8f-al-stock-order-after-reload\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p07\\stock-orders.spec.ts",
+                    "column": 19,
+                    "line": 169
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-54a114dde0e9f8ac45ac",
+          "file": "stock-orders.spec.ts",
+          "line": 159,
+          "column": 1
+        },
+        {
+          "title": "server denies branch revoked after form load and preserves entered recipient",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1626,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T23:38:26.858Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8d4f89f1881bfc58b55-cd9f211ccb3146e58207",
+          "file": "stock-orders.spec.ts",
+          "line": 183,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T23:37:24.010Z",
+    "duration": 66184.966,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

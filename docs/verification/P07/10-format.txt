@@ -1,0 +1,32 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run prettier --write apps/api/src/modules/inventory/stock-fulfillment.ts apps/api/src/modules/inventory/service.ts apps/api/src/modules/shipments apps/api/src/modules/kernel/commands.ts apps/web/src/features/preparation apps/web/src/features/shipments apps/web/src/features/inventory/inventory.tsx apps/web/src/main.tsx packages/contracts/src/inventory/index.ts packages/contracts/src/shipments/index.ts packages/database/src/inventory/stock-reservations.repository.ts packages/database/src/shipments/index.ts packages/database/src/index.ts packages/domain/src/index.ts packages/domain/src/inventory/reservation-policy.ts packages/domain/src/shipments/preparation-policy.ts tests/db/stock-fulfillment.test.ts tests/unit/stock-fulfillment.test.ts tests/support/stock-fulfillment.ts tests/p07 scripts/p07-trial.mjs scripts/phase-suites.json package.json playwright.p07.config.ts
+apps/api/src/modules/inventory/stock-fulfillment.ts 296ms
+apps/api/src/modules/inventory/service.ts 61ms
+apps/api/src/modules/shipments/http.ts 24ms
+apps/api/src/modules/shipments/seed.ts 14ms (unchanged)
+apps/api/src/modules/shipments/service.ts 48ms
+apps/api/src/modules/kernel/commands.ts 25ms (unchanged)
+apps/web/src/features/preparation/preparation.tsx 55ms
+apps/web/src/features/preparation/stock-order.tsx 17ms
+apps/web/src/features/shipments/api.tsx 17ms
+apps/web/src/features/shipments/shipments.css 184ms
+apps/web/src/features/shipments/shipments.tsx 84ms
+apps/web/src/features/inventory/inventory.tsx 71ms
+apps/web/src/main.tsx 13ms (unchanged)
+packages/contracts/src/inventory/index.ts 28ms
+packages/contracts/src/shipments/index.ts 45ms
+packages/database/src/inventory/stock-reservations.repository.ts 2ms
+packages/database/src/shipments/index.ts 16ms (unchanged)
+packages/database/src/index.ts 4ms (unchanged)
+packages/domain/src/index.ts 14ms (unchanged)
+packages/domain/src/inventory/reservation-policy.ts 7ms
+packages/domain/src/shipments/preparation-policy.ts 4ms
+tests/db/stock-fulfillment.test.ts 93ms
+tests/unit/stock-fulfillment.test.ts 8ms
+tests/support/stock-fulfillment.ts 7ms
+tests/p07/serve.ts 10ms
+tests/p07/teardown.mjs 21ms (unchanged)
+scripts/p07-trial.mjs 2ms (unchanged)
+scripts/phase-suites.json 4ms
+package.json 2ms (unchanged)
+playwright.p07.config.ts 2ms (unchanged)

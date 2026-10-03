@@ -1,0 +1,65 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P07
+P07 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  02:41:49
+   Duration  3.93s (environment 56%, import 31%, transform 7%, setup 6%)
+
+P07 unit: PASSED
+P07 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/stock-fulfillment.test.ts (15 tests) 37413ms
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  02:41:53
+   Duration  39.42s (tests 95%, import 4%, transform 1%)
+
+P07 database: PASSED
+P07 browser: test:p07:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2635 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DU-ZLFqg.css                           81.63 kB │ gzip: 16.10 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-BlQWA_t-.js                           182.85 kB │ gzip: 46.96 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 574ms
+[WebServer] (node:2140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:23640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p07\stock-orders.spec.ts:71:1 › Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack (4.3s)
+  ok 2 tests\p07\stock-orders.spec.ts:116:1 › desktop/mobile shortage and missing tariff retain input; branch change revalidates selections (1.5s)
+  ok 3 tests\p07\stock-orders.spec.ts:141:1 › blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440 (2.5s)
+  ok 4 tests\p07\stock-orders.spec.ts:159:1 › lost committed confirmation response recovers original stock order after reload (2.1s)
+  ok 5 tests\p07\stock-orders.spec.ts:186:1 › server denies branch revoked after form load and preserves entered recipient (1.8s)
+  ok 6 tests\p07\stock-orders.spec.ts:201:1 › two browser forms loaded before stock changes receive one success and a named server shortage with retained input (2.7s)
+
+  6 passed (54.0s)
+P07 browser: PASSED
+P07 publicIntegration: NOT APPLICABLE — P07 native intake/preparation only; real PostgreSQL and authenticated HTTP run in DB/browser suites. Tawsel dispatch adapter is later-owned.
+P07: all required layers passed

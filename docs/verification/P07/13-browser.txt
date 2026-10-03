@@ -1,0 +1,156 @@
+npm notice run shahn-erp@0.1.0 test:p07:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p07.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2635 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DU-ZLFqg.css                           81.63 kB │ gzip: 16.10 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-BFt_iTUl.js                           182.39 kB │ gzip: 46.26 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 6.28s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 1.4s of this 6.3s build (22%).
+1 callback is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - plugin @tailwindcss/vite:generate:build transform (5 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+[WebServer] (node:17272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:15596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\p07\stock-orders.spec.ts:15:1 › Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack (1.0m)
+(node:17424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 tests\p07\stock-orders.spec.ts:23:1 › desktop/mobile shortage and missing tariff retain input; branch change revalidates selections (1.0m)
+(node:7400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 tests\p07\stock-orders.spec.ts:29:1 › blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440 (25ms)
+(node:8744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 tests\p07\stock-orders.spec.ts:33:1 › lost committed confirmation response recovers original stock order after reload (25ms)
+(node:20092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 tests\p07\stock-orders.spec.ts:37:1 › server denies branch revoked after form load and preserves entered recipient (21ms)
+
+
+  1) tests\p07\stock-orders.spec.ts:15:1 › Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('الصنف 1', { exact: true })
+
+
+       9 |  await page.goto('/preparation/orders/new');await page.getByLabel('فرع الاستلام').selectOption(runtime.stockSeed.branchA);await page.getByLabel('البراند',{exact:true}).selectOption(runtime.seed.brand);await expect(page.getByLabel('الخدمة',{exact:true})).toHaveValue('stored_stock');
+      10 |  await page.getByLabel('اسم المستلم').fill('مستلم طلب المخزون — اسم طويل للتحقق من العربية والهاتف');await page.getByLabel('رقم الهاتف').fill('٠١٠ ١٢٣٤ ٥٦٧٨');await page.getByLabel('المحافظة',{exact:true}).selectOption(runtime.seed.cairo);await page.getByLabel('العنوان المكتوب').fill('القاهرة — شارع البوليصة — الطابق الثالث');
+    > 11 |  await page.getByLabel('الصنف 1',{exact:true}).selectOption(blue);await page.getByLabel('الكمية 1',{exact:true}).fill('2');await page.getByLabel('المستحق للقطعة 1 (ج.م)').fill('50');
+         |                                                ^
+      12 |  await page.getByRole('button',{name:'إضافة قطعة',exact:true}).click();await page.getByLabel('الصنف 2',{exact:true}).selectOption(runtime.stockSeed.red);await page.getByLabel('المستحق للقطعة 2 (ج.م)').fill('150');await page.getByLabel('السماح بالفحص').selectOption('true');
+      13 | }
+      14 | async function submit(page:Page) {await page.getByRole('button',{name:'مراجعة طلب المخزون',exact:true}).click();await page.getByLabel('راجعت الفرع والأصناف والكميات المطلوب حجزها').check();await page.getByRole('button',{name:'تأكيد طلب المخزون',exact:true}).click();}
+        at fill (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:11:48)
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:16:95
+
+    Error Context: test-results\stock-orders-Arabic-mobile-dde5e-ellation-and-partial-unpack\error-context.md
+
+  2) tests\p07\stock-orders.spec.ts:23:1 › desktop/mobile shortage and missing tariff retain input; branch change revalidates selections 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('الصنف 1', { exact: true })
+        - locator resolved to <select required="" aria-label="الصنف 1">…</select>
+      - attempting select option action
+        2 × waiting for element to be visible and enabled
+          - did not find some options
+        - retrying select option action
+        - waiting 20ms
+        2 × waiting for element to be visible and enabled
+          - did not find some options
+        - retrying select option action
+          - waiting 100ms
+        75 × waiting for element to be visible and enabled
+           - did not find some options
+         - retrying select option action
+           - waiting 500ms
+
+
+       9 |   seed: { brand: string; cairo: string; giza: string };
+      10 |   stockSeed: {
+    > 11 |     blue: string;
+         |                  ^
+      12 |     red: string;
+      13 |     held: string;
+      14 |     branchA: string;
+        at fill (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:11:48)
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:24:2
+
+    Error Context: test-results\stock-orders-desktop-mobil-548b5-ange-revalidates-selections\error-context.md
+
+  3) tests\p07\stock-orders.spec.ts:29:1 › blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440 
+
+    Error: ENOENT: no such file or directory, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\.p07-runtime.json'
+
+      2 | import { readFile, mkdir } from 'node:fs/promises';
+      3 | let runtime: {
+    > 4 |   token: string;
+        |                 ^
+      5 |   secret: string;
+      6 |   companyId: string;
+      7 |   csrfToken: string;
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:4:55
+
+    Error Context: test-results\stock-orders-blocked-5-7-o-bb74f-ion-shortcut-at320-768-1440\error-context.md
+
+  4) tests\p07\stock-orders.spec.ts:33:1 › lost committed confirmation response recovers original stock order after reload 
+
+    Error: ENOENT: no such file or directory, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\.p07-runtime.json'
+
+      2 | import { readFile, mkdir } from 'node:fs/promises';
+      3 | let runtime: {
+    > 4 |   token: string;
+        |                 ^
+      5 |   secret: string;
+      6 |   companyId: string;
+      7 |   csrfToken: string;
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:4:55
+
+    Error Context: test-results\stock-orders-lost-committe-55b8f-al-stock-order-after-reload\error-context.md
+
+  5) tests\p07\stock-orders.spec.ts:37:1 › server denies branch revoked after form load and preserves entered recipient 
+
+    Error: ENOENT: no such file or directory, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\.p07-runtime.json'
+
+      2 | import { readFile, mkdir } from 'node:fs/promises';
+      3 | let runtime: {
+    > 4 |   token: string;
+        |                 ^
+      5 |   secret: string;
+      6 |   companyId: string;
+      7 |   csrfToken: string;
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p07\stock-orders.spec.ts:4:55
+
+    Error Context: test-results\stock-orders-server-denies-f00b5-preserves-entered-recipient\error-context.md
+
+  5 failed
+    tests\p07\stock-orders.spec.ts:15:1 › Arabic mobile actual stock order at305, explicit preparation, cancellation and partial unpack 
+    tests\p07\stock-orders.spec.ts:23:1 › desktop/mobile shortage and missing tariff retain input; branch change revalidates selections 
+    tests\p07\stock-orders.spec.ts:29:1 › blocked 5/7 order visible in queue/filter/detail without a preparation shortcut at320/768/1440 
+    tests\p07\stock-orders.spec.ts:33:1 › lost committed confirmation response recovers original stock order after reload 
+    tests\p07\stock-orders.spec.ts:37:1 › server denies branch revoked after form load and preserves entered recipient 

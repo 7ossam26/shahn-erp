@@ -1,0 +1,322 @@
+[
+  {
+    "id": "ERP-R-011",
+    "assertion": "<a id=\"ac-r-011\"></a>**AC-R-011**: Enter a ready parcel from a paper waybill and record actual branch custody once. Do not require the company to split or manufacture the brand's already prepared parcel.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-R-024",
+    "assertion": "<a id=\"ac-r-024\"></a>**AC-R-024**: Allow delivery of whole identified pieces where the brand permits partial delivery and charge the exact supported outstanding amounts. Reject fractional pieces, arbitrary deposits and splitting a short-stock order between drivers. Rejected partial remainder follows return handling rather than another partial-delivery visit; departure freezes the accepted execution prices.",
+    "slice": "Whole identified commercial lines and exact unit outstanding values; no split/short-stock confirmation. DB AC02/04 and commercial-line case. Partial customer outcome/returns/departure freeze remain later-owned."
+  },
+  {
+    "id": "ERP-R-032",
+    "assertion": "<a id=\"ac-r-032\"></a>**AC-R-032**: Validate brand, recipient name/phone/address, pieces and values, inspection and optional comment. Show the exact computed amount before committing; missing applicable price prevents every commercial side effect.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-036",
+    "assertion": "<a id=\"ac-r-036\"></a>**AC-R-036**: Sum the brand-supplied whole-piece values and apply its partial-delivery policy. A partial eligible outcome credits only the delivered goods without silently recalculating the brand's original sale/deposit history.",
+    "slice": "Whole identified commercial lines and exact unit outstanding values; no split/short-stock confirmation. DB AC02/04 and commercial-line case. Partial customer outcome/returns/departure freeze remain later-owned."
+  },
+  {
+    "id": "ERP-R-047",
+    "assertion": "<a id=\"ac-r-047\"></a>**AC-R-047**: Enable several of the three agreed services on a brand and select one permitted default/service for each order. Reject a service disabled for that brand and avoid combining all services into one charge.",
+    "slice": "Three permitted services in one shipment model, one selected stored_stock path; no obsolete ready-only restriction. DB AC01/02 and actual inactive-variant/policy checks; P05/P06 regression."
+  },
+  {
+    "id": "ERP-R-049",
+    "assertion": "<a id=\"ac-r-049\"></a>**AC-R-049**: Receive stock against a brand/product/variant and branch; reserve, prepare, hand over and receive sound returns with distinct quantities. The same units cannot appear twice as usable stock.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-R-054",
+    "assertion": "<a id=\"ac-r-054\"></a>**AC-R-054**: After accepting an order at tariff 50, edit its tariff to60 and create another order. The first retains 50 and the new order uses 60; an explicit reviewed correction is a separate operation.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-064",
+    "assertion": "<a id=\"ac-r-064\"></a>**AC-R-064**: Goods prepaid to the brand leave only shipping due; goods and shipping prepaid leave driver due 0 and a brand shipping debit. Never create a second goods credit for prepaid goods.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-065",
+    "assertion": "<a id=\"ac-r-065\"></a>**AC-R-065**: For base 50 and uplift 5, percentage commission uses 50 while visit service revenue is55. A fixed-per-visit commission uses its configured amount rather than either percentage base. For a company-funded replacement, the approved shipping waiver reduces net service revenue to zero while normal base/fixed commission remains due under AC-R-212.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-069",
+    "assertion": "<a id=\"ac-r-069\"></a>**AC-R-069**: Two variants of the same brand product keep separate balances and reservations. Selecting one variant cannot consume another variant or another brand's stock.",
+    "slice": "Variant aggregation, all-or-none confirmation and independent-client contention; DB AC01–04/08, connected unit aggregation, browser stock entry. No short-stock registration."
+  },
+  {
+    "id": "ERP-R-070",
+    "assertion": "<a id=\"ac-r-070\"></a>**AC-R-070**: With available 3 and requested 4, reject stock-order confirmation, preserve input and show replenishment guidance. Create no partial reservation, confirmed order or automatic split.",
+    "slice": "Variant aggregation, all-or-none confirmation and independent-client contention; DB AC01–04/08, connected unit aggregation, browser stock entry. No short-stock registration."
+  },
+  {
+    "id": "ERP-R-071",
+    "assertion": "<a id=\"ac-r-071\"></a>**AC-R-071**: After actual return receipt, sound units become usable, while damaged/uncertain units remain unavailable. Merely receiving an event or a return offer cannot increase available quantity.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-R-072",
+    "assertion": "<a id=\"ac-r-072\"></a>**AC-R-072**: Brand configuration may enable ready parcels and company packing together, but each order chooses one allowed service. The brand default preselects rather than bypasses order validation.",
+    "slice": "Three permitted services in one shipment model, one selected stored_stock path; no obsolete ready-only restriction. DB AC01/02 and actual inactive-variant/policy checks; P05/P06 regression."
+  },
+  {
+    "id": "ERP-R-076",
+    "assertion": "<a id=\"ac-r-076\"></a>**AC-R-076**: Accept the brand's final outstanding goods/shipping amounts, including prepaid cases. Do not demand or build an original-sale/deposit accounting subsystem to create the delivery.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-077",
+    "assertion": "<a id=\"ac-r-077\"></a>**AC-R-077**: Charge the configured fixed service uplift without counting packaging attempts. Repacking a parcel does not independently add another packing fee; each actual visit still follows the full-tariff rule.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-093",
+    "assertion": "<a id=\"ac-r-093\"></a>**AC-R-093**: Confirm a stock order by atomically reserving units while retaining physical on-hand until handover. Two simultaneous requests for the last units cannot both succeed.",
+    "slice": "Variant aggregation, all-or-none confirmation and independent-client contention; DB AC01–04/08, connected unit aggregation, browser stock entry. No short-stock registration."
+  },
+  {
+    "id": "ERP-R-094",
+    "assertion": "<a id=\"ac-r-094\"></a>**AC-R-094**: A stock/company-packing order appears in preparation and needs explicit completion before handover. An already prepared brand parcel bypasses unnecessary preparation while retaining custody checks.",
+    "slice": "Explicit preparation preserves physical stock; reasoned cancellation and bounded actual unpack; DB AC05/09 plus prepared correction/replay, browser lifecycle. Driver handover remains P12."
+  },
+  {
+    "id": "ERP-R-095",
+    "assertion": "<a id=\"ac-r-095\"></a>**AC-R-095**: Cancel permitted pre-handover work with a reason and release reservations. A ready parcel remains physically held until brand handback, and departed work cannot be cancelled through this shortcut.",
+    "slice": "Explicit preparation preserves physical stock; reasoned cancellation and bounded actual unpack; DB AC05/09 plus prepared correction/replay, browser lifecycle. Driver handover remains P12."
+  },
+  {
+    "id": "ERP-R-096",
+    "assertion": "<a id=\"ac-r-096\"></a>**AC-R-096**: Issue unique numeric human shipment references and optional brand references. Flag a repeated supplied reference within that brand, tolerate absent references, and retain contract-compliant technical IDs separately.",
+    "slice": "One native shipment/reference/recipient/address; durable same-command recovery and duplicate-warning compatibility. DB AC01/08 plus P06 regression. Driver assignment is P12."
+  },
+  {
+    "id": "ERP-R-107",
+    "assertion": "<a id=\"ac-r-107\"></a>**AC-R-107**: Create a replacement through the ordinary new-shipment flow with its own numeric reference and a visible link to the original incident/shipment. A link alone cannot assert physical receipt of replacement goods.",
+    "slice": "Compatibility/exclusion slice only: ordinary native identity/price retained; no compulsory valuation, incident-linked replacement or replacement waiver. P18 owns these later workflows."
+  },
+  {
+    "id": "ERP-R-131",
+    "assertion": "<a id=\"ac-r-131\"></a>**AC-R-131**: Products show on-hand, reserved, available and unavailable quantities; Parcels show identity, brand, recipient, state, age and journey. Every displayed figure links to its actual custody/reservation meaning.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-R-132",
+    "assertion": "<a id=\"ac-r-132\"></a>**AC-R-132**: Default branch inventory shows goods physically at the branch; driver custody is an explicit view/filter. Handed-over goods cannot remain available for branch picking or transfer.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-R-141",
+    "assertion": "<a id=\"ac-r-141\"></a>**AC-R-141**: After a valid adjustment reveals actual 5 against reserved 7, show shortage 2 and hold affected pre-handover work. Do not silently make all reservations available or override departed driver custody.",
+    "slice": "Actual observation fixture sound5/reserved7; all affected claims held, unrelated variant prepares, replenishment recomputes holds; DB AC07 and browser blocked filter/detail. General observation UI remains P21."
+  },
+  {
+    "id": "ERP-R-158",
+    "assertion": "<a id=\"ac-r-158\"></a>**AC-R-158**: Intake allows only assigned branches; an eligible pre-handover mistaken branch correction preserves audit and revalidates supported source identity/revisions. Actual movement between branches uses the separate transfer workflow.",
+    "slice": "Current version/source/branch guards, union locks and exact delta preview; DB AC06/09 and prepared correction. Only existing destination stock can be reserved; real transfer remains P15."
+  },
+  {
+    "id": "ERP-R-159",
+    "assertion": "<a id=\"ac-r-159\"></a>**AC-R-159**: Before handover, preview piece/quantity/service correction effects on money, stock and integration, then confirm atomically. Reject lifecycle-incompatible changes and do not silently adopt a newer tariff.",
+    "slice": "Current version/source/branch guards, union locks and exact delta preview; DB AC06/09 and prepared correction. Only existing destination stock can be reserved; real transfer remains P15."
+  },
+  {
+    "id": "ERP-R-172",
+    "assertion": "<a id=\"ac-r-172\"></a>**AC-R-172**: One commercial order keeps one shipment/reference, recipient and address. Reject simultaneous split assignment to two drivers while preserving permitted whole-piece partial delivery and later retries.",
+    "slice": "One native shipment/reference/recipient/address; durable same-command recovery and duplicate-warning compatibility. DB AC01/08 plus P06 regression. Driver assignment is P12."
+  },
+  {
+    "id": "ERP-R-174",
+    "assertion": "<a id=\"ac-r-174\"></a>**AC-R-174**: While Tawsel is unavailable, accept eligible ERP intake/preparation and persist pending integration work. Required Tawsel acceptance gates actual driver handover; retries cannot create duplicate remote effects.",
+    "slice": "Local intake/preparation and permanent native result recovery; DB AC08/09 and browser lost-response reload. No remote acceptance/outbox/driver handover; P11/P12 remain required."
+  },
+  {
+    "id": "ERP-R-182",
+    "assertion": "<a id=\"ac-r-182\"></a>**AC-R-182**: With no valid applicable tariff, reject the complete order confirmation and preserve form input. Create no confirmed order, stock reservation, receipt or outbound submission; a valid governorate fallback remains usable.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-R-187",
+    "assertion": "<a id=\"ac-r-187\"></a>**AC-R-187**: Select only physical usable unreserved loose stock for transfer and reserve it atomically. A prepared order moves as a whole shipment; units cannot be committed simultaneously to picking and transfer.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-R-208",
+    "assertion": "<a id=\"ac-r-208\"></a>**AC-R-208**: Provide screen-relevant advanced filters with combined criteria, reset, empty states and authorized results while keeping the default page simple. Verify mobile use and report/export consistency; do not add universal saved filters without a decision.",
+    "slice": "Assigned branch/state frequent filters; brand/service/Cairo dates advanced filters and responsive cards, browser blocked/viewport cases. Export/report parity remains P23."
+  },
+  {
+    "id": "ERP-R-214",
+    "assertion": "<a id=\"ac-r-214\"></a>**AC-R-214**: Every phase has its exact prerequisites, source rules, full data/API/UI/integration slice, ordered checked checkpoints, important Vitest and necessary real dependencies, manual outcomes, model/effort evidence and one-phase stop. All current IDs/screens/selected contracts map to ownership; authored prompts do not count as executed phases.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-012",
+    "assertion": "<a id=\"ac-d-012\"></a>**ERP-D-012 / AC-D-012** — The brand brings its orders, with an individual waybill containing each order's information. A user authorized for data entry transcribes the information written by the brand into the ERP.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-021",
+    "assertion": "<a id=\"ac-d-021\"></a>**ERP-D-021 / AC-D-021** — B2B partial delivery is supported according to brand/merchant policy supplied by ERP, using whole item quantities and explicit outstanding amounts. Exact required collection is confirmed when positive; arbitrary underpayment is not allowed, and prepaid amounts are not recollected. Partial calculation uses the accepted snapshot, without live ERP repricing. Rejected partial remainder returns; it is not deferred for another partial visit. Execution prices freeze at departure.",
+    "slice": "Whole identified commercial lines and exact unit outstanding values; no split/short-stock confirmation. DB AC02/04 and commercial-line case. Partial customer outcome/returns/departure freeze remain later-owned."
+  },
+  {
+    "id": "ERP-D-030",
+    "assertion": "<a id=\"ac-d-030\"></a>**ERP-D-030 / AC-D-030** — Retain this historical decision without implementing its obsolete behavior; enforce ERP-R-047, ERP-R-049 instead. Historical rule: Historical ready-parcels-only decision, excluding loose-stock fulfillment. **Superseded by ERP-D-046.**",
+    "slice": "Three permitted services in one shipment model, one selected stored_stock path; no obsolete ready-only restriction. DB AC01/02 and actual inactive-variant/policy checks; P05/P06 regression."
+  },
+  {
+    "id": "ERP-D-031",
+    "assertion": "<a id=\"ac-d-031\"></a>**ERP-D-031 / AC-D-031** — The stated waybill fields are brand name, recipient/customer name, phone number, address, price, and comment; the comment may specify whether inspection before receipt is allowed.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-035",
+    "assertion": "<a id=\"ac-d-035\"></a>**ERP-D-035 / AC-D-035** — The brand supplies all piece details and values. ERP sums the goods values and adds the shipping charge to determine the recipient amount due. The brand creation screen configures whether that brand's shipments allow partial delivery.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-041",
+    "assertion": "<a id=\"ac-d-041\"></a>**ERP-D-041 / AC-D-041** — In the original ready-parcel flow, saving/registering an order asserts physical receipt into that branch's parcel custody inventory.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-046",
+    "assertion": "<a id=\"ac-d-046\"></a>**ERP-D-046 / AC-D-046** — Support brand-packed ready parcels, company packing of brand-supplied orders, and stored brand product stock from which the company prepares/packs/ships orders. Configure services on brand creation.",
+    "slice": "Three permitted services in one shipment model, one selected stored_stock path; no obsolete ready-only restriction. DB AC01/02 and actual inactive-variant/policy checks; P05/P06 regression."
+  },
+  {
+    "id": "ERP-D-049",
+    "assertion": "<a id=\"ac-d-049\"></a>**ERP-D-049 / AC-D-049** — Goods 100 + 150 and shipping 50 mean recipient payment 300, company shipping 50, and brand credit 250. Accumulate goods proceeds without subtracting shipping again.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-052",
+    "assertion": "<a id=\"ac-d-052\"></a>**ERP-D-052 / AC-D-052** — Changes to the assigned tier and later tariff edits affect new orders only. Preserve an existing order's recorded price, including before departure.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-064",
+    "assertion": "<a id=\"ac-d-064\"></a>**ERP-D-064 / AC-D-064** — Support goods prepaid to the brand with only shipping payable to the driver, and goods plus shipping prepaid to the brand with zero payable to the driver. In the latter case, debit shipping from the brand's account/payout balance.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-065",
+    "assertion": "<a id=\"ac-d-065\"></a>**ERP-D-065 / AC-D-065** — A brand may enable several allowed services. Each order selects one service with a default to simplify entry.",
+    "slice": "Three permitted services in one shipment model, one selected stored_stock path; no obsolete ready-only restriction. DB AC01/02 and actual inactive-variant/policy checks; P05/P06 regression."
+  },
+  {
+    "id": "ERP-D-068",
+    "assertion": "<a id=\"ac-d-068\"></a>**ERP-D-068 / AC-D-068** — Track separate quantities for product variants such as color/size within each brand. Block order confirmation when stock is insufficient and explain the shortage/add-stock action. Sound returns become available only after actual receipt and condition inspection; damaged/uncertain goods remain unavailable.",
+    "slice": "Variant aggregation, all-or-none confirmation and independent-client contention; DB AC01–04/08, connected unit aggregation, browser stock entry. No short-stock registration."
+  },
+  {
+    "id": "ERP-D-075",
+    "assertion": "<a id=\"ac-d-075\"></a>**ERP-D-075 / AC-D-075** — Do not administer the recipient-to-brand deposit relationship. Accept the brand's declared final recipient amount, including the agreed shipping presentation, without requiring the original sale/deposit history.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-076",
+    "assertion": "<a id=\"ac-d-076\"></a>**ERP-D-076 / AC-D-076** — The fixed packing uplift belongs to the selected company-packing service price and does not depend on whether physical repacking occurred. Do not introduce a separate per-packing-operation charge/workflow.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-091",
+    "assertion": "<a id=\"ac-d-091\"></a>**ERP-D-091 / AC-D-091** — Confirmation of a stored-stock order immediately reserves its quantities against competing orders. Physical on-hand remains at the branch until handover; permitted cancellation/change releases reservation.",
+    "slice": "Variant aggregation, all-or-none confirmation and independent-client contention; DB AC01–04/08, connected unit aggregation, browser stock entry. No short-stock registration."
+  },
+  {
+    "id": "ERP-D-092",
+    "assertion": "<a id=\"ac-d-092\"></a>**ERP-D-092 / AC-D-092** — Orders requiring company preparation/packing enter a preparation queue and require an explicit preparation-complete action before driver handover. Ready brand-packed parcels skip this step.",
+    "slice": "Explicit preparation preserves physical stock; reasoned cancellation and bounded actual unpack; DB AC05/09 plus prepared correction/replay, browser lifecycle. Driver handover remains P12."
+  },
+  {
+    "id": "ERP-D-093",
+    "assertion": "<a id=\"ac-d-093\"></a>**ERP-D-093 / AC-D-093** — Before driver handover, cancel an order still at the branch with a recorded reason and release reserved stored stock. Ready parcels remain in custody until a separate actual handover to the brand.",
+    "slice": "Explicit preparation preserves physical stock; reasoned cancellation and bounded actual unpack; DB AC05/09 plus prepared correction/replay, browser lifecycle. Driver handover remains P12."
+  },
+  {
+    "id": "ERP-D-094",
+    "assertion": "<a id=\"ac-d-094\"></a>**ERP-D-094 / AC-D-094** — Generate a unique readable shipment reference consisting of digits only. An existing brand waybill/order reference is optional; absence does not prevent entry. Retain the accepted duplicate-reference warning within the brand.",
+    "slice": "One native shipment/reference/recipient/address; durable same-command recovery and duplicate-warning compatibility. DB AC01/08 plus P06 regression. Driver assignment is P12."
+  },
+  {
+    "id": "ERP-D-100",
+    "assertion": "<a id=\"ac-d-100\"></a>**ERP-D-100 / AC-D-100** — Do not add the proposed compulsory intake valuation field or a dedicated complicated flow for fully prepaid loss. Use the ordinary compensation credit workflow.",
+    "slice": "Compatibility/exclusion slice only: ordinary native identity/price retained; no compulsory valuation, incident-linked replacement or replacement waiver. P18 owns these later workflows."
+  },
+  {
+    "id": "ERP-D-102",
+    "assertion": "<a id=\"ac-d-102\"></a>**ERP-D-102 / AC-D-102** — Accept a linked new replacement shipment only if the workflow remains simple and visually clear.",
+    "slice": "Compatibility/exclusion slice only: ordinary native identity/price retained; no compulsory valuation, incident-linked replacement or replacement waiver. P18 owns these later workflows."
+  },
+  {
+    "id": "ERP-D-123",
+    "assertion": "<a id=\"ac-d-123\"></a>**ERP-D-123 / AC-D-123** — Use two clear daily inventory views. Products show brand, product/variant, on-hand, reserved, available and unavailable quantities. Parcels show one shipment per row, numeric reference, brand, recipient, status and time at branch. Include relevant filters/search and detail/history. Default to physical branch inventory; show driver custody through an explicit separate view/filter.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-D-132",
+    "assertion": "<a id=\"ac-d-132\"></a>**ERP-D-132 / AC-D-132** — If actual stock is 5 while 7 units are reserved, record shortage 2 and hold affected pre-handover work until replenished or explicitly corrected.",
+    "slice": "Actual observation fixture sound5/reserved7; all affected claims held, unrelated variant prepares, replenishment recomputes holds; DB AC07 and browser blocked filter/detail. General observation UI remains P21."
+  },
+  {
+    "id": "ERP-D-148",
+    "assertion": "<a id=\"ac-d-148\"></a>**ERP-D-148 / AC-D-148** — A recipient map/location link is sometimes available and must be optional.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-149",
+    "assertion": "<a id=\"ac-d-149\"></a>**ERP-D-149 / AC-D-149** — Allow authorized correction of an incorrectly recorded branch before physical driver handover when the actual shipment is at the corrected branch. Prevent ordinary mistakes by showing only assigned branches: single assigned branch is the only choice; multiple assigned branches enable selection among those branches.",
+    "slice": "Current version/source/branch guards, union locks and exact delta preview; DB AC06/09 and prepared correction. Only existing destination stock can be reserved; real transfer remains P15."
+  },
+  {
+    "id": "ERP-D-150",
+    "assertion": "<a id=\"ac-d-150\"></a>**ERP-D-150 / AC-D-150** — Permit explicit correction of erroneous piece list/quantity or service before physical driver handover, with the stock and financial effects shown before confirmation. Do not silently reprice an existing order to a later tariff.",
+    "slice": "Current version/source/branch guards, union locks and exact delta preview; DB AC06/09 and prepared correction. Only existing destination stock can be reserved; real transfer remains P15."
+  },
+  {
+    "id": "ERP-D-163",
+    "assertion": "<a id=\"ac-d-163\"></a>**ERP-D-163 / AC-D-163** — Use one ERP order as one shipment with one numeric reference, recipient and address, containing its pieces. Do not split one commercial order across two drivers.",
+    "slice": "One native shipment/reference/recipient/address; durable same-command recovery and duplicate-warning compatibility. DB AC01/08 plus P06 regression. Driver assignment is P12."
+  },
+  {
+    "id": "ERP-D-165",
+    "assertion": "<a id=\"ac-d-165\"></a>**ERP-D-165 / AC-D-165** — If ERP is online while Tawsel is temporarily unavailable, continue intake/preparation and retain the work; show pending/error/retry status and wait for required accepted synchronization before confirming driver assignment/handover.",
+    "slice": "Local intake/preparation and permanent native result recovery; DB AC08/09 and browser lost-response reload. No remote acceptance/outbox/driver handover; P11/P12 remain required."
+  },
+  {
+    "id": "ERP-D-169",
+    "assertion": "<a id=\"ac-d-169\"></a>**ERP-D-169 / AC-D-169** — Cover and implement all agreed V1 scope. Do not limit it to the first customer's unknown service mix or continue asking about that mix as a planning prerequisite.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  },
+  {
+    "id": "ERP-D-173",
+    "assertion": "<a id=\"ac-d-173\"></a>**ERP-D-173 / AC-D-173** — A valid configured shipping price is a prerequisite for completing the order operation. If no price applies through the agreed brand-tier/governorate/optional-area rule, block completion and preserve entered data with clear guidance.",
+    "slice": "P06 native exact-money snapshot reused for stock305/zero due/missing price; DB AC01/02 and zero-due/prepared-correction cases; P06 pricing unit/DB regression. No earning, visit commission, wallet debit or original-sale accounting here."
+  },
+  {
+    "id": "ERP-D-178",
+    "assertion": "<a id=\"ac-d-178\"></a>**ERP-D-178 / AC-D-178** — Select only physically held, usable source-branch goods for transfer. Loose stock must be unreserved; prepared orders move as whole shipments. Reserve selected transfer contents against competing orders/dispatch/transfers.",
+    "slice": "Products/Parcels share allocation identities; variant history links actual commitments/condition effects; DB AC01/05/07, browser detail/history. Transfers/returns/driver custody are later-owned."
+  },
+  {
+    "id": "ERP-D-199",
+    "assertion": "<a id=\"ac-d-199\"></a>**ERP-D-199 / AC-D-199** — Include advanced filters in the relevant later implementation phases while preserving the approved layout direction.",
+    "slice": "Assigned branch/state frequent filters; brand/service/Cairo dates advanced filters and responsive cards, browser blocked/viewport cases. Export/report parity remains P23."
+  },
+  {
+    "id": "ERP-D-203",
+    "assertion": "<a id=\"ac-d-203\"></a>**ERP-D-203 / AC-D-203** — When the incident agreement makes the company bear replacement shipping, use an explicit linked shipping waiver: recipient and brand owe zero shipping, net shipping revenue is zero, and the driver retains the normal eligible-visit commission.",
+    "slice": "Compatibility/exclusion slice only: ordinary native identity/price retained; no compulsory valuation, incident-linked replacement or replacement waiver. P18 owns these later workflows."
+  },
+  {
+    "id": "ERP-D-205",
+    "assertion": "<a id=\"ac-d-205\"></a>**ERP-D-205 / AC-D-205** — Approve PLAN-001 for complete phase authoring, adopting detailed mechanics while retaining external-contract and evidence limits.",
+    "slice": "Shared P02/P03/P05/P06 contract consumed within P07; native scope/input/price/optional-location/history and single-phase evidence. Relevant regression and P07 command/browser suites; broader cross-domain acceptance remains pending."
+  }
+]

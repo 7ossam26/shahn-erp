@@ -8,6 +8,7 @@ export interface ShipmentMoney {
 }
 export interface ShipmentLine {
   id: string;
+  variantId?: string;
   description: string;
   quantity: number;
   unitDue: ShipmentMoney;
@@ -15,7 +16,7 @@ export interface ShipmentLine {
 export interface ShipmentFields {
   branchId: string;
   brandId: string;
-  service: 'brand_packed' | 'company_packed';
+  service: 'brand_packed' | 'company_packed' | 'stored_stock';
   brandReference: string;
   recipientName: string;
   phoneDisplay: string;
@@ -41,7 +42,7 @@ export type ShipmentCommand = Envelope &
     | {
         type: 'shipment.confirm';
         fields: ShipmentFields;
-        actualReceipt: true;
+        actualReceipt: boolean;
         duplicateAcknowledged: boolean;
         expectedPolicyVersion: number;
         expectedTariffVersion: number;
@@ -57,6 +58,19 @@ export type ShipmentCommand = Envelope &
         duplicateAcknowledged: boolean;
       }
     | { type: 'shipment.cancel'; shipmentId: string; expectedVersion: number; reason: string }
+    | {
+        type: 'shipment.unpack';
+        shipmentId: string;
+        expectedVersion: number;
+        reason: string;
+        lines: {
+          pendingId: string;
+          expectedRemaining: number;
+          sound: number;
+          damaged: number;
+          uncertain: number;
+        }[];
+      }
     | { type: 'shipment.prepare'; shipmentId: string; expectedVersion: number }
   );
 export interface ShipmentResult {
@@ -82,11 +96,12 @@ export interface ShipmentDetail {
   handedOver: boolean;
   timeline: {
     version: number;
-    kind: 'received' | 'corrected' | 'prepared' | 'cancelled';
+    kind: 'received' | 'reserved' | 'corrected' | 'prepared' | 'cancelled' | 'unpack_inspected';
     at: string;
     actor: string;
     reason: string;
   }[];
+  stock: { allocations: StockAllocation[]; unpack: UnpackRemaining[]; eligible: boolean };
   revisions: {
     revision: number;
     fields: ShipmentFields;
@@ -104,6 +119,14 @@ export interface ShipmentPreview {
   afterPreparation: PreparationState;
   custodyEffect: 'unchanged' | 'recorded_branch_correction';
   duplicateReference: boolean;
+  stockDelta: {
+    branchId: string;
+    variantId: string;
+    before: number;
+    after: number;
+    available: number;
+    shortage: number;
+  }[];
 }
 export interface ShipmentCatalog {
   companyId: string;
@@ -120,11 +143,12 @@ export interface ParcelItem {
   recipientName: string;
   branchId: string;
   branchName: string;
-  service: 'brand_packed' | 'company_packed';
+  service: 'brand_packed' | 'company_packed' | 'stored_stock';
   state: 'active' | 'cancelled';
   preparation: PreparationState;
   receivedAt: string;
   ageDays: number;
+  blocked: boolean;
   custody: 'branch';
 }
 export interface ParcelList {
@@ -138,8 +162,8 @@ export interface ParcelList {
 export interface ShipmentFilter {
   branches: string[];
   brands: string[];
-  service: 'all' | 'brand_packed' | 'company_packed';
-  preparation: 'all' | PreparationState;
+  service: 'all' | 'brand_packed' | 'company_packed' | 'stored_stock';
+  preparation: 'all' | 'blocked' | PreparationState;
   state: 'all' | 'active' | 'cancelled';
   search: string;
   from: string | null;
@@ -163,16 +187,40 @@ const uuid = { type: 'string', format: 'uuid' },
     required: Object.keys(properties),
   }),
   array = (items: object) => ({ type: 'array', items }),
-  service = { enum: ['brand_packed', 'company_packed'] },
+  service = { enum: ['brand_packed', 'company_packed', 'stored_stock'] },
   prep = { enum: ['not_required', 'awaiting_preparation', 'complete'] },
   minor = { type: 'string', pattern: '^(0|[1-9][0-9]{0,18})$' };
 export const shipmentMoneySchema = closed({ currency: { const: 'EGP' }, amountMinor: minor });
+const quantity = { type: 'integer', minimum: 0, maximum: 9007199254740991 };
+export interface StockAllocation {
+  reservationId: string;
+  branchId: string;
+  variantId: string;
+  variantName: string;
+  quantity: number;
+  active: boolean;
+  held: boolean;
+  shortage: number;
+  revision: number;
+}
+export interface UnpackRemaining {
+  pendingId: string;
+  branchId: string;
+  variantId: string;
+  variantName: string;
+  remaining: number;
+  quantity: number;
+  sound: number;
+  damaged: number;
+  uncertain: number;
+}
 export const shipmentLineSchema = closed({
   id: uuid,
   description: text(200),
   quantity: { type: 'integer', minimum: 1, maximum: 1000000 },
   unitDue: shipmentMoneySchema,
 });
+shipmentLineSchema.properties['variantId'] = uuid;
 export const shipmentFieldsSchema = closed({
   branchId: uuid,
   brandId: uuid,
@@ -198,7 +246,7 @@ export const shipmentCommandSchema = {
       ...envelope,
       type: { const: 'shipment.confirm' },
       fields: shipmentFieldsSchema,
-      actualReceipt: { const: true },
+      actualReceipt: bool,
       duplicateAcknowledged: bool,
       expectedPolicyVersion: version,
       expectedTariffVersion: version,
@@ -215,6 +263,26 @@ export const shipmentCommandSchema = {
     }),
     closed({ ...envelope, ...edit, type: { const: 'shipment.cancel' }, reason: text(1000) }),
     closed({ ...envelope, ...edit, type: { const: 'shipment.prepare' } }),
+    closed({
+      ...envelope,
+      ...edit,
+      type: { const: 'shipment.unpack' },
+      reason: text(1000),
+      lines: {
+        ...array(
+          closed({
+            pendingId: uuid,
+            expectedRemaining: { ...quantity, minimum: 1 },
+            sound: quantity,
+            damaged: quantity,
+            uncertain: quantity,
+          }),
+        ),
+        minItems: 1,
+        maxItems: 100,
+        uniqueItems: true,
+      },
+    }),
   ],
 };
 export const shipmentPreviewRequestSchema = closed({
@@ -226,8 +294,8 @@ export const shipmentPreviewRequestSchema = closed({
 export const shipmentFilterSchema = closed({
   branches: { ...array(uuid), minItems: 1, maxItems: 100, uniqueItems: true },
   brands: { ...array(uuid), maxItems: 100, uniqueItems: true },
-  service: { enum: ['all', 'brand_packed', 'company_packed'] },
-  preparation: { enum: ['all', 'not_required', 'awaiting_preparation', 'complete'] },
+  service: { enum: ['all', 'brand_packed', 'company_packed', 'stored_stock'] },
+  preparation: { enum: ['all', 'not_required', 'awaiting_preparation', 'complete', 'blocked'] },
   state: { enum: ['all', 'active', 'cancelled'] },
   search: text(256, false),
   from: nullable({ type: 'string', format: 'date' }),
@@ -286,6 +354,7 @@ const parcelSchema = closed({
   preparation: prep,
   receivedAt: { type: 'string', format: 'date-time' },
   ageDays: { type: 'integer', minimum: 0 },
+  blocked: bool,
   custody: { const: 'branch' },
 });
 export const parcelListSchema = closed({
@@ -295,6 +364,28 @@ export const parcelListSchema = closed({
   limit: { enum: [25, 50, 100] },
   custody: { enum: ['branch', 'external'] },
   boundary: { const: 'LOCAL_CUSTODY_ONLY' },
+});
+const allocationSchema = closed({
+  reservationId: uuid,
+  branchId: uuid,
+  variantId: uuid,
+  variantName: text(400),
+  quantity,
+  active: bool,
+  held: bool,
+  shortage: quantity,
+  revision: version,
+});
+const unpackSchema = closed({
+  pendingId: uuid,
+  branchId: uuid,
+  variantId: uuid,
+  variantName: text(400),
+  remaining: quantity,
+  quantity,
+  sound: quantity,
+  damaged: quantity,
+  uncertain: quantity,
 });
 const detailSchema = closed({
   id: uuid,
@@ -310,10 +401,17 @@ const detailSchema = closed({
   receivedAt: { type: 'string', format: 'date-time' },
   sourceState: { enum: ['local', 'integrated'] },
   handedOver: bool,
+  stock: closed({
+    allocations: array(allocationSchema),
+    unpack: array(unpackSchema),
+    eligible: bool,
+  }),
   timeline: array(
     closed({
       version,
-      kind: { enum: ['received', 'corrected', 'prepared', 'cancelled'] },
+      kind: {
+        enum: ['received', 'reserved', 'corrected', 'prepared', 'cancelled', 'unpack_inspected'],
+      },
       at: { type: 'string', format: 'date-time' },
       actor: text(200),
       reason: text(1000, false),
@@ -338,6 +436,16 @@ const previewSchema = closed({
   afterPreparation: prep,
   custodyEffect: { enum: ['unchanged', 'recorded_branch_correction'] },
   duplicateReference: bool,
+  stockDelta: array(
+    closed({
+      branchId: uuid,
+      variantId: uuid,
+      before: quantity,
+      after: quantity,
+      available: quantity,
+      shortage: quantity,
+    }),
+  ),
 });
 const failureSchema = closed({
   code: text(100),
@@ -346,6 +454,15 @@ const failureSchema = closed({
   correlationId: uuid,
   fieldErrors: { type: 'object', additionalProperties: { type: 'string' } },
 });
+failureSchema.properties['details'] = array(
+  closed({
+    variantId: uuid,
+    variantName: text(400),
+    required: quantity,
+    available: quantity,
+    shortage: quantity,
+  }),
+);
 // currentVersion is optional for stale-state failures.
 failureSchema.properties['currentVersion'] = version;
 const Ajv = AjvModule.default ?? AjvModule,
@@ -383,6 +500,7 @@ export const shipmentPaths = Object.fromEntries(
     ['post', '/api/v1/shipments/{id}/corrections/preview', 'preview', shipmentPreviewRequestSchema],
     ['post', '/api/v1/shipments/{id}/corrections', 'result', shipmentCommandSchema],
     ['post', '/api/v1/shipments/{id}/cancel', 'result', shipmentCommandSchema],
+    ['post', '/api/v1/shipments/{id}/unpack-inspection', 'result', shipmentCommandSchema],
     ['get', '/api/v1/preparation', 'list', null],
     ['post', '/api/v1/shipments/{id}/preparation/complete', 'result', shipmentCommandSchema],
     ['get', '/api/v1/shipments/commands/{commandId}', 'result', null],

@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@shahn/ui';
 import {
   validateShipmentViews,
+  validateInventoryViews,
   type ShipmentCatalog,
   type ShipmentCommand,
   type ShipmentResult,
@@ -15,6 +16,12 @@ export class ShipmentApiError extends CommercialError {
     status: number,
     currentVersion?: number,
     readonly fieldErrors: Record<string, string> = {},
+    readonly details: {
+      variantName: string;
+      required: number;
+      available: number;
+      shortage: number;
+    }[] = [],
   ) {
     super(code, status, currentVersion);
   }
@@ -48,15 +55,21 @@ export async function shipmentApi<T>(
       code: string;
       currentVersion?: number;
       fieldErrors: Record<string, string>;
+      details?: { variantName: string; required: number; available: number; shortage: number }[];
     };
     throw new ShipmentApiError(
       body && response.status >= 500 ? 'RESULT_UNKNOWN' : e.code,
       response.status,
       e.currentVersion,
       e.fieldErrors,
+      e.details,
     );
   }
-  if (!validateShipmentViews[view]?.(result))
+  if (
+    !(view === 'stock'
+      ? validateInventoryViews['selection']?.(result)
+      : validateShipmentViews[view]?.(result))
+  )
     throw new CommercialError(body ? 'RESULT_UNKNOWN' : 'INVALID_RESPONSE', 0);
   return result as T;
 }
@@ -87,7 +100,9 @@ const pathFor = (input: ShipmentCommand) =>
         ? '/corrections'
         : input.type === 'shipment.cancel'
           ? '/cancel'
-          : '/preparation/complete');
+          : input.type === 'shipment.unpack'
+            ? '/unpack-inspection'
+            : '/preparation/complete');
 export function useShipmentMutation(channel: string, onSuccess: (result: ShipmentResult) => void) {
   const { registry, session } = useAccess(),
     company = registry?.context.companyId,

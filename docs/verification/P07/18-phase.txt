@@ -1,0 +1,60 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P07
+P07 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 10ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  02:32:36
+   Duration  2.20s (environment 53%, import 27%, setup 11%, transform 8%)
+
+P07 unit: PASSED
+P07 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/stock-fulfillment.test.ts (13 tests | 13 skipped) 38154ms
+   ↓ P07-AC-01 reserves 2/1 at 305, without a second receipt or physical/money effect
+   ↓ P07-AC-02/04 missing tariff and summed duplicate commercial lines reject all effects with named shortage
+   ↓ P07-AC-03 independent command transactions contend behind a database barrier; last unit succeeds once
+   ↓ P07-AC-03 reverse multi-line contention has no partial losing reservations
+   ↓ P07-AC-05 preparation moves no stock; prepared cancellation and partial sound unpack conserve physical quantity
+   ↓ P07-AC-06 failed increase retains old revision/claim; branch delta uses actual destination stock
+   ↓ P07-AC-07 truthful 5/7 holds every affected order but permits unrelated preparation
+   ↓ P07-AC-08 lost response/replay creates one reference, changed payload conflicts
+   ↓ P07-AC-09 stale/handover and scope denial retain all claims; authenticated HTTP has typed shortage details
+   ↓ unprepared cancellation releases all stock; zero recipient due still requires tariff and real stock
+   ↓ prepared quantity correction retires old contents to actual unpack, renews preparation, and reuses old tariff
+   ↓ two commercial values share one claim; bounded inspection rejects excessive/stale quantities and replays once
+   ↓ atomic rollback after reservations leaves no order/allocation/custody, with preserved immutable histories
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/stock-fulfillment.test.ts [ tests/db/stock-fulfillment.test.ts ]
+Error: Connection terminated due to connection timeout
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ migrate packages/database/src/migrations.ts:83:18
+ ❯ tests/db/stock-fulfillment.test.ts:134:3
+    132|   await mkdir('docs/verification/P07', { recursive: true });
+    133|   db = await isolatedPostgres();
+    134|   await migrate(db.pool, (await readMigrations()).slice(0, 10));
+       |   ^
+    135|   f = await accessFixture(db.pool);
+    136|   seed = await seedCommercial(db.pool, f.admin.token, f.company, f.a, …
+
+Caused by: Error: Connection terminated unexpectedly
+ ❯ Connection.<anonymous> node_modules/pg/lib/client.js:204:73
+ ❯ Socket.<anonymous> node_modules/pg/lib/connection.js:64:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 skipped (13)
+   Start at  02:32:39
+   Duration  40.15s (tests 95%, import 4%, transform 1%)
+
+P07 database: FAILED (1)

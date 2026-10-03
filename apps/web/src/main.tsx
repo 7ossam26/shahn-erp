@@ -64,6 +64,7 @@ const router = createBrowserRouter([
       { path: '/shipments/new', element: <ShipmentNewPage /> },
       { path: '/shipments/:reference', element: <ShipmentDetailPage /> },
       { path: '/shipments/:reference/correction', element: <ShipmentCorrectionPage /> },
+      { path: '/preparation/orders/new', element: <ShipmentNewPage stockOnly /> },
       { path: '/preparation', element: <ParcelMonitorPage /> },
       { path: '/inventory', element: <InventoryPage /> },
       { path: '/inventory/receipts/new', element: <ReceiptPage /> },

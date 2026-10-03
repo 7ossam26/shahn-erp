@@ -126,7 +126,6 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
   query.set('branches', selected);
   if (!inventory) {
     query.delete('custody');
-    query.set('service', 'company_packed');
   }
   const list = useQuery({
     queryKey: [
@@ -162,6 +161,14 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
   );
   const filters = (
     <div className="shipment-advanced">
+      {field('service', 'الخدمة', (v, c) => (
+        <select value={v} onChange={(e) => c(e.target.value)}>
+          <option value="all">كل الخدمات</option>
+          {inventory && <option value="brand_packed">طرد جاهز</option>}
+          <option value="company_packed">تغليف بضاعة مستلمة</option>
+          <option value="stored_stock">طلب من المخزون</option>
+        </select>
+      ))}
       {field('brands', 'البراند', (v, c) => (
         <select value={v} onChange={(e) => c(e.target.value)}>
           <option value="">كل البراندات</option>
@@ -172,14 +179,6 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
           ))}
         </select>
       ))}
-      {inventory &&
-        field('service', 'الخدمة', (v, c) => (
-          <select value={v} onChange={(e) => c(e.target.value)}>
-            <option value="">كل الخدمات</option>
-            <option value="brand_packed">طرد جاهز</option>
-            <option value="company_packed">تغليف الشركة</option>
-          </select>
-        ))}
       {field('from', 'تاريخ التسجيل من', (v, c) => (
         <Input type="date" value={v} onChange={(e) => c(e.target.value)} />
       ))}
@@ -217,7 +216,9 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
         .join('، ');
     if (key === 'service') return serviceNames[value as keyof typeof serviceNames] ?? value;
     if (key === 'preparation')
-      return preparationNames[value as keyof typeof preparationNames] ?? value;
+      return value === 'blocked'
+        ? 'موقوف بعجز المخزون'
+        : (preparationNames[value as keyof typeof preparationNames] ?? value);
     if (key === 'state') return value === 'active' ? 'نشط' : 'ملغى';
     if (key === 'custody') return value === 'branch' ? 'في الفرع' : 'خارج الفرع';
     return value;
@@ -230,7 +231,7 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
         description={
           inventory
             ? 'طرود مستلمة فعلًا؛ الإلغاء التجاري لا ينقل العهدة.'
-            : 'طلبات تغليف الشركة، مع تسجيل اكتمال التجهيز.'
+            : 'طلبات تغليف البضاعة المستلمة والمخزون، مع تسجيل اكتمال التجهيز.'
         }
       />
       {inventory ? (
@@ -267,6 +268,7 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
           >
             <option value="">كل الحالات</option>
             <option value="awaiting_preparation">بانتظار التجهيز</option>
+            <option value="blocked">موقوف بعجز المخزون</option>
             <option value="complete">تم التجهيز</option>
             {inventory && <option value="not_required">لا يحتاج تجهيزًا</option>}
           </select>
@@ -323,6 +325,11 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
           </Button>
         </div>
       )}
+      {!inventory && (
+        <Link className="back-link" to="/preparation/orders/new">
+          طلب من المخزون
+        </Link>
+      )}
       <ShipmentError error={catalog.error ?? list.error} />
       {!inventory && (
         <>
@@ -357,15 +364,18 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
                   <div>
                     <p>{item.branchName} · عهدة الفرع</p>
                     <p>
-                      {item.state === 'cancelled'
-                        ? 'ملغى · العهدة محفوظة'
-                        : preparationNames[item.preparation]}
+                      {item.blocked
+                        ? 'موقوف بعجز المخزون'
+                        : item.state === 'cancelled'
+                          ? 'ملغى · العهدة محفوظة'
+                          : preparationNames[item.preparation]}
                     </p>
                     <p>
                       في الفرع منذ <bdi>{item.ageDays}</bdi> يوم
                     </p>
                   </div>
                   {!inventory &&
+                    !item.blocked &&
                     item.state === 'active' &&
                     item.preparation === 'awaiting_preparation' && (
                       <CompleteParcel item={item} mutation={mutation} />

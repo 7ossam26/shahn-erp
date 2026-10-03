@@ -1,6 +1,6 @@
 # ERP implementation phases
 
-Revision PHASES-001, 2026-10-03. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P06 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P07–P26 remain **not started**. Authoring a prompt does not run it.
+Revision PHASES-001, 2026-10-03. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P07 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06/P07's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P08–P26 remain **not started**. Authoring a prompt does not run it.
 
 ## How to use
 
@@ -22,7 +22,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | P04 | [Brands, geography and immutable pricing](04-brands-geography-and-pricing.md) | P02, P03 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P04.md) |
 | P05 | [Products, physical stock receipt and monitoring](05-products-stock-receipt-and-monitoring.md) | P03, P04 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P05.md) |
 | P06 | [Ready and company-packed parcel intake](06-parcel-intake-and-packing.md) | P04, P05 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P06.md) |
-| P07 | [Stored-stock reservation and preparation](07-stock-order-reservation-and-preparation.md) | P05, P06 | `gpt-6.1-sol` / `high` | [Not started](execution/P07.md) |
+| P07 | [Stored-stock reservation and preparation](07-stock-order-reservation-and-preparation.md) | P05, P06 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P07.md) |
 | P08 | [Employee profiles and effective commission terms](08-employee-profiles-and-commission-terms.md) | P02, P03 | `gpt-6.1-sol` / `high` | [Not started](execution/P08.md) |
 | P09 | [Actual company money and paid expenses](09-accounts-expenses-and-money-movements.md) | P02, P03, P04 | `gpt-6.1-sol` / `high` | [Not started](execution/P09.md) |
 | P10 | [Treasury sending and full receipt](10-treasury-transfers.md) | P09 | `gpt-6.1-sol` / `high` | [Not started](execution/P10.md) |

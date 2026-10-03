@@ -1,0 +1,37 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.db.config.ts tests/db/stock-fulfillment.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/stock-fulfillment.test.ts (9 tests | 9 skipped) 43866ms
+   ↓ P07-AC-01 reserves 2/1 at 305, without a second receipt or physical/money effect
+   ↓ P07-AC-02/04 missing tariff and summed duplicate commercial lines reject all effects with named shortage
+   ↓ P07-AC-03 independent command transactions contend behind a database barrier; last unit succeeds once
+   ↓ P07-AC-03 reverse multi-line contention has no partial losing reservations
+   ↓ P07-AC-05 preparation moves no stock; prepared cancellation and partial sound unpack conserve physical quantity
+   ↓ P07-AC-06 failed increase retains old revision/claim; branch delta uses actual destination stock
+   ↓ P07-AC-07 truthful 5/7 holds every affected order but permits unrelated preparation
+   ↓ P07-AC-08 lost response/replay creates one reference, changed payload conflicts
+   ↓ P07-AC-09 stale/handover and scope denial retain all claims; authenticated HTTP has typed shortage details
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/stock-fulfillment.test.ts [ tests/db/stock-fulfillment.test.ts ]
+Error: STORAGE_REQUIRED
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/db/stock-fulfillment.test.ts:37:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 skipped (9)
+   Start at  02:25:17
+   Duration  46.10s (tests 95%, import 4%, transform 1%)
+

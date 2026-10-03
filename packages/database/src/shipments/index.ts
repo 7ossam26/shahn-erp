@@ -1,3 +1,4 @@
+import { readShipmentStock } from '../inventory/stock-reservations.repository.js';
 import { randomUUID } from 'node:crypto';
 import type { TransactionClient } from '../transaction.js';
 import type {
@@ -131,6 +132,7 @@ export async function readShipment(
     handedOver: row.handed_over,
     timeline,
     revisions,
+    stock: await readShipmentStock(client, company, row.id),
   };
 }
 export async function duplicateShipmentReference(
@@ -179,13 +181,14 @@ export async function readParcels(
     preparationOnly,
   ];
   const join = `FROM shipments.shipment s JOIN shipments.parcel_custody c ON (c.company_id,c.shipment_id)=(s.company_id,s.id) JOIN shipments.revision r ON (r.company_id,r.shipment_id,r.revision)=(s.company_id,s.id,s.revision) JOIN commercial.brand b ON (b.company_id,b.id)=(s.company_id,s.brand_id) JOIN access.branch br ON (br.company_id,br.id)=(c.company_id,c.branch_id)`;
-  const where = `s.company_id=$1 AND c.branch_id=ANY($2::uuid[]) AND (cardinality($3::uuid[])=0 OR s.brand_id=ANY($3::uuid[])) AND ($4='all' OR r.fields->>'service'=$4) AND ($5='all' OR s.preparation=$5) AND ($6='all' OR s.state=$6) AND ($7='' OR strpos(translate(lower(concat_ws(' ',s.reference,r.fields->>'brandReference',r.fields->>'recipientName',r.fields->>'phoneDisplay')),'٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹','01234567890123456789'),lower($7))>0) AND ($8::timestamptz IS NULL OR s.received_at>=$8) AND ($9::timestamptz IS NULL OR s.received_at<$9) AND (NOT $10::boolean OR s.preparation<>'not_required')`;
+  const blocked = `EXISTS(SELECT 1 FROM shipments.stock_allocation a JOIN inventory.stock_reservation sr ON (sr.company_id,sr.id)=(a.company_id,a.reservation_id) WHERE a.company_id=s.company_id AND a.shipment_id=s.id AND sr.active AND sr.shortage_held)`;
+  const where = `s.company_id=$1 AND c.branch_id=ANY($2::uuid[]) AND (cardinality($3::uuid[])=0 OR s.brand_id=ANY($3::uuid[])) AND ($4='all' OR r.fields->>'service'=$4) AND ($5='all' OR s.preparation=$5 OR ($5='blocked' AND ${blocked})) AND ($6='all' OR s.state=$6) AND ($7='' OR strpos(translate(lower(concat_ws(' ',s.reference,r.fields->>'brandReference',r.fields->>'recipientName',r.fields->>'phoneDisplay')),'٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹','01234567890123456789'),lower($7))>0) AND ($8::timestamptz IS NULL OR s.received_at>=$8) AND ($9::timestamptz IS NULL OR s.received_at<$9) AND (NOT $10::boolean OR s.preparation<>'not_required')`;
   const total = Number(
     (await client.query(`SELECT count(*)::text AS n ${join} WHERE ${where}`, args)).rows[0].n,
   );
   const items = (
     await client.query<ParcelList['items'][number] & { receivedAt: Date }>(
-      `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",r.fields->>'recipientName' AS "recipientName",c.branch_id AS "branchId",br.name AS "branchName",r.fields->>'service' AS service,s.state,s.preparation,s.received_at AS "receivedAt",GREATEST(0,(clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date-(s.received_at AT TIME ZONE 'Africa/Cairo')::date)::int AS "ageDays",'branch' AS custody ${join} WHERE ${where} ORDER BY s.received_at DESC,s.id LIMIT $11 OFFSET $12`,
+      `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",r.fields->>'recipientName' AS "recipientName",c.branch_id AS "branchId",br.name AS "branchName",r.fields->>'service' AS service,s.state,s.preparation,${blocked} AS blocked,s.received_at AS "receivedAt",GREATEST(0,(clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date-(s.received_at AT TIME ZONE 'Africa/Cairo')::date)::int AS "ageDays",'branch' AS custody ${join} WHERE ${where} ORDER BY s.received_at DESC,s.id LIMIT $11 OFFSET $12`,
       [...args, filter.limit, (filter.page - 1) * filter.limit],
     )
   ).rows.map((r) => ({ ...r, receivedAt: r.receivedAt.toISOString() }));

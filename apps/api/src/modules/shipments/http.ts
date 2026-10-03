@@ -1,7 +1,7 @@
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import type { Pool } from 'pg';
-import { transaction } from '@shahn/database';
+import { transaction, readStock } from '@shahn/database';
 import {
   AccessError,
   ShipmentFieldError,
@@ -13,6 +13,7 @@ import {
   validateShipmentPreviewRequest,
   validateShipmentFilter,
   validateShipmentViews,
+  validateInventoryViews,
 } from '@shahn/contracts';
 import { sessionToken } from '../access/http.js';
 import { sessionIdentity, loadAccess } from '../access/sessions.js';
@@ -68,11 +69,13 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
   const commands = shipmentCommands(pool);
   const routes = [
     ['POST', '/api/v1/shipments', 'shipment.confirm'],
+    ['GET', '/api/v1/shipments/stock', 'stock'],
     ['GET', '/api/v1/shipments/catalog', 'catalog'],
     ['POST', '/api/v1/shipments/:id/corrections/preview', 'preview'],
     ['POST', '/api/v1/shipments/:id/corrections', 'shipment.correct'],
     ['POST', '/api/v1/shipments/:id/cancel', 'shipment.cancel'],
     ['POST', '/api/v1/shipments/:id/preparation/complete', 'shipment.prepare'],
+    ['POST', '/api/v1/shipments/:id/unpack-inspection', 'shipment.unpack'],
     ['GET', '/api/v1/preparation', 'list'],
     ['GET', '/api/v1/shipments/commands/:commandId', 'recover'],
     ['GET', '/api/v1/shipments/:reference', 'detail'],
@@ -127,14 +130,18 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
                 ('shipmentId' in req.body && req.body.shipmentId !== params.id)
               )
                 throw new AccessError('VALIDATION_FAILED', 400);
-              body = (await commands.execute(sessionToken(req), req.body)).body;
+              const result = await commands.execute(sessionToken(req), req.body);
+              if (result.status >= 400) throw new RetainedCommandError(result);
+              body = result.body;
             }
           } else {
             if (!uuid.test(query.companyId ?? '')) throw new AccessError('VALIDATION_FAILED', 400);
             const allowed =
               operation === 'list'
                 ? ['companyId', ...Object.keys(defaultShipmentFilter([]))]
-                : ['companyId'];
+                : operation === 'stock'
+                  ? ['companyId', 'branchId', 'brandId']
+                  : ['companyId'];
             if (Object.keys(query).some((k) => !allowed.includes(k)))
               throw new AccessError('VALIDATION_FAILED', 400);
             if (operation === 'recover') {
@@ -163,6 +170,55 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
                 query.companyId,
                 'intake',
                 async (uow) => {
+                  if (operation === 'stock') {
+                    if (!uuid.test(query.branchId ?? '') || !uuid.test(query.brandId ?? ''))
+                      throw new AccessError('VALIDATION_FAILED', 400);
+                    uow.assertBranch(query.branchId!);
+                    const first = await readStock(
+                      uow.client,
+                      uow.access.companyId,
+                      {
+                        branches: [query.branchId!],
+                        brands: [query.brandId!],
+                        search: '',
+                        productId: null,
+                        variantId: null,
+                        categories: [],
+                        noAvailable: false,
+                        movementFrom: null,
+                        movementTo: null,
+                        page: 1,
+                        limit: 100,
+                      },
+                      null,
+                      null,
+                    );
+                    const items = [...first.items];
+                    for (let page = 2; items.length < first.total; page++) {
+                      const next = await readStock(
+                        uow.client,
+                        uow.access.companyId,
+                        {
+                          branches: [query.branchId!],
+                          brands: [query.brandId!],
+                          search: '',
+                          productId: null,
+                          variantId: null,
+                          categories: [],
+                          noAvailable: false,
+                          movementFrom: null,
+                          movementTo: null,
+                          page,
+                          limit: 100,
+                        },
+                        null,
+                        null,
+                      );
+                      items.push(...next.items);
+                      if (!next.items.length) break;
+                    }
+                    return { items, asOf: first.asOf };
+                  }
                   if (operation === 'catalog') return shipmentCatalog(uow);
                   const filter = shipmentFilter(
                     query,
@@ -174,7 +230,12 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
           }
           const view =
             operation.startsWith('shipment.') || operation === 'recover' ? 'result' : operation;
-          if (!validateShipmentViews[view]?.(body)) throw Error('INVALID_SHIPMENT_RESPONSE');
+          if (
+            !(view === 'stock'
+              ? validateInventoryViews['selection']?.(body)
+              : validateShipmentViews[view]?.(body))
+          )
+            throw Error('INVALID_SHIPMENT_RESPONSE');
           return reply.send(body);
         } catch (error) {
           const retained =
@@ -184,6 +245,7 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
                   currentVersion?: number;
                   commandId: string;
                   correlationId: string;
+                  details?: unknown;
                   messageKey: string;
                 })
               : null;
@@ -208,6 +270,7 @@ export function registerShipments(app: FastifyInstance, pool: Pool, origin: stri
               retained?.commandId ??
               (validateShipmentCommand(req.body) ? req.body.commandId : null),
             correlationId: retained?.correlationId ?? randomUUID(),
+            ...(retained?.details ? { details: retained.details } : {}),
             fieldErrors: field ? { [field]: code } : schemaErrors,
             ...((retained?.currentVersion ?? (known ? error.currentVersion : undefined)) ===
             undefined

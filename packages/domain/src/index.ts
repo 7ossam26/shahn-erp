@@ -74,3 +74,6 @@ export function cairoDayRange(day: string): { start: string; end: string } {
 
 export * from './inventory/index.js';
 export * from './shipments/index.js';
+
+export * from './inventory/reservation-policy.js';
+export * from './shipments/preparation-policy.js';

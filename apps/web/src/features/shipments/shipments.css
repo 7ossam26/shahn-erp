@@ -199,3 +199,19 @@
     flex: 1;
   }
 }
+
+.intake-line:has(select) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.intake-line:has(select) .commercial-field:first-child {
+  grid-column: 1/-1;
+}
+.intake-line select {
+  max-width: 100%;
+  min-width: 0;
+}
+@media (max-width: 600px) {
+  .intake-line:has(select) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

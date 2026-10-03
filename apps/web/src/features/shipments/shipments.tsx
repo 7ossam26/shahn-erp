@@ -26,17 +26,26 @@ import {
   type ShipmentPrice,
   type ShipmentPreview,
   type ShipmentCatalog,
+  type StockList,
 } from '@shahn/contracts';
 import { Field, displayMinor, inputMinor, serviceNames, CommercialError } from '../brands/api.js';
 import { useAccess } from '../access/access.js';
 import { shipmentApi, useShipmentCatalog, useShipmentMutation, ShipmentApiError } from './api.js';
 import './shipments.css';
+import { StockHistory } from '../preparation/stock-order.js';
 export const preparationNames = {
   not_required: 'لا يحتاج تجهيزًا',
   awaiting_preparation: 'بانتظار التجهيز',
   complete: 'تم التجهيز',
 };
 const messages: Record<string, string> = {
+  STOCK_SHORTAGE:
+    'المخزون المتاح لا يكفي لكل القطع. أضف مخزونًا باستلام فعلي أو راجع الكميات والفرع ثم أعد المحاولة.',
+  PREPARATION_HELD: 'التجهيز موقوف بسبب عجز المخزون. راجع الحجز أو ألغِ الطلب أو استكمل المخزون.',
+  STOCK_VARIANT_UNAVAILABLE: 'هذا الصنف غير نشط أو لا ينتمي للبراند. راجع الاختيار.',
+  STOCK_VARIANT_REQUIRED: 'اختر صنفًا لكل قطعة.',
+  UNPACK_REMAINING_CONFLICT: 'تغيرت الكمية المتبقية للفحص. حدّث التفاصيل.',
+  UNPACK_QUANTITY_EXCEEDED: 'كميات الفحص تتجاوز المتبقي.',
   PRICE_MISSING: 'لا يوجد سعر للمحافظة في شريحة البراند. لن يُسجل الطرد حتى يكتمل السعر.',
   INVALID_RECIPIENT_PHONE: 'راجع رقم الهاتف: رقم محمول مصري أو رقم دولي كامل.',
   UNSAFE_LOCATION_URL: 'استخدم رابط HTTP أو HTTPS آمنًا دون اسم مستخدم أو كلمة مرور.',
@@ -71,6 +80,13 @@ export function ShipmentError({ error }: { error: unknown }) {
         Object.entries(error.fieldErrors).map(([field, value]) => (
           <p key={field}>
             <bdi>{field}</bdi> · {messages[value] ?? messages['VALIDATION_FAILED']}
+          </p>
+        ))}
+      {error instanceof ShipmentApiError &&
+        error.details.map((d, i) => (
+          <p key={i}>
+            {d.variantName} · المطلوب <bdi>{d.required}</bdi> · المتاح <bdi>{d.available}</bdi> ·
+            العجز <bdi>{d.shortage}</bdi>
           </p>
         ))}
       {error instanceof CommercialError && error.currentVersion && (
@@ -135,7 +151,9 @@ export function ShipmentEditor({
   oldPrice,
   disabled,
   onChange,
+  stockOnly = false,
 }: {
+  stockOnly?: boolean;
   catalog: ShipmentCatalog;
   initial?: ShipmentFields;
   oldPrice?: ShipmentPrice;
@@ -146,6 +164,7 @@ export function ShipmentEditor({
     () =>
       initial ?? {
         ...emptyFields(),
+        ...(stockOnly ? { service: 'stored_stock' as const } : {}),
         branchId: catalog.branches.length === 1 ? catalog.branches[0]!.id : '',
       },
   );
@@ -160,6 +179,22 @@ export function ShipmentEditor({
   const [shippingText, setShippingText] = useState(
     initial?.recipientShippingDue ? displayMinor(initial.recipientShippingDue.amountMinor) : '0',
   );
+  const company = catalog.companyId;
+  const stockQuery = useQuery({
+    queryKey: ['order-stock', company, fields.branchId, fields.brandId],
+    queryFn: () =>
+      shipmentApi<StockList>(
+        '/shipments/stock?' +
+          new URLSearchParams({
+            companyId: company,
+            branchId: fields.branchId,
+            brandId: fields.brandId,
+          }),
+        'stock',
+      ),
+    enabled: fields.service === 'stored_stock' && !!fields.branchId && !!fields.brandId,
+    retry: false,
+  });
   let validFields: ShipmentFields | null = null,
     price: ShipmentPrice | null = null,
     error: unknown = null;
@@ -169,6 +204,7 @@ export function ShipmentEditor({
       if (!/^[0-9]+$/.test(quantityText)) throw Error('INVALID_QUANTITY');
       return {
         id: l.id,
+        ...(l.variantId ? { variantId: l.variantId } : {}),
         description: l.description,
         quantity: Number(quantityText),
         unitDue: { currency: 'EGP' as const, amountMinor: inputMinor(l.amountText) },
@@ -185,6 +221,28 @@ export function ShipmentEditor({
     };
     if (inspection && validateShipmentFields(value)) {
       validateShipmentInput(value);
+      if (value.service === 'stored_stock') {
+        if (!stockQuery.data) throw stockQuery.error ?? new Error('STOCK_VARIANT_REQUIRED');
+        const totals = new Map<string, number>();
+        for (const line of value.lines) {
+          const row = stockQuery.data.items.find((r) => r.variantId === line.variantId && r.active);
+          if (!row) throw new Error('STOCK_VARIANT_UNAVAILABLE');
+          totals.set(line.variantId!, (totals.get(line.variantId!) ?? 0) + line.quantity);
+        }
+        if (!oldPrice)
+          for (const [id, q] of totals) {
+            const row = stockQuery.data.items.find((r) => r.variantId === id)!;
+            if (q > row.available)
+              throw new ShipmentApiError('STOCK_SHORTAGE', 409, undefined, {}, [
+                {
+                  variantName: row.productName + ' · ' + row.variantName,
+                  required: q,
+                  available: row.available,
+                  shortage: q - row.available,
+                },
+              ]);
+          }
+      }
       validFields = value;
       if (oldPrice) price = correctedPrice(oldPrice, value);
       else {
@@ -291,21 +349,24 @@ export function ShipmentEditor({
               setFields((f) => ({
                 ...f,
                 brandId: e.target.value,
-                service:
-                  next?.defaultService === 'company_packed' ||
-                  (!next?.services.includes('brand_packed') &&
-                    next?.services.includes('company_packed'))
+                service: stockOnly
+                  ? 'stored_stock'
+                  : next?.defaultService === 'company_packed' ||
+                      (!next?.services.includes('brand_packed') &&
+                        next?.services.includes('company_packed'))
                     ? 'company_packed'
                     : 'brand_packed',
               }));
             }}
           >
             <option value="">اختر البراند</option>
-            {catalog.brands.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.name}
-              </option>
-            ))}
+            {catalog.brands
+              .filter((b) => !stockOnly || b.services.includes('stored_stock'))
+              .map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
           </select>
         </Field>
         <Field label="الخدمة">
@@ -313,7 +374,14 @@ export function ShipmentEditor({
             value={fields.service}
             onChange={(e) => update('service', e.target.value as ShipmentFields['service'])}
           >
-            {(['brand_packed', 'company_packed'] as const)
+            {(stockOnly
+              ? (['stored_stock'] as const)
+              : ([
+                  'brand_packed',
+                  'company_packed',
+                  ...(initial ? (['stored_stock'] as const) : []),
+                ] as const)
+            )
               .filter((s) => brand?.services.includes(s))
               .map((s) => (
                 <option key={s} value={s}>
@@ -375,9 +443,60 @@ export function ShipmentEditor({
         title="القطع والمبالغ المستحقة"
         description="أدخل المبلغ المتبقي للقطعة الواحدة. للبضاعة المدفوعة للبراند أدخل صفرًا؛ القطع ذات القيم المختلفة توضع في سطور مستقلة."
       >
+        {fields.service === 'stored_stock' && (
+          <>
+            <p role="status">
+              اختر الأصناف الموجودة بالفعل في الفرع؛ تغيير الفرع يعيد فحص كل السطور.
+            </p>
+            <ShipmentError error={stockQuery.error} />
+            <Button type="button" variant="outline" onClick={() => void stockQuery.refetch()}>
+              تحديث المخزون
+            </Button>
+          </>
+        )}
         <div className="intake-lines">
           {rawLines.map((l, i) => (
             <div key={l.id} className="intake-line">
+              {fields.service === 'stored_stock' && (
+                <Field label={`الصنف ${i + 1}`}>
+                  <select
+                    required
+                    aria-label={`الصنف ${i + 1}`}
+                    value={l.variantId ?? ''}
+                    onChange={(e) =>
+                      setLines((a) =>
+                        a.map((x, n) =>
+                          n === i
+                            ? {
+                                ...x,
+                                variantId: e.target.value,
+                                description:
+                                  stockQuery.data?.items.find((r) => r.variantId === e.target.value)
+                                    ?.variantName ?? '',
+                              }
+                            : x,
+                        ),
+                      )
+                    }
+                  >
+                    <option value="">اختر صنفًا من مخزون الفرع</option>
+                    {stockQuery.data?.items
+                      .filter((r) => r.active)
+                      .map((r) => (
+                        <option key={r.variantId} value={r.variantId}>
+                          {r.productName} · {r.variantName} · المتاح {r.available}
+                        </option>
+                      ))}
+                  </select>
+                  <p>
+                    المتاح في هذا الفرع:{' '}
+                    <bdi>
+                      {stockQuery.data?.items.find((r) => r.variantId === l.variantId)?.available ??
+                        '—'}
+                    </bdi>
+                  </p>
+                </Field>
+              )}
               <Field label={`وصف القطعة ${i + 1}`}>
                 <Input
                   required
@@ -485,7 +604,7 @@ export function ShipmentEditor({
     </fieldset>
   );
 }
-export function ShipmentNewPage() {
+export function ShipmentNewPage({ stockOnly = false }: { stockOnly?: boolean }) {
   const catalog = useShipmentCatalog(),
     navigate = useNavigate(),
     [fields, setFields] = useState<ShipmentFields | null>(null),
@@ -503,12 +622,21 @@ export function ShipmentNewPage() {
     <>
       <PageHeading
         eyebrow="استلام الطرود"
-        title="تسجيل طرد مستلم"
-        description="البوليصة، المبالغ المتبقية، والاستلام الفعلي في خطوة واحدة."
+        title={stockOnly ? 'طلب من المخزون' : 'تسجيل طرد مستلم'}
+        description={
+          stockOnly
+            ? 'اختر الأصناف الموجودة في الفرع واحجز الكميات، ثم جهّز الطلب.'
+            : 'البوليصة، المبالغ المتبقية، والاستلام الفعلي في خطوة واحدة.'
+        }
       />
       <Link className="back-link" to="/preparation">
         قائمة التجهيز
       </Link>
+      {stockOnly && catalog.access.registry?.context.grants.includes('inventory') && (
+        <Link className="back-link" to="/inventory/receipts/new">
+          إضافة مخزون باستلام فعلي
+        </Link>
+      )}
       <ShipmentError error={catalog.error} />
       <ShipmentError error={mutation.error} />
       {mutation.recovery}
@@ -522,6 +650,7 @@ export function ShipmentNewPage() {
           }}
         >
           <ShipmentEditor
+            stockOnly={stockOnly}
             catalog={catalog.data}
             disabled={mutation.busy || !!mutation.pending}
             onChange={(f, p) => {
@@ -552,7 +681,7 @@ export function ShipmentNewPage() {
               (duplicateWarning && !duplicate)
             }
           >
-            تسجيل طرد مستلم
+            {stockOnly ? 'مراجعة طلب المخزون' : 'تسجيل طرد مستلم'}
           </Button>
           {catalog.data && (
             <Button type="button" variant="outline" onClick={() => void catalog.refetch()}>
@@ -563,13 +692,23 @@ export function ShipmentNewPage() {
       )}
       <Dialog open={review} onOpenChange={setReview}>
         <DialogContent dir="rtl" className="intake-dialog">
-          <DialogTitle>تأكيد الاستلام والتسجيل</DialogTitle>
+          <DialogTitle>
+            {stockOnly ? 'تأكيد الحجز والتسجيل' : 'تأكيد الاستلام والتسجيل'}
+          </DialogTitle>
           <DialogDescription>
-            راجع المبالغ والفرع ثم أكد وجود الطرد أو بضاعته بالفعل.
+            {stockOnly
+              ? 'راجع المبالغ والفرع والكميات قبل حجزها للطلب.'
+              : 'راجع المبالغ والفرع ثم أكد وجود الطرد أو بضاعته بالفعل.'}
           </DialogDescription>
           {price && <PriceSummary price={price} />}
           <p>فرع الاستلام: {catalog.data?.branches.find((b) => b.id === fields?.branchId)?.name}</p>
-          <Field label="استلمت الطرد أو بضاعته بالفعل في هذا الفرع">
+          <Field
+            label={
+              stockOnly
+                ? 'راجعت الفرع والأصناف والكميات المطلوب حجزها'
+                : 'استلمت الطرد أو بضاعته بالفعل في هذا الفرع'
+            }
+          >
             <input type="checkbox" checked={actual} onChange={(e) => setActual(e.target.checked)} />
           </Field>
           <Button
@@ -580,7 +719,7 @@ export function ShipmentNewPage() {
                 void mutation.submit({
                   type: 'shipment.confirm',
                   fields,
-                  actualReceipt: true,
+                  actualReceipt: !stockOnly,
                   duplicateAcknowledged: duplicate,
                   expectedPolicyVersion: price.policyVersion,
                   expectedTariffVersion: price.tariffVersion,
@@ -588,7 +727,7 @@ export function ShipmentNewPage() {
                 });
             }}
           >
-            تأكيد تسجيل الطرد
+            {stockOnly ? 'تأكيد طلب المخزون' : 'تأكيد تسجيل الطرد'}
           </Button>
         </DialogContent>
       </Dialog>
@@ -620,7 +759,11 @@ function DetailActions({ detail, onSaved }: { detail: ShipmentDetail; onSaved: (
         <DialogContent dir="rtl" className="intake-dialog">
           <DialogTitle>إلغاء الطلب قبل التسليم</DialogTitle>
           <DialogDescription>
-            يبقى الطرد في عهدة الفرع حتى تسليم فعلي للبراند في مسار الإرجاع.
+            {detail.fields.service === 'stored_stock'
+              ? detail.preparation === 'complete'
+                ? 'ستُفك الحجوزات وتبقى القطع غير متاحة حتى فحص فك التغليف الفعلي.'
+                : 'ستُفك الحجوزات وتعود الكميات متاحة.'
+              : 'يبقى الطرد في عهدة الفرع حتى تسليم فعلي للبراند في مسار الإرجاع.'}
           </DialogDescription>
           <Field label="سبب الإلغاء">
             <textarea
@@ -709,6 +852,7 @@ export function ShipmentDetailPage() {
             {d.fields.comment && <p>{d.fields.comment}</p>}
           </section>
           <PriceSummary price={d.price} />
+          <StockHistory detail={d} onSaved={() => void query.refetch()} />
           <section className="parcel-contents">
             <h2>القطع والمستحق للقطعة</h2>
             {d.fields.lines.map((l) => (
@@ -726,6 +870,8 @@ export function ShipmentDetailPage() {
                   <strong>
                     {
                       {
+                        reserved: 'حجز من المخزون',
+                        unpack_inspected: 'فحص فك التغليف',
                         received: 'تأكيد الاستلام في الفرع',
                         corrected: 'تصحيح مسجل',
                         prepared: 'اكتمال التجهيز',
@@ -869,7 +1015,8 @@ export function ShipmentCorrectionPage() {
               }}
             />
           </Field>
-          {fields?.branchId !== d.fields.branchId && (
+          {(fields?.branchId !== d.fields.branchId ||
+            (d.fields.service === 'stored_stock' && fields?.service !== 'stored_stock')) && (
             <Field label="البضاعة موجودة فعلًا في الفرع المصحح؛ لم أنقلها بهذه العملية">
               <input
                 type="checkbox"
@@ -898,6 +1045,12 @@ export function ShipmentCorrectionPage() {
                 الفرع: {catalog.data.branches.find((b) => b.id === preview.afterBranchId)?.name}
               </p>
               <PriceSummary price={preview.after} />
+              {preview.stockDelta.map((x) => (
+                <p key={x.branchId + x.variantId}>
+                  حجز <bdi>{x.before}</bdi> ← <bdi>{x.after}</bdi> · متاح للاستبدال{' '}
+                  <bdi>{x.available}</bdi> · عجز <bdi>{x.shortage}</bdi>
+                </p>
+              ))}
               <p>
                 التجهيز: {preparationNames[preview.beforePreparation]} ←{' '}
                 {preparationNames[preview.afterPreparation]}
