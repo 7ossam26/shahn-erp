@@ -1,0 +1,58 @@
+{
+  "name": "shahn-erp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": "24.21.0",
+    "npm": "12.2.0"
+  },
+  "packageManager": "npm@12.2.0",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "lint": "eslint apps packages tests scripts && prettier --check apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml",
+    "format": "prettier --write apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml",
+    "typecheck": "tsc -b",
+    "build": "node scripts/build.mjs",
+    "test:unit": "node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts",
+    "test:db": "node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts",
+    "test:browser": "node scripts/build.mjs && playwright test",
+    "test:phase": "node scripts/test-phase.mjs",
+    "db:migrate": "node packages/database/dist/cli.js migrate",
+    "db:status": "node packages/database/dist/cli.js status",
+    "seed:dev": "node packages/database/dist/cli.js seed",
+    "dev:setup": "node scripts/dev-setup.mjs",
+    "db:up": "docker compose --env-file .env -f deploy/compose.dev.yml up -d --wait --wait-timeout 60",
+    "db:stop": "docker compose --env-file .env -f deploy/compose.dev.yml stop db",
+    "start:api": "node apps/api/dist/main.js",
+    "start:worker": "node apps/worker/dist/main.js",
+    "start:web": "vite --config apps/web/vite.config.ts --host 127.0.0.1 --port 5173 --strictPort",
+    "test:runner": "node --test tests/runner.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/pg": "8.23.1",
+    "vitest": "5.0.3",
+    "@playwright/test": "1.63.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/user-event": "14.6.7",
+    "@testing-library/jest-dom": "7.0.1",
+    "jsdom": "30.1.1",
+    "eslint": "10.12.0",
+    "typescript-eslint": "8.71.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "prettier": "3.9.9",
+    "tsx": "4.23.15"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

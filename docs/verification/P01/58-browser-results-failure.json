@@ -1,0 +1,406 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P01/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser/serve.mjs",
+      "url": "http://127.0.0.1:4202/health",
+      "reuseExistingServer": false,
+      "timeout": 90000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "foundation.spec.ts",
+      "file": "foundation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real readiness, RTL, keyboard palette close/focus return and token sharing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1180,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:22.496Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-ba27d00e20c5635f3eb3",
+          "file": "foundation.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2056,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:23.789Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-bc7b823357e3a6e4cd0c",
+          "file": "foundation.spec.ts",
+          "line": 38,
+          "column": 3
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2060,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:25.856Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-888da30eabf183104358",
+          "file": "foundation.spec.ts",
+          "line": 38,
+          "column": 3
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2391,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:27.926Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-0a8f27735a83413cfa24",
+          "file": "foundation.spec.ts",
+          "line": 38,
+          "column": 3
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2223,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:30.330Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-f3b8889a9be9a0af7416",
+          "file": "foundation.spec.ts",
+          "line": 38,
+          "column": 3
+        },
+        {
+          "title": "form required validation, exact 50.5 display, keyboard dialog and pending/error retention",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2248,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:32.572Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-7040eff4d1c8bedd3b11",
+          "file": "foundation.spec.ts",
+          "line": 74,
+          "column": 1
+        },
+        {
+          "title": "real loading, database stop/unavailable and restart recovery retain the migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3361,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:34.830Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-5572b096e4e739fc49e0",
+          "file": "foundation.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "production bundle exposes no demonstration entries or routes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10456,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'الصفحة غير متاحة' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'الصفحة غير متاحة' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'الصفحة غير متاحة' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'الصفحة غير متاحة' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'الصفحة غير متاحة' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'الصفحة غير متاحة' })\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:142:73",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                      "column": 73,
+                      "line": 142
+                    },
+                    "snippet": "  140 |   await expect(page.getByRole('button', { name: 'مراجعة المظهر' })).toHaveCount(0);\n  141 |   await page.goto('http://127.0.0.1:5202/demo/form');\n> 142 |   await expect(page.getByRole('heading', { name: 'الصفحة غير متاحة' })).toBeVisible();\n      |                                                                         ^\n  143 |   await expect(page.getByRole('button', { name: 'راجع المثال' })).toHaveCount(0);\n  144 | });\n  145 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                        "column": 73,
+                        "line": 142
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'الصفحة غير متاحة' })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'الصفحة غير متاحة' }) with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'الصفحة غير متاحة' })\u001b[22m\n\n\n  140 |   await expect(page.getByRole('button', { name: 'مراجعة المظهر' })).toHaveCount(0);\n  141 |   await page.goto('http://127.0.0.1:5202/demo/form');\n> 142 |   await expect(page.getByRole('heading', { name: 'الصفحة غير متاحة' })).toBeVisible();\n      |                                                                         ^\n  143 |   await expect(page.getByRole('button', { name: 'راجع المثال' })).toHaveCount(0);\n  144 | });\n  145 |\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:142:73"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:40:38.200Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-production-bund-70710-nstration-entries-or-routes\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-production-bund-70710-nstration-entries-or-routes\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-production-bund-70710-nstration-entries-or-routes\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                    "column": 73,
+                    "line": 142
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-04f82d9822dd919b78d5",
+          "file": "foundation.spec.ts",
+          "line": 137,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T15:40:17.199Z",
+    "duration": 33504.864,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

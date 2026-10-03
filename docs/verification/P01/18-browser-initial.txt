@@ -1,0 +1,120 @@
+[WebServer] (node:37092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:38220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] API startup failed; check local configuration and port availability.
+
+Running 8 tests using 1 worker
+
+(node:35540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\browser\foundation.spec.ts:5:1 › real readiness, RTL, keyboard palette close/focus return and token sharing (2.2s)
+[WebServer] 6:26:40 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:41 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:41 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  x  2 tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 (2.0s)
+(node:39168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 6:26:44 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:44 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:44 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 6:26:45 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+  ok 3 tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 1440 (2.7s)
+[WebServer] 6:26:46 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:46 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:46 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 6:26:47 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+  ok 4 tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 320 (2.0s)
+[WebServer] 6:26:48 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:48 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+[WebServer] 6:26:48 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[WebServer] 6:26:49 PM [vite] (client) [console.warn] No `HydrateFallback` element provided to render during initial hydration
+  ok 5 tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 768 (2.1s)
+[WebServer] 6:26:50 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 6 tests\browser\foundation.spec.ts:35:1 › form required validation, exact 50.5 display, keyboard dialog and pending/error retention (2.1s)
+[WebServer] {"event":"database_idle_connection_unavailable"}
+  x  7 tests\browser\foundation.spec.ts:46:1 › real loading, database stop/unavailable and restart recovery retain the migration (790ms)
+(node:31740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 8 tests\browser\foundation.spec.ts:61:1 › production bundle exposes no demonstration entries or routes (407ms)
+
+
+  1) tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 
+
+    Error: page.evaluate: Execution context was destroyed, most likely because of a navigation
+
+      19 |    await page.goto(route!);await expect(page.locator('h1')).toBeVisible();await page.evaluate(()=>document.fonts.ready);
+      20 |    if(route==='/')await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
+    > 21 |    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+         |                      ^
+      22 |    await page.screenshot({path:`${evidence}/${name}-${viewport.width}.png`,fullPage:true});
+      23 |    if(route==='/demo/list'){
+      24 |     const content=page.locator(viewport.width<=800?'.shipment-cards':'.table-wrap');await expect(content).toBeVisible();await expect(content.getByText(/عنوان عربي طويل جدًا/)).toBeVisible();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\browser\foundation.spec.ts:21:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests\browser\foundation.spec.ts:46:1 › real loading, database stop/unavailable and restart recovery retain the migration 
+
+    Error: route.continue: Route is already handled!
+
+      47 |     ]) {
+      48 |       await page.goto(route!);
+    > 49 |       await expect(page.locator('h1')).toBeVisible();
+         |                                                      ^
+      50 |       await page.evaluate(() => document.fonts.ready);
+      51 |       if (route === '/') await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
+      52 |       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\browser\foundation.spec.ts:49:89
+
+    Error: apiRequestContext.post: Test ended.
+    Call log:
+      - → POST http://127.0.0.1:4202/database/stop
+        - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      50 |       await page.evaluate(() => document.fonts.ready);
+      51 |       if (route === '/') await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
+    > 52 |       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+         |                     ^
+      53 |         true,
+      54 |       );
+      55 |       await page.screenshot({ path: `${evidence}/${name}-${viewport.width}.png`, fullPage: true });
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\browser\foundation.spec.ts:52:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests\browser\foundation.spec.ts:16:2 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 
+    tests\browser\foundation.spec.ts:46:1 › real loading, database stop/unavailable and restart recovery retain the migration 
+  6 passed (22.6s)

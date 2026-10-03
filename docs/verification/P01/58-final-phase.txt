@@ -1,0 +1,128 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P01
+P01 unit: test:unit; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/process-lifecycle.test.ts (3 tests) 448ms
+ ✓ tests/unit/money.test.ts (22 tests) 11ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 5ms
+ ✓ tests/unit/form.test.tsx (2 tests) 1420ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 865ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 554ms
+
+ Test Files  4 passed (4)
+      Tests  29 passed (29)
+   Start at  18:39:58
+   Duration  3.15s (environment 39%, tests 33%, import 13%, setup 9%, transform 6%)
+
+P01 unit: PASSED
+P01 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/db/foundation.test.ts (5 tests) 12653ms
+   ✓ Real isolated PostgreSQL foundation (5)
+     ✓ real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 1652ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  18:40:01
+   Duration  13.50s (tests 95%, import 5%, transform 1%)
+
+P01 database: PASSED
+P01 browser: test:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2606 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BIYOiy1j.css                           70.07 kB │ gzip: 13.84 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/index-BvMl3zfn.js                             9.63 kB │ gzip:  3.81 kB
+apps/web/dist/assets/vendor-CaZcPEqZ.js                           30.92 kB │ gzip: 10.13 kB
+apps/web/dist/assets/vendor-BQdZWOnZ.js                           37.22 kB │ gzip: 11.52 kB
+apps/web/dist/assets/vendor-JTgXayzQ.js                           98.79 kB │ gzip: 32.74 kB
+apps/web/dist/assets/vendor-0Sp572UR.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-Bylxd-7z.js                          129.13 kB │ gzip: 37.93 kB
+apps/web/dist/assets/vendor-DGS_MXZb.js                          210.93 kB │ gzip: 66.19 kB
+
+✓ built in 434ms
+[WebServer] (node:42300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:13020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\browser\foundation.spec.ts:7:1 › real readiness, RTL, keyboard palette close/focus return and token sharing (1.2s)
+[WebServer] 6:40:25 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 2 tests\browser\foundation.spec.ts:38:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 (2.1s)
+[WebServer] 6:40:27 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 3 tests\browser\foundation.spec.ts:38:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 1440 (2.1s)
+[WebServer] 6:40:29 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 4 tests\browser\foundation.spec.ts:38:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 320 (2.4s)
+[WebServer] 6:40:32 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 5 tests\browser\foundation.spec.ts:38:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 768 (2.2s)
+[WebServer] 6:40:33 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 6 tests\browser\foundation.spec.ts:74:1 › form required validation, exact 50.5 display, keyboard dialog and pending/error retention (2.2s)
+[WebServer] {"event":"database_idle_connection_unavailable"}
+  ok 7 tests\browser\foundation.spec.ts:103:1 › real loading, database stop/unavailable and restart recovery retain the migration (3.4s)
+  x  8 tests\browser\foundation.spec.ts:137:1 › production bundle exposes no demonstration entries or routes (10.5s)
+
+
+  1) tests\browser\foundation.spec.ts:137:1 › production bundle exposes no demonstration entries or routes 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'الصفحة غير متاحة' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'الصفحة غير متاحة' }) with timeout 10000ms
+      - waiting for getByRole('heading', { name: 'الصفحة غير متاحة' })
+
+
+      140 |   await expect(page.getByRole('button', { name: 'مراجعة المظهر' })).toHaveCount(0);
+      141 |   await page.goto('http://127.0.0.1:5202/demo/form');
+    > 142 |   await expect(page.getByRole('heading', { name: 'الصفحة غير متاحة' })).toBeVisible();
+          |                                                                         ^
+      143 |   await expect(page.getByRole('button', { name: 'راجع المثال' })).toHaveCount(0);
+      144 | });
+      145 |
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\browser\foundation.spec.ts:142:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\foundation-production-bund-70710-nstration-entries-or-routes\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\foundation-production-bund-70710-nstration-entries-or-routes\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\foundation-production-bund-70710-nstration-entries-or-routes\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\foundation-production-bund-70710-nstration-entries-or-routes\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\browser\foundation.spec.ts:137:1 › production bundle exposes no demonstration entries or routes 
+  7 passed (33.5s)
+P01 browser: FAILED (1)

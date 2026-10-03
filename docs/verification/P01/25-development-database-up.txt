@@ -1,0 +1,14 @@
+npm notice run shahn-erp@0.1.0 db:up
+npm notice run docker compose --env-file .env -f deploy/compose.dev.yml up -d
+ Network shahn-p01-dev_default Creating 
+ Volume shahn-p01-dev_p01_dev_data Creating 
+ Volume shahn-p01-dev_p01_dev_data Creating 
+ Network shahn-p01-dev_default Creating 
+ Volume shahn-p01-dev_p01_dev_data Created 
+ Volume shahn-p01-dev_p01_dev_data Created 
+ Network shahn-p01-dev_default Created 
+ Network shahn-p01-dev_default Created 
+ Container shahn-p01-dev-db-1 Creating 
+ Container shahn-p01-dev-db-1 Created 
+ Container shahn-p01-dev-db-1 Starting 
+Error response from daemon: ports are not available: exposing port TCP 127.0.0.1:55418 -> 127.0.0.1:0: listen tcp4 127.0.0.1:55418: bind: An attempt was made to access a socket in a way forbidden by its access permissions.

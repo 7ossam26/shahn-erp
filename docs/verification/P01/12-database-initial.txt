@@ -1,0 +1,41 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/db/foundation.test.ts (5 tests | 1 failed) 14343ms
+   ❯ Real isolated PostgreSQL foundation (5)
+     ✓ status is read-only and reports schema missing before a migration 6ms
+     ✓ two migration runners wait for one lock and cannot apply a migration twice 81ms
+     ✓ rejects modified applied SQL checksum and restores only the test source fixture 12ms
+     ✓ commits once, rolls back actual writes, always releases and rejects a nested transaction 34ms
+     × real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 10088ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/foundation.test.ts > Real isolated PostgreSQL foundation > real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/db/foundation.test.ts:71:25
+     69|       await db.start();let recovered=false;
+     70|       for(let attempt=0;attempt<40;attempt++){if((await request('/api/…
+     71|       expect(recovered).toBe(true);
+       |                         ^
+     72|       const idleResponse=await fetch(origin+'/api/v1/health');await ap…
+     73|       expect(runtime.totalCount).toBe(0);expect(runtime.waitingCount).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  18:21:05
+   Duration  15.19s (tests 95%, import 4%, transform 1%)
+

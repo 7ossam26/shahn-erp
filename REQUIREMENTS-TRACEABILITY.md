@@ -1,6 +1,6 @@
 # ERP Requirements and Decisions Traceability
 
-Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03. This file maps **214 requirements and 205 decisions**. Phase prompts are authored; runtime implementation and acceptance remain unrun.
+Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03. This file maps **214 requirements and 205 decisions**. P01's local foundation slices have [bounded implementation and verification evidence](docs/verification/P01/TRACEABILITY.md). P02–P26 remain unstarted; a P01 slice does not complete a cross-domain requirement or an owner manual review.
 
 ## How to use this matrix
 
@@ -9,7 +9,7 @@ Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03
 - **Phase ownership is assigned in the final column under ERP-D-205.** Deferred and superseded rows remain visible for scope verification; they do not authorize future implementation. The first linked phase leads the specified result; other linked phases consume/verify it. Cross-cutting rules in the shared execution contract apply to every phase. Verify both implementation and journey coverage.
 - Owners name a responsible ERP module or boundary. They are not hardcoded employee roles. ERP service calls, human Tawsel actions and Tawsel contract changes retain separate execution owners.
 - Linked planning documents describe the proposed implementation. Detailed plan mechanics are adopted under ERP-D-205; their original proposal IDs retain provenance and do not certify external capability or runtime targets.
-- Every verification entry below is **planned and unrun**. Document completeness checks are not application tests. No row is marked implemented or passed.
+- Verification entries below describe the required acceptance, rather than unconditional pass labels. Actual P01 results are recorded separately in its bounded traceability and execution record; later business and external slices remain unrun. Document completeness checks are not application tests. No whole cross-domain row is marked implemented or passed.
 - Source wording in early registers may still contain an earlier provisional description. Current acceptance and explicit amendments below preserve manual pricing, full driver remittance, one net payroll payout, automatic advance recovery, physical branch transfers and current report selection.
 
 ## Session 024 financial amendments

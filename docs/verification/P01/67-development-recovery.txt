@@ -1,0 +1,71 @@
+{
+  "stage": "development pair ready",
+  "httpStatus": 200,
+  "response": {
+    "schemaVersion": 1,
+    "service": "api",
+    "status": "ready",
+    "checkedAt": "2026-10-03T15:49:57.724Z",
+    "database": "connected",
+    "migrations": {
+      "state": "current",
+      "applied": [
+        "0001_foundation"
+      ],
+      "required": [
+        "0001_foundation"
+      ]
+    }
+  }
+}
+{
+  "stage": "development database stopped",
+  "httpStatus": 503,
+  "response": {
+    "schemaVersion": 1,
+    "service": "api",
+    "status": "not_ready",
+    "checkedAt": "2026-10-03T15:49:59.260Z",
+    "database": "unavailable",
+    "migrations": {
+      "state": "unknown",
+      "applied": [],
+      "required": [
+        "0001_foundation"
+      ]
+    }
+  }
+}
+{
+  "stage": "development database recovered",
+  "httpStatus": 200,
+  "response": {
+    "schemaVersion": 1,
+    "service": "api",
+    "status": "ready",
+    "checkedAt": "2026-10-03T15:50:02.900Z",
+    "database": "connected",
+    "migrations": {
+      "state": "current",
+      "applied": [
+        "0001_foundation"
+      ],
+      "required": [
+        "0001_foundation"
+      ]
+    }
+  }
+}
+{
+  "state": "current",
+  "applied": [
+    {
+      "version": "0001_foundation",
+      "checksum": "76e06daf1100a47ac61387f39e1563fe4ad84fb90d1327dcad212c268a354c4e",
+      "appliedAt": "2026-10-03T15:35:37.729Z"
+    }
+  ],
+  "required": [
+    "0001_foundation"
+  ]
+}

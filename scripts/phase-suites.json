@@ -1,0 +1,11 @@
+{
+  "P01": {
+    "unit": { "script": "test:unit", "directory": "tests/unit", "extension": ".test" },
+    "database": { "script": "test:db", "directory": "tests/db", "extension": ".test" },
+    "browser": { "script": "test:browser", "directory": "tests/browser", "extension": ".spec" },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P01 exposes foundation status only; no Tawsel/public business integration exists."
+    }
+  }
+}

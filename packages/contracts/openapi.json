@@ -1,0 +1,123 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Shahn ERP foundation", "version": "1.0.0" },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Process liveness; dependencies are unchecked",
+        "responses": {
+          "200": {
+            "description": "Alive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "service",
+                    "status",
+                    "dependenciesChecked",
+                    "checkedAt"
+                  ],
+                  "properties": {
+                    "schemaVersion": { "type": "integer", "const": 1 },
+                    "service": { "type": "string", "const": "api" },
+                    "status": { "type": "string", "const": "alive" },
+                    "dependenciesChecked": { "type": "boolean", "const": false },
+                    "checkedAt": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/readiness": {
+      "get": {
+        "summary": "Database and exact required migration state",
+        "responses": {
+          "200": {
+            "description": "Ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "service",
+                    "status",
+                    "checkedAt",
+                    "database",
+                    "migrations"
+                  ],
+                  "properties": {
+                    "schemaVersion": { "type": "integer", "const": 1 },
+                    "service": { "type": "string", "const": "api" },
+                    "status": { "type": "string", "enum": ["ready", "not_ready"] },
+                    "checkedAt": { "type": "string", "format": "date-time" },
+                    "database": { "type": "string", "enum": ["connected", "unavailable"] },
+                    "migrations": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["state", "applied", "required"],
+                      "properties": {
+                        "state": {
+                          "type": "string",
+                          "enum": ["current", "missing", "incompatible", "unknown"]
+                        },
+                        "applied": { "type": "array", "items": { "type": "string" } },
+                        "required": { "type": "array", "items": { "type": "string" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Not ready; safe dependency state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schemaVersion",
+                    "service",
+                    "status",
+                    "checkedAt",
+                    "database",
+                    "migrations"
+                  ],
+                  "properties": {
+                    "schemaVersion": { "type": "integer", "const": 1 },
+                    "service": { "type": "string", "const": "api" },
+                    "status": { "type": "string", "enum": ["ready", "not_ready"] },
+                    "checkedAt": { "type": "string", "format": "date-time" },
+                    "database": { "type": "string", "enum": ["connected", "unavailable"] },
+                    "migrations": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["state", "applied", "required"],
+                      "properties": {
+                        "state": {
+                          "type": "string",
+                          "enum": ["current", "missing", "incompatible", "unknown"]
+                        },
+                        "applied": { "type": "array", "items": { "type": "string" } },
+                        "required": { "type": "array", "items": { "type": "string" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

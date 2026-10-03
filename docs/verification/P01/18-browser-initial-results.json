@@ -1,0 +1,454 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P01/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node tests/browser/serve.mjs",
+      "url": "http://127.0.0.1:4202/health",
+      "reuseExistingServer": false,
+      "timeout": 90000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "foundation.spec.ts",
+      "file": "foundation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real readiness, RTL, keyboard palette close/focus return and token sharing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2245,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:36.707Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-ba27d00e20c5635f3eb3",
+          "file": "foundation.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1984,
+                  "error": {
+                    "message": "Error: page.evaluate: Execution context was destroyed, most likely because of a navigation",
+                    "stack": "Error: page.evaluate: Execution context was destroyed, most likely because of a navigation\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:21:22",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                      "column": 22,
+                      "line": 21
+                    },
+                    "snippet": "  19 |    await page.goto(route!);await expect(page.locator('h1')).toBeVisible();await page.evaluate(()=>document.fonts.ready);\n  20 |    if(route==='/')await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();\n> 21 |    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);\n     |                      ^\n  22 |    await page.screenshot({path:`${evidence}/${name}-${viewport.width}.png`,fullPage:true});\n  23 |    if(route==='/demo/list'){\n  24 |     const content=page.locator(viewport.width<=800?'.shipment-cards':'.table-wrap');await expect(content).toBeVisible();await expect(content.getByText(/عنوان عربي طويل جدًا/)).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                        "column": 22,
+                        "line": 21
+                      },
+                      "message": "Error: page.evaluate: Execution context was destroyed, most likely because of a navigation\n\n  19 |    await page.goto(route!);await expect(page.locator('h1')).toBeVisible();await page.evaluate(()=>document.fonts.ready);\n  20 |    if(route==='/')await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();\n> 21 |    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);\n     |                      ^\n  22 |    await page.screenshot({path:`${evidence}/${name}-${viewport.width}.png`,fullPage:true});\n  23 |    if(route==='/demo/list'){\n  24 |     const content=page.locator(viewport.width<=800?'.shipment-cards':'.table-wrap');await expect(content).toBeVisible();await expect(content.getByText(/عنوان عربي طويل جدًا/)).toBeVisible();\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:21:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:39.781Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-responsive-home-4ffa1--and-no-sideways-scroll-390\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                    "column": 22,
+                    "line": 21
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-bc7b823357e3a6e4cd0c",
+          "file": "foundation.spec.ts",
+          "line": 16,
+          "column": 2
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2704,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:42.459Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-888da30eabf183104358",
+          "file": "foundation.spec.ts",
+          "line": 16,
+          "column": 2
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 320",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2040,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:45.302Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-0a8f27735a83413cfa24",
+          "file": "foundation.spec.ts",
+          "line": 16,
+          "column": 2
+        },
+        {
+          "title": "responsive home/list/form/timeline, long Arabic and no sideways scroll 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2098,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:47.355Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-f3b8889a9be9a0af7416",
+          "file": "foundation.spec.ts",
+          "line": 16,
+          "column": 2
+        },
+        {
+          "title": "form required validation, exact 50.5 display, keyboard dialog and pending/error retention",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2104,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:49.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-7040eff4d1c8bedd3b11",
+          "file": "foundation.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "real loading, database stop/unavailable and restart recovery retain the migration",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 790,
+                  "error": {
+                    "message": "Error: route.continue: Route is already handled!",
+                    "stack": "Error: route.continue: Route is already handled!\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:49:89",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                      "column": 89,
+                      "line": 49
+                    },
+                    "snippet": "  47 |     ]) {\n  48 |       await page.goto(route!);\n> 49 |       await expect(page.locator('h1')).toBeVisible();\n     |                                                      ^\n  50 |       await page.evaluate(() => document.fonts.ready);\n  51 |       if (route === '/') await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();\n  52 |       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe("
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                        "column": 89,
+                        "line": 49
+                      },
+                      "message": "Error: route.continue: Route is already handled!\n\n  47 |     ]) {\n  48 |       await page.goto(route!);\n> 49 |       await expect(page.locator('h1')).toBeVisible();\n     |                                                      ^\n  50 |       await page.evaluate(() => document.fonts.ready);\n  51 |       if (route === '/') await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();\n  52 |       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:49:89"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                        "column": 21,
+                        "line": 52
+                      },
+                      "message": "Error: apiRequestContext.post: Test ended.\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:4202/database/stop\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n\n  50 |       await page.evaluate(() => document.fonts.ready);\n  51 |       if (route === '/') await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();\n> 52 |       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(\n     |                     ^\n  53 |         true,\n  54 |       );\n  55 |       await page.screenshot({ path: `${evidence}/${name}-${viewport.width}.png`, fullPage: true });\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts:52:21"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:51.580Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-real-loading-da-12b90-covery-retain-the-migration\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-real-loading-da-12b90-covery-retain-the-migration\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\foundation-real-loading-da-12b90-covery-retain-the-migration\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\browser\\foundation.spec.ts",
+                    "column": 89,
+                    "line": 49
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-5572b096e4e739fc49e0",
+          "file": "foundation.spec.ts",
+          "line": 46,
+          "column": 1
+        },
+        {
+          "title": "production bundle exposes no demonstration entries or routes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 407,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T15:26:52.873Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-04f82d9822dd919b78d5",
+          "file": "foundation.spec.ts",
+          "line": 61,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T15:26:31.349Z",
+    "duration": 22639.717999999997,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
