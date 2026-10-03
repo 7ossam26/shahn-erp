@@ -3,7 +3,8 @@ import type { Pool } from 'pg';
 import { transaction } from '@shahn/database';
 import { provisioningOutcome } from '@shahn/domain';
 import { IssuerFailure, type IdentityIntent, type KeycloakIdentityAdapter } from './identity.js';
-interface Work {
+import { claimWork, lockLease, type Lease } from '../kernel/work.js';
+interface Work extends Lease {
   id: string;
   company_id: string;
   entity_id: string;
@@ -20,17 +21,7 @@ export class IdentityWorker {
     readonly adapter: Pick<KeycloakIdentityAdapter, 'reconcile' | 'config'>,
   ) {}
   async claim(): Promise<Work | null> {
-    return transaction(this.pool, async (client) => {
-      const result = await client.query<Work>(
-        `WITH candidate AS (
-        SELECT id FROM work_item WHERE lane='identity' AND ((state='pending' AND available_at<=clock_timestamp()) OR (state='leased' AND lease_until<clock_timestamp()))
-        ORDER BY created_at,id FOR UPDATE SKIP LOCKED LIMIT 1)
-        UPDATE work_item w SET state='leased',lease_owner=$1,lease_until=clock_timestamp()+interval '60 seconds',fence=fence+1,attempts=attempts+1
-        FROM candidate c WHERE w.id=c.id RETURNING w.*`,
-        [this.owner],
-      );
-      return result.rows[0] ?? null;
-    });
+    return claimWork<Work>(this.pool, this.owner, ['identity.reconcile']);
   }
   async runOne(): Promise<boolean> {
     const work = await this.claim();
@@ -47,11 +38,7 @@ export class IdentityWorker {
     }
     await transaction(this.pool, async (client) => {
       await client.query('SELECT id FROM access.company WHERE id=$1 FOR UPDATE', [work.company_id]);
-      const owned = await client.query(
-        "SELECT id FROM work_item WHERE id=$1 AND fence=$2 AND lease_owner=$3 AND state='leased' FOR UPDATE",
-        [work.id, work.fence, this.owner],
-      );
-      if (!owned.rowCount) return;
+      if (!(await lockLease(client, work, this.owner))) return;
       if (subject) {
         const binding = (
           await client.query<{ principal_id: string; issuer: string; subject: string }>(

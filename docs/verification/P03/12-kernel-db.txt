@@ -1,0 +1,49 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/kernel.test.ts (12 tests | 12 skipped) 40960ms
+   ↓ P03 committed PostgreSQL command/posting kernel (12)
+     ↓ commits one command/effect set for concurrent identical HTTP requests; rejects changed payload
+     ↓ same source through two command IDs posts once and rejects changed source meaning
+     ↓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing
+     ↓ rolls back all journals, command, source and audit when interrupted between posting and audit
+     ↓ barrier race, kernel.payout owns the wallet first
+     ↓ barrier race, kernel.reserve owns the wallet first
+     ↓ stale expectedVersion, revoked capability, another principal and changed branch scope cannot expose/reexecute results
+     ↓ compacts only expired resolved responses and recovers the immutable authorized domain result
+     ↓ rejects cross-company effects and invalid signs at the database boundary; history is append-only
+     ↓ fences worker A after database-expired lease; B commits, A cannot publish
+     ↓ holds source-specific eligible lots and keeps pending/storage out of payouts
+     ↓ does not register the controlled trial in production
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/kernel.test.ts [ tests/db/kernel.test.ts ]
+error: column "result_reference" does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ apps/api/src/modules/access/repository.ts:279:11
+    277|           payloadDigest = digest(payload);
+    278|         const prior = (
+    279|           await client.query<{ payload_digest: string; result: Command…
+       |           ^
+    280|             'SELECT payload_digest,COALESCE(result,result_reference) A…
+    281|             [input.companyId, s.principal_id, input.type, input.comman…
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ AccessRepository.command apps/api/src/modules/access/repository.ts:248:23
+ ❯ tests/db/kernel.test.ts:30:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/kernel.test.ts [ tests/db/kernel.test.ts ]
+error: relation "kernel.journal_effect" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/db/kernel.test.ts:45:28
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  12 skipped (12)
+   Start at  21:50:28
+   Duration  42.43s (tests 97%, import 3%, transform 1%)

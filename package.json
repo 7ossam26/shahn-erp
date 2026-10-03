@@ -36,7 +36,9 @@
     "p02:up": "node scripts/p02-up.mjs",
     "dev:p02": "node --env-file=.env.p02.local scripts/dev.mjs",
     "access:bootstrap": "node scripts/access-bootstrap.mjs",
-    "test:p02:browser": "node scripts/build.mjs && playwright test --config playwright.p02.config.ts"
+    "test:p02:browser": "node scripts/build.mjs && playwright test --config playwright.p02.config.ts",
+    "test:p03:browser": "node scripts/build.mjs && playwright test --config playwright.p03.config.ts",
+    "p03:trial": "node scripts/build.mjs && node scripts/p03-trial.mjs"
   },
   "devDependencies": {
     "typescript": "6.0.3",

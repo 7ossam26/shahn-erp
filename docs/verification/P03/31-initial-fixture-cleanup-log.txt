@@ -1,0 +1,10 @@
+2026-10-03 21:50:41.096 EEST [19224] LOG:  starting PostgreSQL 18.3 on x86_64-windows, compiled by msvc-19.44.35225, 64-bit
+2026-10-03 21:50:41.097 EEST [19224] LOG:  listening on IPv4 address "127.0.0.1", port 65385
+2026-10-03 21:50:41.171 EEST [24388] LOG:  database system was shut down at 2026-10-03 21:50:34 EEST
+2026-10-03 21:50:41.177 EEST [19224] LOG:  database system is ready to accept connections
+2026-10-03 21:51:11.127 EEST [7216] ERROR:  column "result_reference" does not exist at character 39
+2026-10-03 21:51:11.127 EEST [7216] STATEMENT:  SELECT payload_digest,COALESCE(result,result_reference) AS result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND family=$3 AND command_id=$4
+2026-10-03 21:51:11.133 EEST [7216] ERROR:  relation "kernel.journal_effect" does not exist at character 30
+2026-10-03 21:51:11.133 EEST [7216] STATEMENT:  SELECT (SELECT count(*) FROM kernel.journal_effect) AS effects,(SELECT count(*) FROM audit_entry) AS audit,(SELECT count(*) FROM command_record) AS commands
+2026-10-03 21:55:41.164 EEST [27136] LOG:  checkpoint starting: time
+2026-10-03 21:56:11.087 EEST [27136] LOG:  checkpoint complete: wrote 269 buffers (1.6%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=29.841 s, sync=0.075 s, total=29.923 s; sync files=155, longest=0.003 s, average=0.001 s; distance=1619 kB, estimate=1619 kB; lsn=0/1986278, redo lsn=0/19861E8

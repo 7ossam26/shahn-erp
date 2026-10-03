@@ -8,6 +8,605 @@
     }
   },
   "paths": {
+    "/api/v1/kernel/commands": {
+      "post": {
+        "summary": "Isolated kernel trial; absent in production",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "brandId",
+                      "branchId",
+                      "sourceId"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "kernel.seed" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "sourceId": { "type": "string", "format": "uuid" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "brandId",
+                      "branchId",
+                      "sourceId",
+                      "expectedVersion",
+                      "money"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "kernel.reserve" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "sourceId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483646 },
+                      "money": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["currency", "amountMinor"],
+                        "properties": {
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": {
+                            "type": "string",
+                            "maxLength": 20,
+                            "pattern": "^[1-9][0-9]*$"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "brandId",
+                      "branchId",
+                      "sourceId",
+                      "money",
+                      "coverSourceId"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "kernel.fee" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "sourceId": { "type": "string", "format": "uuid" },
+                      "money": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["currency", "amountMinor"],
+                        "properties": {
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": {
+                            "type": "string",
+                            "maxLength": 20,
+                            "pattern": "^[1-9][0-9]*$"
+                          }
+                        }
+                      },
+                      "coverSourceId": { "type": "string", "format": "uuid" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "brandId",
+                      "branchId",
+                      "sourceId",
+                      "expectedVersion",
+                      "coverSourceId"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "kernel.release" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "sourceId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483646 },
+                      "coverSourceId": { "type": "string", "format": "uuid" }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "brandId",
+                      "branchId",
+                      "sourceId",
+                      "expectedVersion",
+                      "money"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "kernel.payout" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "sourceId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483646 },
+                      "money": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["currency", "amountMinor"],
+                        "properties": {
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": {
+                            "type": "string",
+                            "maxLength": 20,
+                            "pattern": "^[1-9][0-9]*$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "fixture",
+                    "resultId",
+                    "brandId",
+                    "branchId",
+                    "version",
+                    "wallet",
+                    "reference"
+                  ],
+                  "properties": {
+                    "fixture": { "const": true, "type": "boolean" },
+                    "resultId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "wallet": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "eligible",
+                        "pending",
+                        "debits",
+                        "held",
+                        "cover",
+                        "signedEntitlement",
+                        "eligibleToPay"
+                      ],
+                      "properties": {
+                        "eligible": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "pending": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "debits": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "held": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "cover": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "signedEntitlement": {
+                          "type": "string",
+                          "pattern": "^(0|-?[1-9][0-9]*)$",
+                          "maxLength": 20
+                        },
+                        "eligibleToPay": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        }
+                      }
+                    },
+                    "reference": { "type": "string", "pattern": "^[1-9][0-9]*$" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/kernel/commands/{commandId}": {
+      "get": {
+        "summary": "Currently authorized trial command recovery",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "fixture",
+                    "resultId",
+                    "brandId",
+                    "branchId",
+                    "version",
+                    "wallet",
+                    "reference"
+                  ],
+                  "properties": {
+                    "fixture": { "const": true, "type": "boolean" },
+                    "resultId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "wallet": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "eligible",
+                        "pending",
+                        "debits",
+                        "held",
+                        "cover",
+                        "signedEntitlement",
+                        "eligibleToPay"
+                      ],
+                      "properties": {
+                        "eligible": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "pending": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "debits": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "held": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "cover": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        },
+                        "signedEntitlement": {
+                          "type": "string",
+                          "pattern": "^(0|-?[1-9][0-9]*)$",
+                          "maxLength": 20
+                        },
+                        "eligibleToPay": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        }
+                      }
+                    },
+                    "reference": { "type": "string", "pattern": "^[1-9][0-9]*$" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Authorized outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "messageKey", "commandId", "correlationId"],
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/access/commands": {
       "post": {
         "summary": "Atomic company-scoped administration; CSRF and fresh server authorization required",

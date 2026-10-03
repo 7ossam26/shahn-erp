@@ -1,0 +1,62 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/access.test.ts (17 tests) 38509ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/db/foundation.test.ts (5 tests | 1 failed) 65050ms
+   ❯ Real isolated PostgreSQL foundation (5)
+     ✓ status is read-only and reports schema missing before a migration 56ms
+     ✓ two migration runners wait for one lock and cannot apply a migration twice 152ms
+     ✓ rejects modified applied SQL checksum and restores only the test source fixture 21ms
+     ✓ commits once, rolls back actual writes, always releases and rejects a nested transaction 49ms
+     × real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 30005ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 38925ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/foundation.test.ts > Real isolated PostgreSQL foundation > real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/db/foundation.test.ts:126:3
+    124|     }
+    125|   });
+    126|   it('real HTTP reports ready, missing/incompatible schema and down; l…
+       |   ^
+    127|     const app = await createApplication({
+    128|       environment: 'test',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 30 passed (31)
+   Start at  21:40:56
+   Duration  154.94s (tests 92%, import 8%)

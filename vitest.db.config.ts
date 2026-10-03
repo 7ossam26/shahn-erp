@@ -6,7 +6,7 @@ export default defineConfig({
     passWithNoTests: false,
     fileParallelism: false,
     maxWorkers: 1,
-    testTimeout: 30000,
+    testTimeout: process.env['SHAHN_TEST_PG_BIN'] ? 90000 : 30000,
     hookTimeout: 90000,
     reporters: ['default'],
   },

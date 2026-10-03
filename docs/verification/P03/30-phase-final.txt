@@ -1,0 +1,68 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P03
+P03 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/money.test.ts (22 tests) 12ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 24ms
+
+ Test Files  2 passed (2)
+      Tests  37 passed (37)
+   Start at  22:02:10
+   Duration  2.10s (environment 65%, import 18%, setup 9%, transform 6%, tests 1%)
+
+P03 unit: PASSED
+P03 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 39482ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 3290ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  22:02:12
+   Duration  40.76s (tests 97%, import 2%, transform 1%)
+
+P03 database: PASSED
+P03 browser: test:p03:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2614 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BIj2BhHZ.css                           72.60 kB │ gzip: 14.43 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-CueIUPQF.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BBKVQg9u.js                           38.86 kB │ gzip: 12.10 kB
+apps/web/dist/assets/index-BM-3f170.js                            50.39 kB │ gzip: 14.83 kB
+apps/web/dist/assets/vendor-Df9p6J2M.js                          100.14 kB │ gzip: 33.40 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-CIo7j2fv.js                          212.23 kB │ gzip: 66.61 kB
+
+✓ built in 431ms
+[WebServer] (node:23428) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:16048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p03\kernel.spec.ts:16:1 › manual entry selects only the isolated fixture session (1.6s)
+  ok 2 tests\p03\kernel.spec.ts:23:3 › connected trial at 390px (1.6s)
+  ok 3 tests\p03\kernel.spec.ts:23:3 › connected trial at 1440px (1.6s)
+  ok 4 tests\p03\kernel.spec.ts:23:3 › connected trial at 320px (1.3s)
+  ok 5 tests\p03\kernel.spec.ts:23:3 › connected trial at 768px (1.3s)
+  ok 6 tests\p03\kernel.spec.ts:57:1 › lost HTTP response blocks new writes until authorized recovery (706ms)
+
+  6 passed (1.0m)
+P03 browser: PASSED
+P03 publicIntegration: NOT APPLICABLE — P03 proves local PostgreSQL/HTTP kernel behavior. Canonical Tawsel transport, signatures, replay and actual money workflows belong to consuming phases.
+P03: all required layers passed

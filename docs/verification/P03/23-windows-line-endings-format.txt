@@ -1,0 +1,123 @@
+npm notice run shahn-erp@0.1.0 format
+npm notice run prettier --write apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml
+apps/api/package.json 16ms (unchanged)
+apps/api/src/app.ts 71ms (unchanged)
+apps/api/src/main.ts 10ms
+apps/api/src/modules/access/bootstrap.ts 5ms
+apps/api/src/modules/access/config.ts 8ms
+apps/api/src/modules/access/crypto.ts 11ms (unchanged)
+apps/api/src/modules/access/http.ts 28ms
+apps/api/src/modules/access/identity.ts 16ms
+apps/api/src/modules/access/index.ts 2ms
+apps/api/src/modules/access/oidc.ts 18ms
+apps/api/src/modules/access/repository.ts 71ms
+apps/api/src/modules/access/sessions.ts 19ms
+apps/api/src/modules/access/worker.ts 8ms (unchanged)
+apps/api/src/modules/kernel/commands.ts 16ms (unchanged)
+apps/api/src/modules/kernel/http.ts 8ms
+apps/api/src/modules/kernel/index.ts 1ms (unchanged)
+apps/api/src/modules/kernel/journals.ts 11ms (unchanged)
+apps/api/src/modules/kernel/trial.ts 24ms (unchanged)
+apps/api/src/modules/kernel/unit-of-work.ts 7ms (unchanged)
+apps/api/src/modules/kernel/wallet.ts 22ms (unchanged)
+apps/api/src/modules/kernel/work.ts 7ms (unchanged)
+apps/api/tsconfig.json 2ms
+apps/web/index.html 18ms
+apps/web/package.json 1ms
+apps/web/src/app.tsx 24ms
+apps/web/src/demo-data.ts 3ms
+apps/web/src/demo-form.tsx 19ms
+apps/web/src/demo-pages.tsx 11ms
+apps/web/src/env.d.ts 2ms
+apps/web/src/features/access/access.css 32ms
+apps/web/src/features/access/access.tsx 102ms
+apps/web/src/features/access/api.ts 10ms
+apps/web/src/features/kernel/trial.css 7ms (unchanged)
+apps/web/src/features/kernel/trial.tsx 15ms (unchanged)
+apps/web/src/main.tsx 6ms (unchanged)
+apps/web/src/status.tsx 8ms
+apps/web/tsconfig.json 1ms
+apps/web/vite.config.ts 4ms
+apps/worker/package.json 1ms
+apps/worker/src/main.ts 8ms
+apps/worker/tsconfig.json 2ms
+packages/contracts/openapi.json 91ms (unchanged)
+packages/contracts/package.json 1ms
+packages/contracts/src/access-views.ts 15ms
+packages/contracts/src/access.ts 12ms
+packages/contracts/src/index.ts 9ms (unchanged)
+packages/contracts/src/kernel.ts 8ms (unchanged)
+packages/contracts/tsconfig.json 1ms
+packages/database/package.json 1ms
+packages/database/src/cli.ts 3ms
+packages/database/src/config.ts 4ms
+packages/database/src/index.ts 2ms
+packages/database/src/migrations.ts 14ms
+packages/database/src/transaction.ts 4ms
+packages/database/tsconfig.json 1ms
+packages/domain/package.json 1ms
+packages/domain/src/access.ts 6ms
+packages/domain/src/index.ts 11ms
+packages/domain/src/kernel.ts 11ms (unchanged)
+packages/domain/tsconfig.json 1ms
+packages/test-support/package.json 1ms
+packages/test-support/src/index.ts 8ms (unchanged)
+packages/test-support/src/native-postgres.ts 5ms (unchanged)
+packages/test-support/tsconfig.json 1ms
+packages/ui/package.json 1ms
+packages/ui/src/badge.tsx 5ms
+packages/ui/src/button.tsx 3ms
+packages/ui/src/dialog.tsx 6ms
+packages/ui/src/index.ts 2ms
+packages/ui/src/input.tsx 2ms
+packages/ui/src/primitives.tsx 16ms
+packages/ui/src/smooth-button.tsx 11ms
+packages/ui/src/styles.css 134ms
+packages/ui/src/utils.ts 2ms
+packages/ui/THIRD-PARTY-NOTICES.md 34ms
+packages/ui/tsconfig.json 2ms
+tests/browser/foundation.spec.ts 18ms
+tests/browser/serve.mjs 16ms
+tests/browser/teardown.mjs 2ms
+tests/db/access.test.ts 55ms
+tests/db/foundation.test.ts 15ms
+tests/db/kernel.test.ts 59ms (unchanged)
+tests/db/oidc-validation.test.ts 11ms
+tests/diagnostics/controlled-failure.test.ts 2ms
+tests/p02/access.spec.ts 54ms
+tests/p02/safe-reporter.ts 3ms
+tests/p02/serve.ts 26ms
+tests/p02/teardown.mjs 4ms
+tests/p02/worker.mjs 3ms
+tests/p03/crash-server.ts 3ms (unchanged)
+tests/p03/kernel.spec.ts 5ms (unchanged)
+tests/p03/serve.ts 7ms
+tests/p03/teardown.mjs 4ms (unchanged)
+tests/runner.test.mjs 3ms
+tests/support/access.ts 16ms
+tests/tsconfig.json 2ms
+tests/unit/access.test.ts 32ms
+tests/unit/contracts.test.ts 7ms
+tests/unit/form.test.tsx 16ms
+tests/unit/kernel.test.ts 12ms (unchanged)
+tests/unit/money.test.ts 10ms
+tests/unit/process-lifecycle.test.ts 14ms
+tests/unit/setup.ts 2ms
+scripts/access-bootstrap.mjs 15ms
+scripts/build-packages.mjs 7ms
+scripts/build.mjs 5ms
+scripts/dev-setup.mjs 11ms
+scripts/dev.mjs 8ms
+scripts/lib/keycloak.d.mts 10ms
+scripts/lib/keycloak.mjs 39ms
+scripts/p02-setup.mjs 16ms
+scripts/p02-up.mjs 2ms
+scripts/p03-trial.mjs 3ms
+scripts/phase-suites.json 4ms (unchanged)
+scripts/test-phase.mjs 11ms
+.prettierrc.json 1ms
+package.json 1ms (unchanged)
+tsconfig.base.json 2ms
+tsconfig.json 1ms
+eslint.config.mjs 2ms
+deploy/compose.dev.yml 23ms

@@ -1,0 +1,10 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+tests/db/kernel.test.ts(51,71): error TS2339: Property 'csrf' does not exist on type '{ token: string; csrfToken: string; id: `${string}-${string}-${string}-${string}-${string}`; subject: `${string}-${string}-${string}-${string}-${string}`; }'.
+tests/db/kernel.test.ts(73,44): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(75,46): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(76,47): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(77,36): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(96,35): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(97,87): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.
+tests/db/kernel.test.ts(122,70): error TS2345: Argument of type 'string' is not assignable to parameter of type '`${string}-${string}-${string}-${string}-${string}`'.

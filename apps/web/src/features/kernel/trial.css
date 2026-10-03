@@ -1,0 +1,57 @@
+.kernel-trial {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+.kernel-notice {
+  padding: 1rem;
+  border-inline-start: 0.25rem solid var(--primary);
+  background: var(--muted);
+  border-radius: 0.5rem;
+}
+.kernel-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+}
+.kernel-totals div {
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+.kernel-totals dt {
+  color: var(--muted-foreground);
+}
+.kernel-totals dd {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0;
+}
+.kernel-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.kernel-recovery {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  overflow-wrap: anywhere;
+}
+.kernel-trial [role='alert'] {
+  border: 1px solid var(--destructive);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+.kernel-trial input {
+  width: 100%;
+  min-width: 0;
+}
+@media (max-width: 420px) {
+  .kernel-actions > button {
+    width: 100%;
+  }
+  .kernel-totals {
+    grid-template-columns: 1fr;
+  }
+}

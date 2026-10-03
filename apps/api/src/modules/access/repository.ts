@@ -229,7 +229,7 @@ export class AccessRepository {
       const ctx = await loadAccess(client, token);
       const rows = (
         await client.query<{ capability: string; result: CommandResult }>(
-          `SELECT capability,result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND command_id=$3 ORDER BY created_at DESC LIMIT 2`,
+          `SELECT capability,COALESCE(result,result_reference) AS result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND command_id=$3 AND kind NOT LIKE 'kernel.%' ORDER BY created_at DESC LIMIT 2`,
           [ctx.companyId, ctx.principalId, commandId],
         )
       ).rows;
@@ -277,7 +277,7 @@ export class AccessRepository {
           payloadDigest = digest(payload);
         const prior = (
           await client.query<{ payload_digest: string; result: CommandResult }>(
-            'SELECT payload_digest,result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND family=$3 AND command_id=$4',
+            'SELECT payload_digest,COALESCE(result,result_reference) AS result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND family=$3 AND command_id=$4',
             [input.companyId, s.principal_id, input.type, input.commandId],
           )
         ).rows[0];

@@ -1,4 +1,28 @@
 {
+  "P03": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/kernel.test.ts", "tests/unit/money.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/kernel.test.ts"]
+    },
+    "browser": {
+      "script": "test:p03:browser",
+      "directory": "tests/p03",
+      "extension": ".spec",
+      "config": "playwright.p03.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P03 proves local PostgreSQL/HTTP kernel behavior. Canonical Tawsel transport, signatures, replay and actual money workflows belong to consuming phases."
+    }
+  },
   "P02": {
     "unit": {
       "script": "test:unit",

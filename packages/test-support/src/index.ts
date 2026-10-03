@@ -3,6 +3,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createServer } from 'node:net';
 import { createPool } from '@shahn/database';
+import { isolatedNativePostgres } from './native-postgres.js';
 const exec = promisify(execFile);
 export async function docker(args: string[]): Promise<string> {
   try {
@@ -14,6 +15,8 @@ export async function docker(args: string[]): Promise<string> {
   }
 }
 export async function isolatedPostgres() {
+  if (process.env['SHAHN_TEST_PG_BIN'])
+    return isolatedNativePostgres(process.env['SHAHN_TEST_PG_BIN']);
   const name = `shahn-p01-test-${randomUUID()}`;
   const password = randomBytes(24).toString('hex');
   const { readFile } = await import('node:fs/promises');

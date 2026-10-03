@@ -2,8 +2,17 @@ import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:
 export const secret = () => randomBytes(32).toString('base64url');
 export const digest = (value: string) => createHash('sha256').update(value).digest('hex');
 export function canonical(value: unknown): string {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (value === null || typeof value === 'string' || typeof value === 'boolean')
+    return JSON.stringify(value);
+  if (typeof value === 'number') {
+    if (!Number.isSafeInteger(value) || Object.is(value, -0))
+      throw new Error('INVALID_CANONICAL_NUMBER');
+    return JSON.stringify(value);
+  }
+  if (typeof value !== 'object') throw new Error('INVALID_CANONICAL_JSON');
   if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
+  if (Object.getPrototypeOf(value) !== Object.prototype)
+    throw new Error('INVALID_CANONICAL_OBJECT');
   return (
     '{' +
     Object.entries(value)

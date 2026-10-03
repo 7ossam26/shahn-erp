@@ -17,6 +17,7 @@ import { APP_GUARD, NestFactory, Reflector } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import type { FastifyReply } from 'fastify';
 import { registerAccess } from './modules/access/http.js';
+import { registerKernel } from './modules/kernel/http.js';
 import { identityConfig, type IdentityConfig } from './modules/access/config.js';
 import {
   createPool,
@@ -151,5 +152,12 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  if (config.environment === 'development' && process.env['ENABLE_KERNEL_FIXTURES'] === 'true')
+    registerKernel(
+      app.getHttpAdapter().getInstance(),
+      app.get(DatabaseLifecycle).pool,
+      config.environment,
+      identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    );
   return app;
 }

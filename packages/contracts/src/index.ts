@@ -2,6 +2,8 @@ import AjvModule, { type JSONSchemaType } from 'ajv';
 import formatsModule from 'ajv-formats';
 import { accessPaths } from './access.js';
 import { accessReadPaths, accessAuthPaths } from './access-views.js';
+import { kernelPaths } from './kernel.js';
+export * from './kernel.js';
 export * from './access.js';
 export * from './access-views.js';
 
@@ -111,6 +113,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...kernelPaths,
     ...accessPaths,
     ...accessReadPaths,
     ...accessAuthPaths,

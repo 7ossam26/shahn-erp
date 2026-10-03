@@ -51,7 +51,7 @@ const Access = createContext<{
   authorityError: unknown;
   refresh: () => Promise<void>;
 }>({ registry: undefined, session: undefined, authorityError: null, refresh: async () => {} });
-const useAccess = () => useContext(Access);
+export const useAccess = () => useContext(Access);
 export function AccessShell() {
   const location = useLocation(),
     navigate = useNavigate(),

@@ -41,6 +41,16 @@ const router = createBrowserRouter([
       { path: '/administration/roles', element: <RolesPage /> },
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
+      ...(import.meta.env.DEV && import.meta.env['VITE_ENABLE_KERNEL_TRIAL'] === 'true'
+        ? [
+            {
+              path: '/development/kernel',
+              lazy: async () => ({
+                Component: (await import('./features/kernel/trial.js')).KernelTrial,
+              }),
+            },
+          ]
+        : []),
       ...(import.meta.env.DEV && import.meta.env.VITE_ENABLE_DEMOS === 'true'
         ? [
             {

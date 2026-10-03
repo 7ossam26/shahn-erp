@@ -1,6 +1,6 @@
 # ERP implementation status
 
-Updated 2026-10-03. PLAN-001 is approved under ERP-D-205. P01 and P02 are **verified within their stated local scopes**; P02 uses an isolated real Keycloak issuer. The customer's live issuer and owner manual/device review remain pending. P03–P26 remain **not started**.
+Updated 2026-10-03. PLAN-001 is approved under ERP-D-205. P01–P03 are **verified within their stated local scopes**. P02's earlier evidence uses an isolated real Keycloak issuer; P03 uses disposable PostgreSQL 18.3 clusters and persisted fixture sessions. The customer's live issuer and owner manual/device review remain pending. P04–P26 remain **not started**.
 
 ## Current evidence
 
@@ -12,11 +12,12 @@ Updated 2026-10-03. PLAN-001 is approved under ERP-D-205. P01 and P02 are **veri
 | P01 database foundation | Actual PostgreSQL 18.6, explicit infrastructure migration and checked-out-client transactions | Concurrent lock/checksum/order, real rollback/release and outage/recovery checks passed; no business schema or balances |
 | P01 status and shared UI | Real liveness/readiness, fail-closed authentication integration point, Arabic RTL focused development samples | 29 unit, 5 PostgreSQL and 8 browser cases passed in [final phase output](docs/verification/P01/72-final-phase-verified.txt); [visual comparison](docs/verification/P01/VISUAL-COMPARISON.md). Demonstration routes are absent in production |
 | P02 company access and identity | Native users/roles/branches, request-time scope, OIDC, recoverable identity jobs and separate MFA support verified locally | 37 unit, 26 database/HTTP and 10 browser cases across the recorded runs; persistent owner setup login also verified. [Setup/evidence](docs/verification/P02/README.md), [execution](phases/execution/P02.md), [shared handoff](docs/verification/P02/HANDOFF.md); actual local issuer is distinct from unconfigured customer live identity |
-| Commercial modules | P03 onward not started | No parcel registration, financial journal, stock, treasury, wallet or payroll workflow is implemented by P02's policy kernel |
+| P03 atomic command/journal kernel | Reuses P02 command/audit/work records; exact EGP, permanent command recovery, typed posting, shared wallet/cover locking and fenced jobs | Final P03 suite:37 unit/money,21 PostgreSQL/API/process and6 browser cases. Full regressions:81 unit and52 database/API cases. [Evidence and isolated trial](docs/verification/P03/README.md), [interfaces](docs/verification/P03/HANDOFF.md). PostgreSQL 18.3 on this host; no real payment/remittance or canonical connector claim |
+| Commercial modules | P04 onward not started | Shared P03 primitives and isolated inspection fixtures exist; actual brand, stock, shipment, treasury, payout and payroll workflows remain later phases |
 | Tawsel connector | Planned; required contract dependencies remain visible | No connector or simulated working connection; public integration is explicitly not applicable to P01; no Tawsel code changed |
 | Deployment/backup/restore/capacity | Proposed and untested | Local Docker verification is not production deployment, host approval, restore evidence or a capacity benchmark |
-| Implementation phases | P01/P02 verified within local scope; P03–P26 authored/unstarted | [P01 execution](phases/execution/P01.md), [P02 execution](phases/execution/P02.md), [catalog](phases/README.md), [coverage](phases/PHASE-COVERAGE.md), [P02 bounded traceability](docs/verification/P02/TRACEABILITY.md) |
-| Document verification | Earlier planning checks preserved; P01/P02 handoff links/status updated | [PHASES-001 checks](docs/verification/PHASES-001-DOCUMENT-CHECKS.md), [PLAN-001 checks](docs/verification/PLAN-001-DOCUMENT-CHECKS.md); those historical checks do not certify later runtime scope |
+| Implementation phases | P01–P03 verified within local scope; P04–P26 authored/unstarted | [P01 execution](phases/execution/P01.md), [P02 execution](phases/execution/P02.md), [P03 execution](phases/execution/P03.md), [catalog](phases/README.md), [coverage](phases/PHASE-COVERAGE.md), [P03 bounded traceability](docs/verification/P03/TRACEABILITY.md) |
+| Document verification | Earlier planning checks preserved; P01–P03 handoff links/status updated | [PHASES-001 checks](docs/verification/PHASES-001-DOCUMENT-CHECKS.md), [PLAN-001 checks](docs/verification/PLAN-001-DOCUMENT-CHECKS.md); those historical checks do not certify later runtime scope |
 
 The earlier pre-execution state on 2026-10-03 contained the approved documents and isolated UI prototype only. The dated [P01 attempt](phases/execution/P01.md) records the transition to this foundation, including failed checks and their repaired reruns. No prior diagnostic was replaced with a passing label.
 

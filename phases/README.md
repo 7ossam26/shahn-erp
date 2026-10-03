@@ -1,6 +1,6 @@
 # ERP implementation phases
 
-Revision PHASES-001, 2026-10-03. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01 and P02 are **verified within their stated local scopes**, including P02's isolated PostgreSQL/Keycloak. Owner manual review and customer live issuer remain unverified. P03–P26 remain **not started**. Authoring a prompt does not run it.
+Revision PHASES-001, 2026-10-03. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P03 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03's PostgreSQL 18.3 kernel checks. Owner manual review and customer live issuer remain unverified. P04–P26 remain **not started**. Authoring a prompt does not run it.
 
 ## How to use
 
@@ -18,7 +18,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | --- | --- | --- | --- | --- |
 | P01 | [Runnable foundation and approved UI shell](01-foundation-and-ui-shell.md) | Existing approved documents and UI reference | `gpt-6.1-sol` / `xhigh` | [Verified within stated scope](execution/P01.md) |
 | P02 | [Company access and shared identity](02-company-access-and-identity.md) | P01 | `gpt-6-astra` / `xhigh` | [Verified within stated scope](execution/P02.md) |
-| P03 | [Atomic commands and shared journals](03-atomic-commands-and-journals.md) | P01, P02 | `gpt-6-astra` / `xhigh` | [Not started](execution/P03.md) |
+| P03 | [Atomic commands and shared journals](03-atomic-commands-and-journals.md) | P01, P02 | `gpt-6-astra` / `xhigh` | [Verified within stated scope](execution/P03.md) |
 | P04 | [Brands, geography and immutable pricing](04-brands-geography-and-pricing.md) | P02, P03 | `gpt-6.1-sol` / `high` | [Not started](execution/P04.md) |
 | P05 | [Products, physical stock receipt and monitoring](05-products-stock-receipt-and-monitoring.md) | P03, P04 | `gpt-6.1-sol` / `high` | [Not started](execution/P05.md) |
 | P06 | [Ready and company-packed parcel intake](06-parcel-intake-and-packing.md) | P04, P05 | `gpt-6.1-sol` / `high` | [Not started](execution/P06.md) |

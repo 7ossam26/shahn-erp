@@ -1,0 +1,128 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 34858ms
+ ❯ tests/db/access.test.ts (17 tests | 3 failed) 125112ms
+   ❯ P02 real PostgreSQL and server authorization (17)
+     ✓ same-company constraints reject cross-branch assignment and ordinary support-account linkage 44ms
+     ✓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide 157ms
+     ✓ closed API rejects forged headers, support self-grant and missing CSRF with no partial writes 17ms
+     ✓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected 72ms
+     × user creation commits pending native identity, work, command and audit together; unknown stays pending after restart 20ms
+     × a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command 9ms
+     ✓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint 8ms
+     ✓ support is separate, MFA bound, reasoned, attributed and expires on the next action 20ms
+     ✓ revocation affects an already open session, totals, recovered results and file downloads 38ms
+     ✓ expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API 6ms
+     ✓ role revocation through the real command API denies an old session and its retained command result 48ms
+     ✓ failure at audit insertion rolls back principal, native user, command and durable job together 11ms
+     × lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO 90015ms
+     ✓ support start rechecks expiry after waiting for company authority lock 105ms
+     ✓ command recovery rejects ambiguous cross-family UUID reuse instead of returning a different result 70ms
+     ✓ concurrent support company selection leaves one current scope and rejects the superseded company 21ms
+     ✓ a staff display name cannot masquerade as the support audit actor 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > user creation commits pending native identity, work, command and audit together; unknown stays pending after restart
+error: IMMUTABLE_INTENT
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ apps/api/src/modules/kernel/work.ts:14:45
+     12| export async function claimWork<T extends Lease>(pool: Pool, owner: st…
+     13|   if(!Number.isInteger(seconds) || seconds<1 || seconds>300) throw new…
+     14|   return transaction(pool, async client => (await client.query<T>(`WIT…
+       |                                             ^
+     15|     SELECT id FROM work_item WHERE kind=ANY($2::text[]) AND ((state='p…
+     16|       OR (state='leased' AND lease_until<=clock_timestamp())) ORDER BY…
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ IdentityWorker.runOne apps/api/src/modules/access/worker.ts:27:18
+ ❯ tests/db/access.test.ts:231:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command
+error: IMMUTABLE_INTENT
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ apps/api/src/modules/kernel/work.ts:14:45
+     12| export async function claimWork<T extends Lease>(pool: Pool, owner: st…
+     13|   if(!Number.isInteger(seconds) || seconds<1 || seconds>300) throw new…
+     14|   return transaction(pool, async client => (await client.query<T>(`WIT…
+       |                                             ^
+     15|     SELECT id FROM work_item WHERE kind=ANY($2::text[]) AND ((state='p…
+     16|       OR (state='leased' AND lease_until<=clock_timestamp())) ORDER BY…
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ IdentityWorker.runOne apps/api/src/modules/access/worker.ts:27:18
+ ❯ tests/db/access.test.ts:269:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/db/access.test.ts:459:3
+    457|     ).toEqual(before);
+    458|   });
+    459|   it('lease fencing ignores a late worker acknowledgement; no transact…
+       |   ^
+    460|     const result = await repo.command(fixture.admin.token, {
+    461|       ...base(),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+error: IMMUTABLE_INTENT
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ apps/api/src/modules/kernel/work.ts:14:45
+     12| export async function claimWork<T extends Lease>(pool: Pool, owner: st…
+     13|   if(!Number.isInteger(seconds) || seconds<1 || seconds>300) throw new…
+     14|   return transaction(pool, async client => (await client.query<T>(`WIT…
+       |                                             ^
+     15|     SELECT id FROM work_item WHERE kind=ANY($2::text[]) AND ((state='p…
+     16|       OR (state='leased' AND lease_until<=clock_timestamp())) ORDER BY…
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ IdentityWorker.runOne apps/api/src/modules/access/worker.ts:27:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { length: 138, severity: 'ERROR', code: 'P0001', detail: undefined, hint: undefined, position: undefined, internalPosition: undefined, internalQuery: undefined, where: 'PL/pgSQL function access.preserve_intent() line 6 at RAISE', schema: undefined, table: undefined, dataType: undefined, constraint: undefined, file: 'pl_exec.c', routine: 'exec_stmt_raise' }
+This error originated in "tests/db/access.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  3 failed | 23 passed (26)
+     Errors  1 error
+   Start at  21:48:14
+   Duration  161.71s (tests 99%, import 1%)

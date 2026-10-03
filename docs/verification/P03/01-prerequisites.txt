@@ -1,0 +1,15 @@
+2026-10-03. Starting commit 271e10f (phase 2), clean main.
+Working branch: codex/p03-atomic-kernel.
+No AGENTS.md found in the repository or ancestor directories.
+System runtime: Node v22.17.0 / npm 11.6.2.
+Initial npm ci --ignore-scripts --no-audit --no-fund: FAILED EBADENGINE.
+Required Node 24.21.0 / npm 12.2.0; no dependencies installed by that attempt.
+Official Node 24.21.0 Windows archive downloaded to ignored .tools/runtime.
+Expected SHA256: 158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541.
+Docker executable unavailable. Installed PostgreSQL binary: 18.3.
+Existing postgresql-x64-18 service is running; its data and service are untouched.
+P03 adds explicit SHAHN_TEST_PG_BIN opt-in to create disposable, isolated native
+PostgreSQL 18 clusters, with loopback, random credentials, fsync and synchronous commit.
+Prior P01/P02 evidence used Docker PostgreSQL 18.6. New evidence must identify 18.3.
+
+Prerequisite results: strict typecheck passed; 66 unit tests passed; all 26 P02 access/OIDC database tests passed. Foundation: 4/5 initially passed; native Windows outage/restart case exceeded 30-second test deadline. Rerun with 90-second deadline passed all 5; actual restart case took 30.598 seconds. No invariant/assertion removed. New native test budget is 90 seconds; Docker default remains 30 seconds.

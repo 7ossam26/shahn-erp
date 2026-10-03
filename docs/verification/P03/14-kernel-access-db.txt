@@ -1,0 +1,39 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/kernel.test.ts (13 tests | 1 failed) 36120ms
+   ❯ P03 committed PostgreSQL command/posting kernel (13)
+     ✓ commits one command/effect set for concurrent identical HTTP requests; rejects changed payload 202ms
+     ✓ same source through two command IDs posts once and rejects changed source meaning 45ms
+     ✓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing 50ms
+     ✓ rolls back all journals, command, source and audit when interrupted between posting and audit 18ms
+     ✓ barrier race, kernel.payout owns the wallet first 58ms
+     ✓ barrier race, kernel.reserve owns the wallet first 50ms
+     ✓ stale expectedVersion, revoked capability, another principal and changed branch scope cannot expose/reexecute results 21ms
+     ✓ compacts only expired resolved responses and recovers the immutable authorized domain result 14ms
+     ✓ rejects cross-company effects and invalid signs at the database boundary; history is append-only 46ms
+     ✓ fences worker A after database-expired lease; B commits, A cannot publish 52ms
+     ✓ holds source-specific eligible lots and keeps pending/storage out of payouts 17ms
+     ✓ does not register the controlled trial in production 16ms
+     × kills the actual API after commit before response, restarts and recovers the same identity 532ms
+ ✓ tests/db/access.test.ts (17 tests) 35480ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/kernel.test.ts > P03 committed PostgreSQL command/posting kernel > kills the actual API after commit before response, restarts and recovers the same identity
+Error: API_START_FAILED_1
+ ❯ ChildProcess.<anonymous> tests/db/kernel.test.ts:204:84
+    202|       let childOrigin='';
+    203|       await new Promise<void>((resolve,reject)=>{
+    204|         child.once('error',reject);child.once('exit',code=>{if(!childO…
+       |                                                                                    ^
+    205|         child.on('message',message=>{const value=message as {origin?:s…
+    206|           if(value.origin){childOrigin=value.origin;resolve();}else if…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 29 passed (30)
+   Start at  21:51:42
+   Duration  74.07s (tests 97%, import 3%)
