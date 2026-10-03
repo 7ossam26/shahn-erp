@@ -1,0 +1,189 @@
+- generic [ref=f5e3]:
+  - link "انتقل للمحتوى" [ref=f5e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=f5e5]:
+    - generic [ref=f5e6]:
+      - text: معاينة التصميم
+      - generic [ref=f5e8]: "01"
+      - generic [ref=f5e9]: · بيانات تجريبية
+    - button "مراجعة المظهر" [ref=f5e10] [cursor=pointer]
+  - banner [ref=f5e17]:
+    - generic [ref=f5e18]:
+      - link "شحن — الرئيسية" [ref=f5e19] [cursor=pointer]:
+        - /url: "#/"
+        - strong [ref=f5e25]:
+          - text: شحن
+          - generic [ref=f5e26]: إدارة شركة الشحن
+      - generic [ref=f5e32]:
+        - text: شركة المسار للشحن
+        - generic [ref=f5e33]: القاهرة والجيزة · مساحة أحمد
+      - generic "أحمد، مستخدم تجريبي" [ref=f5e34]: أ
+  - main [ref=f5e35]:
+    - button "الرئيسية" [ref=f5e136] [cursor=pointer]
+    - generic [ref=f5e139]:
+      - generic [ref=f5e140]:
+        - paragraph [ref=f5e141]: متابعة يومية
+        - heading "المخزون" [active] [level=1] [ref=f5e142]
+        - paragraph [ref=f5e143]: اعرف الموجود في الفرع، واللي خرج في عهدة مندوب.
+      - button "تتبع شحنة في الشركة" [ref=f5e144] [cursor=pointer]
+    - generic [ref=f5e145]: "الفروع المتاحة ليك: فرع القاهرة، فرع الجيزة"
+    - generic [ref=f5e151]:
+      - generic [ref=f5e152]:
+        - text: شحنات داخل فروعك
+        - strong [ref=f5e153]:
+          - text: "6"
+          - generic [ref=f5e154]: شحنة
+      - generic [ref=f5e155]:
+        - text: خارج مخزون الفرع
+        - strong [ref=f5e156]:
+          - text: "3"
+          - generic [ref=f5e157]: شحنة
+      - paragraph [ref=f5e164]:
+        - text: الأرقام تتغير بعد تسجيل
+        - strong [ref=f5e165]: الاستلام الفعلي.
+    - generic [ref=f5e166]:
+      - generic [ref=f5e167]:
+        - group "نوع المخزون" [ref=f5e168]:
+          - button "الشحنات" [pressed] [ref=f5e169] [cursor=pointer]
+          - button "منتجات البراندات" [ref=f5e174] [cursor=pointer]
+        - generic [ref=f5e179]: بحث وفلاتر
+      - generic [ref=f5e181]:
+        - generic [ref=f5e182]:
+          - generic [ref=f5e183]: بحث
+          - textbox "بحث في الشحنات" [ref=f5e185]:
+            - /placeholder: رقم الشحنة أو اسم المستلم…
+        - generic [ref=f5e186]:
+          - generic [ref=f5e187]: الفرع
+          - combobox "الفرع" [ref=f5e189] [cursor=pointer]:
+            - option "كل فروعك" [selected]
+            - option "فرع القاهرة"
+            - option "فرع الجيزة"
+        - generic [ref=f5e190]:
+          - generic [ref=f5e191]: البراند
+          - combobox "البراند" [ref=f5e193] [cursor=pointer]:
+            - option "كل البراندات" [selected]
+            - option "لِين"
+            - option "خطوة"
+            - option "نواة"
+            - option "بيت ومودة"
+        - generic [ref=f5e194]:
+          - generic [ref=f5e195]: موقع العهدة
+          - combobox "موقع العهدة" [ref=f5e197] [cursor=pointer]:
+            - option "داخل الفروع" [selected]
+            - option "خارج مخزون الفرع"
+            - option "كل العهد"
+      - generic [ref=f5e198]:
+        - generic [ref=f5e199]: 6 شحنات
+        - button "مسح الفلاتر" [ref=f5e200] [cursor=pointer]
+      - table [ref=f5e205]:
+        - rowgroup [ref=f5e206]:
+          - row [ref=f5e207]:
+            - columnheader "الشحنة / البراند" [ref=f5e208]
+            - columnheader "المستلم" [ref=f5e209]
+            - columnheader "الحالة" [ref=f5e210]
+            - columnheader "المكان / العهدة الحالية" [ref=f5e211]
+            - columnheader "آخر تحديث" [ref=f5e212]
+            - columnheader "التفاصيل" [ref=f5e213]
+        - rowgroup [ref=f5e215]:
+          - row [ref=f5e216]:
+            - cell "10428 لِين" [ref=f5e217]:
+              - link "10428" [ref=f5e218] [cursor=pointer]:
+                - /url: "#/shipment/10428"
+              - generic [ref=f5e223]: لِين
+            - cell "سارة محمود الجيزة · الدقي" [ref=f5e224]:
+              - text: سارة محمود
+              - generic [ref=f5e225]: الجيزة · الدقي
+            - cell "تم الاستلام في الفرع" [ref=f5e226]
+            - cell "فرع الجيزة داخل الفرع" [ref=f5e229]:
+              - text: فرع الجيزة
+              - generic [ref=f5e230]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ١٠:٤٠ ص" [ref=f5e231]
+            - cell [ref=f5e232]:
+              - link "تفاصيل الشحنة 10428" [ref=f5e233] [cursor=pointer]:
+                - /url: "#/shipment/10428"
+          - row [ref=f5e236]:
+            - cell "10432 لِين" [ref=f5e237]:
+              - link "10432" [ref=f5e238] [cursor=pointer]:
+                - /url: "#/shipment/10432"
+              - generic [ref=f5e243]: لِين
+            - cell "هنا إبراهيم القاهرة · مدينة نصر" [ref=f5e244]:
+              - text: هنا إبراهيم
+              - generic [ref=f5e245]: القاهرة · مدينة نصر
+            - cell "جاهزة في الفرع" [ref=f5e246]
+            - cell "فرع القاهرة داخل الفرع" [ref=f5e249]:
+              - text: فرع القاهرة
+              - generic [ref=f5e250]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ١١:٢٠ ص" [ref=f5e251]
+            - cell [ref=f5e252]:
+              - link "تفاصيل الشحنة 10432" [ref=f5e253] [cursor=pointer]:
+                - /url: "#/shipment/10432"
+          - row [ref=f5e256]:
+            - cell "10431 خطوة" [ref=f5e257]:
+              - link "10431" [ref=f5e258] [cursor=pointer]:
+                - /url: "#/shipment/10431"
+              - generic [ref=f5e263]: خطوة
+            - cell "محمد سامح القاهرة · مدينة نصر" [ref=f5e264]:
+              - text: محمد سامح
+              - generic [ref=f5e265]: القاهرة · مدينة نصر
+            - cell "قيد التجهيز" [ref=f5e266]
+            - cell "فرع القاهرة داخل الفرع" [ref=f5e269]:
+              - text: فرع القاهرة
+              - generic [ref=f5e270]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ١١:١٠ ص" [ref=f5e271]
+            - cell [ref=f5e272]:
+              - link "تفاصيل الشحنة 10431" [ref=f5e273] [cursor=pointer]:
+                - /url: "#/shipment/10431"
+          - row [ref=f5e276]:
+            - cell "10424 بيت ومودة" [ref=f5e277]:
+              - link "10424" [ref=f5e278] [cursor=pointer]:
+                - /url: "#/shipment/10424"
+              - generic [ref=f5e283]: بيت ومودة
+            - cell "رانيا عادل القاهرة · المعادي" [ref=f5e284]:
+              - text: رانيا عادل
+              - generic [ref=f5e285]: القاهرة · المعادي
+            - cell "تلف تحت المراجعة" [ref=f5e286]
+            - cell "فرع القاهرة داخل الفرع" [ref=f5e289]:
+              - text: فرع القاهرة
+              - generic [ref=f5e290]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ٩:٤٥ ص" [ref=f5e291]
+            - cell [ref=f5e292]:
+              - link "تفاصيل الشحنة 10424" [ref=f5e293] [cursor=pointer]:
+                - /url: "#/shipment/10424"
+          - row [ref=f5e296]:
+            - cell "10423 لِين" [ref=f5e297]:
+              - link "10423" [ref=f5e298] [cursor=pointer]:
+                - /url: "#/shipment/10423"
+              - generic [ref=f5e303]: لِين
+            - cell "أحمد هاني القاهرة · مصر الجديدة" [ref=f5e304]:
+              - text: أحمد هاني
+              - generic [ref=f5e305]: القاهرة · مصر الجديدة
+            - cell "قيد التغليف" [ref=f5e306]
+            - cell "فرع القاهرة داخل الفرع" [ref=f5e309]:
+              - text: فرع القاهرة
+              - generic [ref=f5e310]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ٩:٣٠ ص" [ref=f5e311]
+            - cell [ref=f5e312]:
+              - link "تفاصيل الشحنة 10423" [ref=f5e313] [cursor=pointer]:
+                - /url: "#/shipment/10423"
+          - row [ref=f5e316]:
+            - cell "10422 نواة" [ref=f5e317]:
+              - link "10422" [ref=f5e318] [cursor=pointer]:
+                - /url: "#/shipment/10422"
+              - generic [ref=f5e323]: نواة
+            - cell "كريم وائل الجيزة · العمرانية" [ref=f5e324]:
+              - text: كريم وائل
+              - generic [ref=f5e325]: الجيزة · العمرانية
+            - cell "جاهزة في الفرع" [ref=f5e326]
+            - cell "فرع الجيزة داخل الفرع" [ref=f5e329]:
+              - text: فرع الجيزة
+              - generic [ref=f5e330]: داخل الفرع
+            - cell "٣ أكتوبر ٢٠٢٦، ٩:١٥ ص" [ref=f5e331]
+            - cell [ref=f5e332]:
+              - link "تفاصيل الشحنة 10422" [ref=f5e333] [cursor=pointer]:
+                - /url: "#/shipment/10422"
+      - generic [ref=f5e336]:
+        - generic [ref=f5e338]: بيانات تجريبية ثابتة للمراجعة
+        - generic [ref=f5e339]: المخزون المتاح يستبعد المحجوز والتالف.
+  - contentinfo [ref=f5e130]:
+    - generic [ref=f5e131]: شحن·شركة المسار للشحن
+    - generic [ref=f5e132]: نموذج للمراجعة — بدون عمليات فعلية

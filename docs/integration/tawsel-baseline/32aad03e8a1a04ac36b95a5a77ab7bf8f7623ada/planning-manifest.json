@@ -1,0 +1,301 @@
+{
+  "kind": "erp-planning-reference",
+  "generatedAt": "2026-09-25T08:22:32.982Z",
+  "sourceCommit": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+  "sourceWorkingTreeChanges": "",
+  "clientVersion": "0.1.0",
+  "counts": {
+    "schemas": 29,
+    "validExamples": 267,
+    "invalidExamples": 166,
+    "catalogEntries": 186,
+    "boundHttpOperations": 127,
+    "senderEventMappings": 27
+  },
+  "notice": "Packaging checks preserve canonical bytes and reference closure. They do not review business prose or certify runtime/deployment. Review changed sources using REFRESH-BEFORE-SENDING.md before sending an updated package.",
+  "changedSourcesSincePreviousBuild": [],
+  "sourceFiles": [
+    {
+      "path": "contracts/action-envelope.v1.schema.json",
+      "bytes": 1916,
+      "sha256": "3e134a59e3cf8415df51800e84949db6f7ccf25c8b54e899f7f179f10f59cf56"
+    },
+    {
+      "path": "contracts/action-result.v1.schema.json",
+      "bytes": 1806,
+      "sha256": "b59e970270e82122f08c3017ad9aabb771de6592b10eec80ec75a2636c486426"
+    },
+    {
+      "path": "contracts/b2b-intake.schema.json",
+      "bytes": 28322,
+      "sha256": "133b951077bab6448f4c0b760543253c6225a588ec00bf4c5f9544fdf8b53d04"
+    },
+    {
+      "path": "contracts/b2c-intake.schema.json",
+      "bytes": 6614,
+      "sha256": "5c9cdea25786dc8656ce7a8ec874d073aede9446e4ed6c7a1b04bc7f0135197d"
+    },
+    {
+      "path": "contracts/branch-activity.schema.json",
+      "bytes": 6426,
+      "sha256": "b068d838956b603eb1e071e0c2fde2ad2a7abd7b32e3721262b68cf3e481c59b"
+    },
+    {
+      "path": "contracts/common.schema.json",
+      "bytes": 25877,
+      "sha256": "2379916f4108d10d8b1176819eaf8f998edb8bc20e951ef73622979a60a3df81"
+    },
+    {
+      "path": "contracts/consumer.schema.json",
+      "bytes": 12793,
+      "sha256": "cbff563ea8ea28a6af9f557e85bab0097c89a095d2cb6ca74e3d066d26352fe1"
+    },
+    {
+      "path": "contracts/corrections.schema.json",
+      "bytes": 10075,
+      "sha256": "6f44c84bd6adc1a39ee0d3f5c01c27f7d3041523c4295243f8672fbdff91aae6"
+    },
+    {
+      "path": "contracts/current-activity.schema.json",
+      "bytes": 28600,
+      "sha256": "7a471aaa12d404c886b4baa33061f0fe8fd908395c8c083bd602c77543444fa4"
+    },
+    {
+      "path": "contracts/device-ownership.schema.json",
+      "bytes": 15132,
+      "sha256": "4fadce037f2cae24b52cd35697623339a5d70ce85244312ff26af97c50cd42f3"
+    },
+    {
+      "path": "contracts/eligibility.schema.json",
+      "bytes": 19515,
+      "sha256": "15e474f47d2695d6d3794ed38a87750502e6402098494ef0f5a98aa5196ef089"
+    },
+    {
+      "path": "contracts/events/envelope.v1.schema.json",
+      "bytes": 3304,
+      "sha256": "d723d62d419e5fe20f896481df0d54ef6b94d8437d19f3057cc47f199eba7ccd"
+    },
+    {
+      "path": "contracts/events/sender-event.v1.schema.json",
+      "bytes": 14025,
+      "sha256": "cbce5b5128d8d2f5cf6c58668c989e6b403876531703921a16834dbcf9fb1f06"
+    },
+    {
+      "path": "contracts/evidence-receipt.v1.schema.json",
+      "bytes": 2200,
+      "sha256": "ee3d27729454cb915ff9f01fbac5ebb2d9a5c9ead0b1521357f05fb6cef71e9e"
+    },
+    {
+      "path": "contracts/examples/invalid.json",
+      "bytes": 225344,
+      "sha256": "3234326d04ff99b777232ac833bed319ad08158e18653016d34243ce6c2b8827"
+    },
+    {
+      "path": "contracts/examples/README.md",
+      "bytes": 12733,
+      "sha256": "3a3a748a4d5f9298f2f03ee46270da31258c27cea582ff8b787d31af733e85e7"
+    },
+    {
+      "path": "contracts/examples/valid.json",
+      "bytes": 429233,
+      "sha256": "30e2b0b097903a8394a1d80aa380b450beb6d20e2591b8d49b3bdf12ffde1da7"
+    },
+    {
+      "path": "contracts/examples/webhook-signature.v1.json",
+      "bytes": 3068,
+      "sha256": "dd11d4d8427895e2c58a26665890c0031a39023f46246e0bd36d1efc5ccf63df"
+    },
+    {
+      "path": "contracts/local-work.schema.json",
+      "bytes": 6996,
+      "sha256": "8e3dac6fe46e12fbfcbe5b9a36c2dfd96fdfd7788e001a9c74399b67a831bd0b"
+    },
+    {
+      "path": "contracts/location.schema.json",
+      "bytes": 8478,
+      "sha256": "fdffb5d3be3b2dd413f32b8a574dd6ac4c3a882dc53aaefc0f6209dbc233333c"
+    },
+    {
+      "path": "contracts/monitoring.schema.json",
+      "bytes": 22099,
+      "sha256": "0fbf77e77b680b7efb5da297c7d313e3f315ebf7b76a630b732af842b6aea3f6"
+    },
+    {
+      "path": "contracts/openapi.yaml",
+      "bytes": 233705,
+      "sha256": "ceb8d0e127d55938439c0ff14c19ca096ebc58cb47b662057407eeb6de70736f"
+    },
+    {
+      "path": "contracts/operations.json",
+      "bytes": 74881,
+      "sha256": "b8c7943ad38d3c1365231e5a6e43494cb74b1cc4bd3637ea35f63cf58f7a7d3b"
+    },
+    {
+      "path": "contracts/outbox.schema.json",
+      "bytes": 17186,
+      "sha256": "acae29b68e9e267b2d1f495c6904880f421f3959684a3c14c8fa7c40f34bbf5b"
+    },
+    {
+      "path": "contracts/outcomes.schema.json",
+      "bytes": 30203,
+      "sha256": "909bfc5356faa2150077754845a4f83c7328fcfe58571254e701edeab1c72927"
+    },
+    {
+      "path": "contracts/planning.schema.json",
+      "bytes": 44862,
+      "sha256": "036bd75af7d42081afd48e6688f6bb14f9f840239d39be1c67d87aacace7f04e"
+    },
+    {
+      "path": "contracts/provisioning.schema.json",
+      "bytes": 36921,
+      "sha256": "a6fe07968bcc85452431ff858764fc934b740ee522ab968859dcd2a0da7679b8"
+    },
+    {
+      "path": "contracts/reporting.schema.json",
+      "bytes": 27051,
+      "sha256": "3a6cb386d62c2a25656f5ea5068c713cfef767a6185eb11f291a570b8f4c82d7"
+    },
+    {
+      "path": "contracts/returns.schema.json",
+      "bytes": 22682,
+      "sha256": "4f2c517fb110241dc841addab69b74aead712b5604cd642138ce1473d8f6949f"
+    },
+    {
+      "path": "contracts/round-start.schema.json",
+      "bytes": 11580,
+      "sha256": "86f030f677de2adfa1dce5dea1d8a5391c70dc2c3d86b7d346039380f94e629b"
+    },
+    {
+      "path": "contracts/routing.schema.json",
+      "bytes": 13403,
+      "sha256": "164fe51675a27b82b1ff6cba92c88a4a768bbbe3406cb50a549343e6a340e793"
+    },
+    {
+      "path": "contracts/session.schema.json",
+      "bytes": 3865,
+      "sha256": "4e36e094d482ff40e7964733fce8c30433b61844234b786b863de378470d2684"
+    },
+    {
+      "path": "contracts/source.schema.json",
+      "bytes": 5872,
+      "sha256": "a715ce999fdca0d7dff7cef0877f65ac6b9a6fc4813fc1341978c83b4e529ae3"
+    },
+    {
+      "path": "contracts/sync.schema.json",
+      "bytes": 3806,
+      "sha256": "d5e8884719dade7563fa2cdc69bbe5845ae58849c7eb4ae38661d6dd1a8fb977"
+    },
+    {
+      "path": "contracts/workday-closure.schema.json",
+      "bytes": 23711,
+      "sha256": "fd695fffc90989241c77157deaa758203c9d0b8d0b7cc5a90ac55f9e9cfb9c68"
+    },
+    {
+      "path": "docs/erp/consumer-quickstart.md",
+      "bytes": 51860,
+      "sha256": "47f848aa2aeaa493f098ace04dd8375301e073ac4458bc3d3d69a35179266a9e"
+    },
+    {
+      "path": "docs/erp/ERP-PLANNING-INPUT.md",
+      "bytes": 58505,
+      "sha256": "1efa63ba01f12fe0d895162d6823a6c1174914e5d8ddd12dca32d699d01347b9"
+    },
+    {
+      "path": "docs/erp/field-and-status-mapping.md",
+      "bytes": 84874,
+      "sha256": "f73b1e451573a8ecd635e58d0c14ef2d8558d009abdcffbbbb2ca01ebbe28eda"
+    },
+    {
+      "path": "docs/erp/receiver-protocol.md",
+      "bytes": 7898,
+      "sha256": "90b437d875294fdd4842514a42078c35c538f8900125c37572a9bcb844d4fe2e"
+    },
+    {
+      "path": "docs/erp/source-protocol.md",
+      "bytes": 7783,
+      "sha256": "c0aff83801900ab09bde103e41c3529a474b6c9fc1e66326d96f5af05faf93bc"
+    },
+    {
+      "path": "docs/implementation-status.md",
+      "bytes": 121886,
+      "sha256": "ad017d33df6fb18b0279afa6a2f06ddae172aa324bcecb9c2211a0d1e664d464"
+    },
+    {
+      "path": "docs/outbox-delivery.md",
+      "bytes": 18663,
+      "sha256": "e3d24bb337d76ba4780a467ef1eedfe740bb8ede7580570f3e6d9de683695cd4"
+    },
+    {
+      "path": "docs/provisioning.md",
+      "bytes": 13717,
+      "sha256": "978b9eae19575dde03b97bde23800ca6a9673e3fec3e422679c0d6c57559f496"
+    },
+    {
+      "path": "docs/reporting.md",
+      "bytes": 10509,
+      "sha256": "f5b5b335b4108506535c9859cb66dda111b9c9146f89819b9157ce5712fb12bc"
+    },
+    {
+      "path": "docs/tracking-and-consistency.md",
+      "bytes": 38312,
+      "sha256": "eeb0c95c2bec775a09f5e54a5c8b62c33060cde1d14dba9b862c9e4808f701fc"
+    },
+    {
+      "path": "packages/api-client/package.json",
+      "bytes": 1226,
+      "sha256": "9ca7acbbb3ca2ba5ce3573e2387da6df881cf2bdebd2d24b33b5a188263edae1"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "00-START-ERP-PLANNING-PROMPT.md",
+      "bytes": 14188,
+      "sha256": "6e218408b52a0a526178257453c7acc245a457f971ef1b886388e0d3d7389938"
+    },
+    {
+      "path": "01-TAWSEL-CURRENT-BASELINE.md",
+      "bytes": 6995,
+      "sha256": "e6f58645a3cfad5bd763d3ecf416bc5e96c2ab600f42abd2836398984c31806e"
+    },
+    {
+      "path": "02-BUSINESS-BOUNDARY-AND-MAPPING.md",
+      "bytes": 15966,
+      "sha256": "4417ef24c218c52b8d72edced0f25ee50e4559660d6a4052ffdab02e9fcb7232"
+    },
+    {
+      "path": "03-CONNECTOR-AND-RECOVERY.md",
+      "bytes": 15647,
+      "sha256": "48d3b4524a123c45a5575d13f71d959c9e29884c43324b1ccf7551d002528c0f"
+    },
+    {
+      "path": "04-CANONICAL-HTTP.md",
+      "bytes": 332564,
+      "sha256": "cc7a451ba4bacd38e4bbfd05d6ffecdd174cbde58a914458c0c1174c3bcabf65"
+    },
+    {
+      "path": "05-CANONICAL-SCHEMAS.md",
+      "bytes": 467120,
+      "sha256": "665cf8ccdd3297b9d017707fcad1c65e6b6ae824f049d1e1e71f34bdcbc429b0"
+    },
+    {
+      "path": "06-CANONICAL-EXAMPLES.md",
+      "bytes": 708357,
+      "sha256": "5768bd51f98040882944ccff8b14d975c40ac867103ea0494a0d5737854a84d9"
+    },
+    {
+      "path": "07-ERP-DISCOVERY-AND-CHANGE-CONTROL.md",
+      "bytes": 11274,
+      "sha256": "d16aae2692abf0626c3f4fbddb256d28441b94547339a3b150365cf33d4aa633"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4782,
+      "sha256": "3d7fbfa1dfbddef272035061f629d567d92cb7a81a4598fe9ff54fd72405b147"
+    },
+    {
+      "path": "REFRESH-BEFORE-SENDING.md",
+      "bytes": 2880,
+      "sha256": "e7aeb6e6e5a2e285c8ec1573a51199d608c3bcc2c2ac815920f429ad2252d716"
+    }
+  ]
+}

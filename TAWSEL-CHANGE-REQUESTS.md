@@ -1,0 +1,215 @@
+# Tawsel Change Requests for the ERP
+
+Updated: 2026-10-03, discovery session 020. CHECK-002 is closed for the selected scope by the owner's exclusion of an earlier paid-attempt scenario. CHECK-003 remains internal engineering reconciliation after the owner reconfirmed ERP-only physical transfer and destination receipt. Neither answer verifies new Tawsel behavior. Canonical API baseline unchanged.
+
+Status: evolving English change-request register, as requested by the owner. This is not an implementation prompt, an approved replacement contract, or a claim that Tawsel work has been performed. Consolidate and review this same file at the end of ERP planning for the owner's later handoff to Codex in the Tawsel repository. Do not create separate competing change lists.
+
+Planning overlay, session024: [ERP-TAWSEL-INTEGRATION-PLAN.md](ERP-TAWSEL-INTEGRATION-PLAN.md) and [selected contract coverage](docs/planning/INTEGRATION-CONTRACT-COVERAGE.md) now specify the selected operations/events, mapping and acceptance. CR-001 and CHECK-003 remain the material contract dependencies. ERP-D-203's company-funded replacement waiver changes only ERP's commercial shipping obligation and the existing source shippingDue amount; it does not authorize a new canonical waiver field or change goods due. The pinned Tawsel baseline is unchanged and no Tawsel code or runtime test was executed.
+
+## Current scope override — session 020
+
+- ERP-D-195 / ERP-R-204 exclude the question's specific case of recipient shipping already paid on an earlier attempt. CHECK-002 is no longer an active request or planning blocker for that case. Preserve ERP-D-064's distinct goods-prepaid-to-brand and fully-prepaid-to-brand delivery modes, together with ERP-D-194's per-visit company fee. The owner did not revoke them. Historical contract evidence remains below without a claim that the excluded aggregation semantics were verified.
+- ERP-D-196 / ERP-R-205 reconfirm ERP-only carrier assignment, actual handover, destination confirmation and the resulting stock/custody update. The owner says the proposed branch-change situation will not occur. This answer supplies no Tawsel lifecycle sequence and does not clearly withdraw every aspect of ERP-D-186's earlier returned-shipment redispatch requirement. Qualify that earlier mapping commitment for internal engineering reconciliation; do not silently delete the requirement or assert compatibility. CHECK-003 is not an active owner questionnaire or a request for a new API. Its historical clarification text is retained as review evidence only.
+- UI design and review now take priority under ERP-D-197 / ERP-R-206. Neither check requires another owner question before that work can proceed. Any later established contract mismatch must identify the exact selected workflow and current behavior before becoming a bounded change request.
+
+## Authority and baseline
+
+- Owner requirements: ERP-D-070/077 retain driver-entered refusal reasons in Tawsel and receipt by ERP. ERP-D-166 and ERP-R-175 select one fixed product-level reason list defined by the ERP and shared across customer companies.
+- Session 016 requirements: ERP-D-170 / ERP-R-179 add physical inter-branch movement of whole shipments or stock pieces using an assigned driver and confirmed destination receipt. ERP-D-171 / ERP-R-180 request missing pieces and no answer after arrival in the unsuccessful-delivery cases. These additions do not themselves approve new Tawsel operations or wire fields.
+- Session 017: ERP-D-175 / ERP-R-184 select ERP staff assignment/handover and destination receipt, without a Tawsel transport task. ERP-D-174 / ERP-R-183 approve same-identity retry, a hold on affected payout eligibility for known synchronization gaps, and Settlements review for a correction affecting posted money. Neither choice adds Tawsel authority.
+- Session 018: ERP-D-184 / ERP-R-193 allow company drivers, listing source-branch drivers first. ERP-D-185 / ERP-R-194 allow an ERP transfer during a Tawsel customer-delivery round, prioritize drivers known to be at the branch without an active round, and display current-round status with honest freshness limits. ERP-D-186 / ERP-R-195 approve transfer of eligible actually returned shipments and subsequent customer dispatch from the destination, preserving shipment identity, captured price and history. ERP-Q-159/160/161 are resolved business choices; the exact Tawsel branch-change contract remains TAWSEL-CHECK-003. The owner also confirms that this internal transfer has no brand charge.
+- Session 019: ERP-D-193 / ERP-R-202 close ERP-Q-149 by selecting the same reasons for rejected portions of partial delivery and requiring written detail for Other. ERP-D-194 / ERP-R-203 close ERP-Q-168: base shipping 50 plus packing uplift 5 earns a company fee of 55 for each actual eligible visit, while percentage commission uses 50. These commercial choices do not establish a new recipient payment, override source prices or settle TAWSEL-CHECK-002. ERP-D-190 assigns the complete visit revenue to the branch dispatching that work.
+- Supplied canonical baseline: `32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada`, extracted `2026-09-25T08:22:32.982Z`.
+- Prior-owner decision source review at `a891d189...` is provenance, not a contract upgrade. ERP-V2 is unrelated to this contract identity.
+- The existing completed Tawsel system retains execution, routing, physical-arrival facts and driver authority. ERP retains its commercial fees, brand accounts, stock and HR. No shared database, Engine calls or source-service driver impersonation.
+- The owner has authorized gathering future changes, not modifying Tawsel in this discovery task. Existing ERP discovery continues while the dependency is documented.
+
+## Request index
+
+| ID | Classification | Need | Current state |
+| --- | --- | --- | --- |
+| TAWSEL-CR-001 | Confirmed extension required; detailed design pending | Driver-origin refusal reason from the fixed product-level list reaches ERP through authoritative records and recovery. | No reason field in reviewed closed Refusal/Record/correction Replacement schemas. Not implemented. A company-editable catalog or management API is not a selected requirement. |
+| TAWSEL-CR-002 | Historical conditional request; not selected | The earlier candidate would have added Tawsel execution/routing for the transfer driver. | Closed by ERP-D-175: the selected transport workflow is ERP-only. No Tawsel transport endpoint, event or driver screen is requested. Residual customer-shipment relocation compatibility is tracked separately by TAWSEL-CHECK-003. |
+| TAWSEL-CHECK-001 | Existing capability; acceptance coverage needed | Use explicit physical arrival and attempt identity for ERP visit charges, including no-answer and retries. | Arrival event exists. Do not request a duplicate event or fabricate collection. |
+| TAWSEL-CHECK-002 | Closed for selected scope; excluded scenario, not contract-verified | Recipient shipping amount after shipping was paid on a prior attempt. | ERP-D-195 / ERP-R-204 exclude this scenario. Full prepayment to the brand remains supported. Retain evidence below; no active clarification request or new API. |
+| TAWSEL-CHECK-003 | Internal engineering scope and mapping reconciliation | ERP-only physical transfer, plus the earlier qualified returned-shipment redispatch commitment. | ERP-D-196 / ERP-R-205 reconfirm actual destination receipt and stock/custody update. Reconcile ERP-D-186 internally without claiming its withdrawal or Tawsel compatibility. Historical clarification text is not an active owner request or an established extension requirement. |
+
+## TAWSEL-CR-001 — Driver-entered refusal reason
+
+### Confirmed business need
+
+The driver records the reason when refusing a delivery in Tawsel. In session 008 the owner selected coded reasons plus an Other path for a typed reason (ERP-D-077). Session 015 selects a fixed product-level reason list defined by the ERP, consistent across customer companies (ERP-D-166; ERP-R-175). This rejects the proposed company-editable add/disable catalog. It does not move reason entry from the driver to ERP staff. ERP displays and retains the accepted reason with the correct shipment/attempt/outcome, including recovery after a disconnect. An ERP staff-only reason field does not satisfy the selected workflow.
+
+Session 016 adds two requested cases (ERP-D-171; ERP-R-180): missing pieces and a recipient who does not answer after arrival. Missing pieces is a reported discrepancy/reason, not confirmation that goods were lost in company custody and not automatic compensation or inventory adjustment. No answer after arrival uses the existing distinct `no-answer` outcome plus accepted physical-arrival evidence; it must not be recoded as `refused` merely to fit a refusal dropdown. No redundant no-answer endpoint is requested.
+
+The fixed product list includes changed mind/no longer needed, amount different from agreement, product different from order, product/package condition problem, agreed inspection unavailable, missing pieces, and Other. ERP-D-193 / ERP-R-202 close ERP-Q-149: the same reasons apply to rejected portions of partial delivery, and choosing Other requires written detail. Exact wire enums, field names, placement and technical validation limits remain to be designed. The separately displayed no-answer-after-arrival case retains its existing canonical outcome semantics.
+
+### Current contract evidence
+
+`outcomes.schema.json#/$defs/Refusal` contains execution identity/revisions, `shippingPayment` and `reportedCollection`; it has `additionalProperties: false` and no reason property. Canonical `Record` and `corrections.schema.json#/$defs/Replacement` likewise do not carry the requested reason. `outcome.recorded` uses the canonical outcome record.
+
+`outcome.recordRefusal` at `/api/v1/outcomes/refusal` is a human-session operation, with CSRF and own-execution authority. The source-service connector must not submit it on behalf of a driver. Existing paid/unpaid refusal fixtures demonstrate collection, not reasons.
+
+### Decisions still needed
+
+- Coded reasons plus a typed Other path are settled by ERP-Q-051. Session 016 adds missing pieces and no answer after arrival. Session 019 closes ERP-Q-149: use the same reasons for the rejected portion of partial delivery and require detail for Other. Preserve the distinction between this approved business requirement and the still-unselected wire representation.
+- Fixed product-level ownership is now selected. Stable code identities, list version compatibility, historical display and distribution between ERP and Tawsel still need technical design. Static shared versioned codes may satisfy this without a new management endpoint.
+- Which refusal cases require a reason, treatment of old records/clients, supported correction behavior, length/validation/privacy limits, and whether a separate optional comment is useful.
+- The partial-delivery business scope is approved. Whether a reason is represented once for the rejected portion, per rejected line, or through another precise contract structure remains technical design; do not invent line-level fields from the scope decision alone. The selected no-answer-after-arrival display uses the existing outcome and separate arrival evidence, not an invented refusal reason field on a closed no-answer command.
+
+### Required change surfaces for the later Tawsel handoff
+
+- Driver refusal UI and validated human command, while preserving existing authority, source locks and exact-money rules.
+- Durable accepted outcome, bounded correction replacement and immutable previous history.
+- Authoritative result/read views, `outcome.recorded`, `outcome.corrected`, signed delivery, permitted replay/history and relevant reconciliation projections.
+- Versioned schema/OpenAPI/operation metadata and positive/negative fixtures; clear compatibility for historical records and old clients.
+- Agree stable fixed codes and compatible product versions, including driver availability and historical interpretation. No dynamic catalog publication or catalog-management API is required merely because the fixed list is defined by the ERP. Static shared versioned codes are a possible design, not an already documented contract feature.
+- No assumed endpoint, enum values or wire field names are approved here. A session 008 check of all 127 bound operations and provisioning configuration found no generic reason-catalog service. consumer.receiveSignedEvent, consumer.getStatus and source.getCommandStatus are transport/status operations. ProvisioningChanged.entity covers source, branch, role, user and driver, not refusal reasons. The current absence remains a fact; it does not establish a need for a new management endpoint under the selected fixed-list policy.
+
+### Proposed acceptance coverage, not tests already run
+
+1. A driver records paid-shipping and unpaid-shipping refusals with the agreed reason representation; ERP receives the correct accepted reason.
+2. Choosing Other without written detail is rejected. Other missing/invalid reason data, unknown codes, product-version mismatches and historical codes follow the explicitly designed contract behavior; no company add/disable workflow is implied.
+3. Duplicate command or event delivery does not duplicate the outcome or any ERP financial charge.
+4. Offline observation, delayed acceptance and replay preserve reason and identity. Receiver acknowledgement alone does not claim ERP application.
+5. A permitted correction retains the previous reason/history and updates the effective ERP display once. Disallowed correction remains rejected.
+6. Historical records lacking reasons display an explicit unavailable/legacy state rather than fabricated text.
+7. A source-service token cannot create a driver refusal or change its reason by impersonation.
+8. Missing-pieces reason entry does not by itself change quantities, confirm loss or post compensation. Confirmed loss follows the separately authorized incident and custody workflow.
+9. No answer after arrival displays only when the distinct no-answer outcome and authoritative arrival evidence support it; no arrival or payment is manufactured by selecting a label.
+10. The same fixed reason set is available for the rejected portion of a partial delivery, with mandatory Other detail. Verify its eventual accepted representation, correction and recovery without changing delivered/rejected quantities merely because a reason was selected.
+
+## TAWSEL-CR-002 — Historical transport-execution candidate, not selected
+
+### Selected ERP-only workflow
+
+ERP-D-170 / ERP-R-179 explicitly amend the earlier exclusion of routine physical inter-branch shipment transfer. The owner requests a dedicated transfer screen, selection of either a whole shipment or stock pieces, assignment to an available driver, physical transport, and receipt confirmation by staff at the destination branch. This is a goods-custody movement, separate from the already selected treasury-transfer screens.
+
+ERP-D-175 / ERP-R-184 close ERP-Q-152: source-branch staff assign the driver and record actual goods handover; destination staff confirm actual receipt in ERP. No transfer task, routing or driver execution screen in Tawsel is selected. ERP-D-176 permits mixed-brand manifests of whole shipments and stock quantities; ERP-D-178 limits eligibility to physically held goods and usable unreserved stock; ERP-D-179 sets assigned-source and assigned-destination staff scope. ERP-D-180 includes driver transport remuneration in salary. ERP-D-181 preserves actual received, damaged and missing quantities, and ERP-D-182 permits cancellation before handover but requires actual receipt or return after handover. These choices do not create a customer-delivery outcome or ordinary recipient-visit commission for the transfer leg.
+
+Session 018 resolves driver selection and concurrent work under ERP-D-184/185 and ERP-R-193/194: company drivers may carry a transfer, source-branch drivers appear first, and an active customer-delivery round does not exclude selection. Prefer drivers with evidence of branch presence and no active round; display the others' round status and evidence freshness. The owner confirms this internal movement has no brand charge, while driver remuneration remains included in salary. These choices do not add a Tawsel task, stop, round reservation, or transfer commission.
+
+### Current boundary and evidence
+
+The reviewed existing returns flow constrains `receivingBranchId` to the source branch. Its actual return receipt and receipt-funded redispatch cannot be treated as an unrestricted movement to any destination branch. A normal recipient-delivery outcome does not establish branch-stock receipt, and editing a branch field does not transport goods or change physical custody.
+
+See [ERP-INTERBRANCH-TRANSFER-REVIEW.md](docs/discovery/references/ERP-INTERBRANCH-TRANSFER-REVIEW.md) for the focused contract review and evidence limits. Preserve the pinned baseline until an updated contract is supplied and reviewed. No new path, operation name, schema, event or human/service permission is invented here.
+
+### Closed extension and retained compatibility check
+
+The proposed Tawsel transport-execution extension is not selected. Do not implement it or retain it as a required dependency merely because it was an earlier candidate. TAWSEL-CHECK-003 below retains the distinct question of a customer shipment already accepted by Tawsel whose goods later move between ERP branches. A verified mismatch may justify a specific future change request; ERP-only transport by itself does not prove either compatibility or the need for a new API. No implementation or runtime acceptance is claimed now.
+
+## TAWSEL-CHECK-001 — Arrival evidence and ERP commercial charges
+
+`current.arrivalRecorded` already carries `roundId`, `driverId`, `taskId`, `attemptId`, `activityRevision`, `stage: arrived` and `time`. Outcome `Record.arrival` is nullable. Calls/navigation or no-answer alone are not evidence of arrival; absent evidence stays unknown.
+
+ERP-D-069 charges each actual visit and assigns unpaid shipping to the brand. Current company `no-answer` remains `reported: null`, zero `shipping` and `unpaidShipping`, and `shippingStatus: not-attempted`. An ERP commercial debit must not change those execution facts.
+
+ERP-D-171 / ERP-R-180 now explicitly request the no-answer-after-arrival case in the ERP display. Preserve `no-answer` as the outcome and derive the after-arrival qualification only from accepted arrival evidence. The closed no-answer input rejects embedded `arrivalAt` and `shippingPayment`, and its record rejects fabricated reported collection. This is coverage of existing execution facts, not a new refusal outcome or endpoint.
+
+Required future coverage: accepted explicit arrival followed by no-answer; delayed/replayed/out-of-order facts; repeat delivery of one event; another real visit on a distinct eligible attempt; outcome correction; and incomplete historical recovery. Charge each accepted visit once, not each webhook, heading, retry command or correction revision. The reviewed examples do not prove the complete arrival-to-no-answer-to-replay journey at runtime.
+
+`task.retryWhole` identifies the previous and new attempts; a new dispatch via `dispatch.createFromReceipt` is distinct and requires actual eligible branch receipt. These existing facts can support ERP financial identity. Final mapping and the handling of missing arrival evidence still require design and acceptance coverage.
+
+## TAWSEL-CHECK-002 — Shipping paid on an earlier attempt
+
+**Current status, session 020:** closed for the selected scope under ERP-D-195 / ERP-R-204. The owner excludes the prior-attempt paid-shipping scenario. This closure does not verify the aggregation rule or remove full prepayment to the brand under ERP-D-064. The following session 019 reading and clarification are historical evidence; they are not an outstanding owner request.
+
+The focused session 019 review narrows this check. A receipt-funded new dispatch already requires a complete explicit outstanding-price snapshot while preserving the old cycle. The captured P22 example has old shippingDue=5000 and new shippingDue=0; a fresh new-cycle amount is supported. A same-cycle whole retry preserves source revision/cycle and has no replacement-price input. Correction availability excludes the replaced attempt from prior collections and does not permit price editing. Explicit zero outstanding amounts must not be collected again. These facts are confirmed; do not ask whether a fresh new-cycle snapshot exists.
+
+ERP-D-194 / ERP-R-203 now settle the ERP commercial charge: base shipping 50 plus agreed packing uplift 5 means 55 for every actual eligible customer visit, with no separate repacking counter and with percentage commission based on 50. The company may earn this fee even when the recipient pays nothing and the agreed brand liability applies. This does not mean Tawsel may collect a newly invented amount, mutate an immutable departed snapshot or report money that was not received. Exact recipient-payment allocation across retries, prior shipping payments and new dispatches remains this contract check; the owner's answer closes ERP-Q-168, not TAWSEL-CHECK-002.
+
+### Historical session 019 calculation question
+
+Against the pinned baseline, what is the rule for calculating remaining `DeliveryAffordance.shippingDue` after an earlier effective shipping collection? Does Tawsel count prior reports within the current dispatch cycle or across the stable shipment, and how do accepted corrections change that calculation? Supply the resulting numeric amount for a paid refusal followed by (a) a same-cycle whole retry and (b) a receipt-funded new cycle whose explicit snapshot has nonzero `shippingDue`, with one valid and one rejected payment assertion and same-action recovery evidence.
+
+The reviewed schemas define exact server-calculated money shapes and paid states but do not fully state this cross-attempt aggregation rule. The missing detail is not the existence of a new-cycle snapshot, the supported zero/prepaid case, or the owner's per-visit fee policy. Do not infer that an old paid report either suppresses or permits payment in the new nonzero cycle without this rule.
+
+Focused evidence: 02 lines49/89; complete applicable Money, SourceSnapshot, Redispatch, Retry/RetryCommand/Record, outcome/calculation/record, correction and DeliveryAffordance definitions in05; correction exclusion at05:3501; complete06 p22-redispatch/p22-cycles at15045-15242, p18-retry-command at12231 and p18-event-0 at12819, p10-explicit-prepaid/p10-exact-partial-prepaid and relevant paid/unpaid refusal/no-answer cases. Negative reads included unsafe/unlike-currency money, fabricated no-answer collection/arrival, fractional redispatch and forbidden correction price edits. These are source reads, not executed tests.
+
+Keep ERP per-visit liability separate throughout. Following session 020, do not reopen the excluded case merely because its historical contract calculation remains unverified. A later actual mismatch affecting a selected workflow would require its own precise scope and evidence in this register. No new per-attempt pricing API or postdeparture snapshot edit is assumed.
+
+## TAWSEL-CHECK-003 — Customer-shipment relocation and later dispatch
+
+**Current status, session 020:** internal engineering reconciliation under ERP-D-196 / ERP-R-205. The owner reconfirms the ERP transfer and actual destination receipt, after which stock/custody update. The answer neither supplies a Tawsel compatibility guarantee nor clearly withdraws the earlier ERP-D-186 business statement. Its cross-branch redispatch mapping commitment is therefore qualified pending reconciliation. The following session 019 analysis and draft clarification are preserved as historical evidence, not an active owner questionnaire or a blocker to UI design.
+
+The ERP-only transfer leg must retain whole-shipment identity, source/destination history, current custody and actual receipt. An ERP transfer of loose stock has no customer-delivery task to repurpose. ERP-D-186 / ERP-R-195 now explicitly require eligible returned customer shipments to move after actual receipt and later dispatch from the destination branch. ERP-Q-161 is closed. Customer shipments require a separate mapping according to their accepted Tawsel state:
+
+- Before any Tawsel acceptance, ERP can retain its physical history and use the actual dispatch branch in the initial valid source snapshot when customer dispatch is ready. This is a proposed sequence, not approval to suppress a required integration step.
+- After source snapshot acceptance, inspect the exact allowed revision/withdrawal sequence and branch identity constraints. `intake.submitSnapshot` accepts generic source revisions; `assignment.withdraw` is predeparture; `assignment.reassignBeforeDeparture` explicitly excludes live transfer. None of those descriptions alone establishes arbitrary source-branch replacement.
+- After customer execution, actual source-branch return receipt remains authoritative. `dispatch.createFromReceipt` accepts a previous cycle identity and a complete new snapshot, including `sourceBranchExternalId`. Its captured example uses the same branch; neither that example nor the reviewed schema establishes acceptance or rejection of a changed branch after an ERP transfer. The selected V1 need remains in scope while this exact contract detail is clarified.
+- Preserve the captured order price under ERP-D-052, historical intake branch and earlier execution/custody. Physical relocation is not a price update, fake delivery, fake return receipt or permission to modify departed work.
+
+For whichever customer-delivery lifecycle is retained after that reconciliation, cover its selected successful path, rejection at the current lifecycle/revision, unknown command outcome, duplicate/reordered events and simultaneous customer dispatch/transfer. Do not assert a cross-branch guarantee from the physical ERP receipt alone, or request a new Tawsel extension before identifying an actual mismatch.
+
+### Historical session 019 draft clarification — not an active handoff request
+
+For a shipment whose accepted source branch is A, confirm the supported public sequence for each of these cases: (a) an unassigned or prepared predeparture shipment physically transferred in ERP to B; and (b) an attempted shipment actually received back at A, then physically transferred and received in ERP at B, followed by customer redispatch from B.
+
+1. May `intake.submitSnapshot` change `sourceBranchExternalId` for case (a)? State the allowed lifecycle, expected revisions, whether a prepared assignment must first be withdrawn, and how accepted preparation/location readiness is revalidated. Do not infer arbitrary branch editing from the field's presence.
+2. May `dispatch.createFromReceipt` in case (b) consume the predecessor's actual unallocated receipt at A while the new snapshot names B? Define receipt compatibility by branch, line, quantity and lifecycle, and whether the existing source assertion is sufficient or the contract requires evidence of completed ERP custody movement. Do not invent a new evidence field or operation before this is answered.
+3. If accepted, confirm that the old cycle and its receipt remain bound to A, the new cycle's subsequent returns are bound to B, and stable shipment identity is retained. Specify rejection behavior for wrong branch, stale revisions, already allocated receipts, unreceived/lost/damaged goods and competing dispatches.
+4. Supply the exact durable result/recovery behavior for an accepted response lost in transit, a retained rejection, and duplicate replay, together with a positive A-to-B example and negative lifecycle/branch/balance examples. Include the relevant changed-snapshot and cycle/history reads needed to verify the result.
+
+The historical draft asked about semantics of existing operations and did not establish a prohibition. `p22-arbitrary-branch` rejects an extra branch field on `branch.interruptRound`; it does not test redispatch. `p22-fractional-redispatch` rejects fractional quantities, not a changed branch. Session 020 moves this work into internal scope and mapping reconciliation. Only an established mismatch affecting the retained workflow should become a bounded future change request in this same file. Keep the owner-approved ERP-only transport choice intact.
+
+Driver selection is settled under ERP-D-184/185. `integration.getExecutionProjection` is a permitted service monitoring read, not a driver reservation, physical-location proof or lock. Its freshness reflects received evidence; do not invent a global available-driver endpoint, a service operation to stop a round, or an atomic lock spanning ERP and Tawsel. An active round may coexist with an ERP transport assignment. This permission does not allow the same goods to be handed over for competing customer delivery and inter-branch transfer. Shared operational drivers require explicit identity mapping; a generic HR employee does not automatically become a Tawsel driver.
+
+## Confirmed ERP requirements that do not currently require Tawsel changes
+
+| Requirement | Existing boundary / ERP responsibility |
+| --- | --- |
+| Goods prepaid; shipping payable to driver | Keep actual lines/quantities; outstanding `unitDue` is zero for paid goods and `shippingDue` is the recipient's remaining shipping. `totalDue` is the outstanding sum. |
+| Goods and shipping prepaid to brand | All recipient outstanding amounts can be zero while actual goods remain. ERP retains its commercial fee and debits the brand for shipping. Do not infer zero revenue/commission from zero `shippingDue`. Compensation is a separate ERP movement; the extra compulsory intake value field was rejected, and ERP-D-110 now permits entry of the agreed amount at incident confirmation. |
+| Uncollected visit fee charged to brand | ERP commercial account entry using accepted evidence; not Tawsel reported collection or settlement. |
+| Packing excluded from commission | ERP preserves base shipping and packing increment separately. |
+| HR for all employees | ERP employment/compensation scope; no Tawsel payroll extension or mandatory driver onboarding. Automatic commission from ERP driver work is now selected; use explicit ERP identity attribution for commissioned drivers while keeping other staff independent. |
+
+The owner excludes administering the recipient-to-brand deposit relationship (ERP-D-075). Accept brand-declared final outstanding amounts; no original retail price or deposit history is necessary to create the snapshot. Existing brand-supplied piece detail remains in force. Partial delivery still requires exact per-unit/shipping amounts; `p10-ambiguous-deposit` rejects an arbitrary aggregate allocation. This is an ERP source-input boundary, not a new Tawsel deposit-ledger requirement.
+
+Commission earning is independent of whether the brand paid, and HR shows salary/commission/total separately. ERP-D-085/086 select percentage or fixed amount per actual eligible visit, attributed to its performing driver; salary and commission sections are independently enabled. Repeated visits by different drivers do not authorize direct custody transfer. None requires a Tawsel HR feature. Past/paid payroll protection remains selected. ERP-D-174 / ERP-R-183 now close ERP-Q-143's policy choice: retry safely, hold affected eligibility for a known synchronization gap, and send a later difference affecting posted money to Settlements review. Preserve original financial movements; an authorized linked resolution is required. No automatic refund, payroll rewrite or company-wide payout freeze is approved.
+
+Company compensation for lost/damaged goods and the driver/company split are ERP commercial requirements (ERP-D-095, ERP-D-098 through ERP-D-105), not reported recipient collection. Explicit confirmation credits the brand for affected goods only; the approved driver share becomes an employee salary deduction. Compensation eligibility does not wait for driver recovery. The simple signed-balance UI and generic ERP manual-adjustment page grant no additional execution authority. Before closing integration design, review the selected disposition/receipt operations and accepted/rejected fixtures for actual lost/damaged quantities and any new replacement intake. Lost quantities do not become received or dispatchable because compensation is posted. Replacement linking can be an ERP reference between a new shipment and the original; no new Tawsel API is assumed. Dedicated found-after-compensation processing is explicitly excluded from V1, so it is no longer a required recovery-design dependency. No supported historical-disposition reversal is asserted.
+
+Session 011 explicitly includes product-quantity and parcel-custody discrepancy adjustments alongside financial targets (ERP-D-118). This is not a generic manual override of Tawsel execution: each requested custody action must be mapped to a documented authorized operation, or recorded here as a specific extension if a genuine gap is established. No new supported transition is asserted merely from a business requirement. Daily inventory monitoring and outside-system physical comparison replace formal count sessions (ERP-D-120); changing a displayed balance cannot manufacture receipt or dispatch eligibility. Treasury transfers remain company-money movements. Physical goods transfers added by ERP-D-170 / ERP-R-179 now use the ERP-only workflow in ERP-D-175 / ERP-R-184; TAWSEL-CR-002 is not selected, while TAWSEL-CHECK-003 preserves the separate customer-shipment compatibility review.
+## Review coverage and evidence limits
+
+Targeted delegated reading in session 007 covered the relevant 02/03 boundaries, 04 arrival/refusal operations and sender inventories, retry/correction descriptions and allowed service replay/history operations; 05 Money, Line, SourceSnapshot, arrival/outcome/refusal/no-answer definitions, relevant eligibility Record and correction Replacement/Event/Record. This was not a full re-read of all 04-06 dependency trees.
+
+Complete fixtures read: p16-arrival, p16-arrival-action-accepted, p17-refused-paid-command, p17-refused-unpaid-command, p17-no-answer-command, p17-no-answer-record, heading-with-inferred-arrival, p16-arrival-must-identify-current, p17-invalid-no-answer-fee-refusal, p17-invalid-no-answer-arrival, p17-no-answer-fabricated-collection, p18-retry-command, p18-event-0, p22-redispatch, p10-explicit-prepaid, p10-exact-partial-prepaid, p10-missing-unit-due, p10-ambiguous-deposit, p23-captured-outcome.corrected-0, p23-deny-price-edit, p23-event-reject-0. Fixtures were read, not executed.
+
+Existing service reads `integration.replayEvents` and `integration.getTaskHistory` are relevant to recovery. Ordering is per aggregate stream, not global. Reconciliation of current state must not fabricate historical visits or money movements.
+
+No implementation, runtime conformance, deployment, or live-baseline upgrade is claimed. When the owner later supplies implemented changes, review updated HTTP/schema/examples and compatibility using 07's change-control process before adopting a new baseline.
+
+## Session 014 business-input and correction boundary
+
+ERP-D-148 accepts an optional recipient location link. ERP-D-149/150 permit legitimate correction of a wrongly recorded branch or piece/quantity/service before physical driver handover, with history, reviewed effects and assigned-branch intake restrictions. These are ERP business decisions, not verified support for mutating every already accepted Tawsel snapshot or source identity.
+
+Before closing the relevant mapping, inspect exact intake/dispatch/update operations, branch/source identity, revision/state locks, location schemas and positive/negative examples. Use an ERP-only correction before external acceptance where applicable, or the documented operation in its allowed state. Record a specific change request only if the reviewed current contract cannot support the required business case; do not invent a new endpoint or silently modify the baseline. No new Tawsel change is declared merely from this unanswered technical mapping.
+
+## Session 015 correction-authority clarification
+
+The existing human operation `outcome.correct` appends a bounded correction of a driver's reported outcome. The currently emitted `outcome.corrected` transition can therefore change reported delivered quantities and reported recipient money while retaining the previous outcome. It does not change ERP cash, actual driver remittances, brand payouts, payroll, refunds or commercial settlements. Source prices remain immutable and the ERP service credential cannot impersonate the driver or invoke this human correction operation.
+
+The current constraints include closed workdays, dependent receipt/redispatch, changed source/assignment/attempt and current ownership/permission checks. Availability and current validation remain authoritative. A correction accepted within those limits may arrive at ERP later through normal delivery or replay; this does not prove that Tawsel permits an arbitrary new correction after ERP payment or after a closed workday. ERP-Q-143 was still open in session 015 and is now resolved by ERP-D-174 / ERP-R-183 as described below. No new Tawsel change is required merely because the owner asked this question.
+
+See [ERP-TAWSEL-CORRECTION-REVIEW.md](docs/discovery/references/ERP-TAWSEL-CORRECTION-REVIEW.md) for the evidence and limits. The session 015 focused audit read all of 03, the complete corrections schema in 05, the relevant human correction and service history/replay sections of 04, and the positive/negative correction and retained-original examples in 06. In particular, `p23-captured-outcome.corrected-0` preserves a change from two delivered pieces and EGP 250 reported receipt to one piece and EGP 150, with source unit price and shipping unchanged; `p23-receipt-denied-availability` denies further correction after dependent receipt. These attachments were read, not executed. This is not a claim of complete re-reading of every large-reference dependency or a baseline upgrade.
+
+## Session 016 queue and financial-difference clarification
+
+In session 016 the owner acknowledged the existing bounded correction behavior and asked whether a queue/retry could avoid the resulting financial issues; ERP-Q-143 remained open at that time. Durable source outbox, receiver inbox, same-identity recovery, sequence-gap buffering and atomic projection application are already contract obligations. A retry can complete delayed delivery/application without duplicating the business effect; it cannot undo a completed brand payout or prove that an unseen source revision does not exist.
+
+There is no global ordering across task, return-request, trip, workday and integration streams. An empty local queue, a durable webhook receipt, or a current-state snapshot is not proof that every historical transition has been applied. Preserve the defined received/applied/projected/history-completeness distinctions. No cross-system ACID or absolute financial-finality guarantee is implied.
+
+The proposed ERP behavior was to resolve known gaps before treating affected amounts as ready, and to put a later difference affecting posted money into a visible review queue while preserving the original financial movement. Session 017 explicitly adopts that policy under ERP-D-174 / ERP-R-183. Do not impose a company-wide payout freeze or automatic refund, ledger rewrite, payroll change or new Tawsel correction command. Exact hold identity, release/reconciliation rules and authorized linked adjustment transactions remain implementation-design work.
+
+This session reread all of 03 and focused sections of 05/06: closed Partial/Refusal/NoAnswer inputs and line/collection constraints; accepted `p17-no-answer-command` and `p17-no-answer-record`; rejected `p17-invalid-no-answer-fee-refusal`, `p17-invalid-no-answer-arrival` and `p17-no-answer-fabricated-collection`. Source inspection only; no fixture execution, new runtime conformance or baseline upgrade is claimed.
+
+## Session 017 focused review coverage
+
+The reviewer read the previous inter-branch review and focused canonical source-snapshot, preparation, receipt, withdrawal, reassignment and task-read operations in 04; SourceSnapshot, assignment references, preparation/receipt/withdrawal/reassignment and Redispatch definitions in 05; monitoring freshness and the complete Driver definition in 05; and the permitted monitoring operation index in 04. A search across 06 located source-branch references but did not establish a cross-branch acceptance fixture. Earlier positive/negative return and redispatch fixtures remain documented in the inter-branch review; they were not rerun or comprehensively reread in this session. No new service endpoint, current branch-mutation guarantee, full-pack reading, live API test or baseline upgrade is claimed.
+
+## Session 018 focused review coverage
+
+Read 02's ownership/identity/source-lifecycle/returns/redispatch sections; 03 lines 26-110 for command recovery and receiver ordering; the relevant 04 operation index, complete intake operations at 1714-1935 and return/branch/redispatch material at 4254-4718. Read the complete `b2b-intake.schema.json` in 05 lines 160-1181, the branch-activity definition, return offer/request/subset/receipt definitions at 15221-15385, and the relevant ErrorCode list. In 06, read P10 command examples at 9380-9620, all six P10 input rejection fixtures at 1863-2118, capacity/allocation/stale errors at 9714-9758, all four P22 rejection fixtures at 5099-5290, captured P22 commands and preserved cycles at 14934-15242, and provenance notes at 7612 and 7627. The reading establishes the distinctions above; it does not prove changed-branch acceptance or prohibition. No source implementation, runtime service or database was inspected or tested, no fixture was executed, and the baseline is unchanged.

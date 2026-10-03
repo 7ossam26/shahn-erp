@@ -1,0 +1,161 @@
+- generic:
+  - generic:
+    - generic:
+      - link [aria-hidden]:
+        - /url: "#main-content"
+        - text: انتقل للمحتوى
+      - generic [aria-hidden]:
+        - generic:
+          - text: معاينة التصميم
+          - generic: "01"
+        - button [expanded]: مراجعة المظهر
+      - banner [aria-hidden]:
+        - generic:
+          - link:
+            - /url: "#/"
+            - strong: شحن
+          - generic: شركة المسار للشحن
+          - generic: أ
+      - main:
+        - button [aria-hidden]: الرئيسية
+        - generic [aria-hidden]:
+          - generic:
+            - paragraph: متابعة يومية
+            - heading [level=1]: المخزون
+            - paragraph: اعرف الموجود في الفرع، واللي خرج في عهدة مندوب.
+          - button: تتبع شحنة في الشركة
+        - generic [aria-hidden]:
+          - generic: "الفروع المتاحة ليك: فرع القاهرة، فرع الجيزة"
+        - generic [aria-hidden]:
+          - generic:
+            - text: شحنات داخل فروعك
+            - strong:
+              - text: "6"
+              - generic: شحنة
+          - generic:
+            - text: خارج مخزون الفرع
+            - strong:
+              - text: "3"
+              - generic: شحنة
+        - generic:
+          - generic [aria-hidden]:
+            - group:
+              - button: الشحنات
+              - button [pressed]: منتجات البراندات
+            - button: الفلاتر
+          - generic [aria-hidden]:
+            - generic:
+              - generic: بحث
+              - generic:
+                - textbox:
+                  - /placeholder: اسم المنتج أو البراند…
+          - generic:
+            - generic: 5 منتجات
+            - button [aria-hidden]: مسح الفلاتر
+          - generic [aria-hidden]:
+            - article:
+              - generic:
+                - generic: خطوة
+                - generic: فرع القاهرة
+              - heading [level=3]: حذاء رياضي
+              - paragraph: أسود · 42
+              - generic:
+                - generic:
+                  - strong: "16"
+                  - generic: متاح
+                - generic:
+                  - strong: "1"
+                  - generic: محجوز
+                - generic:
+                  - strong: "1"
+                  - generic: تالف
+              - generic: "الموجود فعليًا: 18 قطعة"
+            - article:
+              - generic:
+                - generic: نواة
+                - generic: فرع الجيزة
+              - heading [level=3]: طقم علب حفظ
+              - paragraph: ٣ قطع · شفاف
+              - generic:
+                - generic:
+                  - strong: "22"
+                  - generic: متاح
+                - generic:
+                  - strong: "1"
+                  - generic: محجوز
+                - generic:
+                  - strong: "2"
+                  - generic: تالف
+              - generic: "الموجود فعليًا: 25 قطعة"
+            - article:
+              - generic:
+                - generic: لِين
+                - generic: فرع القاهرة
+              - heading [level=3]: قميص قطن
+              - paragraph: أبيض · M
+              - generic:
+                - generic:
+                  - strong: "32"
+                  - generic: متاح
+                - generic:
+                  - strong: "0"
+                  - generic: محجوز
+                - generic:
+                  - strong: "0"
+                  - generic: تالف
+              - generic: "الموجود فعليًا: 32 قطعة"
+            - article:
+              - generic:
+                - generic: بيت ومودة
+                - generic: فرع الجيزة
+              - heading [level=3]: غطاء وسادة
+              - paragraph: بيج · 45×45
+              - generic:
+                - generic:
+                  - strong: "13"
+                  - generic: متاح
+                - generic:
+                  - strong: "0"
+                  - generic: محجوز
+                - generic:
+                  - strong: "1"
+                  - generic: تالف
+              - generic: "الموجود فعليًا: 14 قطعة"
+            - article:
+              - generic:
+                - generic: لِين
+                - generic: فرع القاهرة
+              - heading [level=3]: بنطلون قطن
+              - paragraph: بيج · L
+              - generic:
+                - generic:
+                  - strong: "0"
+                  - generic: متاح
+                - generic:
+                  - strong: "0"
+                  - generic: محجوز
+                - generic:
+                  - strong: "0"
+                  - generic: تالف
+              - generic: "الموجود فعليًا: 0 قطعة"
+          - generic [aria-hidden]:
+            - generic: بيانات تجريبية ثابتة للمراجعة
+            - generic: المخزون المتاح يستبعد المحجوز والتالف.
+      - contentinfo [aria-hidden]:
+        - generic: شحن·شركة المسار للشحن
+        - generic: نموذج للمراجعة — بدون عمليات فعلية
+  - dialog [ref=f5e1060]:
+    - generic [ref=f5e1061]:
+      - heading "نراجع الشكل سوا" [level=2] [ref=f5e1062]
+      - paragraph [ref=f5e1063]: اختار اتجاه الألوان وجرب نفس الصفحات. الاختيار هنا للمعاينة، والاعتماد بعد ملاحظاتك.
+    - generic [ref=f5e1064]:
+      - button "أبيض ولمسة ليموني مستوحى من صورة التتبع" [active] [pressed] [ref=f5e1065] [cursor=pointer]:
+        - strong [ref=f5e1067]: أبيض ولمسة ليموني
+        - generic [ref=f5e1068]: مستوحى من صورة التتبع
+      - button "درجات دافئة قريب من مرجع ERP-V2" [ref=f5e1069] [cursor=pointer]:
+        - strong [ref=f5e1071]: درجات دافئة
+        - generic [ref=f5e1072]: قريب من مرجع ERP-V2
+    - generic [ref=f5e1075]:
+      - heading "ركز في التجربة على" [level=3] [ref=f5e1076]
+      - paragraph [ref=f5e1077]: وضوح الخط والمسافات · سهولة الرجوع والبحث · حجم المعلومات في الشاشة · استخدام الموبايل.
+    - button "إغلاق" [ref=f5e1078] [cursor=pointer]

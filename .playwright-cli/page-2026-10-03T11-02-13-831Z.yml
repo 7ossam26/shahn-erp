@@ -1,0 +1,15 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - region [ref=e3]:
+      - heading "This page doesn’t exist" [level=1] [ref=e4]
+      - paragraph [ref=e5]: It may have been moved, removed, or never existed.
+      - generic "HTTP status, error code, and request ID" [ref=e6]:
+        - paragraph [ref=e7]: 404 DEPLOYMENT_NOT_FOUND
+        - paragraph [ref=e8]: fra1::jtbgx-1791025333941-ba72669107f4
+  - generic "Documentation, logs, and debugging actions" [ref=e9]:
+    - link "View DEPLOYMENT_NOT_FOUND documentation" [ref=e10] [cursor=pointer]:
+      - /url: https://vercel.com/docs/errors/deployment_not_found
+      - generic [ref=e11]: View Documentation
+    - button "Copy DEPLOYMENT_NOT_FOUND debugging instructions to clipboard" [ref=e14] [cursor=pointer]:
+      - generic [ref=e15]: Copy Debug Prompt
+    - status [ref=e16]

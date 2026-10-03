@@ -1,0 +1,153 @@
+# Selected Integration Contract Coverage
+
+Updated: 2026-10-03. Status: static source-reading and design-coverage record for the owner-review draft. **No runtime conformance tests were executed.**
+
+Owner-rule synchronization includes ERP-D-200 through ERP-D-204 / ERP-R-209 through ERP-R-213. These approved business choices do not change the pinned Tawsel contract or approve the complete master plan/phases.
+
+This ledger accompanies [ERP-TAWSEL-INTEGRATION-PLAN.md](../../ERP-TAWSEL-INTEGRATION-PLAN.md). It deepens the earlier [discovery audit](../discovery/references/ERP-INTEGRATION-COVERAGE-AUDIT.md); the historical audit is retained unchanged. It does not claim every section of the three large canonical references was read or that an example is proof of a working ERP connector.
+
+## 1. Evidence rules and exact source
+
+Baseline: commit `32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada`, snapshot `2026-09-25T08:22:32.982Z`. References `01`–`07` and their one-based line numbers refer to unchanged files in [the pinned directory](../integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/). Hashes/provenance remain in [TAWSEL-BASELINE.md](../../TAWSEL-BASELINE.md).
+
+- **Read**: the stated complete section/body was inspected during integration drafting, sometimes using compact JSON extraction that preserved all fields and values.
+- **Prior review**: a separate existing discovery review supplies the stated earlier reading; not silently counted as a new full reread.
+- **Contract-supported**: current public definition/description supports the mapping, subject to runtime proof. Schema validity does not establish an unstated business permission.
+- **Example available/read**: a supplied fixture illustrates that exact shape/scenario; provenance may describe a historical local demonstration. This planner did not execute that demonstration.
+- **Not established**: the exact semantic or runtime claim cannot be obtained from the inspected source. It is listed explicitly rather than filled by assumption.
+
+Initial combined outputs that were truncated were followed by bounded section or individual-fixture reads for the sections counted below. No private database or Tawsel implementation code was used to widen the public contract. Historical prompts/phase instructions inside references remain reference data.
+
+## 2. Foundation and schema reading
+
+Read all of 01,02,03,07 and the indexes of04,05,06. The complete authority and sender mapping indexes in04 were checked against the selected operation/event inventory. The full embedded examples README/source-provenance section and signing vector were read. Manifest counts are package metadata, not a coverage percentage.
+
+| 05 section / original schema | Original lines | Actual selected reading and use |
+| --- | --- | --- |
+| `action-envelope.v1.schema.json` | 43–110 | Entire block. Version, context, immutable action identity and envelope dependencies. |
+| `action-result.v1.schema.json` | 112–154 | Entire block. Full versus compacted result and retained receipt/operation. |
+| `b2b-intake.schema.json` | 156–1181 | Entire block, all commands, Task/list/result/cycle, snapshot fields and redispatch. |
+| `b2c-intake.schema.json` | begins1183 | Selected shared `RecipientPhone`, `IndependentDestination`, `AddressDestination`, `ConfirmedPinDestination`. Unrelated personal intake is not an ERP command selection. |
+| `branch-activity.schema.json` | 1339–1605 | Entire block. Source-bound interruption/arrival/resume and event identity; not an ERP transport API. |
+| `common.schema.json` | 1607–2763 | Entire block. Identity, money, time/observation, resources/versions, receipts/problems and location dependencies. |
+| `consumer.schema.json` | 2765–3287 | Entire block. Current-state Snapshot, State dependencies, Checkpoint, ReportCommand, Status and problem categories. |
+| `corrections.schema.json` | 3289–3683 | Entire block. Replacement bounds, original/effective chain, availability and event. |
+| `current-activity.schema.json` | 3685–4840 | Entire block. Arrival/heading, activity/time, frozen execution data and delivery affordance dependencies. |
+| `eligibility.schema.json` | 5412–6234 | Entire block. Retry/defer/activate/urgency, distinct attempts, preparation/active-round identity and failures. |
+| `events/envelope.v1.schema.json` | 6236–6379 | Entire block. Recipient aggregate ordering and envelope identity. |
+| `events/sender-event.v1.schema.json` | 6381–7022 | Entire block. All27 closed sender variants, payload references and nested identity requirements. |
+| `evidence-receipt.v1.schema.json` | 7024–7132 | Entire block as a result/correction dependency; no new source authority. |
+| `location.schema.json` | 7395–7757 | Entire block. ConfirmedEvent, snapshot/pin/readiness and source/execution revision distinctions. |
+| `monitoring.schema.json` | 7759–8805 | Entire block, all nested Snapshot/History/ActionSnapshot/freshness/progress definitions. |
+| `outbox.schema.json` | 8807–9526 | Entire block. Webhook/key/retry commands, acknowledgement, delivery/attempt/detail/queue/replay. |
+| `outcomes.schema.json` | 9528–10774 | Entire block. Human commands, exact money/quantity calculation, Record/Event, nullable arrival and no-answer restrictions. |
+| `planning.schema.json` | 10776–12564 | Entire block as PublishedEvent and monitoring dependencies. No source permission to call planning/Engine is inferred. |
+| `provisioning.schema.json` | 12566–14051 | Entire block, all closed commands and payloads/read models/verified service/event. |
+| `returns.schema.json` | 15217–16091 | Entire block. Request/items/subsets/claims/native service commands/transitions, custody and events. |
+| `round-start.schema.json` | 16093–16545 | Entire block. Accepted-start event, identity/readiness, rejection/pending distinctions. |
+| `routing.schema.json` | 16547–17094 | Entire dependency block for embedded planning types. Not selected as an ERP service API. |
+| `workday-closure.schema.json` | begins17540 through end of file | Entire block. Round/day closure, source-scoped tasks, carry-forward, summaries and no-settlement boundary. |
+
+Not selected for full rereading: personal-only intake remainder, device ownership, local-work, reporting, session, source reference status and driver sync schemas. Their authority is excluded from ERP source calls. Required common/evidence/correction/planning references used by the selected payloads are included above; excluded human command payloads do not become connector dependencies merely because their endpoints exist.
+
+## 3. HTTP coverage and service failure/recovery matrix
+
+Detailed source-service definitions, request/read shapes, parameters, authentication and listed response branches were read in04 at196–550 (with trailing response tail),1283–2024,4254–4467,4631–4734,5476–6158. External receiver/status/source-status sections beginning6159 were read through their complete definitions; relevant security schemes at7233–7260 were checked. The complete inventory in integration-plan section5 contains **43 scoped service operations plus operator bootstrap `integration.bindSource`, 44 named operations total**. Conditional `intake.setUrgencyBeforeDeparture` adapter/conformance coverage does not authorize an otherwise unselected ERP UI action. Exact phase ownership is recorded in [the integration phase coverage](../../phases/INTEGRATION-PHASE-COVERAGE.md).
+
+Selected human producer/exclusion HTTP was also read: location confirmation2098 onward; round start2618–2659; heading/arrival2726–2823; four outcome commands2959–3156; eligibility commands3235–3430; closure3511–3598; branch service4468–4630; correction/adoption4735–4832 and correction availability4833–4882. These reads explain the origin/limits of consumed facts, not permission for the service to invoke them. Current/result/historical details also have the retained [correction review](../discovery/references/ERP-TAWSEL-CORRECTION-REVIEW.md) and [branch review](../discovery/references/ERP-INTERBRANCH-TRANSFER-REVIEW.md).
+
+| Selected operation family, including all commands/reads | Acceptance/rejection semantics reviewed | Recovery and ERP acceptance mapping |
+| --- | --- | --- |
+| `integration.bindSource`, `integration.rotateCredential`, `integration.disableSource` | Operator versus scoped service; version, expiry/hash, source revision, disabled identity. Acceptance differs from native issuer state. | Preserve source/action identity on unknown outcome. Same-envelope retry; current configuration/status cannot reconstruct an arbitrary lost historic response. IP-AC-01/19. |
+| `branch.provision`, `branch.disable`, `role.defineCapabilities`, `user.provision`, `user.setRole`, `user.setCapabilityExceptions`, `user.setBranchMemberships`, `user.disable`, `driver.provisionReference`, `integration.getConfiguration`, `provisioning.getStatus` | Closed payloads, expected revision, immutable subject/reference requirements, capability mapping, enabled flags, current issuer state. Source context cannot impersonate a human. | Same-action retained result plus scoped current readiness; source user revision serialized across operations. Missing/disabled references reviewed before new intent. IP-AC-01. |
+| `intake.submitSnapshot`, `intake.prepare`, `assignment.receiveBatch`, `assignment.withdraw`, `assignment.reassignBeforeDeparture`, `intake.setUrgencyBeforeDeparture` | Exact outstanding money; source/assignment revisions; predeparture restrictions; receipt assertion; all-or-nothing capacity; no fabricated independent receipt from routing failure. ERP-D-203 maps company-funded replacement shipping to zero while preserving actual goods due; native waiver fields are not added to the contract. | Native `intake.getBatchResult`, same action, current `intake.getTask`/`intake.listTasks` with pagination. Pending/202 means unknown. Conflicting revised intent requires reviewed new action. Native eligible-wallet cover remains separate under ERP-D-200. IP-AC-02/03/04/21/22. |
+| `return.listPending`, `return.getNativeRequest`, `return.getNativeResult`, `return.confirmSubsetReceipt`, `return.recordDisposition` | Driver/source branch scope; nonempty integer subset, stale/excess/wrong-branch/lifecycle failure; accepted transition versus offer. Disposition does not imply restock or compensation. | Native action result and authoritative request. Result/event/replay normalize one transition. Concurrent correction/retry/receipt/disposition rules respected. IP-AC-10. |
+| `dispatch.createFromReceipt`, `dispatch.listCycles` | Fresh explicit snapshot with previous cycle; compatible actual unallocated receipt; preserved stable task/cycle history. Current “compatible” rule does not establish changed-branch support. | Same action, intake result/cycle read, no new commercial identity. Same-branch shape supported; exact A→B semantics remain CHECK-003. IP-AC-11. |
+| `integration.configureWebhook`, `integration.rotateSigningKey`, `integration.retryDelivery` | HTTPS/public/allowlisted callback, source revision and key selector/overlap, immutable delivery event; authorization/lifecycle/idempotency rejections. | Retain command, same action after unknown send; operational configuration-blocked state for terminal failures. No raw signing secret in command/log. IP-AC-05/19. |
+| `integration.getDeliveryStatus`, `integration.getDeliveryDetail`, `integration.replayEvents` | Scoped filters/cursor/limits, retained attempts and received acknowledgement, `projectionStatus: unknown`, aggregate replay boundary and unavailable history. | Delivery retry is not native reapplication. Known gap replay in pages;410 preserves explicit history gap. IP-AC-06/07/14. |
+| `integration.getExecutionProjection`, `integration.getTripProjection`, `integration.getTaskHistory`, `integration.getWorkdayHistory`, `integration.getMonitoringAction` | Source-filtered shape, received evidence, ETag/304, scope/snapshot revision cursor,404 hiding,409 restart,503 retention of last confirmed state. Action query requires the documented source identity. | Stable complete pagination for investigation/remittance witness; no human monitoring path, inferred GPS/presence or snapshot-to-event fabrication. IP-AC-12/15. |
+| `integration.getReconciliationSnapshot`, `integration.reportAppliedCheckpoint`, `integration.getAppliedCheckpoint` | Current-state-only snapshot, bounded reconstruction failure, exact independent watermarks, receiver-reported report; invalid source/identity/version handled. | Snapshot current-state replacement does not manufacture history; late event deduplication and separate received/applied/projected state. Retained report action. IP-AC-14/20. |
+| External `consumer.receiveSignedEvent`, `consumer.getStatus`, `source.getCommandStatus` | Host distinction, raw-body signature, receipt-only acknowledgement, receiver error categories and private status access. | ERP implements its receiver/inbox, not the mock business app. Ack only after durable commit; invalid signature/schema/identity never accepted. IP-AC-05/06. |
+
+Every command family uses its documented result/problem alternatives. A4xx HTTP code is not automatically a durable business rejection if the response does not establish one; a503/timeout is not proof of rollback. This is reflected in integration-plan section9. No source operation selected in the plan is omitted from the table/inventory.
+
+## 4. Actual fixture-body reading
+
+The valid/invalid indexes were inspected before selecting complete bodies. Complete families below mean all fixtures whose IDs match the named family in the supplied catalog, not all possible runtime behaviors.
+
+| Fixture selection in06 | Read coverage | Concrete planning evidence |
+| --- | --- | --- |
+| Full/compacted action results and invalid full-missing-response/compacted-with-response/pending variants | Complete named bodies | Retained identity cannot be replayed as a new business command after response compaction. |
+| `p08-*` valid and invalid | Complete family | Provisioning payloads/events, source revisions, identity references, status retry and shape refusals. Domain authorization still requires runtime cases. |
+| `p10-*` valid and invalid, including explicit/exact-partial prepaid | Complete family; positives start9380, received-event intent9759 | Snapshot, prepare/receive/withdraw/reassign/urgency shapes; capacity/allocation/stale errors and exact zero/prepaid amounts. |
+| `location-valid-confirmation`, `location-invalid-confirmation`, `location-has-no-destination` | Complete named bodies | Manual confirmed coordinates, out-of-range latitude rejection, missing-destination rejection. These are not a captured signed pin event. |
+| `p13-publication-event`; all `p13-*` invalid examples | Complete named selections | Plan notice fields and inability to invent active/GPS/policy/status/complete-job data. Full routing execution is not selected. |
+| `p15-*` valid and invalid | Complete family | Start/readiness/current/accepted/pending/rejected; invalid alreadySynced claim and draft-as-active. |
+| `p16-*` valid and invalid; underlying current activity/arrival dependencies in05 | Complete P16 family | Explicit current attempt/arrival identity, action results and arrived snapshot; no inferred arrival. |
+| `p17-*` valid and invalid | Complete family | Full/partial/paid-refusal/unpaid-refusal/no-answer, exact quantity/money, canonical events and no fabricated no-answer arrival/collection. |
+| `p18-*` valid and invalid | Complete family; event0 at12819 reread separately | Retry new/previous attempt, defer/urgency/activate, permitted/denied state, earliest-time rejection, exact revisions and closed command fields. |
+| `p19-*` valid and invalid | Complete family | Round/day results and events, remaining held work, pending closure, carry-forward; fabricated settlement/receipt rejected. |
+| `p21-*` valid and invalid | Complete family; positives14304–14932 | Offer/receipt/loss subsets and confirmation state, return transition events, duplicate/excess/fraction/empty constraints. |
+| `p22-*` valid and invalid | Complete family; positives14934–15723 | Branch interruption/arrival/resume, same-branch receipt-funded redispatch and cycles. `p22-arbitrary-branch` targets branch interruption, not changed-source redispatch. |
+| `p23-*` valid and invalid | Complete family; positives15725–16189, negatives5292 onward | Corrected originals/effective results, evidence adoption, receipt-denied availability; forbidden price/fraction/revision/event changes. Adoption feature fixture is not an emitted sender event. |
+| `monitoring-*` valid and invalid | Complete family; positives16191–17287, negatives5783–6337 | Scoped versus own view, corrected current state, original/effective task/workday history; forbidden hidden counts/presence/applied claims and missing revision. |
+| `p25-*` valid and invalid | Complete family; positives17288–18387 | Nine signed sender payload examples, delivery queue and receipt-only acknowledgement; unknown event/payload and ack-as-applied rejected. |
+| `p26-*` valid and invalid | Complete family; positives18389–194xx, negative6538–6860 region | Current task/integration/trip/return snapshots, actual report/checkpoint/status, current-state-only history and receiver-report shape. |
+| `webhook-signature.v1.json` | Entire vector beginning20434, read only | Raw UTF-8 bytes/HMAC prefix/header example. Signature was not recomputed in this planning task. |
+
+The P26 invalid-report-source fixture uses a malformed UUID. It tests shape, not every cross-tenant or cross-source authorization case. The P26 return fixture retains original request items while `state.returnItems` contains accumulated current balances; the plan explicitly forbids applying the old request counters over current received state. A monitoring cycle with `state: held` can have effective `heldPieces:0`; present custody must use authoritative quantities/effective outcomes.
+
+Historical fixture provenance saying “captured from a real local demonstration” remains a source claim about Tawsel's old demonstration. It is not a test result for the new ERP or the current deployment.
+
+## 5. Every emitted family and selected dependency
+
+All27 exact event types and local effects are listed individually in integration-plan section11. The table below records shared static evidence and the failure mode each family must preserve.
+
+| Event family | Exact selected types | Static evidence read | Failure/recovery requirement |
+| --- | --- | --- | --- |
+| Provisioning | `provisioning.changed` | Complete provisioning wrapper/payload, P08/P25 | Source revision/identity mismatch rejected; accepted is not issuer-ready. |
+| Intake/cycle | `task.snapshotAccepted`, `assignment.prepared`, `assignment.received`, `assignment.withdrawn`, `assignment.reassigned`, `task.urgencyChanged`, `dispatch.createdFromReceipt` | Complete B2B Task/ChangedEvent/commands and closed sender variants, P10/P22/P25 | Version/cycle correlation, unknown action recovery, HTTP/event fact deduplication; no false custody rollback. |
+| Location/planning | `location.pinConfirmed`, `plan.revisionPublished` | Complete location/planning definitions and nested dependencies, location confirmation cases, P13/P25 publication | Separate source pin/revision, notice-only display; no invented arrival/ETA. Missing dedicated pin signed fixture noted below. |
+| Round/current | `round.started`, `current.headingSelected`, `current.arrivalRecorded` | Complete start/current feature and sender definitions, P15/P16/P25 | Preserve attempt/round identity and uncertain time; heading is not arrival; duplicate arrival is not another visit. |
+| Outcome/correction | `outcome.recorded`, `outcome.corrected` | Complete outcomes/corrections/common records, P17/P23/P25 plus corrected monitoring | Previous/effective chain and dependency ordering; no price edits or automatic rewriting of posted cash. |
+| Eligibility | `task.deferred`, `task.retryAdmitted`, `task.deferredActivated`, `task.driverUrgencyChanged` | Complete eligibility and sender definitions, P18 accepted/denied/events | New retry attempt versus same deferral attempt; earliest-time/partial restrictions; no visit merely from retry. |
+| Closure | `round.ended`, `workday.ended` | Complete closure and sender definitions, P19 positive/negative/events | Closure may leave held work; not receipt, remittance, all-stream completeness or payroll closure. |
+| Returns | `return.requested`, `return.subsetReceived`, `return.dispositionRecorded` | Complete returns and sender definitions, P21/P25/P26 | Offer versus actual transition, wrong branch/revision/quantity rejected; original request snapshot cannot erase accumulated quantities. |
+| Branch service | `branch.roundInterrupted`, `branch.arrivalRecorded`, `branch.roundResumed` | Complete branch activity/sender, human HTTP and P22 | Source-bound customer-round service; receipt assertion separate; no ERP internal-transfer inference. |
+
+The event schema is a closed allowlist. A generic envelope or a non-sender feature event in the example catalog does not widen it. Each handler needs foreign-source/identity mismatch, unsupported version, duplicate, stale/current revision, reordered dependency, crash/restart and replay coverage as applicable. These are proposed acceptance cases, not new contract fields.
+
+### 5.1 Approved business rules applied around the unchanged contract
+
+| Decision / requirement | Integration consequence | Acceptance boundary |
+| --- | --- | --- |
+| ERP-D-200 / ERP-R-209 | For nonnegative brands, reserve known brand-paid shipping from eligible payout-wallet credit before definitive handover. Pending/unremitted proceeds and separate storage credit are excluded. Payout and reservation contend on the same native balance; source acceptance does not itself provide financial cover. | IP-AC-21; native transaction/reservation proof, with consumption/release once. No new Tawsel wallet or reservation API. |
+| ERP-D-201 / ERP-R-210 | Complete storage-period revenue belongs to its period-start month, independently of payment date. | Native domain evidence, referenced by IP-AC-23. No shipping snapshot, event or Tawsel accounting field changes. |
+| ERP-D-202 / ERP-R-211 | Salary-earning deductions reduce employee cost; advance recovery does not; incident recovery counts once. Integration-fed commission retains its separate visit source and agreement. | Native payroll/report evidence; a signed delta alone does not establish cost classification. IP-AC-17/23. |
+| ERP-D-203 / ERP-R-212 | Explicit incident-linked company-funded replacement shipping is an exception to ERP-D-194's full per-visit charge. Keep actual goods `unitDue`, set only `shippingDue` to zero, calculate `totalDue` from goods outstanding. Native standard tariff and matching waiver yield net shipping revenue zero, brand shipping liability zero and normal driver commission. | IP-AC-22: goods250/standardshipping50 yields contract total250, not0. Zero goods requires a separate actual prepaid-goods fact. Existing nonnegative Money and exact-total definitions support the proposed mapping; no dedicated replacement-waiver wire field is supplied or needed. Real journey unrun. Employee-funded replacement is not selected. |
+| ERP-D-204 / ERP-R-213 | Partial/advance storage money stays in the dedicated storage payment/credit flow; an advance is not earned revenue, payout eligibility or driver remittance. | Native domain evidence via IP-AC-23. No new source operation; detailed allocation/refund mechanics retain master-plan review status. |
+
+These rules are recorded separately from source-reading evidence. They neither resolve CHECK-003 nor remove the reasons extension. A company shipping waiver does not turn a positive goods obligation into a zero-COD shipment or create a fictitious company payment.
+
+## 6. Exact limits after static review
+
+The selected HTTP definitions, schema/dependency families and applicable supplied acceptance/rejection examples above have been read. **No broad “read the remaining selected contracts later” task remains in this draft.** The limits below concern missing specific evidence, unresolved semantics or unexecuted conformance:
+
+| Item | Exact limit | Next action / status |
+| --- | --- | --- |
+| TAWSEL-CR-001 | Closed refusal/partial/Record/Replacement do not carry approved reasons/Other detail. Existing paid/unpaid examples establish collection, not reasons. | Confirmed extension. Exact new wire design and compatibility require the later Tawsel change handoff and reviewed new baseline. IP-GAP-001. |
+| TAWSEL-CHECK-003 | No inspected text/fixture defines accepted-source A→B mutation or whether `dispatch.createFromReceipt` consumes an A receipt with new snapshot B; P22 only demonstrates same-branch compatibility. | Exact public sequence/revisions/branches/quantity constraints and positive/negative examples requested in integration-plan section8. Not closed, no invented support/prohibition. IP-GAP-002. |
+| `current.arrivalRecorded` + `outcome.recorded` no-answer + retry/correction/replay | Shapes support distinct accepted arrival and null-reported no-answer. No supplied full combined ERP fee/commission journey proves that the intended posting survives every ordering/failure. | Real two-system IP-AC-08/09 acceptance; no new endpoint assumed. IP-GAP-003. |
+| `round.ended` + source workday/task history + remittance | Current source-filtered received history, effective outcomes and stable pagination support a recorded evidence witness. They do not attest absence of unseen device actions or publish a global finality token. | Demonstrate received-evidence round close and later-correction policy. Do not claim stronger guarantees. IP-GAP-004. |
+| `ConfigureWebhookCommand`, `RotateSigningKeyCommand`, `RetryDeliveryCommand` | Their complete HTTP/schema definitions are supplied/read. The fixture catalog does not contain dedicated named captured valid/invalid bodies for each of these command definitions. | Construct contract-derived serializer/rejection tests and exercise actual configuration/retry/rotation. This is test evidence to produce, not missing authority or a new feature. IP-GAP-005. |
+| Per-event signed fixtures | P25 contains nine positive sender examples, not all27. In particular no separately captured signed fixture is supplied for every prepare/withdraw/reassign/urgency variant, pin confirmation, heading/arrival, every eligibility variant, closures, disposition and branch variant. All closed variant/payload definitions were read. | Generate bounded positive/negative cases from exact mappings, then capture actual end-to-end messages as appropriate. Generic schema acceptance alone is insufficient. IP-GAP-005. |
+| Source read/result and isolation behavior | Many schemas/examples share common result and read shapes. Supplied malformed/extra-field negatives do not prove every real permission failure,404 hiding, cursor-race,503 reconstruction limit or lost-response path. | Execute actual service reads/recovery and PostgreSQL race/restart tests. Do not require a new API merely because a test has not run. IP-AC-01/03/10/14/15. |
+| Raw signature, proxy, body size, credentials and restore | Vector and protocol read; no actual HMAC execution, public callback,2MiB boundary, key rollover or restored ERP was tested. | IP-AC-05/19/20 in the actual chosen environment. IP-GAP-006. |
+
+The first two rows are material contract/semantic dependencies. The other rows are explicit acceptance boundaries, not proof Tawsel is incomplete. Full integration acceptance remains unclaimed. Unrelated personal/offline/client source sections remain outside the ERP-selected interface scope; no request for missing attachments is necessary.
+
+## 7. Closure record to update during implementation
+
+For every IP-AC row, later evidence records: approved ERP plan version, Tawsel baseline/runtime, exact test/manual script, actual result, test date, artifact/log location and remaining limitation. Mark schema validation, mocked behavior, real PostgreSQL integrity, real two-system conformance and owner manual acceptance separately. A changed baseline reopens affected rows after a reviewed diff; do not overwrite the old evidence or silently mark compatibility.
+
+This ledger defines reading and acceptance coverage. It does not generate phases, authorize production deployment, purchase external services, change Tawsel or remove the master-plan approval gate.

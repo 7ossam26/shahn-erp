@@ -1,0 +1,361 @@
+{
+  "revision": "PHASES-001",
+  "plan": "PLAN-001",
+  "approval": "ERP-D-205",
+  "date": "2026-10-03",
+  "phases": [
+    {
+      "id": "P01",
+      "file": "01-foundation-and-ui-shell.md",
+      "title": "Runnable foundation and approved UI shell",
+      "prerequisites": [],
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P02",
+      "file": "02-company-access-and-identity.md",
+      "title": "Company access and shared identity",
+      "prerequisites": [
+        "P01"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P03",
+      "file": "03-atomic-commands-and-journals.md",
+      "title": "Atomic commands and shared journals",
+      "prerequisites": [
+        "P01",
+        "P02"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P04",
+      "file": "04-brands-geography-and-pricing.md",
+      "title": "Brands, geography and immutable pricing",
+      "prerequisites": [
+        "P02",
+        "P03"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P05",
+      "file": "05-products-stock-receipt-and-monitoring.md",
+      "title": "Products, physical stock receipt and monitoring",
+      "prerequisites": [
+        "P03",
+        "P04"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P06",
+      "file": "06-parcel-intake-and-packing.md",
+      "title": "Ready and company-packed parcel intake",
+      "prerequisites": [
+        "P04",
+        "P05"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P07",
+      "file": "07-stock-order-reservation-and-preparation.md",
+      "title": "Stored-stock reservation and preparation",
+      "prerequisites": [
+        "P05",
+        "P06"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P08",
+      "file": "08-employee-profiles-and-commission-terms.md",
+      "title": "Employee profiles and effective commission terms",
+      "prerequisites": [
+        "P02",
+        "P03"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P09",
+      "file": "09-accounts-expenses-and-money-movements.md",
+      "title": "Actual company money and paid expenses",
+      "prerequisites": [
+        "P02",
+        "P03",
+        "P04"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P10",
+      "file": "10-treasury-transfers.md",
+      "title": "Treasury sending and full receipt",
+      "prerequisites": [
+        "P09"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P11",
+      "file": "11-tawsel-bootstrap-and-durable-receiver.md",
+      "title": "Tawsel bootstrap and durable command/event boundary",
+      "prerequisites": [
+        "P02",
+        "P03",
+        "P04",
+        "P08"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P12",
+      "file": "12-customer-dispatch-and-shipping-cover.md",
+      "title": "Customer dispatch, actual handover and shipping cover",
+      "prerequisites": [
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P11"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P13",
+      "file": "13-execution-projections-and-tracking.md",
+      "title": "Execution projections, visit facts and full tracking",
+      "prerequisites": [
+        "P08",
+        "P12"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P14",
+      "file": "14-returns-and-redispatch.md",
+      "title": "Actual return receipt, disposition and redispatch",
+      "prerequisites": [
+        "P05",
+        "P13"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P15",
+      "file": "15-interbranch-goods-transfers.md",
+      "title": "Internal physical branch transfers",
+      "prerequisites": [
+        "P05",
+        "P07",
+        "P08",
+        "P11",
+        "P13",
+        "P14"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P16",
+      "file": "16-full-driver-remittance.md",
+      "title": "Full driver remittance with source evidence",
+      "prerequisites": [
+        "P09",
+        "P13"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P17",
+      "file": "17-brand-wallet-and-payout.md",
+      "title": "Shared brand balance and actual payout",
+      "prerequisites": [
+        "P12",
+        "P16"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P18",
+      "file": "18-incidents-and-replacement-shipping.md",
+      "title": "Compensation, liability and replacement shipping",
+      "prerequisites": [
+        "P07",
+        "P08",
+        "P09",
+        "P13",
+        "P14",
+        "P15",
+        "P17"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P19",
+      "file": "19-storage-subscriptions-and-credit.md",
+      "title": "Storage periods, partial payments and advance credit",
+      "prerequisites": [
+        "P04",
+        "P09"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P20",
+      "file": "20-payroll-and-advance-recovery.md",
+      "title": "Monthly payroll and advance recovery",
+      "prerequisites": [
+        "P08",
+        "P09",
+        "P13",
+        "P18"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P21",
+      "file": "21-adjustments-and-opening-entries.md",
+      "title": "Typed adjustments and optional openings",
+      "prerequisites": [
+        "P05",
+        "P10",
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P22",
+      "file": "22-integration-recovery-and-conformance.md",
+      "title": "Cross-system recovery and public conformance",
+      "prerequisites": [
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P23",
+      "file": "23-operational-reports-and-exports.md",
+      "title": "Selected operational reports and matching exports",
+      "prerequisites": [
+        "P09",
+        "P10",
+        "P13",
+        "P16",
+        "P17",
+        "P19",
+        "P20",
+        "P21",
+        "P22"
+      ],
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P24",
+      "file": "24-operating-profit-and-reconciliation.md",
+      "title": "Operating profit and source reconciliation",
+      "prerequisites": [
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P23"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P25",
+      "file": "25-deployment-backup-and-restore.md",
+      "title": "Portable deployment and isolated restore",
+      "prerequisites": [
+        "P22",
+        "P23",
+        "P24"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    },
+    {
+      "id": "P26",
+      "file": "26-complete-pilot-and-handoff.md",
+      "title": "Complete V1 pilot and evidence handoff",
+      "prerequisites": [
+        "P22",
+        "P23",
+        "P24",
+        "P25"
+      ],
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "executionStatus": "not started"
+    }
+  ]
+}

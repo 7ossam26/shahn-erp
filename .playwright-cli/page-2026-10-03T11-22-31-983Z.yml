@@ -1,0 +1,100 @@
+- generic:
+  - generic:
+    - generic:
+      - link [aria-hidden]:
+        - /url: "#main-content"
+        - text: انتقل للمحتوى
+      - generic [aria-hidden]:
+        - generic:
+          - text: معاينة التصميم
+          - generic: "01"
+        - button [expanded]: مراجعة المظهر
+      - banner [aria-hidden]:
+        - generic:
+          - link:
+            - /url: "#/"
+            - strong: شحن
+          - generic: شركة المسار للشحن
+          - generic: أ
+      - main:
+        - button [aria-hidden]: الرئيسية
+        - generic [aria-hidden]:
+          - generic:
+            - paragraph: متابعة يومية
+            - heading [level=1]: المخزون
+            - paragraph: اعرف الموجود في الفرع، واللي خرج في عهدة مندوب.
+          - button: تتبع شحنة في الشركة
+        - generic [aria-hidden]:
+          - generic: "الفروع المتاحة ليك: فرع القاهرة، فرع الجيزة"
+        - generic [aria-hidden]:
+          - generic:
+            - text: شحنات داخل فروعك
+            - strong:
+              - text: "6"
+              - generic: شحنة
+          - generic:
+            - text: خارج مخزون الفرع
+            - strong:
+              - text: "3"
+              - generic: شحنة
+        - generic:
+          - generic [aria-hidden]:
+            - group:
+              - button [pressed]: الشحنات
+              - button: منتجات البراندات
+            - button [expanded]: الفلاتر
+          - generic [aria-hidden]:
+            - generic:
+              - generic: بحث
+              - generic:
+                - textbox:
+                  - /placeholder: رقم الشحنة أو اسم المستلم…
+                  - text: "10430"
+            - generic:
+              - generic: الفرع
+              - generic:
+                - combobox
+            - generic:
+              - generic: البراند
+              - generic:
+                - combobox
+            - generic:
+              - generic: موقع العهدة
+              - generic:
+                - combobox
+          - generic:
+            - generic: 1 شحنات
+            - button [aria-hidden]: مسح الفلاتر
+          - generic [aria-hidden]:
+            - link:
+              - /url: "#/shipment/10430"
+              - generic:
+                - generic: "10430"
+                - generic: نقل بين الفروع
+              - generic:
+                - strong: أسماء خالد
+                - generic: نواة
+              - generic:
+                - generic: محمود عادل · مندوب نقل
+                - generic: 1 قطع
+          - generic [aria-hidden]:
+            - generic: بيانات تجريبية ثابتة للمراجعة
+            - generic: المخزون المتاح يستبعد المحجوز والتالف.
+      - contentinfo [aria-hidden]:
+        - generic: شحن·شركة المسار للشحن
+        - generic: نموذج للمراجعة — بدون عمليات فعلية
+  - dialog [ref=f5e564]:
+    - generic [ref=f5e565]:
+      - heading "نراجع الشكل سوا" [level=2] [ref=f5e566]
+      - paragraph [ref=f5e567]: اختار اتجاه الألوان وجرب نفس الصفحات. الاختيار هنا للمعاينة، والاعتماد بعد ملاحظاتك.
+    - generic [ref=f5e568]:
+      - button "أبيض ولمسة ليموني مستوحى من صورة التتبع" [active] [ref=f5e569] [cursor=pointer]:
+        - strong [ref=f5e571]: أبيض ولمسة ليموني
+        - generic [ref=f5e572]: مستوحى من صورة التتبع
+      - button "درجات دافئة قريب من مرجع ERP-V2" [ref=f5e575] [cursor=pointer]:
+        - strong [ref=f5e577]: درجات دافئة
+        - generic [ref=f5e578]: قريب من مرجع ERP-V2
+    - generic [ref=f5e579]:
+      - heading "ركز في التجربة على" [level=3] [ref=f5e580]
+      - paragraph [ref=f5e581]: وضوح الخط والمسافات · سهولة الرجوع والبحث · حجم المعلومات في الشاشة · استخدام الموبايل.
+    - button "إغلاق" [ref=f5e582] [cursor=pointer]
