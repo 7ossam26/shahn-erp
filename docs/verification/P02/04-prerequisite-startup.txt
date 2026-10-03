@@ -1,0 +1,34 @@
+npm notice run shahn-erp@0.1.0 dev
+npm notice run node scripts/dev.mjs
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2606 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DtgW4iUL.css                           70.12 kB │ gzip: 13.84 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/index-DUcO41_E.js                            10.31 kB │ gzip:  4.09 kB
+apps/web/dist/assets/vendor-CUn9YMGr.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BUy55JRn.js                           38.85 kB │ gzip: 12.09 kB
+apps/web/dist/assets/vendor-Bmk3R7Ox.js                           99.19 kB │ gzip: 33.06 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-Cv0PziXf.js                          211.67 kB │ gzip: 66.41 kB
+
+✓ built in 868ms
+{"service":"worker","state":"started","checkedAt":"2026-10-03T16:53:06.461Z","businessQueues":0}
+7:53:06 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
+error when starting dev server:
+Error: Port 5173 is already in use
+    at httpServerStart (file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/node_modules/vite/dist/node/chunks/node.js:14540:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async startServer (file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/node_modules/vite/dist/node/chunks/node.js:24946:30)
+    at async Object.listen (file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/node_modules/vite/dist/node/chunks/node.js:24760:4)
+    at async CAC.<anonymous> (file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/node_modules/vite/dist/node/cli.js:725:3)
+{"service":"worker","state":"stopping","checkedAt":"2026-10-03T16:53:06.743Z","businessQueues":0}
+{"service":"worker","state":"stopped","checkedAt":"2026-10-03T16:53:06.743Z","businessQueues":0}
+API startup failed; check local configuration and port availability.

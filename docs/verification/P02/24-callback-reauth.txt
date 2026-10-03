@@ -1,0 +1,17 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --grep state tampering|role editor --max-failures=1
+[WebServer] (node:20224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:42636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:36504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:29204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:81:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session (49.9s)
+  ok 2 tests\p02\access.spec.ts:96:1 › role editor writes real server grants; expired form session retains unsaved input in memory (59.9s)
+
+  2 passed (2.6m)

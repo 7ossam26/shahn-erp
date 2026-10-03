@@ -31,7 +31,12 @@
     "start:api": "node apps/api/dist/main.js",
     "start:worker": "node apps/worker/dist/main.js",
     "start:web": "vite --config apps/web/vite.config.ts --host 127.0.0.1 --port 5173 --strictPort",
-    "test:runner": "node --test tests/runner.test.mjs"
+    "test:runner": "node --test tests/runner.test.mjs",
+    "p02:setup": "node scripts/build.mjs && node scripts/p02-setup.mjs",
+    "p02:up": "node scripts/p02-up.mjs",
+    "dev:p02": "node --env-file=.env.p02.local scripts/dev.mjs",
+    "access:bootstrap": "node scripts/access-bootstrap.mjs",
+    "test:p02:browser": "node scripts/build.mjs && playwright test --config playwright.p02.config.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

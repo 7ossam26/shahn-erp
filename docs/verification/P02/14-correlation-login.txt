@@ -1,0 +1,42 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --grep real Keycloak PKCE --max-failures=1
+[WebServer] (node:40576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:41140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:31912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 8:15:04 PM [vite] (client) [console.error] In HTML, <div> cannot be a descendant of <p>.
+[WebServer] This will cause a hydration error.
+[WebServer] 
+[WebServer]   ...
+[WebServer]     <RenderErrorBoundary location={{pathname:"/", ...}} revalidation="idle" component={<DefaultErrorComponent>} ...>
+[WebServer]       <RenderedRoute match={{params:{}, ...}} routeContext={{...}}>
+[WebServer]         <AccessShell>
+[WebServer]           <a>
+[WebServer]           <UtilityHeader>
+[WebServer]           <PageContainer home={true}>
+[WebServer]             <main id="main-content" tabIndex={-1} className="main-conte...">
+[WebServer]               <Outlet>
+[WebServer]                 <RenderedRoute match={{params:{}, ...}} routeContext={{outlet:null, ...}}>
+[WebServer]                   <AccessHome>
+[WebServer]                     <StatePanel state="pending" title="جارٍ تحميل...">
+[WebServer]                       <section className="state-pane..." role="status" aria-live="polite" aria-busy={true}>
+[WebServer]                         <div>
+[WebServer]                           <strong>
+[WebServer] >                         <p>
+[WebServer]                             <Reauthenticate>
+[WebServer] >                             <div className="access-actions">
+[WebServer]               ...
+[WebServer]           ...
+[WebServer] 
+[WebServer] 8:15:04 PM [vite] (client) [console.error] <p> cannot contain a nested <div>.
+[WebServer] See this log for the ancestor stack trace.
+  ok 1 tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (2.7s)
+
+  1 passed (44.0s)

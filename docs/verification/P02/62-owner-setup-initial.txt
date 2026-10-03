@@ -1,0 +1,4 @@
+Persistent isolated owner-setup smoke attempt, 2026-10-03.
+Observed: P02 persistent setup smoke failed at admin login.
+The command deliberately suppressed credential-bearing browser diagnostics. Follow-up 63-owner-login-diagnostic.json recorded the actual issuer-required profile screen using headings/input names and a query-free URL only.
+Cause: the earlier Keycloak profile PUT omitted issuer-owned email/lastName, which the issuer cleared. The adapter now preserves these and other issuer-owned profile attributes. 64-issuer-profile-repair.json records restoration of the four existing development staff profiles without changing credentials, subjects or native identities. Repaired real login evidence is retained separately.

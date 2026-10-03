@@ -1,0 +1,67 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/access.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/db/access.test.ts (13 tests | 2 failed) 4281ms
+   ❯ P02 real PostgreSQL and server authorization (13)
+     ✓ same-company constraints reject cross-branch assignment and ordinary support-account linkage 16ms
+     ✓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide 191ms
+     × closed API rejects forged headers, support self-grant and missing CSRF with no partial writes 12ms
+     ✓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected 117ms
+     ✓ user creation commits pending native identity, work, command and audit together; unknown stays pending after restart 114ms
+     ✓ a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command 120ms
+     ✓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint 20ms
+     ✓ support is separate, MFA bound, reasoned, attributed and expires on the next action 73ms
+     ✓ revocation affects an already open session, totals, recovered results and file downloads 133ms
+     ✓ expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API 37ms
+     × role revocation through the real command API denies an old session and its retained command result 42ms
+     ✓ failure at audit insertion rolls back principal, native user, command and durable job together 33ms
+     ✓ lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO 61ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > closed API rejects forged headers, support self-grant and missing CSRF with no partial writes
+AssertionError: expected 403 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 403
+
+ ❯ tests/db/access.test.ts:50:66
+     48|   it('closed API rejects forged headers, support self-grant and missin…
+     49|     const input={...base(),type:'role.create',name:'bad',grants:['supp…
+     50|     expect((await http('/commands',fixture.admin,input)).status).toBe(…
+       |                                                                  ^
+     51|     expect((await http('/users',fixture.admin,undefined,{'x-company-id…
+     52|     expect((await http('/commands',fixture.admin,{...input,grants:[]},…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > role revocation through the real command API denies an old session and its retained command result
+AssertionError: expected 403 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 403
+
+ ❯ tests/db/access.test.ts:130:149
+    128|     const role=await repo.command(fixture.admin.token,{...base(),type:…
+    129|     const user=await fixture.make('role-revoked',[fixture.a],role.enti…
+    130|     const created=await http('/commands',user,{...base(),type:'role.cr…
+       |                                                                                                                                                     ^
+    131|     expect((await http('/roles',user)).status).toBe(200);
+    132|     expect((await http('/commands',fixture.admin,{...base(),type:'role…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 passed (13)
+   Start at  20:23:50
+   Duration  5.15s (tests 85%, import 12%, transform 3%)
+

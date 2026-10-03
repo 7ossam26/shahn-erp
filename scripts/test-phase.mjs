@@ -29,7 +29,12 @@ for (const [layer, definition] of Object.entries(suite)) {
     (file) =>
       typeof file === 'string' &&
       file.includes(definition.extension) &&
-      /\.(ts|tsx|mjs)$/.test(file),
+      /\.(ts|tsx|mjs)$/.test(file) &&
+      (!definition.filter ||
+        definition.filter.some(
+          (path) =>
+            path.replaceAll('\\', '/') === definition.directory + '/' + file.replaceAll('\\', '/'),
+        )),
   );
   if (!files.length) {
     console.error(`${phase} ${layer}: zero registered test files`);
@@ -51,10 +56,27 @@ for (const [layer, definition] of Object.entries(suite)) {
   }
   const args =
     layer === 'unit'
-      ? ['node_modules/vitest/vitest.mjs', 'run', '--config', 'vitest.unit.config.ts']
+      ? [
+          'node_modules/vitest/vitest.mjs',
+          'run',
+          '--config',
+          definition.config ?? 'vitest.unit.config.ts',
+          ...(definition.filter ?? []),
+        ]
       : layer === 'database'
-        ? ['node_modules/vitest/vitest.mjs', 'run', '--config', 'vitest.db.config.ts']
-        : ['node_modules/@playwright/test/cli.js', 'test'];
+        ? [
+            'node_modules/vitest/vitest.mjs',
+            'run',
+            '--config',
+            definition.config ?? 'vitest.db.config.ts',
+            ...(definition.filter ?? []),
+          ]
+        : [
+            'node_modules/@playwright/test/cli.js',
+            'test',
+            '--config',
+            definition.config ?? 'playwright.config.ts',
+          ];
   if (layer === 'browser' && execute(['scripts/build.mjs']) !== 0) process.exit(1);
   const code = execute(args);
   if (code !== 0) {

@@ -1,0 +1,61 @@
+{
+  "technique": "SIGKILL child worker on IPC signal after Keycloak reconcile returns, before local acknowledgement transaction; expire owned fixture lease and launch a fresh worker",
+  "before": {
+    "users": [
+      {
+        "id": "f40a220c-0148-43e3-bdf6-8099205cb06b",
+        "username": "lost-result",
+        "state": "pending",
+        "subject": null,
+        "jobs": 1
+      },
+      {
+        "id": "55a6853f-06c2-4009-8f27-60242de0ce18",
+        "username": "offline-user",
+        "state": "ready",
+        "subject": "39df2bf9-9ea7-43a8-a1f7-7d0c3accc193",
+        "jobs": 1
+      }
+    ],
+    "remote": [
+      {
+        "id": "a8961b25-1a27-43d9-8589-a416c0b13b69",
+        "username": "trial.lost-result"
+      },
+      {
+        "id": "39df2bf9-9ea7-43a8-a1f7-7d0c3accc193",
+        "username": "trial.offline-user"
+      }
+    ],
+    "audit": []
+  },
+  "after": {
+    "users": [
+      {
+        "id": "f40a220c-0148-43e3-bdf6-8099205cb06b",
+        "username": "lost-result",
+        "state": "ready",
+        "subject": "a8961b25-1a27-43d9-8589-a416c0b13b69",
+        "jobs": 1
+      },
+      {
+        "id": "55a6853f-06c2-4009-8f27-60242de0ce18",
+        "username": "offline-user",
+        "state": "ready",
+        "subject": "39df2bf9-9ea7-43a8-a1f7-7d0c3accc193",
+        "jobs": 1
+      }
+    ],
+    "remote": [
+      {
+        "id": "a8961b25-1a27-43d9-8589-a416c0b13b69",
+        "username": "trial.lost-result"
+      },
+      {
+        "id": "39df2bf9-9ea7-43a8-a1f7-7d0c3accc193",
+        "username": "trial.offline-user"
+      }
+    ],
+    "audit": []
+  }
+}

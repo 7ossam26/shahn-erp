@@ -1,4 +1,28 @@
 {
+  "P02": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": "access.test",
+      "filter": ["tests/unit/access.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/access.test.ts", "tests/db/oidc-validation.test.ts"]
+    },
+    "browser": {
+      "script": "test:p02:browser",
+      "directory": "tests/p02",
+      "extension": ".spec",
+      "config": "playwright.p02.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "Actual Keycloak public OIDC/admin HTTP runs in the P02 browser layer. Tawsel human/service provisioning belongs to P11 and is not implemented here."
+    }
+  },
   "P01": {
     "unit": { "script": "test:unit", "directory": "tests/unit", "extension": ".test" },
     "database": { "script": "test:db", "directory": "tests/db", "extension": ".test" },

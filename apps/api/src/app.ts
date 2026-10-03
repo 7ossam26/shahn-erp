@@ -16,6 +16,8 @@ import {
 import { APP_GUARD, NestFactory, Reflector } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import type { FastifyReply } from 'fastify';
+import { registerAccess } from './modules/access/http.js';
+import { identityConfig, type IdentityConfig } from './modules/access/config.js';
 import {
   createPool,
   databaseConfig,
@@ -120,6 +122,7 @@ class StatusController {
 }
 export async function createApplication(
   config = databaseConfig(),
+  identity: IdentityConfig | null = identityConfig(),
 ): Promise<NestFastifyApplication> {
   @Module({
     controllers: [StatusController],
@@ -147,5 +150,6 @@ export async function createApplication(
     },
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
+  registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
   return app;
 }

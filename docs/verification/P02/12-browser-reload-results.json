@@ -1,0 +1,277 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p02.config.ts",
+      "--max-failures=1"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p02.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P02/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p02/serve.ts",
+      "url": "http://127.0.0.1:4292/health",
+      "reuseExistingServer": false,
+      "timeout": 150000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "access.spec.ts",
+      "file": "access.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60019,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 35,
+                        "line": 10
+                      },
+                      "message": "Error: locator.fill: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username')\u001b[22m\n\n\n   8 | async function control(page:Page,path:string){const r=await page.request.post('http://127.0.0.1:4292'+path,{headers:{Authorization:`Bearer ${runtime.controlSecret}`}});expect(r.ok()).toBe(true);return r.json();}\n   9 | async function issuerLogin(page:Page,user:TestIssuerUser){\n> 10 |   await page.locator('#username').fill(user.username);await page.locator('#password').fill(user.password);await page.locator('#kc-login').click();\n     |                                   ^\n  11 |   await expect(page.locator('#otp')).toBeVisible();await page.locator('#otp').fill(totp(user.otp));await page.locator('#kc-login').click();\n  12 | }\n  13 | async function login(page:Page,key='admin'){\n    at issuerLogin (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:10:35)\n    at login (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:17:77)\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:23:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:11:04.539Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-real-Keycloak-PKCE--d2b13-rds-desktop-mobile-keyboard\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-dada1541c5cbf315616d",
+          "file": "access.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-425d466cab809c189bd5",
+          "file": "access.spec.ts",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "actual issuer unavailable leaves one pending user; restored issuer binds one subject",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-3d13ade3edf9ed57d210",
+          "file": "access.spec.ts",
+          "line": 46,
+          "column": 1
+        },
+        {
+          "title": "kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-b764ed7e25139eed72aa",
+          "file": "access.spec.ts",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-129b36ada76ed4af1fe3",
+          "file": "access.spec.ts",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "state tampering, nonce mismatch and callback replay fail without issuing an ERP session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-367109f2fd72b879740c",
+          "file": "access.spec.ts",
+          "line": 64,
+          "column": 1
+        },
+        {
+          "title": "role editor writes real server grants; expired form session retains unsaved input in memory",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-a43ce9a0dbf36ef79a91",
+          "file": "access.spec.ts",
+          "line": 76,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "\u001b[31mTesting stopped early after 1 maximum allowed failures.\u001b[39m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-03T17:10:26.881Z",
+    "duration": 99941.838,
+    "expected": 0,
+    "skipped": 6,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

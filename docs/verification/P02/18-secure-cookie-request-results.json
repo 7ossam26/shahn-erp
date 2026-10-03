@@ -1,0 +1,299 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p02.config.ts",
+      "--max-failures=1"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p02.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P02/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p02/serve.ts",
+      "url": "http://127.0.0.1:4292/health",
+      "reuseExistingServer": false,
+      "timeout": 150000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "access.spec.ts",
+      "file": "access.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3190,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:18:44.135Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-dada1541c5cbf315616d",
+          "file": "access.spec.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 12853,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:41:129",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 129,
+                      "line": 41
+                    },
+                    "snippet": "  39 |   const staffContext=await browser.newContext(),adminContext=await browser.newContext();const staff=await staffContext.newPage(),admin=await adminContext.newPage();\n  40 |   try{\n> 41 |     await login(staff,'staffA');await login(admin);expect((await staff.request.get('/api/v1/access/scope/inventory')).status()).toBe(200);\n     |                                                                                                                                 ^\n  42 |     const list=await(await admin.request.get('/api/v1/access/users')).json(),user=list.items.find((u:{username:string})=>u.username==='staff-a');\n  43 |     await expect(staff.getByRole('link',{name:/الأدوار والصلاحيات/})).toBeVisible();\n  44 |     const r=await command(admin,{type:'user.update',entityId:user.id,expectedVersion:user.version,name:user.name,roleId:user.roleId,branchIds:[runtime.a,runtime.b],exceptions:{inventory:'deny','access.roles':'deny'},active:true});expect(r.status()).toBe(200);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 129,
+                        "line": 41
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n\n  39 |   const staffContext=await browser.newContext(),adminContext=await browser.newContext();const staff=await staffContext.newPage(),admin=await adminContext.newPage();\n  40 |   try{\n> 41 |     await login(staff,'staffA');await login(admin);expect((await staff.request.get('/api/v1/access/scope/inventory')).status()).toBe(200);\n     |                                                                                                                                 ^\n  42 |     const list=await(await admin.request.get('/api/v1/access/users')).json(),user=list.items.find((u:{username:string})=>u.username==='staff-a');\n  43 |     await expect(staff.getByRole('link',{name:/الأدوار والصلاحيات/})).toBeVisible();\n  44 |     const r=await command(admin,{type:'user.update',entityId:user.id,expectedVersion:user.version,name:user.name,roleId:user.roleId,branchIds:[runtime.a,runtime.b],exceptions:{inventory:'deny','access.roles':'deny'},active:true});expect(r.status()).toBe(200);\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:41:129"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:18:47.437Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-two-open-sessions-r-e9e8f-and-context-refetch-updates\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 129,
+                    "line": 41
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-425d466cab809c189bd5",
+          "file": "access.spec.ts",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "actual issuer unavailable leaves one pending user; restored issuer binds one subject",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-3d13ade3edf9ed57d210",
+          "file": "access.spec.ts",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-b764ed7e25139eed72aa",
+          "file": "access.spec.ts",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-129b36ada76ed4af1fe3",
+          "file": "access.spec.ts",
+          "line": 64,
+          "column": 1
+        },
+        {
+          "title": "state tampering, nonce mismatch and callback replay fail without issuing an ERP session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-367109f2fd72b879740c",
+          "file": "access.spec.ts",
+          "line": 70,
+          "column": 1
+        },
+        {
+          "title": "role editor writes real server grants; expired form session retains unsaved input in memory",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-a43ce9a0dbf36ef79a91",
+          "file": "access.spec.ts",
+          "line": 83,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "\u001b[31mTesting stopped early after 1 maximum allowed failures.\u001b[39m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-03T17:17:55.210Z",
+    "duration": 68223.749,
+    "expected": 1,
+    "skipped": 5,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

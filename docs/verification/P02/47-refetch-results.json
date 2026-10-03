@@ -1,0 +1,522 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p02.config.ts"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p02.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P02/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p02/serve.ts",
+      "url": "http://127.0.0.1:4292/health",
+      "reuseExistingServer": false,
+      "timeout": 150000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "access.spec.ts",
+      "file": "access.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3448,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:46:27.545Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-dada1541c5cbf315616d",
+          "file": "access.spec.ts",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2846,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:46:31.122Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-425d466cab809c189bd5",
+          "file": "access.spec.ts",
+          "line": 143,
+          "column": 1
+        },
+        {
+          "title": "actual issuer unavailable leaves one pending user; restored issuer binds one subject",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 37821,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:46:33.977Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-3d13ade3edf9ed57d210",
+          "file": "access.spec.ts",
+          "line": 186,
+          "column": 1
+        },
+        {
+          "title": "kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:47:11.815Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-b764ed7e25139eed72aa",
+          "file": "access.spec.ts",
+          "line": 223,
+          "column": 1
+        },
+        {
+          "title": "support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16564,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"لم تصل نتيجة الطلب\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"لم تصل نتيجة الطلب\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:282:41",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 41,
+                      "line": 282
+                    },
+                    "snippet": "  280 |   });\n  281 |   await page.getByRole('button', { name: 'بدء جلسة لمدة ساعة' }).click();\n> 282 |   await expect(page.getByRole('alert')).toContainText('لم تصل نتيجة الطلب');\n      |                                         ^\n  283 |   await page.unroute('**/api/v1/access/commands');\n  284 |   await page.getByRole('button', { name: 'تحديث البيانات والصلاحيات' }).click();\n  285 |   await expect(page.getByText('جلسة دعم فني نشطة')).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 41,
+                        "line": 282
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"لم تصل نتيجة الطلب\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  280 |   });\n  281 |   await page.getByRole('button', { name: 'بدء جلسة لمدة ساعة' }).click();\n> 282 |   await expect(page.getByRole('alert')).toContainText('لم تصل نتيجة الطلب');\n      |                                         ^\n  283 |   await page.unroute('**/api/v1/access/commands');\n  284 |   await page.getByRole('button', { name: 'تحديث البيانات والصلاحيات' }).click();\n  285 |   await expect(page.getByText('جلسة دعم فني نشطة')).toBeVisible();\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:282:41"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:47:31.071Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-support-login-requi-85843-xpiry-rejects-next-mutation\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 41,
+                    "line": 282
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-129b36ada76ed4af1fe3",
+          "file": "access.spec.ts",
+          "line": 269,
+          "column": 1
+        },
+        {
+          "title": "state tampering, nonce mismatch and callback replay fail without issuing an ERP session",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 150000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16023,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/login\\?error=login_failed/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/login\\?error=login_failed/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:338:26",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 26,
+                      "line": 338
+                    },
+                    "snippet": "  336 |         await page.goto(callback);\n  337 |       }\n> 338 |       await expect(page).toHaveURL(/login\\?error=login_failed/);\n      |                          ^\n  339 |       expect((await context.cookies()).some((c) => c.name === 'erp_session')).toBe(false);\n  340 |     } finally {\n  341 |       await context.close();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 26,
+                        "line": 338
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/login\\?error=login_failed/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n\n\n  336 |         await page.goto(callback);\n  337 |       }\n> 338 |       await expect(page).toHaveURL(/login\\?error=login_failed/);\n      |                          ^\n  339 |       expect((await context.cookies()).some((c) => c.name === 'erp_session')).toBe(false);\n  340 |     } finally {\n  341 |       await context.close();\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:338:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:47:48.062Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-state-tampering-non-26193-hout-issuing-an-ERP-session\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 26,
+                    "line": 338
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-367109f2fd72b879740c",
+          "file": "access.spec.ts",
+          "line": 308,
+          "column": 1
+        },
+        {
+          "title": "role editor writes real server grants; expired form session retains unsaved input in memory",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 41053,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:394:86",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 86,
+                      "line": 394
+                    },
+                    "snippet": "  392 |   await expect(page.getByLabel('الاسم', { exact: true })).toHaveValue('بيانات محفوظة في الذاكرة');\n  393 |   await page.getByRole('button', { name: 'تأكيد حفظ المستخدم' }).click();\n> 394 |   await expect(page.getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })).toBeVisible();\n      |                                                                                      ^\n  395 | });\n  396 | test('lost command response retains only a recovery identity across reload and never creates a second user', async ({\n  397 |   page,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 86,
+                        "line": 394
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })\u001b[22m\n\n\n  392 |   await expect(page.getByLabel('الاسم', { exact: true })).toHaveValue('بيانات محفوظة في الذاكرة');\n  393 |   await page.getByRole('button', { name: 'تأكيد حفظ المستخدم' }).click();\n> 394 |   await expect(page.getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })).toBeVisible();\n      |                                                                                      ^\n  395 | });\n  396 | test('lost command response retains only a recovery identity across reload and never creates a second user', async ({\n  397 |   page,\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:394:86"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:48:04.584Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-role-editor-writes--89809-ins-unsaved-input-in-memory\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 86,
+                    "line": 394
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-a43ce9a0dbf36ef79a91",
+          "file": "access.spec.ts",
+          "line": 345,
+          "column": 1
+        },
+        {
+          "title": "lost command response retains only a recovery identity across reload and never creates a second user",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15982,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n\n    at login (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:57:22)\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:400:3",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 22,
+                      "line": 57
+                    },
+                    "snippet": "  55 |   await page.getByRole('button', { name: 'متابعة تسجيل الدخول' }).click();\n  56 |   await issuerLogin(page, user, key === 'support');\n> 57 |   await expect(page).toHaveURL(key === 'support' ? /\\/support$/ : /5291\\/$/);\n     |                      ^\n  58 | }\n  59 | async function request(page: Page, path: string, body?: Record<string, unknown>) {\n  60 |   // Browser fetch preserves loopback Secure-cookie semantics; APIRequestContext does not send those cookies over HTTP."
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 22,
+                        "line": 57
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"en\" class=\"login-pf\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]\"\u001b[22m\n\n\n  55 |   await page.getByRole('button', { name: 'متابعة تسجيل الدخول' }).click();\n  56 |   await issuerLogin(page, user, key === 'support');\n> 57 |   await expect(page).toHaveURL(key === 'support' ? /\\/support$/ : /5291\\/$/);\n     |                      ^\n  58 | }\n  59 | async function request(page: Page, path: string, body?: Record<string, unknown>) {\n  60 |   // Browser fetch preserves loopback Secure-cookie semantics; APIRequestContext does not send those cookies over HTTP.\n    at login (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:57:22)\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:400:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:48:46.167Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-lost-command-respon-c23a2-never-creates-a-second-user\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 22,
+                    "line": 57
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-f84b5062d0ef79412961",
+          "file": "access.spec.ts",
+          "line": 396,
+          "column": 1
+        },
+        {
+          "title": "ERP logout and explicit shared identity logout use separate real flows without browser tokens",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 150000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27992,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:49:02.691Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-d6ba693e2b1e2352543b",
+          "file": "access.spec.ts",
+          "line": 432,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T17:45:50.802Z",
+    "duration": 222355.645,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

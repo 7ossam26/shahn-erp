@@ -115,7 +115,7 @@ export function StatePanel({
     >
       <div>
         <strong>{title}</strong>
-        {children && <p>{children}</p>}
+        {children && <div className="state-description">{children}</div>}
       </div>
       {action}
     </section>
@@ -197,17 +197,19 @@ export function ResponsiveList<T>({
   columns,
   rowKey,
   card,
+  caption = 'قائمة السجلات',
 }: {
   items: T[];
   columns: ListColumn<T>[];
   rowKey: (item: T) => string;
   card: (item: T) => ReactNode;
+  caption?: string;
 }) {
   return (
     <>
       <div className="table-wrap">
         <table className="shipment-table">
-          <caption className="sr-only">أمثلة تطوير فقط</caption>
+          <caption className="sr-only">{caption}</caption>
           <thead>
             <tr>
               {columns.map((c) => (

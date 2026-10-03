@@ -1,0 +1,109 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P02
+P02 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/access.test.ts (37 tests) 12ms
+
+ Test Files  1 passed (1)
+      Tests  37 passed (37)
+   Start at  20:51:53
+   Duration  1.16s (environment 64%, import 16%, setup 11%, transform 7%, tests 1%)
+
+P02 unit: PASSED
+P02 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/access.test.ts (17 tests) 3889ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 2808ms
+
+ Test Files  2 passed (2)
+      Tests  26 passed (26)
+   Start at  20:51:55
+   Duration  7.77s (tests 89%, import 9%, transform 2%)
+
+P02 database: PASSED
+P02 browser: test:p02:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2612 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BIj2BhHZ.css                           72.60 kB │ gzip: 14.43 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-CueIUPQF.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BBKVQg9u.js                           38.86 kB │ gzip: 12.10 kB
+apps/web/dist/assets/index-BQohf98k.js                            47.42 kB │ gzip: 14.12 kB
+apps/web/dist/assets/vendor-Df9p6J2M.js                          100.14 kB │ gzip: 33.40 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-CIo7j2fv.js                          212.23 kB │ gzip: 66.61 kB
+
+✓ built in 369ms
+[WebServer] (node:29884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14116) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:40056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:106:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (3.0s)
+[WebServer] (node:35632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\p02\access.spec.ts:147:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates (13.8s)
+[WebServer] (node:39504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:20172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 tests\p02\access.spec.ts:190:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject (40.5s)
+[WebServer] (node:43172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:29680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 tests\p02\access.spec.ts:227:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity (19.3s)
+  ok 5 tests\p02\access.spec.ts:273:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation (2.3s)
+  ok 6 tests\p02\access.spec.ts:311:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session (1.5m)
+  ok 7 tests\p02\access.spec.ts:348:1 › role editor writes real server grants; expired form session retains unsaved input in memory (59.8s)
+  ok 8 tests\p02\access.spec.ts:399:1 › lost command response retains only a recovery identity across reload and never creates a second user (31.1s)
+  ok 9 tests\p02\access.spec.ts:435:1 › ERP logout and explicit shared identity logout use separate real flows without browser tokens (59.2s)
+
+  Slow test file: tests\p02\access.spec.ts (5.3m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  9 passed (6.0m)
+P02 browser: PASSED
+P02 publicIntegration: NOT APPLICABLE — Actual Keycloak public OIDC/admin HTTP runs in the P02 browser layer. Tawsel human/service provisioning belongs to P11 and is not implemented here.
+P02: all required layers passed

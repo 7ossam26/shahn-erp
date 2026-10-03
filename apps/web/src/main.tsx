@@ -5,12 +5,42 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Direction } from 'radix-ui';
 import '@shahn/ui/styles.css';
 import { Shell, Home, MissingPage } from './app.js';
+import {
+  AccessShell,
+  AccessHome,
+  Login,
+  UsersPage,
+  UserDetail,
+  RolesPage,
+  Support,
+  AuthComplete,
+} from './features/access/access.js';
 const router = createBrowserRouter([
   {
-    element: <Shell />,
+    element:
+      import.meta.env.DEV && import.meta.env['VITE_FOUNDATION_PREVIEW'] === 'true' ? (
+        <Shell />
+      ) : (
+        <AccessShell />
+      ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
-      { path: '/', element: <Home /> },
+      {
+        path: '/',
+        element:
+          import.meta.env.DEV && import.meta.env['VITE_FOUNDATION_PREVIEW'] === 'true' ? (
+            <Home />
+          ) : (
+            <AccessHome />
+          ),
+      },
+      { path: '/login', element: <Login /> },
+      { path: '/auth-complete', element: <AuthComplete /> },
+      { path: '/administration/users', element: <UsersPage /> },
+      { path: '/administration/users/:id', element: <UserDetail /> },
+      { path: '/administration/roles', element: <RolesPage /> },
+      { path: '/support', element: <Support /> },
+      { path: '/support/login', element: <Login support /> },
       ...(import.meta.env.DEV && import.meta.env.VITE_ENABLE_DEMOS === 'true'
         ? [
             {

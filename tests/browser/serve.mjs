@@ -14,6 +14,7 @@ const environment = {
   APP_ORIGIN: 'http://127.0.0.1:5201',
   API_PROXY_TARGET: 'http://127.0.0.1:4201',
   VITE_ENABLE_DEMOS: 'true',
+  VITE_FOUNDATION_PREVIEW: 'true',
 };
 const children = [
   spawn(process.execPath, ['apps/api/dist/main.js'], {

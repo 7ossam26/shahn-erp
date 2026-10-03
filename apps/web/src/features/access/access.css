@@ -1,0 +1,170 @@
+.access-form {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 1.5rem;
+  min-width: 0;
+}
+.narrow-form {
+  max-width: 600px;
+}
+.access-field {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+  min-width: 0;
+}
+.access-field select,
+.access-field textarea,
+.branch-context select {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border: 1px solid var(--border, #deded8);
+  border-radius: 10px;
+  background: white;
+  padding: 0.65rem;
+  font: inherit;
+  font-size: 16px;
+}
+.access-field textarea {
+  min-height: 100px;
+}
+.access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  margin-block: 1.25rem;
+}
+.access-actions > * {
+  max-width: 100%;
+}
+.access-editor {
+  padding: 1.5rem;
+  border: 1px solid var(--border, #deded8);
+  border-radius: 18px;
+  background: white;
+  margin-block: 1.5rem;
+  overflow-wrap: anywhere;
+}
+.access-editor h2 {
+  font-size: 1.25rem;
+  margin-block-end: 1rem;
+}
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 44px;
+  font-weight: 500;
+}
+.check-row input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: #66801d;
+}
+.check-row small {
+  display: block;
+  font-size: 0.78rem;
+  color: #686b63;
+}
+.branch-context {
+  background: #f4f6ed;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  margin-block: 1.5rem;
+}
+.branch-context label {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.branch-context strong {
+  font-size: 1.1rem;
+}
+.branch-context select {
+  width: auto;
+  max-width: 100%;
+}
+.branch-context small {
+  display: block;
+  color: #686b63;
+  margin-block-start: 0.5rem;
+}
+.text-button {
+  min-height: 44px;
+  text-align: start;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  font-weight: 700;
+}
+.identity-state {
+  font-size: 0.85rem;
+}
+.identity-pending {
+  color: #755b15;
+}
+.identity-failed {
+  color: #a32d2d;
+}
+.access-role-list {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}
+.access-role {
+  display: grid;
+  gap: 0.7rem;
+  text-align: start;
+  border: 1px solid #deded8;
+  border-radius: 14px;
+  background: white;
+  padding: 1.2rem;
+  min-height: 90px;
+}
+.account-menu {
+  margin-block: 2rem;
+  color: #555;
+}
+.account-menu summary,
+.access-editor summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding-block: 0.6rem;
+}
+.account-menu > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-block: 1rem;
+}
+.access-form .form-fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+}
+.state-panel bdi {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+.state-panel .access-actions {
+  margin-block: 0.75rem;
+}
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #859c32;
+  outline-offset: 3px;
+}
+@media (max-width: 500px) {
+  .access-editor {
+    padding: 1rem;
+  }
+  .access-actions {
+    align-items: stretch;
+  }
+  .access-actions > .access-field {
+    width: 100%;
+  }
+}

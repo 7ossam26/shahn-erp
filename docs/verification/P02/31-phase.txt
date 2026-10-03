@@ -1,0 +1,91 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P02
+P02 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/access.test.ts (37 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  37 passed (37)
+   Start at  20:31:32
+   Duration  1.42s (environment 69%, import 12%, setup 12%, transform 5%, tests 1%, worker 1%)
+
+P02 unit: PASSED
+P02 database: test:db; 3 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/db/access.test.ts (13 tests | 1 failed) 9702ms
+   ❯ P02 real PostgreSQL and server authorization (13)
+     ✓ same-company constraints reject cross-branch assignment and ordinary support-account linkage 22ms
+     ✓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide 186ms
+     ✓ closed API rejects forged headers, support self-grant and missing CSRF with no partial writes 15ms
+     ✓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected 114ms
+     ✓ user creation commits pending native identity, work, command and audit together; unknown stays pending after restart 107ms
+     ✓ a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command 122ms
+     ✓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint 19ms
+     ✓ support is separate, MFA bound, reasoned, attributed and expires on the next action 63ms
+     ✓ revocation affects an already open session, totals, recovered results and file downloads 178ms
+     × expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API 50ms
+     ✓ role revocation through the real command API denies an old session and its retained command result 126ms
+     ✓ failure at audit insertion rolls back principal, native user, command and durable job together 68ms
+     ✓ lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO 89ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 3790ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API
+AssertionError: expected [ 'companyId', 'csrfToken', …(2) ] to deeply equal [ 'companyId', 'csrfToken', 'kind' ]
+
+- Expected
++ Received
+
+  [
+    "companyId",
+    "csrfToken",
+    "kind",
++   "principalId",
+  ]
+
+ ❯ tests/db/access.test.ts:377:46
+    375|     const user = await fixture.make('expired', [fixture.a]);
+    376|     const session = await http('/session', user);
+    377|     expect(Object.keys(session.body).sort()).toEqual(['companyId', 'cs…
+       |                                              ^
+    378|     await db.pool.query(
+    379|       "UPDATE access.server_session SET idle_expires_at=clock_timestam…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 21 passed (22)
+   Start at  20:31:34
+   Duration  14.83s (tests 92%, import 6%, transform 1%)
+
+P02 database: FAILED (1)

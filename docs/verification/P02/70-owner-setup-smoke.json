@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-03T18:08:13.877Z",
+  "scope": "Agent smoke against the persistent isolated owner setup; not owner acceptance",
+  "readiness": {
+    "schemaVersion": 1,
+    "service": "api",
+    "status": "ready",
+    "checkedAt": "2026-10-03T18:08:13.871Z",
+    "database": "connected",
+    "migrations": {
+      "state": "current",
+      "applied": [
+        "0001_foundation",
+        "0002_access",
+        "0003_access_result_error"
+      ],
+      "required": [
+        "0001_foundation",
+        "0002_access",
+        "0003_access_result_error"
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "admin",
+      "kind": "staff",
+      "assignedBranches": 2,
+      "implementedGrantedCards": 2
+    },
+    {
+      "username": "staff-a",
+      "kind": "staff",
+      "assignedBranches": 1,
+      "implementedGrantedCards": 1
+    },
+    {
+      "username": "support",
+      "kind": "support",
+      "assignedBranches": 2,
+      "implementedGrantedCards": 2
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p02.config.ts",
+      "--grep",
+      "real Keycloak PKCE",
+      "--max-failures=1"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p02.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/p02",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P02/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p02/serve.ts",
+      "url": "http://127.0.0.1:4292/health",
+      "reuseExistingServer": false,
+      "timeout": 150000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 10000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "access.spec.ts",
+      "file": "access.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16733,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:5291/login?error=login_failed\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"ar\" dir=\"rtl\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:5291/login?error=login_failed\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:5291/login?error=login_failed\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"ar\" dir=\"rtl\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:5291/login?error=login_failed\"\u001b[22m\n\n    at login (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:18:22)\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:23:3",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                      "column": 22,
+                      "line": 18
+                    },
+                    "snippet": "  16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));\n  17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);\n> 18 |   await expect(page).toHaveURL(key==='support'?/\\/support$/:/5291\\/$/);\n     |                      ^\n  19 | }\n  20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}\n  21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                        "column": 22,
+                        "line": 18
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/5291\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:5291/login?error=login_failed\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    33 × locator resolved to <html lang=\"ar\" dir=\"rtl\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:5291/login?error=login_failed\"\u001b[22m\n\n\n  16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));\n  17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);\n> 18 |   await expect(page).toHaveURL(key==='support'?/\\/support$/:/5291\\/$/);\n     |                      ^\n  19 | }\n  20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}\n  21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}\n    at login (C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:18:22)\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts:23:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T17:13:08.488Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\access-real-Keycloak-PKCE--d2b13-rds-desktop-mobile-keyboard\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\p02\\access.spec.ts",
+                    "column": 22,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9e7a053a61b60e2af93d-dada1541c5cbf315616d",
+          "file": "access.spec.ts",
+          "line": 22,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "\u001b[31mTesting stopped early after 1 maximum allowed failures.\u001b[39m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-03T17:12:29.851Z",
+    "duration": 57615.773,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

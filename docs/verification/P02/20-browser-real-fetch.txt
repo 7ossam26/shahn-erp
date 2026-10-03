@@ -1,0 +1,56 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --max-failures=1
+[WebServer] (node:8572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:19176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:16632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:16844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:36:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (2.9s)
+[WebServer] (node:16364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\p02\access.spec.ts:47:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates (9.9s)
+[WebServer] (node:34924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:42436) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 tests\p02\access.spec.ts:61:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject (40.5s)
+[WebServer] (node:42204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:2208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 tests\p02\access.spec.ts:67:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity (19.4s)
+  x  5 tests\p02\access.spec.ts:73:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation (1.0m)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests\p02\access.spec.ts:73:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('الشركة', { exact: true })
+
+
+      72 | });
+      73 | test('support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation',async({page})=>{
+    > 74 |   await login(page,'support');await page.getByLabel('الشركة',{exact:true}).selectOption(runtime.company);await page.getByLabel('سبب الدعم').fill('مراجعة إعداد فرع الشركة في التجربة');await page.getByRole('button',{name:'بدء جلسة لمدة ساعة'}).click();await expect(page.getByText('جلسة دعم فني نشطة')).toBeVisible();await page.getByLabel('اسم الفرع الجديد').fill('فرع الدعم الفعلي');await page.getByRole('button',{name:'إضافة الفرع',exact:true}).click();await expect(page.getByText('فرع الدعم الفعلي',{exact:true})).toBeVisible();
+         |                                                                            ^
+      75 |   await page.getByText('سجل إدارة الوصول',{exact:true}).click();await expect(page.getByText('الدعم الفني · Technical Support',{exact:true}).first()).toBeVisible();await page.screenshot({path:'docs/verification/P02/screenshots/support.png',fullPage:true});
+      76 |   await control(page,'/support/expire');expect((await command(page,{type:'branch.create',name:'غير مسموح بعد الانتهاء'})).status()).toBe(403);
+      77 |   const proof=await control(page,'/proof');expect(proof.audit.some((a:{actor_label:string;support_session_id:string})=>a.actor_label==='Technical Support'&&a.support_session_id)).toBe(true);
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:74:76
+
+    Error Context: test-results\access-support-login-requi-85843-xpiry-rejects-next-mutation\error-context.md
+
+  1 failed
+    tests\p02\access.spec.ts:73:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+  2 did not run
+  4 passed (3.0m)
+  1 error was not a part of any test, see above for details

@@ -1,0 +1,221 @@
+{
+  "source": "REQUIREMENTS-TRACEABILITY.md",
+  "sha256": "79d7a7d5cb433e286d269d405e9898e1241153f0fcc69544e38f9118be232fd9",
+  "rows": [
+    {
+      "id": "ERP-R-003",
+      "line": 55,
+      "text": "| **ERP-R-003** — Native ERP authorization and staff audit, preserving service/human authority and business-state distinctions. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-003\"></a>**AC-R-003**: A permitted employee can perform the screen operation in scope; a denied or other-company actor cannot. Record the real human actor separately from service authentication, and reject driver impersonation. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md) |"
+    },
+    {
+      "id": "ERP-R-004",
+      "line": 56,
+      "text": "| **ERP-R-004** — Provide focused module/task pages with clear main actions and missing/pending states; allow a simple utility/back top bar, without global module tabs, sidebar or clutter. | Current | ERP frontend and screen design | [Screens](docs/planning/ERP-SCREEN-SPEC.md); [UI review](UI-REVIEW-LOG.md) | <a id=\"ac-r-004\"></a>**AC-R-004**: A new user reaches a focused task from the module-card home, identifies the primary action and returns using the simple header. Verify absence of global module tabs/sidebar and crowded unrelated actions. | [UI](#verification-methods); planned, unrun | [P01](phases/01-foundation-and-ui-shell.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-R-009",
+      "line": 61,
+      "text": "| **ERP-R-009** — Support staff functions including Data Entry through authorized modules/screens rather than hardcoded job titles. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-009\"></a>**AC-R-009**: Grant the intake screen to an employee with another job title: intake works within branch scope. Removing the permission denies the server command as well as its UI entry. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-017",
+      "line": 69,
+      "text": "| **ERP-R-017** — Plan initial per-company delivery; keep later SaaS as an explicit future ambition without selecting shared tenancy now. | Current | ERP architecture and operations | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md) | <a id=\"ac-r-017\"></a>**AC-R-017**: Deploy one company's ERP with isolated data, credentials and configuration. Preserve a path toward later SaaS without introducing shared-company tenancy or assuming another company's access in V1. | [OPS](#verification-methods); planned, unrun | [P01](phases/01-foundation-and-ui-shell.md), [P02](phases/02-company-access-and-identity.md), [P25](phases/25-deployment-backup-and-restore.md) |"
+    },
+    {
+      "id": "ERP-R-018",
+      "line": 70,
+      "text": "| **ERP-R-018** — Separate developer superadmin branch/support administration from the shipping-company owner's admin account. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-018\"></a>**AC-R-018**: Developer support can create branches and perform authorized support/business tasks; the company administrator manages its own staff without managing the hidden developer account. Both remain subject to business invariants. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-019",
+      "line": 71,
+      "text": "| **ERP-R-019** — Implement one configurable role with user inherit/allow/deny and multiple branch memberships using the same effective capabilities; access is organized by modules/screens, not fixed job names. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-019\"></a>**AC-R-019**: Resolve one role plus inherit/allow/deny consistently on server and UI across assigned branches. Test explicit denial, revoked access and a forged other-company/branch identifier. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-020",
+      "line": 72,
+      "text": "| **ERP-R-020** — Administer company users/roles/driver references from ERP; respect scoped driver access and shared identity with independent Tawsel session. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-020\"></a>**AC-R-020**: Provision an ERP employee and an eligible driver identity through the selected identity boundary. An ERP browser session is not a Tawsel driver session; HR-only employees need no driver onboarding. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P08](phases/08-employee-profiles-and-commission-terms.md), [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md) |"
+    },
+    {
+      "id": "ERP-R-033",
+      "line": 85,
+      "text": "| **ERP-R-033** — Grant screen/module operations through configurable access; enforce company/branch scope and business-state rules without hardcoded role-name authority. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-033\"></a>**AC-R-033**: Turning a module/screen grant on enables its permitted operations, independent of job title. Every mutation still enforces company, branch, resource and lifecycle checks on the server. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-046",
+      "line": 98,
+      "text": "| **ERP-R-046** — Defer a brand-facing account/portal beyond V1 while retaining staff-facing brand management. | Deferred beyond V1; exclusion check | Product planning and verification | [Master plan](master-plan.md); [Current scope](ERP-DECISIONS.md) | <a id=\"ac-r-046\"></a>**AC-R-046**: V1 staff can manage brands, orders and payout without a brand portal. No portal account or self-service brand capability is needed to complete a selected staff journey. | [DOC](#verification-methods); planned, unrun | Current replacement / exclusion check: [P02](phases/02-company-access-and-identity.md), [P04](phases/04-brands-geography-and-pricing.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-R-062",
+      "line": 114,
+      "text": "| **ERP-R-062** — Maintain reusable configured geographic/tariff reference data and consistent module navigation/access metadata. | Current | ERP brand/reference-data API and UI | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | <a id=\"ac-r-062\"></a>**AC-R-062**: Maintain coded geography, tariffs and module metadata with validated references and deactivation of used records. This reference architecture does not authorize a general no-code business-rule builder. | [FLOW](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P04](phases/04-brands-geography-and-pricing.md) |"
+    },
+    {
+      "id": "ERP-R-119",
+      "line": 171,
+      "text": "| **ERP-R-119** — Attribute each expense to an authorized selected branch: use the only assigned branch or let a multi-branch user choose. | Current | ERP finance/ledger API and UI | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | <a id=\"ac-r-119\"></a>**AC-R-119**: An employee assigned only branchB seesB automatically; a multi-branch employee chooses an assigned branch. Expense attribution remains separate from its selected permitted funding account. | [MONEY](#verification-methods); planned, unrun | [P09](phases/09-accounts-expenses-and-money-movements.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-136",
+      "line": 188,
+      "text": "| **ERP-R-136** — Grant transfer-creation screen users source/destination selection across all branches within their company; separately grant the receipt screen. | Current | ERP finance/ledger API and UI | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | <a id=\"ac-r-136\"></a>**AC-R-136**: A treasury-transfer screen user can select any source/destination company branch, while receipt needs its separately granted screen. This exception does not grant company-wide expense or goods-transfer mutation. | [MONEY](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P10](phases/10-treasury-transfers.md) |"
+    },
+    {
+      "id": "ERP-R-144",
+      "line": 196,
+      "text": "| **ERP-R-144** — Permit receipt-screen users to confirm transfers for any branch within the company. | Current | ERP finance/ledger API and UI | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | <a id=\"ac-r-144\"></a>**AC-R-144**: A user with treasury receipt permission may confirm any transfer within their own company, regardless of branch assignment. Another company's transfer remains inaccessible and other screen scopes stay unchanged. | [MONEY](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P10](phases/10-treasury-transfers.md) |"
+    },
+    {
+      "id": "ERP-R-156",
+      "line": 208,
+      "text": "| **ERP-R-156** — Make staff operational journeys usable on desktop and mobile, including receiving/distribution work. | Current | ERP frontend and screen design | [Screens](docs/planning/ERP-SCREEN-SPEC.md); [UI review](UI-REVIEW-LOG.md) | <a id=\"ac-r-156\"></a>**AC-R-156**: Complete office and receiving/distribution journeys on desktop and a narrow mobile viewport with usable touch targets and RTL. No essential confirmation or error message is clipped or hover-only. | [UI](#verification-methods); planned, unrun | [P01](phases/01-foundation-and-ui-shell.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-R-158",
+      "line": 210,
+      "text": "| **ERP-R-158** — Restrict ordinary shipment branch selection to assigned branches and support legitimate correction of a wrong recorded branch before driver handover. | Current | ERP shipment/fulfillment API and UI | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-158\"></a>**AC-R-158**: Intake allows only assigned branches; an eligible pre-handover mistaken branch correction preserves audit and revalidates supported source identity/revisions. Actual movement between branches uses the separate transfer workflow. | [FLOW](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P06](phases/06-parcel-intake-and-packing.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P21](phases/21-adjustments-and-opening-entries.md) |"
+    },
+    {
+      "id": "ERP-R-160",
+      "line": 212,
+      "text": "| **ERP-R-160** — Permit developer support to use business and financial screens under their transaction/state rules. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-160\"></a>**AC-R-160**: Support can use ordinary financial/business screens when authorized, but cannot bypass insufficient funds, immutable history or Tawsel departure locks. Audit every actual support operation. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-R-161",
+      "line": 213,
+      "text": "| **ERP-R-161** — Exclude support account from ordinary employee management but show its company-affecting actions as Technical Support in authorized history. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-161\"></a>**AC-R-161**: Exclude the developer account from normal company staff management and display Technical Support in business history while retaining its real internal actor identity. No invisible corrections or employee impersonation. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-177",
+      "line": 229,
+      "text": "| **ERP-R-177** — Retain business/audit history without automatic V1 deletion and deactivate referenced master records. | Current | ERP architecture and operations | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md) | <a id=\"ac-r-177\"></a>**AC-R-177**: Deactivate referenced master records and retain V1 business/audit history. Removing a backup according to backup retention cannot delete the live ledger, and deactivation cannot orphan historical labels. | [OPS](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P03](phases/03-atomic-commands-and-journals.md), [P04](phases/04-brands-geography-and-pricing.md), [P25](phases/25-deployment-backup-and-restore.md) |"
+    },
+    {
+      "id": "ERP-R-188",
+      "line": 240,
+      "text": "| **ERP-R-188** — Enforce assigned source branches for sending and assigned destination branches for receiving, with any company branch selectable as destination. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-188\"></a>**AC-R-188**: A sender selects an assigned source and any company destination; a receiver confirms only into an assigned destination. Multi-branch users choose the relevant assigned branch without receiving treasury's wider permission. | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P15](phases/15-interbranch-goods-transfers.md) |"
+    },
+    {
+      "id": "ERP-R-196",
+      "line": 248,
+      "text": "| **ERP-R-196** — Grant tracking-screen users company-wide shipment search with the full operational journey/current custody and state. | Current | ERP identity/authorization API and UI | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | <a id=\"ac-r-196\"></a>**AC-R-196**: A tracking-screen user can read every shipment's complete operational journey within the company, including other branches. This exception cannot reveal HR/financial accounts or grant mutation/other-company/public access. | [AUTH](#verification-methods); planned, unrun | [P13](phases/13-execution-projections-and-tracking.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-R-214",
+      "line": 267,
+      "text": "| **ERP-R-214** — Author complete dependency-ordered standalone phase prompts and maintain execution evidence under approved PLAN-001. | Current; authoring authorized session025 | Product planning and verification | [Phase catalog](phases/README.md); [Phase standard](docs/planning/PHASE-AUTHORING-STANDARD.md) | <a id=\"ac-r-214\"></a>**AC-R-214**: Every phase has its exact prerequisites, source rules, full data/API/UI/integration slice, ordered checked checkpoints, important Vitest and necessary real dependencies, manual outcomes, model/effort evidence and one-phase stop. All current IDs/screens/selected contracts map to ownership; authored prompts do not count as executed phases. | [DOC](#verification-methods); document review performed separately, runtime unrun | [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-D-002",
+      "line": 278,
+      "text": "| <a id=\"ac-d-002\"></a>**ERP-D-002 / AC-D-002** — Tawsel owns execution, routing, and driver execution state. Integrate through documented public HTTP/events with their authority checks. Do not share databases, call Engine directly, or impersonate a driver using a service credential. | Current; apply later linked refinements | ERP connector/projections; Tawsel owns source execution; ERP identity/authorization API and UI | [AC-R-002](#ac-r-002), [AC-R-003](#ac-r-003) | [Integration](ERP-TAWSEL-INTEGRATION-PLAN.md); [Contract coverage](docs/planning/INTEGRATION-CONTRACT-COVERAGE.md); [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [INT](#verification-methods), [AUTH](#verification-methods); planned, unrun | [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P13](phases/13-execution-projections-and-tracking.md), [P14](phases/14-returns-and-redispatch.md), [P22](phases/22-integration-recovery-and-conformance.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-008",
+      "line": 284,
+      "text": "| <a id=\"ac-d-008\"></a>**ERP-D-008 / AC-D-008** — Keep reported collection separate from settlement, return offers separate from actual receipt, and event receipt separate from projection application. | Current; apply later linked refinements | ERP connector/projections; Tawsel owns source execution; ERP identity/authorization API and UI; ERP finance/ledger API and UI | [AC-R-002](#ac-r-002), [AC-R-003](#ac-r-003), [AC-R-013](#ac-r-013) | [Integration](ERP-TAWSEL-INTEGRATION-PLAN.md); [Contract coverage](docs/planning/INTEGRATION-CONTRACT-COVERAGE.md); [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | [INT](#verification-methods), [AUTH](#verification-methods), [MONEY](#verification-methods); planned, unrun | [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P13](phases/13-execution-projections-and-tracking.md), [P14](phases/14-returns-and-redispatch.md), [P22](phases/22-integration-recovery-and-conformance.md), [P02](phases/02-company-access-and-identity.md), [P16](phases/16-full-driver-remittance.md), [P17](phases/17-brand-wallet-and-payout.md) |"
+    },
+    {
+      "id": "ERP-D-011",
+      "line": 287,
+      "text": "| <a id=\"ac-d-011\"></a>**ERP-D-011 / AC-D-011** — Initially serve each shipping company separately. A later move to SaaS is a future ambition conditional on product success. | Current; apply later linked refinements | ERP architecture and operations | [AC-R-017](#ac-r-017) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md) | [OPS](#verification-methods); planned, unrun | [P01](phases/01-foundation-and-ui-shell.md), [P02](phases/02-company-access-and-identity.md), [P25](phases/25-deployment-backup-and-restore.md) |"
+    },
+    {
+      "id": "ERP-D-012",
+      "line": 288,
+      "text": "| <a id=\"ac-d-012\"></a>**ERP-D-012 / AC-D-012** — The brand brings its orders, with an individual waybill containing each order's information. A user authorized for data entry transcribes the information written by the brand into the ERP. | Current; apply later linked refinements | ERP identity/authorization API and UI; ERP shipment/fulfillment API and UI | [AC-R-009](#ac-r-009), [AC-R-011](#ac-r-011) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods), [FLOW](#verification-methods); planned, unrun | [P06](phases/06-parcel-intake-and-packing.md), [P02](phases/02-company-access-and-identity.md), [P07](phases/07-stock-order-reservation-and-preparation.md) |"
+    },
+    {
+      "id": "ERP-D-013",
+      "line": 289,
+      "text": "| <a id=\"ac-d-013\"></a>**ERP-D-013 / AC-D-013** — Provide a developer-side superadmin for creating branches and company support/important administration. The company owner receives an admin role to manage their own company and staff. The owner stated the customer should not know about the developer account. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-003](#ac-r-003), [AC-R-018](#ac-r-018) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md) |"
+    },
+    {
+      "id": "ERP-D-015",
+      "line": 291,
+      "text": "| <a id=\"ac-d-015\"></a>**ERP-D-015 / AC-D-015** — Company users have exactly one role plus user exceptions `inherit / allow / deny`. Explicit user choices take precedence over role inheritance within allowed resources. Users may belong to multiple branches, with the same effective capabilities across those branches; no branch-specific capability exceptions in this approved model. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-019](#ac-r-019), [AC-R-033](#ac-r-033) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-016",
+      "line": 292,
+      "text": "| <a id=\"ac-d-016\"></a>**ERP-D-016 / AC-D-016** — Company staff, driver references, roles, and dispatch administration live in ERP. Driver access remains limited to assigned work within applicable company/branch/resource scope. Approved B2B entry uses company code plus username/password and shared company identity with a separate Tawsel session. Do not copy password hashes or require ERP availability for every ordinary driver action. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-003](#ac-r-003), [AC-R-020](#ac-r-020) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md), [P08](phases/08-employee-profiles-and-commission-terms.md) |"
+    },
+    {
+      "id": "ERP-D-028",
+      "line": 304,
+      "text": "| <a id=\"ac-d-028\"></a>**ERP-D-028 / AC-D-028** — Use the shared Tawsel driver application/maps/journeys; ERP keeps commercial summaries and may open authorized Tawsel views. Embedding is optional and subject to identity/browser constraints. Keep service credentials out of the browser. ERP owns its source/outbox/inbox/recovery records; there is no cross-database ACID transaction. | Current; apply later linked refinements | ERP connector/projections; Tawsel owns source execution; ERP identity/authorization API and UI | [AC-R-002](#ac-r-002), [AC-R-003](#ac-r-003) | [Integration](ERP-TAWSEL-INTEGRATION-PLAN.md); [Contract coverage](docs/planning/INTEGRATION-CONTRACT-COVERAGE.md); [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [INT](#verification-methods), [AUTH](#verification-methods); planned, unrun | [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P13](phases/13-execution-projections-and-tracking.md), [P14](phases/14-returns-and-redispatch.md), [P22](phases/22-integration-recovery-and-conformance.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-032",
+      "line": 308,
+      "text": "| <a id=\"ac-d-032\"></a>**ERP-D-032 / AC-D-032** — ERP access is modular: a user granted a screen/module may perform that screen's operations; a user without access may not. Do not assign operations to fixed job titles or hardcoded role names. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-003](#ac-r-003), [AC-R-019](#ac-r-019), [AC-R-033](#ac-r-033) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P11](phases/11-tawsel-bootstrap-and-durable-receiver.md) |"
+    },
+    {
+      "id": "ERP-D-045",
+      "line": 321,
+      "text": "| <a id=\"ac-d-045\"></a>**ERP-D-045 / AC-D-045** — Defer the brand's own portal/login to a later phase/version. | Deferred beyond V1 | Product planning and verification | [AC-R-046](#ac-r-046) | [Master plan](master-plan.md); [Phase standard](docs/planning/PHASE-AUTHORING-STANDARD.md) | [DOC](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P04](phases/04-brands-geography-and-pricing.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-D-061",
+      "line": 337,
+      "text": "| <a id=\"ac-d-061\"></a>**ERP-D-061 / AC-D-061** — Use configured reference data such as geographic codes and tariff tiers, with a consistent module registry for navigation/access. | Current; apply later linked refinements | ERP identity/authorization API and UI; Product planning and verification; ERP brand/reference-data API and UI | [AC-R-033](#ac-r-033), [AC-R-052](#ac-r-052), [AC-R-053](#ac-r-053), [AC-R-062](#ac-r-062) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Master plan](master-plan.md); [Phase standard](docs/planning/PHASE-AUTHORING-STANDARD.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | [AUTH](#verification-methods), [DOC](#verification-methods), [FLOW](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P04](phases/04-brands-geography-and-pricing.md), [P26](phases/26-complete-pilot-and-handoff.md), [P06](phases/06-parcel-intake-and-packing.md) |"
+    },
+    {
+      "id": "ERP-D-113",
+      "line": 389,
+      "text": "| <a id=\"ac-d-113\"></a>**ERP-D-113 / AC-D-113** — Record an expense against the signed-in user's assigned branch. A user assigned multiple branches chooses the branch for that expense from their permitted branches. | Current; apply later linked refinements | ERP identity/authorization API and UI; ERP finance/ledger API and UI | [AC-R-019](#ac-r-019), [AC-R-119](#ac-r-119) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | [AUTH](#verification-methods), [MONEY](#verification-methods); planned, unrun | [P09](phases/09-accounts-expenses-and-money-movements.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-127",
+      "line": 403,
+      "text": "| <a id=\"ac-d-127\"></a>**ERP-D-127 / AC-D-127** — A user with the transfer-creation screen may select any source branch and any destination branch within the company. Receipt confirmation has its own separately granted screen. | Current; apply later linked refinements | ERP identity/authorization API and UI; ERP finance/ledger API and UI | [AC-R-019](#ac-r-019), [AC-R-136](#ac-r-136) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | [AUTH](#verification-methods), [MONEY](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P10](phases/10-treasury-transfers.md) |"
+    },
+    {
+      "id": "ERP-D-135",
+      "line": 411,
+      "text": "| <a id=\"ac-d-135\"></a>**ERP-D-135 / AC-D-135** — A user granted the receipt-confirmation screen may accept any company transfer, regardless of ordinary assigned branches. | Current; apply later linked refinements | ERP finance/ledger API and UI | [AC-R-136](#ac-r-136), [AC-R-144](#ac-r-144) | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md) | [MONEY](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P10](phases/10-treasury-transfers.md) |"
+    },
+    {
+      "id": "ERP-D-149",
+      "line": 425,
+      "text": "| <a id=\"ac-d-149\"></a>**ERP-D-149 / AC-D-149** — Allow authorized correction of an incorrectly recorded branch before physical driver handover when the actual shipment is at the corrected branch. Prevent ordinary mistakes by showing only assigned branches: single assigned branch is the only choice; multiple assigned branches enable selection among those branches. | Current; apply later linked refinements | ERP identity/authorization API and UI; ERP shipment/fulfillment API and UI | [AC-R-019](#ac-r-019), [AC-R-158](#ac-r-158) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md); [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods), [FLOW](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P06](phases/06-parcel-intake-and-packing.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P21](phases/21-adjustments-and-opening-entries.md) |"
+    },
+    {
+      "id": "ERP-D-150",
+      "line": 426,
+      "text": "| <a id=\"ac-d-150\"></a>**ERP-D-150 / AC-D-150** — Permit explicit correction of erroneous piece list/quantity or service before physical driver handover, with the stock and financial effects shown before confirmation. Do not silently reprice an existing order to a later tariff. | Current; apply later linked refinements | ERP shipment/fulfillment API and UI | [AC-R-159](#ac-r-159) | [Domain](docs/planning/ERP-DOMAIN-SPEC.md); [Transactions](docs/planning/ERP-DATA-AND-TRANSACTIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [FLOW](#verification-methods); planned, unrun | [P06](phases/06-parcel-intake-and-packing.md), [P07](phases/07-stock-order-reservation-and-preparation.md), [P12](phases/12-customer-dispatch-and-shipping-cover.md), [P21](phases/21-adjustments-and-opening-entries.md) |"
+    },
+    {
+      "id": "ERP-D-151",
+      "line": 427,
+      "text": "| <a id=\"ac-d-151\"></a>**ERP-D-151 / AC-D-151** — Developer support may access ordinary company operation and financial screens and execute their permitted operations. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-018](#ac-r-018), [AC-R-160](#ac-r-160) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P26](phases/26-complete-pilot-and-handoff.md) |"
+    },
+    {
+      "id": "ERP-D-152",
+      "line": 428,
+      "text": "| <a id=\"ac-d-152\"></a>**ERP-D-152 / AC-D-152** — Keep the developer-support account outside ordinary employee management, while attributing company-affecting actions as Technical Support in authorized business history and retaining the true internal actor identity. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-018](#ac-r-018), [AC-R-161](#ac-r-161) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-168",
+      "line": 444,
+      "text": "| <a id=\"ac-d-168\"></a>**ERP-D-168 / AC-D-168** — Retain business/audit history without automatic deletion in V1; deactivate referenced master records rather than removing their history. | Current; apply later linked refinements | ERP architecture and operations | [AC-R-177](#ac-r-177) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md) | [OPS](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P03](phases/03-atomic-commands-and-journals.md), [P04](phases/04-brands-geography-and-pricing.md), [P25](phases/25-deployment-backup-and-restore.md) |"
+    },
+    {
+      "id": "ERP-D-179",
+      "line": 455,
+      "text": "| <a id=\"ac-d-179\"></a>**ERP-D-179 / AC-D-179** — Transfer creators may send from their assigned source branches to any company destination; receiving users may confirm only their assigned destination branches. Enforce screen permission and branch scope together. | Current; apply later linked refinements | ERP identity/authorization API and UI | [AC-R-019](#ac-r-019), [AC-R-188](#ac-r-188) | [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [AUTH](#verification-methods); planned, unrun | [P02](phases/02-company-access-and-identity.md), [P15](phases/15-interbranch-goods-transfers.md) |"
+    },
+    {
+      "id": "ERP-D-187",
+      "line": 463,
+      "text": "| <a id=\"ac-d-187\"></a>**ERP-D-187 / AC-D-187** — A user granted the shipment-tracking screen may search every shipment in the same company and view its full operational journey, current whereabouts/custodian and state, regardless of assigned branches. | Current; apply later linked refinements | ERP frontend and screen design; ERP identity/authorization API and UI | [AC-R-186](#ac-r-186), [AC-R-196](#ac-r-196) | [Screens](docs/planning/ERP-SCREEN-SPEC.md); [UI review](UI-REVIEW-LOG.md); [Architecture](docs/planning/ERP-ARCHITECTURE-AND-OPERATIONS.md); [Screens](docs/planning/ERP-SCREEN-SPEC.md) | [UI](#verification-methods), [AUTH](#verification-methods); planned, unrun | [P13](phases/13-execution-projections-and-tracking.md), [P15](phases/15-interbranch-goods-transfers.md), [P02](phases/02-company-access-and-identity.md) |"
+    },
+    {
+      "id": "ERP-D-205",
+      "line": 481,
+      "text": "| <a id=\"ac-d-205\"></a>**ERP-D-205 / AC-D-205** — Approve PLAN-001 for complete phase authoring, adopting detailed mechanics while retaining external-contract and evidence limits. | Current; session025 explicit contextual approval | Product planning and verification | [AC-R-214](#ac-r-214), [AC-R-008](#ac-r-008) | [Master plan](master-plan.md); [Phase catalog](phases/README.md) | [DOC](#verification-methods); authoring verification separate from runtime | [P26](phases/26-complete-pilot-and-handoff.md) |"
+    }
+  ]
+}

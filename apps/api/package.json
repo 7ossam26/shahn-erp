@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@shahn/contracts": "0.1.0",
-    "@shahn/database": "0.1.0",
     "@nestjs/common": "12.1.2",
     "@nestjs/core": "12.1.2",
     "@nestjs/platform-fastify": "12.1.2",
+    "@shahn/contracts": "0.1.0",
+    "@shahn/database": "0.1.0",
     "fastify": "5.12.5",
+    "jose": "6.2.12",
+    "openid-client": "6.8.8",
     "reflect-metadata": "0.2.2",
-    "rxjs": "7.8.2"
+    "rxjs": "7.8.2",
+    "@shahn/domain": "0.1.0"
   },
-  "devDependencies": {}
+  "exports": {
+    "./access": "./dist/modules/access/index.js"
+  }
 }

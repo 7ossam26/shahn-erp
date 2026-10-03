@@ -1,0 +1,229 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts
+[WebServer] (node:38772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:29604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:42016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:35696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (17.7s)
+(node:28904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 tests\p02\access.spec.ts:33:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates (16.1s)
+(node:28628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 tests\p02\access.spec.ts:46:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject (16.1s)
+(node:36480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 tests\p02\access.spec.ts:52:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity (15.9s)
+(node:29764) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 tests\p02\access.spec.ts:58:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation (15.9s)
+(node:39252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 tests\p02\access.spec.ts:64:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session (15.9s)
+(node:31952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  7 tests\p02\access.spec.ts:76:1 › role editor writes real server grants; expired form session retains unsaved input in memory (15.9s)
+
+
+  1) tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:23:3
+
+    Error Context: test-results\access-real-Keycloak-PKCE--d2b13-rds-desktop-mobile-keyboard\error-context.md
+
+  2) tests\p02\access.spec.ts:33:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        - locator resolved to <html lang="en" class="login-pf">…</html>
+        - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?session_code=[REDACTED_AUTH_PARAMETER]&execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+        32 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:36:5
+
+    Error Context: test-results\access-two-open-sessions-r-e9e8f-and-context-refetch-updates\error-context.md
+
+  3) tests\p02\access.spec.ts:46:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:47:3
+
+    Error Context: test-results\access-actual-issuer-unava-925e2-ed-issuer-binds-one-subject\error-context.md
+
+  4) tests\p02\access.spec.ts:52:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:53:3
+
+    Error Context: test-results\access-kill-worker-after-r-6f062--one-native-remote-identity\error-context.md
+
+  5) tests\p02\access.spec.ts:58:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/support$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        - locator resolved to <html lang="en" class="login-pf">…</html>
+        - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?session_code=[REDACTED_AUTH_PARAMETER]&execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+        32 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:59:3
+
+    Error Context: test-results\access-support-login-requi-85843-xpiry-rejects-next-mutation\error-context.md
+
+  6) tests\p02\access.spec.ts:64:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /login\?error=login_failed/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        - locator resolved to <html lang="en" class="login-pf">…</html>
+        - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?session_code=[REDACTED_AUTH_PARAMETER]&execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+        32 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      70 |       await issuerLogin(page,runtime.users.admin!);
+      71 |       if(mode==='replay'){await expect(page).toHaveURL(/5291\/$/);await page.unrouteAll();await context.clearCookies({name:'erp_session'});await page.goto(callback);}
+    > 72 |       await expect(page).toHaveURL(/login\?error=login_failed/);expect((await context.cookies()).some(c=>c.name==='erp_session')).toBe(false);
+         |                          ^
+      73 |     }finally{await context.close();}
+      74 |   }
+      75 | });
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:72:26
+
+    Error Context: test-results\access-state-tampering-non-26193-hout-issuing-an-ERP-session\error-context.md
+
+  7) tests\p02\access.spec.ts:76:1 › role editor writes real server grants; expired form session retains unsaved input in memory 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:54350/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:77:3
+
+    Error Context: test-results\access-role-editor-writes--89809-ins-unsaved-input-in-memory\error-context.md
+
+  7 failed
+    tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard 
+    tests\p02\access.spec.ts:33:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates 
+    tests\p02\access.spec.ts:46:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject 
+    tests\p02\access.spec.ts:52:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity 
+    tests\p02\access.spec.ts:58:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+    tests\p02\access.spec.ts:64:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+    tests\p02\access.spec.ts:76:1 › role editor writes real server grants; expired form session retains unsaved input in memory 

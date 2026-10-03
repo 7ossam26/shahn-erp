@@ -1,0 +1,46 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --grep real Keycloak PKCE --max-failures=1
+[WebServer] (node:43256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:23296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (16.7s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:5291/login?error=login_failed"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="ar" dir="rtl">…</html>
+           - unexpected value "http://127.0.0.1:5291/login?error=login_failed"
+
+
+      16 |   await page.getByLabel('اسم المستخدم',{exact:true}).fill(key==='support'?'support':user.username.replace('trial.',''));
+      17 |   await page.getByRole('button',{name:'متابعة تسجيل الدخول'}).click();await issuerLogin(page,user);
+    > 18 |   await expect(page).toHaveURL(key==='support'?/\/support$/:/5291\/$/);
+         |                      ^
+      19 | }
+      20 | async function command(page:Page,body:Record<string,unknown>){const session=await (await page.request.get('/api/v1/access/session')).json();return page.request.post('/api/v1/access/commands',{headers:{Origin:'http://127.0.0.1:5291','X-CSRF-Token':session.csrfToken},data:{schemaVersion:1,commandId:randomUUID(),companyId:runtime.company,...body}});}
+      21 | async function noOverflow(page:Page){expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);}
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:18:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:23:3
+
+    Error Context: test-results\access-real-Keycloak-PKCE--d2b13-rds-desktop-mobile-keyboard\error-context.md
+
+  1 failed
+    tests\p02\access.spec.ts:22:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard 
+  1 error was not a part of any test, see above for details

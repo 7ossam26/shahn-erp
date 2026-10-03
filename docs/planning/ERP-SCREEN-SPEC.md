@@ -16,6 +16,8 @@ Only the current section's related views may use a local switch, such as Product
 
 Screen IDs below are proposed stable identifiers. Capabilities are namespaced by screen/module; grants are applied through the approved one-role plus user exceptions model. They are not hardcoded job roles or an additional per-button permission system. A screen's operations still obey scope, state and contractual authority.
 
+Implementation note, 2026-10-03: P02 implements UI-AUTH-001, UI-HOME-001, UI-ACCESS-001, UI-ROLES-001 and UI-SUPPORT-001 with real native API/SQL and isolated OIDC. User details use `/administration/users/:id` and new-user entry `/administration/users/new`; support login is `/support/login`. Only granted implemented cards are shown. Tracking search and all later commercial screens remain unavailable. See the [P02 execution record](../../phases/execution/P02.md) for actual verification and the separate live-issuer/owner-review boundary; this note does not approve a new palette or mark later catalog rows implemented.
+
 | Screen ID / proposed route | Purpose and primary action | Scope / main data | Entry and exit |
 | --- | --- | --- | --- |
 | UI-AUTH-001 `/login` | Company login; Continue | Company code, username, issuer interaction; no public company enumeration | Return to authorized intended route after login |

@@ -1,0 +1,48 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --grep support login|state tampering|role editor --max-failures=1
+[WebServer] (node:37808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:42284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:39152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:28624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:75:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation (2.6s)
+  x  2 tests\p02\access.spec.ts:81:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session (16.0s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests\p02\access.spec.ts:81:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /login\?error=login_failed/
+    Received string:  "http://127.0.0.1:5291/"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="ar" dir="rtl">…</html>
+           - unexpected value "http://127.0.0.1:5291/"
+
+
+      88 |       await issuerLogin(page,runtime.users.admin!);
+      89 |       if(mode==='replay'){await expect(page).toHaveURL(/5291\/$/);await page.unrouteAll();await context.clearCookies({name:'erp_session'});await page.goto(callback);}
+    > 90 |       await expect(page).toHaveURL(/login\?error=login_failed/);expect((await context.cookies()).some(c=>c.name==='erp_session')).toBe(false);
+         |                          ^
+      91 |     }finally{await context.close();}
+      92 |   }
+      93 | });
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:90:26
+
+    Error Context: test-results\access-state-tampering-non-26193-hout-issuing-an-ERP-session\error-context.md
+
+  1 failed
+    tests\p02\access.spec.ts:81:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+  1 did not run
+  1 passed (56.7s)
+  1 error was not a part of any test, see above for details

@@ -1,0 +1,220 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P02
+P02 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/access.test.ts (37 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  37 passed (37)
+   Start at  20:45:36
+   Duration  1.13s (environment 64%, import 16%, setup 12%, transform 7%, tests 1%, worker 1%)
+
+P02 unit: PASSED
+P02 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/access.test.ts (16 tests) 5559ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 4586ms
+
+ Test Files  2 passed (2)
+      Tests  25 passed (25)
+   Start at  20:45:37
+   Duration  11.22s (tests 92%, import 6%, transform 2%)
+
+P02 database: PASSED
+P02 browser: test:p02:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2612 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BIj2BhHZ.css                           72.60 kB │ gzip: 14.43 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-CueIUPQF.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BBKVQg9u.js                           38.86 kB │ gzip: 12.10 kB
+apps/web/dist/assets/index-BNWncogW.js                            46.75 kB │ gzip: 13.90 kB
+apps/web/dist/assets/vendor-Df9p6J2M.js                          100.14 kB │ gzip: 33.40 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-CIo7j2fv.js                          212.23 kB │ gzip: 66.61 kB
+
+✓ built in 360ms
+[WebServer] (node:17996) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:43344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:27684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:35708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:102:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (3.4s)
+[WebServer] (node:26792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\p02\access.spec.ts:143:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates (2.8s)
+[WebServer] (node:43312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:35712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 tests\p02\access.spec.ts:186:1 › actual issuer unavailable leaves one pending user; restored issuer binds one subject (37.8s)
+[WebServer] (node:8288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 tests\p02\access.spec.ts:223:1 › kill worker after real remote creation before local acknowledgement; restart reconciles one native/remote identity (19.2s)
+  x  5 tests\p02\access.spec.ts:269:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation (16.6s)
+(node:18680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 tests\p02\access.spec.ts:308:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session (16.0s)
+(node:36928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  7 tests\p02\access.spec.ts:345:1 › role editor writes real server grants; expired form session retains unsaved input in memory (41.1s)
+(node:5124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  8 tests\p02\access.spec.ts:396:1 › lost command response retains only a recovery identity across reload and never creates a second user (16.0s)
+(node:26976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 9 tests\p02\access.spec.ts:432:1 › ERP logout and explicit shared identity logout use separate real flows without browser tokens (28.0s)
+
+
+  1) tests\p02\access.spec.ts:269:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('alert')
+    Expected substring: "لم تصل نتيجة الطلب"
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('alert') with timeout 15000ms
+      - waiting for getByRole('alert')
+
+
+      280 |   });
+      281 |   await page.getByRole('button', { name: 'بدء جلسة لمدة ساعة' }).click();
+    > 282 |   await expect(page.getByRole('alert')).toContainText('لم تصل نتيجة الطلب');
+          |                                         ^
+      283 |   await page.unroute('**/api/v1/access/commands');
+      284 |   await page.getByRole('button', { name: 'تحديث البيانات والصلاحيات' }).click();
+      285 |   await expect(page.getByText('جلسة دعم فني نشطة')).toBeVisible();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:282:41
+
+    Error Context: test-results\access-support-login-requi-85843-xpiry-rejects-next-mutation\error-context.md
+
+  2) tests\p02\access.spec.ts:308:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /login\?error=login_failed/
+    Received string:  "http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      336 |         await page.goto(callback);
+      337 |       }
+    > 338 |       await expect(page).toHaveURL(/login\?error=login_failed/);
+          |                          ^
+      339 |       expect((await context.cookies()).some((c) => c.name === 'erp_session')).toBe(false);
+      340 |     } finally {
+      341 |       await context.close();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:338:26
+
+    Error Context: test-results\access-state-tampering-non-26193-hout-issuing-an-ERP-session\error-context.md
+
+  3) tests\p02\access.spec.ts:345:1 › role editor writes real server grants; expired form session retains unsaved input in memory 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true }) with timeout 15000ms
+      - waiting for getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })
+
+
+      392 |   await expect(page.getByLabel('الاسم', { exact: true })).toHaveValue('بيانات محفوظة في الذاكرة');
+      393 |   await page.getByRole('button', { name: 'تأكيد حفظ المستخدم' }).click();
+    > 394 |   await expect(page.getByText('حُفظ المستخدم — تجهيز الهوية معلق', { exact: true })).toBeVisible();
+          |                                                                                      ^
+      395 | });
+      396 | test('lost command response retains only a recovery identity across reload and never creates a second user', async ({
+      397 |   page,
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:394:86
+
+    Error Context: test-results\access-role-editor-writes--89809-ins-unsaved-input-in-memory\error-context.md
+
+  4) tests\p02\access.spec.ts:396:1 › lost command response retains only a recovery identity across reload and never creates a second user 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /5291\/$/
+    Received string:  "http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 15000ms
+        33 × locator resolved to <html lang="en" class="login-pf">…</html>
+           - unexpected value "http://127.0.0.1:65362/realms/p02/login-actions/authenticate?execution=[REDACTED_AUTH_PARAMETER]&client_id=erp&tab_id=[REDACTED_AUTH_PARAMETER]&client_data=[REDACTED_AUTH_PARAMETER]"
+
+
+      55 |   await page.getByRole('button', { name: 'متابعة تسجيل الدخول' }).click();
+      56 |   await issuerLogin(page, user, key === 'support');
+    > 57 |   await expect(page).toHaveURL(key === 'support' ? /\/support$/ : /5291\/$/);
+         |                      ^
+      58 | }
+      59 | async function request(page: Page, path: string, body?: Record<string, unknown>) {
+      60 |   // Browser fetch preserves loopback Secure-cookie semantics; APIRequestContext does not send those cookies over HTTP.
+        at login (C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:57:22)
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:400:3
+
+    Error Context: test-results\access-lost-command-respon-c23a2-never-creates-a-second-user\error-context.md
+
+  4 failed
+    tests\p02\access.spec.ts:269:1 › support login requires actual OTP; explicit session visible audit attribution and expiry rejects next mutation 
+    tests\p02\access.spec.ts:308:1 › state tampering, nonce mismatch and callback replay fail without issuing an ERP session 
+    tests\p02\access.spec.ts:345:1 › role editor writes real server grants; expired form session retains unsaved input in memory 
+    tests\p02\access.spec.ts:396:1 › lost command response retains only a recovery identity across reload and never creates a second user 
+  5 passed (3.7m)
+P02 browser: FAILED (1)

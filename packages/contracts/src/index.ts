@@ -1,5 +1,9 @@
 import AjvModule, { type JSONSchemaType } from 'ajv';
 import formatsModule from 'ajv-formats';
+import { accessPaths } from './access.js';
+import { accessReadPaths, accessAuthPaths } from './access-views.js';
+export * from './access.js';
+export * from './access-views.js';
 
 export interface Liveness {
   schemaVersion: 1;
@@ -100,7 +104,16 @@ export function validateLiveness(data: unknown): data is Liveness {
 export const openApi: Record<string, unknown> = {
   openapi: '3.1.0',
   info: { title: 'Shahn ERP foundation', version: '1.0.0' },
+  components: {
+    securitySchemes: {
+      erpSession: { type: 'apiKey', in: 'cookie', name: 'erp_session' },
+      csrfToken: { type: 'apiKey', in: 'header', name: 'X-CSRF-Token' },
+    },
+  },
   paths: {
+    ...accessPaths,
+    ...accessReadPaths,
+    ...accessAuthPaths,
     '/api/v1/health': {
       get: {
         summary: 'Process liveness; dependencies are unchecked',

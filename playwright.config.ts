@@ -8,7 +8,15 @@ export default defineConfig({
   timeout: 30000,
   expect: { timeout: 10000 },
   retries: 0,
-  reporter: [['list'], ['json', { outputFile: 'docs/verification/P01/browser-results.json' }]],
+  reporter: [
+    ['list'],
+    [
+      'json',
+      {
+        outputFile: process.env['P01_RESULT_FILE'] ?? 'docs/verification/P01/browser-results.json',
+      },
+    ],
+  ],
   use: {
     baseURL: 'http://127.0.0.1:5201',
     headless: true,

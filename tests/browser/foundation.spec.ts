@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
-const evidence = 'docs/verification/P01/screenshots';
+const evidence = process.env['P01_EVIDENCE_DIR'] ?? 'docs/verification/P01/screenshots';
 test.beforeAll(async () => {
   await mkdir(evidence, { recursive: true });
 });
@@ -140,14 +140,15 @@ test('real loading, database stop/unavailable and restart recovery retain the mi
   await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
   expect((await (await page.request.get('/api/v1/readiness')).json()).migrations.applied).toEqual([
     '0001_foundation',
+    '0002_access',
+    '0003_access_result_error',
   ]);
 });
 test('production bundle exposes no demonstration entries or routes', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('http://127.0.0.1:5202/');
-  await expect(page.getByRole('heading', { name: 'أهلًا بيك.' })).toBeVisible();
-  await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'أهلًا بيك في شحن' })).toBeVisible();
   await expect(page.getByRole('link', { name: /نموذج توضيحي/ })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'مراجعة المظهر' })).toHaveCount(0);
   await page.goto('http://127.0.0.1:5202/demo/form');

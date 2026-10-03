@@ -1,0 +1,41 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p02.config.ts --max-failures=1
+[WebServer] (node:25952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:28136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:4992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p02\access.spec.ts:27:1 › real Keycloak PKCE login: secure opaque cookie, granted implemented cards, desktop/mobile/keyboard (3.2s)
+  x  2 tests\p02\access.spec.ts:38:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates (12.9s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests\p02\access.spec.ts:38:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+      39 |   const staffContext=await browser.newContext(),adminContext=await browser.newContext();const staff=await staffContext.newPage(),admin=await adminContext.newPage();
+      40 |   try{
+    > 41 |     await login(staff,'staffA');await login(admin);expect((await staff.request.get('/api/v1/access/scope/inventory')).status()).toBe(200);
+         |                                                                                                                                 ^
+      42 |     const list=await(await admin.request.get('/api/v1/access/users')).json(),user=list.items.find((u:{username:string})=>u.username==='staff-a');
+      43 |     await expect(staff.getByRole('link',{name:/الأدوار والصلاحيات/})).toBeVisible();
+      44 |     const r=await command(admin,{type:'user.update',entityId:user.id,expectedVersion:user.version,name:user.name,roleId:user.roleId,branchIds:[runtime.a,runtime.b],exceptions:{inventory:'deny','access.roles':'deny'},active:true});expect(r.status()).toBe(200);
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\p02\access.spec.ts:41:129
+
+    Error Context: test-results\access-two-open-sessions-r-e9e8f-and-context-refetch-updates\error-context.md
+
+  1 failed
+    tests\p02\access.spec.ts:38:1 › two open sessions: revoke inherited grant, add branch B, old direct request denies and context refetch updates 
+  5 did not run
+  1 passed (1.1m)
+  1 error was not a part of any test, see above for details

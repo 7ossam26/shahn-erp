@@ -47,12 +47,12 @@ describe('Real isolated PostgreSQL foundation', () => {
       expect(result.map((r) => r.state)).toEqual(['current', 'current']);
       expect(
         (await db.pool.query('SELECT count(*) FROM erp_infrastructure.migrations')).rows[0].count,
-      ).toBe('1');
+      ).toBe(String((await readMigrations()).length));
       expect(
         (await db.pool.query('SELECT count(*) FROM erp_infrastructure.schema_identity')).rows[0]
           .count,
       ).toBe('1');
-      expect((await migrate(db.pool)).applied).toHaveLength(1);
+      expect((await migrate(db.pool)).applied).toHaveLength((await readMigrations()).length);
     } finally {
       await blocker.query('SELECT pg_advisory_unlock_all()');
       blocker.release();
