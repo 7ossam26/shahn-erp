@@ -1,0 +1,11 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+packages/domain/src/brands.ts(24,59): error TS2322: Type 'bigint' is not assignable to type 'string'.
+packages/domain/src/brands.ts(24,80): error TS2345: Argument of type 'string' is not assignable to parameter of type 'bigint'.
+packages/domain/src/brands.ts(24,204): error TS2322: Type 'bigint' is not assignable to type 'string'.
+packages/domain/src/brands.ts(24,231): error TS2345: Argument of type 'string' is not assignable to parameter of type 'bigint'.
+apps/api/src/modules/brands/http.ts(4,23): error TS2305: Module '"@shahn/domain"' has no exported member 'normalizeDigits'.
+apps/api/src/modules/brands/service.ts(42,70): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | CommercialCommand'.
+  Property 'branchId' does not exist on type 'Common & { type: "brand.create"; fields: BrandFields; }'.
+apps/api/src/modules/brands/service.ts(42,113): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | CommercialCommand'.
+  Property 'branchId' does not exist on type 'Common & { type: "brand.create"; fields: BrandFields; }'.

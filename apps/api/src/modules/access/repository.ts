@@ -229,7 +229,7 @@ export class AccessRepository {
       const ctx = await loadAccess(client, token);
       const rows = (
         await client.query<{ capability: string; result: CommandResult }>(
-          `SELECT capability,COALESCE(result,result_reference) AS result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND command_id=$3 AND kind NOT LIKE 'kernel.%' ORDER BY created_at DESC LIMIT 2`,
+          `SELECT capability,COALESCE(result,result_reference) AS result FROM command_record WHERE company_id=$1 AND principal_id=$2 AND command_id=$3 AND kind IN ('user.create','user.update','role.create','role.update','branch.create','branch.update','company.create','company.update','support.start') ORDER BY created_at DESC LIMIT 2`,
           [ctx.companyId, ctx.principalId, commandId],
         )
       ).rows;

@@ -1,4 +1,6 @@
 export const capabilityPolicies = {
+  brands: 'company',
+  'reference-data': 'company',
   'access.users': 'company',
   'access.roles': 'company',
   intake: 'assigned',
@@ -38,6 +40,7 @@ export class AccessError extends Error {
   constructor(
     public readonly code: string,
     public readonly status = 403,
+    public readonly currentVersion?: number,
   ) {
     super(code);
   }

@@ -5,6 +5,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Direction } from 'radix-ui';
 import '@shahn/ui/styles.css';
 import { Shell, Home, MissingPage } from './app.js';
+import { BrandsPage, BrandSetupPage } from './features/brands/brands.js';
+import {
+  ReferenceHome,
+  ReferencePage,
+  TariffsPage,
+} from './features/reference-data/reference-data.js';
 import {
   AccessShell,
   AccessHome,
@@ -41,6 +47,12 @@ const router = createBrowserRouter([
       { path: '/administration/roles', element: <RolesPage /> },
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
+      { path: '/brands', element: <BrandsPage /> },
+      { path: '/brands/new', element: <BrandSetupPage /> },
+      { path: '/brands/tariffs', element: <TariffsPage /> },
+      { path: '/brands/:id', element: <BrandSetupPage /> },
+      { path: '/settings/reference-data', element: <ReferenceHome /> },
+      { path: '/settings/reference-data/:kind', element: <ReferencePage /> },
       ...(import.meta.env.DEV && import.meta.env['VITE_ENABLE_KERNEL_TRIAL'] === 'true'
         ? [
             {

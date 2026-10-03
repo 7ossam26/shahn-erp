@@ -8,6 +8,2414 @@
     }
   },
   "paths": {
+    "/api/v1/brands": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          { "in": "query", "name": "search", "schema": { "type": "string", "maxLength": 180 } },
+          {
+            "in": "query",
+            "name": "active",
+            "schema": { "type": "string", "enum": ["all", "true", "false"] }
+          },
+          {
+            "in": "query",
+            "name": "service",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "brand_packed", "company_packed", "stored_stock"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "tierId",
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "in": "query",
+            "name": "partial",
+            "schema": { "type": "string", "enum": ["all", "true", "false"] }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "contact": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "externalReference": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "services": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "uniqueItems": true
+                          },
+                          "defaultService": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "packingUpliftMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "partialDelivery": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "allowNegativeBalance": { "type": "boolean" },
+                          "storage": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "monthlyFeeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "startDate": { "type": "string", "format": "date" },
+                                  "anniversaryDay": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "active": { "type": "boolean" },
+                                  "stopDate": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "date" },
+                                      { "type": "null" }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "monthlyFeeMinor",
+                                  "startDate",
+                                  "anniversaryDay",
+                                  "branchId",
+                                  "active",
+                                  "stopDate"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "name",
+                          "active",
+                          "contact",
+                          "externalReference",
+                          "services",
+                          "defaultService",
+                          "tierId",
+                          "packingUpliftMinor",
+                          "partialDelivery",
+                          "payoutWeekdays",
+                          "allowNegativeBalance",
+                          "storage"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/brands/{id}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "brand": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "active": { "type": "boolean" },
+                        "contact": {
+                          "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                        },
+                        "externalReference": {
+                          "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                        },
+                        "services": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "minItems": 1,
+                          "maxItems": 3,
+                          "uniqueItems": true
+                        },
+                        "defaultService": {
+                          "type": "string",
+                          "enum": ["brand_packed", "company_packed", "stored_stock"]
+                        },
+                        "tierId": { "type": "string", "format": "uuid" },
+                        "packingUpliftMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "partialDelivery": { "type": "boolean" },
+                        "payoutWeekdays": {
+                          "type": "array",
+                          "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                          "minItems": 1,
+                          "maxItems": 7,
+                          "uniqueItems": true
+                        },
+                        "allowNegativeBalance": { "type": "boolean" },
+                        "storage": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "monthlyFeeMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                },
+                                "startDate": { "type": "string", "format": "date" },
+                                "anniversaryDay": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "maximum": 31
+                                },
+                                "branchId": { "type": "string", "format": "uuid" },
+                                "active": { "type": "boolean" },
+                                "stopDate": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "date" },
+                                    { "type": "null" }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "monthlyFeeMinor",
+                                "startDate",
+                                "anniversaryDay",
+                                "branchId",
+                                "active",
+                                "stopDate"
+                              ]
+                            },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "version",
+                        "name",
+                        "active",
+                        "contact",
+                        "externalReference",
+                        "services",
+                        "defaultService",
+                        "tierId",
+                        "packingUpliftMinor",
+                        "partialDelivery",
+                        "payoutWeekdays",
+                        "allowNegativeBalance",
+                        "storage"
+                      ]
+                    },
+                    "history": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "contact": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "externalReference": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "services": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "uniqueItems": true
+                          },
+                          "defaultService": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "packingUpliftMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "partialDelivery": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "allowNegativeBalance": { "type": "boolean" },
+                          "storage": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "monthlyFeeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "startDate": { "type": "string", "format": "date" },
+                                  "anniversaryDay": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "active": { "type": "boolean" },
+                                  "stopDate": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "date" },
+                                      { "type": "null" }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "monthlyFeeMinor",
+                                  "startDate",
+                                  "anniversaryDay",
+                                  "branchId",
+                                  "active",
+                                  "stopDate"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "name",
+                          "active",
+                          "contact",
+                          "externalReference",
+                          "services",
+                          "defaultService",
+                          "tierId",
+                          "packingUpliftMinor",
+                          "partialDelivery",
+                          "payoutWeekdays",
+                          "allowNegativeBalance",
+                          "storage"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["brand", "history"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-data": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "references": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "parentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "volumeRange": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "kind",
+                          "name",
+                          "active",
+                          "parentId",
+                          "volumeRange"
+                        ]
+                      }
+                    },
+                    "tariffs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "active": { "type": "boolean" }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "tierId",
+                          "governorateId",
+                          "areaId",
+                          "amountMinor",
+                          "active"
+                        ]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    }
+                  },
+                  "required": ["references", "tariffs", "branches"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/brands/catalog": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "references": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "parentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "volumeRange": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "kind",
+                          "name",
+                          "active",
+                          "parentId",
+                          "volumeRange"
+                        ]
+                      }
+                    },
+                    "tariffs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "active": { "type": "boolean" }
+                        },
+                        "required": [
+                          "id",
+                          "version",
+                          "tierId",
+                          "governorateId",
+                          "areaId",
+                          "amountMinor",
+                          "active"
+                        ]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    }
+                  },
+                  "required": ["references", "tariffs", "branches"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/brands/pricing-preview": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "input": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "service": {
+                        "type": "string",
+                        "enum": ["brand_packed", "company_packed", "stored_stock"]
+                      },
+                      "governorateId": { "type": "string", "format": "uuid" },
+                      "areaId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "goodsDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                      "recipientShippingMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                      }
+                    },
+                    "required": [
+                      "brandId",
+                      "branchId",
+                      "service",
+                      "governorateId",
+                      "areaId",
+                      "goodsDueMinor",
+                      "recipientShippingMinor"
+                    ]
+                  }
+                },
+                "required": ["companyId", "input"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "schemaVersion": { "const": 1, "type": "integer" },
+                    "currency": { "const": "EGP", "type": "string" },
+                    "companyId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "service": {
+                      "type": "string",
+                      "enum": ["brand_packed", "company_packed", "stored_stock"]
+                    },
+                    "partialDelivery": { "type": "boolean" },
+                    "tierId": { "type": "string", "format": "uuid" },
+                    "tierName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "governorateId": { "type": "string", "format": "uuid" },
+                    "governorateName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "areaId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "areaName": {
+                      "anyOf": [
+                        { "type": "string", "minLength": 1, "maxLength": 180, "pattern": "\\S" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "tariffId": { "type": "string", "format": "uuid" },
+                    "tariffVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "source": { "type": "string", "enum": ["area_override", "governorate"] },
+                    "baseShippingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "packingUpliftMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "commissionBaseMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "goodsDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "recipientShippingMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "recipientDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "capturedAt": { "type": "string", "format": "date-time" }
+                  },
+                  "required": [
+                    "schemaVersion",
+                    "currency",
+                    "companyId",
+                    "brandId",
+                    "brandName",
+                    "policyVersion",
+                    "branchId",
+                    "service",
+                    "partialDelivery",
+                    "tierId",
+                    "tierName",
+                    "governorateId",
+                    "governorateName",
+                    "areaId",
+                    "areaName",
+                    "tariffId",
+                    "tariffVersion",
+                    "source",
+                    "baseShippingMinor",
+                    "packingUpliftMinor",
+                    "tariffMinor",
+                    "commissionBaseMinor",
+                    "goodsDueMinor",
+                    "recipientShippingMinor",
+                    "recipientDueMinor",
+                    "capturedAt"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/brands/commands": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "brand.create", "type": "string" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "contact": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "externalReference": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "services": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "uniqueItems": true
+                          },
+                          "defaultService": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "packingUpliftMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "partialDelivery": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "allowNegativeBalance": { "type": "boolean" },
+                          "storage": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "monthlyFeeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "startDate": { "type": "string", "format": "date" },
+                                  "anniversaryDay": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "active": { "type": "boolean" },
+                                  "stopDate": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "date" },
+                                      { "type": "null" }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "monthlyFeeMinor",
+                                  "startDate",
+                                  "anniversaryDay",
+                                  "branchId",
+                                  "active",
+                                  "stopDate"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "active",
+                          "contact",
+                          "externalReference",
+                          "services",
+                          "defaultService",
+                          "tierId",
+                          "packingUpliftMinor",
+                          "partialDelivery",
+                          "payoutWeekdays",
+                          "allowNegativeBalance",
+                          "storage"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "brand.update", "type": "string" },
+                      "entityId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "contact": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "externalReference": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          },
+                          "services": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "minItems": 1,
+                            "maxItems": 3,
+                            "uniqueItems": true
+                          },
+                          "defaultService": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "packingUpliftMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "partialDelivery": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "allowNegativeBalance": { "type": "boolean" },
+                          "storage": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "monthlyFeeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "startDate": { "type": "string", "format": "date" },
+                                  "anniversaryDay": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "active": { "type": "boolean" },
+                                  "stopDate": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "date" },
+                                      { "type": "null" }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "monthlyFeeMinor",
+                                  "startDate",
+                                  "anniversaryDay",
+                                  "branchId",
+                                  "active",
+                                  "stopDate"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "active",
+                          "contact",
+                          "externalReference",
+                          "services",
+                          "defaultService",
+                          "tierId",
+                          "packingUpliftMinor",
+                          "partialDelivery",
+                          "payoutWeekdays",
+                          "allowNegativeBalance",
+                          "storage"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "entityId",
+                      "expectedVersion",
+                      "fields"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "reference.create", "type": "string" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "parentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "volumeRange": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          }
+                        },
+                        "required": ["kind", "name", "active", "parentId", "volumeRange"]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "reference.update", "type": "string" },
+                      "entityId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "parentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "volumeRange": {
+                            "anyOf": [{ "type": "string", "maxLength": 180 }, { "type": "null" }]
+                          }
+                        },
+                        "required": ["kind", "name", "active", "parentId", "volumeRange"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "entityId",
+                      "expectedVersion",
+                      "fields"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "tariff.create", "type": "string" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "active": { "type": "boolean" }
+                        },
+                        "required": ["tierId", "governorateId", "areaId", "amountMinor", "active"]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "tariff.update", "type": "string" },
+                      "entityId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "tierId": { "type": "string", "format": "uuid" },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "active": { "type": "boolean" }
+                        },
+                        "required": ["tierId", "governorateId", "areaId", "amountMinor", "active"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "entityId",
+                      "expectedVersion",
+                      "fields"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1, "type": "integer" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "pricing.snapshot", "type": "string" },
+                      "input": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "service": {
+                            "type": "string",
+                            "enum": ["brand_packed", "company_packed", "stored_stock"]
+                          },
+                          "governorateId": { "type": "string", "format": "uuid" },
+                          "areaId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "goodsDueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "recipientShippingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "branchId",
+                          "service",
+                          "governorateId",
+                          "areaId",
+                          "goodsDueMinor",
+                          "recipientShippingMinor"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "input"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "snapshot": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "schemaVersion": { "const": 1, "type": "integer" },
+                            "currency": { "const": "EGP", "type": "string" },
+                            "companyId": { "type": "string", "format": "uuid" },
+                            "brandId": { "type": "string", "format": "uuid" },
+                            "brandName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "policyVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            },
+                            "branchId": { "type": "string", "format": "uuid" },
+                            "service": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "partialDelivery": { "type": "boolean" },
+                            "tierId": { "type": "string", "format": "uuid" },
+                            "tierName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "governorateId": { "type": "string", "format": "uuid" },
+                            "governorateName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "areaId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "areaName": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 180,
+                                  "pattern": "\\S"
+                                },
+                                { "type": "null" }
+                              ]
+                            },
+                            "tariffId": { "type": "string", "format": "uuid" },
+                            "tariffVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            },
+                            "source": {
+                              "type": "string",
+                              "enum": ["area_override", "governorate"]
+                            },
+                            "baseShippingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "packingUpliftMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "tariffMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "commissionBaseMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "goodsDueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "recipientShippingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "recipientDueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "capturedAt": { "type": "string", "format": "date-time" }
+                          },
+                          "required": [
+                            "schemaVersion",
+                            "currency",
+                            "companyId",
+                            "brandId",
+                            "brandName",
+                            "policyVersion",
+                            "branchId",
+                            "service",
+                            "partialDelivery",
+                            "tierId",
+                            "tierName",
+                            "governorateId",
+                            "governorateName",
+                            "areaId",
+                            "areaName",
+                            "tariffId",
+                            "tariffVersion",
+                            "source",
+                            "baseShippingMinor",
+                            "packingUpliftMinor",
+                            "tariffMinor",
+                            "commissionBaseMinor",
+                            "goodsDueMinor",
+                            "recipientShippingMinor",
+                            "recipientDueMinor",
+                            "capturedAt"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    }
+                  },
+                  "required": ["commandId", "entityId", "version", "snapshot"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/brands/commands/{commandId}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "family",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "commercial.brand",
+                "commercial.reference",
+                "commercial.tariff",
+                "commercial.snapshot"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted commercial configuration or explanatory preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "snapshot": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "schemaVersion": { "const": 1, "type": "integer" },
+                            "currency": { "const": "EGP", "type": "string" },
+                            "companyId": { "type": "string", "format": "uuid" },
+                            "brandId": { "type": "string", "format": "uuid" },
+                            "brandName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "policyVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            },
+                            "branchId": { "type": "string", "format": "uuid" },
+                            "service": {
+                              "type": "string",
+                              "enum": ["brand_packed", "company_packed", "stored_stock"]
+                            },
+                            "partialDelivery": { "type": "boolean" },
+                            "tierId": { "type": "string", "format": "uuid" },
+                            "tierName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "governorateId": { "type": "string", "format": "uuid" },
+                            "governorateName": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 180,
+                              "pattern": "\\S"
+                            },
+                            "areaId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "areaName": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 180,
+                                  "pattern": "\\S"
+                                },
+                                { "type": "null" }
+                              ]
+                            },
+                            "tariffId": { "type": "string", "format": "uuid" },
+                            "tariffVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            },
+                            "source": {
+                              "type": "string",
+                              "enum": ["area_override", "governorate"]
+                            },
+                            "baseShippingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "packingUpliftMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "tariffMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "commissionBaseMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "goodsDueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "recipientShippingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "recipientDueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "capturedAt": { "type": "string", "format": "date-time" }
+                          },
+                          "required": [
+                            "schemaVersion",
+                            "currency",
+                            "companyId",
+                            "brandId",
+                            "brandName",
+                            "policyVersion",
+                            "branchId",
+                            "service",
+                            "partialDelivery",
+                            "tierId",
+                            "tierName",
+                            "governorateId",
+                            "governorateName",
+                            "areaId",
+                            "areaName",
+                            "tariffId",
+                            "tariffVersion",
+                            "source",
+                            "baseShippingMinor",
+                            "packingUpliftMinor",
+                            "tariffMinor",
+                            "commissionBaseMinor",
+                            "goodsDueMinor",
+                            "recipientShippingMinor",
+                            "recipientDueMinor",
+                            "capturedAt"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    }
+                  },
+                  "required": ["commandId", "entityId", "version", "snapshot"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; stale edits include currentVersion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/kernel/commands": {
       "post": {
         "summary": "Isolated kernel trial; absent in production",
@@ -644,6 +3052,11 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "reference-data": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
                           "access.users": {
                             "type": "string",
                             "enum": ["inherit", "allow", "deny"]
@@ -720,6 +3133,11 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "reference-data": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
                           "access.users": {
                             "type": "string",
                             "enum": ["inherit", "allow", "deny"]
@@ -789,10 +3207,12 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 14,
+                        "maxItems": 16,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "brands",
+                            "reference-data",
                             "access.users",
                             "access.roles",
                             "intake",
@@ -841,10 +3261,12 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 14,
+                        "maxItems": 16,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "brands",
+                            "reference-data",
                             "access.users",
                             "access.roles",
                             "intake",
@@ -1448,6 +3870,8 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "brands",
+                              "reference-data",
                               "access.users",
                               "access.roles",
                               "intake",
@@ -1507,6 +3931,8 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "brands",
+                              "reference-data",
                               "access.users",
                               "access.roles",
                               "intake",
@@ -1743,6 +4169,11 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                              "reference-data": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "access.users": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -1814,6 +4245,8 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "brands",
+                                "reference-data",
                                 "access.users",
                                 "access.roles",
                                 "intake",
@@ -2044,6 +4477,11 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                              "reference-data": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "access.users": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -2115,6 +4553,8 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "brands",
+                                "reference-data",
                                 "access.users",
                                 "access.roles",
                                 "intake",
@@ -2307,6 +4747,8 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "brands",
+                                "reference-data",
                                 "access.users",
                                 "access.roles",
                                 "intake",
@@ -2951,6 +5393,8 @@
             "schema": {
               "type": "string",
               "enum": [
+                "brands",
+                "reference-data",
                 "access.users",
                 "access.roles",
                 "intake",

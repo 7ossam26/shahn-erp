@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { readMigrations } from '@shahn/database';
 import { mkdir } from 'node:fs/promises';
 const evidence = process.env['P01_EVIDENCE_DIR'] ?? 'docs/verification/P01/screenshots';
 test.beforeAll(async () => {
@@ -111,6 +112,7 @@ test('form required validation, exact 50.5 display, keyboard dialog and pending/
 test('real loading, database stop/unavailable and restart recovery retain the migration', async ({
   page,
 }) => {
+  if (process.env['SHAHN_TEST_PG_BIN']) test.setTimeout(90000);
   // Hold one actual API response only to expose its loading state; do not manufacture status data.
   let release = () => {};
   const barrier = new Promise<void>((resolve) => {
@@ -138,11 +140,9 @@ test('real loading, database stop/unavailable and restart recovery retain the mi
   }
   await page.getByRole('button', { name: 'تحديث الحالة' }).click();
   await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
-  expect((await (await page.request.get('/api/v1/readiness')).json()).migrations.applied).toEqual([
-    '0001_foundation',
-    '0002_access',
-    '0003_access_result_error',
-  ]);
+  expect((await (await page.request.get('/api/v1/readiness')).json()).migrations.applied).toEqual(
+    (await readMigrations()).map((migration) => migration.version),
+  );
 });
 test('production bundle exposes no demonstration entries or routes', async ({ page }) => {
   const errors: string[] = [];

@@ -1,0 +1,39 @@
+npm notice run shahn-erp@0.1.0 test:p04:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p04.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2620 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DWGfQux2.css                           75.39 kB │ gzip: 14.91 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-CueIUPQF.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BBKVQg9u.js                           38.86 kB │ gzip: 12.10 kB
+apps/web/dist/assets/index-OGXdk26e.js                            86.74 kB │ gzip: 23.39 kB
+apps/web/dist/assets/vendor-Df9p6J2M.js                          100.14 kB │ gzip: 33.40 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-CIo7j2fv.js                          212.23 kB │ gzip: 66.61 kB
+
+✓ built in 6.93s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 1.7s of this 6.9s build (25%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin vite:css transform (15%, 1.0s, 3 calls)
+Additional callback time came from callbacks under 1s.
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+[WebServer] (node:14584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:19324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\p04\brands.spec.ts:26:1 › fixture login and grant-filtered module entry reach real seeded brand configuration (2.3s)
+  x   2 tests\p04\brands.spec.ts:38:3 › grouped setup and retained API error at 390px (1.0m)
+(node:14536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

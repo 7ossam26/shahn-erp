@@ -1,4 +1,28 @@
 {
+  "P04": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/brands.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/brands.test.ts"]
+    },
+    "browser": {
+      "script": "test:p04:browser",
+      "directory": "tests/p04",
+      "extension": ".spec",
+      "config": "playwright.p04.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P04 local configuration and immutable pricing require no Tawsel network calls. Real PostgreSQL and native HTTP are exercised in database/browser suites."
+    }
+  },
   "P03": {
     "unit": {
       "script": "test:unit",

@@ -3,6 +3,8 @@ import formatsModule from 'ajv-formats';
 import { accessPaths } from './access.js';
 import { accessReadPaths, accessAuthPaths } from './access-views.js';
 import { kernelPaths } from './kernel.js';
+import { commercialPaths } from './brands.js';
+export * from './brands.js';
 export * from './kernel.js';
 export * from './access.js';
 export * from './access-views.js';
@@ -113,6 +115,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...commercialPaths,
     ...kernelPaths,
     ...accessPaths,
     ...accessReadPaths,

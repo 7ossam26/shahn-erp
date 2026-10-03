@@ -1,0 +1,111 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/brands.test.ts tests/db/access.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/access.test.ts (17 tests) 35880ms
+ ❯ tests/db/brands.test.ts (8 tests | 5 failed) 35051ms
+   ❯ P04 committed commercial configuration, history and HTTP (8)
+     × runs 50/60/55 lookup, wrong-parent rejection, fallback and explicit zero through server pricing 37ms
+     ✓ creates one empty shared wallet and immutable policy with concurrent lost-response replay 146ms
+     ✓ rolls back brand, policy, wallet, command and audit on failure after insert 7ms
+     × retains snapshots A/B across rate and manually chosen tier changes; no measured-volume input exists 15ms
+     × accepts one concurrent policy edit and reports currentVersion without losing the rejected intent 19ms
+     × rejects missing base at snapshot creation without a snapshot or commercial writes 10ms
+     ✓ enforces same-company tier/area/branch, immutable reference keys and SQL uniqueness/defaults 57ms
+     × uses screen grants, current branch scope, closed schemas and real CSRF on every query/recovery 62ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/brands.test.ts > P04 committed commercial configuration, history and HTTP > runs 50/60/55 lookup, wrong-parent rejection, fallback and explicit zero through server pricing
+error: IMMUTABLE_TARIFF_KEY
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ Object.execute apps/api/src/modules/brands/service.ts:90:7
+     88|       const old=(await readTariffs(client,company)).find(r=>r.id===ent…
+     89|       if(old.tierId!==f.tierId||old.governorateId!==f.governorateId||o…
+     90|       await client.query('UPDATE commercial.tariff SET amount_minor=$3…
+       |       ^
+     91|      }
+     92|      await client.query('INSERT INTO commercial.tariff_revision(compan…
+ ❯ apps/api/src/modules/kernel/commands.ts:118:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/brands.test.ts:16:44
+ ❯ tests/db/brands.test.ts:40:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/db/brands.test.ts > P04 committed commercial configuration, history and HTTP > retains snapshots A/B across rate and manually chosen tier changes; no measured-volume input exists
+error: IMMUTABLE_TARIFF_KEY
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ Object.execute apps/api/src/modules/brands/service.ts:90:7
+     88|       const old=(await readTariffs(client,company)).find(r=>r.id===ent…
+     89|       if(old.tierId!==f.tierId||old.governorateId!==f.governorateId||o…
+     90|       await client.query('UPDATE commercial.tariff SET amount_minor=$3…
+       |       ^
+     91|      }
+     92|      await client.query('INSERT INTO commercial.tariff_revision(compan…
+ ❯ apps/api/src/modules/kernel/commands.ts:118:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/brands.test.ts:16:44
+ ❯ tests/db/brands.test.ts:67:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/db/brands.test.ts > P04 committed commercial configuration, history and HTTP > accepts one concurrent policy edit and reports currentVersion without losing the rejected intent
+AssertionError: expected [ 409, 409 ] to deeply equal [ 200, 409 ]
+
+- Expected
++ Received
+
+  [
+-   200,
++   409,
+    409,
+  ]
+
+ ❯ tests/db/brands.test.ts:77:43
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/db/brands.test.ts > P04 committed commercial configuration, history and HTTP > rejects missing base at snapshot creation without a snapshot or commercial writes
+Error: REVISION_CONFLICT
+ ❯ apps/api/src/modules/kernel/commands.ts:170:38
+    168|       return result.reply;
+    169|     }).then((reply) => {
+    170|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    171|       return reply;
+    172|     });
+ ❯ run tests/db/brands.test.ts:16:44
+ ❯ tests/db/brands.test.ts:83:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/db/brands.test.ts > P04 committed commercial configuration, history and HTTP > uses screen grants, current branch scope, closed schemas and real CSRF on every query/recovery
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/db/brands.test.ts:104:111
+    102|   expect((await http('/brands?companyId='+f.company+'&arbitrary=1')).s…
+    103|   expect((await http('/brands/commands',command({type:'brand.create',f…
+    104|   const result=await http('/brands?companyId='+f.company+'&search=sess…
+       |                                                                                                               ^
+    105|  });
+    106| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 20 passed (25)
+   Start at  22:26:11
+   Duration  73.48s (tests 97%, import 3%)
+

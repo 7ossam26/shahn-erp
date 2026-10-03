@@ -1,0 +1,106 @@
+{
+  "seed": {
+    "companyId": "7ef930c8-7f0c-487e-a26b-d179a10fc14d",
+    "branchId": "f39e5faa-5c9e-4ee1-91c5-75773537b0d6",
+    "cairo": "468d89a2-6aac-4c8a-ad86-81dee82f54fc",
+    "giza": "ac444531-98c1-4af8-862c-41849c05e826",
+    "dokki": "654942cc-80e1-4470-bf3c-38ff9db4833a",
+    "foreignArea": "26f768b2-4397-44b7-9dcd-b13a303e3e66",
+    "tier": "6b249222-7630-4a15-81da-2d64bb1413cf",
+    "otherTier": "39c99c47-d799-42a7-a603-4667bd361c1a",
+    "base": "6c3d715d-6a01-45d0-a7ba-feeca59a9b2a",
+    "override": "cc261cb9-11c4-40c0-b2a7-468fc46ac2d1",
+    "brand": "f04e1b92-e1b5-42d1-91e3-8400a0206172",
+    "brandFields": {
+      "name": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+      "active": true,
+      "contact": null,
+      "externalReference": "P04-DEMO",
+      "services": [
+        "brand_packed",
+        "company_packed"
+      ],
+      "defaultService": "brand_packed",
+      "tierId": "6b249222-7630-4a15-81da-2d64bb1413cf",
+      "packingUpliftMinor": "500",
+      "partialDelivery": true,
+      "payoutWeekdays": [
+        0,
+        3
+      ],
+      "allowNegativeBalance": false,
+      "storage": null
+    }
+  },
+  "postgres": {
+    "server_version": "18.3"
+  },
+  "snapshots": [
+    {
+      "id": "48990858-aa32-48d0-9eb9-f110a5dfa621",
+      "body": {
+        "areaId": null,
+        "source": "governorate",
+        "tierId": "6b249222-7630-4a15-81da-2d64bb1413cf",
+        "brandId": "f04e1b92-e1b5-42d1-91e3-8400a0206172",
+        "service": "brand_packed",
+        "areaName": null,
+        "branchId": "f39e5faa-5c9e-4ee1-91c5-75773537b0d6",
+        "tariffId": "6c3d715d-6a01-45d0-a7ba-feeca59a9b2a",
+        "tierName": "الشريحة المتفق عليها",
+        "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+        "companyId": "7ef930c8-7f0c-487e-a26b-d179a10fc14d",
+        "capturedAt": "2026-10-03T19:30:32.823Z",
+        "tariffMinor": "5000",
+        "goodsDueMinor": "25000",
+        "governorateId": "468d89a2-6aac-4c8a-ad86-81dee82f54fc",
+        "policyVersion": 1,
+        "schemaVersion": 1,
+        "tariffVersion": 1,
+        "governorateName": "القاهرة",
+        "partialDelivery": true,
+        "baseShippingMinor": "5000",
+        "recipientDueMinor": "30000",
+        "packingUpliftMinor": "0",
+        "commissionBaseMinor": "5000",
+        "recipientShippingMinor": "5000"
+      }
+    },
+    {
+      "id": "de9eeebf-4523-42ff-a889-5b500891a9d3",
+      "body": {
+        "areaId": null,
+        "source": "governorate",
+        "tierId": "39c99c47-d799-42a7-a603-4667bd361c1a",
+        "brandId": "f04e1b92-e1b5-42d1-91e3-8400a0206172",
+        "service": "brand_packed",
+        "areaName": null,
+        "branchId": "f39e5faa-5c9e-4ee1-91c5-75773537b0d6",
+        "tariffId": "21e82ba2-d68f-4a82-96f9-869e7426b94c",
+        "tierName": "شريحة اتفاق أخرى",
+        "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+        "companyId": "7ef930c8-7f0c-487e-a26b-d179a10fc14d",
+        "capturedAt": "2026-10-03T19:30:32.845Z",
+        "tariffMinor": "7000",
+        "goodsDueMinor": "25000",
+        "governorateId": "468d89a2-6aac-4c8a-ad86-81dee82f54fc",
+        "policyVersion": 2,
+        "schemaVersion": 1,
+        "tariffVersion": 1,
+        "governorateName": "القاهرة",
+        "partialDelivery": true,
+        "baseShippingMinor": "7000",
+        "recipientDueMinor": "30000",
+        "packingUpliftMinor": "0",
+        "commissionBaseMinor": "7000",
+        "recipientShippingMinor": "5000"
+      }
+    }
+  ],
+  "counts": {
+    "brands": "3",
+    "policies": "5",
+    "effects": "0",
+    "audits": "25"
+  }
+}

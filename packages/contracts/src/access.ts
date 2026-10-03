@@ -1,6 +1,8 @@
 import AjvModule from 'ajv';
 import formatsModule from 'ajv-formats';
 export const capabilityIds = [
+  'brands',
+  'reference-data',
   'access.users',
   'access.roles',
   'intake',

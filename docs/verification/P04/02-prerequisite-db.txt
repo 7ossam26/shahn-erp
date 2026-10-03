@@ -1,0 +1,84 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/access.test.ts tests/db/kernel.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/kernel.test.ts (21 tests | 21 skipped) 29ms
+   ↓ P03 committed PostgreSQL command/posting kernel (21)
+     ↓ commits one command/effect set for concurrent identical HTTP requests; rejects changed payload
+     ↓ same source through two command IDs posts once and rejects changed source meaning
+     ↓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing
+     ↓ rolls back all journals, command, source and audit when interrupted between posting and audit
+     ↓ barrier race, kernel.payout owns the wallet first
+     ↓ barrier race, kernel.reserve owns the wallet first
+     ↓ stale expectedVersion, revoked capability, another principal and changed branch scope cannot expose/reexecute results
+     ↓ compacts only expired resolved responses and recovers the immutable authorized domain result
+     ↓ rejects cross-company effects and invalid signs at the database boundary; history is append-only
+     ↓ fences worker A after database-expired lease; B commits, A cannot publish
+     ↓ holds source-specific eligible lots and keeps pending/storage out of payouts
+     ↓ does not register the controlled trial in production
+     ↓ kills the actual API after commit before response, restarts and recovers the same identity
+     ↓ retains an authorized version rejection even after the aggregate reaches that version
+     ↓ replays an expired compacted identity without executing, and never compacts a pending command
+     ↓ records a fee above its cover as truthful debt and consumes that cover only once
+     ↓ allow-negative only bypasses cover; money funding and payout eligibility still apply
+     ↓ releases identified holds/pending lots and keeps real storage-class facts outside the wallet
+     ↓ allocates the oldest eligible effective date then movement ID, without subtracting payout twice
+     ↓ appends a linked correction and preserves the original amount and effective date
+     ↓ releases cover once; a different release source cannot repeat it
+ ❯ tests/db/access.test.ts (17 tests | 17 skipped) 17ms
+   ↓ P02 real PostgreSQL and server authorization (17)
+     ↓ same-company constraints reject cross-branch assignment and ordinary support-account linkage
+     ↓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide
+     ↓ closed API rejects forged headers, support self-grant and missing CSRF with no partial writes
+     ↓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected
+     ↓ user creation commits pending native identity, work, command and audit together; unknown stays pending after restart
+     ↓ a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command
+     ↓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint
+     ↓ support is separate, MFA bound, reasoned, attributed and expires on the next action
+     ↓ revocation affects an already open session, totals, recovered results and file downloads
+     ↓ expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API
+     ↓ role revocation through the real command API denies an old session and its retained command result
+     ↓ failure at audit insertion rolls back principal, native user, command and durable job together
+     ↓ lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO
+     ↓ support start rechecks expiry after waiting for company authority lock
+     ↓ command recovery rejects ambiguous cross-family UUID reuse instead of returning a different result
+     ↓ concurrent support company selection leaves one current scope and rejects the superseded company
+     ↓ a staff display name cannot masquerade as the support audit actor
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts [ tests/db/access.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/access.test.ts:20:8
+     18|   origin: string;
+     19| beforeAll(async () => {
+     20|   db = await isolatedPostgres();
+       |        ^
+     21|   await migrate(db.pool);
+     22|   fixture = await accessFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/kernel.test.ts [ tests/db/kernel.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/kernel.test.ts:42:8
+     40| const run = (input: KernelCommand) => service.execute(f.admin.token, i…
+     41| beforeAll(async () => {
+     42|   db = await isolatedPostgres();
+       |        ^
+     43|   const migrations = await readMigrations();
+     44|   await migrate(db.pool, migrations.slice(0, 3));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  38 skipped (38)
+   Start at  22:19:13
+   Duration  11.22s (import 94%, transform 5%)
+

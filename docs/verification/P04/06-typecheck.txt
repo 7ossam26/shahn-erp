@@ -1,0 +1,7 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/brands/http.ts(4,23): error TS2305: Module '"@shahn/domain"' has no exported member 'normalizeDigits'.
+apps/api/src/modules/brands/service.ts(42,70): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | CommercialCommand'.
+  Property 'branchId' does not exist on type 'Common & { type: "brand.create"; fields: BrandFields; }'.
+apps/api/src/modules/brands/service.ts(42,113): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | CommercialCommand'.
+  Property 'branchId' does not exist on type 'Common & { type: "brand.create"; fields: BrandFields; }'.

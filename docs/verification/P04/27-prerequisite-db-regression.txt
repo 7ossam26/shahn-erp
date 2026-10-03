@@ -1,0 +1,44 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/db/foundation.test.ts (5 tests) 67166ms
+   ✓ Real isolated PostgreSQL foundation (5)
+     ✓ real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 30701ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 40391ms
+ ✓ tests/db/kernel.test.ts (21 tests) 44044ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 4995ms
+ ✓ tests/db/access.test.ts (17 tests) 36097ms
+
+ Test Files  4 passed (4)
+      Tests  52 passed (52)
+   Start at  22:42:23
+   Duration  192.32s (tests 98%, import 2%)
+

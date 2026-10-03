@@ -1,0 +1,70 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P04
+P04 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/brands.test.ts (4 tests) 10ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  22:43:12
+   Duration  2.10s (environment 69%, import 18%, setup 6%, transform 6%, tests 1%)
+
+P04 unit: PASSED
+P04 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/brands.test.ts (13 tests) 38931ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  22:43:15
+   Duration  40.24s (tests 97%, import 2%, transform 1%)
+
+P04 database: PASSED
+P04 browser: test:p04:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2620 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DWGfQux2.css                           75.39 kB │ gzip: 14.91 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-CueIUPQF.js                           31.20 kB │ gzip: 10.31 kB
+apps/web/dist/assets/vendor-BBKVQg9u.js                           38.86 kB │ gzip: 12.10 kB
+apps/web/dist/assets/index-EnzoqR3u.js                            87.43 kB │ gzip: 23.58 kB
+apps/web/dist/assets/vendor-Df9p6J2M.js                          100.14 kB │ gzip: 33.40 kB
+apps/web/dist/assets/vendor-BuT_LMyF.js                          101.28 kB │ gzip: 29.42 kB
+apps/web/dist/assets/vendor-sywJR-Ok.js                          129.25 kB │ gzip: 37.99 kB
+apps/web/dist/assets/vendor-CIo7j2fv.js                          212.23 kB │ gzip: 66.61 kB
+
+✓ built in 1.38s
+[WebServer] (node:15108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:22696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\p04\brands.spec.ts:26:1 › fixture login and grant-filtered module entry reach real seeded brand configuration (1.5s)
+  ok  2 tests\p04\brands.spec.ts:37:1 › scope-limited ordinary fixture signs in and has no commercial screen grant (1.6s)
+  ok  3 tests\p04\brands.spec.ts:50:3 › grouped setup and retained API error at 390px (1.3s)
+  ok  4 tests\p04\brands.spec.ts:50:3 › grouped setup and retained API error at 1440px (1.2s)
+  ok  5 tests\p04\brands.spec.ts:50:3 › grouped setup and retained API error at 320px (1.1s)
+  ok  6 tests\p04\brands.spec.ts:50:3 › grouped setup and retained API error at 768px (1.2s)
+  ok  7 tests\p04\brands.spec.ts:80:1 › preview explains 50/60/55 and missing governorate rate with no false success (1.4s)
+  ok  8 tests\p04\brands.spec.ts:106:1 › two editing sessions retain stale input and explicitly review the newer revision (1.5s)
+  ok  9 tests\p04\brands.spec.ts:128:1 › committed response loss blocks edits and recovers one command after reload (1.3s)
+  ok 10 tests\p04\brands.spec.ts:151:1 › search, advanced tier/service filters and back navigation keep query state (915ms)
+  ok 11 tests\p04\brands.spec.ts:167:1 › reference and tariff editors save actual revisions; storage settings create no receipts (1.8s)
+
+  11 passed (1.1m)
+P04 browser: PASSED
+P04 publicIntegration: NOT APPLICABLE — P04 local configuration and immutable pricing require no Tawsel network calls. Real PostgreSQL and native HTTP are exercised in database/browser suites.
+P04: all required layers passed

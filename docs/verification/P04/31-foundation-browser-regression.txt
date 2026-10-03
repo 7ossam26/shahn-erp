@@ -1,0 +1,70 @@
+[WebServer] (node:19380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:6184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:15532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\browser\foundation.spec.ts:7:1 › real readiness, RTL, keyboard palette close/focus return and token sharing (1.9s)
+[WebServer] ١٠:٤٥:٤٨ م [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 2 tests\browser\foundation.spec.ts:45:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 (4.7s)
+[WebServer] ١٠:٤٥:٥٣ م [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 3 tests\browser\foundation.spec.ts:45:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 1440 (5.1s)
+[WebServer] ١٠:٤٥:٥٨ م [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 4 tests\browser\foundation.spec.ts:45:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 320 (4.3s)
+[WebServer] ١٠:٤٦:٠١ م [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 5 tests\browser\foundation.spec.ts:45:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 768 (3.3s)
+[WebServer] ١٠:٤٦:٠٣ م [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 6 tests\browser\foundation.spec.ts:81:1 › form required validation, exact 50.5 display, keyboard dialog and pending/error retention (3.0s)
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+  x  7 tests\browser\foundation.spec.ts:111:1 › real loading, database stop/unavailable and restart recovery retain the migration (30.1s)
+(node:4296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 8 tests\browser\foundation.spec.ts:147:1 › production bundle exposes no demonstration entries or routes (629ms)
+
+
+  1) tests\browser\foundation.spec.ts:111:1 › real loading, database stop/unavailable and restart recovery retain the migration 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: apiRequestContext.post: Test timeout of 30000ms exceeded.
+    Call log:
+      - → POST http://127.0.0.1:4202/database/start
+        - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36
+        - accept: */*
+        - accept-encoding: gzip,deflate,br
+
+
+      135 |     await page.screenshot({ path: `${evidence}/database-unavailable.png`, fullPage: true });
+      136 |   } finally {
+    > 137 |     await page.request.post('http://127.0.0.1:4202/database/start');
+          |                        ^
+      138 |   }
+      139 |   await page.getByRole('button', { name: 'تحديث الحالة' }).click();
+      140 |   await expect(page.getByText('API وقاعدة البيانات جاهزان')).toBeVisible();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\browser\foundation.spec.ts:137:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\foundation-real-loading-da-12b90-covery-retain-the-migration\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\browser\foundation.spec.ts:111:1 › real loading, database stop/unavailable and restart recovery retain the migration 
+  7 passed (1.6m)

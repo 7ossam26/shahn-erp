@@ -1,0 +1,74 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/access.test.ts tests/db/kernel.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 46972ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 8965ms
+ ❯ tests/db/access.test.ts (17 tests | 2 failed) 40752ms
+   ❯ P02 real PostgreSQL and server authorization (17)
+     ✓ same-company constraints reject cross-branch assignment and ordinary support-account linkage 43ms
+     ✓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide 164ms
+     ✓ closed API rejects forged headers, support self-grant and missing CSRF with no partial writes 21ms
+     ✓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected 178ms
+     ✓ user creation commits pending native identity, work, command and audit together; unknown stays pending after restart 31ms
+     ✓ a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command 24ms
+     ✓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint 8ms
+     ✓ support is separate, MFA bound, reasoned, attributed and expires on the next action 20ms
+     × revocation affects an already open session, totals, recovered results and file downloads 20ms
+     ✓ expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API 8ms
+     × role revocation through the real command API denies an old session and its retained command result 30ms
+     ✓ failure at audit insertion rolls back principal, native user, command and durable job together 15ms
+     ✓ lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO 19ms
+     ✓ support start rechecks expiry after waiting for company authority lock 98ms
+     ✓ command recovery rejects ambiguous cross-family UUID reuse instead of returning a different result 28ms
+     ✓ concurrent support company selection leaves one current scope and rejects the superseded company 20ms
+     ✓ a staff display name cannot masquerade as the support audit actor 19ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > revocation affects an already open session, totals, recovered results and file downloads
+AssertionError: expected 500 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 500
+
+ ❯ tests/db/access.test.ts:359:50
+    357|     };
+    358|     await repo.command(other.token, cmd);
+    359|     expect((await http('/users', other)).status).toBe(200);
+       |                                                  ^
+    360|     await db.pool.query(
+    361|       "INSERT INTO access.user_exception VALUES($1,$2,'access.roles','…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/db/access.test.ts > P02 real PostgreSQL and server authorization > role revocation through the real command API denies an old session and its retained command result
+AssertionError: expected 500 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 500
+
+ ❯ tests/db/access.test.ts:407:49
+    405|     });
+    406|     expect(created.status).toBe(200);
+    407|     expect((await http('/roles', user)).status).toBe(200);
+       |                                                 ^
+    408|     expect(
+    409|       (
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 36 passed (38)
+   Start at  22:20:49
+   Duration  90.24s (tests 97%, import 2%)
+

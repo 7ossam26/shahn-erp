@@ -1,5 +1,6 @@
 export * from './access.js';
 export * from './kernel.js';
+export * from './brands.js';
 const MAX_MINOR = 9223372036854775807n;
 const MIN_MINOR = -9223372036854775808n;
 export interface Money {

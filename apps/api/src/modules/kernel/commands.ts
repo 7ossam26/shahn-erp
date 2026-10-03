@@ -125,6 +125,7 @@ export class CommandService<I extends CommandInput> {
           messageKey: 'kernel.' + error.code.toLowerCase(),
           commandId: input.commandId,
           correlationId: randomUUID(),
+          ...(error.currentVersion === undefined ? {} : { currentVersion: error.currentVersion }),
         };
         await client.query(
           `UPDATE command_record SET state='rejected',result=$1,response_status=409,result_reference=$2 WHERE id=$3`,

@@ -38,6 +38,8 @@
     "access:bootstrap": "node scripts/access-bootstrap.mjs",
     "test:p02:browser": "node scripts/build.mjs && playwright test --config playwright.p02.config.ts",
     "test:p03:browser": "node scripts/build.mjs && playwright test --config playwright.p03.config.ts",
+    "test:p04:browser": "node scripts/build.mjs && playwright test --config playwright.p04.config.ts",
+    "p04:trial": "node scripts/build.mjs && node scripts/p04-trial.mjs",
     "p03:trial": "node scripts/build.mjs && node scripts/p03-trial.mjs"
   },
   "devDependencies": {
