@@ -1,6 +1,6 @@
 # ERP implementation phases
 
-Revision PHASES-001, 2026-10-03; execution status updated2026-10-04. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P08 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06/P07/P08's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P09–P26 remain **not started**. Authoring a prompt does not run it.
+Revision PHASES-001, 2026-10-03; execution status updated2026-10-04. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P09 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06/P07/P08/P09's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P10–P26 remain **not started**. Authoring a prompt does not run it.
 
 ## How to use
 
@@ -24,7 +24,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | P06 | [Ready and company-packed parcel intake](06-parcel-intake-and-packing.md) | P04, P05 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P06.md) |
 | P07 | [Stored-stock reservation and preparation](07-stock-order-reservation-and-preparation.md) | P05, P06 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P07.md) |
 | P08 | [Employee profiles and effective commission terms](08-employee-profiles-and-commission-terms.md) | P02, P03 | `gpt-6.1-sol` / `high` | [Verified within stated scope](execution/P08.md) |
-| P09 | [Actual company money and paid expenses](09-accounts-expenses-and-money-movements.md) | P02, P03, P04 | `gpt-6.1-sol` / `high` | [Not started](execution/P09.md) |
+| P09 | [Actual company money and paid expenses](09-accounts-expenses-and-money-movements.md) | P02, P03, P04 | `gpt-6.1-sol` / `high` | [Verified locally](execution/P09.md) |
 | P10 | [Treasury sending and full receipt](10-treasury-transfers.md) | P09 | `gpt-6.1-sol` / `high` | [Not started](execution/P10.md) |
 | P11 | [Tawsel bootstrap and durable command/event boundary](11-tawsel-bootstrap-and-durable-receiver.md) | P02, P03, P04, P08 | `gpt-6-astra` / `xhigh` | [Not started](execution/P11.md) |
 | P12 | [Customer dispatch, actual handover and shipping cover](12-customer-dispatch-and-shipping-cover.md) | P06, P07, P08, P09, P11 | `gpt-6-astra` / `xhigh` | [Not started](execution/P12.md) |

@@ -91,3 +91,7 @@ The prototype notices' original hashes identify their historical source bytes; t
 ## P08 reuse — 2026-10-04
 
 P08 reuses the existing exact workspace dependency pins and unchanged root lockfile. Actual terminal runtime is Node24.21.0/npm12.2.0; isolated native test databases are PostgreSQL18.3 on this Windows host, distinct from P01's Docker18.6 evidence. Additive migration0012 uses the server's bundled `btree_gist` extension for effective interval exclusions. Shared workspace exports and generated OpenAPI were extended; no external dependency was installed/upgraded. [P08 verification](../P08/README.md) records observed tests and pending external mapping.
+
+## P09 reuse — 2026-10-04
+
+P09 uses the unchanged external dependency pins/root lockfile, Node24.21.0/npm12.2.0 and disposable native PostgreSQL18.3. Migration0013 is additive to the actual0012 employee schema and extends the existing P04 catalog. No new runtime library, provider integration or global package upgrade was installed. [P09 evidence](../P09/README.md) separates real local PostgreSQL/API/process/browser verification from pending customer issuer/device/production work.

@@ -1,3 +1,5 @@
+import { financePaths } from './finance/index.js';
+export * from './finance/index.js';
 import AjvModule, { type JSONSchemaType } from 'ajv';
 import formatsModule from 'ajv-formats';
 import { accessPaths } from './access.js';
@@ -120,6 +122,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...financePaths,
     ...employeePaths,
     ...shipmentPaths,
     ...commercialPaths,

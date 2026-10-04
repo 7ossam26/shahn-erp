@@ -2,7 +2,7 @@ import AjvModule from 'ajv';
 import formatsModule from 'ajv-formats';
 export const serviceKeys = ['brand_packed', 'company_packed', 'stored_stock'] as const;
 export type ServiceKey = (typeof serviceKeys)[number];
-export type ReferenceKind = 'governorate' | 'area' | 'tier';
+export type ReferenceKind = 'governorate' | 'area' | 'tier' | 'expense_category';
 export interface ReferenceFields {
   kind: ReferenceKind;
   name: string;
@@ -152,7 +152,7 @@ const closed = (properties: Record<string, unknown>) => ({
   required: Object.keys(properties),
 });
 const referenceProperties = {
-  kind: { type: 'string', enum: ['governorate', 'area', 'tier'] },
+  kind: { type: 'string', enum: ['governorate', 'area', 'tier', 'expense_category'] },
   name: text,
   active: bool,
   parentId: nullable(uuid),

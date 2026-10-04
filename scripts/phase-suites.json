@@ -187,5 +187,29 @@
       "applicable": false,
       "reason": "P07 native intake/preparation only; real PostgreSQL and authenticated HTTP run in DB/browser suites. Tawsel dispatch adapter is later-owned."
     }
+  },
+  "P09": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/finance.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/finance.test.ts"]
+    },
+    "browser": {
+      "script": "test:p09:browser",
+      "directory": "tests/p09",
+      "extension": ".spec",
+      "config": "playwright.p09.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P09 local finance only; authenticated API, committed PostgreSQL, process restart and browser evidence. No bank provider or Tawsel integration."
+    }
   }
 }

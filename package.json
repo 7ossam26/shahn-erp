@@ -48,7 +48,9 @@
     "test:p07:browser": "node scripts/build.mjs && playwright test --config playwright.p07.config.ts",
     "p07:trial": "node scripts/build.mjs && node scripts/p07-trial.mjs",
     "test:p08:browser": "node scripts/build.mjs && playwright test --config playwright.p08.config.ts",
-    "p08:trial": "node scripts/build.mjs && node scripts/p08-trial.mjs"
+    "p08:trial": "node scripts/build.mjs && node scripts/p08-trial.mjs",
+    "test:p09:browser": "node scripts/build.mjs && playwright test --config playwright.p09.config.ts",
+    "p09:trial": "node scripts/build.mjs && node scripts/p09-trial.mjs"
   },
   "devDependencies": {
     "typescript": "6.0.3",

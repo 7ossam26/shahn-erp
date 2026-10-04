@@ -1,0 +1,4 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/web/src/features/finance/finance.tsx(110,8): error TS2741: Property 'description' is missing in type '{ children: Element; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+apps/web/src/features/finance/finance.tsx(132,63): error TS2741: Property 'description' is missing in type '{ children: (false | Element)[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.

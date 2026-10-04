@@ -1,0 +1,16 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/finance/service.ts(24,29): error TS2339: Property 'branchIds' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'branchIds' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(24,60): error TS2339: Property 'branchIds' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'branchIds' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(25,22): error TS2339: Property 'branchId' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'branchId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(25,60): error TS2339: Property 'branchId' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'branchId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(26,22): error TS2339: Property 'accountId' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'accountId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(26,72): error TS2339: Property 'accountId' does not exist on type 'FinanceCommand | Record<string, unknown>'.
+  Property 'accountId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.create"; fields: AccountFields; }'.
+apps/api/src/modules/finance/service.ts(50,115): error TS2339: Property 'fields' does not exist on type 'FinanceCommand'.
+  Property 'fields' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "account.deactivate"; accountId: string; expectedVersion: number; }'.

@@ -20,7 +20,12 @@ import {
   useCommercialMutation,
   CommercialError,
 } from '../brands/api.js';
-const names = { governorate: 'المحافظات', area: 'المناطق', tier: 'شرائح الأسعار' };
+const names = {
+  governorate: 'المحافظات',
+  area: 'المناطق',
+  tier: 'شرائح الأسعار',
+  expense_category: 'تصنيفات المصروفات',
+};
 export function ReferenceHome() {
   return (
     <>
@@ -30,7 +35,7 @@ export function ReferenceHome() {
         description="أسماء ثابتة الهوية، مع إيقاف الاستخدام الجديد والحفاظ على التاريخ."
       />
       <div className="module-grid">
-        {(['governorate', 'area', 'tier'] as const).map((k) => (
+        {(['governorate', 'area', 'tier', 'expense_category'] as const).map((k) => (
           <Link key={k} to={'/settings/reference-data/' + k} className="commercial-row">
             <strong>{names[k]}</strong>
             <span>إنشاء وتعديل وإيقاف</span>
@@ -43,7 +48,7 @@ export function ReferenceHome() {
 export function ReferencePage() {
   const { kind } = useParams(),
     catalog = useCatalog(true);
-  if (!kind || !['governorate', 'area', 'tier'].includes(kind))
+  if (!kind || !['governorate', 'area', 'tier', 'expense_category'].includes(kind))
     return <StatePanel state="error" title="المرجع غير متاح" />;
   if (catalog.isLoading) return <StatePanel state="pending" title="جارٍ تحميل المرجع" />;
   if (!catalog.data) return <ErrorNotice error={catalog.error} />;

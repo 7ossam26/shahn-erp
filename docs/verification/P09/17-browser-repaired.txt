@@ -1,0 +1,4 @@
+npm notice run shahn-erp@0.1.0 test:p09:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p09.config.ts
+apps/api/src/modules/finance/service.ts(73,54): error TS2339: Property 'branchIds' does not exist on type 'AccountFields | (PaymentFields & { categoryId: string; description: string; }) | (PaymentFields & { direction: "deposit" | "withdrawal"; reason: string; })'.
+  Property 'branchIds' does not exist on type 'PaymentFields & { categoryId: string; description: string; }'.

@@ -8,6 +8,8 @@ export const capabilityIds = [
   'intake',
   'inventory',
   'expenses',
+  'finance.accounts',
+  'finance.movements',
   'goods.send',
   'goods.receive',
   'treasury.send',

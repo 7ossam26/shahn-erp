@@ -1,0 +1,31 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run prettier --write apps/api/src/modules/finance apps/api/src/app.ts apps/web/src/features/finance apps/web/src/main.tsx apps/web/src/features/reference-data/reference-data.tsx packages/contracts/src/finance packages/contracts/src/index.ts packages/contracts/src/access.ts packages/contracts/src/brands.ts packages/domain/src/access.ts tests/db/finance.test.ts tests/unit/finance.test.ts tests/p09 scripts/p09-trial.mjs scripts/phase-suites.json package.json playwright.p09.config.ts
+apps/api/src/modules/finance/accounts/service.ts 95ms
+apps/api/src/modules/finance/expenses/service.ts 16ms
+apps/api/src/modules/finance/http.ts 26ms
+apps/api/src/modules/finance/money-movements/service.ts 25ms
+apps/api/src/modules/finance/seed.ts 24ms
+apps/api/src/modules/finance/service.ts 74ms
+apps/api/src/app.ts 31ms
+apps/web/src/features/finance/api.tsx 40ms
+apps/web/src/features/finance/finance.css 86ms
+apps/web/src/features/finance/finance.tsx 208ms
+apps/web/src/main.tsx 27ms
+apps/web/src/features/reference-data/reference-data.tsx 104ms
+packages/contracts/src/finance/index.ts 91ms
+packages/contracts/src/index.ts 76ms (unchanged)
+packages/contracts/src/access.ts 39ms (unchanged)
+packages/contracts/src/brands.ts 47ms (unchanged)
+packages/domain/src/access.ts 18ms (unchanged)
+tests/db/finance.test.ts 100ms
+tests/unit/finance.test.ts 9ms
+tests/p09/crash-server.ts 5ms
+tests/p09/finance.spec.ts 41ms
+tests/p09/serve.ts 17ms
+tests/p09/teardown.mjs 18ms
+scripts/p09-trial.mjs 3ms
+scripts/phase-suites.json 8ms
+[error] Unable to write file "scripts/phase-suites.json":
+[error] UNKNOWN: unknown error, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\scripts\phase-suites.json'
+package.json 3ms (unchanged)
+playwright.p09.config.ts 3ms

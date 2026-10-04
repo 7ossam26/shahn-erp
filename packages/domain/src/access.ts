@@ -6,6 +6,8 @@ export const capabilityPolicies = {
   intake: 'assigned',
   inventory: 'assigned',
   expenses: 'assigned',
+  'finance.accounts': 'assigned',
+  'finance.movements': 'assigned',
   'goods.send': 'assigned',
   'goods.receive': 'assigned',
   'treasury.send': 'treasury',

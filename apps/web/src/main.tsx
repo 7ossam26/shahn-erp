@@ -1,3 +1,4 @@
+import { FinanceListPage, FinanceNewPage, FinanceDetailPage } from './features/finance/finance.js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      ...(['accounts', 'expenses', 'movements'] as const).flatMap((screen) => {
+        const prefix = screen === 'expenses' ? '/expenses' : '/finance/' + screen;
+        return [
+          { path: prefix, element: <FinanceListPage screen={screen} /> },
+          { path: prefix + '/new', element: <FinanceNewPage screen={screen} /> },
+          { path: prefix + '/:id', element: <FinanceDetailPage screen={screen} /> },
+        ];
+      }),
       { path: '/employees', element: <EmployeesPage /> },
       { path: '/employees/new', element: <EmployeeNewPage /> },
       { path: '/employees/:id', element: <EmployeeDetailPage /> },

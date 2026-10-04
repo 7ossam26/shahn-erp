@@ -1,0 +1,405 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p09.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p09.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p09",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p09\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p09",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P09/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p09/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4314/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "finance.spec.ts",
+      "file": "finance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "creates real zero-balance bank account, no opening input; responsive focused pages",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6175,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:53:40.405Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-ca43f8fca2dc076ece11",
+          "file": "finance.spec.ts",
+          "line": 45,
+          "column": 1
+        },
+        {
+          "title": "P04 category maintenance adds a category through the real catalog",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2050,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:53:47.240Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-6afdf1e326536dc5245d",
+          "file": "finance.spec.ts",
+          "line": 76,
+          "column": 1
+        },
+        {
+          "title": "records prior-month expense200, loses committed response and recovers after reload once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2731,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:53:49.299Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-d9f9bc27a02065d35b51",
+          "file": "finance.spec.ts",
+          "line": 87,
+          "column": 1
+        },
+        {
+          "title": "withdraws100 with blank reason; cash700 and three movements",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2286,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:53:52.041Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-60595892653c6b80451f",
+          "file": "finance.spec.ts",
+          "line": 121,
+          "column": 1
+        },
+        {
+          "title": "insufficient funds preserves entered expense, focuses rejection, validation and refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8005,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:53:54.340Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-7299459c54d8c40b8a4a",
+          "file": "finance.spec.ts",
+          "line": 131,
+          "column": 1
+        },
+        {
+          "title": "B-only chooses shared bank via InstaPay; A absent and attribution B",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2248,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:54:02.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-de9dd4f42f9868af4189",
+          "file": "finance.spec.ts",
+          "line": 150,
+          "column": 1
+        },
+        {
+          "title": "stale setup shows current version, requires review; new inactive use is rejected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:54:04.626Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-8e47c21ddc369931e72e",
+          "file": "finance.spec.ts",
+          "line": 165,
+          "column": 1
+        },
+        {
+          "title": "combined advanced filters survive detail/back, reset and empty results on mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7009,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:54:09.662Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-af78078c396b9a80ba0c",
+          "file": "finance.spec.ts",
+          "line": 187,
+          "column": 1
+        },
+        {
+          "title": "connection loss before commit retains intent; unknown lookup replays same ID",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4506,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:54:16.785Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1d1b0b311adfe43979fc-1f850c95bbe1129d986f",
+          "file": "finance.spec.ts",
+          "line": 219,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-04T00:52:42.777Z",
+    "duration": 100188.572,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

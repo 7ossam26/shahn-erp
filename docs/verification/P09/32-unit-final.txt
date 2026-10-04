@@ -1,0 +1,31 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/employees.test.ts (9 tests) 1197ms
+   ✓ P08 connected contracts and domain (9)
+     ✓ accepts independent salary configuration through generated/client schema and domain 322ms
+ ✓ tests/unit/process-lifecycle.test.ts (3 tests) 8114ms
+   ✓ worker starts idle and gracefully stops its actual process without a fabricated queue 3522ms
+   ✓ missing mandatory worker variable has a readable failure without a secret 4047ms
+   ✓ seed refuses production before attempting any database access 537ms
+ ✓ tests/unit/money.test.ts (22 tests) 83ms
+ ✓ tests/unit/inventory.test.ts (4 tests) 46ms
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 61ms
+ ✓ tests/unit/brands.test.ts (4 tests) 147ms
+ ✓ tests/unit/finance.test.ts (12 tests) 194ms
+ ✓ tests/unit/shipments.test.ts (17 tests) 180ms
+ ✓ tests/unit/access.test.ts (37 tests) 69ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 75ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 8ms
+ ✓ tests/unit/form.test.tsx (2 tests) 2108ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 1439ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 667ms
+
+ Test Files  12 passed (12)
+      Tests  131 passed (131)
+   Start at  03:54:07
+   Duration  16.23s (import 33%, environment 33%, transform 12%, setup 12%, tests 10%)
+

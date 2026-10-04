@@ -1,0 +1,73 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P09
+P09 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/finance.test.ts (12 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  03:51:33
+   Duration  3.01s (environment 53%, import 32%, transform 8%, setup 7%)
+
+P09 unit: PASSED
+P09 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/finance.test.ts (18 tests) 56932ms
+   ✓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 464ms
+   ✓ serializes competing700 withdrawals through the shared account lock: movement first 433ms
+   ✓ closed real HTTP validates CSRF, filters, cross-company IDs and revoked preview grants 395ms
+   ✓ checks immutable records, exact reconciliation and combined deterministic pagination 360ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 11852ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  03:51:36
+   Duration  61.56s (tests 93%, import 5%, transform 2%)
+
+P09 database: PASSED
+P09 browser: test:p09:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2644 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DkF4oEnO.css                           85.72 kB │ gzip: 16.99 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-3-WllqcS.js                           248.93 kB │ gzip: 62.57 kB
+
+✓ built in 1.39s
+[WebServer] (node:15596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:26840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p09\finance.spec.ts:45:1 › creates real zero-balance bank account, no opening input; responsive focused pages (6.2s)
+  ok 2 tests\p09\finance.spec.ts:76:1 › P04 category maintenance adds a category through the real catalog (2.0s)
+  ok 3 tests\p09\finance.spec.ts:87:1 › records prior-month expense200, loses committed response and recovers after reload once (2.7s)
+  ok 4 tests\p09\finance.spec.ts:121:1 › withdraws100 with blank reason; cash700 and three movements (2.3s)
+  ok 5 tests\p09\finance.spec.ts:131:1 › insufficient funds preserves entered expense, focuses rejection, validation and refresh (8.0s)
+  ok 6 tests\p09\finance.spec.ts:150:1 › B-only chooses shared bank via InstaPay; A absent and attribution B (2.2s)
+  ok 7 tests\p09\finance.spec.ts:165:1 › stale setup shows current version, requires review; new inactive use is rejected (4.9s)
+  ok 8 tests\p09\finance.spec.ts:187:1 › combined advanced filters survive detail/back, reset and empty results on mobile (7.0s)
+  ok 9 tests\p09\finance.spec.ts:219:1 › connection loss before commit retains intent; unknown lookup replays same ID (4.5s)
+
+  9 passed (1.7m)
+P09 browser: PASSED
+P09 publicIntegration: NOT APPLICABLE — P09 local finance only; authenticated API, committed PostgreSQL, process restart and browser evidence. No bank provider or Tawsel integration.
+P09: all required layers passed

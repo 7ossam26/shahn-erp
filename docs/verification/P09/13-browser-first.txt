@@ -1,0 +1,65 @@
+npm notice run shahn-erp@0.1.0 test:p09:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p09.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2644 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-UOVuB2wQ.css                           85.18 kB │ gzip: 16.89 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-vMob0HM5.js                           247.73 kB │ gzip: 62.22 kB
+
+✓ built in 779ms
+[WebServer] (node:25984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:22176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p09\finance.spec.ts:21:1 › creates real zero-balance bank account, no opening input; responsive focused pages (2.1s)
+  x  2 tests\p09\finance.spec.ts:38:1 › P04 category maintenance adds a category through the real catalog (1.0m)
+(node:4576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 tests\p09\finance.spec.ts:47:1 › records prior-month expense200, loses committed response and recovers after reload once (3.8s)
+  ok 4 tests\p09\finance.spec.ts:62:1 › withdraws100 with blank reason; cash700 and three movements (4.3s)
+  ok 5 tests\p09\finance.spec.ts:69:1 › insufficient funds preserves entered expense, focuses rejection, validation and refresh (3.9s)
+  ok 6 tests\p09\finance.spec.ts:77:1 › B-only chooses shared bank via InstaPay; A absent and attribution B (2.4s)
+  ok 7 tests\p09\finance.spec.ts:85:1 › stale setup shows current version, requires review; new inactive use is rejected (5.3s)
+  ok 8 tests\p09\finance.spec.ts:91:1 › combined advanced filters survive detail/back, reset and empty results on mobile (4.0s)
+  ok 9 tests\p09\finance.spec.ts:98:1 › connection loss before commit retains intent; unknown lookup replays same ID (2.0s)
+
+
+  1) tests\p09\finance.spec.ts:38:1 › P04 category maintenance adds a category through the real catalog 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.fill: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('الاسم', { exact: true })
+
+
+      39 | }
+      40 | async function confirm(page: Page) {
+    > 41 |   await page.getByRole('button', { name: 'مراجعة التسجيل', exact: true }).click();
+         |                                               ^
+      42 |   await expect(page.getByRole('region', { name: 'مراجعة التسجيل', exact: true })).toBeVisible();
+      43 |   await page.getByRole('button', { name: 'تأكيد التسجيل', exact: true }).click();
+      44 | }
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p09\finance.spec.ts:41:47
+
+    Error Context: test-results\finance-P04-category-maint-4e7cf-ry-through-the-real-catalog\error-context.md
+
+  1 failed
+    tests\p09\finance.spec.ts:38:1 › P04 category maintenance adds a category through the real catalog 
+  8 passed (2.2m)

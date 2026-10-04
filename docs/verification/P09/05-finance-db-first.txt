@@ -1,0 +1,264 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/finance.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/finance.test.ts (14 tests | 13 failed) 53912ms
+   ✓ upgrades without replay and creates accounts at zero, idempotently 188ms
+   × deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 35ms
+   × B-only shared bank funding preserves branchB and rejects forged branchA and method mismatch 8ms
+   × insufficient past expense rejects without effects and has recoverable audit 11ms
+   × rolls back expense, journal, projection, audit and result at afterExpenseInsert 6ms
+   × rolls back expense, journal, projection, audit and result at afterPosting 5ms
+   × rolls back expense, journal, projection, audit and result at beforeResult 4ms
+   × serializes competing700 withdrawals through the shared account lock: movement first 15ms
+   × serializes competing700 withdrawals through the shared account lock: expense first 48ms
+   × rejects stale account setup, preserves history on deactivation and gates pending obligations 152ms
+   × closed real HTTP validates CSRF, filters, cross-company IDs and revoked preview grants 0ms
+   × recovers after compaction and denies recovery after branch loss; changed payload conflicts 0ms
+   × checks immutable records, exact reconciliation and combined deterministic pagination 8ms
+   × crashes real process before and after commit, restarts and recovers exactly one record 11657ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/finance.test.ts > deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost
+Error: VALIDATION_FAILED
+ ❯ Object.execute apps/api/src/modules/finance/service.ts:46:47
+     44|     },
+     45|     execute: async (u,input,recordId)=>{
+     46|       if(!validateFinanceCommand(input))throw new AccessError('VALIDAT…
+       |                                               ^
+     47|       const isAccount=input.type.startsWith('account.');
+     48|       const id='accountId' in input?input.accountId:randomUUID(), comp…
+ ❯ apps/api/src/modules/kernel/commands.ts:121:35
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/finance.test.ts:23:53
+ ❯ tests/db/finance.test.ts:60:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  tests/db/finance.test.ts > B-only shared bank funding preserves branchB and rejects forged branchA and method mismatch
+Error: VALIDATION_FAILED
+ ❯ Object.execute apps/api/src/modules/finance/service.ts:46:47
+     44|     },
+     45|     execute: async (u,input,recordId)=>{
+     46|       if(!validateFinanceCommand(input))throw new AccessError('VALIDAT…
+       |                                               ^
+     47|       const isAccount=input.type.startsWith('account.');
+     48|       const id='accountId' in input?input.accountId:randomUUID(), comp…
+ ❯ apps/api/src/modules/kernel/commands.ts:121:35
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/finance.test.ts:23:53
+ ❯ tests/db/finance.test.ts:72:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  tests/db/finance.test.ts > insufficient past expense rejects without effects and has recoverable audit
+AssertionError: expected [Function] to throw error including 'INSUFFICIENT_FUNDS' but got 'VALIDATION_FAILED'
+
+Expected: "INSUFFICIENT_FUNDS"
+Received: "VALIDATION_FAILED"
+
+ ❯ tests/db/finance.test.ts:81:49
+     79| it('insufficient past expense rejects without effects and has recovera…
+     80|   const c=cmd({type:'expense.create',fields:{...fields(cash.entityId,f…
+     81|   await expect(service.execute(f.admin.token,c)).rejects.toThrow('INSU…
+       |                                                 ^
+     82|   expect((await service.recover(f.admin.token,f.company,'finance.expen…
+     83|   expect(await balance()).toBe('70000');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+ FAIL  tests/db/finance.test.ts > rolls back expense, journal, projection, audit and result at afterExpenseInsert
+ FAIL  tests/db/finance.test.ts > rolls back expense, journal, projection, audit and result at afterPosting
+ FAIL  tests/db/finance.test.ts > rolls back expense, journal, projection, audit and result at beforeResult
+AssertionError: expected [Function] to throw error including 'INJECTED_FAILURE' but got 'VALIDATION_FAILED'
+
+Expected: "INJECTED_FAILURE"
+Received: "VALIDATION_FAILED"
+
+ ❯ tests/db/finance.test.ts:91:49
+     89|   const failing=financeCommands(db.pool,{[hook]:async()=>{throw Error(…
+     90|   const before=(await db.pool.query('SELECT count(*) FROM kernel.journ…
+     91|   await expect(failing.execute(f.admin.token,c)).rejects.toThrow('INJE…
+       |                                                 ^
+     92|   expect(await balance()).toBe('70000');
+     93|   expect((await db.pool.query('SELECT count(*) FROM kernel.journal_eff…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/13]⎯
+
+ FAIL  tests/db/finance.test.ts > serializes competing700 withdrawals through the shared account lock: movement first
+ FAIL  tests/db/finance.test.ts > serializes competing700 withdrawals through the shared account lock: expense first
+Error: VALIDATION_FAILED
+ ❯ Object.execute apps/api/src/modules/finance/service.ts:46:47
+     44|     },
+     45|     execute: async (u,input,recordId)=>{
+     46|       if(!validateFinanceCommand(input))throw new AccessError('VALIDAT…
+       |                                               ^
+     47|       const isAccount=input.type.startsWith('account.');
+     48|       const id='accountId' in input?input.accountId:randomUUID(), comp…
+ ❯ apps/api/src/modules/kernel/commands.ts:121:35
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/finance.test.ts:23:53
+ ❯ tests/db/finance.test.ts:99:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/13]⎯
+
+ FAIL  tests/db/finance.test.ts > rejects stale account setup, preserves history on deactivation and gates pending obligations
+AssertionError: expected [Function] to throw error including 'ACCOUNT_INACTIVE' but got 'VALIDATION_FAILED'
+
+Expected: "ACCOUNT_INACTIVE"
+Received: "VALIDATION_FAILED"
+
+ ❯ tests/db/finance.test.ts:128:130
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/13]⎯
+
+ FAIL  tests/db/finance.test.ts > closed real HTTP validates CSRF, filters, cross-company IDs and revoked preview grants
+TypeError: Cannot use 'in' operator to search for 'fields' in undefined
+ ❯ tests/db/finance.test.ts:135:65
+    133| });
+    134| it('closed real HTTP validates CSRF, filters, cross-company IDs and re…
+    135|   expect((await http('/commands',{...expenseCommand,fields:{...('field…
+       |                                                                 ^
+    136|   expect((await http('/commands',cmd({type:'account.deactivate',accoun…
+    137|   expect((await http('/accounts/'+cash.entityId+'?companyId='+f.other)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/13]⎯
+
+ FAIL  tests/db/finance.test.ts > recovers after compaction and denies recovery after branch loss; changed payload conflicts
+TypeError: Cannot use 'in' operator to search for 'fields' in undefined
+ ❯ tests/db/finance.test.ts:147:77
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/13]⎯
+
+ FAIL  tests/db/finance.test.ts > checks immutable records, exact reconciliation and combined deterministic pagination
+AssertionError: promise resolved "Result{ command: 'DELETE', …(9) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ Result {
++   "RowCtor": null,
++   "_parsers": undefined,
++   "_prebuiltEmptyResultObject": null,
++   "_types": TypeOverrides {
++     "_types": {
++       "arrayParser": {
++         "create": [Function create],
++       },
++       "builtins": {
++         "ABSTIME": 702,
++         "ACLITEM": 1033,
++         "BIT": 1560,
++         "BOOL": 16,
++         "BPCHAR": 1042,
++         "BYTEA": 17,
++         "CHAR": 18,
++         "CID": 29,
++         "CIDR": 650,
++         "CIRCLE": 718,
++         "DATE": 1082,
++         "FLOAT4": 700,
++         "FLOAT8": 701,
++         "GTSVECTOR": 3642,
++         "INET": 869,
++         "INT2": 21,
++         "INT4": 23,
++         "INT8": 20,
++         "INTERVAL": 1186,
++         "JSON": 114,
++         "JSONB": 3802,
++         "MACADDR": 829,
++         "MACADDR8": 774,
++         "MONEY": 790,
++         "NUMERIC": 1700,
++         "OID": 26,
++         "PATH": 602,
++         "PG_DEPENDENCIES": 3402,
++         "PG_LSN": 3220,
++         "PG_NDISTINCT": 3361,
++         "PG_NODE_TREE": 194,
++         "POLYGON": 604,
++         "REFCURSOR": 1790,
++         "REGCLASS": 2205,
++         "REGCONFIG": 3734,
++         "REGDICTIONARY": 3769,
++         "REGNAMESPACE": 4089,
++         "REGOPER": 2203,
++         "REGOPERATOR": 2204,
++         "REGPROC": 24,
++         "REGPROCEDURE": 2202,
++         "REGROLE": 4096,
++         "REGTYPE": 2206,
++         "RELTIME": 703,
++         "SMGR": 210,
++         "TEXT": 25,
++         "TID": 27,
++         "TIME": 1083,
++         "TIMESTAMP": 1114,
++         "TIMESTAMPTZ": 1184,
++         "TIMETZ": 1266,
++         "TINTERVAL": 704,
++         "TSQUERY": 3615,
++         "TSVECTOR": 3614,
++         "TXID_SNAPSHOT": 2970,
++         "UUID": 2950,
++         "VARBIT": 1562,
++         "VARCHAR": 1043,
++         "XID": 28,
++         "XML": 142,
++       },
++       "getTypeParser": [Function getTypeParser],
++       "setTypeParser": [Function setTypeParser],
++     },
++     "binary": {},
++     "text": {},
++   },
++   "command": "DELETE",
++   "fields": [],
++   "oid": null,
++   "rowAsArray": false,
++   "rowCount": 0,
++   "rows": [],
+  }
+
+ ❯ tests/db/finance.test.ts:157:141
+    155| });
+    156| it('checks immutable records, exact reconciliation and combined determ…
+    157|   for(const table of ['finance.money_movement','finance.paid_expense',…
+       |                                                                                                                                             ^
+    158|   const reconciled=await UnitOfWork.run(db.pool,f.admin.token,f.compan…
+    159|   expect(reconciled.every(r=>r.projectionMinor===r.journalMinor)).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/13]⎯
+
+ FAIL  tests/db/finance.test.ts > crashes real process before and after commit, restarts and recovers exactly one record
+AssertionError: promise resolved "Response { status: 500, statusText: 'Internal Server Error', headers: Headers { 'content-type': 'application/json; charset=utf-8', 'content-length': '55', date: 'Sun, 04 Oct 2026 00:37:28 GMT', connection: 'keep-alive', 'keep-alive': 'timeout=72' }, body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true }, bodyUsed: false, ok: false, redirected: false, type: 'basic', url: 'http://127.0.0.1:59340/api/test/finance-command' }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
+- }
++ Response {}
+
+ ❯ tests/db/finance.test.ts:175:109
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/13]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 failed | 1 passed (14)
+   Start at  03:36:33
+   Duration  57.00s (tests 95%, import 4%, transform 1%)
+

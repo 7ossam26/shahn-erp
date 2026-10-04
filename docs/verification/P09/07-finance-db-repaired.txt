@@ -1,0 +1,49 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/finance.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/finance.test.ts (14 tests | 2 failed) 43981ms
+   ✓ upgrades without replay and creates accounts at zero, idempotently 55ms
+   ✓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 50ms
+   ✓ B-only shared bank funding preserves branchB and rejects forged branchA and method mismatch 36ms
+   ✓ insufficient past expense rejects without effects and has recoverable audit 14ms
+   ✓ rolls back expense, journal, projection, audit and result at afterExpenseInsert 8ms
+   ✓ rolls back expense, journal, projection, audit and result at afterPosting 12ms
+   ✓ rolls back expense, journal, projection, audit and result at beforeResult 12ms
+   × serializes competing700 withdrawals through the shared account lock: movement first 1634ms
+   × serializes competing700 withdrawals through the shared account lock: expense first 1626ms
+   ✓ rejects stale account setup, preserves history on deactivation and gates pending obligations 69ms
+   ✓ closed real HTTP validates CSRF, filters, cross-company IDs and revoked preview grants 147ms
+   ✓ recovers after compaction and denies recovery after branch loss; changed payload conflicts 16ms
+   ✓ checks immutable records, exact reconciliation and combined deterministic pagination 102ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 4926ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/finance.test.ts > serializes competing700 withdrawals through the shared account lock: movement first
+ FAIL  tests/db/finance.test.ts > serializes competing700 withdrawals through the shared account lock: expense first
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/db/finance.test.ts:115:89
+    113|     await new Promise(r=>setTimeout(r,10));
+    114|   }
+    115|   release();await p1;expect((await p2).code).toBe('INSUFFICIENT_FUNDS'…
+       |                                                                                         ^
+    116|   expect(await balance(a.entityId)).toBe('30000');
+    117|   expect((await db.pool.query("SELECT count(*) FROM finance.money_move…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 12 passed (14)
+   Start at  03:39:09
+   Duration  46.12s (tests 96%, import 3%, transform 1%)
+

@@ -8,6 +8,2738 @@
     }
   },
   "paths": {
+    "/api/v1/finance/accounts": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 180 }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "accountId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "true", "false"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 },
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription",
+                          "id",
+                          "version",
+                          "balanceMinor"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/accounts/{id}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "type": { "type": "string", "enum": ["cash", "bank"] },
+                    "currency": { "type": "string", "const": "EGP" },
+                    "branchIds": {
+                      "type": "array",
+                      "items": { "type": "string", "format": "uuid" },
+                      "minItems": 1,
+                      "maxItems": 100,
+                      "uniqueItems": true
+                    },
+                    "active": { "type": "boolean" },
+                    "bankDescription": { "type": "string", "maxLength": 1000 },
+                    "id": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "name",
+                    "type",
+                    "currency",
+                    "branchIds",
+                    "active",
+                    "bankDescription",
+                    "id",
+                    "version",
+                    "balanceMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/accounts/{id}/movements": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 180 }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "accountId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "actorId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "cash", "bank_deposit", "instapay"] }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "deposit", "withdrawal"] }
+          },
+          {
+            "name": "dateBasis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["actual", "recorded"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "accountName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "branchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "actorId": { "type": "string", "format": "uuid" },
+                          "actorName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "id": { "type": "string", "format": "uuid" },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "effectId": { "type": "string", "format": "uuid" },
+                          "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
+                          "sourceKind": { "type": "string", "enum": ["expense", "general"] },
+                          "reason": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "accountId",
+                          "branchId",
+                          "currency",
+                          "amountMinor",
+                          "actualDate",
+                          "method",
+                          "accountName",
+                          "branchName",
+                          "actorId",
+                          "actorName",
+                          "recordedAt",
+                          "id",
+                          "sourceId",
+                          "effectId",
+                          "direction",
+                          "sourceKind",
+                          "reason"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/expenses": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 180 }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "accountId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "actorId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "cash", "bank_deposit", "instapay"] }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "deposit", "withdrawal"] }
+          },
+          {
+            "name": "dateBasis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["actual", "recorded"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "accountName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "branchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "actorId": { "type": "string", "format": "uuid" },
+                          "actorName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "id": { "type": "string", "format": "uuid" },
+                          "movementId": { "type": "string", "format": "uuid" },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "costEffectId": { "type": "string", "format": "uuid" },
+                          "categoryId": { "type": "string", "format": "uuid" },
+                          "categoryName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "description": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "accountId",
+                          "branchId",
+                          "currency",
+                          "amountMinor",
+                          "actualDate",
+                          "method",
+                          "accountName",
+                          "branchName",
+                          "actorId",
+                          "actorName",
+                          "recordedAt",
+                          "id",
+                          "movementId",
+                          "sourceId",
+                          "costEffectId",
+                          "categoryId",
+                          "categoryName",
+                          "description"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/expenses/{id}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "accountId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "currency": { "type": "string", "const": "EGP" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                    "accountName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "branchName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "actorId": { "type": "string", "format": "uuid" },
+                    "actorName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "sourceId": { "type": "string", "format": "uuid" },
+                    "costEffectId": { "type": "string", "format": "uuid" },
+                    "categoryId": { "type": "string", "format": "uuid" },
+                    "categoryName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "description": { "type": "string", "maxLength": 1000 }
+                  },
+                  "required": [
+                    "accountId",
+                    "branchId",
+                    "currency",
+                    "amountMinor",
+                    "actualDate",
+                    "method",
+                    "accountName",
+                    "branchName",
+                    "actorId",
+                    "actorName",
+                    "recordedAt",
+                    "id",
+                    "movementId",
+                    "sourceId",
+                    "costEffectId",
+                    "categoryId",
+                    "categoryName",
+                    "description"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/movements": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 180 }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "accountId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "actorId",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }] }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "cash", "bank_deposit", "instapay"] }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "deposit", "withdrawal"] }
+          },
+          {
+            "name": "dateBasis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["actual", "recorded"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "accountName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "branchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "actorId": { "type": "string", "format": "uuid" },
+                          "actorName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "id": { "type": "string", "format": "uuid" },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "effectId": { "type": "string", "format": "uuid" },
+                          "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
+                          "sourceKind": { "type": "string", "enum": ["expense", "general"] },
+                          "reason": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "accountId",
+                          "branchId",
+                          "currency",
+                          "amountMinor",
+                          "actualDate",
+                          "method",
+                          "accountName",
+                          "branchName",
+                          "actorId",
+                          "actorName",
+                          "recordedAt",
+                          "id",
+                          "sourceId",
+                          "effectId",
+                          "direction",
+                          "sourceKind",
+                          "reason"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/movements/{id}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "accountId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "currency": { "type": "string", "const": "EGP" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                    "accountName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "branchName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "actorId": { "type": "string", "format": "uuid" },
+                    "actorName": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 180,
+                      "pattern": "\\S"
+                    },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "sourceId": { "type": "string", "format": "uuid" },
+                    "effectId": { "type": "string", "format": "uuid" },
+                    "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
+                    "sourceKind": { "type": "string", "enum": ["expense", "general"] },
+                    "reason": { "type": "string", "maxLength": 1000 }
+                  },
+                  "required": [
+                    "accountId",
+                    "branchId",
+                    "currency",
+                    "amountMinor",
+                    "actualDate",
+                    "method",
+                    "accountName",
+                    "branchName",
+                    "actorId",
+                    "actorName",
+                    "recordedAt",
+                    "id",
+                    "sourceId",
+                    "effectId",
+                    "direction",
+                    "sourceKind",
+                    "reason"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/catalog": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "screen",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["expenses", "finance.accounts", "finance.movements"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 },
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription",
+                          "id",
+                          "version",
+                          "balanceMinor"
+                        ]
+                      }
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                        },
+                        "required": ["id", "name", "active", "version"]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    }
+                  },
+                  "required": ["accounts", "categories", "branches"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/commands/{commandId}": {
+      "get": {
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "family",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["finance.accounts", "finance.expenses", "finance.movements"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "movementId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    }
+                  },
+                  "required": ["commandId", "entityId", "version", "movementId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/commands": {
+      "post": {
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "account.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "account.update" },
+                      "accountId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "accountId",
+                      "expectedVersion",
+                      "fields"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "account.deactivate" },
+                      "accountId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "accountId",
+                      "expectedVersion"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "expense.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "categoryId": { "type": "string", "format": "uuid" },
+                          "description": {
+                            "type": "string",
+                            "maxLength": 1000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "accountId",
+                          "branchId",
+                          "currency",
+                          "amountMinor",
+                          "actualDate",
+                          "method",
+                          "categoryId",
+                          "description"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "movement.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
+                          "reason": { "type": "string", "maxLength": 1000 }
+                        },
+                        "required": [
+                          "accountId",
+                          "branchId",
+                          "currency",
+                          "amountMinor",
+                          "actualDate",
+                          "method",
+                          "direction",
+                          "reason"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "fields"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized persisted finance result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "movementId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    }
+                  },
+                  "required": ["commandId", "entityId", "version", "movementId"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Typed rejection; 5xx requires command recovery",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employees": {
       "get": {
         "responses": {
@@ -4513,7 +7245,10 @@
                         "properties": {
                           "id": { "type": "string", "format": "uuid" },
                           "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
-                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["governorate", "area", "tier", "expense_category"]
+                          },
                           "name": {
                             "type": "string",
                             "minLength": 1,
@@ -11077,7 +13812,10 @@
                         "properties": {
                           "id": { "type": "string", "format": "uuid" },
                           "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
-                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["governorate", "area", "tier", "expense_category"]
+                          },
                           "name": {
                             "type": "string",
                             "minLength": 1,
@@ -11310,7 +14048,10 @@
                         "properties": {
                           "id": { "type": "string", "format": "uuid" },
                           "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
-                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["governorate", "area", "tier", "expense_category"]
+                          },
                           "name": {
                             "type": "string",
                             "minLength": 1,
@@ -12042,7 +14783,10 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
-                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["governorate", "area", "tier", "expense_category"]
+                          },
                           "name": {
                             "type": "string",
                             "minLength": 1,
@@ -12076,7 +14820,10 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
-                          "kind": { "type": "string", "enum": ["governorate", "area", "tier"] },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["governorate", "area", "tier", "expense_category"]
+                          },
                           "name": {
                             "type": "string",
                             "minLength": 1,
@@ -16217,6 +18964,14 @@
                           "intake": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "inventory": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "expenses": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "finance.accounts": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
+                          "finance.movements": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
                           "goods.send": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "goods.receive": {
                             "type": "string",
@@ -16298,6 +19053,14 @@
                           "intake": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "inventory": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "expenses": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "finance.accounts": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
+                          "finance.movements": {
+                            "type": "string",
+                            "enum": ["inherit", "allow", "deny"]
+                          },
                           "goods.send": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "goods.receive": {
                             "type": "string",
@@ -16356,7 +19119,7 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 16,
+                        "maxItems": 18,
                         "items": {
                           "type": "string",
                           "enum": [
@@ -16367,6 +19130,8 @@
                             "intake",
                             "inventory",
                             "expenses",
+                            "finance.accounts",
+                            "finance.movements",
                             "goods.send",
                             "goods.receive",
                             "treasury.send",
@@ -16410,7 +19175,7 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 16,
+                        "maxItems": 18,
                         "items": {
                           "type": "string",
                           "enum": [
@@ -16421,6 +19186,8 @@
                             "intake",
                             "inventory",
                             "expenses",
+                            "finance.accounts",
+                            "finance.movements",
                             "goods.send",
                             "goods.receive",
                             "treasury.send",
@@ -17026,6 +19793,8 @@
                               "intake",
                               "inventory",
                               "expenses",
+                              "finance.accounts",
+                              "finance.movements",
                               "goods.send",
                               "goods.receive",
                               "treasury.send",
@@ -17087,6 +19856,8 @@
                               "intake",
                               "inventory",
                               "expenses",
+                              "finance.accounts",
+                              "finance.movements",
                               "goods.send",
                               "goods.receive",
                               "treasury.send",
@@ -17340,6 +20111,14 @@
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
                               },
+                              "finance.accounts": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
+                              "finance.movements": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "goods.send": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -17401,6 +20180,8 @@
                                 "intake",
                                 "inventory",
                                 "expenses",
+                                "finance.accounts",
+                                "finance.movements",
                                 "goods.send",
                                 "goods.receive",
                                 "treasury.send",
@@ -17648,6 +20429,14 @@
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
                               },
+                              "finance.accounts": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
+                              "finance.movements": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "goods.send": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -17709,6 +20498,8 @@
                                 "intake",
                                 "inventory",
                                 "expenses",
+                                "finance.accounts",
+                                "finance.movements",
                                 "goods.send",
                                 "goods.receive",
                                 "treasury.send",
@@ -17903,6 +20694,8 @@
                                 "intake",
                                 "inventory",
                                 "expenses",
+                                "finance.accounts",
+                                "finance.movements",
                                 "goods.send",
                                 "goods.receive",
                                 "treasury.send",
@@ -18549,6 +21342,8 @@
                 "intake",
                 "inventory",
                 "expenses",
+                "finance.accounts",
+                "finance.movements",
                 "goods.send",
                 "goods.receive",
                 "treasury.send",

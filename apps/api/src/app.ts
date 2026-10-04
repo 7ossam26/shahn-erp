@@ -1,3 +1,4 @@
+import { registerFinance } from './modules/finance/http.js';
 import 'reflect-metadata';
 import {
   Controller,
@@ -156,6 +157,11 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  registerFinance(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+  );
   registerEmployees(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
