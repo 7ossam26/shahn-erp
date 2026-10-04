@@ -1,0 +1,36 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run prettier --write apps/api/src/modules/integration apps/web/src/features/integration apps/worker/src/integration packages/contracts/src/integration.ts packages/contracts/src/tawsel packages/database/src/repositories tests/integration/p11 scripts/extract-tawsel-baseline.mjs scripts/tawsel-credential.mjs scripts/tawsel-operator.mjs playwright.p11.config.ts vitest.p11.public.config.ts
+apps/api/src/modules/integration/callback-policy.ts 104ms
+apps/api/src/modules/integration/config.ts 31ms
+apps/api/src/modules/integration/http.ts 33ms
+apps/api/src/modules/integration/index.ts 3ms (unchanged)
+apps/api/src/modules/integration/integration-query.service.ts 31ms
+apps/api/src/modules/integration/provisioning.service.ts 55ms
+apps/api/src/modules/integration/signature-verifier.ts 17ms
+apps/api/src/modules/integration/signed-receiver.controller.ts 23ms
+apps/api/src/modules/integration/source-command.service.ts 37ms
+apps/api/src/modules/integration/tawsel-client.ts 29ms
+apps/web/src/features/integration/integration.css 49ms
+apps/web/src/features/integration/integration.tsx 106ms
+apps/worker/src/integration/source-command.worker.ts 1ms (unchanged)
+packages/contracts/src/integration.ts 9ms
+packages/contracts/src/tawsel/delivery.ts 4ms
+packages/contracts/src/tawsel/index.ts 1ms (unchanged)
+packages/contracts/src/tawsel/provisioning.ts 25ms
+packages/contracts/src/tawsel/registry.ts 9ms
+packages/contracts/src/tawsel/sender-event.ts 18ms
+packages/contracts/src/tawsel/validation.ts 10ms (unchanged)
+packages/database/src/repositories/integration.repository.ts 10ms
+tests/integration/p11/boundary.db.test.ts 84ms
+tests/integration/p11/contracts.unit.test.ts 38ms
+tests/integration/p11/crash-receiver.ts 6ms
+tests/integration/p11/fixtures.ts 21ms
+tests/integration/p11/integration.spec.ts 23ms
+tests/integration/p11/serve.ts 21ms
+tests/integration/p11/tawsel.public.test.ts 14ms
+tests/integration/p11/teardown.mjs 25ms
+scripts/extract-tawsel-baseline.mjs 9ms
+scripts/tawsel-credential.mjs 7ms
+scripts/tawsel-operator.mjs 3ms
+playwright.p11.config.ts 3ms
+vitest.p11.public.config.ts 2ms

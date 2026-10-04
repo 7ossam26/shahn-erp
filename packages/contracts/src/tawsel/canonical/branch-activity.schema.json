@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/branch-activity.schema.json",
+  "title": "Source branch interruption and resume",
+  "$defs": {
+    "Interrupt": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedCurrentAttemptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requestId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "claims": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 500,
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              }
+            },
+            "required": [
+              "itemId",
+              "quantity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "serviceEstimateSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        }
+      },
+      "required": [
+        "roundId",
+        "expectedActivityRevision",
+        "expectedCurrentAttemptId",
+        "requestId",
+        "claims",
+        "serviceEstimateSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "Transition": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedCurrentAttemptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "segmentId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedBranchRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "roundId",
+        "expectedActivityRevision",
+        "expectedCurrentAttemptId",
+        "segmentId",
+        "expectedBranchRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "branchActivity": {
+          "$ref": "current-activity.schema.json#/$defs/BranchActivity"
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "planId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "branchActivity",
+        "activityRevision",
+        "planId"
+      ],
+      "additionalProperties": false
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "segmentId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "sourceBranchId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "arrived",
+            "resumed"
+          ]
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "time": {
+          "$ref": "current-activity.schema.json#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "segmentId",
+        "roundId",
+        "driverId",
+        "sourceBranchId",
+        "stage",
+        "activityRevision",
+        "time"
+      ],
+      "additionalProperties": false
+    },
+    "InterruptCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "branch.interruptRound"
+            },
+            "context": {
+              "$ref": "common.schema.json#/$defs/DeviceContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Interrupt"
+            }
+          },
+          "required": [
+            "operationId",
+            "context",
+            "payload"
+          ]
+        }
+      ]
+    },
+    "ArrivalCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "branch.recordArrival"
+            },
+            "context": {
+              "$ref": "common.schema.json#/$defs/DeviceContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Transition"
+            }
+          },
+          "required": [
+            "operationId",
+            "context",
+            "payload"
+          ]
+        }
+      ]
+    },
+    "ResumeCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "branch.resumeRound"
+            },
+            "context": {
+              "$ref": "common.schema.json#/$defs/DeviceContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Transition"
+            }
+          },
+          "required": [
+            "operationId",
+            "context",
+            "payload"
+          ]
+        }
+      ]
+    }
+  }
+}

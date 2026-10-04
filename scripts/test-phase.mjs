@@ -71,12 +71,20 @@ for (const [layer, definition] of Object.entries(suite)) {
             definition.config ?? 'vitest.db.config.ts',
             ...(definition.filter ?? []),
           ]
-        : [
-            'node_modules/@playwright/test/cli.js',
-            'test',
-            '--config',
-            definition.config ?? 'playwright.config.ts',
-          ];
+        : layer === 'publicIntegration'
+          ? [
+              'node_modules/vitest/vitest.mjs',
+              'run',
+              '--config',
+              definition.config,
+              ...(definition.filter ?? []),
+            ]
+          : [
+              'node_modules/@playwright/test/cli.js',
+              'test',
+              '--config',
+              definition.config ?? 'playwright.config.ts',
+            ];
   if (layer === 'browser' && execute(['scripts/build.mjs']) !== 0) process.exit(1);
   const code = execute(args);
   if (code !== 0) {

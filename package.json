@@ -52,7 +52,12 @@
     "test:p09:browser": "node scripts/build.mjs && playwright test --config playwright.p09.config.ts",
     "p09:trial": "node scripts/build.mjs && node scripts/p09-trial.mjs",
     "test:p10:browser": "node scripts/build.mjs && playwright test --config playwright.p10.config.ts",
-    "p10:trial": "node scripts/build.mjs && node scripts/p10-trial.mjs"
+    "p10:trial": "node scripts/build.mjs && node scripts/p10-trial.mjs",
+    "test:p11:browser": "node scripts/build.mjs && playwright test --config playwright.p11.config.ts",
+    "test:p11:public": "node scripts/build-packages.mjs && vitest run --config vitest.p11.public.config.ts",
+    "p11:trial": "node scripts/build.mjs && node --import tsx tests/integration/p11/serve.ts",
+    "tawsel:credential": "node scripts/tawsel-credential.mjs",
+    "tawsel:operator": "node scripts/tawsel-operator.mjs"
   },
   "devDependencies": {
     "typescript": "6.0.3",

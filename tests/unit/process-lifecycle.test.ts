@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { spawn, spawnSync } from 'node:child_process';
 import { expect, it } from 'vitest';
-it('worker starts idle and gracefully stops its actual process without a fabricated queue', async () => {
+it('worker registers the source queue and gracefully stops its actual process', async () => {
   const worker = spawn(process.execPath, ['--import', 'tsx', 'apps/worker/src/main.ts'], {
     env: {
       ...process.env,
@@ -20,7 +20,10 @@ it('worker starts idle and gracefully stops its actual process without a fabrica
     errors += String(chunk);
   });
   await new Promise<void>((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('worker did not start')), 5000);
+    const timeout = setTimeout(() => {
+      worker.kill();
+      reject(new Error('worker did not start'));
+    }, 15000);
     worker.stdout!.on('data', () => {
       if (output.includes('"state":"started"')) {
         clearTimeout(timeout);
@@ -34,9 +37,9 @@ it('worker starts idle and gracefully stops its actual process without a fabrica
   expect(await stopped).toBe(0);
   expect(output).toContain('"state":"stopping"');
   expect(output).toContain('"state":"stopped"');
-  expect(output).toContain('"businessQueues":0');
+  expect(output).toContain('"businessQueues":1');
   expect(output + errors).not.toContain('LOCAL_SENTINEL');
-});
+}, 20000);
 it('missing mandatory worker variable has a readable failure without a secret', () => {
   const env = {
     ...process.env,

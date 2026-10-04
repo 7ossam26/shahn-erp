@@ -1,0 +1,15 @@
+[WebServer] (node:29324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:13
+[WebServer]         throw new Error('Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.');
+[WebServer]               ^
+[WebServer] 
+[WebServer] Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+[WebServer]     at docker (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:13:15)
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[WebServer]     at async isolatedPostgres (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:38:5)
+[WebServer]     at async <anonymous> (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p11\serve.ts:10:80)
+[WebServer] 
+[WebServer] Node.js v24.21.0
+Error: Process from config.webServer was not able to start. Exit code: 1
+

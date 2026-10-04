@@ -1,0 +1,1477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/provisioning.schema.json",
+  "title": "ERP provisioning v1",
+  "description": "Closed service-operation commands. One increasing revision stream per entity/externalId, shared by all user operations. Subject ownership is reserved by operator bootstrap. References never cross sources. No human actor assertion, password, fleet or commercial fields. Full snapshots replace only the fields owned by the named operation. Empty arrays clear; null location/vehicleReference clears.",
+  "$defs": {
+    "BindSource": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "companyCode": {
+          "type": "string",
+          "pattern": "^[A-Z0-9-]{2,32}$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "subjectIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "credentialId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "secretHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "expiresAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "intakeCapabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "intake.prepare",
+              "assignment.manage"
+            ]
+          },
+          "uniqueItems": true,
+          "maxItems": 2,
+          "description": "Operator-owned service grants. Omit to preserve existing grants; empty removes both."
+        },
+        "returnCapabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "return.receive",
+              "return.dispose"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Operator-only full replacement of return grants; omitted preserves, [] clears. Separate from intakeCapabilities."
+        },
+        "monitoringCapabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "monitor.read"
+            ]
+          },
+          "description": "Operator-only replacement of monitoring grants. Omitted preserves; [] revokes. Never permits another source or branch."
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "companyCode",
+        "displayName",
+        "subjectIds",
+        "credentialId",
+        "secretHash",
+        "expiresAt"
+      ],
+      "additionalProperties": false
+    },
+    "RotateCredential": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "credentialId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "secretHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "expiresAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "overlapSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "recover": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "credentialId",
+        "secretHash",
+        "expiresAt",
+        "overlapSeconds",
+        "recover"
+      ],
+      "additionalProperties": false
+    },
+    "DisableSource": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Branch": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Coordinates"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "name",
+        "enabled",
+        "location"
+      ],
+      "additionalProperties": false
+    },
+    "DisableBranch": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Capability"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "name",
+        "capabilities"
+      ],
+      "additionalProperties": false
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "roleExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "branchExternalIds": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/ExternalId"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "subject",
+        "roleExternalId",
+        "branchExternalIds",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "UserRole": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "roleExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "roleExternalId"
+      ],
+      "additionalProperties": false
+    },
+    "UserExceptions": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/CapabilityOverride"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "exceptions"
+      ],
+      "additionalProperties": false
+    },
+    "UserBranches": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "branchExternalIds": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/ExternalId"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "branchExternalIds"
+      ],
+      "additionalProperties": false
+    },
+    "DisableUser": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Driver": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "userExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "vehicleReference": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/ExternalId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profile": {
+          "enum": [
+            "car",
+            "motorcycle",
+            "bicycle"
+          ]
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceRevision",
+        "userExternalId",
+        "enabled",
+        "vehicleReference",
+        "profile"
+      ],
+      "additionalProperties": false
+    },
+    "VerifiedService": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "const": "service-operation"
+        },
+        "tenantId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "integrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "actorId": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "mode",
+        "tenantId",
+        "integrationId",
+        "actorId"
+      ],
+      "additionalProperties": false
+    },
+    "ProvisioningStatus": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "enum": [
+            "source",
+            "branch",
+            "role",
+            "user",
+            "driver"
+          ]
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "resourceId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "lastActionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "issuerStatus": {
+          "enum": [
+            "not-required",
+            "pending",
+            "running",
+            "retry",
+            "ready"
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nextAttemptAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastError": {
+          "enum": [
+            null,
+            "issuer_unavailable",
+            "subject_unavailable"
+          ]
+        },
+        "enabled": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Requested local projection enabled state; null for a role. ready plus enabled=false means disable reconciliation completed, never account-ready."
+        }
+      },
+      "required": [
+        "entity",
+        "externalId",
+        "resourceId",
+        "sourceRevision",
+        "lastActionId",
+        "issuerStatus",
+        "attempts",
+        "nextAttemptAt",
+        "lastError",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "SourceConfiguration": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/VerifiedService"
+        },
+        "issuer": {
+          "type": "string",
+          "format": "uri"
+        },
+        "supportedVersions": {
+          "type": "array",
+          "items": {
+            "const": "1.0.0"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "allowedOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/OperationId"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
+        },
+        "humanDelegation": {
+          "const": false
+        }
+      },
+      "required": [
+        "identity",
+        "issuer",
+        "supportedVersions",
+        "allowedOperations",
+        "humanDelegation"
+      ],
+      "additionalProperties": false
+    },
+    "ProvisioningChanged": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "enum": [
+            "source",
+            "branch",
+            "role",
+            "user",
+            "driver"
+          ]
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "resourceId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "service": {
+          "$ref": "#/$defs/VerifiedService"
+        }
+      },
+      "required": [
+        "entity",
+        "externalId",
+        "resourceId",
+        "sourceRevision",
+        "actionId",
+        "service"
+      ],
+      "additionalProperties": false
+    },
+    "BindSourceCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.bindSource"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/BindSource"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "RotateCredentialCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.rotateCredential"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/RotateCredential"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DisableSourceCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.disableSource"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/DisableSource"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "BranchCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "branch.provision"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Branch"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DisableBranchCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "branch.disable"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/DisableBranch"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "RoleCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "role.defineCapabilities"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Role"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "UserCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "user.provision"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/User"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "UserRoleCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "user.setRole"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/UserRole"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "UserExceptionsCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "user.setCapabilityExceptions"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/UserExceptions"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "UserBranchesCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "user.setBranchMemberships"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/UserBranches"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DisableUserCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "user.disable"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/DisableUser"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DriverCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "driver.provisionReference"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Driver"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

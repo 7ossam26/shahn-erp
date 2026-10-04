@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/sync.schema.json",
+  "title": "Ordered device replay and preserved conflicts",
+  "description": "Released schemaVersion/payloadVersion 1.0.0/1.0.0 readers remain available for retained queues. Unsupported pairs reject the outer request with unsupported_schema_version and no evidence receipt; keep original bytes/identity locally. No default translation or expiry-based purge. A durable received rejection/review is safe for account exit, independently of business acceptance.",
+  "$defs": {
+    "Batch": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "$ref": "action-envelope.v1.schema.json"
+          }
+        }
+      },
+      "required": [
+        "actions"
+      ],
+      "additionalProperties": false
+    },
+    "Entry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "received"
+            },
+            "result": {
+              "$ref": "action-result.v1.schema.json"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "result"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "waiting"
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              }
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "dependencies"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "not-received"
+            },
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "code",
+            "message",
+            "retryable"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "BatchResult": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/Entry"
+          }
+        }
+      },
+      "required": [
+        "results"
+      ],
+      "additionalProperties": false
+    },
+    "Conflicts": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "device-ownership.schema.json#/$defs/Evidence"
+          }
+        },
+        "nextActionId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextActionId"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

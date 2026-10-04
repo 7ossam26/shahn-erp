@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/location.schema.json",
+  "title": "Scoped location confirmation",
+  "$defs": {
+    "Candidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "source": {
+          "const": "nominatim"
+        },
+        "coordinates": {
+          "$ref": "./common.schema.json#/$defs/Coordinates"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type",
+        "source",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Search": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "Candidates": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "./location.schema.json#/$defs/Candidate"
+          }
+        },
+        "attribution": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items",
+        "attribution"
+      ],
+      "additionalProperties": false
+    },
+    "Confirm": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedSourceRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "expectedLocationRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "confirmed": {
+          "const": true
+        },
+        "selection": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "manual"
+                },
+                "coordinates": {
+                  "$ref": "./common.schema.json#/$defs/Coordinates"
+                }
+              },
+              "required": [
+                "kind",
+                "coordinates"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "candidate"
+                },
+                "candidateId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "required": [
+                "kind",
+                "candidateId"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "taskId",
+        "expectedSourceRevision",
+        "expectedLocationRevision",
+        "confirmed",
+        "selection"
+      ],
+      "additionalProperties": false
+    },
+    "Pin": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "$ref": "./common.schema.json#/$defs/Coordinates"
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "manual",
+                "nominatim",
+                "source-confirmed"
+              ]
+            },
+            "candidate": {
+              "$ref": "./location.schema.json#/$defs/Candidate"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        "confirmedBy": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "confirmedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "coordinates",
+        "provenance",
+        "confirmedBy",
+        "confirmedAt",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "recipientName": {
+          "type": "string"
+        },
+        "original": {
+          "oneOf": [
+            {
+              "$ref": "./b2c-intake.schema.json#/$defs/AddressDestination"
+            },
+            {
+              "$ref": "./b2c-intake.schema.json#/$defs/ConfirmedPinDestination"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "locationRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pin": {
+          "oneOf": [
+            {
+              "$ref": "./location.schema.json#/$defs/Pin"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "locationReadiness": {
+          "enum": [
+            "confirmed",
+            "needs-resolution"
+          ]
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "planningInputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "planningStatus": {
+          "type": "string",
+          "enum": [
+            "not-requested",
+            "pending",
+            "running",
+            "complete",
+            "partial",
+            "failed",
+            "superseded"
+          ],
+          "description": "Actual latest durable calculation state; complete is a provider candidate, not an active round or policy guarantee."
+        }
+      },
+      "required": [
+        "taskId",
+        "recipientName",
+        "original",
+        "sourceRevision",
+        "locationRevision",
+        "pin",
+        "locationReadiness",
+        "editable",
+        "planningInputRevision",
+        "planningStatus"
+      ],
+      "additionalProperties": false
+    },
+    "List": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "./location.schema.json#/$defs/Snapshot"
+          }
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "MapConfiguration": {
+      "type": "object",
+      "properties": {
+        "styleUrl": {
+          "type": "string"
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "styleUrl",
+        "coverage",
+        "attribution"
+      ],
+      "additionalProperties": false
+    },
+    "ConfirmCommand": {
+      "allOf": [
+        {
+          "$ref": "./action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "location.confirmPin"
+            },
+            "payload": {
+              "$ref": "./location.schema.json#/$defs/Confirm"
+            }
+          },
+          "required": [
+            "operationId",
+            "payload"
+          ]
+        }
+      ]
+    },
+    "ConfirmedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actionId",
+        "location"
+      ],
+      "properties": {
+        "actionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "location": {
+          "$ref": "#/$defs/Snapshot"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/current-activity.schema.json",
+  "title": "Explicit current activity and physical origin",
+  "$defs": {
+    "ActionTime": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "recordedAt": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "observation": {
+          "$ref": "common.schema.json#/$defs/Observation"
+        }
+      },
+      "required": [
+        "actionId",
+        "recordedAt",
+        "observation"
+      ],
+      "additionalProperties": false,
+      "description": "recordedAt is server acceptance recording time, not measured travel time. observation preserves the device report, including missing/uncertain clock evidence, without promoting it to server truth."
+    },
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "arrived"
+          ]
+        },
+        "heading": {
+          "$ref": "#/$defs/ActionTime"
+        },
+        "arrival": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ActionTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "taskId",
+        "attemptId",
+        "revision",
+        "stage",
+        "heading",
+        "arrival"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "arrived"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arrival": {
+                "$ref": "#/$defs/ActionTime"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "arrival": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "PhysicalOrigin": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "last-confirmed-stop",
+            "manual-pin",
+            "branch-pin"
+          ]
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attemptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time": {
+          "$ref": "#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "kind",
+        "coordinates",
+        "revision",
+        "roundId",
+        "taskId",
+        "attemptId",
+        "time"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "last-confirmed-stop"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "taskId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "attemptId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "taskId": {
+                "type": "null"
+              },
+              "attemptId": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Target": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        },
+        "recipientName": {
+          "type": "string"
+        },
+        "recipientPhone": {
+          "type": "string"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "delivery": {
+          "$ref": "#/$defs/DeliveryAffordance"
+        }
+      },
+      "required": [
+        "taskId",
+        "attemptId",
+        "sourceRevision",
+        "assignmentRevision",
+        "pinRevision",
+        "coordinates",
+        "recipientName",
+        "recipientPhone",
+        "address",
+        "delivery"
+      ],
+      "additionalProperties": false
+    },
+    "DeliveryAffordance": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "personal",
+            "company"
+          ]
+        },
+        "allowedActions": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "full",
+              "partial",
+              "refusal",
+              "no-answer"
+            ]
+          }
+        },
+        "fullCollection": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DeliveryMoney"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Exact server-calculated amount to report for a full result. Null means the personal task has no collection."
+        },
+        "goodsDue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DeliveryMoney"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shippingDue": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DeliveryMoney"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lines": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceLineId": {
+                "$ref": "common.schema.json#/$defs/ExternalId"
+              },
+              "description": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "unitDue": {
+                "$ref": "#/$defs/DeliveryMoney"
+              }
+            },
+            "required": [
+              "sourceLineId",
+              "description",
+              "quantity",
+              "unitDue"
+            ],
+            "additionalProperties": false
+          },
+          "description": "Frozen source allocation for exact whole-piece selection; empty for personal tasks. Optional for compatibility with older readers."
+        }
+      },
+      "required": [
+        "kind",
+        "allowedActions",
+        "fullCollection",
+        "goodsDue",
+        "shippingDue"
+      ],
+      "additionalProperties": false
+    },
+    "DeliveryMoney": {
+      "type": "object",
+      "properties": {
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currency": {
+          "const": "EGP"
+        },
+        "exponent": {
+          "const": 2
+        }
+      },
+      "required": [
+        "amountMinor",
+        "currency",
+        "exponent"
+      ],
+      "additionalProperties": false
+    },
+    "SelectHeading": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedCurrentAttemptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedSourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedPinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "expectedActivityRevision",
+        "expectedCurrentAttemptId",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "expectedPinRevision"
+      ],
+      "additionalProperties": false,
+      "description": "Selection itself explicitly begins heading. Compare activity revision and previous attempt; replacing heading pauses its attempt with history. Arrived work must be resolved first. Same task/attempt keeps its identity. Route revision is deliberately not a command dependency."
+    },
+    "Arrival": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedCurrentAttemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedSourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedPinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "expectedActivityRevision",
+        "expectedCurrentAttemptId",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "expectedPinRevision"
+      ],
+      "additionalProperties": false
+    },
+    "CorrectOrigin": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedOriginRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        }
+      },
+      "required": [
+        "roundId",
+        "expectedOriginRevision",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "deviceId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "generation": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "accountId",
+            "deviceId",
+            "generation"
+          ],
+          "additionalProperties": false
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currentActivity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Activity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "physicalOrigin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PhysicalOrigin"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planningOrigin": {
+          "$ref": "routing.schema.json#/$defs/Origin"
+        },
+        "nextSuggestion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Target"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planning": {
+          "type": "object",
+          "properties": {
+            "planId": {
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/Uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "updating": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "planId",
+            "updating"
+          ],
+          "additionalProperties": false
+        },
+        "targets": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/Target"
+          }
+        },
+        "branchActivity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BranchActivity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "roundId",
+        "driverId",
+        "owner",
+        "revision",
+        "currentActivity",
+        "physicalOrigin",
+        "planningOrigin",
+        "nextSuggestion",
+        "planning",
+        "targets"
+      ],
+      "additionalProperties": false,
+      "description": "Coherent authorized round read; current is explicit, nextSuggestion is only the first other eligible member of a retained valid plan. May be null while planning. targets contains only currently eligible admitted work. Physical origin is recorded evidence; initial planning origin is not arrival."
+    },
+    "CommandResult": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currentActivity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Activity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "physicalOrigin": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PhysicalOrigin"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "roundId",
+        "revision",
+        "currentActivity",
+        "physicalOrigin"
+      ],
+      "additionalProperties": false
+    },
+    "SelectHeadingCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "current.selectHeading"
+            },
+            "payload": {
+              "$ref": "#/$defs/SelectHeading"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ArrivalCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "current.recordArrival"
+            },
+            "payload": {
+              "$ref": "#/$defs/Arrival"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CorrectOriginCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "current.correctOrigin"
+            },
+            "payload": {
+              "$ref": "#/$defs/CorrectOrigin"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ActionResult": {
+      "allOf": [
+        {
+          "$ref": "action-result.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "enum": [
+                "current.selectHeading",
+                "current.recordArrival",
+                "current.correctOrigin"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "accepted"
+                      }
+                    },
+                    "required": [
+                      "businessStatus"
+                    ]
+                  }
+                },
+                "required": [
+                  "receipt"
+                ]
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "body": {
+                        "$ref": "#/$defs/CommandResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ActionStatus": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "pending"
+            }
+          },
+          "required": [
+            "actionId",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "enum": [
+                "accepted",
+                "rejected",
+                "review-required"
+              ]
+            },
+            "result": {
+              "$ref": "#/$defs/ActionResult"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "result"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "arrived",
+            "paused"
+          ]
+        },
+        "time": {
+          "$ref": "#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "roundId",
+        "driverId",
+        "taskId",
+        "attemptId",
+        "activityRevision",
+        "stage",
+        "time"
+      ],
+      "additionalProperties": false
+    },
+    "HeadingEvent": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "paused"
+          ]
+        },
+        "time": {
+          "$ref": "#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "roundId",
+        "driverId",
+        "taskId",
+        "attemptId",
+        "activityRevision",
+        "stage",
+        "time"
+      ],
+      "additionalProperties": false
+    },
+    "ArrivalEvent": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stage": {
+          "const": "arrived"
+        },
+        "time": {
+          "$ref": "#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "roundId",
+        "driverId",
+        "taskId",
+        "attemptId",
+        "activityRevision",
+        "stage",
+        "time"
+      ],
+      "additionalProperties": false
+    },
+    "BranchActivity": {
+      "type": "object",
+      "properties": {
+        "segmentId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "requestId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "sourceBranchId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "arrived",
+            "resumed"
+          ]
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        },
+        "serviceEstimateSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "claims": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 500,
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              }
+            },
+            "required": [
+              "itemId",
+              "quantity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "retainedPlanId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "retainedSequence": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "type": "object",
+            "properties": {
+              "taskId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "attemptId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              }
+            },
+            "required": [
+              "taskId",
+              "attemptId"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "pausedActivity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Activity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "heading": {
+          "$ref": "#/$defs/ActionTime"
+        },
+        "arrival": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ActionTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resumed": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ActionTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "segmentId",
+        "roundId",
+        "requestId",
+        "sourceBranchId",
+        "revision",
+        "stage",
+        "coordinates",
+        "serviceEstimateSeconds",
+        "claims",
+        "retainedPlanId",
+        "retainedSequence",
+        "pausedActivity",
+        "heading",
+        "arrival",
+        "resumed"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "enum": [
+                  "arrived",
+                  "resumed"
+                ]
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arrival": {
+                "$ref": "#/$defs/ActionTime"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "arrival": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stage": {
+                "const": "resumed"
+              }
+            },
+            "required": [
+              "stage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "resumed": {
+                "$ref": "#/$defs/ActionTime"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "resumed": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

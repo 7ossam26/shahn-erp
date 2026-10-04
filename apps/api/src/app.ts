@@ -1,4 +1,6 @@
 import { registerFinance } from './modules/finance/http.js';
+import { registerIntegration } from './modules/integration/http.js';
+import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
 import { registerTreasury } from './modules/finance/treasury-transfers/http.js';
 import 'reflect-metadata';
 import {
@@ -130,6 +132,7 @@ class StatusController {
 export async function createApplication(
   config = databaseConfig(),
   identity: IdentityConfig | null = identityConfig(),
+  integration: IntegrationRuntime = integrationRuntime(),
 ): Promise<NestFastifyApplication> {
   @Module({
     controllers: [StatusController],
@@ -158,6 +161,12 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  registerIntegration(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    integration,
+  );
   registerFinance(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,

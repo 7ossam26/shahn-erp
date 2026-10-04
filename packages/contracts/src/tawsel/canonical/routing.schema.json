@@ -1,0 +1,539 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/routing.schema.json",
+  "title": "Tawsel normalized routing boundary v1",
+  "$defs": {
+    "Mode": {
+      "type": "string",
+      "enum": [
+        "car",
+        "motorcycle",
+        "bicycle"
+      ]
+    },
+    "Origin": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "last-confirmed-stop",
+            "manual-pin",
+            "branch-pin"
+          ]
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        }
+      },
+      "required": [
+        "kind",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Endpoint": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "last-customer"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "fixed"
+            },
+            "coordinates": {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            }
+          },
+          "required": [
+            "kind",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "branch"
+            },
+            "branchId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "coordinates": {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            },
+            "serviceEstimateSeconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 86400
+            }
+          },
+          "required": [
+            "kind",
+            "branchId",
+            "coordinates",
+            "serviceEstimateSeconds"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Job": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        },
+        "serviceEstimateSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400,
+          "description": "Optional customer service estimate; adapter applies 600 seconds when omitted."
+        }
+      },
+      "required": [
+        "taskId",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "OptimizationInput": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "accountKind": {
+          "type": "string",
+          "enum": [
+            "personal",
+            "company"
+          ]
+        },
+        "origin": {
+          "$ref": "#/$defs/Origin"
+        },
+        "endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Job"
+          },
+          "minItems": 1,
+          "maxItems": 50
+        }
+      },
+      "required": [
+        "mode",
+        "accountKind",
+        "origin",
+        "endpoint",
+        "tasks"
+      ],
+      "additionalProperties": false,
+      "description": "Internal normalized planning boundary; not an available HTTP operation. Origin must be resolved from authoritative physical confirmation or explicit pin by the caller. Default customer service is 600 seconds. Relative timing starts at zero; urgency/earliest availability/stitched policy are validated above the adapter in P14."
+    },
+    "RouteInput": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Coordinates"
+          },
+          "minItems": 2,
+          "maxItems": 52
+        }
+      },
+      "required": [
+        "mode",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "TableInput": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Coordinates"
+          },
+          "minItems": 1,
+          "maxItems": 52
+        }
+      },
+      "required": [
+        "mode",
+        "coordinates"
+      ],
+      "additionalProperties": false
+    },
+    "Leg": {
+      "type": "object",
+      "properties": {
+        "durationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "distanceMetres": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "durationSeconds",
+        "distanceMetres"
+      ],
+      "additionalProperties": false
+    },
+    "RouteResult": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "status": {
+          "const": "complete"
+        },
+        "geometrySource": {
+          "const": "osrm-road"
+        },
+        "geometry": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Coordinates"
+          },
+          "minItems": 2,
+          "maxItems": 100000
+        },
+        "durationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "distanceMetres": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Leg"
+          },
+          "minItems": 1,
+          "maxItems": 51
+        }
+      },
+      "required": [
+        "mode",
+        "status",
+        "geometrySource",
+        "geometry",
+        "durationSeconds",
+        "distanceMetres",
+        "legs"
+      ],
+      "additionalProperties": false
+    },
+    "TableCell": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "reachable"
+            },
+            "durationSeconds": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "distanceMetres": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "status",
+            "durationSeconds",
+            "distanceMetres"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "unreachable"
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TableResult": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial"
+          ]
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/TableCell"
+            },
+            "minItems": 1,
+            "maxItems": 52
+          },
+          "minItems": 1,
+          "maxItems": 52
+        }
+      },
+      "required": [
+        "mode",
+        "status",
+        "cells"
+      ],
+      "additionalProperties": false
+    },
+    "Visit": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "coordinates": {
+          "$ref": "common.schema.json#/$defs/Coordinates"
+        },
+        "arrivalOffsetSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "travelDurationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "distanceMetres": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "serviceEstimateSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "waitingSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "taskId",
+        "coordinates",
+        "arrivalOffsetSeconds",
+        "travelDurationSeconds",
+        "distanceMetres",
+        "serviceEstimateSeconds",
+        "waitingSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "OptimizationResult": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial"
+          ]
+        },
+        "policyValidated": {
+          "const": false
+        },
+        "visits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Visit"
+          },
+          "minItems": 0,
+          "maxItems": 50
+        },
+        "unassignedTaskIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 0,
+          "maxItems": 50
+        },
+        "travelDurationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "distanceMetres": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "customerServiceEstimateSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "branchServiceEstimateSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "waitingSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "finishOffsetSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "endpoint": {
+          "$ref": "#/$defs/Endpoint"
+        }
+      },
+      "required": [
+        "mode",
+        "status",
+        "policyValidated",
+        "visits",
+        "unassignedTaskIds",
+        "travelDurationSeconds",
+        "distanceMetres",
+        "customerServiceEstimateSeconds",
+        "branchServiceEstimateSeconds",
+        "waitingSeconds",
+        "finishOffsetSeconds",
+        "endpoint"
+      ],
+      "additionalProperties": false,
+      "description": "Validated provider candidate only, not a published or policy-verified route, arrival, receipt, outcome or actual dwell time. No optimizer geometry is promoted as a verified road route; request OSRM route separately."
+    },
+    "Failure": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "invalid_input",
+            "invalid_config",
+            "busy",
+            "timeout",
+            "cancelled",
+            "unavailable",
+            "http_error",
+            "provider_error",
+            "invalid_response",
+            "no_route",
+            "no_table"
+          ]
+        },
+        "provider": {
+          "type": "string",
+          "enum": [
+            "osrm",
+            "vroom",
+            "boundary"
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "provider"
+      ],
+      "additionalProperties": false
+    },
+    "Profiles": {
+      "type": "object",
+      "properties": {
+        "modes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Mode"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "defaultCustomerServiceSeconds": {
+          "type": "integer",
+          "const": 600
+        },
+        "liveVerification": {
+          "type": "string",
+          "const": "not-checked"
+        }
+      },
+      "required": [
+        "modes",
+        "defaultCustomerServiceSeconds",
+        "liveVerification"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,60 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/employees.test.ts (9 tests) 308ms
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 237ms
+ ❯ tests/unit/process-lifecycle.test.ts (3 tests | 1 failed) 6017ms
+   × worker starts idle and gracefully stops its actual process without a fabricated queue 4311ms
+   ✓ missing mandatory worker variable has a readable failure without a secret 1573ms
+   ✓ seed refuses production before attempting any database access 131ms
+ ✓ tests/unit/inventory.test.ts (4 tests) 51ms
+ ✓ tests/unit/brands.test.ts (4 tests) 81ms
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 93ms
+ ✓ tests/unit/access.test.ts (37 tests) 143ms
+ ✓ tests/unit/shipments.test.ts (17 tests) 116ms
+ ✓ tests/unit/money.test.ts (22 tests) 70ms
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 59ms
+ ✓ tests/unit/finance.test.ts (12 tests) 55ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 53ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 20ms
+ ✓ tests/unit/form.test.tsx (2 tests) 2233ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 1448ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 784ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/process-lifecycle.test.ts > worker starts idle and gracefully stops its actual process without a fabricated queue
+AssertionError: expected '{"service":"worker","state":"started"…' to contain '"businessQueues":0'
+
+- Expected
++ Received
+
+- "businessQueues":0
++ {"service":"worker","state":"started","checkedAt":"2026-10-04T02:09:25.324Z","businessQueues":1}
++ {"service":"worker","state":"stopping","checkedAt":"2026-10-04T02:09:25.329Z","businessQueues":1}
++ {"service":"worker","state":"stopped","checkedAt":"2026-10-04T02:09:25.329Z","businessQueues":1}
++
+
+ ❯ tests/unit/process-lifecycle.test.ts:37:18
+     35|   expect(output).toContain('"state":"stopping"');
+     36|   expect(output).toContain('"state":"stopped"');
+     37|   expect(output).toContain('"businessQueues":1');
+       |                  ^
+     38|   expect(output + errors).not.toContain('LOCAL_SENTINEL');
+     39| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 13 passed (14)
+      Tests  1 failed | 244 passed (245)
+   Start at  05:09:19
+   Duration  33.37s (environment 70%, import 19%, transform 5%, setup 3%, tests 3%)
+
+Environment  jsdom was created 14 times · 212.34s total, 70% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+

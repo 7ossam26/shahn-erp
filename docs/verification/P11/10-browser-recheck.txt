@@ -1,0 +1,95 @@
+npm notice run shahn-erp@0.1.0 test:p11:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p11.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2652 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Bqd5Nouk.css                           88.87 kB │ gzip: 17.56 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-B8zNnlq8.js                           296.82 kB │ gzip: 73.82 kB
+
+✓ built in 797ms
+[WebServer] (node:22328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:10676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p11\integration.spec.ts:9:1 › Arabic RTL status, unknown request and receipt/application distinction at four widths (3.3s)
+(node:26480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p11\integration.spec.ts:28:1 › unknown command detail retries the same action and shows safe correlation metadata (2.4s)
+  ok 3 tests\integration\p11\integration.spec.ts:45:1 › provisions a native branch and preserves a lost native response across reload (16.1s)
+  ok 4 tests\integration\p11\integration.spec.ts:74:1 › filters persist in URL and receipt detail never claims application (2.9s)
+  x  5 tests\integration\p11\integration.spec.ts:92:1 › real API denies a session without integration capability (15.9s)
+
+
+  1) tests\integration\p11\integration.spec.ts:9:1 › Arabic RTL status, unknown request and receipt/application distinction at four widths 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('النتيجة غير معروفة', { exact: true })
+    Expected: visible
+    Error: strict mode violation: getByText('النتيجة غير معروفة', { exact: true }) resolved to 2 elements:
+        1) <option value="unknown">النتيجة غير معروفة</option> aka getByRole('option', { name: 'النتيجة غير معروفة' })
+        2) <span class="integration-state state-unknown">النتيجة غير معروفة</span> aka getByRole('link', { name: 'الفرع branch.provision' })
+
+    Call log:
+      - Expect "toBeVisible" getByText('النتيجة غير معروفة', { exact: true }) with timeout 15000ms
+      - waiting for getByText('النتيجة غير معروفة', { exact: true })
+
+
+      12 |   await page.goto('/api/test/p11-login/admin');
+      13 |   await expect(page.getByRole('heading', { name: 'حالة الربط', exact: true })).toBeVisible();
+    > 14 |   await expect(page.getByText('النتيجة غير معروفة', { exact: true })).toBeVisible();
+         |                                                                       ^
+      15 |   await expect(page.getByText('تم الاستلام · بانتظار التطبيق')).toBeVisible();
+      16 |   for (const width of [1440, 390, 320, 768]) {
+      17 |     await page.setViewportSize({ width, height: width === 1440 ? 1050 : 844 });
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p11\integration.spec.ts:14:71
+
+    Error Context: test-results\integration-Arabic-RTL-sta-7a08a--distinction-at-four-widths\error-context.md
+
+  2) tests\integration\p11\integration.spec.ts:92:1 › real API denies a session without integration capability 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('alert')
+    Expected substring: "صلاحياتك الحالية"
+    Received string:    "تعذر تحميل الاتصال. البيانات المؤكدة السابقة محفوظة؛ حاول التحديث."
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('alert') with timeout 15000ms
+      - waiting for getByRole('alert')
+        31 × locator resolved to <div role="alert" class="commercial-error">تعذر تحميل الاتصال. البيانات المؤكدة السابقة محفو…</div>
+           - unexpected value "تعذر تحميل الاتصال. البيانات المؤكدة السابقة محفوظة؛ حاول التحديث."
+
+
+      92 | test('real API denies a session without integration capability', async ({ page }) => {
+      93 |   await page.goto('/api/test/p11-login/staff');
+    > 94 |   await expect(page.getByRole('alert')).toContainText('صلاحياتك الحالية');
+         |                                         ^
+      95 |   const response = await page.request.get('/api/v1/integration?companyId=' + ids().companyId);
+      96 |   expect(response.status()).toBe(403);
+      97 | });
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p11\integration.spec.ts:94:41
+
+    Error Context: test-results\integration-real-API-denie-cdc90-hout-integration-capability\error-context.md
+
+  2 failed
+    tests\integration\p11\integration.spec.ts:9:1 › Arabic RTL status, unknown request and receipt/application distinction at four widths 
+    tests\integration\p11\integration.spec.ts:92:1 › real API denies a session without integration capability 
+  3 passed (1.5m)

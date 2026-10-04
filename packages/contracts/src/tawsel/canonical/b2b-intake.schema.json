@@ -1,0 +1,1017 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/b2b-intake.schema.json",
+  "title": "ERP source snapshots and atomic admission v1",
+  "description": "Exact outstanding EGP minor units per stable source line. Different per-piece allocations require distinct stable source lines. No deposit aggregate or implicit zero. Receipt is a source assertion, not Engine success. One dispatch cycle per shipment until P22.",
+  "$defs": {
+    "Money": {
+      "type": "object",
+      "properties": {
+        "amountMinor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currency": {
+          "const": "EGP"
+        },
+        "exponent": {
+          "const": 2
+        }
+      },
+      "required": [
+        "amountMinor",
+        "currency",
+        "exponent"
+      ],
+      "additionalProperties": false
+    },
+    "Line": {
+      "type": "object",
+      "properties": {
+        "sourceLineId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "unitDue": {
+          "$ref": "#/$defs/Money"
+        }
+      },
+      "required": [
+        "sourceLineId",
+        "description",
+        "quantity",
+        "unitDue"
+      ],
+      "additionalProperties": false
+    },
+    "SourceSnapshot": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "expectedSourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sourceBranchExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceOrderReference": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "recipientName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        "recipientPhone": {
+          "$ref": "./b2c-intake.schema.json#/$defs/RecipientPhone"
+        },
+        "destination": {
+          "$ref": "./b2c-intake.schema.json#/$defs/IndependentDestination"
+        },
+        "splittingAllowed": {
+          "type": "boolean"
+        },
+        "allocation": {
+          "const": "exact-outstanding-per-unit"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Line"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "shippingDue": {
+          "$ref": "#/$defs/Money"
+        },
+        "totalDue": {
+          "$ref": "#/$defs/Money"
+        },
+        "priority": {
+          "enum": [
+            "ordinary",
+            "urgent"
+          ]
+        },
+        "earliestAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "instructions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceDispatchCycleId",
+        "sourceRevision",
+        "expectedSourceRevision",
+        "sourceBranchExternalId",
+        "recipientName",
+        "recipientPhone",
+        "destination",
+        "splittingAllowed",
+        "allocation",
+        "lines",
+        "shippingDue",
+        "totalDue",
+        "priority"
+      ],
+      "additionalProperties": false
+    },
+    "AssignmentReference": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "expectedSourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceDispatchCycleId",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "assignmentRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Prepare": {
+      "type": "object",
+      "properties": {
+        "driverExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssignmentReference"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "driverExternalId",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "ReceiveBatch": {
+      "type": "object",
+      "properties": {
+        "driverExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssignmentReference"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "receiptAsserted": {
+          "const": true
+        }
+      },
+      "required": [
+        "driverExternalId",
+        "items",
+        "receiptAsserted"
+      ],
+      "additionalProperties": false
+    },
+    "Withdraw": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "expectedSourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceDispatchCycleId",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "assignmentRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Reassign": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "expectedSourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "driverExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "receiptAsserted": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceDispatchCycleId",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "assignmentRevision",
+        "driverExternalId",
+        "receiptAsserted"
+      ],
+      "additionalProperties": false
+    },
+    "Urgency": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "expectedSourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "priority": {
+          "enum": [
+            "ordinary",
+            "urgent"
+          ]
+        }
+      },
+      "required": [
+        "externalId",
+        "sourceDispatchCycleId",
+        "expectedSourceRevision",
+        "sourceRevision",
+        "priority"
+      ],
+      "additionalProperties": false
+    },
+    "SourceSnapshotCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "intake.submitSnapshot"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/SourceSnapshot"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "PrepareCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "intake.prepare"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Prepare"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "ReceiveBatchCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "assignment.receiveBatch"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/ReceiveBatch"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "WithdrawCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "assignment.withdraw"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Withdraw"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "ReassignCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "assignment.reassignBeforeDeparture"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Reassign"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "UrgencyCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "intake.setUrgencyBeforeDeparture"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Urgency"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "enum": [
+            "unassigned",
+            "prepared",
+            "held",
+            "withdrawn"
+          ]
+        },
+        "driverId": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "driverExternalId": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/ExternalId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receivedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "planningEligible": {
+          "type": "boolean"
+        },
+        "planningStatus": {
+          "type": "string",
+          "enum": [
+            "not-requested",
+            "pending",
+            "running",
+            "complete",
+            "partial",
+            "failed",
+            "superseded"
+          ],
+          "description": "Actual latest durable calculation state; complete is a provider candidate, not an active round or policy guarantee."
+        },
+        "locationReadiness": {
+          "enum": [
+            "needs-resolution",
+            "confirmed"
+          ]
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SourceSnapshot"
+        },
+        "previousDispatchCycleId": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "taskId",
+        "dispatchCycleId",
+        "externalId",
+        "sourceDispatchCycleId",
+        "sourceRevision",
+        "assignmentRevision",
+        "state",
+        "driverId",
+        "driverExternalId",
+        "receivedAt",
+        "editable",
+        "planningEligible",
+        "planningStatus",
+        "locationReadiness",
+        "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "TaskList": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Task"
+          },
+          "maxItems": 100
+        },
+        "nextCursor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "BatchResult": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        },
+        "result": {
+          "$ref": "./action-result.v1.schema.json"
+        }
+      },
+      "required": [
+        "actionId",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "ChangedEvent": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "task": {
+          "$ref": "#/$defs/Task"
+        }
+      },
+      "required": [
+        "actionId",
+        "task"
+      ],
+      "additionalProperties": false
+    },
+    "Redispatch": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SourceSnapshot"
+        }
+      },
+      "required": [
+        "externalId",
+        "previousDispatchCycleId",
+        "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "RedispatchCommand": {
+      "allOf": [
+        {
+          "$ref": "./action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "dispatch.createFromReceipt"
+            },
+            "context": {
+              "$ref": "./common.schema.json#/$defs/IntegrationContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Redispatch"
+            }
+          },
+          "required": [
+            "operationId",
+            "context",
+            "payload"
+          ]
+        }
+      ]
+    },
+    "CycleList": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Task"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

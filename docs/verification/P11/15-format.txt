@@ -1,0 +1,47 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run prettier --write apps/api/src/modules/integration apps/web/src/features/integration packages/contracts/src/integration.ts packages/contracts/src/integration-responses.ts packages/contracts/src/tawsel tests/integration/p11 scripts/test-phase.mjs scripts/phase-suites.json apps/api/src/app.ts apps/worker/src/main.ts apps/web/src/main.ts packages/contracts/tsconfig.json packages/contracts/package.json apps/api/package.json package.json vitest.db.config.ts vitest.unit.config.ts
+apps/api/src/modules/integration/callback-policy.ts 63ms
+apps/api/src/modules/integration/config.ts 17ms
+apps/api/src/modules/integration/http.ts 20ms
+apps/api/src/modules/integration/index.ts 2ms (unchanged)
+apps/api/src/modules/integration/integration-query.service.ts 23ms (unchanged)
+apps/api/src/modules/integration/provisioning.service.ts 46ms (unchanged)
+apps/api/src/modules/integration/signature-verifier.ts 12ms (unchanged)
+apps/api/src/modules/integration/signed-receiver.controller.ts 11ms (unchanged)
+apps/api/src/modules/integration/source-command.service.ts 22ms
+apps/api/src/modules/integration/tawsel-client.ts 15ms (unchanged)
+apps/web/src/features/integration/integration.css 31ms (unchanged)
+apps/web/src/features/integration/integration.tsx 100ms
+packages/contracts/src/integration.ts 12ms
+packages/contracts/src/integration-responses.ts 15ms
+packages/contracts/src/tawsel/delivery.ts 7ms (unchanged)
+packages/contracts/src/tawsel/index.ts 1ms (unchanged)
+packages/contracts/src/tawsel/provisioning.ts 8ms (unchanged)
+packages/contracts/src/tawsel/registry.ts 7ms (unchanged)
+packages/contracts/src/tawsel/sender-event.ts 12ms
+packages/contracts/src/tawsel/validation.ts 3ms (unchanged)
+tests/integration/p11/boundary.db.test.ts 77ms
+tests/integration/p11/contracts.unit.test.ts 21ms
+tests/integration/p11/crash-receiver.ts 3ms (unchanged)
+tests/integration/p11/crash-worker.ts 3ms (unchanged)
+tests/integration/p11/fixtures.ts 9ms
+tests/integration/p11/integration.spec.ts 13ms (unchanged)
+tests/integration/p11/mapped-events.ts 10ms
+tests/integration/p11/serve.ts 13ms (unchanged)
+tests/integration/p11/tawsel.public.test.ts 7ms (unchanged)
+tests/integration/p11/teardown.mjs 19ms (unchanged)
+scripts/test-phase.mjs 13ms
+[error] Unable to write file "scripts/test-phase.mjs":
+[error] UNKNOWN: unknown error, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\scripts\test-phase.mjs'
+scripts/phase-suites.json 6ms
+[error] Unable to write file "scripts/phase-suites.json":
+[error] UNKNOWN: unknown error, open 'C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\scripts\phase-suites.json'
+apps/api/src/app.ts 14ms
+apps/worker/src/main.ts 5ms
+[error] No files matching the pattern were found: "apps/web/src/main.ts".
+packages/contracts/tsconfig.json 1ms
+packages/contracts/package.json 1ms (unchanged)
+apps/api/package.json 1ms (unchanged)
+package.json 2ms (unchanged)
+vitest.db.config.ts 2ms
+vitest.unit.config.ts 1ms

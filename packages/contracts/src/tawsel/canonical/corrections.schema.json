@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/corrections.schema.json",
+  "title": "Bounded driver report corrections v1",
+  "description": "Append an effective report revision. Monetary values are corrected reported facts, never refund or settlement instructions. Source prices are immutable; no staff execution override. Received/disposed/redispatched pieces and closed days cannot be undone. Adoption reuses retained original payload with current validation.",
+  "$defs": {
+    "Replacement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "full"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "partial"
+            },
+            "pieces": {
+              "type": "array",
+              "items": {
+                "$ref": "outcomes.schema.json#/$defs/Piece"
+              },
+              "minItems": 1,
+              "maxItems": 100
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            }
+          },
+          "required": [
+            "outcome",
+            "pieces",
+            "reportedCollection"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "refused"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            },
+            "shippingPayment": {
+              "enum": [
+                "collected",
+                "refused"
+              ]
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "no-answer"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Correct": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedOutcomeRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "replacement": {
+          "$ref": "#/$defs/Replacement"
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "expectedOutcomeRevision",
+        "replacement"
+      ],
+      "additionalProperties": false
+    },
+    "CorrectCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "outcome.correct"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            },
+            "payload": {
+              "$ref": "#/$defs/Correct"
+            }
+          }
+        }
+      ]
+    },
+    "Constraint": {
+      "enum": [
+        "closed-workday",
+        "dependent-receipt",
+        "dependent-redispatch",
+        "changed-assignment",
+        "changed-source",
+        "changed-attempt",
+        "not-current-owner",
+        "correction-not-authorized",
+        "outcome-required",
+        "claimed-handover"
+      ]
+    },
+    "Availability": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "effectiveOutcomeRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "effectiveOutcome": {
+          "anyOf": [
+            {
+              "$ref": "outcomes.schema.json#/$defs/Record"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allowed": {
+          "type": "boolean"
+        },
+        "constraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          }
+        },
+        "nextSteps": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "refresh-state",
+              "view-history",
+              "erp-commercial-review"
+            ]
+          }
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delivery": {
+          "$ref": "current-activity.schema.json#/$defs/DeliveryAffordance",
+          "description": "Frozen replacement choices and exact amounts excluding this attempt from prior collections. Choices do not override availability.allowed."
+        },
+        "originalOutcome": {
+          "anyOf": [
+            {
+              "$ref": "outcomes.schema.json#/$defs/Record"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "First recorded result for this attempt; effectiveOutcome retains the latest correction."
+        },
+        "executionRoundId": {
+          "$ref": "common.schema.json#/$defs/Uuid",
+          "description": "Latest round anchoring current device ownership, generation and snapshot token; roundId remains the original outcome round."
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "effectiveOutcomeRevision",
+        "effectiveOutcome",
+        "allowed",
+        "constraints",
+        "nextSteps",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "Record": {
+      "type": "object",
+      "properties": {
+        "correctionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "previousOutcomeId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previousRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "outcome": {
+          "$ref": "outcomes.schema.json#/$defs/Record"
+        },
+        "evidenceActionId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidenceReceiptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correctionId",
+        "previousOutcomeId",
+        "previousRevision",
+        "outcome",
+        "evidenceActionId",
+        "evidenceReceiptId"
+      ],
+      "additionalProperties": false
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "correction": {
+          "$ref": "#/$defs/Record"
+        }
+      },
+      "required": [
+        "correction"
+      ],
+      "additionalProperties": false
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "correction": {
+          "$ref": "#/$defs/Record"
+        },
+        "previousOutcome": {
+          "anyOf": [
+            {
+              "$ref": "outcomes.schema.json#/$defs/Record"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correction",
+        "previousOutcome"
+      ],
+      "additionalProperties": false
+    },
+    "AdoptionEvent": {
+      "type": "object",
+      "properties": {
+        "evidenceActionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "evidenceReceiptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "correctionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "outcomeId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "outcomeRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "evidenceActionId",
+        "evidenceReceiptId",
+        "correctionId",
+        "outcomeId",
+        "outcomeRevision"
+      ],
+      "additionalProperties": false
+    },
+    "ActionResult": {
+      "$ref": "action-result.v1.schema.json"
+    },
+    "ActionStatus": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        },
+        "result": {
+          "$ref": "#/$defs/ActionResult"
+        }
+      },
+      "required": [
+        "actionId",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,17 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/integration/config.ts(18,104): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(predicate: (value: string, index: number, array: string[]) => value is string, thisArg?: any): this is S[]', gave the following error.
+    Argument of type 'ValidateFunction<string>' is not assignable to parameter of type '(value: string, index: number, array: string[]) => value is string'.
+      Types of parameters 'dataCxt' and 'index' are incompatible.
+        Type 'number' is not assignable to type 'DataValidationCxt<string | number>'.
+  Overload 2 of 2, '(predicate: (value: string, index: number, array: string[]) => unknown, thisArg?: any): boolean', gave the following error.
+    Argument of type 'ValidateFunction<string>' is not assignable to parameter of type '(value: string, index: number, array: string[]) => unknown'.
+      Types of parameters 'dataCxt' and 'index' are incompatible.
+        Type 'number' is not assignable to type 'DataValidationCxt<string | number>'.
+apps/api/src/modules/integration/integration-query.service.ts(56,11): error TS7034: Variable 'statuses' implicitly has type 'any[]' in some locations where its type cannot be determined.
+apps/api/src/modules/integration/integration-query.service.ts(60,27): error TS7005: Variable 'statuses' implicitly has an 'any[]' type.
+apps/api/src/modules/integration/provisioning.service.ts(67,60): error TS2339: Property 'entity' does not exist on type 'Record<string, unknown> | IntegrationCommand'.
+  Property 'entity' does not exist on type 'IntegrationCommand'.
+apps/api/src/modules/integration/provisioning.service.ts(67,107): error TS2339: Property 'entity' does not exist on type 'Record<string, unknown> | IntegrationCommand'.
+  Property 'entity' does not exist on type 'IntegrationCommand'.

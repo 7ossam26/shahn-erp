@@ -1,0 +1,23 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.db.config.ts tests/integration/p11/boundary.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p11/boundary.db.test.ts (13 tests) 80602ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1714ms
+   ✓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company 304ms
+   ✓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application 308ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 5118ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 32525ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  05:00:17
+   Duration  85.25s (tests 95%, import 4%, transform 1%)
+

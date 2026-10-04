@@ -235,5 +235,32 @@
       "applicable": false,
       "reason": "P09 local finance only; authenticated API, committed PostgreSQL, process restart and browser evidence. No bank provider or Tawsel integration."
     }
+  },
+  "P11": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/integration/p11",
+      "extension": ".unit.test",
+      "filter": ["tests/integration/p11/contracts.unit.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/integration/p11",
+      "extension": ".db.test",
+      "filter": ["tests/integration/p11/boundary.db.test.ts"]
+    },
+    "browser": {
+      "script": "test:p11:browser",
+      "directory": "tests/integration/p11",
+      "extension": ".spec",
+      "config": "playwright.p11.config.ts"
+    },
+    "publicIntegration": {
+      "script": "test:p11:public",
+      "directory": "tests/integration/p11",
+      "extension": ".public.test",
+      "config": "vitest.p11.public.config.ts",
+      "filter": ["tests/integration/p11/tawsel.public.test.ts"]
+    }
   }
 }

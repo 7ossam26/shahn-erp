@@ -1,0 +1,65 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P11
+P11 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 185ms
+
+ Test Files  1 passed (1)
+      Tests  98 passed (98)
+   Start at  05:05:41
+   Duration  4.86s (import 66%, transform 20%, setup 10%, tests 4%)
+
+P11 unit: PASSED
+P11 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p11/boundary.db.test.ts (15 tests | 1 failed) 73916ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1053ms
+   ✓ serves closed safe native responses and denies direct spoofed, cross-company and CSRF calls 141ms
+   ✓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company 189ms
+   ✓ retains unknown response, replays the same action and fences expired worker completion 46ms
+   × kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 16ms
+   ✓ serializes all operations on one user revision stream with independent transactions 139ms
+   ✓ rejects missing/disabled references, unsupported operations and finance capability forwarding 32ms
+   ✓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application 107ms
+   ✓ rejects signed changed bytes under one event and recipient sequence collisions 11ms
+   ✓ rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows 17ms
+   ✓ accepts exactly 2 MiB at actual HTTP ingress and rejects an extra byte 103ms
+   ✓ keeps gaps visible and never advances applied through unhandled domain events 16ms
+   ✓ enforces recorded old-key expiry while accepting the preprovisioned next key 14ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 2941ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 31845ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts > kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result
+error: duplicate key value violates unique constraint "company_code_key"
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ accessFixture tests/support/access.ts:27:3
+     25|     adminRole = randomUUID(),
+     26|     staffRole = randomUUID();
+     27|   await pool.query(
+       |   ^
+     28|     "INSERT INTO access.company(id,code,name) VALUES($1,'trial','شركة …
+     29|     [company, other],
+ ❯ integrationFixture tests/integration/p11/fixtures.ts:58:13
+ ❯ tests/integration/p11/boundary.db.test.ts:292:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  05:05:46
+   Duration  78.71s (tests 94%, import 5%, transform 1%)
+
+P11 database: FAILED (1)

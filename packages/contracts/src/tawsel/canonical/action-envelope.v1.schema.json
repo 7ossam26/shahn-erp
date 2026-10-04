@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/action-envelope.v1.schema.json",
+  "title": "Action envelope v1 — designed",
+  "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "payloadVersion": {
+      "const": "1.0.0"
+    },
+    "actionId": {
+      "$ref": "./common.schema.json#/$defs/Uuid"
+    },
+    "operationId": {
+      "$ref": "./common.schema.json#/$defs/OperationId"
+    },
+    "context": {
+      "$ref": "./common.schema.json#/$defs/CommandContext"
+    },
+    "resources": {
+      "$ref": "./common.schema.json#/$defs/ResourceContext"
+    },
+    "baseVersions": {
+      "$ref": "./common.schema.json#/$defs/Versions"
+    },
+    "dependsOnActionIds": {
+      "type": "array",
+      "items": {
+        "$ref": "./common.schema.json#/$defs/Uuid"
+      },
+      "uniqueItems": true,
+      "maxItems": 100
+    },
+    "observation": {
+      "$ref": "./common.schema.json#/$defs/Observation"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Envelope validation only. Feature owner MUST validate the operation-specific versioned payload before any acceptance.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "payloadVersion",
+    "actionId",
+    "operationId",
+    "context",
+    "resources",
+    "baseVersions",
+    "dependsOnActionIds",
+    "observation",
+    "payload"
+  ],
+  "additionalProperties": false
+}

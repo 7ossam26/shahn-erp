@@ -1,0 +1,633 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/events/sender-event.v1.schema.json",
+  "title": "P25 emitted integration events v1",
+  "allOf": [
+    {
+      "$ref": "./envelope.v1.schema.json"
+    }
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "provisioning.changed"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../provisioning.schema.json#/$defs/ProvisioningChanged"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.snapshotAccepted"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "assignment.prepared"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "assignment.received"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "assignment.withdrawn"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "assignment.reassigned"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.urgencyChanged"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "dispatch.createdFromReceipt"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/ChangedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "location.pinConfirmed"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../location.schema.json#/$defs/ConfirmedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "plan.revisionPublished"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../planning.schema.json#/$defs/PublishedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "round.started"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../round-start.schema.json#/$defs/StartedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "current.headingSelected"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../current-activity.schema.json#/$defs/HeadingEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "current.arrivalRecorded"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../current-activity.schema.json#/$defs/ArrivalEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "outcome.recorded"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../outcomes.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.deferred"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../eligibility.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.retryAdmitted"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../eligibility.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.deferredActivated"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../eligibility.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "task.driverUrgencyChanged"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../eligibility.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "round.ended"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../workday-closure.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "workday.ended"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../workday-closure.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "return.requested"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../returns.schema.json#/$defs/RequestedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "return.subsetReceived"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../returns.schema.json#/$defs/ReceivedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "return.dispositionRecorded"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../returns.schema.json#/$defs/DispositionEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "branch.roundInterrupted"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../branch-activity.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "branch.arrivalRecorded"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../branch-activity.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "branch.roundResumed"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../branch-activity.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "outcome.corrected"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "payload": {
+          "$ref": "../corrections.schema.json#/$defs/Event"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    }
+  ]
+}

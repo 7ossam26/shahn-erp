@@ -6976,6 +6976,735 @@
         }
       }
     },
+    "/api/v1/integration/commands": {
+      "post": {
+        "operationId": "erp.integration.command",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "integration.setup" },
+                      "selector": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,64}$" }
+                    },
+                    "required": ["schemaVersion", "commandId", "companyId", "type", "selector"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "integration.queue" },
+                      "operationId": { "type": "string", "maxLength": 128 },
+                      "nativeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 0, "maximum": 2147483646 },
+                      "payload": { "type": "object" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "operationId",
+                      "nativeId",
+                      "expectedVersion",
+                      "payload"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "integration.retry" },
+                      "actionId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": ["schemaVersion", "commandId", "companyId", "type", "actionId"]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Durable local intent; remote acceptance pending",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "schemaVersion": { "const": 1 },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "sourceId": { "type": "string", "format": "uuid" },
+                    "actionId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "state": { "const": "pending" }
+                  },
+                  "required": ["schemaVersion", "commandId", "sourceId", "actionId", "state"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid command",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current access/CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Revision or immutable intent conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration": {
+      "get": {
+        "operationId": "erp.integration.status",
+        "responses": {
+          "200": {
+            "description": "Safe connection, identities, outgoing and received/pending state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "tenantId": { "type": "string", "format": "uuid" },
+                            "integrationId": { "type": "string", "format": "uuid" },
+                            "baseUrl": { "type": "string" },
+                            "issuer": { "type": "string" },
+                            "enabled": { "type": "boolean" },
+                            "configuration": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "identity": {
+                                      "type": "object",
+                                      "properties": {
+                                        "mode": { "const": "service-operation" },
+                                        "tenantId": { "type": "string", "format": "uuid" },
+                                        "integrationId": { "type": "string", "format": "uuid" },
+                                        "actorId": { "type": "null" }
+                                      },
+                                      "required": ["mode", "tenantId", "integrationId", "actorId"],
+                                      "additionalProperties": false
+                                    },
+                                    "issuer": { "type": "string" },
+                                    "supportedVersions": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    },
+                                    "allowedOperations": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    },
+                                    "humanDelegation": { "const": false }
+                                  },
+                                  "required": [
+                                    "identity",
+                                    "issuer",
+                                    "supportedVersions",
+                                    "allowedOperations",
+                                    "humanDelegation"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                { "type": "null" }
+                              ]
+                            },
+                            "lastError": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+                          },
+                          "required": [
+                            "id",
+                            "tenantId",
+                            "integrationId",
+                            "baseUrl",
+                            "issuer",
+                            "enabled",
+                            "configuration",
+                            "lastError"
+                          ],
+                          "additionalProperties": false
+                        },
+                        { "type": "null" }
+                      ]
+                    },
+                    "connections": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "selector": { "type": "string" },
+                          "baseUrl": { "type": "string" },
+                          "issuer": { "type": "string" }
+                        },
+                        "required": ["selector", "baseUrl", "issuer"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "catalog": {
+                      "type": "object",
+                      "properties": {
+                        "branches": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "name": { "type": "string" },
+                              "active": { "type": "boolean" }
+                            },
+                            "required": ["id", "name", "active"],
+                            "additionalProperties": false
+                          }
+                        },
+                        "roles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "name": { "type": "string" },
+                              "active": { "type": "boolean" }
+                            },
+                            "required": ["id", "name", "active"],
+                            "additionalProperties": false
+                          }
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "name": { "type": "string" },
+                              "active": { "type": "boolean" },
+                              "roleId": { "type": "string", "format": "uuid" },
+                              "subject": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                              "issuer": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                              "branchIds": {
+                                "type": "array",
+                                "items": { "type": "string", "format": "uuid" }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "active",
+                              "roleId",
+                              "subject",
+                              "issuer",
+                              "branchIds"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "drivers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "name": { "type": "string" },
+                              "active": { "type": "boolean" },
+                              "branchId": { "type": "string", "format": "uuid" }
+                            },
+                            "required": ["id", "name", "active", "branchId"],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": ["branches", "roles", "users", "drivers"],
+                      "additionalProperties": false
+                    },
+                    "bindings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "entity": { "type": "string" },
+                          "nativeId": { "type": "string", "format": "uuid" },
+                          "externalId": { "type": "string" },
+                          "resourceId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "version": { "type": "integer", "minimum": 0 },
+                          "submittedRevision": { "type": "string", "pattern": "^[0-9]+$" },
+                          "acceptedRevision": { "type": "string", "pattern": "^[0-9]+$" },
+                          "issuerStatus": { "type": "string" },
+                          "enabled": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+                          "checkedAt": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "entity",
+                          "nativeId",
+                          "externalId",
+                          "resourceId",
+                          "version",
+                          "submittedRevision",
+                          "acceptedRevision",
+                          "issuerStatus",
+                          "enabled",
+                          "checkedAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "commands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "actionId": { "type": "string", "format": "uuid" },
+                          "operationId": { "type": "string" },
+                          "state": {
+                            "enum": [
+                              "pending",
+                              "sending",
+                              "accepted",
+                              "rejected",
+                              "review-required",
+                              "unknown",
+                              "retryable",
+                              "configuration-blocked"
+                            ]
+                          },
+                          "sourceRevision": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]+$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "lastError": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "createdAt": { "type": "string", "format": "date-time" },
+                          "authority": { "enum": ["service", "operator"] },
+                          "entity": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "nativeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "acceptedRevision": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]+$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "attempts": { "type": "integer", "minimum": 0 },
+                          "version": {
+                            "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }]
+                          },
+                          "leaseUntil": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "actionId",
+                          "operationId",
+                          "state",
+                          "sourceRevision",
+                          "lastError",
+                          "createdAt",
+                          "authority",
+                          "entity",
+                          "nativeId",
+                          "acceptedRevision",
+                          "attempts",
+                          "version",
+                          "leaseUntil"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "eventId": { "type": "string", "format": "uuid" },
+                          "eventType": { "type": "string" },
+                          "aggregateType": { "type": "string" },
+                          "aggregateId": { "type": "string", "format": "uuid" },
+                          "sequence": { "type": "string", "pattern": "^[0-9]+$" },
+                          "applicationState": { "enum": ["pending", "applied"] },
+                          "pendingReason": { "type": "string" },
+                          "receivedAt": { "type": "string", "format": "date-time" }
+                        },
+                        "required": [
+                          "eventId",
+                          "eventType",
+                          "aggregateType",
+                          "aggregateId",
+                          "sequence",
+                          "applicationState",
+                          "pendingReason",
+                          "receivedAt"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "checkpoints": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "aggregateType": { "type": "string" },
+                          "aggregateId": { "type": "string", "format": "uuid" },
+                          "receivedThrough": { "type": "string", "pattern": "^[0-9]+$" },
+                          "receivedHigh": { "type": "string", "pattern": "^[0-9]+$" },
+                          "appliedThrough": { "type": "string", "pattern": "^[0-9]+$" },
+                          "historyComplete": { "type": "boolean" }
+                        },
+                        "required": [
+                          "aggregateType",
+                          "aggregateId",
+                          "receivedThrough",
+                          "receivedHigh",
+                          "appliedThrough",
+                          "historyComplete"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "keyId": { "type": "string" },
+                          "activeFrom": { "type": "string", "format": "date-time" },
+                          "verifyUntil": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": ["keyId", "activeFrom", "verifyUntil"],
+                        "additionalProperties": false
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1 }
+                  },
+                  "required": [
+                    "source",
+                    "connections",
+                    "catalog",
+                    "bindings",
+                    "commands",
+                    "events",
+                    "checkpoints",
+                    "keys",
+                    "page"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current scope denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/commands/{id}": {
+      "get": {
+        "operationId": "erp.integration.commandDetail",
+        "responses": {
+          "200": {
+            "description": "Safe retained action metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "actionId": { "type": "string", "format": "uuid" },
+                    "operationId": { "type": "string" },
+                    "state": {
+                      "enum": [
+                        "pending",
+                        "sending",
+                        "accepted",
+                        "rejected",
+                        "review-required",
+                        "unknown",
+                        "retryable",
+                        "configuration-blocked"
+                      ]
+                    },
+                    "sourceRevision": {
+                      "anyOf": [{ "type": "string", "pattern": "^[0-9]+$" }, { "type": "null" }]
+                    },
+                    "lastError": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "authority": { "enum": ["service", "operator"] },
+                    "entity": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "nativeId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "acceptedRevision": {
+                      "anyOf": [{ "type": "string", "pattern": "^[0-9]+$" }, { "type": "null" }]
+                    },
+                    "attempts": { "type": "integer", "minimum": 0 },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "requestHash": { "type": "string" },
+                    "httpStatus": {
+                      "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }]
+                    },
+                    "retention": {
+                      "anyOf": [{ "enum": ["full", "compacted"] }, { "type": "null" }]
+                    },
+                    "receiptId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    }
+                  },
+                  "required": [
+                    "actionId",
+                    "operationId",
+                    "state",
+                    "sourceRevision",
+                    "lastError",
+                    "createdAt",
+                    "authority",
+                    "entity",
+                    "nativeId",
+                    "acceptedRevision",
+                    "attempts",
+                    "commandId",
+                    "requestHash",
+                    "httpStatus",
+                    "retention",
+                    "receiptId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/events/{id}": {
+      "get": {
+        "operationId": "erp.integration.eventDetail",
+        "responses": {
+          "200": {
+            "description": "Receipt and application separately",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "eventId": { "type": "string", "format": "uuid" },
+                    "eventType": { "type": "string" },
+                    "aggregateType": { "type": "string" },
+                    "aggregateId": { "type": "string", "format": "uuid" },
+                    "sequence": { "type": "string", "pattern": "^[0-9]+$" },
+                    "applicationState": { "enum": ["pending", "applied"] },
+                    "pendingReason": { "type": "string" },
+                    "receivedAt": { "type": "string", "format": "date-time" },
+                    "bodyHash": { "type": "string" },
+                    "appliedAt": {
+                      "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                    },
+                    "keyId": { "type": "string" }
+                  },
+                  "required": [
+                    "eventId",
+                    "eventType",
+                    "aggregateType",
+                    "aggregateId",
+                    "sequence",
+                    "applicationState",
+                    "pendingReason",
+                    "receivedAt",
+                    "bodyHash",
+                    "appliedAt",
+                    "keyId"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/results/{id}": {
+      "get": {
+        "operationId": "erp.integration.recoverNative",
+        "responses": {
+          "202": {
+            "description": "Same native intent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "schemaVersion": { "const": 1 },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "sourceId": { "type": "string", "format": "uuid" },
+                    "actionId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "state": { "const": "pending" }
+                  },
+                  "required": ["schemaVersion", "commandId", "sourceId", "actionId", "state"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained rejection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/refresh": {
+      "post": {
+        "operationId": "erp.integration.refresh",
+        "responses": {
+          "200": {
+            "description": "Authoritative configuration and identity status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "state": { "const": "refreshed" },
+                    "identities": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["state", "identities"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consumer/events": {
+      "post": {
+        "operationId": "consumer.receiveSignedEvent",
+        "responses": {
+          "200": { "description": "Committed receipt acknowledgement only" },
+          "401": { "description": "Invalid exact-byte signature" },
+          "409": { "description": "Event identity or sequence conflict" },
+          "413": { "description": "Body exceeds 2 MiB" },
+          "422": { "description": "Unsupported closed sender schema" },
+          "503": { "description": "Receipt unavailable" }
+        }
+      }
+    },
     "/api/v1/employees": {
       "get": {
         "responses": {
@@ -23184,6 +23913,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "reference-data": {
                             "type": "string",
@@ -23273,6 +24003,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "reference-data": {
                             "type": "string",
@@ -23355,10 +24086,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 18,
+                        "maxItems": 19,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "integration",
                             "brands",
                             "reference-data",
                             "access.users",
@@ -23411,10 +24143,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 18,
+                        "maxItems": 19,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "integration",
                             "brands",
                             "reference-data",
                             "access.users",
@@ -24022,6 +24755,7 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "integration",
                               "brands",
                               "reference-data",
                               "access.users",
@@ -24085,6 +24819,7 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "integration",
                               "brands",
                               "reference-data",
                               "access.users",
@@ -24325,6 +25060,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "integration": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "reference-data": {
                                 "type": "string",
@@ -24409,6 +25148,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "integration",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -24643,6 +25383,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "integration": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "reference-data": {
                                 "type": "string",
@@ -24727,6 +25471,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "integration",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -24923,6 +25668,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "integration",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -25571,6 +26317,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "integration",
                 "brands",
                 "reference-data",
                 "access.users",

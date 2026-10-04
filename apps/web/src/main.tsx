@@ -1,5 +1,11 @@
 import { FinanceListPage, FinanceNewPage, FinanceDetailPage } from './features/finance/finance.js';
 import {
+  IntegrationPage,
+  IntegrationProvisionPage,
+  IntegrationDetailPage,
+  IntegrationDeliveryPage,
+} from './features/integration/integration.js';
+import {
   TreasuryListPage,
   TreasurySendPage,
   TreasuryDetailPage,
@@ -72,6 +78,11 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/integration', element: <IntegrationPage /> },
+      { path: '/integration/provision', element: <IntegrationProvisionPage /> },
+      { path: '/integration/delivery', element: <IntegrationDeliveryPage /> },
+      { path: '/integration/commands/:id', element: <IntegrationDetailPage kind="commands" /> },
+      { path: '/integration/events/:id', element: <IntegrationDetailPage kind="events" /> },
       { path: '/treasury/transfers', element: <TreasuryListPage screen="send" /> },
       { path: '/treasury/transfers/new', element: <TreasurySendPage /> },
       { path: '/treasury/transfers/:id', element: <TreasuryDetailPage screen="send" /> },

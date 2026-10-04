@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/source.schema.json",
+  "title": "Reference ERP source status v1",
+  "description": "Consumer-owned read, never a Tawsel database or submission endpoint. Local revisions and desired changes do not imply execution acceptance. The bounded view explicitly reports truncation; retained CLI history remains in the source database.",
+  "$defs": {
+    "Command": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "$ref": "./common.schema.json#/$defs/OperationId"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lastError": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "result": {
+          "oneOf": [
+            {
+              "$ref": "./action-result.v1.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "actionId",
+        "operationId",
+        "status",
+        "attempts",
+        "lastError",
+        "result"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "pending"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "result": {
+                "$ref": "./action-result.v1.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "accepted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "accepted"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "rejected"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "rejected"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "review-required"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "result": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "review-required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Record": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "branch",
+            "role",
+            "user",
+            "driver",
+            "shipment",
+            "return"
+          ]
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "localRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "commandId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "externalId",
+        "localRevision",
+        "commandId",
+        "status"
+      ]
+    },
+    "Status": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "tenantId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "integrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "commands": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/Command"
+          }
+        },
+        "records": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/Record"
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "tenantId",
+        "integrationId",
+        "commands",
+        "records",
+        "truncated"
+      ]
+    }
+  }
+}

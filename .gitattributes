@@ -9,3 +9,6 @@
 .env.example text eol=lf
 /apps/**/*.html text eol=lf
 /packages/ui/THIRD-PARTY-NOTICES.md text eol=lf
+# Preserve the pinned source bytes verified by extract-tawsel-baseline.mjs.
+/packages/contracts/src/tawsel/canonical/**/*.json -text
+/packages/test-support/fixtures/tawsel/*.json -text

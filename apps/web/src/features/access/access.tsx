@@ -335,9 +335,11 @@ export function AccessHome() {
             <ModuleCard
               title={c.title}
               description={
-                c.id === 'access.users'
-                  ? 'المستخدمون والفروع وحالة تجهيز الهوية'
-                  : 'أدوار قابلة للتسمية وصلاحيات الشاشات'
+                c.id === 'integration'
+                  ? 'حالة الاتصال وجاهزية الهويات والطلبات والأحداث'
+                  : c.id === 'access.users'
+                    ? 'المستخدمون والفروع وحالة تجهيز الهوية'
+                    : 'أدوار قابلة للتسمية وصلاحيات الشاشات'
               }
               icon={<UsersIcon size={26} />}
             >

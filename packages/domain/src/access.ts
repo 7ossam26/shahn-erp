@@ -1,4 +1,5 @@
 export const capabilityPolicies = {
+  integration: 'company',
   brands: 'company',
   'reference-data': 'company',
   'access.users': 'company',

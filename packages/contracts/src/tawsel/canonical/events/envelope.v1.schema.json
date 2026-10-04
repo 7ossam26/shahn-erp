@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/events/envelope.v1.schema.json",
+  "title": "Recipient event envelope v1 — sender implemented; feature catalog defines emitted types",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "payloadVersion": {
+      "const": "1.0.0"
+    },
+    "eventId": {
+      "$ref": "../common.schema.json#/$defs/Uuid"
+    },
+    "eventType": {
+      "$ref": "../common.schema.json#/$defs/OperationId"
+    },
+    "eventKind": {
+      "type": "string",
+      "enum": [
+        "transition",
+        "replacement-snapshot"
+      ]
+    },
+    "tenantId": {
+      "$ref": "../common.schema.json#/$defs/Uuid"
+    },
+    "recipientIntegrationId": {
+      "$ref": "../common.schema.json#/$defs/Uuid"
+    },
+    "aggregate": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "task",
+            "assignment",
+            "trip",
+            "workday",
+            "return-request",
+            "integration"
+          ]
+        },
+        "id": {
+          "$ref": "../common.schema.json#/$defs/Uuid"
+        },
+        "recipientSequence": {
+          "$ref": "../common.schema.json#/$defs/Sequence"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "recipientSequence"
+      ],
+      "additionalProperties": false
+    },
+    "resources": {
+      "$ref": "../common.schema.json#/$defs/ResourceContext"
+    },
+    "versions": {
+      "$ref": "../common.schema.json#/$defs/Versions"
+    },
+    "correlation": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "../common.schema.json#/$defs/Uuid"
+        },
+        "sourceReference": {
+          "$ref": "../common.schema.json#/$defs/SourceReference"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "committedAt": {
+      "$ref": "../common.schema.json#/$defs/UtcInstant"
+    },
+    "snapshotRevision": {
+      "$ref": "../common.schema.json#/$defs/Revision"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Feature owner supplies event-type/payload-version schema. Envelope acceptance is not business validation."
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "payloadVersion",
+    "eventId",
+    "eventType",
+    "eventKind",
+    "tenantId",
+    "recipientIntegrationId",
+    "aggregate",
+    "resources",
+    "versions",
+    "correlation",
+    "committedAt",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "eventKind": {
+            "const": "replacement-snapshot"
+          }
+        },
+        "required": [
+          "eventKind"
+        ]
+      },
+      "then": {
+        "properties": { "snapshotRevision": true },
+        "required": [
+          "snapshotRevision"
+        ]
+      },
+      "else": {
+        "not": {
+          "properties": { "snapshotRevision": true },
+          "required": [
+            "snapshotRevision"
+          ]
+        }
+      }
+    }
+  ]
+}

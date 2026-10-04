@@ -1,0 +1,12 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/web/src/features/integration/integration.tsx(42,800): error TS2345: Argument of type 'string' is not assignable to parameter of type 'Date'.
+apps/web/src/features/integration/integration.tsx(62,293): error TS2741: Property 'description' is missing in type '{ children: (false | Element | undefined)[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+apps/web/src/features/integration/integration.tsx(73,691): error TS2741: Property 'description' is missing in type '{ children: Element[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.
+tests/integration/p11/boundary.db.test.ts(18,121): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(input: string | URL | Request, init?: RequestInit | undefined): Promise<Response>', gave the following error.
+    Type 'Buffer<ArrayBufferLike>' is not assignable to type 'BodyInit | null | undefined'.
+      Type 'Buffer<ArrayBufferLike>' is missing the following properties from type 'URLSearchParams': size, append, delete, get, and 2 more.
+  Overload 2 of 2, '(input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>', gave the following error.
+    Type 'Buffer<ArrayBufferLike>' is not assignable to type 'BodyInit | null | undefined'.
+      Type 'Buffer<ArrayBufferLike>' is missing the following properties from type 'URLSearchParams': size, append, delete, get, and 2 more.

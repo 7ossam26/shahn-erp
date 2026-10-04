@@ -1,0 +1,48 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p11/boundary.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p11/boundary.db.test.ts (13 tests | 1 failed) 74163ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1038ms
+   ✓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company 105ms
+   ✓ retains unknown response, replays the same action and fences expired worker completion 48ms
+   ✓ serializes all operations on one user revision stream with independent transactions 110ms
+   ✓ rejects missing/disabled references, unsupported operations and finance capability forwarding 40ms
+   ✓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application 216ms
+   ✓ rejects signed changed bytes under one event and recipient sequence collisions 23ms
+   × rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows 21ms
+   ✓ accepts exactly 2 MiB at actual HTTP ingress and rejects an extra byte 112ms
+   ✓ keeps gaps visible and never advances applied through unhandled domain events 33ms
+   ✓ enforces recorded old-key expiry while accepting the preprovisioned next key 23ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 4397ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 31725ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts > rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows
+AssertionError: expected 400 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 400
+
+ ❯ tests/integration/p11/boundary.db.test.ts:87:318
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  04:53:04
+   Duration  79.65s (tests 93%, import 5%, transform 2%)
+

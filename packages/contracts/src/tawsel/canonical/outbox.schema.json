@@ -1,0 +1,711 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/outbox.schema.json",
+  "title": "P25 signed delivery and scoped operations",
+  "$defs": {
+    "ConfigureWebhook": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "url",
+        "enabled",
+        "expectedRevision"
+      ],
+      "additionalProperties": false
+    },
+    "RotateSigningKey": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+        },
+        "overlapSeconds": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 86400
+        }
+      },
+      "required": [
+        "keyId",
+        "overlapSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "RetryDelivery": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        }
+      },
+      "required": [
+        "eventId"
+      ],
+      "additionalProperties": false
+    },
+    "Configuration": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "./common.schema.json#/$defs/Revision"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "revision",
+        "enabled",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "KeyRotation": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+        },
+        "activatedAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "previousKeyId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verifyUntil": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "keyId",
+        "activatedAt",
+        "previousKeyId",
+        "verifyUntil"
+      ],
+      "additionalProperties": false
+    },
+    "RetryResult": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "scheduled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "eventId",
+        "scheduled"
+      ],
+      "additionalProperties": false
+    },
+    "Acknowledgement": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "tenantId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "recipientIntegrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "eventId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "acknowledgement": {
+          "const": "received"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "tenantId",
+        "recipientIntegrationId",
+        "eventId",
+        "acknowledgement"
+      ],
+      "additionalProperties": false
+    },
+    "Attempt": {
+      "type": "object",
+      "properties": {
+        "attemptId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "startedAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "keyId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deliveryTimestamp": {
+          "type": "string",
+          "pattern": "^\\d{13}$"
+        },
+        "result": {
+          "enum": [
+            "sending",
+            "received",
+            "failed",
+            "lease-expired"
+          ]
+        },
+        "errorCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "httpStatus": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "attemptId",
+        "number",
+        "startedAt",
+        "finishedAt",
+        "keyId",
+        "deliveryTimestamp",
+        "result",
+        "errorCode",
+        "httpStatus"
+      ],
+      "additionalProperties": false
+    },
+    "Delivery": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "eventType": {
+          "$ref": "./common.schema.json#/$defs/OperationId"
+        },
+        "aggregate": {
+          "$ref": "./events/envelope.v1.schema.json#/properties/aggregate"
+        },
+        "createdAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "sending",
+            "failed",
+            "received"
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "nextAttemptAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "leaseUntil": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "receivedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastError": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "projectionStatus": {
+          "const": "unknown"
+        },
+        "blockedBy": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "eventId",
+        "eventType",
+        "aggregate",
+        "createdAt",
+        "status",
+        "attempts",
+        "nextAttemptAt",
+        "leaseUntil",
+        "receivedAt",
+        "lastError",
+        "projectionStatus",
+        "blockedBy"
+      ],
+      "additionalProperties": false
+    },
+    "Queue": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Delivery"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "counts": {
+          "type": "object",
+          "properties": {
+            "pending": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sending": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "received": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "pending",
+            "sending",
+            "failed",
+            "received"
+          ],
+          "additionalProperties": false
+        },
+        "oldestUnreceivedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "projectionStatus": {
+          "const": "unknown"
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor",
+        "counts",
+        "oldestUnreceivedAt",
+        "projectionStatus"
+      ],
+      "additionalProperties": false
+    },
+    "Detail": {
+      "type": "object",
+      "properties": {
+        "delivery": {
+          "$ref": "#/$defs/Delivery"
+        },
+        "attempts": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Attempt"
+          }
+        },
+        "nextAttemptBefore": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "delivery",
+        "attempts",
+        "nextAttemptBefore"
+      ],
+      "additionalProperties": false
+    },
+    "Replay": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "./events/sender-event.v1.schema.json"
+          }
+        },
+        "nextAfterSequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retention": {
+          "const": "indefinite-no-purge"
+        },
+        "projectionStatus": {
+          "const": "unknown"
+        }
+      },
+      "required": [
+        "events",
+        "nextAfterSequence",
+        "retention",
+        "projectionStatus"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigureWebhookCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.configureWebhook"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/ConfigureWebhook"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "RotateSigningKeyCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.rotateSigningKey"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/RotateSigningKey"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "RetryDeliveryCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.retryDelivery"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/RetryDelivery"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

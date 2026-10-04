@@ -1,0 +1,514 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/consumer.schema.json",
+  "title": "P26 external receipt, projection and reconciliation",
+  "$defs": {
+    "Aggregate": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "task",
+            "assignment",
+            "trip",
+            "workday",
+            "return-request",
+            "integration"
+          ]
+        },
+        "id": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "State": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "anyOf": [
+            {
+              "$ref": "./b2b-intake.schema.json#/$defs/Task"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outcomes": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "./outcomes.schema.json#/$defs/Record"
+          }
+        },
+        "returnRequest": {
+          "anyOf": [
+            {
+              "$ref": "./returns.schema.json#/$defs/RequestView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "returnItems": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "$ref": "./common.schema.json#/$defs/Uuid"
+              },
+              "taskId": {
+                "$ref": "./common.schema.json#/$defs/Uuid"
+              },
+              "sourceLineId": {
+                "$ref": "./common.schema.json#/$defs/ExternalId"
+              },
+              "requested": {
+                "$ref": "./common.schema.json#/$defs/PieceCount"
+              },
+              "received": {
+                "$ref": "./common.schema.json#/$defs/PieceCount"
+              },
+              "lost": {
+                "$ref": "./common.schema.json#/$defs/PieceCount"
+              },
+              "damaged": {
+                "$ref": "./common.schema.json#/$defs/PieceCount"
+              },
+              "unresolved": {
+                "$ref": "./common.schema.json#/$defs/PieceCount"
+              }
+            },
+            "required": [
+              "itemId",
+              "taskId",
+              "sourceLineId",
+              "requested",
+              "received",
+              "lost",
+              "damaged",
+              "unresolved"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "notices": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "maxLength": 256
+              },
+              "event": {
+                "$ref": "./events/sender-event.v1.schema.json"
+              }
+            },
+            "required": [
+              "key",
+              "event"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "task",
+        "outcomes",
+        "returnRequest",
+        "returnItems",
+        "notices"
+      ],
+      "additionalProperties": false
+    },
+    "Checkpoint": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "tenantId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "recipientIntegrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "aggregate": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "task",
+                "assignment",
+                "trip",
+                "workday",
+                "return-request",
+                "integration"
+              ]
+            },
+            "id": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "receivedThrough": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "receivedHigh": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "appliedThrough": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "projectedThrough": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "snapshotThrough": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "historyComplete": {
+          "type": "boolean"
+        },
+        "pendingCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "receivedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "appliedAt": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastError": {
+          "anyOf": [
+            {
+              "enum": [
+                "sequence_gap",
+                "dependency_missing",
+                "projection_failed",
+                "projection_limit",
+                "history_unavailable"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "tenantId",
+        "recipientIntegrationId",
+        "aggregate",
+        "revision",
+        "receivedThrough",
+        "receivedHigh",
+        "appliedThrough",
+        "projectedThrough",
+        "snapshotThrough",
+        "historyComplete",
+        "pendingCount",
+        "receivedAt",
+        "appliedAt",
+        "lastError"
+      ],
+      "additionalProperties": false
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "checkpoint": {
+          "$ref": "#/$defs/Checkpoint"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/State"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "checkpoint",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "tenantId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "recipientIntegrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "aggregate": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "task",
+                "assignment",
+                "trip",
+                "workday",
+                "return-request",
+                "integration"
+              ]
+            },
+            "id": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "throughSequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "capturedAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "state": {
+          "$ref": "#/$defs/State"
+        },
+        "history": {
+          "const": "current-state-only"
+        },
+        "retention": {
+          "const": "indefinite-no-purge"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "tenantId",
+        "recipientIntegrationId",
+        "aggregate",
+        "throughSequence",
+        "capturedAt",
+        "state",
+        "history",
+        "retention"
+      ],
+      "additionalProperties": false
+    },
+    "ReportCommand": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "integration.reportAppliedCheckpoint"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "$ref": "./common.schema.json#/$defs/Uuid"
+          }
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Checkpoint"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "Report": {
+      "type": "object",
+      "properties": {
+        "checkpoint": {
+          "$ref": "#/$defs/Checkpoint"
+        },
+        "reportedAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "evidence": {
+          "const": "receiver-reported"
+        }
+      },
+      "required": [
+        "checkpoint",
+        "reportedAt",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "ReportRead": {
+      "type": "object",
+      "properties": {
+        "report": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Report"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "report"
+      ],
+      "additionalProperties": false
+    },
+    "Problem": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 599
+        },
+        "code": {
+          "type": "string",
+          "enum": [
+            "unsupported_event",
+            "event_identity_mismatch",
+            "payload_mismatch",
+            "sequence_collision",
+            "invalid_signature",
+            "invalid_json",
+            "unauthenticated",
+            "stream_unavailable",
+            "invalid_query",
+            "receiver_unavailable"
+          ]
+        },
+        "correlationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title",
+        "status",
+        "code",
+        "correlationId",
+        "retryable"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
