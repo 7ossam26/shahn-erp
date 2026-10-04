@@ -1,0 +1,22 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+tests/db/employees.test.ts(47,111): error TS2345: Argument of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; } | { salary: { enabled: false; monthly: null; }; commission: { ...; }; } | { ...; } | { ...; }' is not assignable to parameter of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; } | undefined'.
+  Type '{ salary: { enabled: false; monthly: null; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; }' is not assignable to type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; }'.
+    The types of 'salary.enabled' are incompatible between these types.
+      Type 'false' is not assignable to type 'true'.
+tests/db/employees.test.ts(51,40): error TS2345: Argument of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: true; formula: "percentage"; basisPoints: number; perVisit: null; }; }' is not assignable to parameter of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; }'.
+  The types of 'commission.enabled' are incompatible between these types.
+    Type 'true' is not assignable to type 'false'.
+tests/db/employees.test.ts(74,62): error TS2550: Property 'withResolvers' does not exist on type 'PromiseConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2024' or later.
+tests/db/employees.test.ts(74,100): error TS2550: Property 'withResolvers' does not exist on type 'PromiseConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2024' or later.
+tests/db/employees.test.ts(82,62): error TS2550: Property 'withResolvers' does not exist on type 'PromiseConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2024' or later.
+tests/db/employees.test.ts(82,100): error TS2550: Property 'withResolvers' does not exist on type 'PromiseConstructor'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2024' or later.
+tests/db/employees.test.ts(108,38): error TS2345: Argument of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: true; formula: "percentage"; basisPoints: number; perVisit: null; }; }' is not assignable to parameter of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; }'.
+  The types of 'commission.enabled' are incompatible between these types.
+    Type 'true' is not assignable to type 'false'.
+tests/db/employees.test.ts(140,36): error TS2345: Argument of type '{ salary: { enabled: false; monthly: null; }; commission: { enabled: true; formula: "fixed"; basisPoints: null; perVisit: { currency: "EGP"; amountMinor: string; }; }; }' is not assignable to parameter of type '{ salary: { enabled: true; monthly: { currency: "EGP"; amountMinor: string; }; }; commission: { enabled: false; formula: null; basisPoints: null; perVisit: null; }; }'.
+  The types of 'salary.enabled' are incompatible between these types.
+    Type 'false' is not assignable to type 'true'.
+tests/unit/employees.test.ts(5,10): error TS1484: 'Ajv' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+tests/unit/employees.test.ts(11,19): error TS2693: 'Ajv' only refers to a type, but is being used as a value here.
+tests/unit/employees.test.ts(18,19): error TS2693: 'Ajv' only refers to a type, but is being used as a value here.

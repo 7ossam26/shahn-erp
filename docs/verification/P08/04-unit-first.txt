@@ -1,0 +1,52 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/unit/employees.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/unit/employees.test.ts (9 tests | 5 failed) 13ms
+   ❯ P08 connected contracts and domain (9)
+     × accepts independent off configuration through generated/client schema and domain 4ms
+     × accepts independent salary configuration through generated/client schema and domain 0ms
+     × accepts independent fixed configuration through generated/client schema and domain 0ms
+     × accepts independent combined configuration through generated/client schema and domain 0ms
+     × rejects ambiguity, unset salary, wrong units, decimal bp and excess properties on both sides 0ms
+     ✓ uses base-only piastres, half-up per visit and exact bigint at range limit 3ms
+     ✓ resolves half-open work-time history and explicitly refuses missing/overlapping associations 1ms
+     ✓ guards Cairo boundary and protects past month even with no period record 1ms
+     ✓ keeps descriptive schedules valid without introducing attendance or proration 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent off configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent salary configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent fixed configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent combined configuration through generated/client schema and domain
+TypeError: default.default is not a constructor
+ ❯ tests/unit/employees.test.ts:11:15
+      9| describe('P08 connected contracts and domain',()=>{
+     10|   it.each(Object.entries(employeeExamples))('accepts independent %s co…
+     11|     const ajv=new AjvModule.default({strict:true});formatsModule.defau…
+       |               ^
+     12|     const client=ajv.compile(employeeCommandSchema),command={...envelo…
+     13|     expect(client(command)).toBe(true);expect(validateEmployeeCommand(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > rejects ambiguity, unset salary, wrong units, decimal bp and excess properties on both sides
+TypeError: default.default is not a constructor
+ ❯ tests/unit/employees.test.ts:18:15
+     16|   });
+     17|   it('rejects ambiguity, unset salary, wrong units, decimal bp and exc…
+     18|     const ajv=new AjvModule.default({strict:true});formatsModule.defau…
+       |               ^
+     19|     for (const terms of [
+     20|       {...employeeExamples.salary,salary:{enabled:true,monthly:null}},
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 4 passed (9)
+   Start at  03:01:47
+   Duration  2.40s (environment 50%, import 32%, setup 9%, transform 8%, tests 1%)
+

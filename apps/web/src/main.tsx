@@ -20,6 +20,11 @@ import {
 } from './features/inventory/inventory.js';
 import { ProductsPage, ProductEditPage } from './features/products/products.js';
 import {
+  EmployeesPage,
+  EmployeeNewPage,
+  EmployeeDetailPage,
+} from './features/employees/employees.js';
+import {
   ReferenceHome,
   ReferencePage,
   TariffsPage,
@@ -61,6 +66,9 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/employees', element: <EmployeesPage /> },
+      { path: '/employees/new', element: <EmployeeNewPage /> },
+      { path: '/employees/:id', element: <EmployeeDetailPage /> },
       { path: '/shipments/new', element: <ShipmentNewPage /> },
       { path: '/shipments/:reference', element: <ShipmentDetailPage /> },
       { path: '/shipments/:reference/correction', element: <ShipmentCorrectionPage /> },

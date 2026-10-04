@@ -1,0 +1,35 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/employees.test.ts (12 tests | 1 failed) 72498ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 35363ms
+   ✓ creates all independent modes and distinct duplicate names without login/driver linkage 175ms
+   ✓ runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision 154ms
+   ✓ corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods 119ms
+   ✓ serializes salary edit first then simulated P20 freeze using the real shared control row 104ms
+   ✓ serializes P20 freeze first then edit, which rejects without policy/revision changes 122ms
+   ✓ two independent SQL transactions cannot commit overlapping policies or associations 120ms
+   ✓ concurrent API links produce one exact association and a retained conflict 33ms
+   ✓ resolves exact work-time policy/link/branch snapshots and refuses pending external mapping 48ms
+   × preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery 43ms
+   ✓ rolls back injected mutation failure and retains one success after same-intent retry 22ms
+   ✓ enforces same-company FKs, formula constraints, immutable histories and descriptive filters 127ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/employees.test.ts > preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery
+error: IMMUTABLE_INTENT
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/db/employees.test.ts:128:3
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  03:05:32
+   Duration  74.87s (tests 97%, import 2%, transform 1%)
+

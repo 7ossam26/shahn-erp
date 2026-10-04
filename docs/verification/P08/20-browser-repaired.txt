@@ -1,0 +1,39 @@
+npm notice run shahn-erp@0.1.0 test:p08:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p08.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2640 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-B25naIgw.css                           83.34 kB │ gzip: 16.35 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-Dl-7UPtz.js                           219.29 kB │ gzip: 56.26 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 1.30s
+[WebServer] (node:4292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:12464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p08\employees.spec.ts:20:1 › module entry, actual pending local linkage and distinct identities without payment controls (5.5s)
+  ok 2 tests\p08\employees.spec.ts:32:1 › responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms (2.6s)
+  ok 3 tests\p08\employees.spec.ts:75:1 › previews base-only commission, protected salary, and schedules future rate preserving history (2.1s)
+  ok 4 tests\p08\employees.spec.ts:112:1 › stale revision retains input, loads current version for review, then current full-month salary saves (1.9s)
+  ok 5 tests\p08\employees.spec.ts:138:1 › lost committed create response survives reload and recovers one employee with the same identity (1.9s)
+  ok 6 tests\p08\employees.spec.ts:165:1 › explicit local driver linking creates pending mapping, deactivation recovery retains one history (1.6s)
+  ok 7 tests\p08\employees.spec.ts:194:1 › assigned filters use the API, persist on back, and A-only tracking grant cannot expose B finance (1.3s)
+  ok 8 tests\p08\employees.spec.ts:210:1 › revoked branch denies recovery of a previously committed unknown save (1.3s)
+
+  8 passed (1.1m)

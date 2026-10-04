@@ -1,4 +1,28 @@
 {
+  "P08": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/employees.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/employees.test.ts"]
+    },
+    "browser": {
+      "script": "test:p08:browser",
+      "directory": "tests/p08",
+      "extension": ".spec",
+      "config": "playwright.p08.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P08 local employee setup uses real PostgreSQL and authenticated native HTTP. Tawsel driver mapping remains pending P11; no external provisioning or visit/payment integration is claimed."
+    }
+  },
   "P04": {
     "unit": {
       "script": "test:unit",

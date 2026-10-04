@@ -28,3 +28,4 @@ export function createPool(connectionString: string, max = 5): pg.Pool {
 export * from './shipments/index.js';
 
 export * from './inventory/stock-reservations.repository.js';
+export * from './employees/index.js';

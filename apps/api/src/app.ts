@@ -21,6 +21,7 @@ import { registerKernel } from './modules/kernel/http.js';
 import { registerBrands } from './modules/brands/http.js';
 import { registerInventory } from './modules/inventory/http.js';
 import { registerShipments } from './modules/shipments/http.js';
+import { registerEmployees } from './modules/employees/http.js';
 import { identityConfig, type IdentityConfig } from './modules/access/config.js';
 import {
   createPool,
@@ -155,6 +156,11 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  registerEmployees(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+  );
   registerShipments(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,

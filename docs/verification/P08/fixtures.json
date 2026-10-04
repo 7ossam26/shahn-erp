@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "scope": "Deterministic local resolver fixtures; no live Tawsel mapping or posted earnings",
+  "baseShippingMinor": "5000",
+  "packingUpliftMinor": "500",
+  "percentage": { "enabled": true, "formula": "percentage", "basisPoints": 1000, "perVisit": null },
+  "fixed": { "enabled": true, "formula": "fixed", "basisPoints": null, "perVisit": { "currency": "EGP", "amountMinor": "700" } },
+  "expectedPercentageMinor": "500",
+  "expectedFixedMinor": "700",
+  "history": [
+    { "from": "2026-10-01", "to": "2026-11-01", "basisPoints": 1000 },
+    { "from": "2026-11-01", "to": null, "basisPoints": 2000 }
+  ],
+  "beforeBoundary": { "date": "2026-10-31", "basisPoints": 1000 },
+  "atBoundary": { "date": "2026-11-01", "basisPoints": 2000 },
+  "pendingMappingResolution": { "status": "unresolved", "reason": "external_mapping_pending" },
+  "salary": { "enabled": true, "monthly": { "currency": "EGP", "amountMinor": "600000" } },
+  "partialMonth": "Configured full salary remains; staff enter an ordinary deduction later in P20."
+}

@@ -8,6 +8,3764 @@
     }
   },
   "paths": {
+    "/api/v1/employees": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["items", "total", "page", "limit"],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "reference",
+                          "version",
+                          "fields",
+                          "terms",
+                          "association",
+                          "currentBranchName"
+                        ],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "version": { "type": "integer", "minimum": 1 },
+                          "fields": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "name",
+                              "contact",
+                              "active",
+                              "employmentStart",
+                              "employmentEnd",
+                              "branchId",
+                              "workDays",
+                              "hoursPerDay",
+                              "weeklyDayOff"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "contact": { "type": "string", "maxLength": 180 },
+                              "active": { "type": "boolean" },
+                              "employmentStart": { "type": "string", "format": "date" },
+                              "employmentEnd": {
+                                "anyOf": [
+                                  { "type": "string", "format": "date" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "workDays": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "maxItems": 7,
+                                "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                              },
+                              "hoursPerDay": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 24,
+                                "multipleOf": 0.5
+                              },
+                              "weeklyDayOff": {
+                                "anyOf": [
+                                  { "type": "integer", "minimum": 0, "maximum": 6 },
+                                  { "type": "null" }
+                                ]
+                              }
+                            }
+                          },
+                          "terms": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["salary", "commission"],
+                            "properties": {
+                              "salary": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "monthly": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "monthly": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "commission": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "formula": { "type": "null" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "percentage", "type": "string" },
+                                      "basisPoints": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 10000
+                                      },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "fixed", "type": "string" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "association": {
+                            "type": "string",
+                            "enum": ["none", "pending_external_mapping", "mapped"]
+                          },
+                          "currentBranchName": { "type": "string" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Employee setup command; no money posting",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "terms"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "terms": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission"],
+                        "properties": {
+                          "salary": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "monthly": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "monthly": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "commission": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "formula": { "type": "null" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "percentage", "type": "string" },
+                                  "basisPoints": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 10000
+                                  },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "fixed", "type": "string" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "fields",
+                      "branchEffectiveDate",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.update" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "branchEffectiveDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.deactivate" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "change"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.terms" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "change": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission", "reason"],
+                        "properties": {
+                          "salary": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["month", "terms"],
+                                "properties": {
+                                  "month": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                  },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "monthly": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "monthly": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "commission": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["effectiveDate", "terms"],
+                                "properties": {
+                                  "effectiveDate": { "type": "string", "format": "date" },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "formula": { "type": "null" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "percentage", "type": "string" },
+                                          "basisPoints": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 10000
+                                          },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "fixed", "type": "string" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1000,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "effectiveDate",
+                      "endDate",
+                      "driverId",
+                      "localDriver",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.link" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "effectiveDate": { "type": "string", "format": "date" },
+                      "endDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "driverId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "localDriver": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["name", "branchId"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "branchId": { "type": "string", "format": "uuid" }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["commandId", "employeeId", "reference", "version", "branchId"],
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/catalog": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["companyId", "branches", "drivers", "currentMonth", "today"],
+                  "properties": {
+                    "companyId": { "type": "string", "format": "uuid" },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["id", "name"],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        }
+                      }
+                    },
+                    "drivers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["id", "name", "branchId", "active", "externalMapping"],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "active": { "type": "boolean" },
+                          "externalMapping": { "type": "string", "enum": ["pending", "mapped"] }
+                        }
+                      }
+                    },
+                    "currentMonth": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "today": { "type": "string", "format": "date" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "reference",
+                    "version",
+                    "fields",
+                    "terms",
+                    "association",
+                    "currentBranchName",
+                    "policies",
+                    "branches",
+                    "links",
+                    "revisions",
+                    "periods",
+                    "boundaries"
+                  ],
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "name",
+                        "contact",
+                        "active",
+                        "employmentStart",
+                        "employmentEnd",
+                        "branchId",
+                        "workDays",
+                        "hoursPerDay",
+                        "weeklyDayOff"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 180,
+                          "pattern": "\\S"
+                        },
+                        "contact": { "type": "string", "maxLength": 180 },
+                        "active": { "type": "boolean" },
+                        "employmentStart": { "type": "string", "format": "date" },
+                        "employmentEnd": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "workDays": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "maxItems": 7,
+                          "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                        },
+                        "hoursPerDay": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 24,
+                          "multipleOf": 0.5
+                        },
+                        "weeklyDayOff": {
+                          "anyOf": [
+                            { "type": "integer", "minimum": 0, "maximum": 6 },
+                            { "type": "null" }
+                          ]
+                        }
+                      }
+                    },
+                    "terms": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["salary", "commission"],
+                      "properties": {
+                        "salary": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "monthly": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "monthly": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "commission": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "formula": { "type": "null" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "percentage", "type": "string" },
+                                "basisPoints": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 10000
+                                },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "fixed", "type": "string" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "association": {
+                      "type": "string",
+                      "enum": ["none", "pending_external_mapping", "mapped"]
+                    },
+                    "currentBranchName": { "type": "string" },
+                    "policies": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "axis",
+                          "from",
+                          "to",
+                          "superseded",
+                          "terms",
+                          "reason",
+                          "recordedAt"
+                        ],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "axis": { "type": "string", "enum": ["salary", "commission"] },
+                          "from": { "type": "string", "format": "date" },
+                          "to": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "superseded": { "type": "boolean" },
+                          "terms": {
+                            "oneOf": [
+                              {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "monthly": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "monthly": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "formula": { "type": "null" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "percentage", "type": "string" },
+                                      "basisPoints": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 10000
+                                      },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "fixed", "type": "string" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "reason": { "type": "string" },
+                          "recordedAt": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["id", "branchId", "branchName", "from", "to", "reason"],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string" },
+                          "from": { "type": "string", "format": "date" },
+                          "to": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "reason": { "type": "string" }
+                        }
+                      }
+                    },
+                    "links": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "driverId",
+                          "from",
+                          "to",
+                          "driverName",
+                          "externalMapping"
+                        ],
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "driverId": { "type": "string", "format": "uuid" },
+                          "from": { "type": "string", "format": "date" },
+                          "to": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "driverName": { "type": "string" },
+                          "externalMapping": { "type": "string", "enum": ["pending", "mapped"] }
+                        }
+                      }
+                    },
+                    "revisions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["version", "fields", "reason", "at", "actor"],
+                        "properties": {
+                          "version": { "type": "integer" },
+                          "fields": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "name",
+                              "contact",
+                              "active",
+                              "employmentStart",
+                              "employmentEnd",
+                              "branchId",
+                              "workDays",
+                              "hoursPerDay",
+                              "weeklyDayOff"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "contact": { "type": "string", "maxLength": 180 },
+                              "active": { "type": "boolean" },
+                              "employmentStart": { "type": "string", "format": "date" },
+                              "employmentEnd": {
+                                "anyOf": [
+                                  { "type": "string", "format": "date" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "workDays": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "maxItems": 7,
+                                "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                              },
+                              "hoursPerDay": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 24,
+                                "multipleOf": 0.5
+                              },
+                              "weeklyDayOff": {
+                                "anyOf": [
+                                  { "type": "integer", "minimum": 0, "maximum": 6 },
+                                  { "type": "null" }
+                                ]
+                              }
+                            }
+                          },
+                          "reason": { "type": "string" },
+                          "at": { "type": "string", "format": "date-time" },
+                          "actor": { "type": "string" }
+                        }
+                      }
+                    },
+                    "periods": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["month", "state", "version"],
+                        "properties": {
+                          "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                          "state": {
+                            "type": "string",
+                            "enum": ["editable_unpaid", "frozen_unpaid", "paid", "zero_net_closed"]
+                          },
+                          "version": { "type": "integer", "minimum": 1 }
+                        }
+                      }
+                    },
+                    "boundaries": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["currentMonth", "earliestCommissionDate", "salaryExplanation"],
+                      "properties": {
+                        "currentMonth": {
+                          "type": "string",
+                          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                        },
+                        "earliestCommissionDate": { "type": "string", "format": "date" },
+                        "salaryExplanation": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Employee setup command; no money posting",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "terms"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "terms": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission"],
+                        "properties": {
+                          "salary": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "monthly": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "monthly": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "commission": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "formula": { "type": "null" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "percentage", "type": "string" },
+                                  "basisPoints": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 10000
+                                  },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "fixed", "type": "string" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "fields",
+                      "branchEffectiveDate",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.update" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "branchEffectiveDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.deactivate" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "change"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.terms" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "change": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission", "reason"],
+                        "properties": {
+                          "salary": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["month", "terms"],
+                                "properties": {
+                                  "month": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                  },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "monthly": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "monthly": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "commission": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["effectiveDate", "terms"],
+                                "properties": {
+                                  "effectiveDate": { "type": "string", "format": "date" },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "formula": { "type": "null" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "percentage", "type": "string" },
+                                          "basisPoints": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 10000
+                                          },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "fixed", "type": "string" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1000,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "effectiveDate",
+                      "endDate",
+                      "driverId",
+                      "localDriver",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.link" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "effectiveDate": { "type": "string", "format": "date" },
+                      "endDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "driverId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "localDriver": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["name", "branchId"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "branchId": { "type": "string", "format": "uuid" }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["commandId", "employeeId", "reference", "version", "branchId"],
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/terms": {
+      "post": {
+        "summary": "Employee setup command; no money posting",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "terms"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "terms": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission"],
+                        "properties": {
+                          "salary": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "monthly": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "monthly": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "commission": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "formula": { "type": "null" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "percentage", "type": "string" },
+                                  "basisPoints": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 10000
+                                  },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "fixed", "type": "string" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "fields",
+                      "branchEffectiveDate",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.update" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "branchEffectiveDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.deactivate" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "change"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.terms" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "change": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission", "reason"],
+                        "properties": {
+                          "salary": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["month", "terms"],
+                                "properties": {
+                                  "month": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                  },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "monthly": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "monthly": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "commission": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["effectiveDate", "terms"],
+                                "properties": {
+                                  "effectiveDate": { "type": "string", "format": "date" },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "formula": { "type": "null" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "percentage", "type": "string" },
+                                          "basisPoints": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 10000
+                                          },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "fixed", "type": "string" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1000,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "effectiveDate",
+                      "endDate",
+                      "driverId",
+                      "localDriver",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.link" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "effectiveDate": { "type": "string", "format": "date" },
+                      "endDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "driverId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "localDriver": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["name", "branchId"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "branchId": { "type": "string", "format": "uuid" }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["commandId", "employeeId", "reference", "version", "branchId"],
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/driver-links": {
+      "post": {
+        "summary": "Employee setup command; no money posting",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "fields",
+                      "terms"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.create" },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "terms": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission"],
+                        "properties": {
+                          "salary": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "monthly": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "monthly"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "monthly": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "commission": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": false, "type": "boolean" },
+                                  "formula": { "type": "null" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "percentage", "type": "string" },
+                                  "basisPoints": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 10000
+                                  },
+                                  "perVisit": { "type": "null" }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                "properties": {
+                                  "enabled": { "const": true, "type": "boolean" },
+                                  "formula": { "const": "fixed", "type": "string" },
+                                  "basisPoints": { "type": "null" },
+                                  "perVisit": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["currency", "amountMinor"],
+                                    "properties": {
+                                      "currency": { "const": "EGP", "type": "string" },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]*)$",
+                                        "maxLength": 19
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "fields",
+                      "branchEffectiveDate",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.update" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name",
+                          "contact",
+                          "active",
+                          "employmentStart",
+                          "employmentEnd",
+                          "branchId",
+                          "workDays",
+                          "hoursPerDay",
+                          "weeklyDayOff"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "contact": { "type": "string", "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "employmentStart": { "type": "string", "format": "date" },
+                          "employmentEnd": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDays": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "maxItems": 7,
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 }
+                          },
+                          "hoursPerDay": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 24,
+                            "multipleOf": 0.5
+                          },
+                          "weeklyDayOff": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 6 },
+                              { "type": "null" }
+                            ]
+                          }
+                        }
+                      },
+                      "branchEffectiveDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.deactivate" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "change"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.terms" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "change": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["salary", "commission", "reason"],
+                        "properties": {
+                          "salary": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["month", "terms"],
+                                "properties": {
+                                  "month": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                  },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "monthly": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["enabled", "monthly"],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "monthly": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "commission": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": ["effectiveDate", "terms"],
+                                "properties": {
+                                  "effectiveDate": { "type": "string", "format": "date" },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "formula": { "type": "null" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "percentage", "type": "string" },
+                                          "basisPoints": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 10000
+                                          },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "fixed", "type": "string" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1000,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "employeeId",
+                      "expectedVersion",
+                      "effectiveDate",
+                      "endDate",
+                      "driverId",
+                      "localDriver",
+                      "reason"
+                    ],
+                    "properties": {
+                      "schemaVersion": { "type": "integer", "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "type": "string", "const": "employee.link" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "effectiveDate": { "type": "string", "format": "date" },
+                      "endDate": {
+                        "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                      },
+                      "driverId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "localDriver": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["name", "branchId"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 180,
+                                "pattern": "\\S"
+                              },
+                              "branchId": { "type": "string", "format": "uuid" }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["commandId", "employeeId", "reference", "version", "branchId"],
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                  },
+                  "required": ["code", "messageKey", "commandId", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/terms/preview": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["companyId", "expectedVersion", "change", "base", "packingUplift"],
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "expectedVersion": { "type": "integer", "minimum": 1 },
+                  "change": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["salary", "commission", "reason"],
+                    "properties": {
+                      "salary": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["month", "terms"],
+                            "properties": {
+                              "month": {
+                                "type": "string",
+                                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                              },
+                              "terms": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "monthly": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "monthly"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "monthly": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "commission": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": ["effectiveDate", "terms"],
+                            "properties": {
+                              "effectiveDate": { "type": "string", "format": "date" },
+                              "terms": {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": false, "type": "boolean" },
+                                      "formula": { "type": "null" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "percentage", "type": "string" },
+                                      "basisPoints": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 10000
+                                      },
+                                      "perVisit": { "type": "null" }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                                    "properties": {
+                                      "enabled": { "const": true, "type": "boolean" },
+                                      "formula": { "const": "fixed", "type": "string" },
+                                      "basisPoints": { "type": "null" },
+                                      "perVisit": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": ["currency", "amountMinor"],
+                                        "properties": {
+                                          "currency": { "const": "EGP", "type": "string" },
+                                          "amountMinor": {
+                                            "type": "string",
+                                            "pattern": "^(0|[1-9][0-9]*)$",
+                                            "maxLength": 19
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          { "type": "null" }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  "base": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["currency", "amountMinor"],
+                    "properties": {
+                      "currency": { "const": "EGP", "type": "string" },
+                      "amountMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$",
+                        "maxLength": 19
+                      }
+                    }
+                  },
+                  "packingUplift": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["currency", "amountMinor"],
+                    "properties": {
+                      "currency": { "const": "EGP", "type": "string" },
+                      "amountMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$",
+                        "maxLength": 19
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "employeeId",
+                    "version",
+                    "before",
+                    "after",
+                    "salaryMonth",
+                    "commissionDate",
+                    "allowed",
+                    "protectedReason",
+                    "base",
+                    "packingUplift",
+                    "commission",
+                    "effects"
+                  ],
+                  "properties": {
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "before": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["salary", "commission"],
+                      "properties": {
+                        "salary": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "monthly": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "monthly": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "commission": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "formula": { "type": "null" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "percentage", "type": "string" },
+                                "basisPoints": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 10000
+                                },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "fixed", "type": "string" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "after": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["salary", "commission"],
+                      "properties": {
+                        "salary": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "monthly": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "monthly"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "monthly": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "commission": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": false, "type": "boolean" },
+                                "formula": { "type": "null" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "percentage", "type": "string" },
+                                "basisPoints": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 10000
+                                },
+                                "perVisit": { "type": "null" }
+                              }
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": ["enabled", "formula", "basisPoints", "perVisit"],
+                              "properties": {
+                                "enabled": { "const": true, "type": "boolean" },
+                                "formula": { "const": "fixed", "type": "string" },
+                                "basisPoints": { "type": "null" },
+                                "perVisit": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": ["currency", "amountMinor"],
+                                  "properties": {
+                                    "currency": { "const": "EGP", "type": "string" },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|[1-9][0-9]*)$",
+                                      "maxLength": 19
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "salaryMonth": {
+                      "anyOf": [
+                        { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "commissionDate": {
+                      "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                    },
+                    "allowed": { "type": "boolean" },
+                    "protectedReason": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "base": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["currency", "amountMinor"],
+                      "properties": {
+                        "currency": { "const": "EGP", "type": "string" },
+                        "amountMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        }
+                      }
+                    },
+                    "packingUplift": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["currency", "amountMinor"],
+                      "properties": {
+                        "currency": { "const": "EGP", "type": "string" },
+                        "amountMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        }
+                      }
+                    },
+                    "commission": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["currency", "amountMinor"],
+                      "properties": {
+                        "currency": { "const": "EGP", "type": "string" },
+                        "amountMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]*)$",
+                          "maxLength": 19
+                        }
+                      }
+                    },
+                    "effects": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/commands/{commandId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Closed employee response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["commandId", "employeeId", "reference", "version", "branchId"],
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/shipments": {
       "post": {
         "security": [{ "erpSession": [], "csrfToken": [] }],

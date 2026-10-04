@@ -1,0 +1,202 @@
+npm notice run shahn-erp@0.1.0 test:p08:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p08.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2640 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BQxaZNpv.css                           83.35 kB │ gzip: 16.35 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-BsPGeq_c.js                           218.42 kB │ gzip: 56.02 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 4.39s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 2.7s of this 4.3s build (62%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin vite:css-post renderChunk (38%, 1.7s, 8 calls)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+1 callback is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - plugin @tailwindcss/vite:generate:build transform (6 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+[WebServer] (node:19884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:18068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\p08\employees.spec.ts:20:1 › module entry, actual pending local linkage and distinct identities without payment controls (2.8s)
+(node:7852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\p08\employees.spec.ts:32:1 › responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms (2.1s)
+  x  3 tests\p08\employees.spec.ts:75:1 › previews base-only commission, protected salary, and schedules future rate preserving history (1.0m)
+(node:13524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 tests\p08\employees.spec.ts:112:1 › stale revision retains input, loads current version for review, then current full-month salary saves (2.1s)
+  x  5 tests\p08\employees.spec.ts:138:1 › lost committed create response survives reload and recovers one employee with the same identity (1.4s)
+(node:1688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 tests\p08\employees.spec.ts:165:1 › explicit local driver linking creates pending mapping, deactivation recovery retains one history (1.7s)
+(node:6584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 7 tests\p08\employees.spec.ts:194:1 › assigned filters use the API, persist on back, and A-only tracking grant cannot expose B finance (1.5s)
+  x  8 tests\p08\employees.spec.ts:210:1 › revoked branch denies recovery of a previously committed unknown save (1.4s)
+
+
+  1) tests\p08\employees.spec.ts:20:1 › module entry, actual pending local linkage and distinct identities without payment controls 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('7.00')
+    Expected: visible
+    Error: strict mode violation: getByText('7.00') resolved to 2 elements:
+        1) <strong>7.00 ج.م لكل زيارة فعلية مؤهلة</strong> aka getByRole('strong').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })
+        2) <p>7.00 ج.م لكل زيارة فعلية مؤهلة</p> aka getByRole('paragraph').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })
+
+    Call log:
+      - Expect "toBeVisible" getByText('7.00') with timeout 15000ms
+      - waiting for getByText('7.00')
+
+
+      27 |   await page.getByRole('link', { name: 'تجربة P08 — كريم', exact: true }).first().click();
+      28 |   await expect(page.getByText('الربط المحلي محفوظ.', { exact: false })).toBeVisible();
+    > 29 |   await expect(page.getByText('7.00', { exact: false })).toBeVisible();
+         |                                                          ^
+      30 |   expect(await page.getByRole('button', { name: /دفع|سلفة/ }).count()).toBe(0);
+      31 | });
+      32 | test('responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms', async ({
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:29:58
+
+    Error Context: test-results\employees-module-entry-act-4b749-es-without-payment-controls\error-context.md
+
+  2) tests\p08\employees.spec.ts:75:1 › previews base-only commission, protected salary, and schedules future rate preserving history 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.fill: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('شهر الراتب', { exact: true })
+
+
+      104 |   const old = new Date(Date.parse(r.seed.today + 'T12:00:00Z'));
+      105 |   old.setUTCMonth(old.getUTCMonth() - 1);
+    > 106 |   await page.getByLabel('شهر الراتب', { exact: true }).fill(old.toISOString().slice(0, 7));
+          |                                                        ^
+      107 |   await page.getByLabel('سبب التغيير', { exact: true }).fill('معاينة شهر سابق');
+      108 |   await page.getByRole('button', { name: 'معاينة الأثر', exact: true }).click();
+      109 |   await expect(page.getByText('التعديل محمي', { exact: true })).toBeVisible();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:106:56
+
+    Error Context: test-results\employees-previews-base-on-a702a-ure-rate-preserving-history\error-context.md
+
+  3) tests\p08\employees.spec.ts:138:1 › lost committed create response survives reload and recovers one employee with the same identity 
+
+    Error: route.abort: Route is already handled!
+
+      146 |     if (route.request().method() === 'POST') {
+      147 |       await route.fetch();
+    > 148 |       await route.abort('failed');
+          |                   ^
+      149 |     } else await route.continue();
+      150 |   });
+      151 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:148:19
+
+    Error: page.reload: Test ended.
+    Call log:
+      - waiting for navigation until "load"
+        - navigated to "http://127.0.0.1:5311/employees/new"
+
+
+      152 |   await expect(page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })).toBeVisible();
+      153 |   await page.unroute('**/api/v1/employees');
+    > 154 |   await page.reload();
+          |              ^
+      155 |   await expect(page.getByLabel('اسم الموظف', { exact: true })).toHaveValue(
+      156 |     'اسم مكرر دون ربط تلقائي',
+      157 |   );
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:154:14
+
+    Error Context: test-results\employees-lost-committed-c-68e1d-oyee-with-the-same-identity\error-context.md
+
+  4) tests\p08\employees.spec.ts:165:1 › explicit local driver linking creates pending mapping, deactivation recovery retains one history 
+
+    Error: route.abort: Route is already handled!
+
+      181 |     if (route.request().method() === 'POST') {
+      182 |       await route.fetch();
+    > 183 |       await route.abort('failed');
+          |                   ^
+      184 |     } else await route.continue();
+      185 |   });
+      186 |   await page.getByRole('button', { name: 'حفظ التغيير', exact: true }).click();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:183:19
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })
+        - locator resolved to <button disabled type="button" data-slot="button" data-size="default" data-variant="outline" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0…>استرد نتيجة الحفظ</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is not stable
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+
+
+      187 |   await expect(page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })).toBeVisible();
+      188 |   await page.unroute('**/api/v1/employees/' + r.seed.off.employeeId);
+    > 189 |   await page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true }).click();
+          |                                                                              ^
+      190 |   await expect(page.getByRole('button', { name: 'إيقاف الموظف', exact: true })).toHaveCount(0);
+      191 |   await page.getByText('تاريخ الملف والفرع والربط', { exact: true }).click();
+      192 |   await expect(page.getByText('انتهاء العمل مع حفظ التاريخ', { exact: false })).toBeVisible();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:189:78
+
+    Error Context: test-results\employees-explicit-local-d-f5f22-ecovery-retains-one-history\error-context.md
+
+  5) tests\p08\employees.spec.ts:210:1 › revoked branch denies recovery of a previously committed unknown save 
+
+    Error: route.abort: Route is already handled!
+
+      215 |     if (route.request().method() === 'POST') {
+      216 |       await route.fetch();
+    > 217 |       await route.abort('failed');
+          |                   ^
+      218 |     } else await route.continue();
+      219 |   });
+      220 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:217:19
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })
+
+
+      223 |   await control('/revoke-a');
+      224 |   try {
+    > 225 |     await page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true }).click();
+          |                                                                                ^
+      226 |     await expect(page.getByRole('alert')).toContainText('صلاحياتك الحالية');
+      227 |     await expect(page.getByLabel('اسم الموظف', { exact: true })).toHaveValue(
+      228 |       'ملف لاسترداد صلاحية مسحوبة',
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p08\employees.spec.ts:225:80
+
+    Error Context: test-results\employees-revoked-branch-d-572b7-usly-committed-unknown-save\error-context.md
+
+  5 failed
+    tests\p08\employees.spec.ts:20:1 › module entry, actual pending local linkage and distinct identities without payment controls 
+    tests\p08\employees.spec.ts:75:1 › previews base-only commission, protected salary, and schedules future rate preserving history 
+    tests\p08\employees.spec.ts:138:1 › lost committed create response survives reload and recovers one employee with the same identity 
+    tests\p08\employees.spec.ts:165:1 › explicit local driver linking creates pending mapping, deactivation recovery retains one history 
+    tests\p08\employees.spec.ts:210:1 › revoked branch denies recovery of a previously committed unknown save 
+  3 passed (2.3m)

@@ -87,3 +87,7 @@ The inspected latest stable TypeScript was 7.0.2, outside typescript-eslint 8.71
 | Extracted Smooth button (after import/format adaptation) | `b2fd02afe662a394e14b11c7cf9d20e82b49dd250f337a5e2cd17b66db2e8219` |
 
 The prototype notices' original hashes identify their historical source bytes; the extracted file has its own identity above. No new palette approval, performance guarantee, production deployment, backup or external connector conformance is implied by a version pin.
+
+## P08 reuse — 2026-10-04
+
+P08 reuses the existing exact workspace dependency pins and unchanged root lockfile. Actual terminal runtime is Node24.21.0/npm12.2.0; isolated native test databases are PostgreSQL18.3 on this Windows host, distinct from P01's Docker18.6 evidence. Additive migration0012 uses the server's bundled `btree_gist` extension for effective interval exclusions. Shared workspace exports and generated OpenAPI were extended; no external dependency was installed/upgraded. [P08 verification](../P08/README.md) records observed tests and pending external mapping.

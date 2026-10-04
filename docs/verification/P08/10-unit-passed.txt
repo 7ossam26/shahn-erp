@@ -1,0 +1,31 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/unit/employees.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/unit/employees.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/employees.test.ts [ tests/unit/employees.test.ts ]
+TypeError: The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received URL {
+  href: 'http://localhost:3000/packages/contracts/package.json',
+  origin: 'http://localhost:3000',
+  protocol: 'http:',
+ ...
+ ❯ tests/unit/employees.test.ts:7:15
+      5| import { createRequire } from 'node:module';
+      6| // Resolve the pinned workspace AJV8 used by the generated schemas, ra…
+      7| const require=createRequire(new URL('../../packages/contracts/package.…
+       |               ^
+      8| const Ajv=require('ajv') as typeof import('ajv').default.default;
+      9| const formats=require('ajv-formats') as typeof import('ajv-formats').d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  03:05:58
+   Duration  2.62s (environment 83%, setup 15%, transform 2%)
+

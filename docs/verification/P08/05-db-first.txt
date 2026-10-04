@@ -1,0 +1,144 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/employees.test.ts (12 tests | 8 failed) 166791ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 39678ms
+   × creates all independent modes and distinct duplicate names without login/driver linkage 209ms
+   × runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision 180ms
+   × corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods 21ms
+   × serializes salary edit first then simulated P20 freeze using the real shared control row 90009ms
+   × serializes P20 freeze first then edit, which rejects without policy/revision changes 152ms
+   ✓ two independent SQL transactions cannot commit overlapping policies or associations 131ms
+   ✓ concurrent API links produce one exact association and a retained conflict 42ms
+   × resolves exact work-time policy/link/branch snapshots and refuses pending external mapping 22ms
+   × preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery 22ms
+   ✓ rolls back injected mutation failure and retains one success after same-intent retry 25ms
+   × enforces same-company FKs, formula constraints, immutable histories and descriptive filters 76ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/employees.test.ts > creates all independent modes and distinct duplicate names without login/driver linkage
+error: ORDER BY "effective_from" is ambiguous
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ readEmployeePolicies packages/database/src/employees/index.ts:15:17
+ ❯ employeeDetail apps/api/src/modules/employees/service.ts:51:18
+
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/db/employees.test.ts:47:149
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  tests/db/employees.test.ts > runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision
+AssertionError: expected 500 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 500
+
+ ❯ tests/db/employees.test.ts:53:109
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  tests/db/employees.test.ts > corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods
+error: ORDER BY "effective_from" is ambiguous
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ readEmployeePolicies packages/database/src/employees/index.ts:15:17
+ ❯ termsAt apps/api/src/modules/employees/service.ts:37:16
+
+ ❯ validateChange apps/api/src/modules/employees/service.ts:97:56
+ ❯ Object.execute apps/api/src/modules/employees/service.ts:184:11
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/employees.test.ts:19:53
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  tests/db/employees.test.ts > serializes salary edit first then simulated P20 freeze using the real shared control row
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/db/employees.test.ts:73:1
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  tests/db/employees.test.ts > serializes P20 freeze first then edit, which rejects without policy/revision changes
+AssertionError: expected [Function] to throw error including 'PAYROLL_PERIOD_PROTECTED' but got 'ORDER BY "effective_from" is ambiguous'
+
+Expected: "PAYROLL_PERIOD_PROTECTED"
+Received: "ORDER BY "effective_from" is ambiguous"
+
+ ❯ tests/db/employees.test.ts:84:126
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  tests/db/employees.test.ts > resolves exact work-time policy/link/branch snapshots and refuses pending external mapping
+error: ORDER BY "effective_from" is ambiguous
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ readEmployeePolicies packages/database/src/employees/index.ts:15:17
+ ❯ resolveEmployeeTermsAt apps/api/src/modules/employees/service.ts:236:92
+
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ tests/db/employees.test.ts:112:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  tests/db/employees.test.ts > preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery
+error: ORDER BY "effective_from" is ambiguous
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ readEmployeePolicies packages/database/src/employees/index.ts:15:17
+ ❯ employeeDetail apps/api/src/modules/employees/service.ts:51:18
+
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/db/employees.test.ts:123:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  tests/db/employees.test.ts > enforces same-company FKs, formula constraints, immutable histories and descriptive filters
+TypeError: Cannot read properties of undefined (reading 'map')
+ ❯ tests/db/employees.test.ts:143:148
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+error: ORDER BY "effective_from" is ambiguous
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ readEmployeePolicies packages/database/src/employees/index.ts:15:17
+ ❯ termsAt apps/api/src/modules/employees/service.ts:37:16
+
+ ❯ validateChange apps/api/src/modules/employees/service.ts:97:56
+ ❯ Object.execute apps/api/src/modules/employees/service.ts:184:11
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { length: 119, severity: 'ERROR', code: '42702', detail: undefined, hint: undefined, position: '133', internalPosition: undefined, internalQuery: undefined, where: undefined, schema: undefined, table: undefined, dataType: undefined, constraint: undefined, file: 'parse_clause.c', routine: 'findTargetlistEntrySQL92' }
+This error originated in "tests/db/employees.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "serializes salary edit first then simulated P20 freeze using the real shared control row". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 4 passed (12)
+     Errors  1 error
+   Start at  03:01:52
+   Duration  169.05s (tests 99%, import 1%)
+

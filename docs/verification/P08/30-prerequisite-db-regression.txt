@@ -1,0 +1,18 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts tests/db/access.test.ts tests/db/kernel.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/employees.test.ts (12 tests) 75803ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 36739ms
+   ✓ runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision 479ms
+ ✓ tests/db/kernel.test.ts (21 tests) 45325ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 5118ms
+ ✓ tests/db/access.test.ts (17 tests) 39781ms
+
+ Test Files  3 passed (3)
+      Tests  50 passed (50)
+   Start at  03:19:28
+   Duration  167.12s (tests 97%, import 3%)
+

@@ -1,0 +1,56 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/unit/employees.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/unit/employees.test.ts (9 tests | 5 failed) 36ms
+   ❯ P08 connected contracts and domain (9)
+     × accepts independent off configuration through generated/client schema and domain 22ms
+     × accepts independent salary configuration through generated/client schema and domain 3ms
+     × accepts independent fixed configuration through generated/client schema and domain 1ms
+     × accepts independent combined configuration through generated/client schema and domain 1ms
+     × rejects ambiguity, unset salary, wrong units, decimal bp and excess properties on both sides 1ms
+     ✓ uses base-only piastres, half-up per visit and exact bigint at range limit 4ms
+     ✓ resolves half-open work-time history and explicitly refuses missing/overlapping associations 1ms
+     ✓ guards Cairo boundary and protects past month even with no period record 2ms
+     ✓ keeps descriptive schedules valid without introducing attendance or proration 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent off configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent salary configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent fixed configuration through generated/client schema and domain
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > accepts independent combined configuration through generated/client schema and domain
+TypeError: Cannot read properties of undefined (reading 'code')
+ ❯ addFormats node_modules/ajv-formats/src/index.ts:55:12
+ ❯ formatsPlugin node_modules/ajv-formats/src/index.ts:42:3
+ ❯ tests/unit/employees.test.ts:13:38
+     11| describe('P08 connected contracts and domain',()=>{
+     12|   it.each(Object.entries(employeeExamples))('accepts independent %s co…
+     13|     const ajv=new Ajv({strict:true});formats(ajv);
+       |                                      ^
+     14|     const client=ajv.compile(employeeCommandSchema),command={...envelo…
+     15|     expect(client(command)).toBe(true);expect(validateEmployeeCommand(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/unit/employees.test.ts > P08 connected contracts and domain > rejects ambiguity, unset salary, wrong units, decimal bp and excess properties on both sides
+TypeError: Cannot read properties of undefined (reading 'code')
+ ❯ addFormats node_modules/ajv-formats/src/index.ts:55:12
+ ❯ formatsPlugin node_modules/ajv-formats/src/index.ts:42:3
+ ❯ tests/unit/employees.test.ts:20:38
+     18|   });
+     19|   it('rejects ambiguity, unset salary, wrong units, decimal bp and exc…
+     20|     const ajv=new Ajv({strict:true});formats(ajv);const client=ajv.com…
+       |                                      ^
+     21|     for (const terms of [
+     22|       {...employeeExamples.salary,salary:{enabled:true,monthly:null}},
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 4 passed (9)
+   Start at  03:05:28
+   Duration  2.42s (environment 45%, import 35%, transform 10%, setup 8%, tests 2%)
+

@@ -1,0 +1,69 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P08
+P08 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/employees.test.ts (9 tests) 152ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  03:15:53
+   Duration  1.87s (import 48%, setup 29%, transform 14%, tests 9%)
+
+P08 unit: PASSED
+P08 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/employees.test.ts (12 tests) 74272ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 35577ms
+   ✓ two independent SQL transactions cannot commit overlapping policies or associations 326ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  03:15:56
+   Duration  76.45s (tests 97%, import 2%, transform 1%)
+
+P08 database: PASSED
+P08 browser: test:p08:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2640 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-uuGmul6N.css                           83.48 kB │ gzip: 16.36 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-7xHs8BMC.js                           34.08 kB │ gzip: 11.43 kB
+apps/web/dist/assets/vendor-D47RuXMk.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-DZzLifsy.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-B1Gii9f1.js                          109.59 kB │ gzip: 36.81 kB
+apps/web/dist/assets/vendor-Dz6Ei5J0.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/index-DfCE6cb6.js                           219.99 kB │ gzip: 56.39 kB
+apps/web/dist/assets/vendor-CzZtjPKG.js                          229.03 kB │ gzip: 72.20 kB
+
+✓ built in 672ms
+[WebServer] (node:15108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:25416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p08\employees.spec.ts:20:1 › module entry, actual pending local linkage and distinct identities without payment controls (4.5s)
+  ok 2 tests\p08\employees.spec.ts:32:1 › responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms (2.2s)
+  ok 3 tests\p08\employees.spec.ts:75:1 › previews base-only commission, protected salary, and schedules future rate preserving history (2.1s)
+  ok 4 tests\p08\employees.spec.ts:112:1 › stale revision retains input, loads current version for review, then current full-month salary saves (1.8s)
+  ok 5 tests\p08\employees.spec.ts:138:1 › lost committed create response survives reload and recovers one employee with the same identity (2.1s)
+  ok 6 tests\p08\employees.spec.ts:170:1 › explicit local driver linking creates pending mapping, deactivation recovery retains one history (1.7s)
+  ok 7 tests\p08\employees.spec.ts:199:1 › assigned filters use the API, persist on back, and A-only tracking grant cannot expose B finance (1.6s)
+  ok 8 tests\p08\employees.spec.ts:215:1 › revoked branch denies recovery of a previously committed unknown save (1.4s)
+
+  8 passed (1.2m)
+P08 browser: PASSED
+P08 publicIntegration: NOT APPLICABLE — P08 local employee setup uses real PostgreSQL and authenticated native HTTP. Tawsel driver mapping remains pending P11; no external provisioning or visit/payment integration is claimed.
+P08: all required layers passed

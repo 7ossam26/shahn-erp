@@ -1,0 +1,537 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p08.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p08.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p08",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p08",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P08/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p08/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4312/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "employees.spec.ts",
+      "file": "employees.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "module entry, actual pending local linkage and distinct identities without payment controls",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2810,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('7.00')\nExpected: visible\nError: strict mode violation: getByText('7.00') resolved to 2 elements:\n    1) <strong>7.00 ج.م لكل زيارة فعلية مؤهلة</strong> aka getByRole('strong').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n    2) <p>7.00 ج.م لكل زيارة فعلية مؤهلة</p> aka getByRole('paragraph').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('7.00') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('7.00')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('7.00')\nExpected: visible\nError: strict mode violation: getByText('7.00') resolved to 2 elements:\n    1) <strong>7.00 ج.م لكل زيارة فعلية مؤهلة</strong> aka getByRole('strong').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n    2) <p>7.00 ج.م لكل زيارة فعلية مؤهلة</p> aka getByRole('paragraph').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('7.00') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('7.00')\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:29:58",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                      "column": 58,
+                      "line": 29
+                    },
+                    "snippet": "  27 |   await page.getByRole('link', { name: 'تجربة P08 — كريم', exact: true }).first().click();\n  28 |   await expect(page.getByText('الربط المحلي محفوظ.', { exact: false })).toBeVisible();\n> 29 |   await expect(page.getByText('7.00', { exact: false })).toBeVisible();\n     |                                                          ^\n  30 |   expect(await page.getByRole('button', { name: /دفع|سلفة/ }).count()).toBe(0);\n  31 | });\n  32 | test('responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms', async ({"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 58,
+                        "line": 29
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('7.00')\nExpected: visible\nError: strict mode violation: getByText('7.00') resolved to 2 elements:\n    1) <strong>7.00 ج.م لكل زيارة فعلية مؤهلة</strong> aka getByRole('strong').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n    2) <p>7.00 ج.م لكل زيارة فعلية مؤهلة</p> aka getByRole('paragraph').filter({ hasText: 'ج.م لكل زيارة فعلية مؤهلة' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('7.00') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('7.00')\u001b[22m\n\n\n  27 |   await page.getByRole('link', { name: 'تجربة P08 — كريم', exact: true }).first().click();\n  28 |   await expect(page.getByText('الربط المحلي محفوظ.', { exact: false })).toBeVisible();\n> 29 |   await expect(page.getByText('7.00', { exact: false })).toBeVisible();\n     |                                                          ^\n  30 |   expect(await page.getByRole('button', { name: /دفع|سلفة/ }).count()).toBe(0);\n  31 | });\n  32 | test('responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms', async ({\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:29:58"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:10:33.284Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\employees-module-entry-act-4b749-es-without-payment-controls\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                    "column": 58,
+                    "line": 29
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-80160959ea12ddef8cfc",
+          "file": "employees.spec.ts",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "responsive grouped setup preserves entered long Arabic fields on validation and saves independent combined terms",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2146,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:10:37.736Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-4e771ee3329f912a9d64",
+          "file": "employees.spec.ts",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "previews base-only commission, protected salary, and schedules future rate preserving history",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60022,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 56,
+                        "line": 106
+                      },
+                      "message": "Error: locator.fill: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('شهر الراتب', { exact: true })\u001b[22m\n\n\n  104 |   const old = new Date(Date.parse(r.seed.today + 'T12:00:00Z'));\n  105 |   old.setUTCMonth(old.getUTCMonth() - 1);\n> 106 |   await page.getByLabel('شهر الراتب', { exact: true }).fill(old.toISOString().slice(0, 7));\n      |                                                        ^\n  107 |   await page.getByLabel('سبب التغيير', { exact: true }).fill('معاينة شهر سابق');\n  108 |   await page.getByRole('button', { name: 'معاينة الأثر', exact: true }).click();\n  109 |   await expect(page.getByText('التعديل محمي', { exact: true })).toBeVisible();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:106:56"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:10:40.008Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\employees-previews-base-on-a702a-ure-rate-preserving-history\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-bac1d926174f0efaf07a",
+          "file": "employees.spec.ts",
+          "line": 75,
+          "column": 1
+        },
+        {
+          "title": "stale revision retains input, loads current version for review, then current full-month salary saves",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2053,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:11:40.525Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-919779b0a8fba442279b",
+          "file": "employees.spec.ts",
+          "line": 112,
+          "column": 1
+        },
+        {
+          "title": "lost committed create response survives reload and recovers one employee with the same identity",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1375,
+                  "error": {
+                    "message": "Error: route.abort: Route is already handled!",
+                    "stack": "Error: route.abort: Route is already handled!\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:148:19",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                      "column": 19,
+                      "line": 148
+                    },
+                    "snippet": "  146 |     if (route.request().method() === 'POST') {\n  147 |       await route.fetch();\n> 148 |       await route.abort('failed');\n      |                   ^\n  149 |     } else await route.continue();\n  150 |   });\n  151 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 19,
+                        "line": 148
+                      },
+                      "message": "Error: route.abort: Route is already handled!\n\n  146 |     if (route.request().method() === 'POST') {\n  147 |       await route.fetch();\n> 148 |       await route.abort('failed');\n      |                   ^\n  149 |     } else await route.continue();\n  150 |   });\n  151 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:148:19"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 14,
+                        "line": 154
+                      },
+                      "message": "Error: page.reload: Test ended.\nCall log:\n\u001b[2m  - waiting for navigation until \"load\"\u001b[22m\n\u001b[2m    - navigated to \"http://127.0.0.1:5311/employees/new\"\u001b[22m\n\n\n  152 |   await expect(page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })).toBeVisible();\n  153 |   await page.unroute('**/api/v1/employees');\n> 154 |   await page.reload();\n      |              ^\n  155 |   await expect(page.getByLabel('اسم الموظف', { exact: true })).toHaveValue(\n  156 |     'اسم مكرر دون ربط تلقائي',\n  157 |   );\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:154:14"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:11:42.698Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\employees-lost-committed-c-68e1d-oyee-with-the-same-identity\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                    "column": 19,
+                    "line": 148
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-e1a0e6c980bf479d4bf3",
+          "file": "employees.spec.ts",
+          "line": 138,
+          "column": 1
+        },
+        {
+          "title": "explicit local driver linking creates pending mapping, deactivation recovery retains one history",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1674,
+                  "error": {
+                    "message": "Error: route.abort: Route is already handled!",
+                    "stack": "Error: route.abort: Route is already handled!\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:183:19",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                      "column": 19,
+                      "line": 183
+                    },
+                    "snippet": "  181 |     if (route.request().method() === 'POST') {\n  182 |       await route.fetch();\n> 183 |       await route.abort('failed');\n      |                   ^\n  184 |     } else await route.continue();\n  185 |   });\n  186 |   await page.getByRole('button', { name: 'حفظ التغيير', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 19,
+                        "line": 183
+                      },
+                      "message": "Error: route.abort: Route is already handled!\n\n  181 |     if (route.request().method() === 'POST') {\n  182 |       await route.fetch();\n> 183 |       await route.abort('failed');\n      |                   ^\n  184 |     } else await route.continue();\n  185 |   });\n  186 |   await page.getByRole('button', { name: 'حفظ التغيير', exact: true }).click();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:183:19"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 78,
+                        "line": 189
+                      },
+                      "message": "Error: locator.click: Test ended.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" data-slot=\"button\" data-size=\"default\" data-variant=\"outline\" class=\"inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0…>استرد نتيجة الحفظ</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not stable\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n\n  187 |   await expect(page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })).toBeVisible();\n  188 |   await page.unroute('**/api/v1/employees/' + r.seed.off.employeeId);\n> 189 |   await page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true }).click();\n      |                                                                              ^\n  190 |   await expect(page.getByRole('button', { name: 'إيقاف الموظف', exact: true })).toHaveCount(0);\n  191 |   await page.getByText('تاريخ الملف والفرع والربط', { exact: true }).click();\n  192 |   await expect(page.getByText('انتهاء العمل مع حفظ التاريخ', { exact: false })).toBeVisible();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:189:78"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:11:44.569Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\employees-explicit-local-d-f5f22-ecovery-retains-one-history\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                    "column": 19,
+                    "line": 183
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-e2cbe3a6ca907d26a8b8",
+          "file": "employees.spec.ts",
+          "line": 165,
+          "column": 1
+        },
+        {
+          "title": "assigned filters use the API, persist on back, and A-only tracking grant cannot expose B finance",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1463,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:11:46.971Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-760d7d7ca08feeb64fcb",
+          "file": "employees.spec.ts",
+          "line": 194,
+          "column": 1
+        },
+        {
+          "title": "revoked branch denies recovery of a previously committed unknown save",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1371,
+                  "error": {
+                    "message": "Error: route.abort: Route is already handled!",
+                    "stack": "Error: route.abort: Route is already handled!\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:217:19",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                      "column": 19,
+                      "line": 217
+                    },
+                    "snippet": "  215 |     if (route.request().method() === 'POST') {\n  216 |       await route.fetch();\n> 217 |       await route.abort('failed');\n      |                   ^\n  218 |     } else await route.continue();\n  219 |   });\n  220 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 19,
+                        "line": 217
+                      },
+                      "message": "Error: route.abort: Route is already handled!\n\n  215 |     if (route.request().method() === 'POST') {\n  216 |       await route.fetch();\n> 217 |       await route.abort('failed');\n      |                   ^\n  218 |     } else await route.continue();\n  219 |   });\n  220 |   await page.getByRole('button', { name: 'حفظ الموظف', exact: true }).click();\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:217:19"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                        "column": 80,
+                        "line": 225
+                      },
+                      "message": "Error: locator.click: Test ended.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true })\u001b[22m\n\n\n  223 |   await control('/revoke-a');\n  224 |   try {\n> 225 |     await page.getByRole('button', { name: 'استرد نتيجة الحفظ', exact: true }).click();\n      |                                                                                ^\n  226 |     await expect(page.getByRole('alert')).toContainText('صلاحياتك الحالية');\n  227 |     await expect(page.getByLabel('اسم الموظف', { exact: true })).toHaveValue(\n  228 |       'ملف لاسترداد صلاحية مسحوبة',\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts:225:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T00:11:48.557Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\employees-revoked-branch-d-572b7-usly-committed-unknown-save\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p08\\employees.spec.ts",
+                    "column": 19,
+                    "line": 217
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-d9ae40940df53f3d43a9",
+          "file": "employees.spec.ts",
+          "line": 210,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-04T00:09:30.021Z",
+    "duration": 140879.537,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}
