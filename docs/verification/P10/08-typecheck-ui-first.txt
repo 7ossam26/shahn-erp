@@ -1,0 +1,5 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/web/src/features/finance/treasury-transfers/treasury.tsx(52,2): error TS2322: Type '{ eyebrow: string; title: string; description: string; action: Element | undefined; }' is not assignable to type 'IntrinsicAttributes & { title: string; description: string; eyebrow: string; }'.
+  Property 'action' does not exist on type 'IntrinsicAttributes & { title: string; description: string; eyebrow: string; }'.
+apps/web/src/features/finance/treasury-transfers/treasury.tsx(96,15): error TS2741: Property 'description' is missing in type '{ children: Element[]; title: string; }' but required in type '{ title: string; description: string; children: ReactNode; }'.

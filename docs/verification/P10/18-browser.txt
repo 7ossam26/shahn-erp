@@ -1,0 +1,82 @@
+npm notice run shahn-erp@0.1.0 test:p10:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p10.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2649 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BSFTubRJ.css                           86.63 kB │ gzip: 17.16 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-BidoCsBI.js                           273.89 kB │ gzip: 67.40 kB
+
+✓ built in 604ms
+[WebServer] (node:14312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:22720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p10\treasury.spec.ts:40:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens (3.2s)
+  ok 2 tests\p10\treasury.spec.ts:91:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline (2.8s)
+[WebServer] C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\node_modules\pg\lib\client.js:694
+[WebServer]           Error.captureStackTrace(err)
+[WebServer]                 ^
+[WebServer]
+[WebServer] error: record "old" has no field "owner"
+[WebServer]     at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\node_modules\pg\lib\client.js:694:17
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[WebServer]     at async transaction (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\database\src\transaction.ts:16:5)
+[WebServer]     at async UnitOfWork.run (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\apps\api\src\modules\kernel\unit-of-work.ts:51:16)
+[WebServer]     at async Server.<anonymous> (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\serve.ts:108:5) {
+[WebServer]   length: 412,
+[WebServer]   severity: 'ERROR',
+[WebServer]   code: '42703',
+[WebServer]   detail: undefined,
+[WebServer]   hint: undefined,
+[WebServer]   position: undefined,
+[WebServer]   internalPosition: undefined,
+[WebServer]   internalQuery: undefined,
+[WebServer]   where: `PL/pgSQL expression "TG_TABLE_NAME='account_obligation' AND OLD.owner='treasury_transfer' AND EXISTS(SELECT 1 FROM finance.treasury_transfer t WHERE t.company_id=OLD.company_id AND t.id::text=OLD.source_identity AND t.state='sent')"\n` +
+[WebServer]     'PL/pgSQL function finance.guard_treasury_lifecycle() line 7 at IF',
+[WebServer]   schema: undefined,
+[WebServer]   table: undefined,
+[WebServer]   column: undefined,
+[WebServer]   dataType: undefined,
+[WebServer]   constraint: undefined,
+[WebServer]   file: 'pl_exec.c',
+[WebServer]   line: '5590',
+[WebServer]   routine: 'plpgsql_exec_get_datum_type_info'
+[WebServer] }
+[WebServer]
+[WebServer] Node.js v24.21.0
+  x  3 tests\p10\treasury.spec.ts:166:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review (1.8s)
+  -  4 tests\p10\treasury.spec.ts:190:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile
+  -  5 tests\p10\treasury.spec.ts:217:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive
+  -  6 tests\p10\treasury.spec.ts:245:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects
+TypeError: fetch failed
+[cause]: Error: connect ECONNREFUSED 127.0.0.1:4316
+
+
+  1) tests\p10\treasury.spec.ts:166:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review
+
+    TypeError: fetch failed
+    [cause]: Error: read ECONNRESET
+
+    Error Context: test-results\treasury-insufficient800-r-5fdc8-needs-refresh-and-re-review\error-context.md
+
+  1 failed
+    tests\p10\treasury.spec.ts:166:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review
+  3 did not run
+  2 passed (45.8s)
+  1 error was not a part of any test, see above for details

@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { AccessError, minor, addMinor, type JournalEffect } from '@shahn/domain';
+import { AccessError, assertCapability, minor, addMinor, type JournalEffect } from '@shahn/domain';
 import type { Account, PaymentFields } from '@shahn/contracts';
 import { JournalPosting, resourceKey } from '../../kernel/journals.js';
 import type { UnitOfWork } from '../../kernel/unit-of-work.js';
@@ -18,19 +18,35 @@ export async function authorizedAccount(u: UnitOfWork, id: string): Promise<Acco
 }
 /** All methods join the caller's checked-out client. None begins or commits a transaction. */
 export class AccountFundsService {
-  constructor(readonly uow: UnitOfWork) {}
-  read(id: string) {
-    return authorizedAccount(this.uow, id);
+  constructor(
+    readonly uow: UnitOfWork,
+    private readonly treasuryScope?: 'treasury.send' | 'treasury.receive',
+  ) {}
+  async read(id: string): Promise<Account> {
+    if (!this.treasuryScope) return authorizedAccount(this.uow, id);
+    assertCapability(this.uow.access, this.treasuryScope);
+    const row = (
+      await this.uow.client.query<Account>(
+        `SELECT ${accountColumns} FROM finance.account a JOIN finance.account_balance b ON b.company_id=a.company_id AND b.account_id=a.id WHERE a.company_id=$1 AND a.id=$2`,
+        [this.uow.access.companyId, id],
+      )
+    ).rows[0];
+    if (!row) throw new AccessError('NOT_FOUND', 404);
+    return row;
   }
   async lock(accountIds: readonly string[]) {
     for (const id of [...new Set(accountIds)].sort()) {
-      await authorizedAccount(this.uow, id);
+      await this.read(id);
       await new JournalPosting(this.uow).lock('money', id);
     }
   }
   async use(fields: PaymentFields) {
     this.uow.requireLock('money', resourceKey('money', fields.accountId));
-    this.uow.assertBranch(fields.branchId);
+    if (this.treasuryScope) {
+      assertCapability(this.uow.access, this.treasuryScope);
+      if (!this.uow.access.companyBranches.some((b) => b.id === fields.branchId))
+        throw new AccessError('FORBIDDEN_SCOPE');
+    } else this.uow.assertBranch(fields.branchId);
     const account = await this.read(fields.accountId);
     if (!account.branchIds.includes(fields.branchId))
       throw new AccessError('ACCOUNT_USAGE_FORBIDDEN');
@@ -54,15 +70,16 @@ export class AccountFundsService {
   }
   async guardNoObligations(accountId: string) {
     this.uow.requireLock('money', resourceKey('money', accountId));
-    if (
-      (
-        await this.uow.client.query(
-          `SELECT 1 FROM finance.account_obligation WHERE company_id=$1 AND account_id=$2 AND resolved_at IS NULL LIMIT 1`,
-          [this.uow.access.companyId, accountId],
-        )
-      ).rowCount
-    )
-      throw new AccessError('ACCOUNT_OBLIGATIONS_PENDING', 409);
+    const obligations = (
+      await this.uow.client.query<{ owner: string; sourceIdentity: string }>(
+        `SELECT owner,source_identity AS "sourceIdentity" FROM finance.account_obligation WHERE company_id=$1 AND account_id=$2 AND resolved_at IS NULL ORDER BY owner,source_identity LIMIT 25`,
+        [this.uow.access.companyId, accountId],
+      )
+    ).rows;
+    if (obligations.length)
+      throw Object.assign(new AccessError('ACCOUNT_OBLIGATIONS_PENDING', 409), {
+        details: { obligations },
+      });
   }
   async registerObligation(accountId: string, owner: string, sourceIdentity: string) {
     this.uow.requireLock('money', resourceKey('money', accountId));
@@ -86,6 +103,32 @@ export class AccountFundsService {
     fields: PaymentFields;
     direction: 'deposit' | 'withdrawal';
     sourceKind: 'general' | 'expense';
+    reason: string;
+    additionalEffects?: readonly JournalEffect[];
+  }) {
+    if (this.treasuryScope) throw new AccessError('FORBIDDEN_SCOPE');
+    return this.postMovement(input);
+  }
+  async postTransfer(input: {
+    sourceId: string;
+    recordId: string;
+    fields: PaymentFields;
+    reason: string;
+  }) {
+    if (!this.treasuryScope) throw new AccessError('FORBIDDEN_SCOPE');
+    return this.postMovement({
+      ...input,
+      direction: this.treasuryScope === 'treasury.send' ? 'withdrawal' : 'deposit',
+      sourceKind: this.treasuryScope === 'treasury.send' ? 'treasury_send' : 'treasury_receive',
+    });
+  }
+  private async postMovement(input: {
+    sourceId: string;
+    recordId: string;
+    movementId?: string;
+    fields: PaymentFields;
+    direction: 'deposit' | 'withdrawal';
+    sourceKind: 'general' | 'expense' | 'treasury_send' | 'treasury_receive';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
   }) {
@@ -127,19 +170,30 @@ export class AccountFundsService {
     if (input.direction === 'withdrawal') await this.requireFunds(f.accountId, f.amountMinor);
     else addMinor(await this.available(f.accountId), amount);
     const signed = (input.direction === 'deposit' ? amount : -amount).toString();
-    const posting = await new JournalPosting(u).append(input.sourceId, input.recordId, [
-      {
-        family: 'money',
-        kind: input.direction === 'deposit' ? 'receipt' : 'payment',
-        subjectId: f.accountId,
-        amountMinor: signed,
-        branchId: f.branchId,
-        effectiveDate: f.actualDate,
-        supersedesId: null,
-        reason: input.reason || null,
-      },
-      ...(input.additionalEffects ?? []),
-    ]);
+    const posting = await new JournalPosting(u).append(
+      input.sourceId,
+      input.recordId,
+      [
+        {
+          family: 'money',
+          kind: this.treasuryScope
+            ? input.direction === 'deposit'
+              ? 'transfer_in'
+              : 'transfer_out'
+            : input.direction === 'deposit'
+              ? 'receipt'
+              : 'payment',
+          subjectId: f.accountId,
+          amountMinor: signed,
+          branchId: f.branchId,
+          effectiveDate: f.actualDate,
+          supersedesId: null,
+          reason: input.reason || null,
+        },
+        ...(input.additionalEffects ?? []),
+      ],
+      this.treasuryScope,
+    );
     const id = input.movementId ?? randomUUID(),
       effectId = posting.ids[0]!;
     await u.client.query(
@@ -159,7 +213,9 @@ export class AccountFundsService {
         f.actualDate,
         input.reason,
         account.name,
-        u.access.assignedBranches.find((b) => b.id === f.branchId)!.name,
+        (this.treasuryScope ? u.access.companyBranches : u.access.assignedBranches).find(
+          (b) => b.id === f.branchId,
+        )!.name,
         u.access.principalId,
         u.access.displayName,
       ],

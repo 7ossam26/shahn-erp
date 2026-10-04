@@ -1,0 +1,70 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P10
+P10 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  04:22:27
+   Duration  10.43s (environment 66%, setup 25%, import 7%, transform 2%)
+
+P10 unit: PASSED
+P10 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/treasury-transfers.test.ts (22 tests | 1 failed) 42703ms
+   ✓ A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination 65ms
+   ✓ A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied 31ms
+   ✓ A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery 128ms
+   ✓ A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects 63ms
+   ✓ rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure 12ms
+   ✓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure 12ms
+   ✓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure 12ms
+   ✓ rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure 16ms
+   ✓ rolls back full receipt and keeps pending obligations on afterDebit failure 47ms
+   ✓ rolls back full receipt and keeps pending obligations on afterTransfer failure 38ms
+   ✓ rolls back full receipt and keeps pending obligations on afterTransit failure 34ms
+   ✓ rolls back full receipt and keeps pending obligations on beforeResult failure 37ms
+   ✓ A03 serializes two committed receipts with distinct commands and connections to one destination effect 121ms
+   ✓ send/withdrawal independent race: send first cannot spend beyond1000 64ms
+   ✓ send/withdrawal independent race: withdrawal first cannot spend beyond1000 40ms
+   ✓ A04 races two sends700 against1000, one committed source debit/transit 63ms
+   ✓ blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming 75ms
+   × serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe 149ms
+   ✓ protects actual shared-bank allowed usage and pending obligations against API and direct SQL removal 171ms
+   ✓ enforces SQL positive amount, source uniqueness, same-company FKs and immutable scope snapshots 204ms
+   ✓ same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice 151ms
+   ✓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 5688ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/db/treasury-transfers.test.ts:516:24
+    515|     f.staffB.token,
+    516|     f.company,
+    517|     'treasury.receive',
+       |         ^
+    518|     (u) => treasuryCatalog(u, 'receive'),
+    519|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 passed (22)
+   Start at  04:22:37
+   Duration  44.86s (tests 95%, import 3%, transform 1%)
+
+P10 database: FAILED (1)

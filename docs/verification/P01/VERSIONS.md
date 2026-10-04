@@ -95,3 +95,7 @@ P08 reuses the existing exact workspace dependency pins and unchanged root lockf
 ## P09 reuse — 2026-10-04
 
 P09 uses the unchanged external dependency pins/root lockfile, Node24.21.0/npm12.2.0 and disposable native PostgreSQL18.3. Migration0013 is additive to the actual0012 employee schema and extends the existing P04 catalog. No new runtime library, provider integration or global package upgrade was installed. [P09 evidence](../P09/README.md) separates real local PostgreSQL/API/process/browser verification from pending customer issuer/device/production work.
+
+## P10 reuse — 2026-10-04
+
+P10 retains all exact dependency pins and the root/prototype lockfiles. Actual runtime is Node24.21.0/npm12.2.0 and disposable native PostgreSQL18.3. Additive0014 extends P09 finance with source-linked treasury transit and safe full receipt. No runtime library, bank provider or package upgrade was installed. [P10 identities/evidence](../P10/VERSIONS.md) distinguish local fixture verification from customer issuer, owner/device and production acceptance.

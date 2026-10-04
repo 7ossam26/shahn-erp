@@ -1,0 +1,346 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/treasury-transfers.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/treasury-transfers.test.ts (20 tests | 20 failed) 221868ms
+   × A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination 30ms
+   × A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied 9ms
+   × A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery 140ms
+   × A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects 33ms
+   × rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure 7ms
+   × rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure 6ms
+   × rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure 6ms
+   × rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure 7ms
+   × rolls back full receipt and keeps pending obligations on afterDebit failure 6ms
+   × rolls back full receipt and keeps pending obligations on afterTransfer failure 7ms
+   × rolls back full receipt and keeps pending obligations on afterTransit failure 5ms
+   × rolls back full receipt and keeps pending obligations on beforeResult failure 5ms
+   × A03 serializes two committed receipts with distinct commands and connections to one destination effect 5ms
+   × send/withdrawal independent race: send first cannot spend beyond1000 90011ms
+   × send/withdrawal independent race: withdrawal first cannot spend beyond1000 2754ms
+   × A04 races two sends700 against1000, one committed source debit/transit 90005ms
+   × blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming 218ms
+   × serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe 40ms
+   × same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice 73ms
+   × A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 11ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 20 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:42:51
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied
+Error: NOT_FOUND
+ ❯ transferDetail apps/api/src/modules/finance/treasury-transfers/service.ts:42:19
+     40|     throw new AccessError('RECEIPT_BEFORE_SEND', 400);
+     41|   return {
+     42|     time: new Date(milliseconds).toISOString(),
+       |                   ^
+     43|     date: (
+     44|       await u.client.query<{ date: string }>(
+ ❯ Object.authorize apps/api/src/modules/finance/treasury-transfers/service.ts:139:51
+ ❯ apps/api/src/modules/kernel/commands.ts:84:7
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:51:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:67:38
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects
+AssertionError: expected [Function] to throw error including 'REVISION_CONFLICT' but got 'LOCK_ORDER_VIOLATION'
+
+Expected: "REVISION_CONFLICT"
+Received: "LOCK_ORDER_VIOLATION"
+
+ ❯ tests/db/treasury-transfers.test.ts:75:54
+     74|     },
+     75|     ...(body ? { body: JSON.stringify(body) } : {}),
+     76|   });
+       | ^
+     77|   return { status: r.status, body: await r.json() };
+     78| }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure
+AssertionError: expected [Function] to throw error including 'INJECTED_FAILURE' but got 'LOCK_ORDER_VIOLATION'
+
+Expected: "INJECTED_FAILURE"
+Received: "LOCK_ORDER_VIOLATION"
+
+ ❯ tests/db/treasury-transfers.test.ts:85:49
+     86|   try {
+     87|     await migrate(db.pool);
+     88|   } catch (error) {
+       |   ^
+     89|     const e = error as {
+     90|       position?: string;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterDebit failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterTransfer failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterTransit failure
+ FAIL  tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on beforeResult failure
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:90:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A03 serializes two committed receipts with distinct commands and connections to one destination effect
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:101:38
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > send/withdrawal independent race: send first cannot spend beyond1000
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/db/treasury-transfers.test.ts:108:40
+    106|       .rows,
+    107|   ).toEqual(old);
+    108|   const cli = await promisify(execFile)(
+       |                                        ^
+    109|     process.execPath,
+    110|     ['packages/database/dist/cli.js', 'status'],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > send/withdrawal independent race: withdrawal first cannot spend beyond1000
+AssertionError: expected undefined to be 'INSUFFICIENT_FUNDS' // Object.is equality
+
+- Expected:
+"INSUFFICIENT_FUNDS"
+
++ Received:
+undefined
+
+ ❯ tests/db/treasury-transfers.test.ts:112:104
+    114|         APP_ENV: 'test',
+    115|         DATABASE_URL: db.url,
+    116|         MIGRATION_DATABASE_URL: db.url,
+       |            ^
+    117|       },
+    118|     },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A04 races two sends700 against1000, one committed source debit/transit
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/db/treasury-transfers.test.ts:115:1
+    113|         ...process.env,
+    114|         APP_ENV: 'test',
+    115|         DATABASE_URL: db.url,
+       | ^
+    116|         MIGRATION_DATABASE_URL: db.url,
+    117|       },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:124:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:138:38
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:152:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/20]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ run tests/db/treasury-transfers.test.ts:20:59
+ ❯ tests/db/treasury-transfers.test.ts:159:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/20]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+
+This error originated in "tests/db/treasury-transfers.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "send/withdrawal independent race: send first cannot spend beyond1000". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: LOCK_ORDER_VIOLATION
+ ❯ UnitOfWork.lockOrder apps/api/src/modules/kernel/unit-of-work.ts:30:13
+     28|     const rank = lockClasses.indexOf(kind);
+     29|     if (rank < this.rank || (rank === this.rank && id < this.lastId))
+     30|       throw new Error('LOCK_ORDER_VIOLATION');
+       |             ^
+     31|     this.rank = rank;
+     32|     this.lastId = id;
+ ❯ configurationLock apps/api/src/modules/reference-data/service.ts:5:7
+ ❯ sendTransfer apps/api/src/modules/finance/treasury-transfers/service.ts:83:9
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ Object.execute apps/api/src/modules/finance/treasury-transfers/service.ts:149:51
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+
+This error originated in "tests/db/treasury-transfers.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "A04 races two sends700 against1000, one committed source debit/transit". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  20 failed (20)
+     Errors  2 errors
+   Start at  04:15:58
+   Duration  224.44s (tests 99%, import 1%)

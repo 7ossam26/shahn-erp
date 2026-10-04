@@ -8,6 +8,16 @@ import {
 } from '@shahn/contracts';
 import { useAccess } from '../access/access.js';
 import { CommercialError } from '../brands/api.js';
+export class FinanceApiError extends CommercialError {
+  constructor(
+    code: string,
+    status: number,
+    currentVersion?: number,
+    readonly details?: { obligations: { owner: string; sourceIdentity: string }[] },
+  ) {
+    super(code, status, currentVersion);
+  }
+}
 export async function financeApi<T>(
   path: string,
   view: string,
@@ -28,11 +38,16 @@ export async function financeApi<T>(
     throw new CommercialError(body ? 'RESULT_UNKNOWN' : 'CONNECTION_LOST', 0);
   }
   if (!response.ok) {
-    const e = result as { code: string; currentVersion?: number };
-    throw new CommercialError(
+    const e = result as {
+      code: string;
+      currentVersion?: number;
+      details?: { obligations: { owner: string; sourceIdentity: string }[] };
+    };
+    throw new FinanceApiError(
       body && response.status >= 500 ? 'RESULT_UNKNOWN' : e.code,
       response.status,
       e.currentVersion,
+      e.details,
     );
   }
   if (!validateFinanceViews[view]?.(result))

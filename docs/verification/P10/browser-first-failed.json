@@ -1,0 +1,475 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p10.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p10.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p10",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/p10",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P10/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/p10/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4316/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "treasury.spec.ts",
+      "file": "treasury.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17346,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected substring: \u001b[32m\"قيد النقل — لم يُستلم\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected substring: \u001b[32m\"قيد النقل — لم يُستلم\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:18:145",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                      "column": 145,
+                      "line": 18
+                    },
+                    "snippet": "  16 |  await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await expect(page.getByRole('region',{name:'مراجعة الإرسال'})).toContainText('رصيد الوجهة لا يزيد');\n  17 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/send-${width}.png`,fullPage:true});}\n> 18 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('قيد النقل — لم يُستلم');sentPath=new URL(page.url()).pathname;\n     |                                                                                                                                                 ^\n  19 |  expect(await control('/statistics')).toEqual({source:'70000',destination:'0',transit:'30000',profitFacts:0,receipts:0});\n  20 |  await page.reload();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('300.00');\n  21 |  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'docs/verification/P10/screenshots/pending-390.png',fullPage:true});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 145,
+                        "line": 18
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected substring: \u001b[32m\"قيد النقل — لم يُستلم\"\u001b[39m\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n\n\n  16 |  await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await expect(page.getByRole('region',{name:'مراجعة الإرسال'})).toContainText('رصيد الوجهة لا يزيد');\n  17 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/send-${width}.png`,fullPage:true});}\n> 18 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('قيد النقل — لم يُستلم');sentPath=new URL(page.url()).pathname;\n     |                                                                                                                                                 ^\n  19 |  expect(await control('/statistics')).toEqual({source:'70000',destination:'0',transit:'30000',profitFacts:0,receipts:0});\n  20 |  await page.reload();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('300.00');\n  21 |  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'docs/verification/P10/screenshots/pending-390.png',fullPage:true});\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:18:145"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:17:53.578Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-sender-assigned-C-bf790-responsive-reviewed-screens\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                    "column": 145,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-5c7b35a0b8d7bdb21ad6",
+          "file": "treasury.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 786,
+                  "error": {
+                    "message": "TypeError: Cannot read properties of undefined (reading 'replace')",
+                    "stack": "TypeError: Cannot read properties of undefined (reading 'replace')\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:27:56",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                      "column": 56,
+                      "line": 27
+                    },
+                    "snippet": "  25 | });\n  26 | test('receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline',async({page})=> {\n> 27 |  await login(page,'receiver');await page.goto(sentPath.replace('/transfers/','/receipts/'));await page.setViewportSize({width:390,height:844});\n     |                                                        ^\n  28 |  await page.getByLabel('وقت الاستلام الفعلي — القاهرة',{exact:true}).fill('2026-09-01T14:00');expect(await page.getByLabel('المبلغ بالجنيه',{exact:true}).count()).toBe(0);\n  29 |  await page.getByRole('button',{name:'مراجعة الاستلام الكامل',exact:true}).click();\n  30 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/receipt-${width}.png`,fullPage:true});}"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 56,
+                        "line": 27
+                      },
+                      "message": "TypeError: Cannot read properties of undefined (reading 'replace')\n\n  25 | });\n  26 | test('receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline',async({page})=> {\n> 27 |  await login(page,'receiver');await page.goto(sentPath.replace('/transfers/','/receipts/'));await page.setViewportSize({width:390,height:844});\n     |                                                        ^\n  28 |  await page.getByLabel('وقت الاستلام الفعلي — القاهرة',{exact:true}).fill('2026-09-01T14:00');expect(await page.getByLabel('المبلغ بالجنيه',{exact:true}).count()).toBe(0);\n  29 |  await page.getByRole('button',{name:'مراجعة الاستلام الكامل',exact:true}).click();\n  30 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/receipt-${width}.png`,fullPage:true});}\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:27:56"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:18:12.407Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-receiver-assigned-46e3a-er-once-with-exact-timeline\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                    "column": 56,
+                    "line": 27
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-2ae79952006584085f64",
+          "file": "treasury.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16422,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"الرصيد المتاح لا يكفي\"\u001b[39m\nReceived string:    \u001b[31m\"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    32 × locator resolved to <div role=\"alert\" tabindex=\"-1\" class=\"commercial-error\">لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قب…</div>\u001b[22m\n\u001b[2m       - unexpected value \"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"الرصيد المتاح لا يكفي\"\u001b[39m\nReceived string:    \u001b[31m\"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    32 × locator resolved to <div role=\"alert\" tabindex=\"-1\" class=\"commercial-error\">لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قب…</div>\u001b[22m\n\u001b[2m       - unexpected value \"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:42:40",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                      "column": 40,
+                      "line": 42
+                    },
+                    "snippet": "  40 | test('insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review',async({page})=> {\n  41 |  await login(page);await fillSend(page,'800');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();\n> 42 |  await expect(page.getByRole('alert')).toContainText('الرصيد المتاح لا يكفي');await expect(page.getByRole('alert')).toBeFocused();\n     |                                        ^\n  43 |  await page.getByRole('button',{name:'تعديل المدخلات'}).click();await expect(page.getByLabel('المبلغ بالجنيه',{exact:true})).toHaveValue('800');\n  44 |  await page.getByLabel('المبلغ بالجنيه',{exact:true}).fill('1');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await control('/bump-destination');\n  45 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('تغيّرت النسخة');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 40,
+                        "line": 42
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"الرصيد المتاح لا يكفي\"\u001b[39m\nReceived string:    \u001b[31m\"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    32 × locator resolved to <div role=\"alert\" tabindex=\"-1\" class=\"commercial-error\">لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قب…</div>\u001b[22m\n\u001b[2m       - unexpected value \"لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات.\"\u001b[22m\n\n\n  40 | test('insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review',async({page})=> {\n  41 |  await login(page);await fillSend(page,'800');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();\n> 42 |  await expect(page.getByRole('alert')).toContainText('الرصيد المتاح لا يكفي');await expect(page.getByRole('alert')).toBeFocused();\n     |                                        ^\n  43 |  await page.getByRole('button',{name:'تعديل المدخلات'}).click();await expect(page.getByLabel('المبلغ بالجنيه',{exact:true})).toHaveValue('800');\n  44 |  await page.getByLabel('المبلغ بالجنيه',{exact:true}).fill('1');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await control('/bump-destination');\n  45 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('تغيّرت النسخة');\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:42:40"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:18:13.789Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-insufficient800-r-5fdc8-needs-refresh-and-re-review\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                    "column": 40,
+                    "line": 42
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-5435561ad6483ad123be",
+          "file": "treasury.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60039,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 71,
+                        "line": 53
+                      },
+                      "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.finance-row').first()\u001b[22m\n\n\n  51 |   await page.getByRole('button', { name: 'مراجعة الإرسال', exact: true }).click();\n  52 |   await expect(page.getByRole('region', { name: 'مراجعة الإرسال' })).toContainText(\n> 53 |     'رصيد الوجهة لا يزيد',\n     |                           ^\n  54 |   );\n  55 |   for (const width of [320, 390, 768, 1440]) {\n  56 |     await page.setViewportSize({ width, height: width === 1440 ? 1050 : 844 });\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:53:71"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:18:30.748Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-pending-and-recei-f4868-tention-and-reset-on-mobile\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-b6a41e1a2ee775744ef9",
+          "file": "treasury.spec.ts",
+          "line": 49,
+          "column": 1
+        },
+        {
+          "title": "connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 18627,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:60:281",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                      "column": 281,
+                      "line": 60
+                    },
+                    "snippet": "  58 |       true,\n  59 |     );\n> 60 |     await page.screenshot({\n     |                            ^\n  61 |       path: `docs/verification/P10/screenshots/send-${width}.png`,\n  62 |       fullPage: true,\n  63 |     });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 281,
+                        "line": 60
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'تفاصيل التحويل' })\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'تفاصيل التحويل' })\u001b[22m\n\n\n  58 |       true,\n  59 |     );\n> 60 |     await page.screenshot({\n     |                            ^\n  61 |       path: `docs/verification/P10/screenshots/send-${width}.png`,\n  62 |       fullPage: true,\n  63 |     });\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:60:281"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:19:31.487Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-connection-loss-b-3149f-and-same-person-can-receive\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                    "column": 281,
+                    "line": 60
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-4422089d7be63811b0d8",
+          "file": "treasury.spec.ts",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4242,
+                  "error": {
+                    "message": "TypeError: Cannot read properties of undefined (reading 'split')",
+                    "stack": "TypeError: Cannot read properties of undefined (reading 'split')\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:71:36",
+                    "location": {
+                      "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                      "column": 36,
+                      "line": 71
+                    },
+                    "snippet": "  69 |   sentPath = new URL(page.url()).pathname;\n  70 |   expect(await control('/statistics')).toEqual({\n> 71 |     source: '70000',\n     |                     ^\n  72 |     destination: '0',\n  73 |     transit: '30000',\n  74 |     profitFacts: 0,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                        "column": 36,
+                        "line": 71
+                      },
+                      "message": "TypeError: Cannot read properties of undefined (reading 'split')\n\n  69 |   sentPath = new URL(page.url()).pathname;\n  70 |   expect(await control('/statistics')).toEqual({\n> 71 |     source: '70000',\n     |                     ^\n  72 |     destination: '0',\n  73 |     transit: '30000',\n  74 |     profitFacts: 0,\n    at C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts:71:36"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T01:19:53.142Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\test-results\\treasury-receiver-expense--55453-tial-API-creates-no-effects\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\p10\\treasury.spec.ts",
+                    "column": 36,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0167656417a858b4daed-713a3fb5cddad25fe25c",
+          "file": "treasury.spec.ts",
+          "line": 64,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-04T01:17:14.761Z",
+    "duration": 168418.56699999998,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

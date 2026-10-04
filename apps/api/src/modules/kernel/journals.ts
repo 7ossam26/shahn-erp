@@ -4,6 +4,7 @@ import {
   addMinor,
   minor,
   validateEffect,
+  assertCapability,
   type JournalEffect,
   type JournalFamily,
 } from '@shahn/domain';
@@ -81,11 +82,21 @@ export class JournalPosting {
     sourceId: string,
     commandRecordId: string,
     effects: readonly JournalEffect[],
+    treasuryScope?: 'treasury.send' | 'treasury.receive',
   ): Promise<{ batchId: string; ids: string[] }> {
     const { client, access } = this.uow;
     for (const effect of effects) {
       validateEffect(effect);
-      this.uow.assertBranch(effect.branchId);
+      if (treasuryScope) {
+        assertCapability(access, treasuryScope);
+        if (
+          effects.length !== 1 ||
+          effect.family !== 'money' ||
+          effect.kind !== (treasuryScope === 'treasury.send' ? 'transfer_out' : 'transfer_in') ||
+          !access.companyBranches.some((b) => b.id === effect.branchId)
+        )
+          throw new AccessError('FORBIDDEN_SCOPE');
+      } else this.uow.assertBranch(effect.branchId);
       this.uow.requireLock(
         resourceClass[effect.family],
         resourceKey(effect.family, effect.subjectId),

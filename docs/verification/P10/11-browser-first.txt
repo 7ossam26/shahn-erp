@@ -1,0 +1,5 @@
+npm notice run shahn-erp@0.1.0 test:p10:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p10.config.ts
+apps/web/src/features/shipments/api.tsx(13,14): error TS2415: Class 'ShipmentApiError' incorrectly extends base class 'CommercialError'.
+  Types of property 'details' are incompatible.
+    Property 'obligations' is missing in type '{ variantName: string; required: number; available: number; shortage: number; }[]' but required in type '{ obligations: { owner: string; sourceIdentity: string; }[]; }'.

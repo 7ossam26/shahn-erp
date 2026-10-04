@@ -1,0 +1,181 @@
+npm notice run shahn-erp@0.1.0 test:p10:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p10.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2649 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BSFTubRJ.css                           86.63 kB │ gzip: 17.16 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-D7-RRFrh.js                           273.81 kB │ gzip: 67.36 kB
+
+✓ built in 937ms
+[WebServer] (node:4672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:22600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\p10\treasury.spec.ts:13:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens (17.3s)
+(node:29372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 tests\p10\treasury.spec.ts:26:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline (786ms)
+(node:3644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 tests\p10\treasury.spec.ts:40:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review (16.4s)
+(node:28552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 tests\p10\treasury.spec.ts:49:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile (1.0m)
+(node:9800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 tests\p10\treasury.spec.ts:58:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive (18.6s)
+(node:28552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 tests\p10\treasury.spec.ts:64:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects (4.2s)
+
+
+  1) tests\p10\treasury.spec.ts:13:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: 'تفاصيل التحويل' })
+    Expected substring: "قيد النقل — لم يُستلم"
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms
+      - waiting for getByRole('region', { name: 'تفاصيل التحويل' })
+
+
+      16 |  await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await expect(page.getByRole('region',{name:'مراجعة الإرسال'})).toContainText('رصيد الوجهة لا يزيد');
+      17 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/send-${width}.png`,fullPage:true});}
+    > 18 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('قيد النقل — لم يُستلم');sentPath=new URL(page.url()).pathname;
+         |                                                                                                                                                 ^
+      19 |  expect(await control('/statistics')).toEqual({source:'70000',destination:'0',transit:'30000',profitFacts:0,receipts:0});
+      20 |  await page.reload();await expect(page.getByRole('region',{name:'تفاصيل التحويل'})).toContainText('300.00');
+      21 |  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'docs/verification/P10/screenshots/pending-390.png',fullPage:true});
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:18:145
+
+    Error Context: test-results\treasury-sender-assigned-C-bf790-responsive-reviewed-screens\error-context.md
+
+  2) tests\p10\treasury.spec.ts:26:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline
+
+    TypeError: Cannot read properties of undefined (reading 'replace')
+
+      25 | });
+      26 | test('receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline',async({page})=> {
+    > 27 |  await login(page,'receiver');await page.goto(sentPath.replace('/transfers/','/receipts/'));await page.setViewportSize({width:390,height:844});
+         |                                                        ^
+      28 |  await page.getByLabel('وقت الاستلام الفعلي — القاهرة',{exact:true}).fill('2026-09-01T14:00');expect(await page.getByLabel('المبلغ بالجنيه',{exact:true}).count()).toBe(0);
+      29 |  await page.getByRole('button',{name:'مراجعة الاستلام الكامل',exact:true}).click();
+      30 |  for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:width===1440?1050:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P10/screenshots/receipt-${width}.png`,fullPage:true});}
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:27:56
+
+    Error Context: test-results\treasury-receiver-assigned-46e3a-er-once-with-exact-timeline\error-context.md
+
+  3) tests\p10\treasury.spec.ts:40:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('alert')
+    Expected substring: "الرصيد المتاح لا يكفي"
+    Received string:    "لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات."
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('alert') with timeout 15000ms
+      - waiting for getByRole('alert')
+        32 × locator resolved to <div role="alert" tabindex="-1" class="commercial-error">لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قب…</div>
+           - unexpected value "لم تصل نتيجة التأكيد. استرد النتيجة بنفس الطلب قبل تغيير البيانات."
+
+
+      40 | test('insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review',async({page})=> {
+      41 |  await login(page);await fillSend(page,'800');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();
+    > 42 |  await expect(page.getByRole('alert')).toContainText('الرصيد المتاح لا يكفي');await expect(page.getByRole('alert')).toBeFocused();
+         |                                        ^
+      43 |  await page.getByRole('button',{name:'تعديل المدخلات'}).click();await expect(page.getByLabel('المبلغ بالجنيه',{exact:true})).toHaveValue('800');
+      44 |  await page.getByLabel('المبلغ بالجنيه',{exact:true}).fill('1');await page.getByRole('button',{name:'مراجعة الإرسال',exact:true}).click();await control('/bump-destination');
+      45 |  await page.getByRole('button',{name:'تأكيد الإرسال الفعلي',exact:true}).click();await expect(page.getByRole('alert')).toContainText('تغيّرت النسخة');
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:42:40
+
+    Error Context: test-results\treasury-insufficient800-r-5fdc8-needs-refresh-and-re-review\error-context.md
+
+  4) tests\p10\treasury.spec.ts:49:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('.finance-row').first()
+
+
+      51 |   await page.getByRole('button', { name: 'مراجعة الإرسال', exact: true }).click();
+      52 |   await expect(page.getByRole('region', { name: 'مراجعة الإرسال' })).toContainText(
+    > 53 |     'رصيد الوجهة لا يزيد',
+         |                           ^
+      54 |   );
+      55 |   for (const width of [320, 390, 768, 1440]) {
+      56 |     await page.setViewportSize({ width, height: width === 1440 ? 1050 : 844 });
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:53:71
+
+    Error Context: test-results\treasury-pending-and-recei-f4868-tention-and-reset-on-mobile\error-context.md
+
+  5) tests\p10\treasury.spec.ts:58:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'تفاصيل التحويل' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'تفاصيل التحويل' }) with timeout 15000ms
+      - waiting for getByRole('region', { name: 'تفاصيل التحويل' })
+
+
+      58 |       true,
+      59 |     );
+    > 60 |     await page.screenshot({
+         |                            ^
+      61 |       path: `docs/verification/P10/screenshots/send-${width}.png`,
+      62 |       fullPage: true,
+      63 |     });
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:60:281
+
+    Error Context: test-results\treasury-connection-loss-b-3149f-and-same-person-can-receive\error-context.md
+
+  6) tests\p10\treasury.spec.ts:64:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects
+
+    TypeError: Cannot read properties of undefined (reading 'split')
+
+      69 |   sentPath = new URL(page.url()).pathname;
+      70 |   expect(await control('/statistics')).toEqual({
+    > 71 |     source: '70000',
+         |                     ^
+      72 |     destination: '0',
+      73 |     transit: '30000',
+      74 |     profitFacts: 0,
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\p10\treasury.spec.ts:71:36
+
+    Error Context: test-results\treasury-receiver-expense--55453-tial-API-creates-no-effects\error-context.md
+
+  6 failed
+    tests\p10\treasury.spec.ts:13:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens
+    tests\p10\treasury.spec.ts:26:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline
+    tests\p10\treasury.spec.ts:40:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review
+    tests\p10\treasury.spec.ts:49:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile
+    tests\p10\treasury.spec.ts:58:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive
+    tests\p10\treasury.spec.ts:64:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects

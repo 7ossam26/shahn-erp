@@ -1,0 +1,7 @@
+2026-10-04 — evidence bookkeeping correction
+
+New-Item was called with two positional directory arguments instead of an explicit -Path array. PowerShell reported that no positional parameter accepted the second path. The subsequent Copy-Item and Move-Item operations failed because those directories did not exist. The script did not stop on those errors, and git restore then restored the prior tracked P03/P09 database-results.json files.
+
+Correction: created the P03 destination with one explicit -Path; moved the still-present timestamped P03 database-results-1791077101030.json into P10/prerequisite-artifacts/P03 and copied it there as database-results.json. Prior tracked artifacts remain unchanged.
+
+Limitation: final P09 regression JSON was restored before it could be copied. Its actual passing output is preserved in 26-prerequisite-regression.txt (18 P09 cases within 56 total); the earlier full P09 prerequisite artifacts remain in prerequisite-artifacts. No replacement JSON was fabricated and no tests were rerun to conceal the bookkeeping failure. P10's final database/browser artifacts and all final test stdout are retained.

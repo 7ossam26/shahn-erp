@@ -1,4 +1,6 @@
 import { financePaths } from './finance/index.js';
+import { treasuryPaths } from './finance/treasury-transfers/index.js';
+export * from './finance/treasury-transfers/index.js';
 export * from './finance/index.js';
 import AjvModule, { type JSONSchemaType } from 'ajv';
 import formatsModule from 'ajv-formats';
@@ -122,6 +124,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...treasuryPaths,
     ...financePaths,
     ...employeePaths,
     ...shipmentPaths,

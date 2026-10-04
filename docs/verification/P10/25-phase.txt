@@ -1,0 +1,66 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P10
+P10 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 12ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  04:23:48
+   Duration  1.99s (environment 41%, import 40%, transform 10%, setup 8%, tests 1%)
+
+P10 unit: PASSED
+P10 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/treasury-transfers.test.ts (22 tests) 46060ms
+   ✓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 7769ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  04:23:50
+   Duration  48.17s (tests 96%, import 3%, transform 1%)
+
+P10 database: PASSED
+P10 browser: test:p10:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2649 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BNSVzuWI.css                           86.59 kB │ gzip: 17.15 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-Dq7ly5FJ.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-k22L2n7o.js                           62.38 kB │ gzip: 19.55 kB
+apps/web/dist/assets/vendor-CNviQeRg.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-h4vyHFHp.js                          109.60 kB │ gzip: 36.80 kB
+apps/web/dist/assets/vendor-CauAXBAH.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-Ca2tOWjd.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-Csp7leRE.js                           273.89 kB │ gzip: 67.40 kB
+
+✓ built in 1.24s
+[WebServer] (node:4676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:28504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p10\treasury.spec.ts:40:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens (3.0s)
+  ok 2 tests\p10\treasury.spec.ts:91:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline (2.5s)
+  ok 3 tests\p10\treasury.spec.ts:167:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review (2.0s)
+  ok 4 tests\p10\treasury.spec.ts:191:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile (1.4s)
+  ok 5 tests\p10\treasury.spec.ts:218:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive (3.0s)
+  ok 6 tests\p10\treasury.spec.ts:246:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects (1.4s)
+
+  6 passed (1.0m)
+P10 browser: PASSED
+P10 publicIntegration: NOT APPLICABLE — P10 records local staff assertions with committed PostgreSQL/native HTTP/process/browser evidence. No bank API, external payment or Tawsel integration is part of treasury transfer.
+P10: all required layers passed

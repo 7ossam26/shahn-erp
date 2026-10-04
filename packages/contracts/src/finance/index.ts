@@ -44,7 +44,7 @@ export interface MoneyMovement extends PaymentFields {
   sourceId: string;
   effectId: string;
   direction: 'deposit' | 'withdrawal';
-  sourceKind: 'expense' | 'general';
+  sourceKind: 'expense' | 'general' | 'treasury_send' | 'treasury_receive';
   accountName: string;
   branchName: string;
   reason: string;
@@ -164,7 +164,7 @@ const movementSchema = closed({
   sourceId: uuid,
   effectId: uuid,
   direction,
-  sourceKind: { type: 'string', enum: ['expense', 'general'] },
+  sourceKind: { type: 'string', enum: ['expense', 'general', 'treasury_send', 'treasury_receive'] },
   reason: note,
 });
 const expenseSchema = closed({
@@ -226,6 +226,9 @@ export const financeErrorSchema = {
     commandId: nullable(uuid),
     correlationId: uuid,
     currentVersion: version,
+    details: closed({
+      obligations: array(closed({ owner: { type: 'string' }, sourceIdentity: { type: 'string' } })),
+    }),
   },
 };
 const ajv = new AjvModule.default({ strict: true, allErrors: true });

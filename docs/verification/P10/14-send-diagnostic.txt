@@ -1,0 +1,55 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/treasury-transfers.test.ts (20 tests | 1 failed | 19 skipped) 35904ms
+   × A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination 53ms
+   ↓ A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied
+   ↓ A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery
+   ↓ A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure
+   ↓ rolls back full receipt and keeps pending obligations on afterDebit failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransfer failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransit failure
+   ↓ rolls back full receipt and keeps pending obligations on beforeResult failure
+   ↓ A03 serializes two committed receipts with distinct commands and connections to one destination effect
+   ↓ send/withdrawal independent race: send first cannot spend beyond1000
+   ↓ send/withdrawal independent race: withdrawal first cannot spend beyond1000
+   ↓ A04 races two sends700 against1000, one committed source debit/transit
+   ↓ blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming
+   ↓ serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe
+   ↓ same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice
+   ↓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts > A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination
+AssertionError: expected { accounts: '70000', …(2) } to deeply equal { accounts: '70000', …(2) }
+
+- Expected
++ Received
+
+  {
+    "accounts": "70000",
+-   "profitFacts": 0,
++   "profitfacts": 0,
+    "transit": "30000",
+  }
+
+ ❯ tests/db/treasury-transfers.test.ts:44:25
+     42|  const c=f.send();transferId=c.transferId;const r=await run(c);
+     43|  expect(r.state).toBe('sent');expect(await balance(f.source.entityId))…
+     44|  expect(await totals()).toEqual({accounts:'70000',transit:'30000',prof…
+       |                         ^
+     45|  expect((await run(c))).toEqual(r);
+     46|  expect((await run({...c,commandId:randomUUID()})).transferId).toBe(tr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 19 skipped (20)
+   Start at  04:17:57
+   Duration  38.89s (tests 93%, import 6%, transform 2%)

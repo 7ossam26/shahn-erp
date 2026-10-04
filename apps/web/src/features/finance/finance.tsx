@@ -13,7 +13,7 @@ import type {
 } from '@shahn/contracts';
 import { useAccess } from '../access/access.js';
 import { Field, TextField, displayMinor, inputMinor, CommercialError } from '../brands/api.js';
-import { financeApi, useFinanceMutation, type FinanceDraft } from './api.js';
+import { financeApi, useFinanceMutation, FinanceApiError, type FinanceDraft } from './api.js';
 import './finance.css';
 type Screen = 'accounts' | 'expenses' | 'movements';
 const titles = {
@@ -26,6 +26,14 @@ const methods: Record<PaymentMethod, string> = {
   bank_deposit: 'إيداع بنكي',
   instapay: 'إنستا باي',
 };
+const movementName = (m: MoneyMovement) =>
+  m.sourceKind === 'treasury_send'
+    ? 'إرسال تحويل أموال'
+    : m.sourceKind === 'treasury_receive'
+      ? 'استلام تحويل أموال'
+      : m.direction === 'deposit'
+        ? 'إيداع'
+        : 'سحب';
 const cap = (s: Screen) =>
   s === 'expenses' ? 'expenses' : s === 'accounts' ? 'finance.accounts' : 'finance.movements';
 const path = (s: Screen) => (s === 'expenses' ? '/expenses' : '/finance/' + s);
@@ -62,6 +70,7 @@ const errors: Record<string, string> = {
   AUTHENTICATION_REQUIRED: 'انتهت الجلسة. سجل الدخول لاسترداد النتيجة.',
 };
 export function FinanceError({ error }: { error: unknown }) {
+  const { registry } = useAccess();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (error) ref.current?.focus();
@@ -74,6 +83,23 @@ export function FinanceError({ error }: { error: unknown }) {
       {error instanceof CommercialError && error.currentVersion !== undefined && (
         <p>النسخة الحالية: {error.currentVersion}</p>
       )}
+      {error instanceof FinanceApiError &&
+        error.details?.obligations.map(
+          (o) =>
+            o.owner === 'treasury_transfer' && (
+              <p key={o.sourceIdentity}>
+                <Link
+                  to={
+                    (registry?.context.grants.includes('treasury.receive')
+                      ? '/treasury/receipts/'
+                      : '/treasury/transfers/') + o.sourceIdentity
+                  }
+                >
+                  فتح التحويل المعلق
+                </Link>
+              </p>
+            ),
+        )}
     </div>
   );
 }
@@ -276,13 +302,7 @@ export function FinanceListPage({ screen }: { screen: Screen }) {
                 >
                   <div>
                     <strong>
-                      {'name' in r
-                        ? r.name
-                        : 'description' in r
-                          ? r.description
-                          : r.direction === 'deposit'
-                            ? 'إيداع'
-                            : 'سحب'}
+                      {'name' in r ? r.name : 'description' in r ? r.description : movementName(r)}
                     </strong>
                     <span>
                       {'branchName' in r
@@ -876,7 +896,7 @@ export function FinanceDetailPage({ screen }: { screen: Screen }) {
               ) : (
                 <>
                   <dt>الاتجاه</dt>
-                  <dd>{r.direction === 'deposit' ? 'إيداع' : 'سحب'}</dd>
+                  <dd>{movementName(r)}</dd>
                   <dt>السبب</dt>
                   <dd>{r.reason || '—'}</dd>
                 </>
@@ -898,7 +918,7 @@ export function FinanceDetailPage({ screen }: { screen: Screen }) {
                 <div key={m.id} className="finance-row">
                   <div>
                     <strong>
-                      {m.direction === 'deposit' ? 'إيداع' : 'سحب'} · {m.branchName}
+                      {movementName(m)} · {m.branchName}
                     </strong>
                     <span>
                       <bdi>{m.actualDate}</bdi> · {m.actorName}

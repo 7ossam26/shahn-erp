@@ -1,0 +1,28 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/treasury-transfers.test.ts > A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination 95ms
+ ✓ tests/db/treasury-transfers.test.ts > A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied 50ms
+ ✓ tests/db/treasury-transfers.test.ts > A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery 252ms
+ ✓ tests/db/treasury-transfers.test.ts > A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects 122ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure 38ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure 34ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure 33ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure 42ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterDebit failure 137ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterTransfer failure 104ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on afterTransit failure 92ms
+ ✓ tests/db/treasury-transfers.test.ts > rolls back full receipt and keeps pending obligations on beforeResult failure 74ms
+ ✓ tests/db/treasury-transfers.test.ts > A03 serializes two committed receipts with distinct commands and connections to one destination effect 164ms
+ ✓ tests/db/treasury-transfers.test.ts > send/withdrawal independent race: send first cannot spend beyond1000 92ms
+ ✓ tests/db/treasury-transfers.test.ts > send/withdrawal independent race: withdrawal first cannot spend beyond1000 80ms
+ ✓ tests/db/treasury-transfers.test.ts > A04 races two sends700 against1000, one committed source debit/transit 106ms
+ ✓ tests/db/treasury-transfers.test.ts > blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming 226ms
+ ✓ tests/db/treasury-transfers.test.ts > serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe 357ms
+ ✓ tests/db/treasury-transfers.test.ts > same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice 129ms
+ ✓ tests/db/treasury-transfers.test.ts > A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 22964ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  04:19:04
+   Duration  68.28s (tests 96%, import 3%, transform 1%)

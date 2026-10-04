@@ -1,0 +1,12 @@
+2026-10-04 04:20:35.291 EEST [3084] LOG:  starting PostgreSQL 18.3 on x86_64-windows, compiled by msvc-19.44.35225, 64-bit
+2026-10-04 04:20:35.292 EEST [3084] LOG:  listening on IPv4 address "127.0.0.1", port 65341
+2026-10-04 04:20:35.351 EEST [27688] LOG:  database system was shut down at 2026-10-04 04:20:33 EEST
+2026-10-04 04:20:35.357 EEST [3084] LOG:  database system is ready to accept connections
+2026-10-04 04:21:15.300 EEST [25000] ERROR:  record "old" has no field "owner"
+2026-10-04 04:21:15.300 EEST [25000] CONTEXT:  PL/pgSQL expression "TG_TABLE_NAME='account_obligation' AND OLD.owner='treasury_transfer' AND EXISTS(SELECT 1 FROM finance.treasury_transfer t WHERE t.company_id=OLD.company_id AND t.id::text=OLD.source_identity AND t.state='sent')"
+	PL/pgSQL function finance.guard_treasury_lifecycle() line 7 at IF
+2026-10-04 04:21:15.300 EEST [25000] STATEMENT:  COMMIT
+2026-10-04 04:21:15.301 EEST [25000] WARNING:  there is no transaction in progress
+2026-10-04 04:21:15.319 EEST [25000] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+
+2026-10-04 04:21:15.319 EEST [29404] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.

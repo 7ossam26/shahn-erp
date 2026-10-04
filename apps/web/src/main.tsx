@@ -1,4 +1,9 @@
 import { FinanceListPage, FinanceNewPage, FinanceDetailPage } from './features/finance/finance.js';
+import {
+  TreasuryListPage,
+  TreasurySendPage,
+  TreasuryDetailPage,
+} from './features/finance/treasury-transfers/treasury.js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -67,6 +72,11 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/treasury/transfers', element: <TreasuryListPage screen="send" /> },
+      { path: '/treasury/transfers/new', element: <TreasurySendPage /> },
+      { path: '/treasury/transfers/:id', element: <TreasuryDetailPage screen="send" /> },
+      { path: '/treasury/receipts', element: <TreasuryListPage screen="receive" /> },
+      { path: '/treasury/receipts/:id', element: <TreasuryDetailPage screen="receive" /> },
       ...(['accounts', 'expenses', 'movements'] as const).flatMap((screen) => {
         const prefix = screen === 'expenses' ? '/expenses' : '/finance/' + screen;
         return [

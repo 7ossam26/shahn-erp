@@ -1,0 +1,14 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 45771ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6812ms
+ ✓ tests/db/finance.test.ts (18 tests) 43455ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6592ms
+ ✓ tests/db/access.test.ts (17 tests) 35812ms
+
+ Test Files  3 passed (3)
+      Tests  56 passed (56)
+   Start at  04:24:12
+   Duration  130.42s (tests 96%, import 3%, transform 1%)

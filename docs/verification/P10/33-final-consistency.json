@@ -1,0 +1,265 @@
+{
+  "checkedAt": "2026-10-04T04:30:13.9580942+03:00",
+  "branch": "codex/p10-treasury-transfers",
+  "phaseCases": {
+    "total": 44,
+    "databaseApiProcess": 22,
+    "browser": 6,
+    "unit": 16
+  },
+  "regressionCases": {
+    "unit": 147,
+    "databaseApi": 56
+  },
+  "screenshots": 13,
+  "sourceRows": 16,
+  "artifactHashes": [
+    {
+      "path": "package-lock.json",
+      "sha256": "40864d48391bac2560e4f52fed913d4e488673199e4a2c9fd6bb9a331e2d5445",
+      "matches": true
+    },
+    {
+      "path": "ui-preview/package-lock.json",
+      "sha256": "b7ab00d5584496d9da3acd4b5bad58bafb69093a2d425062db52e482a3e1758d",
+      "matches": true
+    },
+    {
+      "path": "packages/database/migrations/0013_p09_accounts_expenses.sql",
+      "sha256": "a5de87bdb2e5c8daec8d90876e8c6dbf3877b80fff41ff7bb003801e0ff08e42",
+      "matches": true
+    },
+    {
+      "path": "packages/database/migrations/0014_p10_treasury_transfers.sql",
+      "sha256": "46138bed504cfa10789bca8bb3a562e84e2643a266bde1b60306fa9fee2b7fe7",
+      "matches": true
+    },
+    {
+      "path": "packages/contracts/openapi.json",
+      "sha256": "58b235382f572c7e0490d55c328527b69c67353424db2ce302493af32ccfab5b",
+      "matches": true
+    },
+    {
+      "path": "phases/10-treasury-transfers.md",
+      "sha256": "165d5bbac94f13a330227cffa6cfc64f000e1d0b9c681ff9dcfbe98eccecf7bb",
+      "matches": true
+    }
+  ],
+  "documentationLinks": [
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "HANDOFF.md",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "TRACEABILITY.md",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "../../../phases/execution/P10.md",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "25-phase.txt",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "27-lint.txt",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "28-typecheck.txt",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "29-unit-regression.txt",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "VERSIONS.md",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/README.md",
+      "target": "26-prerequisite-regression.txt",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/TRACEABILITY.md",
+      "target": "HANDOFF.md",
+      "exists": true
+    },
+    {
+      "document": "docs/verification/P10/TRACEABILITY.md",
+      "target": "../../../phases/execution/P10.md",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../10-treasury-transfers.md",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/README.md",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/01-prerequisite-db-status.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/04-isolated-db-status.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/02-prerequisite-p09-phase.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/03-typecheck-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/05-treasury-db-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/07-migration-diagnostic.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/06-treasury-unit.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/08-typecheck-ui-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/10-typecheck.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/11-browser-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/09-treasury-db-repaired.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/13-send-diagnostic.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/14-send-diagnostic.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/15-treasury-db.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/12-browser-repaired.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/16-format.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/17-lint-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/20-lint.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/18-browser.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/21-browser-lifecycle-diagnostic.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/23-phase-first.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/HANDOFF.md",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/TRACEABILITY.md",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/25-phase.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/27-lint.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/28-typecheck.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/29-unit-regression.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/26-prerequisite-regression.txt",
+      "exists": true
+    },
+    {
+      "document": "phases/execution/P10.md",
+      "target": "../../docs/verification/P10/32-evidence-bookkeeping.txt",
+      "exists": true
+    }
+  ],
+  "protectedPriorPathsChanged": [],
+  "fixtureRuntimeExists": false,
+  "fixtureListeners": [],
+  "retainedStoppedFixture": "C:/Users/ahmed/AppData/Local/Temp/shahn-p03-test-n5BwWe",
+  "bookkeepingLimitation": "Final P09 regression JSON was restored before copying; passing stdout26 and initial prerequisite JSON retained."
+}

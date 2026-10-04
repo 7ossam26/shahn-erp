@@ -1,4 +1,28 @@
 {
+  "P10": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/unit",
+      "extension": ".test",
+      "filter": ["tests/unit/treasury-transfers.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/db",
+      "extension": ".test",
+      "filter": ["tests/db/treasury-transfers.test.ts"]
+    },
+    "browser": {
+      "script": "test:p10:browser",
+      "directory": "tests/p10",
+      "extension": ".spec",
+      "config": "playwright.p10.config.ts"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P10 records local staff assertions with committed PostgreSQL/native HTTP/process/browser evidence. No bank API, external payment or Tawsel integration is part of treasury transfer."
+    }
+  },
   "P08": {
     "unit": {
       "script": "test:unit",

@@ -1,0 +1,48 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/treasury-transfers.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/treasury-transfers.test.ts (20 tests | 20 skipped) 35634ms
+   ↓ A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination
+   ↓ A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied
+   ↓ A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery
+   ↓ A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure
+   ↓ rolls back full receipt and keeps pending obligations on afterDebit failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransfer failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransit failure
+   ↓ rolls back full receipt and keeps pending obligations on beforeResult failure
+   ↓ A03 serializes two committed receipts with distinct commands and connections to one destination effect
+   ↓ send/withdrawal independent race: send first cannot spend beyond1000
+   ↓ send/withdrawal independent race: withdrawal first cannot spend beyond1000
+   ↓ A04 races two sends700 against1000, one committed source debit/transit
+   ↓ blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming
+   ↓ serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe
+   ↓ same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice
+   ↓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts [ tests/db/treasury-transfers.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/db/treasury-transfers.test.ts:32:2
+     30|  f=await treasuryFixture(db.pool);
+     31|  const old=(await db.pool.query('SELECT to_jsonb(j) AS body FROM kerne…
+     32|  await migrate(db.pool);expect((await migrationStatus(db.pool)).state)…
+       |  ^
+     33|  expect((await db.pool.query('SELECT to_jsonb(j) AS body FROM kernel.j…
+     34|  const cli=await promisify(execFile)(process.execPath,['packages/datab…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  20 skipped (20)
+   Start at  04:11:13
+   Duration  38.47s (tests 93%, import 6%, transform 2%)
