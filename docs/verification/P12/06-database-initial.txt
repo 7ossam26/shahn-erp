@@ -1,0 +1,101 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p12/dispatch.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/integration/p12/dispatch.db.test.ts (14 tests | 7 failed) 42024ms
+   ✓ migrates additively with native prices and explicit unsynchronized identity 59ms
+   ✓ separates snapshot, preparation, actual handover, and planning failure 151ms
+   ✓ keeps explicit prepaid goods and recipient shipping 45ms
+   ✓ keeps explicit prepaid goods and brand shipping 44ms
+   × native duplicate returns one intent; changed payload under the same ID conflicts 31ms
+   ✓ blocks stale version, incomplete packing, competing claim, and disabled driver 184ms
+   ✓ competing independent parcel dispatch and transfer transactions have one winner 92ms
+   × reserves eligible 60 from 100, excludes pending 500 and rejects competing payout 60 120ms
+   × rollback after an injected outbox insert failure leaves no cover, intent audit or stock effect 46ms
+   × unknown handover keeps immutable action, cover and unavailable goods; late lease cannot apply 77ms
+   × accepted result then signed event echo creates one local custody effect 61ms
+   × retains atomic capacity rejection for a two-parcel batch without local custody 77ms
+   ✓ native HTTP enforces current grants, scope, CSRF and closed responses 370ms
+   × persists exact prices, source bytes and quantities after PostgreSQL restart 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > native duplicate returns one intent; changed payload under the same ID conflicts
+error: relation "audit_event" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ counts tests/integration/p12/dispatch.db.test.ts:19:25
+
+ ❯ tests/integration/p12/dispatch.db.test.ts:24:203
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > reserves eligible 60 from 100, excludes pending 500 and rejects competing payout 60
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p12/dispatch.db.test.ts:27:221
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > rollback after an injected outbox insert failure leaves no cover, intent audit or stock effect
+error: relation "audit_event" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ counts tests/integration/p12/dispatch.db.test.ts:19:25
+
+ ❯ tests/integration/p12/dispatch.db.test.ts:28:163
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > unknown handover keeps immutable action, cover and unavailable goods; late lease cannot apply
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p12/dispatch.db.test.ts:29:159
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > accepted result then signed event echo creates one local custody effect
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p12/dispatch.db.test.ts:30:137
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > retains atomic capacity rejection for a two-parcel batch without local custody
+error: relation "audit_event" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ counts tests/integration/p12/dispatch.db.test.ts:19:25
+
+ ❯ tests/integration/p12/dispatch.db.test.ts:31:172
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > persists exact prices, source bytes and quantities after PostgreSQL restart
+TypeError: db.restart is not a function
+ ❯ tests/integration/p12/dispatch.db.test.ts:33:216
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 7 passed (14)
+   Start at  05:37:00
+   Duration  47.60s (tests 89%, import 9%, transform 3%)

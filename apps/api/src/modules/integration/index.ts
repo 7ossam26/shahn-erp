@@ -5,3 +5,4 @@ export * from './signature-verifier.js';
 export * from './tawsel-client.js';
 export * from './signed-receiver.controller.js';
 export * from './integration-query.service.js';
+export { applyDispatchAcceptance, applyOneDispatchEvent } from '../dispatch/acceptance.js';

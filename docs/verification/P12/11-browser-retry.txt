@@ -1,0 +1,69 @@
+npm notice run shahn-erp@0.1.0 test:p12:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p12.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2656 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BGptryqt.css                           91.59 kB │ gzip: 18.07 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-DMOkVFej.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-CwrtHzEc.js                           62.37 kB │ gzip: 19.49 kB
+apps/web/dist/assets/vendor-C5MmHUBX.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-BTzFkY0G.js                          109.60 kB │ gzip: 36.75 kB
+apps/web/dist/assets/vendor-BOF1pIxI.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-BsfnV0vf.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-CQuqPZZb.js                           323.52 kB │ gzip: 80.99 kB
+
+✓ built in 799ms
+[WebServer] (node:27948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:15468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p12\dispatch.spec.ts:6:1 › responsive RTL, long recipient, blockers and preserved OR/AND filters (2.1s)
+(node:27612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p12\dispatch.spec.ts:10:1 › preparation stays separate from receipt and reserves cover only on physical confirmation (2.0s)
+  ok 3 tests\integration\p12\dispatch.spec.ts:13:1 › lost native response recovers one persisted command after reload (1.8s)
+  ok 4 tests\integration\p12\dispatch.spec.ts:16:1 › unknown remote response keeps retry identity and restores list filters on Back (1.6s)
+  ok 5 tests\integration\p12\dispatch.spec.ts:19:1 › permission revoked with a stale selected form is rejected by the real API (993ms)
+
+
+  1) tests\integration\p12\dispatch.spec.ts:6:1 › responsive RTL, long recipient, blockers and preserved OR/AND filters
+
+    Error: locator.check: Clicking the checkbox did not change its state
+    Call log:
+      - waiting for getByLabel('جاهزة', { exact: true })
+        - locator resolved to <input type="checkbox"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+        - click action done
+        - waiting for scheduled navigations to finish
+        - navigations have finished
+
+
+       6 | test('responsive RTL, long recipient, blockers and preserved OR/AND filters',async({page})=>{
+       7 |  for(const width of [1440,390,320]){await page.setViewportSize({width,height:width===1440?1050:844});await expect(page.getByText('شحنة لم يكتمل تجهيزها',{exact:true})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`docs/verification/P12/screenshots/selection-${width}.png`,fullPage:true});}
+    >  8 |  await page.getByRole('button',{name:/فلاتر متقدمة/}).click();await page.getByLabel('بانتظار التجهيز',{exact:true}).check();await expect(page.getByText('شحنة لم يكتمل تجهيزها',{exact:true})).toBeVisible();await expect(page.getByRole('heading',{name:'أحمد — شحنة عادية'})).toHaveCount(0);await page.getByLabel('جاهزة',{exact:true}).check();await expect(page.getByRole('heading',{name:'أحمد — شحنة عادية'})).toBeVisible();await page.getByRole('button',{name:'مسح الفلاتر'}).click();
+         |                                                                                                                                                                                                                                                                                                                                            ^
+       9 | });
+      10 | test('preparation stays separate from receipt and reserves cover only on physical confirmation',async({page})=>{
+      11 |  const f=await runtime();await page.setViewportSize({width:390,height:844});await page.getByRole('checkbox',{name:'اختيار الشحنة '+f.paid.reference,exact:true}).check();await page.getByLabel('المندوب',{exact:true}).selectOption(f.driverId);await page.getByRole('button',{name:'مراجعة التحضير',exact:true}).click();await page.getByRole('button',{name:'تأكيد التحضير للمندوب'}).click();await expect(page).toHaveURL(/\/dispatch\/[a-f0-9-]+$/);expect((await (await control('/wallet')).json()).cover).toBe('0');await control('/advance');await page.getByRole('button',{name:'تحديث الحالة'}).click();await expect(page.getByRole('heading',{name:'مُحضّر للمندوب — لم يُسلّم'})).toBeVisible();await page.screenshot({path:'docs/verification/P12/screenshots/prepared-390.png',fullPage:true});await page.getByRole('button',{name:'مراجعة التسليم الفعلي'}).click();await expect(page.getByRole('button',{name:'تأكيد استلام المندوب'})).toBeDisabled();await page.getByRole('checkbox',{name:'أؤكد أن المندوب استلم هذه الدفعة فعلياً'}).check();await page.getByRole('button',{name:'تأكيد استلام المندوب'}).click();await expect(page.getByRole('heading',{name:'تسليم فعلي بانتظار تأكيد توصيل'})).toBeVisible();expect((await (await control('/wallet')).json()).eligibleToPay).toBe('4000');await page.screenshot({path:'docs/verification/P12/screenshots/pending-390.png',fullPage:true});await control('/advance');await page.getByRole('button',{name:'تحديث الحالة'}).click();await expect(page.getByRole('heading',{name:'تم قبول استلام المندوب'})).toBeVisible();await page.setViewportSize({width:1440,height:1050});await page.screenshot({path:'docs/verification/P12/screenshots/accepted-1440.png',fullPage:true});
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p12\dispatch.spec.ts:8:332
+
+    Error Context: test-results\dispatch-responsive-RTL-lo-61eab-nd-preserved-OR-AND-filters\error-context.md
+
+  1 failed
+    tests\integration\p12\dispatch.spec.ts:6:1 › responsive RTL, long recipient, blockers and preserved OR/AND filters
+  4 passed (50.9s)

@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-04",
+  "evidence": "33-phase-verified-local.txt",
+  "postgresql": "18.3",
+  "passed": 22,
+  "failed": 0,
+  "provenance": "Case groups extracted from registered source after the runner reported all 22 passed. HTTP source fixture is not independent Tawsel.",
+  "results": [
+    {
+      "source": "tests/integration/p12/dispatch.db.test.ts",
+      "cases": [
+        {
+          "name": "migrates additively with native prices and explicit unsynchronized identity",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "separates snapshot, preparation, actual handover, and planning failure",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "keeps explicit prepaid goods and $shippingPayer shipping",
+          "caseCount": 2,
+          "status": "passed"
+        },
+        {
+          "name": "native duplicate returns one intent; changed payload under the same ID conflicts",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "blocks stale version, incomplete packing, competing claim, and disabled driver",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "competing independent parcel dispatch and transfer transactions have one winner",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "reserves eligible 60 from 100, excludes pending 500 and rejects competing payout 60",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "rollback after an injected outbox insert failure leaves no cover, intent audit or stock effect",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "unknown handover keeps immutable action, cover and unavailable goods; late lease cannot apply",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "accepted result then signed event echo creates one local custody effect",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "retains atomic capacity rejection for a two-parcel batch without local custody",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "native HTTP enforces current grants, scope, CSRF and closed responses",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "persists exact prices, source bytes and quantities after PostgreSQL restart",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "pending 500 alone cannot reserve 60, while allow-negative creates no payout cash",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "independent cover and payout-allocation transactions cannot both spend 60 of eligible 100",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "stored-stock receipt, reservation, packing and accepted handover consume the same physical units once",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "approved typed waiver journey preserves goods and commission without brand shipping cover",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "definite rejection requires reread and a new native intent; old action JSON stays unchanged",
+          "caseCount": 1,
+          "status": "passed"
+        },
+        {
+          "name": "authorized predeparture withdrawal releases unused cover once and retains original cycle for another preparation",
+          "caseCount": 1,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "source": "tests/integration/p12/transport.db.test.ts",
+      "cases": [
+        {
+          "name": "kills a worker after HTTP fixture commit, then recovers the exact action over real HTTP once",
+          "caseCount": 1,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "source": "tests/integration/p12/migration.db.test.ts",
+      "cases": [
+        {
+          "name": "upgrades a populated P11 database without changing native identity, prices, balances or grants",
+          "caseCount": 1,
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,8 @@ Cross-cutting scope, UI, English documentation, meaningful Vitest, real transact
 
 ## Screen and action ownership
 
+Execution update, 2026-10-04: [P12 local evidence](../docs/verification/P12/README.md) and [bounded traceability](../docs/verification/P12/TRACEABILITY.md) now cover dispatch and its shipment/integration slices. Required live Tawsel acceptance remains blocked. Ownership below is unchanged; P13 and later phases are not started by this update.
+
 The first owner builds the core screen; additional owners extend only their named workflow. Use [ERP-SCREEN-SPEC.md](../docs/planning/ERP-SCREEN-SPEC.md) for exact fields, scopes and advanced filters. No page gets an unowned button because an endpoint or reference screenshot happens to contain it.
 
 | Screen | Purpose / primary action | Owning and consuming phases | Final evidence |

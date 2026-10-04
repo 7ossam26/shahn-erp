@@ -833,8 +833,20 @@ export function ShipmentDetailPage() {
               {d.price.brandName} · {serviceNames[d.fields.service]}
             </p>
             <p>
-              عهدة الفرع: <strong>{d.branchName}</strong>
+              {d.handedOver ? 'تم قبول استلام المندوب · فرع التسليم: ' : 'فرع الطرد المسجل: '}
+              <strong>{d.branchName}</strong>
             </p>
+            {d.sourceState === 'integrated' && (
+              <p>
+                أُرسلت بيانات الطرد إلى توصيل. راجع طلب التسليم لمعرفة حالة التحضير أو تأكيد
+                الاستلام.
+              </p>
+            )}
+            {access.registry?.context.grants.includes('dispatch') && (
+              <Link to={'/dispatch?branches=' + d.fields.branchId + '&brands=' + d.fields.brandId}>
+                عرض طلبات تسليم هذا البراند في الفرع
+              </Link>
+            )}
             <p>
               <bdi dir="ltr">{d.fields.phoneDisplay}</bdi>
             </p>

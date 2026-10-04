@@ -5,19 +5,33 @@ import {
   validateProvisioningCommand,
   validateDeliveryCommand,
   provisioningOperations,
+  validateIntakeCommand,
+  validateIntakeTask,
+  validateIntakeTaskList,
+  validateIntakeBatchResult,
+  intakeOperations,
+  tawselValidator,
+  canonicalTawselJson,
+  type IntakeTask,
   type SourceEnvelope,
   type SourceConfiguration,
   type ProvisioningStatus,
   type ActionResult,
 } from '@shahn/contracts/tawsel';
-import { canonical } from '../access/crypto.js';
 import { validatePublicCallback } from './callback-policy.js';
 import type { IntegrationConnection } from './config.js';
+const validateProblem = tawselValidator<{
+  actionId?: string;
+  status: number;
+  retryable: boolean;
+  code: string;
+}>('common.schema.json#/$defs/Problem');
 export class SourceFailure extends Error {
   constructor(
-    readonly kind: 'unknown' | 'retryable' | 'configuration-blocked',
+    readonly kind: 'unknown' | 'retryable' | 'configuration-blocked' | 'review-required',
     readonly code: string,
     readonly httpStatus: number | null = null,
+    readonly problem?: unknown,
   ) {
     super(code);
   }
@@ -118,10 +132,12 @@ export class TawselClient {
     operator?: string,
   ): Promise<{ result: ActionResult; status: number; configuration: SourceConfiguration | null }> {
     if (
-      (!validateProvisioningCommand(envelope) && !validateDeliveryCommand(envelope)) ||
+      (!validateProvisioningCommand(envelope) &&
+        !validateDeliveryCommand(envelope) &&
+        !validateIntakeCommand(envelope)) ||
       envelope.context.tenantId !== this.connection.tenantId ||
       envelope.context.integrationId !== this.connection.integrationId ||
-      canonical(JSON.parse(raw)) !== canonical(envelope)
+      canonicalTawselJson(JSON.parse(raw)) !== canonicalTawselJson(envelope)
     )
       throw new SourceFailure('configuration-blocked', 'IMMUTABLE_REQUEST_INVALID');
     if (envelope.operationId === 'integration.configureWebhook')
@@ -147,14 +163,26 @@ export class TawselClient {
       )
     )
       throw new SourceFailure('configuration-blocked', 'OPERATOR_OPERATION_FORBIDDEN');
-    const family = Object.hasOwn(provisioningOperations, envelope.operationId)
-      ? 'provisioning'
-      : 'integration';
+    const family = Object.hasOwn(intakeOperations, envelope.operationId)
+      ? 'intake'
+      : Object.hasOwn(provisioningOperations, envelope.operationId)
+        ? 'provisioning'
+        : 'integration';
     const r = await this.request(
       `/api/v1/${family}/commands/${envelope.operationId}`,
       raw,
       operator,
     );
+    // A correlated, definite Problem is retained as a problem, never a fabricated receipt.
+    if (
+      family === 'intake' &&
+      [400, 409, 422].includes(r.status) &&
+      validateProblem(r.body) &&
+      r.body.actionId === envelope.actionId &&
+      r.body.status === r.status &&
+      !r.body.retryable
+    )
+      throw new SourceFailure('review-required', r.body.code, r.status, r.body);
     if (
       !validateActionResult(r.body) ||
       r.body.operationId !== envelope.operationId ||
@@ -166,5 +194,43 @@ export class TawselClient {
         r.status,
       );
     return { result: r.body, status: r.status, configuration };
+  }
+  async intakeResult(envelope: SourceEnvelope): Promise<ActionResult | null> {
+    const r = await this.request('/api/v1/intake/results/' + envelope.actionId);
+    if (r.status === 401 || r.status === 403)
+      throw new SourceFailure('configuration-blocked', 'AUTHORIZATION_EXPIRED', r.status);
+    if (r.status === 404) return null;
+    if (!validateIntakeBatchResult(r.body) || r.body.actionId !== envelope.actionId)
+      throw new SourceFailure('unknown', 'INVALID_INTAKE_RESULT', r.status);
+    if (r.status === 202 || r.body.status === 'pending') return null;
+    if (
+      r.status !== 200 ||
+      !r.body.result ||
+      r.body.result.operationId !== envelope.operationId ||
+      r.body.result.receipt.actionId !== envelope.actionId ||
+      r.body.result.receipt.businessStatus !== r.body.status
+    )
+      throw new SourceFailure('unknown', 'INVALID_INTAKE_RESULT', r.status);
+    return r.body.result;
+  }
+  async intakeTask(externalId: string): Promise<IntakeTask> {
+    const r = await this.request('/api/v1/intake/task?' + new URLSearchParams({ externalId }));
+    if (r.status !== 200 || !validateIntakeTask(r.body) || r.body.externalId !== externalId)
+      throw new SourceFailure('unknown', 'INTAKE_TASK_UNAVAILABLE', r.status);
+    return r.body;
+  }
+  async intakeTasks(
+    filters: {
+      state?: IntakeTask['state'];
+      driverExternalId?: string;
+      limit?: number;
+      cursor?: string;
+    } = {},
+  ) {
+    const query = new URLSearchParams(Object.entries(filters).map(([k, v]) => [k, String(v)]));
+    const r = await this.request('/api/v1/intake/tasks?' + query);
+    if (r.status !== 200 || !validateIntakeTaskList(r.body))
+      throw new SourceFailure('unknown', 'INTAKE_TASKS_UNAVAILABLE', r.status);
+    return r.body;
   }
 }

@@ -57,7 +57,10 @@
     "test:p11:public": "node scripts/build-packages.mjs && vitest run --config vitest.p11.public.config.ts",
     "p11:trial": "node scripts/build.mjs && node --import tsx tests/integration/p11/serve.ts",
     "tawsel:credential": "node scripts/tawsel-credential.mjs",
-    "tawsel:operator": "node scripts/tawsel-operator.mjs"
+    "tawsel:operator": "node scripts/tawsel-operator.mjs",
+    "test:p12:browser": "node scripts/build.mjs && playwright test --config playwright.p12.config.ts",
+    "p12:trial": "node scripts/build.mjs && node --import tsx tests/integration/p12/serve.ts",
+    "test:p12:public": "node scripts/build-packages.mjs && vitest run --config vitest.p12.public.config.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

@@ -1,3 +1,4 @@
+import { DispatchPage, DispatchDetailPage } from './features/dispatch/dispatch.js';
 import { FinanceListPage, FinanceNewPage, FinanceDetailPage } from './features/finance/finance.js';
 import {
   IntegrationPage,
@@ -78,6 +79,8 @@ const router = createBrowserRouter([
       { path: '/support', element: <Support /> },
       { path: '/support/login', element: <Login support /> },
       { path: '/brands', element: <BrandsPage /> },
+      { path: '/dispatch', element: <DispatchPage /> },
+      { path: '/dispatch/:id', element: <DispatchDetailPage /> },
       { path: '/integration', element: <IntegrationPage /> },
       { path: '/integration/provision', element: <IntegrationProvisionPage /> },
       { path: '/integration/delivery', element: <IntegrationDeliveryPage /> },

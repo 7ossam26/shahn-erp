@@ -10,6 +10,9 @@ import {
   validateProvisioningCommand,
   validateDeliveryCommand,
   validateKeyRotation,
+  validateIntakeCommand,
+  intakeOperations,
+  type IntakeTask,
   type SourceEnvelope,
   type ActionResult,
   type ProvisioningStatus,
@@ -18,6 +21,7 @@ import {
 import { lockLease, type Lease } from '../kernel/work.js';
 import type { IntegrationRuntime, IntegrationConnection } from './config.js';
 import { TawselClient, SourceFailure } from './tawsel-client.js';
+import { applyDispatchAcceptance, applyOneDispatchEvent } from '../dispatch/acceptance.js';
 export interface SourceLease extends Lease {
   source_id: string;
   action_id: string;
@@ -113,6 +117,7 @@ export class SourceCommandWorker {
       configuration?: SourceConfiguration | null;
       identity?: ProvisioningStatus;
       failure?: SourceFailure;
+      tasks?: IntakeTask[];
     },
   ): Promise<boolean> {
     return transaction(this.pool, async (c) => {
@@ -124,6 +129,13 @@ export class SourceCommandWorker {
         )
       ).rows[0]!;
       if (!(await lockLease(c, work, this.owner))) return false;
+      if (Object.hasOwn(intakeOperations, work.operation_id))
+        await applyDispatchAcceptance(this.pool, c, work, outcome.result, outcome.tasks);
+      if (outcome.failure?.kind === 'review-required')
+        await c.query(
+          `UPDATE dispatch.intent i SET state='review-required',last_error=$1,version=version+1 FROM dispatch.action a WHERE a.company_id=$2 AND a.action_id=$3 AND(i.company_id,i.id)=(a.company_id,a.intent_id) AND i.state<>'accepted'`,
+          [outcome.failure.code, work.company_id, work.action_id],
+        );
       const result = outcome.result,
         state = result?.receipt.businessStatus ?? outcome.failure?.kind ?? 'unknown',
         code = result?.receipt.problem?.code ?? outcome.failure?.code ?? null;
@@ -131,14 +143,18 @@ export class SourceCommandWorker {
         `UPDATE integration.source_command SET state=$1,remote_result=$2,last_error=$3,http_status=$4,completed_at=CASE WHEN $2::jsonb IS NULL THEN NULL ELSE clock_timestamp() END WHERE company_id=$5 AND action_id=$6`,
         [
           state,
-          result ? JSON.stringify(result) : null,
+          result
+            ? JSON.stringify(result)
+            : outcome.failure?.problem
+              ? JSON.stringify(outcome.failure.problem)
+              : null,
           code,
           outcome.status ?? outcome.failure?.httpStatus ?? null,
           work.company_id,
           work.action_id,
         ],
       );
-      const terminal = !!result,
+      const terminal = !!result || outcome.failure?.kind === 'review-required',
         blocked = state === 'configuration-blocked';
       await c.query(
         `UPDATE work_item SET state=$1,outcome_kind=$2,last_error=$3,lease_owner=NULL,lease_until=NULL,completed_at=CASE WHEN $4 THEN clock_timestamp() ELSE NULL END,available_at=clock_timestamp()+($5*interval '1 second') WHERE id=$6`,
@@ -202,6 +218,7 @@ export class SourceCommandWorker {
     });
   }
   async runOne(): Promise<boolean> {
+    if (await applyOneDispatchEvent(this.pool)) return true;
     const work = await this.claim();
     if (!work) return false;
     await this.deliver(work);
@@ -227,10 +244,30 @@ export class SourceCommandWorker {
       if (!connection)
         throw new SourceFailure('configuration-blocked', 'CONNECTION_CONFIGURATION_REQUIRED');
       const envelope = JSON.parse(work.request_body) as SourceEnvelope;
-      if (!validateProvisioningCommand(envelope) && !validateDeliveryCommand(envelope))
+      if (
+        !validateProvisioningCommand(envelope) &&
+        !validateDeliveryCommand(envelope) &&
+        !validateIntakeCommand(envelope)
+      )
         throw new SourceFailure('configuration-blocked', 'IMMUTABLE_REQUEST_INVALID');
-      const client = this.clientFor(connection),
-        outcome = await client.send(envelope, work.request_body, this.operatorToken);
+      const client = this.clientFor(connection);
+      const recovered =
+        Object.hasOwn(intakeOperations, work.operation_id) && work.attempts > 1
+          ? await client.intakeResult(envelope)
+          : null;
+      const outcome = recovered
+        ? { result: recovered, status: 200, configuration: null }
+        : await client.send(envelope, work.request_body, this.operatorToken);
+      const tasks: IntakeTask[] = [];
+      if (
+        Object.hasOwn(intakeOperations, work.operation_id) &&
+        outcome.result.receipt.businessStatus === 'accepted'
+      ) {
+        const refs = Array.isArray(envelope.payload.items)
+          ? (envelope.payload.items as { externalId: string }[])
+          : [envelope.payload as { externalId: string }];
+        for (const ref of refs) tasks.push(await client.intakeTask(ref.externalId));
+      }
       let identity: ProvisioningStatus | undefined;
       if (outcome.result.receipt.businessStatus === 'accepted' && work.binding_id) {
         const b = (
@@ -246,7 +283,7 @@ export class SourceCommandWorker {
             /* Accepted command remains accepted; readiness awaits a later authorized status refresh. */
           }
       }
-      return this.complete(work, { ...outcome, ...(identity ? { identity } : {}) });
+      return this.complete(work, { ...outcome, tasks, ...(identity ? { identity } : {}) });
     } catch (error) {
       return this.complete(work, {
         failure:

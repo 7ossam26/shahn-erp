@@ -1,0 +1,21 @@
+# P12 consumer interfaces
+
+Consume these existing services rather than adding another wallet, outbox or parcel allocation system.
+
+| Surface | Contract |
+| --- | --- |
+| `@shahn/api/dispatch` | `dispatchCommands`, `prepareDispatch`, `assignmentReference`, source acceptance, snapshot/price mapping and shipping-cover helpers. Native commands use P03 current authorization, retained idempotency and one `UnitOfWork`. |
+| `@shahn/contracts` | Closed `DispatchCommand`, list/detail/filter/result contracts and OpenAPI. Prepare carries expected shipment versions; later commands carry expected intent version. `dispatch.review` requires a fresh scoped source task read and then a new native command/action for receipt. |
+| `@shahn/contracts/tawsel` | Six concrete intake command validators, Task/TaskList/BatchResult and exact safe-integer snapshot semantics. `canonicalTawselJson` preserves valid fractional coordinates after concrete schema validation; native money/command hashing is unchanged. No urgency UI is selected. |
+| `@shahn/database` | `readDispatchIntent`, `readDispatchItems`, `claimParcel`; additive `0016_p12_dispatch.sql`. Company/native shipment, numeric reference, source external ID, source cycle, remote task/cycle, native command and source action identities remain distinct. |
+| P15 whole-parcel competition | Lock the shipment in the established aggregate order, then acquire `shipments.parcel_claim`. An unresolved dispatch claim cannot be stolen or deleted after a timeout. Integrate the actual future transfer flow with this common claim. The P12 concurrency test uses the transfer claim primitive, not an implemented P15 journey. |
+| P13 shipping-fee consumption | `lockShippingWallets` uses the P03 company-brand resource lock. `closeShippingCover(u,brand,coverSource,lifecycleSource,earnedFeeId,reason)` consumes a cover against a real fee, once. Create lifecycle source identities before aggregate/stock/wallet locks. A receipt/plan/outcome alone is not a company cash receipt. |
+| P14/P18 truthful release | The same close helper with a null fee releases only after an authorized lifecycle fact. P12 closes unused cover only after accepted predeparture withdrawal with staff confirming goods at branch. Unknown/rejected/planning-failed responses never release cover. Held-driver returns remain P14. |
+| P18 approved waiver | `ApprovedShippingWaiver` contains incident, approval, original and replacement shipment IDs. Supply it only through the trusted typed `dispatchCommands(...,{approvedWaivers})` consumer. Keep original immutable price, tariff, waiver, goods due and `commissionPolicy:'normal'`. P12 validates representation; it does not supply P18's approval evidence or authorize arbitrary staff waiver input. |
+| Worker/event application | Existing `SourceCommandWorker` performs HTTP outside transactions and applies results under a source lock plus lease fence. P12's five correlated intake event types share the semantic acceptance table. Mismatches remain pending with `P12_RECONCILIATION_REQUIRED`; no broad P13 checkpoint is advanced. Old action echoes cannot regress a newer accepted assignment. |
+
+`dispatch.item` preserves original shipment price revision and cover reference; `dispatch.cycle` retains desired/pending/accepted source revisions and authoritative task snapshot. Rejected receipt cover can be reused once after authoritative prepared-state review; withdrawal closes it, and a new same-branch preparation retains the original cycle. A previously accepted-source correction/branch change is not silently submitted as a fresh commercial order. General integrated-source correction and receipt-funded redispatch require their owning lifecycle/compatibility evidence.
+
+The list uses assigned branch scope, creation timestamps interpreted as Cairo half-open day ranges, OR within filter fields and AND across fields. Displayed wallet balances are advisory; physical receipt rechecks live commercial state under locks. New capability `dispatch` is registered but existing roles are not silently granted it; assign it through P02 role management.
+
+Verified handoff is local only. Read [README](README.md) for the live acceptance gates and limitations.

@@ -136,6 +136,15 @@ async function lockShipment(uow: UnitOfWork, id: string) {
     'SELECT id FROM shipments.shipment WHERE company_id=$1 AND id=$2 FOR UPDATE',
     [uow.access.companyId, id],
   );
+  if (
+    (
+      await uow.client.query(
+        'SELECT 1 FROM shipments.parcel_claim WHERE company_id=$1 AND shipment_id=$2',
+        [uow.access.companyId, id],
+      )
+    ).rowCount
+  )
+    throw new AccessError('DISPATCH_OR_TRANSFER_PENDING', 409);
   return shipmentDetail(uow, id);
 }
 export async function correctionPreview(

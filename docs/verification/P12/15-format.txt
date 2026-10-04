@@ -1,0 +1,41 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run prettier --write apps/api/src/modules/dispatch apps/web/src/features/dispatch apps/worker/src/integration/intake-command.handler.ts packages/contracts/src/dispatch packages/contracts/src/tawsel/intake.ts packages/contracts/src/tawsel/index.ts packages/contracts/src/index.ts packages/contracts/src/access.ts packages/database/src/repositories/dispatch.repository.ts packages/database/src/index.ts packages/database/src/shipments/index.ts packages/domain/src/access.ts apps/api/src/app.ts apps/api/src/modules/integration/index.ts apps/api/src/modules/integration/source-command.service.ts apps/api/src/modules/integration/tawsel-client.ts apps/api/src/modules/shipments/service.ts apps/web/src/main.tsx tests/integration/p12 playwright.p12.config.ts vitest.p12.public.config.ts vitest.db.config.ts vitest.unit.config.ts scripts/phase-suites.json package.json
+apps/api/src/modules/dispatch/acceptance.ts 218ms
+apps/api/src/modules/dispatch/dispatch-query.service.ts 36ms
+apps/api/src/modules/dispatch/dispatch.controller.ts 18ms
+apps/api/src/modules/dispatch/dispatch.service.ts 45ms
+apps/api/src/modules/dispatch/shipping-cover.service.ts 4ms
+apps/api/src/modules/dispatch/snapshot.ts 10ms
+apps/web/src/features/dispatch/dispatch.css 168ms
+apps/web/src/features/dispatch/dispatch.tsx 82ms
+apps/worker/src/integration/intake-command.handler.ts 2ms (unchanged)
+packages/contracts/src/dispatch/index.ts 21ms
+packages/contracts/src/tawsel/intake.ts 8ms
+packages/contracts/src/tawsel/index.ts 1ms (unchanged)
+packages/contracts/src/index.ts 15ms (unchanged)
+packages/contracts/src/access.ts 15ms (unchanged)
+packages/database/src/repositories/dispatch.repository.ts 4ms
+packages/database/src/index.ts 3ms
+packages/database/src/shipments/index.ts 12ms (unchanged)
+packages/domain/src/access.ts 8ms (unchanged)
+apps/api/src/app.ts 18ms
+apps/api/src/modules/integration/index.ts 1ms (unchanged)
+apps/api/src/modules/integration/source-command.service.ts 29ms
+apps/api/src/modules/integration/tawsel-client.ts 18ms
+apps/api/src/modules/shipments/service.ts 25ms
+apps/web/src/main.tsx 10ms (unchanged)
+tests/integration/p12/contracts.unit.test.ts 8ms
+tests/integration/p12/dispatch.db.test.ts 54ms
+tests/integration/p12/dispatch.spec.ts 13ms
+tests/integration/p12/fixtures.ts 14ms
+tests/integration/p12/migration.db.test.ts 7ms
+tests/integration/p12/serve.ts 13ms
+tests/integration/p12/tawsel.public.test.ts 8ms
+tests/integration/p12/teardown.mjs 20ms
+tests/integration/p12/transport.db.test.ts 10ms
+playwright.p12.config.ts 3ms
+vitest.p12.public.config.ts 1ms
+vitest.db.config.ts 1ms
+vitest.unit.config.ts 1ms
+scripts/phase-suites.json 9ms
+package.json 2ms (unchanged)

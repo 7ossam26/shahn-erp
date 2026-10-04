@@ -1,0 +1,71 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/integration/p12/contracts.unit.test.ts tests/integration/p11/contracts.unit.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 119ms
+ ❯ tests/integration/p12/contracts.unit.test.ts (23 tests | 1 failed) 31ms
+   ❯ P12 closed canonical intake (23)
+     × retains a correlated definite HTTP Problem without fabricating an acceptance receipt 12ms
+     ✓ p10-SourceSnapshot 1ms
+     ✓ p10-Prepare 1ms
+     ✓ p10-ReceiveBatch 1ms
+     ✓ p10-Withdraw 1ms
+     ✓ p10-Reassign 1ms
+     ✓ p10-Urgency 1ms
+     ✓ p10-explicit-prepaid 0ms
+     ✓ p10-exact-partial-prepaid 0ms
+     ✓ p10-error-capacity_exceeded 3ms
+     ✓ p10-error-unsupported_price_allocation 1ms
+     ✓ p10-error-stale_revision 0ms
+     ✓ p10-received-event-intent 2ms
+     ✓ p10-fractional-piece 0ms
+     ✓ p10-missing-unit-due 0ms
+     ✓ p10-ambiguous-deposit 0ms
+     ✓ p10-missing-splitting-permission 0ms
+     ✓ p10-mixed-currency 0ms
+     ✓ p10-unasserted-receipt 1ms
+     ✓ rejects products and sums exceeding safe wire integers without rounding 2ms
+     ✓ rejects incorrect sums and repeated stable lines 0ms
+     ✓ forbids staff waiver, human actor and unasserted receipt 2ms
+     ✓ preserves goods while representing an approved incident shipping waiver 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p12/contracts.unit.test.ts > P12 closed canonical intake > retains a correlated definite HTTP Problem without fabricating an acceptance receipt
+AssertionError: expected Error: INVALID_CANONICAL_NUMBER to match object { kind: 'review-required', …(2) }
+
+- Expected
++ Received
+
+- {
+-   "code": "stale_revision",
+-   "kind": "review-required",
+-   "problem": {
+-     "actionId": "10000000-0000-4000-8000-000000000001",
+-     "code": "stale_revision",
+-     "correlationId": "a616757f-d87e-4766-8022-af2280146083",
+-     "retryable": false,
+-     "status": 409,
+-     "title": "Stale",
+-     "type": "https://schemas.tawsel.invalid/problems/stale-revision",
+-   },
++ Error {
++   "message": "INVALID_CANONICAL_NUMBER",
+  }
+
+ ❯ tests/integration/p12/contracts.unit.test.ts:69:66
+     67|         ),
+     68|     );
+     69|     await expect(client.send(envelope, JSON.stringify(envelope))).reje…
+       |                                                                  ^
+     70|       kind: 'review-required',
+     71|       code: 'stale_revision',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 120 passed (121)
+   Start at  05:52:35
+   Duration  4.34s (import 53%, environment 21%, transform 16%, setup 8%, tests 2%)

@@ -1,0 +1,269 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p12.config.ts"
+    ],
+    "configFile": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\playwright.p12.config.ts",
+    "rootDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/integration/p12",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\ahmed\\OneDrive\\Документы\\ChatGPT\\shahn-erp\\tests\\integration\\p12\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp/tests/integration/p12",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P12/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/integration/p12/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4322/health",
+      "reuseExistingServer": false,
+      "timeout": 120000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "dispatch.spec.ts",
+      "file": "dispatch.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "responsive RTL, long recipient, blockers and preserved OR/AND filters",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2108,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T03:02:38.665Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44ce6bc104ceddc3ecac-97b809d905d02052623b",
+          "file": "dispatch.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "preparation stays separate from receipt and reserves cover only on physical confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1755,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T03:02:40.996Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44ce6bc104ceddc3ecac-96f8bd2f21b51aa35273",
+          "file": "dispatch.spec.ts",
+          "line": 49,
+          "column": 1
+        },
+        {
+          "title": "lost native response recovers one persisted command after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2158,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T03:02:42.761Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44ce6bc104ceddc3ecac-7d6d2a1c45c94644beaf",
+          "file": "dispatch.spec.ts",
+          "line": 88,
+          "column": 1
+        },
+        {
+          "title": "unknown remote response keeps retry identity and restores list filters on Back",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1475,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T03:02:44.929Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44ce6bc104ceddc3ecac-9c2c9e019612efe98ea1",
+          "file": "dispatch.spec.ts",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "permission revoked with a stale selected form is rejected by the real API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1106,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-04T03:02:46.415Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "44ce6bc104ceddc3ecac-e284998060a63f24f6bd",
+          "file": "dispatch.spec.ts",
+          "line": 147,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-04T03:01:59.769Z",
+    "duration": 48190.102,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

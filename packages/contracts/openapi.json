@@ -7705,6 +7705,542 @@
         }
       }
     },
+    "/api/v1/dispatch": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "branches",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "brands",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "preparations",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "blockers",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "services",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "drivers",
+            "description": "Comma-separated values; OR within field, AND across fields",
+            "schema": { "type": "string" }
+          },
+          { "in": "query", "name": "from", "schema": { "type": "string", "format": "date" } },
+          { "in": "query", "name": "to", "schema": { "type": "string", "format": "date" } },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized dispatch state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string" },
+                          "recipientName": { "type": "string" },
+                          "service": { "type": "string" },
+                          "preparation": { "type": "string" },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "recipientDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "brandShippingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]*)$"
+                          },
+                          "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "eligibleToPay": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "pendingCredit": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "blockers": { "type": "array", "items": { "type": "string" } },
+                          "intentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "dispatchState": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "synchronization": { "type": "string" },
+                          "createdAt": { "type": "string" }
+                        },
+                        "required": [
+                          "id",
+                          "reference",
+                          "version",
+                          "brandId",
+                          "brandName",
+                          "branchId",
+                          "branchName",
+                          "recipientName",
+                          "service",
+                          "preparation",
+                          "quantity",
+                          "recipientDueMinor",
+                          "brandShippingMinor",
+                          "tariffMinor",
+                          "eligibleToPay",
+                          "pendingCredit",
+                          "blockers",
+                          "intentId",
+                          "dispatchState",
+                          "synchronization",
+                          "createdAt"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "drivers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" },
+                          "ready": { "type": "boolean" },
+                          "checkedAt": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+                        },
+                        "required": ["id", "name", "ready", "checkedAt"]
+                      }
+                    }
+                  },
+                  "required": ["items", "total", "page", "branches", "brands", "drivers"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dispatch/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized dispatch state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "branchName": { "type": "string" },
+                    "driverId": { "type": "string", "format": "uuid" },
+                    "driverName": { "type": "string" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "state": { "type": "string" },
+                    "lastError": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "createdAt": { "type": "string" },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "shipmentId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string" },
+                          "recipientName": { "type": "string" },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "recipientDueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "tariffMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "waiverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "brandShippingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]*)$"
+                          },
+                          "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+                          "acceptedRevision": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "pendingRevision": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                              { "type": "null" }
+                            ]
+                          },
+                          "desiredRevision": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "assignmentRevision": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "taskId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "sourceCycleId": { "type": "string" },
+                          "planningStatus": { "type": "string" },
+                          "locationReadiness": { "type": "string" }
+                        },
+                        "required": [
+                          "shipmentId",
+                          "reference",
+                          "recipientName",
+                          "quantity",
+                          "recipientDueMinor",
+                          "tariffMinor",
+                          "waiverMinor",
+                          "brandShippingMinor",
+                          "coverMinor",
+                          "acceptedRevision",
+                          "pendingRevision",
+                          "desiredRevision",
+                          "assignmentRevision",
+                          "taskId",
+                          "sourceCycleId",
+                          "planningStatus",
+                          "locationReadiness"
+                        ]
+                      }
+                    },
+                    "actions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "actionId": { "type": "string", "format": "uuid" },
+                          "commandId": { "type": "string", "format": "uuid" },
+                          "operation": { "type": "string" },
+                          "state": { "type": "string" },
+                          "error": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+                        },
+                        "required": ["actionId", "commandId", "operation", "state", "error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "branchId",
+                    "branchName",
+                    "driverId",
+                    "driverName",
+                    "version",
+                    "state",
+                    "lastError",
+                    "createdAt",
+                    "items",
+                    "actions"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dispatch/commands": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.prepare" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "driverId": { "type": "string", "format": "uuid" },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "shipmentId": { "type": "string", "format": "uuid" },
+                            "expectedVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            }
+                          },
+                          "required": ["shipmentId", "expectedVersion"]
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "branchId",
+                      "driverId",
+                      "items"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.receive" },
+                      "intentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "receiptAsserted": { "const": true }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "intentId",
+                      "expectedVersion",
+                      "receiptAsserted"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.withdraw" },
+                      "intentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "actualAtBranch": { "const": true }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "intentId",
+                      "expectedVersion",
+                      "actualAtBranch"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.reassign" },
+                      "intentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "driverId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "intentId",
+                      "expectedVersion",
+                      "driverId"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.review" },
+                      "intentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "intentId",
+                      "expectedVersion"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "dispatch.retry" },
+                      "intentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "actionId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "type",
+                      "intentId",
+                      "expectedVersion",
+                      "actionId"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Current authorized dispatch state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "intentId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "intentId", "branchId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed request" },
+          "403": { "description": "Current access or CSRF denied" },
+          "409": { "description": "Retained version, physical stock, identity or cover rejection" }
+        }
+      }
+    },
+    "/api/v1/dispatch/commands/{commandId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current authorized dispatch state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "intentId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["commandId", "intentId", "branchId"]
+                }
+              }
+            }
+          },
+          "404": { "description": "No retained command" }
+        }
+      }
+    },
     "/api/v1/employees": {
       "get": {
         "responses": {
@@ -23914,6 +24450,7 @@
                         "additionalProperties": false,
                         "properties": {
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "reference-data": {
                             "type": "string",
@@ -24004,6 +24541,7 @@
                         "additionalProperties": false,
                         "properties": {
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
+                          "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "reference-data": {
                             "type": "string",
@@ -24086,11 +24624,12 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 19,
+                        "maxItems": 20,
                         "items": {
                           "type": "string",
                           "enum": [
                             "integration",
+                            "dispatch",
                             "brands",
                             "reference-data",
                             "access.users",
@@ -24143,11 +24682,12 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 19,
+                        "maxItems": 20,
                         "items": {
                           "type": "string",
                           "enum": [
                             "integration",
+                            "dispatch",
                             "brands",
                             "reference-data",
                             "access.users",
@@ -24756,6 +25296,7 @@
                             "type": "string",
                             "enum": [
                               "integration",
+                              "dispatch",
                               "brands",
                               "reference-data",
                               "access.users",
@@ -24820,6 +25361,7 @@
                             "type": "string",
                             "enum": [
                               "integration",
+                              "dispatch",
                               "brands",
                               "reference-data",
                               "access.users",
@@ -25064,6 +25606,10 @@
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
                               },
+                              "dispatch": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "reference-data": {
                                 "type": "string",
@@ -25149,6 +25695,7 @@
                               "type": "string",
                               "enum": [
                                 "integration",
+                                "dispatch",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -25387,6 +25934,10 @@
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
                               },
+                              "dispatch": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "reference-data": {
                                 "type": "string",
@@ -25472,6 +26023,7 @@
                               "type": "string",
                               "enum": [
                                 "integration",
+                                "dispatch",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -25669,6 +26221,7 @@
                               "type": "string",
                               "enum": [
                                 "integration",
+                                "dispatch",
                                 "brands",
                                 "reference-data",
                                 "access.users",
@@ -26318,6 +26871,7 @@
               "type": "string",
               "enum": [
                 "integration",
+                "dispatch",
                 "brands",
                 "reference-data",
                 "access.users",

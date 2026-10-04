@@ -1,0 +1,36 @@
+npm notice run shahn-erp@0.1.0 test:p12:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p12.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2656 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:  0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BGptryqt.css                           91.59 kB │ gzip: 18.07 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:  0.51 kB
+apps/web/dist/assets/vendor-DMOkVFej.js                           34.08 kB │ gzip: 11.49 kB
+apps/web/dist/assets/vendor-CwrtHzEc.js                           62.37 kB │ gzip: 19.49 kB
+apps/web/dist/assets/vendor-C5MmHUBX.js                          101.31 kB │ gzip: 29.43 kB
+apps/web/dist/assets/vendor-BTzFkY0G.js                          109.60 kB │ gzip: 36.75 kB
+apps/web/dist/assets/vendor-BOF1pIxI.js                          114.46 kB │ gzip: 33.30 kB
+apps/web/dist/assets/vendor-BsfnV0vf.js                          229.03 kB │ gzip: 72.07 kB
+apps/web/dist/assets/index-CQuqPZZb.js                           323.52 kB │ gzip: 80.99 kB
+
+✓ built in 3.81s
+[WebServer] (node:25680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:13
+[WebServer]         throw new Error('Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.');
+[WebServer]               ^
+[WebServer]
+[WebServer] Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+[WebServer]     at docker (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:13:15)
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[WebServer]     at async isolatedPostgres (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\packages\test-support\dist\index.js:38:5)
+[WebServer]     at async <anonymous> (C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p12\serve.ts:11:80)
+[WebServer]
+[WebServer] Node.js v24.21.0
+Error: Process from config.webServer was not able to start. Exit code: 1

@@ -148,6 +148,8 @@ The first two rows are material contract/semantic dependencies. The other rows a
 
 ## 7. Closure record to update during implementation
 
+P12 execution addition, 2026-10-04: [evidence](../verification/P12/README.md) and [IP case mapping](../verification/P12/TRACEABILITY.md) record canonical serializer validation, actual PostgreSQL/native API/browser checks and controlled HTTP worker interruption. The five intake event types share accepted command facts without advancing broader projection checkpoints. This addition does not rewrite the historical static-reading record above. Required independent Tawsel IP-AC-02/03/04/21/22 proof is blocked; fixture receipt/capacity/revision responses are not real source conformance. CHECK-003 and later-owned financial/lifecycle work remain open.
+
 For every IP-AC row, later evidence records: approved ERP plan version, Tawsel baseline/runtime, exact test/manual script, actual result, test date, artifact/log location and remaining limitation. Mark schema validation, mocked behavior, real PostgreSQL integrity, real two-system conformance and owner manual acceptance separately. A changed baseline reopens affected rows after a reviewed diff; do not overwrite the old evidence or silently mark compatibility.
 
 This ledger defines reading and acceptance coverage. It does not generate phases, authorize production deployment, purchase external services, change Tawsel or remove the master-plan approval gate.

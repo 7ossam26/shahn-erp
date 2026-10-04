@@ -1,0 +1,54 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/kernel.test.ts tests/db/shipments.test.ts tests/db/stock-fulfillment.test.ts tests/db/finance.test.ts tests/integration/p11/boundary.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/finance.test.ts (18 tests) 43692ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6273ms
+ ✓ tests/db/kernel.test.ts (21 tests) 43885ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6711ms
+ ❯ tests/integration/p11/boundary.db.test.ts (19 tests | 19 skipped) 37908ms
+   ↓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings
+   ↓ upgrades existing native users and committed command/outbox history without relabelling them synchronized
+   ↓ serves closed safe native responses and denies direct spoofed, cross-company and CSRF calls
+   ↓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company
+   ↓ retains unknown response, replays the same action and fences expired worker completion
+   ↓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result
+   ↓ queues exact operator bootstrap without making operator credentials available to the ordinary worker
+   ↓ serializes all operations on one user revision stream with independent transactions
+   ↓ rejects missing/disabled references, unsupported operations and finance capability forwarding
+   ↓ keeps accepted user separate from issuer-ready and accepts authoritative completed disable
+   ↓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application
+   ↓ rejects signed changed bytes under one event and recipient sequence collisions
+   ↓ rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows
+   ↓ accepts exactly 2 MiB at actual HTTP ingress and rejects an extra byte
+   ↓ keeps gaps visible and never advances applied through unhandled domain events
+   ↓ enforces recorded old-key expiry while accepting the preprovisioned next key
+   ↓ records returned key rotation overlap without exposing secret values
+   ↓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart
+   ↓ retains committed inbox/outbox after database restart and denies revoked command recovery
+ ✓ tests/db/shipments.test.ts (17 tests) 40875ms
+ ✓ tests/db/stock-fulfillment.test.ts (15 tests) 37851ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts [ tests/integration/p11/boundary.db.test.ts ]
+error: relation "kernel.source_identity" does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/integration/p11/boundary.db.test.ts:68:3
+     66|     [randomUUID()],
+     67|   );
+     68|   await migrate(db.pool);
+       |   ^
+     69|   f = await integrationFixture(db.pool);
+     70|   app = await createApplication(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  71 passed | 19 skipped (90)
+   Start at  05:24:10
+   Duration  219.85s (tests 93%, import 6%, transform 1%)

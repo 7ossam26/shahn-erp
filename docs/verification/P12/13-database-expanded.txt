@@ -1,0 +1,18 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p12/dispatch.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p12/dispatch.db.test.ts (20 tests) 72309ms
+   ✓ native HTTP enforces current grants, scope, CSRF and closed responses 400ms
+   ✓ persists exact prices, source bytes and quantities after PostgreSQL restart 30996ms
+   ✓ pending 500 alone cannot reserve 60, while allow-negative creates no payout cash 346ms
+   ✓ independent cover and payout-allocation transactions cannot both spend 60 of eligible 100 301ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  05:46:19
+   Duration  76.74s (tests 94%, import 4%, transform 1%)

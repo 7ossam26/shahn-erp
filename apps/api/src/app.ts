@@ -1,3 +1,4 @@
+import { registerDispatch } from './modules/dispatch/dispatch.controller.js';
 import { registerFinance } from './modules/finance/http.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
@@ -161,6 +162,12 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  registerDispatch(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    integration,
+  );
   registerIntegration(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
