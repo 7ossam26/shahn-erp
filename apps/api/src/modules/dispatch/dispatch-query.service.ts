@@ -39,7 +39,7 @@ export async function dispatchList(u: UnitOfWork, f: DispatchFilter): Promise<Di
       driver_id: string | null;
       claim_kind: string | null;
     }>(
-      `SELECT s.id,s.brand_id,b.name AS brand_name,c.current_intent_id AS intent_id,i.state,i.driver_id,pc.kind AS claim_kind FROM shipments.shipment s JOIN commercial.brand b ON(b.company_id,b.id)=(s.company_id,s.brand_id) LEFT JOIN dispatch.cycle c ON(c.company_id,c.shipment_id)=(s.company_id,s.id) LEFT JOIN dispatch.intent i ON(i.company_id,i.id)=(c.company_id,c.current_intent_id) LEFT JOIN shipments.parcel_claim pc ON(pc.company_id,pc.shipment_id)=(s.company_id,s.id) WHERE s.company_id=$1 AND s.branch_id=ANY($2::uuid[]) AND s.state='active' AND (cardinality($3::uuid[])=0 OR s.brand_id=ANY($3::uuid[])) AND ($4::timestamptz IS NULL OR s.received_at>=$4) AND ($5::timestamptz IS NULL OR s.received_at<$5) ORDER BY s.received_at DESC,s.id`,
+      `SELECT s.id,s.brand_id,b.name AS brand_name,c.current_intent_id AS intent_id,i.state,i.driver_id,pc.kind AS claim_kind FROM shipments.shipment s JOIN commercial.brand b ON(b.company_id,b.id)=(s.company_id,s.brand_id) LEFT JOIN dispatch.cycle c ON(c.company_id,c.shipment_id)=(s.company_id,s.id) AND c.latest LEFT JOIN dispatch.intent i ON(i.company_id,i.id)=(c.company_id,c.current_intent_id) LEFT JOIN shipments.parcel_claim pc ON(pc.company_id,pc.shipment_id)=(s.company_id,s.id) WHERE s.company_id=$1 AND s.branch_id=ANY($2::uuid[]) AND s.state='active' AND (cardinality($3::uuid[])=0 OR s.brand_id=ANY($3::uuid[])) AND ($4::timestamptz IS NULL OR s.received_at>=$4) AND ($5::timestamptz IS NULL OR s.received_at<$5) ORDER BY s.received_at DESC,s.id`,
       [company, f.branches, f.brands, from, to],
     )
   ).rows;

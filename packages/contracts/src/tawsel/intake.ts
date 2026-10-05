@@ -58,6 +58,7 @@ export interface IntakeTask {
   latest?: boolean;
 }
 export const intakeOperations = {
+  'dispatch.createFromReceipt': 'RedispatchCommand',
   'intake.submitSnapshot': 'SourceSnapshotCommand',
   'intake.prepare': 'PrepareCommand',
   'assignment.receiveBatch': 'ReceiveBatchCommand',
@@ -77,13 +78,21 @@ export const validateIntakeCommand = (value: unknown): value is SourceEnvelope =
     typeof op === 'string' &&
     Object.hasOwn(validators, op) &&
     !!validators[op]!(value) &&
-    (op !== 'intake.submitSnapshot' || validSnapshotSemantics((value as SourceEnvelope).payload))
+    (op !== 'intake.submitSnapshot' || validSnapshotSemantics((value as SourceEnvelope).payload)) &&
+    (op !== 'dispatch.createFromReceipt' ||
+      (validSnapshotSemantics((value as SourceEnvelope).payload.snapshot) &&
+        (value as SourceEnvelope).payload.externalId ===
+          ((value as SourceEnvelope).payload.snapshot as SourceSnapshot).externalId))
   );
 };
 export const validateSourceSnapshot = tawselValidator<SourceSnapshot>(
   'b2b-intake.schema.json#/$defs/SourceSnapshot',
 );
 export const validateIntakeTask = tawselValidator<IntakeTask>('b2b-intake.schema.json#/$defs/Task');
+export const validateCycleList = tawselValidator<{
+  items: IntakeTask[];
+  nextCursor: string | null;
+}>('b2b-intake.schema.json#/$defs/CycleList');
 export const validateIntakeTaskList = tawselValidator<{ items: IntakeTask[]; nextCursor?: string }>(
   'b2b-intake.schema.json#/$defs/TaskList',
 );

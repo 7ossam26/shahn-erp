@@ -11,6 +11,8 @@ import {
   validateDeliveryCommand,
   validateKeyRotation,
   validateIntakeCommand,
+  validateReturnCommand,
+  returnOperations,
   intakeOperations,
   type IntakeTask,
   type SourceEnvelope,
@@ -22,6 +24,7 @@ import { lockLease, type Lease } from '../kernel/work.js';
 import type { IntegrationRuntime, IntegrationConnection } from './config.js';
 import { TawselClient, SourceFailure } from './tawsel-client.js';
 import { applyDispatchAcceptance, applyOneDispatchEvent } from '../dispatch/acceptance.js';
+import { applyReturnResult } from '../returns/receipt.service.js';
 export interface SourceLease extends Lease {
   source_id: string;
   action_id: string;
@@ -129,6 +132,14 @@ export class SourceCommandWorker {
         )
       ).rows[0]!;
       if (!(await lockLease(c, work, this.owner))) return false;
+      if (Object.hasOwn(returnOperations, work.operation_id)) {
+        await applyReturnResult(c, source, work.action_id, outcome.result);
+        if (outcome.failure?.kind === 'review-required')
+          await c.query(
+            `UPDATE returns.intent SET state='review-required',last_error=$1 WHERE company_id=$2 AND action_id=$3 AND state<>'accepted'`,
+            [outcome.failure.code, work.company_id, work.action_id],
+          );
+      }
       if (Object.hasOwn(intakeOperations, work.operation_id))
         await applyDispatchAcceptance(this.pool, c, work, outcome.result, outcome.tasks);
       if (outcome.failure?.kind === 'review-required')
@@ -247,14 +258,17 @@ export class SourceCommandWorker {
       if (
         !validateProvisioningCommand(envelope) &&
         !validateDeliveryCommand(envelope) &&
-        !validateIntakeCommand(envelope)
+        !validateIntakeCommand(envelope) &&
+        !validateReturnCommand(envelope)
       )
         throw new SourceFailure('configuration-blocked', 'IMMUTABLE_REQUEST_INVALID');
       const client = this.clientFor(connection);
       const recovered =
-        Object.hasOwn(intakeOperations, work.operation_id) && work.attempts > 1
-          ? await client.intakeResult(envelope)
-          : null;
+        Object.hasOwn(returnOperations, work.operation_id) && work.attempts > 1
+          ? await client.returnResult(envelope)
+          : Object.hasOwn(intakeOperations, work.operation_id) && work.attempts > 1
+            ? await client.intakeResult(envelope)
+            : null;
       const outcome = recovered
         ? { result: recovered, status: 200, configuration: null }
         : await client.send(envelope, work.request_body, this.operatorToken);
@@ -266,7 +280,15 @@ export class SourceCommandWorker {
         const refs = Array.isArray(envelope.payload.items)
           ? (envelope.payload.items as { externalId: string }[])
           : [envelope.payload as { externalId: string }];
-        for (const ref of refs) tasks.push(await client.intakeTask(ref.externalId));
+        for (const ref of refs) {
+          if (work.operation_id === 'dispatch.createFromReceipt') {
+            const all = await client.intakeCycles(ref.externalId),
+              target = (envelope.payload.snapshot as IntakeTask['snapshot']).sourceDispatchCycleId;
+            const current = all.find((t) => t.sourceDispatchCycleId === target);
+            if (!current) throw new SourceFailure('unknown', 'REDISPATCH_CYCLE_REQUIRED');
+            tasks.push(current);
+          } else tasks.push(await client.intakeTask(ref.externalId));
+        }
       }
       let identity: ProvisioningStatus | undefined;
       if (outcome.result.receipt.businessStatus === 'accepted' && work.binding_id) {

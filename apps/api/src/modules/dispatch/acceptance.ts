@@ -31,6 +31,7 @@ import { assertStockPreparation } from '../inventory/stock-fulfillment.js';
 import { JournalPosting } from '../kernel/journals.js';
 import { lockShippingWallets, closeShippingCover } from './shipping-cover.service.js';
 import type { SourceLease } from '../integration/source-command.service.js';
+import { assertRedispatchGoods, handoverRedispatchGoods } from '../returns/redispatch-custody.js';
 /** Both authenticated result reads and signed event echoes enter this semantic acceptance gate. */
 export async function applyDispatchAcceptance(
   pool: Pool,
@@ -134,18 +135,20 @@ export async function applyDispatchAcceptance(
     if (item && recorded.has(item.cycle_id)) continue;
     const payload = envelope.payload;
     const reference = references.find((r) => r.externalId === task.externalId);
-    const expectedAssignment =
-      work.operation_id === 'intake.submitSnapshot'
-        ? Number(item?.assignment_revision ?? 0)
-        : Number(reference?.assignmentRevision);
-    const expectedState =
-      work.operation_id === 'intake.submitSnapshot'
-        ? 'unassigned'
-        : work.operation_id === 'assignment.receiveBatch'
-          ? 'held'
-          : work.operation_id === 'assignment.withdraw'
-            ? 'withdrawn'
-            : 'prepared';
+    const expectedAssignment = ['intake.submitSnapshot', 'dispatch.createFromReceipt'].includes(
+      work.operation_id,
+    )
+      ? Number(item?.assignment_revision ?? 0)
+      : Number(reference?.assignmentRevision);
+    const expectedState = ['intake.submitSnapshot', 'dispatch.createFromReceipt'].includes(
+      work.operation_id,
+    )
+      ? 'unassigned'
+      : work.operation_id === 'assignment.receiveBatch'
+        ? 'held'
+        : work.operation_id === 'assignment.withdraw'
+          ? 'withdrawn'
+          : 'prepared';
     if (
       !validateIntakeTask(task) ||
       !item ||
@@ -156,6 +159,8 @@ export async function applyDispatchAcceptance(
       canonical(task.snapshot) !== canonical(item.snapshot) ||
       (item.task_id && task.taskId !== item.task_id) ||
       (item.remote_cycle_id && task.dispatchCycleId !== item.remote_cycle_id) ||
+      (work.operation_id === 'dispatch.createFromReceipt' &&
+        task.previousDispatchCycleId !== payload.previousDispatchCycleId) ||
       (['held', 'prepared'].includes(task.state) &&
         (task.driverExternalId !== String(payload.driverExternalId) ||
           task.driverId !== intent.driver_resource_id)) ||
@@ -212,7 +217,8 @@ export async function applyDispatchAcceptance(
     }
     if (task.state === 'held') {
       const d = (await readShipment(c, company, item.shipment_id))!;
-      await assertStockPreparation(u, d);
+      if (item.previous_cycle_id) await assertRedispatchGoods(u, item.cycle_id);
+      else await assertStockPreparation(u, d);
       const effect = await c.query(
         `INSERT INTO dispatch.custody_effect(company_id,cycle_id,assignment_revision,action_id,shipment_id,driver_id,received_at) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT DO NOTHING RETURNING cycle_id`,
         [
@@ -226,6 +232,10 @@ export async function applyDispatchAcceptance(
         ],
       );
       if (effect.rowCount) {
+        if (item.previous_cycle_id) {
+          await handoverRedispatchGoods(u, item.cycle_id, task.receivedAt!);
+          continue;
+        }
         if (d.handedOver) throw Error('DISPATCH_CUSTODY_CONFLICT');
         const source = randomUUID();
         await c.query(
@@ -316,7 +326,7 @@ export async function applyOneDispatchEvent(pool: Pool) {
   return transaction(pool, async (c) => {
     const candidate = (
       await c.query(
-        `SELECT b.company_id,b.source_id,b.event_id FROM integration.inbox b JOIN dispatch.action a ON a.company_id=b.company_id AND a.action_id=(b.envelope->'correlation'->>'actionId')::uuid WHERE b.application_state='pending' AND b.pending_reason<>'P12_RECONCILIATION_REQUIRED' AND b.event_type IN ('task.snapshotAccepted','assignment.prepared','assignment.received','assignment.withdrawn','assignment.reassigned') ORDER BY b.received_at LIMIT 1`,
+        `SELECT b.company_id,b.source_id,b.event_id FROM integration.inbox b JOIN dispatch.action a ON a.company_id=b.company_id AND a.action_id=(b.envelope->'correlation'->>'actionId')::uuid WHERE b.application_state='pending' AND b.pending_reason<>'P12_RECONCILIATION_REQUIRED' AND b.event_type IN ('task.snapshotAccepted','dispatch.createdFromReceipt','assignment.prepared','assignment.received','assignment.withdrawn','assignment.reassigned') ORDER BY b.received_at LIMIT 1`,
       )
     ).rows[0];
     if (!candidate) return false;
@@ -344,6 +354,7 @@ export async function applyOneDispatchEvent(pool: Pool) {
     ).rows[0];
     if (!work) return false;
     const types: Record<string, string> = {
+      'dispatch.createFromReceipt': 'dispatch.createdFromReceipt',
       'intake.submitSnapshot': 'task.snapshotAccepted',
       'intake.prepare': 'assignment.prepared',
       'assignment.receiveBatch': 'assignment.received',

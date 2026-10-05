@@ -99,7 +99,7 @@ export class HistoryEvidenceService {
             outcome.sourceReference.integrationId !== s.integration_id
           )
             throw new AccessError('HISTORY_IDENTITY_CONFLICT', 409);
-          const cy = await executionCycle(u.client, company, s.id, taskId),
+          const cy = await executionCycle(u.client, company, s.id, taskId, outcome.dispatchCycleId),
             round = (
               await u.client.query(
                 `SELECT data FROM execution.state WHERE company_id=$1 AND source_id=$2 AND kind='round' AND identity=$3`,

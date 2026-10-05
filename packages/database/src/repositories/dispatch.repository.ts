@@ -35,6 +35,7 @@ export interface DispatchItemRow {
   assignment_revision: string;
   task_id: string | null;
   remote_cycle_id: string | null;
+  previous_cycle_id: string | null;
   task: IntakeTask | null;
 }
 export async function readDispatchIntent(
@@ -53,7 +54,7 @@ export async function readDispatchIntent(
 export async function readDispatchItems(c: TransactionClient, company: string, id: string) {
   return (
     await c.query<DispatchItemRow>(
-      `SELECT i.*,c.external_id,c.source_cycle_id,c.accepted_revision::text,c.pending_revision::text,c.desired_revision::text,c.assignment_revision::text,c.task_id,c.remote_cycle_id,c.task FROM dispatch.item i JOIN dispatch.cycle c ON(c.company_id,c.id)=(i.company_id,i.cycle_id) WHERE i.company_id=$1 AND i.intent_id=$2 ORDER BY i.shipment_id`,
+      `SELECT i.*,c.previous_cycle_id,c.external_id,c.source_cycle_id,c.accepted_revision::text,c.pending_revision::text,c.desired_revision::text,c.assignment_revision::text,c.task_id,c.remote_cycle_id,c.task FROM dispatch.item i JOIN dispatch.cycle c ON(c.company_id,c.id)=(i.company_id,i.cycle_id) WHERE i.company_id=$1 AND i.intent_id=$2 ORDER BY i.shipment_id`,
       [company, id],
     )
   ).rows;

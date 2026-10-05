@@ -1,0 +1,57 @@
+[WebServer] (node:11124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:14464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state (1.0m)
+(node:15896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p14\returns.spec.ts:18:1 › actual subset submission, pending quarantine, accepted remainder and damaged condition (9.1s)
+  ok 3 tests\integration\p14\returns.spec.ts:29:1 › brand handover is a separate actual confirmation and cannot be allocated twice (2.4s)
+  x  4 tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt (1.2s)
+
+
+  1) tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('فرع المصدر', { exact: true })
+
+
+       7 |   await page.setViewportSize({width,height:width===1440?1050:844});await page.goto('/returns');
+       8 |   await expect(page.getByText('اختر فرع المصدر والمندوب لعرض طلباتهما.')).toBeVisible();
+    >  9 |   await page.getByLabel('فرع المصدر',{exact:true}).selectOption(f.branch);await page.getByLabel('المندوب',{exact:true}).selectOption(f.driver);
+         |                                                    ^
+      10 |   await expect(page.getByRole('link',{name:'فحص الكمية واستلامها'})).toHaveCount(3);
+      11 |   await page.screenshot({path:`docs/verification/P14/screenshots/list-${width}.png`,fullPage:true});
+      12 |   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+        at C:\Coding\Antigravity\shahn\tests\integration\p14\returns.spec.ts:9:52
+
+    Error Context: test-results\returns-assigned-source-br-1a684-rs-and-preserved-Back-state\error-context.md
+
+  2) tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected value: 401
+    Received array: [403, 404]
+
+      36 | test('branch-B staff cannot read or submit source-branch-A receipt',async({page})=>{
+      37 |  const f=runtime();await page.goto('/api/test/p14-login/staff');
+    > 38 |  const r=await page.request.get('/api/v1/returns/requests/'+f.request+'?companyId='+f.companyId);expect([403,404]).toContain(r.status());
+         |                                                                                                                    ^
+      39 |  const scoped=await page.request.get(`/api/v1/returns?companyId=${f.companyId}&branchId=${f.branch}&driverId=${f.driver}`);expect(scoped.status()).toBe(403);
+      40 | });
+      41 |
+        at C:\Coding\Antigravity\shahn\tests\integration\p14\returns.spec.ts:38:116
+
+    Error Context: test-results\returns-branch-B-staff-can-0a23b-mit-source-branch-A-receipt\error-context.md
+
+  2 failed
+    tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+    tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt 
+  2 passed (2.0m)

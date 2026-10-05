@@ -1,0 +1,8 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+tests/integration/p14/fixtures.ts(26,189): error TS2353: Object literal may only specify known properties, and 'brandId' does not exist in type 'Common & { type: "brand.update"; fields: BrandFields; } & Edit'.
+tests/integration/p14/fixtures.ts(69,145): error TS2322: Type 'ReturnCommandResult' is not assignable to type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'ReturnCommandResult'.
+tests/integration/p14/fixtures.ts(80,169): error TS2783: 'result' is specified more than once, so this usage will be overwritten.
+tests/integration/p14/returns.db.test.ts(37,120): error TS2322: Type 'ReturnCommandResult' is not assignable to type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'ReturnCommandResult'.

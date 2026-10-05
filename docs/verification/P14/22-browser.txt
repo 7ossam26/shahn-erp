@@ -1,0 +1,40 @@
+[WebServer] (node:24528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:27676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p14\returns.spec.ts:15:1 › assigned source branch and driver first, responsive filters and preserved Back state (6.1s)
+(node:25136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p14\returns.spec.ts:41:1 › actual subset submission, pending quarantine, accepted remainder and damaged condition (9.3s)
+  ok 3 tests\integration\p14\returns.spec.ts:75:1 › brand handover is a separate actual confirmation and cannot be allocated twice (2.5s)
+  ok 4 tests\integration\p14\returns.spec.ts:95:1 › branch-B staff cannot read or submit source-branch-A receipt (1.3s)
+
+
+  1) tests\integration\p14\returns.spec.ts:15:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+
+    Error: locator.click: Error: strict mode violation: getByRole('link', { name: 'فحص الكمية واستلامها' }) resolved to 3 elements:
+        1) <a data-discover="true" href="/returns/0b3d31b9-e98b-4558-8aa0-2f961c06f198?branchId=bbe33815-d091-4513-aff2-e0c10b812f7b&driverId=03230b16-f004-4eb9-9837-2065e6260b5d">فحص الكمية واستلامها</a> aka getByRole('article').filter({ hasText: '10002' }).getByRole('link')
+        2) <a data-discover="true" href="/returns/11b174c9-4040-4071-8cf4-3cde5e1068e9?branchId=bbe33815-d091-4513-aff2-e0c10b812f7b&driverId=03230b16-f004-4eb9-9837-2065e6260b5d">فحص الكمية واستلامها</a> aka getByRole('article').filter({ hasText: '10001' }).getByRole('link')
+        3) <a data-discover="true" href="/returns/2dd253db-7926-42c0-a4d9-bfe535e656e4?branchId=bbe33815-d091-4513-aff2-e0c10b812f7b&driverId=03230b16-f004-4eb9-9837-2065e6260b5d">فحص الكمية واستلامها</a> aka getByRole('article').filter({ hasText: '10000' }).getByRole('link')
+
+    Call log:
+      - waiting for getByRole('link', { name: 'فحص الكمية واستلامها' })
+
+
+      35 |   await page.getByText('مرشحات الطلبات', { exact: true }).click();
+      36 |   await page.getByLabel('رقم الشحنة', { exact: true }).fill(f.shipment.reference);
+    > 37 |   await page.getByRole('link', { name: 'فحص الكمية واستلامها' }).click();
+         |                                                                  ^
+      38 |   await page.getByRole('link', { name: 'العودة إلى الطلبات بنفس المرشحات' }).click();
+      39 |   await expect(page.getByLabel('رقم الشحنة', { exact: true })).toHaveValue(f.shipment.reference);
+      40 | });
+        at C:\Coding\Antigravity\shahn\tests\integration\p14\returns.spec.ts:37:66
+
+    Error Context: test-results\returns-assigned-source-br-1a684-rs-and-preserved-Back-state\error-context.md
+
+  1 failed
+    tests\integration\p14\returns.spec.ts:15:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+  3 passed (1.1m)

@@ -4,11 +4,9 @@ import { executionEventOwners, normalizeExecutionEvent } from '@shahn/contracts/
 import { mappedEvents } from '../p11/mapped-events.js';
 import { validFixtures, invalidFixtures } from '../p11/fixtures.js';
 describe('P13 pinned execution families', () => {
-  it('assigns all 27 current sender events exactly, including three pending return handlers', () => {
+  it('assigns all 27 current sender events exactly, including three P14 return handlers', () => {
     expect(Object.keys(executionEventOwners).sort()).toEqual([...senderEventTypes].sort());
-    expect(
-      Object.values(executionEventOwners).filter((x) => x === 'pending-return-handler'),
-    ).toHaveLength(3);
+    expect(Object.values(executionEventOwners).filter((x) => x === 'returns')).toHaveLength(3);
   });
   for (const e of mappedEvents())
     it('normalizes ' + e.eventType + ' without transport identities becoming visits', () => {

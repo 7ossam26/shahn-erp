@@ -35,6 +35,9 @@ const labels: Record<string, string> = {
   'assignment.received': 'تم قبول استلام المندوب',
   'task.snapshotAccepted': 'قُبلت بيانات الشحنة',
   'assignment.prepared': 'تم تحضير التسليم',
+  'return.requested': 'عرض مرتجع — لا يضيف مخزوناً',
+  'return.subsetReceived': 'قُبل استلام كمية مرتجعة فعلياً',
+  'return.dispositionRecorded': 'سُجل قرار فقد أو تلف دون استلام',
   brand_packed: 'طرد جاهز',
   company_packed: 'تجهيز الشركة',
   stored_stock: 'من المخزون',
@@ -368,6 +371,15 @@ export function TrackingDetailPage() {
             </strong>
             <p>{d.nextAction}</p>
             {d.detailPath && <Link to={d.detailPath}>تفاصيل الشحنة والإجراء المتاح</Link>}
+            {d.returns.map((r) => (
+              <section key={r.requestId}>
+                <p>
+                  مرتجع: مطلوب {r.requested} · مستلم {r.received} · متبقي مع المندوب {r.unresolved}{' '}
+                  · مفقود {r.lost} · تالف {r.damaged}
+                </p>
+                {r.path && <Link to={r.path}>فحص المرتجع والاستلام الفعلي</Link>}
+              </section>
+            ))}
             <p className="tracking-note">التسليم المبلّغ لا يعني استلام الشركة للأموال.</p>
             {d.pendingReasons.length > 0 && (
               <p role="status" className="tracking-pending">

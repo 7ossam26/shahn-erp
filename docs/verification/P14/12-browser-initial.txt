@@ -1,0 +1,55 @@
+[WebServer] (node:13400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:4512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state (1.6s)
+(node:22276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p14\returns.spec.ts:18:1 › actual subset submission, pending quarantine, accepted remainder and damaged condition (23.8s)
+  ok 3 tests\integration\p14\returns.spec.ts:29:1 › brand handover is a separate actual confirmation and cannot be allocated twice (2.5s)
+  x  4 tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt (1.3s)
+
+
+  1) tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5341/api/test/p14-login/admin
+    Call log:
+      - navigating to "http://127.0.0.1:5341/api/test/p14-login/admin", waiting until "load"
+
+
+      3 | const runtime=()=>JSON.parse(readFileSync('tests/.p14-runtime.json','utf8')) as {secret:string;companyId:string;branch:string;otherBranch:string;driver:string;request:string;damaged:string;sound:string;shipment:{reference:string}};
+      4 | test('assigned source branch and driver first, responsive filters and preserved Back state',async({page})=>{
+    > 5 |  const f=runtime();await page.goto('/api/test/p14-login/admin');
+        |                               ^
+      6 |  for(const width of [320,390,768,1440]){
+      7 |   await page.setViewportSize({width,height:width===1440?1050:844});await page.goto('/returns');
+      8 |   await expect(page.getByText('اختر فرع المصدر والمندوب لعرض طلباتهما.')).toBeVisible();
+        at C:\Coding\Antigravity\shahn\tests\integration\p14\returns.spec.ts:5:31
+
+    Error Context: test-results\returns-assigned-source-br-1a684-rs-and-preserved-Back-state\error-context.md
+
+  2) tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected value: 401
+    Received array: [403, 404]
+
+      36 | test('branch-B staff cannot read or submit source-branch-A receipt',async({page})=>{
+      37 |  const f=runtime();await page.goto('/api/test/p14-login/staff');
+    > 38 |  const r=await page.request.get('/api/v1/returns/requests/'+f.request+'?companyId='+f.companyId);expect([403,404]).toContain(r.status());
+         |                                                                                                                    ^
+      39 |  const scoped=await page.request.get(`/api/v1/returns?companyId=${f.companyId}&branchId=${f.branch}&driverId=${f.driver}`);expect(scoped.status()).toBe(403);
+      40 | });
+      41 |
+        at C:\Coding\Antigravity\shahn\tests\integration\p14\returns.spec.ts:38:116
+
+    Error Context: test-results\returns-branch-B-staff-can-0a23b-mit-source-branch-A-receipt\error-context.md
+
+  2 failed
+    tests\integration\p14\returns.spec.ts:4:1 › assigned source branch and driver first, responsive filters and preserved Back state 
+    tests\integration\p14\returns.spec.ts:36:1 › branch-B staff cannot read or submit source-branch-A receipt 
+  2 passed (2.0m)

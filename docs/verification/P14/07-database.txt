@@ -1,0 +1,14 @@
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p14/returns.db.test.ts (6 tests) 44122ms
+   ✓ out-of-order offer waits for outcome and never creates stock 535ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 448ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 321ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 312ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  15:38:36
+   Duration  49.75s (tests 89%, import 8%, transform 3%)
+

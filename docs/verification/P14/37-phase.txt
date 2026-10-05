@@ -1,0 +1,110 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P14
+P14 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p14/contracts.unit.test.ts (39 tests) 78ms
+
+ Test Files  1 passed (1)
+      Tests  39 passed (39)
+   Start at  16:11:05
+   Duration  5.20s (import 62%, environment 18%, transform 15%, setup 3%, tests 2%)
+
+P14 unit: PASSED
+P14 database: test:db; 3 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 46101ms
+   ✓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody 365ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 523ms
+   ✓ out-of-order offer waits for outcome and never creates stock 367ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 798ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 710ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 381ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 412ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 503ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 625ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 410ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 406ms
+ ✓ tests/integration/p14/transport.db.test.ts (1 test) 42858ms
+   ✓ paginated scoped reads and process death after receipt commit recover unchanged action exactly once 42857ms
+ ✓ tests/integration/p14/migration.db.test.ts (1 test) 38702ms
+   ✓ upgrades a populated P13 database without changing native identity, prices, balances or grants 38701ms
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  16:11:11
+   Duration  135.34s (tests 95%, import 4%, transform 1%)
+
+P14 database: PASSED
+P14 browser: test:p14:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2719 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-CCgnAnGe.css                           95.55 kB │ gzip:  18.82 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-DapAyBe3.js                           607.88 kB │ gzip: 127.09 kB
+
+✓ built in 448ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:28844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:8196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\integration\p14\returns.spec.ts:15:1 › assigned source branch and driver first, responsive filters and preserved Back state (4.5s)
+  ok 2 tests\integration\p14\returns.spec.ts:42:1 › actual subset submission, pending quarantine, accepted remainder and damaged condition (8.9s)
+  ok 3 tests\integration\p14\returns.spec.ts:76:1 › brand handover is a separate actual confirmation and cannot be allocated twice (2.1s)
+  ok 4 tests\integration\p14\returns.spec.ts:96:1 › branch-B staff cannot read or submit source-branch-A receipt (1.4s)
+  ok 5 tests\integration\p14\returns.spec.ts:110:1 › separate disposition page consumes an existing decision without an outcome or quantity editor (4.2s)
+
+  5 passed (1.1m)
+P14 browser: PASSED
+P14 publicIntegration: test:p14:public; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ❯ tests/integration/p14/tawsel.public.test.ts (1 test | 1 failed) 11ms
+   × independent Tawsel driver offer, source authority negatives, actual subset, echo and same-branch fresh cycle 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p14/tawsel.public.test.ts > independent Tawsel driver offer, source authority negatives, actual subset, echo and same-branch fresh cycle
+Error: BLOCKED P14 publicIntegration: missing TAWSEL_CONFIG_FILE, TAWSEL_P14_TRIAL_FILE. Requires independent test Tawsel source-return authority, real driver offer and signed delivery. Controlled fixtures cannot satisfy this gate.
+ ❯ tests/integration/p14/tawsel.public.test.ts:31:11
+     29|   const missing = ['TAWSEL_CONFIG_FILE', 'TAWSEL_P14_TRIAL_FILE'].filt…
+     30|   if (missing.length)
+     31|     throw Error(
+       |           ^
+     32|       'BLOCKED P14 publicIntegration: missing ' +
+     33|         missing.join(', ') +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:14:39
+   Duration  4.02s (import 81%, transform 19%)
+
+P14 publicIntegration: FAILED (1)

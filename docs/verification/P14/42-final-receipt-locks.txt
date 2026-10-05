@@ -1,0 +1,21 @@
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 51998ms
+   ✓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody 569ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 787ms
+   ✓ out-of-order offer waits for outcome and never creates stock 652ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 1417ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 985ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 520ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 579ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 750ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 1261ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 639ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 714ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  16:14:58
+   Duration  58.02s (tests 90%, import 7%, transform 3%)
+

@@ -6,6 +6,13 @@ import {
   validateDeliveryCommand,
   provisioningOperations,
   validateIntakeCommand,
+  validateReturnCommand,
+  returnOperations,
+  validateReturnActionStatus,
+  validateReturnList,
+  validateReturnRequest,
+  validateCycleList,
+  type ReturnRequest,
   validateIntakeTask,
   validateIntakeTaskList,
   validateIntakeBatchResult,
@@ -134,7 +141,8 @@ export class TawselClient {
     if (
       (!validateProvisioningCommand(envelope) &&
         !validateDeliveryCommand(envelope) &&
-        !validateIntakeCommand(envelope)) ||
+        !validateIntakeCommand(envelope) &&
+        !validateReturnCommand(envelope)) ||
       envelope.context.tenantId !== this.connection.tenantId ||
       envelope.context.integrationId !== this.connection.integrationId ||
       canonicalTawselJson(JSON.parse(raw)) !== canonicalTawselJson(envelope)
@@ -163,11 +171,13 @@ export class TawselClient {
       )
     )
       throw new SourceFailure('configuration-blocked', 'OPERATOR_OPERATION_FORBIDDEN');
-    const family = Object.hasOwn(intakeOperations, envelope.operationId)
-      ? 'intake'
-      : Object.hasOwn(provisioningOperations, envelope.operationId)
-        ? 'provisioning'
-        : 'integration';
+    const family = Object.hasOwn(returnOperations, envelope.operationId)
+      ? 'erp/returns'
+      : Object.hasOwn(intakeOperations, envelope.operationId)
+        ? 'intake'
+        : Object.hasOwn(provisioningOperations, envelope.operationId)
+          ? 'provisioning'
+          : 'integration';
     const r = await this.request(
       `/api/v1/${family}/commands/${envelope.operationId}`,
       raw,
@@ -175,7 +185,7 @@ export class TawselClient {
     );
     // A correlated, definite Problem is retained as a problem, never a fabricated receipt.
     if (
-      family === 'intake' &&
+      ['intake', 'erp/returns'].includes(family) &&
       [400, 409, 422].includes(r.status) &&
       validateProblem(r.body) &&
       r.body.actionId === envelope.actionId &&
@@ -212,6 +222,102 @@ export class TawselClient {
     )
       throw new SourceFailure('unknown', 'INVALID_INTAKE_RESULT', r.status);
     return r.body.result;
+  }
+  async returnResult(envelope: SourceEnvelope): Promise<ActionResult | null> {
+    const r = await this.request('/api/v1/erp/returns/actions/' + envelope.actionId);
+    if (r.status === 401 || r.status === 403)
+      throw new SourceFailure('configuration-blocked', 'AUTHORIZATION_EXPIRED', r.status);
+    if (!validateReturnActionStatus(r.body) || r.body.actionId !== envelope.actionId)
+      throw new SourceFailure('unknown', 'INVALID_RETURN_RESULT', r.status);
+    if (r.status === 202 || r.body.status === 'pending') return null;
+    if (
+      r.status !== 200 ||
+      !r.body.result ||
+      r.body.result.operationId !== envelope.operationId ||
+      r.body.result.receipt.actionId !== envelope.actionId ||
+      r.body.result.receipt.businessStatus !== r.body.status
+    )
+      throw new SourceFailure('unknown', 'INVALID_RETURN_RESULT', r.status);
+    return r.body.result;
+  }
+  async returnRequest(requestId: string): Promise<ReturnRequest> {
+    const r = await this.request('/api/v1/erp/returns/requests/' + encodeURIComponent(requestId));
+    if (
+      r.status !== 200 ||
+      !validateReturnRequest(r.body) ||
+      r.body.requestId !== requestId ||
+      r.body.integrationId !== this.connection.integrationId
+    )
+      throw new SourceFailure(
+        r.status === 401 || r.status === 403 ? 'configuration-blocked' : 'unknown',
+        'RETURN_REQUEST_UNAVAILABLE',
+        r.status,
+      );
+    return r.body;
+  }
+  async pendingReturns(driverId: string, sourceBranchId: string): Promise<ReturnRequest[]> {
+    const items: ReturnRequest[] = [],
+      seen = new Set<string>();
+    let cursor: string | null = null;
+    do {
+      const query = new URLSearchParams({
+        driverId,
+        sourceBranchId,
+        ...(cursor ? { cursor } : {}),
+      });
+      const r = await this.request('/api/v1/erp/returns/pending?' + query);
+      if (
+        r.status !== 200 ||
+        !validateReturnList(r.body) ||
+        r.body.items.length > 100 ||
+        r.body.items.some(
+          (x) =>
+            x.driverId !== driverId ||
+            x.sourceBranchId !== sourceBranchId ||
+            x.integrationId !== this.connection.integrationId,
+        )
+      )
+        throw new SourceFailure(
+          r.status === 401 || r.status === 403 ? 'configuration-blocked' : 'unknown',
+          'RETURN_LIST_INCOMPLETE',
+          r.status,
+        );
+      for (const item of r.body.items) {
+        if (seen.has(item.requestId)) throw new SourceFailure('unknown', 'RETURN_PAGE_CHANGED');
+        seen.add(item.requestId);
+        items.push(item);
+      }
+      cursor = r.body.nextCursor;
+      if (cursor && r.body.items.length === 0)
+        throw new SourceFailure('unknown', 'RETURN_CURSOR_INVALID');
+    } while (cursor);
+    return items;
+  }
+  async intakeCycles(externalId: string): Promise<IntakeTask[]> {
+    const items: IntakeTask[] = [],
+      seen = new Set<string>();
+    let cursor: string | null = null;
+    do {
+      const r = await this.request(
+        '/api/v1/intake/cycles?' +
+          new URLSearchParams({ externalId, ...(cursor ? { cursor } : {}) }),
+      );
+      if (
+        r.status !== 200 ||
+        !validateCycleList(r.body) ||
+        r.body.items.some((t) => t.externalId !== externalId)
+      )
+        throw new SourceFailure('unknown', 'CYCLE_LIST_INCOMPLETE', r.status);
+      for (const t of r.body.items) {
+        if (seen.has(t.dispatchCycleId)) throw new SourceFailure('unknown', 'CYCLE_PAGE_CHANGED');
+        seen.add(t.dispatchCycleId);
+        items.push(t);
+      }
+      cursor = r.body.nextCursor;
+      if (cursor && r.body.items.length === 0)
+        throw new SourceFailure('unknown', 'CYCLE_CURSOR_INVALID');
+    } while (cursor);
+    return items;
   }
   async intakeTask(externalId: string): Promise<IntakeTask> {
     const r = await this.request('/api/v1/intake/task?' + new URLSearchParams({ externalId }));

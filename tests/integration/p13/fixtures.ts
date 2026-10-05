@@ -71,6 +71,7 @@ export async function executionFixture(
     const p = (payload.outcome ??
       (payload.correction as { outcome?: unknown })?.outcome ??
       payload.change ??
+      payload.transition ??
       payload) as Record<string, unknown>;
     const e: SenderEvent = {
       schemaVersion: '1.0.0',
@@ -106,7 +107,7 @@ export async function executionFixture(
     );
   const received = async (extra: Parameters<typeof f.create>[0] = {}, waived = false) => {
     const s = await f.create(extra);
-    if (extra.service === 'company_packed')
+    if (extra.service === 'company_packed' || extra.service === 'stored_stock')
       await shipmentCommands(pool).execute(f.admin.token, {
         schemaVersion: 1,
         companyId: f.company,
@@ -115,7 +116,8 @@ export async function executionFixture(
         shipmentId: s.shipmentId,
         expectedVersion: s.version,
       });
-    if (extra.service === 'company_packed') s.version = (await f.read(s.shipmentId))!.version;
+    if (extra.service === 'company_packed' || extra.service === 'stored_stock')
+      s.version = (await f.read(s.shipmentId))!.version;
     let d: Awaited<ReturnType<typeof f.prepared>>;
     if (waived) {
       const commands = dispatchCommands(pool, {

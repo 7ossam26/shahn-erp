@@ -35,6 +35,7 @@ import { sourceWorkRegistry } from '../integration/provisioning.service.js';
 import { lockOrderPositions, assertStockPreparation } from '../inventory/stock-fulfillment.js';
 import { buildSourceSnapshot, dispatchPrice, type ApprovedShippingWaiver } from './snapshot.js';
 import { lockShippingWallets, reserveShippingCover } from './shipping-cover.service.js';
+import { assertRedispatchGoods } from '../returns/redispatch-custody.js';
 export const assignmentReference = (i: DispatchItemRow): AssignmentReference => ({
   externalId: i.external_id,
   sourceDispatchCycleId: i.source_cycle_id,
@@ -223,7 +224,7 @@ export async function prepareDispatch(
     );
     const prior = (
       await u.client.query(
-        'SELECT branch_id,current_intent_id,task FROM dispatch.cycle WHERE company_id=$1 AND shipment_id=$2',
+        'SELECT branch_id,current_intent_id,task FROM dispatch.cycle WHERE company_id=$1 AND shipment_id=$2 AND latest',
         [company, d.id],
       )
     ).rows[0];
@@ -438,24 +439,27 @@ export function dispatchCommands(
             for (const item of items)
               sources.set(
                 item.shipment_id,
-                (
-                  await new JournalPosting(u).source(
-                    {
-                      system: 'dispatch',
-                      identity: i.id + ':' + item.shipment_id,
-                      kind: 'shipping-cover',
-                      revision: '1',
-                    },
-                    { intentId: i.id, shipmentId: item.shipment_id, price: item.price },
-                  )
-                ).id,
+                item.cover_source_id ??
+                  (
+                    await new JournalPosting(u).source(
+                      {
+                        system: 'dispatch',
+                        identity: i.id + ':' + item.shipment_id,
+                        kind: 'shipping-cover',
+                        revision: '1',
+                      },
+                      { intentId: i.id, shipmentId: item.shipment_id, price: item.price },
+                    )
+                  ).id,
               );
             const details = await lockDispatchShipments(
               u,
               items.map((x) => x.shipment_id),
             );
             for (const d of details) {
-              await assertPhysical(u, d, i.branch_id);
+              const item = items.find((x) => x.shipment_id === d.id)!;
+              if (item.previous_cycle_id) await assertRedispatchGoods(u, item.cycle_id);
+              else await assertPhysical(u, d, i.branch_id);
               if (d.revision !== items.find((x) => x.shipment_id === d.id)!.shipment_revision)
                 throw new AccessError('SNAPSHOT_REVISION_CONFLICT', 409);
             }

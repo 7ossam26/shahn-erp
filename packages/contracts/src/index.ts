@@ -133,6 +133,7 @@ export const openApi: Record<string, unknown> = {
     ...financePaths,
     ...integrationPaths,
     ...dispatchPaths,
+    ...returnsPaths,
     ...trackingPaths,
     ...employeePaths,
     ...shipmentPaths,
@@ -172,3 +173,5 @@ export const openApi: Record<string, unknown> = {
 };
 
 export * from './inventory/index.js';
+import { returnsPaths } from './returns/index.js';
+export * from './returns/index.js';

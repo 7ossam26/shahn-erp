@@ -1,0 +1,42 @@
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ❯ tests/integration/p14/returns.db.test.ts (9 tests | 1 failed) 47498ms
+   ✓ out-of-order offer waits for outcome and never creates stock 605ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 513ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 453ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 236ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 313ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 471ms
+   × stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 699ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 420ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 374ms
+ ✓ tests/integration/p14/transport.db.test.ts (1 test) 45424ms
+   ✓ paginated scoped reads and process death after receipt commit recover unchanged action exactly once 45422ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p14/returns.db.test.ts > stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ prepareReceiptRedispatch apps/api/src/modules/returns/redispatch.service.ts:42:3
+     40|           identity: id + ':' + previous.shipment_id,
+     41|           kind: 'shipping-cover',
+     42|           revision: '1',
+       |   ^
+     43|         },
+     44|         { intentId: id, shipmentId: previous.shipment_id },
+ ❯ Object.execute apps/api/src/modules/returns/returns.service.ts:18:246
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p14/returns.db.test.ts:81:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 9 passed (10)
+   Start at  15:55:17
+   Duration  100.11s (tests 93%, import 5%, transform 1%)
+

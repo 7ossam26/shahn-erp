@@ -537,7 +537,7 @@ it('rejects an arrival attached to a different known round without posting or ad
     ).rows[0].applied_through,
   ).toBe('0');
 });
-it('keeps P14 events pending and never advances an applied checkpoint', async () => {
+it('keeps an unmapped return request pending and never advances its applied checkpoint', async () => {
   const { mappedEvents } = await import('../p11/mapped-events.js');
   const e = mappedEvents().find((e) => e.eventType === 'return.requested')!;
   const replace = (v: unknown): void => {
@@ -559,5 +559,5 @@ it('keeps P14 events pending and never advances an applied checkpoint', async ()
         [e.eventId],
       )
     ).rows[0],
-  ).toMatchObject({ application_state: 'pending', pending_reason: 'P14_PENDING_DOMAIN_HANDLER' });
+  ).toMatchObject({ application_state: 'pending', pending_reason: 'RETURN_MAPPING_REQUIRED' });
 });

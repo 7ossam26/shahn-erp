@@ -1,4 +1,5 @@
 export const capabilityPolicies = {
+  returns: 'assigned',
   dispatch: 'assigned',
   integration: 'company',
   brands: 'company',

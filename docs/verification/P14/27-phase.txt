@@ -1,0 +1,89 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P14
+P14 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p14/contracts.unit.test.ts (39 tests) 151ms
+
+ Test Files  1 passed (1)
+      Tests  39 passed (39)
+   Start at  16:01:06
+   Duration  19.65s (environment 65%, import 24%, transform 8%, setup 3%, tests 1%)
+
+P14 unit: PASSED
+P14 database: test:db; 3 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ❯ tests/integration/p14/returns.db.test.ts (11 tests | 11 skipped) 56ms
+   ↓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody
+   ↓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history
+   ↓ out-of-order offer waits for outcome and never creates stock
+   ↓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters
+   ↓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds
+   ↓ wrong branch, excess, duplicate and stale input have no physical effect
+   ↓ parcel brand handover consumes custody once, creates no SKU stock or money
+   ↓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle
+   ↓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation
+   ↓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload
+   ↓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity
+ ❯ tests/integration/p14/transport.db.test.ts (1 test | 1 failed) 19ms
+   × paginated scoped reads and process death after receipt commit recover unchanged action exactly once 18ms
+ ❯ tests/integration/p14/migration.db.test.ts (1 test | 1 failed) 20ms
+   × upgrades a populated P13 database without changing native identity, prices, balances or grants 18ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p14/returns.db.test.ts [ tests/integration/p14/returns.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p14/returns.db.test.ts:10:8
+      8| let db: Awaited<ReturnType<typeof isolatedPostgres>>, f: Awaited<Retur…
+      9| beforeAll(async () => {
+     10|   db = await isolatedPostgres();
+       |        ^
+     11|   await migrate(db.pool);
+     12|   f = await returnFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p14/migration.db.test.ts > upgrades a populated P13 database without changing native identity, prices, balances or grants
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p14/migration.db.test.ts:10:14
+      8| import { shipmentCommands } from '../../../apps/api/src/modules/shipme…
+      9| it('upgrades a populated P13 database without changing native identity…
+     10|   const db = await isolatedPostgres();
+       |              ^
+     11|   try {
+     12|     await migrate(db.pool, (await readMigrations()).slice(0, 17));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/p14/transport.db.test.ts > paginated scoped reads and process death after receipt commit recover unchanged action exactly once
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p14/transport.db.test.ts:14:14
+     12| // Listening HTTP fixture proves ERP transport/restart semantics, not …
+     13| it('paginated scoped reads and process death after receipt commit reco…
+     14|   const db = await isolatedPostgres();
+       |              ^
+     15|   let f: Awaited<ReturnType<typeof returnFixture>>,
+     16|     requests: ReturnRequest[] = [],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  2 failed | 11 skipped (13)
+   Start at  16:01:27
+   Duration  8.50s (import 80%, transform 19%, tests 1%)
+
+P14 database: FAILED (1)

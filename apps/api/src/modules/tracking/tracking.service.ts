@@ -22,9 +22,9 @@ const base = `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandNa
  LEFT JOIN shipments.parcel_custody pc ON(pc.company_id,pc.shipment_id)=(s.company_id,s.id)
  LEFT JOIN access.branch br ON(br.company_id,br.id)=(s.company_id,pc.branch_id)
  LEFT JOIN employees.operational_driver d ON(d.company_id,d.id)=(s.company_id,pc.driver_id)
- LEFT JOIN dispatch.cycle cy ON(cy.company_id,cy.shipment_id)=(s.company_id,s.id)
- LEFT JOIN execution.state st ON(st.company_id,st.source_id,st.kind,st.identity)=(s.company_id,cy.source_id,'task',cy.task_id)
- LEFT JOIN LATERAL(SELECT record FROM execution.outcome_fact ofa WHERE ofa.company_id=s.company_id AND ofa.source_id=cy.source_id AND ofa.task_id=cy.task_id AND (st.data->'record'->>'attemptId' IS NULL OR ofa.attempt_id=(st.data->'record'->>'attemptId')::uuid) ORDER BY (record->'time'->>'recordedAt')::timestamptz DESC,revision DESC LIMIT 1)eo ON true
+ LEFT JOIN dispatch.cycle cy ON(cy.company_id,cy.shipment_id)=(s.company_id,s.id) AND cy.latest
+ LEFT JOIN execution.state st ON(st.company_id,st.source_id,st.kind,st.identity)=(s.company_id,cy.source_id,'task',cy.task_id) AND (st.data->'record'->>'dispatchCycleId' IS NULL OR st.data->'record'->>'dispatchCycleId'=cy.remote_cycle_id::text)
+ LEFT JOIN LATERAL(SELECT record FROM execution.outcome_fact ofa WHERE ofa.company_id=s.company_id AND ofa.source_id=cy.source_id AND ofa.task_id=cy.task_id AND ofa.cycle_id=cy.id AND (st.data->'record'->>'attemptId' IS NULL OR ofa.attempt_id=(st.data->'record'->>'attemptId')::uuid) ORDER BY (record->'time'->>'recordedAt')::timestamptz DESC,revision DESC LIMIT 1)eo ON true
  LEFT JOIN integration.binding eb ON(eb.company_id,eb.source_id,eb.entity,eb.resource_id)=(s.company_id,cy.source_id,'driver',COALESCE(eo.record->>'driverId',st.data->'record'->>'driverId')::uuid)
  LEFT JOIN employees.operational_driver ed ON(ed.company_id,ed.id)=(eb.company_id,eb.native_id)
  LEFT JOIN LATERAL(SELECT max(confirmed_at) AS at FROM execution.timeline t WHERE t.company_id=s.company_id AND t.source_id=cy.source_id AND t.task_id=cy.task_id)te ON true`;
@@ -173,6 +173,26 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
       [company, r.source_id, r.task_id],
     )
   ).rows;
+  const returns = (
+    await u.client.query<{
+      requestId: string;
+      branch_id: string;
+      requested: number;
+      received: number;
+      unresolved: number;
+      lost: number;
+      damaged: number;
+    }>(
+      `SELECT r.id AS "requestId",r.branch_id,sum(i.requested)::int requested,sum(i.received)::int received,sum(i.unresolved)::int unresolved,sum(i.lost)::int lost,sum(i.damaged)::int damaged FROM returns.item i JOIN returns.request r ON(r.company_id,r.source_id,r.id)=(i.company_id,i.source_id,i.request_id) WHERE i.company_id=$1 AND i.shipment_id=$2 GROUP BY r.id,r.branch_id ORDER BY r.id`,
+      [company, id],
+    )
+  ).rows;
+  const returnFacts = (
+    await u.client.query(
+      `SELECT t.id,t.kind,t.fact,t.recorded_at FROM returns.transition t JOIN returns.item i ON(i.company_id,i.source_id,i.id)=(t.company_id,t.source_id,t.item_id) WHERE i.company_id=$1 AND i.shipment_id=$2`,
+      [company, id],
+    )
+  ).rows;
   // Local same-clock readable observation; remote clock subtraction is deliberately absent.
   await u.client.query(
     `UPDATE execution.timeline SET first_read_at=clock_timestamp() WHERE company_id=$1 AND source_id=$2 AND task_id=$3 AND first_read_at IS NULL`,
@@ -180,6 +200,14 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
   );
   return {
     shipment: operational(r),
+    returns: returns.map(({ branch_id, ...x }) => ({
+      ...x,
+      path:
+        u.access.grants.includes('returns') &&
+        u.access.assignedBranches.some((b) => b.id === branch_id)
+          ? '/returns/' + x.requestId
+          : null,
+    })),
     address: r.fields.address!,
     nextAction: r.pending
       ? 'بانتظار اكتمال دليل التنفيذ'
@@ -194,6 +222,17 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
         ? '/shipments/' + r.reference
         : null,
     timeline: [
+      ...returnFacts
+        .filter((t) => !remote.some((e) => e.action_id === t.fact.time.actionId))
+        .map((t) => ({
+          id: 'return:' + t.id,
+          origin: 'Tawsel' as const,
+          kind: t.kind === 'received' ? 'return.subsetReceived' : 'return.dispositionRecorded',
+          recordedAt: t.fact.time.recordedAt,
+          observedAt: t.fact.time.observation.observedAt,
+          receivedAt: t.recorded_at.toISOString(),
+          observationUnknown: t.fact.time.observation.observedAt === null,
+        })),
       ...recovered.map((e) => ({
         id: 'history:' + e.outcome_id + ':' + e.revision,
         origin: 'Tawsel' as const,

@@ -36,6 +36,7 @@ export async function executionCycle(
   company: string,
   source: string,
   task: string,
+  remoteCycle?: string | null,
 ) {
   const row = (
     await c.query<ExecutionCycle>(
@@ -43,8 +44,8 @@ export async function executionCycle(
      JOIN dispatch.item i ON(i.company_id,i.cycle_id,i.intent_id)=(cy.company_id,cy.id,cy.current_intent_id)
      JOIN dispatch.intent d ON(d.company_id,d.id)=(cy.company_id,cy.current_intent_id)
      JOIN shipments.shipment s ON(s.company_id,s.id)=(cy.company_id,cy.shipment_id)
-     WHERE cy.company_id=$1 AND cy.source_id=$2 AND cy.task_id=$3`,
-      [company, source, task],
+     WHERE cy.company_id=$1 AND cy.source_id=$2 AND cy.task_id=$3 AND ($4::uuid IS NULL AND cy.latest OR cy.remote_cycle_id=$4)`,
+      [company, source, task, remoteCycle ?? null],
     )
   ).rows[0];
   if (!row || Number(row.accepted_revision) < 1 || !row.remote_cycle_id)
@@ -146,6 +147,20 @@ export async function applyVisitAndOutcome(
       throw new ExecutionDependency('OUTCOME_GOODS_CONFLICT');
     commercialAllocation(cy.price, outcome);
     if (n.correction) {
+      const physical = await c.query(
+        `SELECT 1 FROM returns.transition t JOIN returns.item i ON(i.company_id,i.source_id,i.id)=(t.company_id,t.source_id,t.item_id) WHERE i.company_id=$1 AND i.source_id=$2 AND i.cycle_id=$3 AND i.original->>'attemptId'=$4 LIMIT 1`,
+        [company, source, cy.id, attempt],
+      );
+      if (
+        physical.rowCount &&
+        !(
+          await c.query(
+            `SELECT 1 FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND outcome_id=$3 AND revision=$4 AND record=$5::jsonb`,
+            [company, source, outcome.outcomeId, outcome.revision, JSON.stringify(outcome)],
+          )
+        ).rowCount
+      )
+        throw new ExecutionDependency('CORRECTION_AFTER_RETURN_REQUIRES_REVIEW');
       const prior = (
         await c.query<{ record: OutcomeRecord }>(
           `SELECT record FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND outcome_id=$3 AND revision=$4`,

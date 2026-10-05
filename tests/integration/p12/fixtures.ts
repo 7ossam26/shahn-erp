@@ -128,9 +128,16 @@ export async function dispatchFixture(
         { branchId: f.a, brandId: seed.brand, governorateId: seed.cairo },
         extra,
       ),
-      actualReceipt: true,
+      actualReceipt: extra.service !== 'stored_stock',
       duplicateAcknowledged: false,
-      expectedPolicyVersion: 1,
+      expectedPolicyVersion: Number(
+        (
+          await pool.query('SELECT version FROM commercial.brand WHERE company_id=$1 AND id=$2', [
+            f.company,
+            extra.brandId ?? seed.brand,
+          ])
+        ).rows[0].version,
+      ),
       expectedTariffVersion: 1,
       expectedTariffId: extra.areaId === seed.dokki ? seed.override : seed.base,
     };

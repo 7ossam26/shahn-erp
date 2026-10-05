@@ -45,6 +45,15 @@ export interface TrackingDetail {
   address: string;
   nextAction: string;
   detailPath: string | null;
+  returns: {
+    requestId: string;
+    path: string | null;
+    requested: number;
+    received: number;
+    unresolved: number;
+    lost: number;
+    damaged: number;
+  }[];
   timeline: {
     id: string;
     origin: 'ERP' | 'Tawsel';
@@ -128,6 +137,18 @@ export const trackingDetailSchema = closed({
   address: text,
   nextAction: text,
   detailPath: nullable,
+  returns: {
+    type: 'array',
+    items: closed({
+      requestId: uuid,
+      path: nullable,
+      requested: { type: 'integer', minimum: 1 },
+      received: { type: 'integer', minimum: 0 },
+      unresolved: { type: 'integer', minimum: 0 },
+      lost: { type: 'integer', minimum: 0 },
+      damaged: { type: 'integer', minimum: 0 },
+    }),
+  },
   timeline: {
     type: 'array',
     items: closed({

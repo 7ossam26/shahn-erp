@@ -1,0 +1,7 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/returns/http.ts(48,90): error TS7034: Variable 'current' implicitly has type 'any[]' in some locations where its type cannot be determined.
+apps/api/src/modules/returns/http.ts(54,21): error TS7005: Variable 'current' implicitly has an 'any[]' type.
+apps/api/src/modules/returns/query.service.ts(28,52): error TS2365: Operator '>=' cannot be applied to types 'Date' and 'string'.
+apps/api/src/modules/returns/query.service.ts(28,96): error TS2365: Operator '<' cannot be applied to types 'Date' and 'string'.
+tests/integration/p14/fixtures.ts(25,189): error TS2353: Object literal may only specify known properties, and 'id' does not exist in type 'Common & { type: "brand.update"; fields: BrandFields; } & Edit'.

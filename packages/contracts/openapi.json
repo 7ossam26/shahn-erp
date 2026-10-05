@@ -8241,6 +8241,890 @@
         }
       }
     },
+    "/api/v1/returns": {
+      "get": {
+        "summary": "Assigned source branch and driver return desk",
+        "responses": {
+          "200": {
+            "description": "Scoped requests and actual receipts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "drivers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string" },
+                          "driverId": { "type": "string", "format": "uuid" },
+                          "driverName": { "type": "string" },
+                          "requestedAt": { "type": "string", "format": "date-time" },
+                          "checkedAt": { "type": "string", "format": "date-time" },
+                          "dispositions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "kind": { "enum": ["lost", "damaged"] },
+                                "incidentId": { "type": "string", "format": "uuid" },
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "itemId": { "type": "string", "format": "uuid" },
+                                      "expectedRevision": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 9007199254740991
+                                      },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      }
+                                    },
+                                    "required": ["itemId", "expectedRevision", "quantity"],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 1
+                                }
+                              },
+                              "required": ["id", "kind", "incidentId", "items"],
+                              "additionalProperties": false
+                            },
+                            "minItems": 0
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "shipmentId": { "type": "string", "format": "uuid" },
+                                "cycleId": { "type": "string", "format": "uuid" },
+                                "reference": { "type": "string" },
+                                "description": { "type": "string" },
+                                "brandId": { "type": "string", "format": "uuid" },
+                                "brandName": { "type": "string" },
+                                "current": {
+                                  "type": "object",
+                                  "properties": {
+                                    "itemId": { "type": "string", "format": "uuid" },
+                                    "taskId": { "type": "string", "format": "uuid" },
+                                    "dispatchCycleId": { "type": "string", "format": "uuid" },
+                                    "outcomeId": { "type": "string", "format": "uuid" },
+                                    "attemptId": { "type": "string", "format": "uuid" },
+                                    "sourceLineId": { "type": "string" },
+                                    "externalId": { "type": "string" },
+                                    "sourceDispatchCycleId": { "type": "string" },
+                                    "sourceRevision": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "revision": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "requested": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 1000000
+                                    },
+                                    "received": { "type": "integer", "minimum": 0 },
+                                    "lost": { "type": "integer", "minimum": 0 },
+                                    "damaged": { "type": "integer", "minimum": 0 },
+                                    "unresolved": { "type": "integer", "minimum": 0 },
+                                    "eligibility": { "enum": ["pending", "settled", "superseded"] },
+                                    "custody": {
+                                      "type": "object",
+                                      "properties": {
+                                        "sourceQuantity": {
+                                          "type": "integer",
+                                          "minimum": 1,
+                                          "maximum": 1000000
+                                        },
+                                        "delivered": { "type": "integer", "minimum": 0 },
+                                        "held": { "type": "integer", "minimum": 0 },
+                                        "received": { "type": "integer", "minimum": 0 },
+                                        "lost": { "type": "integer", "minimum": 0 },
+                                        "damaged": { "type": "integer", "minimum": 0 }
+                                      },
+                                      "required": [
+                                        "sourceQuantity",
+                                        "delivered",
+                                        "held",
+                                        "received",
+                                        "lost",
+                                        "damaged"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "itemId",
+                                    "taskId",
+                                    "dispatchCycleId",
+                                    "outcomeId",
+                                    "attemptId",
+                                    "sourceLineId",
+                                    "externalId",
+                                    "sourceDispatchCycleId",
+                                    "sourceRevision",
+                                    "revision",
+                                    "requested",
+                                    "received",
+                                    "lost",
+                                    "damaged",
+                                    "unresolved",
+                                    "eligibility",
+                                    "custody"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "inspection": { "enum": ["counted-pieces", "parcel-exterior"] },
+                                "observations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "state": {
+                                        "enum": [
+                                          "pending",
+                                          "accepted",
+                                          "rejected",
+                                          "review-required"
+                                        ]
+                                      },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      },
+                                      "condition": {
+                                        "type": ["string", "null"],
+                                        "enum": ["sound", "damaged", "uncertain", null]
+                                      },
+                                      "observedAt": { "type": "string", "format": "date-time" },
+                                      "lastError": { "type": ["string", "null"] }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "state",
+                                      "quantity",
+                                      "condition",
+                                      "observedAt",
+                                      "lastError"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 0
+                                },
+                                "receipts": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      },
+                                      "consumed": { "type": "integer", "minimum": 0 },
+                                      "condition": {
+                                        "type": "string",
+                                        "enum": ["sound", "damaged", "uncertain"]
+                                      },
+                                      "version": { "type": "integer", "minimum": 1 },
+                                      "receivedAt": { "type": "string", "format": "date-time" }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "quantity",
+                                      "consumed",
+                                      "condition",
+                                      "version",
+                                      "receivedAt"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 0
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "shipmentId",
+                                "cycleId",
+                                "reference",
+                                "description",
+                                "brandId",
+                                "brandName",
+                                "current",
+                                "inspection",
+                                "observations",
+                                "receipts"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 0
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "branchId",
+                          "branchName",
+                          "driverId",
+                          "driverName",
+                          "requestedAt",
+                          "checkedAt",
+                          "dispositions",
+                          "items"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    }
+                  },
+                  "required": ["branches", "drivers", "brands", "total", "page", "items"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/returns/requests/{id}": {
+      "get": {
+        "summary": "Scoped current quantities, physical observations and immutable receipt history",
+        "responses": {
+          "200": {
+            "description": "Return detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "drivers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    },
+                    "total": { "type": "integer", "minimum": 0 },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string" },
+                          "driverId": { "type": "string", "format": "uuid" },
+                          "driverName": { "type": "string" },
+                          "requestedAt": { "type": "string", "format": "date-time" },
+                          "checkedAt": { "type": "string", "format": "date-time" },
+                          "dispositions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "kind": { "enum": ["lost", "damaged"] },
+                                "incidentId": { "type": "string", "format": "uuid" },
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "itemId": { "type": "string", "format": "uuid" },
+                                      "expectedRevision": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 9007199254740991
+                                      },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      }
+                                    },
+                                    "required": ["itemId", "expectedRevision", "quantity"],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 1
+                                }
+                              },
+                              "required": ["id", "kind", "incidentId", "items"],
+                              "additionalProperties": false
+                            },
+                            "minItems": 0
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "shipmentId": { "type": "string", "format": "uuid" },
+                                "cycleId": { "type": "string", "format": "uuid" },
+                                "reference": { "type": "string" },
+                                "description": { "type": "string" },
+                                "brandId": { "type": "string", "format": "uuid" },
+                                "brandName": { "type": "string" },
+                                "current": {
+                                  "type": "object",
+                                  "properties": {
+                                    "itemId": { "type": "string", "format": "uuid" },
+                                    "taskId": { "type": "string", "format": "uuid" },
+                                    "dispatchCycleId": { "type": "string", "format": "uuid" },
+                                    "outcomeId": { "type": "string", "format": "uuid" },
+                                    "attemptId": { "type": "string", "format": "uuid" },
+                                    "sourceLineId": { "type": "string" },
+                                    "externalId": { "type": "string" },
+                                    "sourceDispatchCycleId": { "type": "string" },
+                                    "sourceRevision": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "revision": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "requested": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 1000000
+                                    },
+                                    "received": { "type": "integer", "minimum": 0 },
+                                    "lost": { "type": "integer", "minimum": 0 },
+                                    "damaged": { "type": "integer", "minimum": 0 },
+                                    "unresolved": { "type": "integer", "minimum": 0 },
+                                    "eligibility": { "enum": ["pending", "settled", "superseded"] },
+                                    "custody": {
+                                      "type": "object",
+                                      "properties": {
+                                        "sourceQuantity": {
+                                          "type": "integer",
+                                          "minimum": 1,
+                                          "maximum": 1000000
+                                        },
+                                        "delivered": { "type": "integer", "minimum": 0 },
+                                        "held": { "type": "integer", "minimum": 0 },
+                                        "received": { "type": "integer", "minimum": 0 },
+                                        "lost": { "type": "integer", "minimum": 0 },
+                                        "damaged": { "type": "integer", "minimum": 0 }
+                                      },
+                                      "required": [
+                                        "sourceQuantity",
+                                        "delivered",
+                                        "held",
+                                        "received",
+                                        "lost",
+                                        "damaged"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "itemId",
+                                    "taskId",
+                                    "dispatchCycleId",
+                                    "outcomeId",
+                                    "attemptId",
+                                    "sourceLineId",
+                                    "externalId",
+                                    "sourceDispatchCycleId",
+                                    "sourceRevision",
+                                    "revision",
+                                    "requested",
+                                    "received",
+                                    "lost",
+                                    "damaged",
+                                    "unresolved",
+                                    "eligibility",
+                                    "custody"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "inspection": { "enum": ["counted-pieces", "parcel-exterior"] },
+                                "observations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "state": {
+                                        "enum": [
+                                          "pending",
+                                          "accepted",
+                                          "rejected",
+                                          "review-required"
+                                        ]
+                                      },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      },
+                                      "condition": {
+                                        "type": ["string", "null"],
+                                        "enum": ["sound", "damaged", "uncertain", null]
+                                      },
+                                      "observedAt": { "type": "string", "format": "date-time" },
+                                      "lastError": { "type": ["string", "null"] }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "state",
+                                      "quantity",
+                                      "condition",
+                                      "observedAt",
+                                      "lastError"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 0
+                                },
+                                "receipts": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "quantity": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 1000000
+                                      },
+                                      "consumed": { "type": "integer", "minimum": 0 },
+                                      "condition": {
+                                        "type": "string",
+                                        "enum": ["sound", "damaged", "uncertain"]
+                                      },
+                                      "version": { "type": "integer", "minimum": 1 },
+                                      "receivedAt": { "type": "string", "format": "date-time" }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "quantity",
+                                      "consumed",
+                                      "condition",
+                                      "version",
+                                      "receivedAt"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "minItems": 0
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "shipmentId",
+                                "cycleId",
+                                "reference",
+                                "description",
+                                "brandId",
+                                "brandName",
+                                "current",
+                                "inspection",
+                                "observations",
+                                "receipts"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 0
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "branchId",
+                          "branchName",
+                          "driverId",
+                          "driverName",
+                          "requestedAt",
+                          "checkedAt",
+                          "dispositions",
+                          "items"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0
+                    }
+                  },
+                  "required": ["branches", "drivers", "brands", "total", "page", "items"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/returns/commands": {
+      "post": {
+        "summary": "Actual subset receipt, eligible redispatch or actual brand handover",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "return.receive" },
+                      "requestId": { "type": "string", "format": "uuid" },
+                      "actualReceipt": { "const": true },
+                      "observedAt": { "type": "string", "format": "date-time" },
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "itemId": { "type": "string", "format": "uuid" },
+                            "expectedRevision": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                            "condition": {
+                              "type": "string",
+                              "enum": ["sound", "damaged", "uncertain"]
+                            },
+                            "inspection": { "enum": ["counted-pieces", "parcel-exterior"] },
+                            "suspectedShortage": { "type": "boolean" }
+                          },
+                          "required": [
+                            "itemId",
+                            "expectedRevision",
+                            "quantity",
+                            "condition",
+                            "inspection",
+                            "suspectedShortage"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "branchId",
+                      "type",
+                      "requestId",
+                      "actualReceipt",
+                      "observedAt",
+                      "items"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "return.redispatch" },
+                      "previousCycleId": { "type": "string", "format": "uuid" },
+                      "driverId": { "type": "string", "format": "uuid" },
+                      "allocations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "receiptLineId": { "type": "string", "format": "uuid" },
+                            "expectedVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                          },
+                          "required": ["receiptLineId", "expectedVersion", "quantity"],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "branchId",
+                      "type",
+                      "previousCycleId",
+                      "driverId",
+                      "allocations"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "return.brandHandover" },
+                      "brandId": { "type": "string", "format": "uuid" },
+                      "recipientName": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200,
+                        "pattern": "\\S"
+                      },
+                      "actualAt": { "type": "string", "format": "date-time" },
+                      "actualHandover": { "const": true },
+                      "allocations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "receiptLineId": { "type": "string", "format": "uuid" },
+                            "expectedVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 9007199254740991
+                            },
+                            "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                          },
+                          "required": ["receiptLineId", "expectedVersion", "quantity"],
+                          "additionalProperties": false
+                        },
+                        "minItems": 1
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "branchId",
+                      "type",
+                      "brandId",
+                      "recipientName",
+                      "actualAt",
+                      "actualHandover",
+                      "allocations"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "return.dispose" },
+                      "requestId": { "type": "string", "format": "uuid" },
+                      "decisionId": { "type": "string", "format": "uuid" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "commandId",
+                      "companyId",
+                      "branchId",
+                      "type",
+                      "requestId",
+                      "decisionId"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Actual native handover recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "actionId": { "type": ["string", "null"], "format": "uuid" },
+                    "dispatchIntentId": { "type": ["string", "null"], "format": "uuid" }
+                  },
+                  "required": ["commandId", "entityId", "branchId", "actionId", "dispatchIntentId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Durable intent; receipt pending source acceptance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "entityId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "actionId": { "type": ["string", "null"], "format": "uuid" },
+                    "dispatchIntentId": { "type": ["string", "null"], "format": "uuid" }
+                  },
+                  "required": ["commandId", "entityId", "branchId", "actionId", "dispatchIntentId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid subset" },
+          "403": { "description": "Screen or branch denied" },
+          "409": { "description": "Revision, custody or allocation conflict" }
+        }
+      }
+    },
+    "/api/v1/returns/commands/{commandId}": {
+      "get": {
+        "summary": "Reauthorized native command recovery",
+        "responses": {
+          "200": { "description": "Original result" },
+          "403": { "description": "Current access denied" }
+        }
+      }
+    },
+    "/api/v1/returns/refresh": {
+      "post": {
+        "summary": "Read every scoped pending page and current request revisions; no physical receipt",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "driverId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["companyId", "branchId", "driverId"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refreshed authoritative request state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "checked": { "const": true },
+                    "requests": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["checked", "requests"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": { "description": "Incomplete source read; retain previous facts" }
+        }
+      }
+    },
     "/api/v1/execution/earnings": {
       "get": {
         "summary": "Branch-scoped employee visit earning basis; employees grant",
@@ -8519,6 +9403,31 @@
                     "address": { "type": "string" },
                     "nextAction": { "type": "string" },
                     "detailPath": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "returns": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "requestId": { "type": "string", "format": "uuid" },
+                          "path": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "requested": { "type": "integer", "minimum": 1 },
+                          "received": { "type": "integer", "minimum": 0 },
+                          "unresolved": { "type": "integer", "minimum": 0 },
+                          "lost": { "type": "integer", "minimum": 0 },
+                          "damaged": { "type": "integer", "minimum": 0 }
+                        },
+                        "required": [
+                          "requestId",
+                          "path",
+                          "requested",
+                          "received",
+                          "unresolved",
+                          "lost",
+                          "damaged"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
                     "timeline": {
                       "type": "array",
                       "items": {
@@ -8567,6 +9476,7 @@
                     "address",
                     "nextAction",
                     "detailPath",
+                    "returns",
                     "timeline",
                     "attempts",
                     "pendingReasons",
@@ -24791,6 +25701,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -24882,6 +25793,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "brands": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -24966,10 +25878,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 20,
+                        "maxItems": 21,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "returns",
                             "integration",
                             "dispatch",
                             "brands",
@@ -25024,10 +25937,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 20,
+                        "maxItems": 21,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "returns",
                             "integration",
                             "dispatch",
                             "brands",
@@ -25637,6 +26551,7 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "returns",
                               "integration",
                               "dispatch",
                               "brands",
@@ -25702,6 +26617,7 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "returns",
                               "integration",
                               "dispatch",
                               "brands",
@@ -25944,6 +26860,7 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "integration": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -26036,6 +26953,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "returns",
                                 "integration",
                                 "dispatch",
                                 "brands",
@@ -26272,6 +27190,7 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "integration": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -26364,6 +27283,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "returns",
                                 "integration",
                                 "dispatch",
                                 "brands",
@@ -26562,6 +27482,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "returns",
                                 "integration",
                                 "dispatch",
                                 "brands",
@@ -27212,6 +28133,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "returns",
                 "integration",
                 "dispatch",
                 "brands",

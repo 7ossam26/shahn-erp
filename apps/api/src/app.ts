@@ -1,4 +1,5 @@
 import { registerDispatch } from './modules/dispatch/dispatch.controller.js';
+import { registerReturns } from './modules/returns/http.js';
 import { registerTracking } from './modules/tracking/http.js';
 import { registerExecutionReads } from './modules/execution/http.js';
 import { registerFinance } from './modules/finance/http.js';
@@ -166,6 +167,12 @@ export async function createApplication(
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
   registerTracking(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
   registerExecutionReads(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
+  registerReturns(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    integration,
+  );
   registerDispatch(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,

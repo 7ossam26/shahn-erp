@@ -2,6 +2,7 @@ import type { Pool } from 'pg';
 import { transaction, type TransactionClient } from '@shahn/database';
 import { normalizeExecutionEvent, type NormalizedExecutionEvent } from '@shahn/contracts/execution';
 import { applyOneDispatchEvent } from '../dispatch/acceptance.js';
+import { applyReturnEvent } from '../returns/return-events.js';
 import {
   executionCycle,
   applyVisitAndOutcome,
@@ -34,8 +35,7 @@ async function applyExecution(
 ) {
   let p = n.record;
   const sequence = n.stream.sequence;
-  if (n.owner === 'pending-return-handler')
-    throw new ExecutionDependency('P14_PENDING_DOMAIN_HANDLER');
+  if (n.owner === 'returns') return applyReturnEvent(c, company, source, n, fault);
   if (n.owner === 'provisioning') {
     const accepted = (
       await c.query(
@@ -50,7 +50,7 @@ async function applyExecution(
     return;
   }
   if (n.owner === 'dispatch') {
-    const cy = await executionCycle(c, company, source, n.taskId!);
+    const cy = await executionCycle(c, company, source, n.taskId!, n.dispatchCycleId);
     if (
       Number(cy.accepted_revision) < Number(p.sourceRevision) ||
       Number(cy.assignment_revision) < Number(p.assignmentRevision)
@@ -138,7 +138,7 @@ async function applyExecution(
     );
     return;
   }
-  const cy = await executionCycle(c, company, source, n.taskId!);
+  const cy = await executionCycle(c, company, source, n.taskId!, n.dispatchCycleId);
   if (n.type === 'location.pinConfirmed') {
     await state(
       c,
