@@ -1,5 +1,7 @@
 # P01 — Runnable foundation and approved UI shell
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P01 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 1: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Task and boundary
 
 Implement this phase only. Establish a runnable, version-pinned web/API/worker workspace with PostgreSQL migrations, meaningful verification commands and the approved Arabic RTL presentation system. The owner must be able to launch it, open a focused module home and a demonstrative form, and see an honest API/database status. Do not implement commercial balances, parcel registration or a simulated working Tawsel connection.

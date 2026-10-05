@@ -1,5 +1,7 @@
 # P07 — Stored-stock orders, reservation and preparation
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P07 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 7: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Complete the third service: staff choose a brand's products already physically present at an assigned branch, confirm an order that reserves every required variant atomically, prepare it, and inspect where its quantities are committed. Short stock must stop confirmation clearly. The result extends P06's existing shipment model and P05's real inventory; it must not create a separate fulfillment application or a second receipt of the same goods.

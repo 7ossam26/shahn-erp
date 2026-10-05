@@ -1,5 +1,7 @@
 # P09 — Accounts, paid expenses and general money movements
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P09 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 9: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 Status: standalone implementation prompt authored after PLAN-001 approval, ERP-D-205 / ERP-R-214. Execute only this phase when selected by the owner. Authored prompts are not implementation evidence.
 
 ## 1. Goal and result

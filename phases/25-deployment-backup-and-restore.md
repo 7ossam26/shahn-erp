@@ -1,5 +1,7 @@
 # P25 — Portable deployment and a measured restore rehearsal
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P25 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 25: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Result and authority boundary
 
 Implement this phase only. Produce versioned deployment artifacts and run a clean deployment, upgrade and encrypted backup/restore rehearsal in an isolated development/staging environment. The same release must support co-location with Tawsel and a separate host through configuration/data movement, without shared databases. Deliver measured recovery and capacity evidence plus an explicit production cutover runbook. This phase does not authorize touching a production host, changing DNS, buying services or releasing real money.

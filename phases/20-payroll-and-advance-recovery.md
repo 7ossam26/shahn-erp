@@ -1,5 +1,7 @@
 # P20 — Monthly payroll, advances and one net salary payout
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P20 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 20: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Deliver the employee month screen with separate salary, visit commission, additions, deductions, advance recovery, incident recovery, carry and net. Staff can record an actual advance, review a complete monthly calculation, pay its full net once or close a zero-net month, and trace every recovery to its original obligation. Preserve past/paid calculations and historical work attribution. The result is simple HR with accountable money, not attendance, tax or a general payroll suite.

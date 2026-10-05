@@ -1,5 +1,7 @@
 # P06 — Physically received parcel intake and company packing
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P06 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 6: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Deliver ordinary shipment registration for **brand-packed ready parcels** and **brand-supplied orders that the company packs**. Staff transcribe the brand's waybill, see exact goods/shipping totals, confirm actual branch receipt and find the resulting parcel with a numeric reference. Ready parcels skip preparation; company-packed orders enter a preparation queue and require explicit completion. This phase produces usable commercial/custody records, not Tawsel dispatch.

@@ -1,5 +1,7 @@
 # P11 — Tawsel bootstrap and durable receiver
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P11 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 11: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 Status: authored prompt; execution not started. Plan: PLAN-001, owner-authorized phase authoring in session 025. Copy this entire prompt into a new Codex task in the ERP workspace. Implement P11 only.
 
 ## Result and authority

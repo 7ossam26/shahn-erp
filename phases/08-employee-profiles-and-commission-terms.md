@@ -1,5 +1,7 @@
 # P08 — Employee profiles and effective commission terms
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P08 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 8: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Deliver a usable employee setup screen for all company staff. It must keep salary and commission as independent sections, preserve effective terms and branch history, and provide an explicit association between commissioned delivery work and an employee. Staff can inspect what a term change will affect without altering past or paid calculations. P13 will create visit earnings; P20 will implement actual advances, monthly calculation and salary payment. Do not add working-looking payment buttons before those capabilities exist.

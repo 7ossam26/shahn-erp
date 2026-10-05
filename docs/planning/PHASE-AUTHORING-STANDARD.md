@@ -96,7 +96,9 @@ PHASES-001 now assigns recommendations using [current model evidence](../../phas
 
 ### 3.9 Stop boundary
 
-End every prompt with a precise boundary: implement and verify this phase only, write the truthful handoff, and stop. Do not automatically run the next phase or publish, purchase, pay, merge or deploy outside the owner's specific authorization. Do not change Tawsel code as a side effect of an ERP phase. A separately approved Tawsel change has its own owner, baseline update and compatibility evidence.
+Every prompt must state the owner's 2026-10-05 Git instruction: work directly on `main` in the existing checkout, without creating a branch or worktree; after all required checks and acceptance gates pass, commit with the phase number and push to the existing `origin` without asking again. Include the phase-specific commit example and link to [the shared Git workflow](../../phases/EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). A required failed, skipped, unavailable or blocked gate prevents the completion commit/push; preserve the work and report the blocker.
+
+End every prompt with a precise boundary: implement and verify this phase only, write the truthful handoff, complete the authorized phase commit/push when eligible, and stop. Do not automatically run the next phase or publish a deployment, purchase, pay, merge a feature branch or deploy outside the owner's specific authorization. Do not change Tawsel code as a side effect of an ERP phase. A separately approved Tawsel change has its own owner, baseline update and compatibility evidence.
 
 ## 4. Coverage gate before the phase set is complete
 

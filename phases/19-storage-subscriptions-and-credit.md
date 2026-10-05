@@ -1,5 +1,7 @@
 # P19 — Storage subscriptions, partial payments and advance credit
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P19 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 19: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Deliver one brand storage agreement with anniversary periods, automatic durable renewal, visible arrears, manual partial/advance receipts and explicit refund of unallocated storage credit. The complete fixed period fee is earned when that period starts. Cash receipt, credit allocation and earned revenue are separate facts. Staff must be able to explain every pound from agreement through receipt/allocation/refund without touching the brand payout wallet.

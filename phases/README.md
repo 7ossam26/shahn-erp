@@ -6,9 +6,9 @@ Revision PHASES-001, 2026-10-03; execution status updated2026-10-04. PLAN-001 is
 
 1. Keep this package, the pinned Tawsel references, UI prototype/captures and all linked specifications together when moving outside this chat. Paths in prompts are relative to the ERP root; no original Windows path is required by the implementation.
 2. Read the [approved master plan](../master-plan.md) and the selected phase. Check [shared execution conventions](EXECUTION-CONTRACT.md), then select the recommended available model/effort using [verified model guidance](MODEL-GUIDANCE.md).
-3. Copy the entire numbered phase prompt into a fresh Codex conversation in the ERP workspace. It names its exact reading and prerequisites; no chat-history knowledge is assumed. Do not copy the whole catalog as an instruction to execute every phase.
+3. Copy the entire numbered phase prompt into a fresh Codex conversation using the existing ERP checkout on `main`. Do not start a worktree or create a phase branch. It names its exact reading and prerequisites; no chat-history knowledge is assumed. Do not copy the whole catalog as an instruction to execute every phase.
 4. Follow the catalog order unless deliberately using the dependency graph. A prerequisite must be observed, not inferred from a completion label. Make small in-scope repairs and record them; keep material missing external capabilities explicitly blocked.
-5. Review the actual result and its manual trial/evidence. The agent updates its execution record and stops after that phase. Start the next phase yourself.
+5. Review the actual result and its manual trial/evidence. The agent updates its execution record and, only after all required checks and acceptance gates pass, commits with the phase number (for example `phase 14: implement returns and redispatch`) and pushes `main` to the existing `origin`, without asking again. A required failed or blocked check prevents the completion commit/push. The agent reports the actual commit/push result and stops after that phase. Start the next phase yourself.
 
 The decomposition yields 26 results from the dependencies and demonstrable journeys. It was not copied from Tawsel or chosen as a target count. Foundation/identity/atomic primitives precede commercial writes; the real integration boundary precedes dispatch. Money receipt and brand payout are separate outcomes; storage/payroll/reporting have separate acceptance. Final operations/pilot prompts are as complete as the earlier prompts.
 
@@ -45,7 +45,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 
 ## Dependency and shared-interface rules
 
-`phase-manifest.json` supplies the same graph in machine-readable form. Numbers provide one valid execution order; independent branches may be developed separately only when shared schema/interface ownership is respected.
+`phase-manifest.json` supplies the same graph in machine-readable form. Numbers provide one valid execution order; independent paths in the dependency graph may change the chosen order, but phases execute one at a time on `main`, respecting shared schema/interface ownership.
 
 - P01 supplies the real transaction helper and UI/test workspace. P02 introduces minimal durable command/audit/identity jobs; P03 extends those same records with shared typed journals, source deduplication, lock order and worker fencing. Do not create two competing command ledgers.
 - P03 owns the single wallet/cover/allocation primitive; P04 initializes it per brand. P12 uses cover, P13 posts pending credits/visit facts, P16 releases eligible funds, and P17 provides payout. No second wallet at P17.

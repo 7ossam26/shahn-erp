@@ -1,5 +1,7 @@
 # P26 — Complete V1 pilot, coverage audit and operator handoff
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P26 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 26: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Result and limits
 
 Execute this phase only after its prerequisites exist. Demonstrate the complete agreed shipping-company ERP in one isolated pilot environment with consistent identities, stock, money and history across modules. Reconcile every current requirement/decision, screen, selected operation/event and important failure case with actual evidence. Deliver a truthful readiness report and repeatable owner walkthrough. This phase fixes bounded integration defects found by the pilot; it does not silently redefine product scope or turn unresolved contract paths into successful tests.

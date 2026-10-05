@@ -1,5 +1,7 @@
 # P18 — Loss/damage incidents, compensation and replacement shipping
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P18 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 18: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Execute this phase only
 
 Deliver a complete incident journey: report affected goods, review actual custody and value, explicitly confirm company/employee responsibility, post one eligible brand compensation credit and any linked employee obligation, then create an ordinary replacement shipment when needed. Support the approved company-funded replacement shipping waiver without erasing genuine goods due or driver commission. Keep original financial/custody records and correction links visible.

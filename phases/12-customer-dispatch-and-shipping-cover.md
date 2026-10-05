@@ -1,5 +1,7 @@
 # P12 — Customer dispatch and shipping cover
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P12 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 12: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 Status: authored implementation prompt; execution not started. Authority: PLAN-001, ERP-D-205 / ERP-R-214. Copy the complete prompt into a new Codex task in the ERP workspace. Implement and verify P12 only.
 
 ## 1. Result, scope and acceptance ownership

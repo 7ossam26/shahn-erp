@@ -1,5 +1,7 @@
 # P02 — Company access, shared identity and scoped administration
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P02 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 2: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Result and scope
 
 Implement this phase only. Company staff can sign in, see their granted module cards, and use real user/role/branch administration. Developer support has a separately attributable support session. Prove authorization at the server, including changes made while another session is open. This phase supplies identity and scope to every later operation; it does not add shipment or financial workflows.

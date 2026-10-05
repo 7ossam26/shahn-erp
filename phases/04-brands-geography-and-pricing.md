@@ -1,5 +1,7 @@
 # P04 — Brands, geography and immutable commercial pricing
 
+**Git workflow (owner instruction, 2026-10-05):** Execute P04 directly on `main` in the existing checkout; do not create a branch or worktree. Follow [the shared Git workflow](EXECUTION-CONTRACT.md#git-workflow-main-phase-commit-and-push). After implementation, evidence and all required checks/acceptance gates pass, commit only this phase's changes with `phase 4: <summary>`, then run `git push origin main` without asking again. Required failed, skipped, unavailable or blocked gates prevent the completion commit/push; preserve the work and report the blocker. Report the actual commit hash and push result, then stop after this phase.
+
 ## Result and boundary
 
 Implement this phase only. Authorized staff can create a company-level brand, configure its services and agreed prices, maintain governorates/optional areas and manually assign a negotiated tier. A price preview explains its source and can produce an immutable order-policy snapshot for later intake. Updating tariffs changes future snapshots without rewriting earlier ones. Product stock, actual subscription receipts, dispatch and payouts remain in their owning phases.
