@@ -1,0 +1,9 @@
+# P15 typed consumer interfaces
+
+The native transfer desk is implemented locally; independent Tawsel and owner manual acceptance remain blocked. This document exports interfaces for later phases and does not start them.
+
+- `goodsTransferCommands(pool, 'send' | 'receive')` accepts closed `GoodsTransferCommand` variants: `goods.create`, `goods.handover`, `goods.cancel`, `goods.receive` and `goods.sourceReturn`. Each has one immutable `commandId`, and every physical action has an expected manifest version. `recover` returns a retained result after rechecking the command's screen grant and branch scope.
+- `transferView(client, companyId, manifestId)` reads source/destination, carrier, lines, actual handover and cumulative immutable receipt trail. `transferIncidentCandidates(client, companyId, manifestId)` returns remaining carrier quantity and suspected internal parcel issue per line. These are investigation candidates only; P18/P21 must establish a separate legitimate incident/adjustment decision before any disposition or finance action.
+- `packages/database/migrations/0019_p15_goods_transfers.sql` stores stock/custody facts with company-scoped line/receipt references. Stock movements reuse P05 position/reservation services. A prepared stored-stock parcel's component reservation moves to the new branch only on actual receipt; the parcel remains one shipment identity.
+- `carrierCandidates` uses P13 `MonitoringReader` as advisory source-filtered received evidence. Unknown/absent monitoring is explicit and does not bar a valid native driver. No driver route or Tawsel branch-activity command is changed.
+- `goods_transfer.return_claim` protects accepted sound P14 returned parcels and loose receipt balances while prepared; handover consumes the claimed P14 `receipt_allocation` as `transfer`. This is a physical ERP claim. It does not authorize A-to-B `dispatch.createFromReceipt`, which remains CHECK-003 dependent.

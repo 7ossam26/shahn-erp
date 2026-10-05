@@ -888,6 +888,9 @@ export function ShipmentDetailPage() {
                         corrected: 'تصحيح مسجل',
                         prepared: 'اكتمال التجهيز',
                         cancelled: 'إلغاء تجاري — العهدة محفوظة',
+                        transfer_handover: 'تسليم فعلي لناقل رحلة داخلية',
+                        transfer_received: 'استلام فعلي في الفرع المقصود',
+                        transfer_source_return: 'رجوع فعلي إلى فرع المصدر',
                       }[e.kind]
                     }
                   </strong>

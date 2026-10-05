@@ -30,7 +30,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | P12 | [Customer dispatch, actual handover and shipping cover](12-customer-dispatch-and-shipping-cover.md) | P06, P07, P08, P09, P11 | `gpt-6-astra` / `xhigh` | [Local implementation; live acceptance blocked](execution/P12.md) |
 | P13 | [Execution projections, visit facts and full tracking](13-execution-projections-and-tracking.md) | P08, P12 | `gpt-6.1-sol` / `high` | [Local implementation; live acceptance blocked](execution/P13.md) |
 | P14 | [Actual return receipt, disposition and redispatch](14-returns-and-redispatch.md) | P05, P13 | `gpt-6-astra` / `xhigh` | [Local implementation; live acceptance blocked](execution/P14.md) |
-| P15 | [Internal physical branch transfers](15-interbranch-goods-transfers.md) | P05, P07, P08, P11, P13, P14 | `gpt-6.1-sol` / `high` | [Not started](execution/P15.md) |
+| P15 | [Internal physical branch transfers](15-interbranch-goods-transfers.md) | P05, P07, P08, P11, P13, P14 | `gpt-6.1-sol` / `high` | [Native implementation; public/manual gates blocked](execution/P15.md) |
 | P16 | [Full driver remittance with source evidence](16-full-driver-remittance.md) | P09, P13 | `gpt-6-astra` / `xhigh` | [Not started](execution/P16.md) |
 | P17 | [Shared brand balance and actual payout](17-brand-wallet-and-payout.md) | P12, P16 | `gpt-6-astra` / `xhigh` | [Not started](execution/P17.md) |
 | P18 | [Compensation, liability and replacement shipping](18-incidents-and-replacement-shipping.md) | P07, P08, P09, P13, P14, P15, P17 | `gpt-6-astra` / `xhigh` | [Not started](execution/P18.md) |

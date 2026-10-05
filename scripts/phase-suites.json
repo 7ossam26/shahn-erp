@@ -354,5 +354,35 @@
       "config": "vitest.p14.public.config.ts",
       "filter": ["tests/integration/p14/tawsel.public.test.ts"]
     }
+  },
+  "P15": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/integration/p15",
+      "extension": ".unit.test",
+      "filter": ["tests/integration/p15/contracts.unit.test.ts"]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/integration/p15",
+      "extension": ".db.test",
+      "filter": [
+        "tests/integration/p15/transfer.db.test.ts",
+        "tests/integration/p15/returned-parcel.db.test.ts"
+      ]
+    },
+    "browser": {
+      "script": "test:p15:browser",
+      "directory": "tests/integration/p15",
+      "extension": ".spec",
+      "config": "playwright.p15.config.ts"
+    },
+    "publicIntegration": {
+      "script": "test:p15:public",
+      "directory": "tests/integration/p15",
+      "extension": ".public.test",
+      "config": "vitest.p15.public.config.ts",
+      "filter": ["tests/integration/p15/tawsel.public.test.ts"]
+    }
   }
 }

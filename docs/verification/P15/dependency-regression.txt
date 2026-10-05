@@ -1,0 +1,29 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p12/dispatch.db.test.ts tests/integration/p14/returns.db.test.ts
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p12/dispatch.db.test.ts (20 tests) 74422ms
+   ✓ persists exact prices, source bytes and quantities after PostgreSQL restart 31470ms
+   ✓ pending 500 alone cannot reserve 60, while allow-negative creates no payout cash 334ms
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 46101ms
+   ✓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody 372ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 445ms
+   ✓ out-of-order offer waits for outcome and never creates stock 348ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 759ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 679ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 368ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 406ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 481ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 654ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 445ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 556ms
+
+ Test Files  2 passed (2)
+      Tests  31 passed (31)
+   Start at  20:13:41
+   Duration  129.25s (tests 93%, import 5%, transform 1%)
+

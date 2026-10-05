@@ -362,7 +362,10 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
                     </p>
                   </div>
                   <div>
-                    <p>{item.branchName} · عهدة الفرع</p>
+                    <p>
+                      {item.branchName} ·{' '}
+                      {item.custody === 'transfer' ? 'عهدة ناقل رحلة داخلية' : 'عهدة الفرع'}
+                    </p>
                     <p>
                       {item.blocked
                         ? 'موقوف بعجز المخزون'
@@ -371,8 +374,12 @@ export function ParcelMonitorPage({ inventory = false }: { inventory?: boolean }
                           : preparationNames[item.preparation]}
                     </p>
                     <p>
-                      في الفرع منذ <bdi>{item.ageDays}</bdi> يوم
+                      {item.custody === 'transfer' ? 'مع الناقل منذ' : 'في الفرع منذ'}{' '}
+                      <bdi>{item.ageDays}</bdi> يوم
                     </p>
+                    {item.transferId && (
+                      <Link to={'/goods-transfers/' + item.transferId}>تفاصيل رحلة النقل</Link>
+                    )}
                   </div>
                   {!inventory &&
                     !item.blocked &&

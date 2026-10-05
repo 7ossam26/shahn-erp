@@ -1,5 +1,14 @@
 import { DispatchPage, DispatchDetailPage } from './features/dispatch/dispatch.js';
 import { ReturnsPage } from './features/returns/returns.js';
+import {
+  TransferListPage,
+  TransferNewPage,
+  TransferDetailPage,
+} from './features/goods-transfers/goods-transfers.js';
+import {
+  GoodsReceiptsPage,
+  GoodsReceiptDetailPage,
+} from './features/goods-receipts/goods-receipts.js';
 import { FinanceListPage, FinanceNewPage, FinanceDetailPage } from './features/finance/finance.js';
 import {
   IntegrationPage,
@@ -88,6 +97,11 @@ const router = createBrowserRouter([
       { path: '/brands', element: <BrandsPage /> },
       { path: '/dispatch', element: <DispatchPage /> },
       { path: '/returns', element: <ReturnsPage /> },
+      { path: '/goods-transfers', element: <TransferListPage /> },
+      { path: '/goods-transfers/new', element: <TransferNewPage /> },
+      { path: '/goods-transfers/:id', element: <TransferDetailPage /> },
+      { path: '/goods-receipts', element: <GoodsReceiptsPage /> },
+      { path: '/goods-receipts/:id', element: <GoodsReceiptDetailPage /> },
       { path: '/returns/:id', element: <ReturnsPage /> },
       { path: '/returns/:id/disposition', element: <ReturnsPage /> },
       { path: '/dispatch/:id', element: <DispatchDetailPage /> },

@@ -66,7 +66,10 @@
     "p13:trial": "node scripts/build.mjs && node --import tsx tests/integration/p13/serve.ts",
     "test:p14:browser": "node scripts/build.mjs && playwright test --config playwright.p14.config.ts",
     "test:p14:public": "node scripts/build-packages.mjs && vitest run --config vitest.p14.public.config.ts",
-    "p14:trial": "node scripts/build.mjs && node --import tsx tests/integration/p14/serve.ts"
+    "p14:trial": "node scripts/build.mjs && node --import tsx tests/integration/p14/serve.ts",
+    "test:p15:browser": "node scripts/build.mjs && playwright test --config playwright.p15.config.ts",
+    "test:p15:public": "node scripts/build-packages.mjs && vitest run --config vitest.p15.public.config.ts",
+    "p15:trial": "node scripts/build.mjs && node --import tsx tests/integration/p15/serve.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

@@ -13,6 +13,7 @@ import './tracking.css';
 const labels: Record<string, string> = {
   branch: 'في الفرع',
   driver: 'مع المندوب',
+  transfer: 'مع ناقل رحلة داخلية',
   recipient: 'لدى المستلم',
   unknown: 'غير معروف',
   full: 'تم التسليم',
@@ -24,6 +25,9 @@ const labels: Record<string, string> = {
   awaiting_preparation: 'بانتظار التجهيز',
   received: 'تم الاستلام في الفرع',
   prepared: 'اكتمل التجهيز',
+  'goods.handover': 'تسليم فعلي لناقل رحلة داخلية',
+  'goods.receive': 'استلام فعلي في فرع الوجهة',
+  'goods.sourceReturn': 'رجوع فعلي إلى فرع المصدر',
   'current.arrivalRecorded': 'سُجل الوصول',
   'current.headingSelected': 'في الطريق',
   'outcome.recorded': 'سُجلت نتيجة المحاولة',
@@ -144,7 +148,7 @@ export function TrackingPage() {
                   [
                     'custodians',
                     'العهدة',
-                    ['branch', 'driver', 'recipient', 'unknown'].map((id) => ({
+                    ['branch', 'driver', 'transfer', 'recipient', 'unknown'].map((id) => ({
                       id,
                       name: label(id),
                     })),

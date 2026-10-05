@@ -34,3 +34,4 @@ export * from './repositories/dispatch.repository.js';
 
 export * from './repositories/execution.repository.js';
 export * from './repositories/returns.repository.js';
+export * from './repositories/goods-transfer.repository.js';

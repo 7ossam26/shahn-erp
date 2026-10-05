@@ -45,6 +45,15 @@ export async function lockReceiptAllocation(
     selections.map((s) => s.receiptLineId),
     true,
   );
+  if (
+    (
+      await u.client.query(
+        `SELECT 1 FROM goods_transfer.return_claim WHERE company_id=$1 AND receipt_line_id=ANY($2::uuid[]) LIMIT 1`,
+        [u.access.companyId, rows.map((r) => r.id)],
+      )
+    ).rowCount
+  )
+    throw new AccessError('RETURN_ALREADY_ALLOCATED', 409);
   for (const l of rows) {
     const a = selections.find((x) => x.receiptLineId === l.id)!;
     u.assertBranch(l.branch_id);

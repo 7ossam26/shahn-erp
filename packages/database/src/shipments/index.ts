@@ -159,15 +159,58 @@ export async function readParcels(
   custody: 'branch' | 'external' = 'branch',
   preparationOnly = false,
 ): Promise<ParcelList> {
-  if (custody === 'external')
+  if (custody === 'external') {
+    const args = [
+      company,
+      filter.branches,
+      filter.brands,
+      filter.service,
+      filter.preparation,
+      filter.state,
+      filter.search,
+      from,
+      to,
+      preparationOnly,
+    ];
+    const join = `FROM shipments.shipment s JOIN shipments.parcel_custody c ON (c.company_id,c.shipment_id)=(s.company_id,s.id)
+      JOIN goods_transfer.manifest m ON (m.company_id,m.id)=(c.company_id,c.transfer_id)
+      JOIN goods_transfer.line gl ON (gl.company_id,gl.manifest_id,gl.shipment_id)=(m.company_id,m.id,s.id)
+      JOIN goods_transfer.action_fact h ON (h.company_id,h.manifest_id)=(m.company_id,m.id) AND h.kind='handover'
+      JOIN shipments.revision r ON (r.company_id,r.shipment_id,r.revision)=(s.company_id,s.id,s.revision)
+      JOIN commercial.brand b ON (b.company_id,b.id)=(s.company_id,s.brand_id)
+      JOIN access.branch src ON (src.company_id,src.id)=(m.company_id,m.source_branch_id)
+      JOIN access.branch dst ON (dst.company_id,dst.id)=(m.company_id,m.destination_branch_id)`;
+    const where = `s.company_id=$1 AND c.holder='driver' AND m.state='in_transit' AND gl.remaining=1
+      AND (m.source_branch_id=ANY($2::uuid[]) OR m.destination_branch_id=ANY($2::uuid[]))
+      AND (cardinality($3::uuid[])=0 OR s.brand_id=ANY($3::uuid[]))
+      AND ($4='all' OR r.fields->>'service'=$4)
+      AND ($5='all' OR s.preparation=$5) AND ($6='all' OR s.state=$6)
+      AND ($7='' OR strpos(translate(lower(concat_ws(' ',s.reference,r.fields->>'brandReference',r.fields->>'recipientName',m.reference)),'٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹','01234567890123456789'),lower($7))>0)
+      AND ($8::timestamptz IS NULL OR h.actual_at>=$8) AND ($9::timestamptz IS NULL OR h.actual_at<$9)
+      AND (NOT $10::boolean OR s.preparation<>'not_required')`;
+    const total = Number(
+      (await client.query(`SELECT count(*)::text AS n ${join} WHERE ${where}`, args)).rows[0].n,
+    );
+    const items = (
+      await client.query<ParcelList['items'][number] & { receivedAt: Date }>(
+        `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",r.fields->>'recipientName' AS "recipientName",
+       m.source_branch_id AS "branchId",concat('من ',src.name,' إلى ',dst.name) AS "branchName",r.fields->>'service' AS service,
+       s.state,s.preparation,false AS blocked,h.actual_at AS "receivedAt",
+       GREATEST(0,(clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date-(h.actual_at AT TIME ZONE 'Africa/Cairo')::date)::int AS "ageDays",
+       'transfer' AS custody,m.id AS "transferId" ${join} WHERE ${where}
+       ORDER BY h.actual_at DESC,s.id LIMIT $11 OFFSET $12`,
+        [...args, filter.limit, (filter.page - 1) * filter.limit],
+      )
+    ).rows.map((r) => ({ ...r, receivedAt: r.receivedAt.toISOString() }));
     return {
-      items: [],
-      total: 0,
+      items,
+      total,
       page: filter.page,
       limit: filter.limit,
       custody,
-      boundary: 'LOCAL_CUSTODY_ONLY',
+      boundary: 'NATIVE_TRANSFER_ONLY',
     };
+  }
   const args = [
     company,
     filter.branches,
@@ -188,7 +231,7 @@ export async function readParcels(
   );
   const items = (
     await client.query<ParcelList['items'][number] & { receivedAt: Date }>(
-      `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",r.fields->>'recipientName' AS "recipientName",c.branch_id AS "branchId",br.name AS "branchName",r.fields->>'service' AS service,s.state,s.preparation,${blocked} AS blocked,s.received_at AS "receivedAt",GREATEST(0,(clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date-(s.received_at AT TIME ZONE 'Africa/Cairo')::date)::int AS "ageDays",'branch' AS custody ${join} WHERE ${where} ORDER BY s.received_at DESC,s.id LIMIT $11 OFFSET $12`,
+      `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",r.fields->>'recipientName' AS "recipientName",c.branch_id AS "branchId",br.name AS "branchName",r.fields->>'service' AS service,s.state,s.preparation,${blocked} AS blocked,s.received_at AS "receivedAt",GREATEST(0,(clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date-(s.received_at AT TIME ZONE 'Africa/Cairo')::date)::int AS "ageDays",'branch' AS custody,NULL::uuid AS "transferId" ${join} WHERE ${where} ORDER BY s.received_at DESC,s.id LIMIT $11 OFFSET $12`,
       [...args, filter.limit, (filter.page - 1) * filter.limit],
     )
   ).rows.map((r) => ({ ...r, receivedAt: r.receivedAt.toISOString() }));

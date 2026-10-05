@@ -1,6 +1,6 @@
 # ERP Requirements and Decisions Traceability
 
-Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03; local evidence updated 2026-10-04. This file maps **214 requirements and 205 decisions**. P01–P06 have bounded local evidence in their execution/verification records, including [P06 intake and packing](docs/verification/P06/TRACEABILITY.md). P07–P26 remain unstarted. A local slice does not complete a cross-domain requirement or an owner manual review.
+Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03; bounded local evidence updated through P15 on 2026-10-05. This file maps **214 requirements and 205 decisions**. P01–P10 have verified local slices; P11–P15 have local implementations with required external/manual gates blocked. P16–P26 remain unstarted. A local slice does not complete a cross-domain requirement or an owner manual review.
 
 ## How to use this matrix
 
@@ -9,7 +9,7 @@ Status: phase ownership assigned under approved PLAN-001, session025, 2026-10-03
 - **Phase ownership is assigned in the final column under ERP-D-205.** Deferred and superseded rows remain visible for scope verification; they do not authorize future implementation. The first linked phase leads the specified result; other linked phases consume/verify it. Cross-cutting rules in the shared execution contract apply to every phase. Verify both implementation and journey coverage.
 - Owners name a responsible ERP module or boundary. They are not hardcoded employee roles. ERP service calls, human Tawsel actions and Tawsel contract changes retain separate execution owners.
 - Linked planning documents describe the proposed implementation. Detailed plan mechanics are adopted under ERP-D-205; their original proposal IDs retain provenance and do not certify external capability or runtime targets.
-- Verification entries below describe required acceptance rather than unconditional pass labels. Actual P01–P07 local results are recorded in bounded traceability/execution records; later business and external slices remain unrun. Document completeness checks are not application tests. No whole cross-domain row is marked implemented or passed.
+- Verification entries below describe required acceptance rather than unconditional pass labels. Actual phase-local results are recorded in bounded traceability/execution records; later business and external slices remain open. Document completeness checks are not application tests. No whole cross-domain row is marked implemented or passed.
 - Source wording in early registers may still contain an earlier provisional description. Current acceptance and explicit amendments below preserve manual pricing, full driver remittance, one net payroll payout, automatic advance recovery, physical branch transfers and current report selection.
 
 ## Session 024 financial amendments
@@ -531,6 +531,10 @@ These chains prevent a phase split from passing local tests while losing the com
 
 The selected contract's unresolved details are engineering dependencies, not a claim that the completed Tawsel product needs to be completed again. No repository monitoring, deployed baseline verification or runtime contract testing is claimed here.
 
+## P15 bounded execution update, 2026-10-05
+
+[P15 case mapping](docs/verification/P15/TRACEABILITY.md) and [execution evidence](docs/verification/P15/README.md) cover the local implementation/consumption/exclusion slices assigned to ERP-R-022/027/043/127/132/169/179/184–194/195–199/205/208 and ERP-D-019/025/042/093/107/120/123/160/170/175–189/196/199. The implementation adds real PostgreSQL native transfer/receipt custody, assigned-branch API/browser screens and factual inventory/tracking views. The independent Tawsel monitoring/first B snapshot, owner physical trial and CHECK-003 gates are blocked. None of those cross-domain rows is marked fully accepted, and no completion commit/push occurred.
+
 ## Coverage review and next gate
 
 Document-level coverage in this draft:
@@ -542,7 +546,7 @@ Document-level coverage in this draft:
 - Every matrix row has a current status, implementation owner, design/source link, acceptance assertion, planned verification and assigned phase ownership.
 - Superseded requirements ERP-R-043/052/057/082/083 and decisions ERP-D-030/042/050/056/080/081 remain visible with current replacements. D060's top-bar ban and D107's historical report selection have explicit amendments.
 - Deferred barcode/labels, Excel intake, brand portal and service invoices/tax integration have exclusion checks. Their linked phases verify exclusion rather than implement the deferred feature.
-- All verification is planned and unrun; the document's row/reference checks are separate from runtime acceptance.
+- Local execution evidence through P15 is linked above and in the phase records. Required public, manual and later-phase acceptance remains open; the document's row/reference checks are separate from runtime acceptance.
 
 Phase ownership is now assigned. Add actual evidence links as work runs and review current coverage after every scope/contract change. Do not mark the phase split complete while any included current requirement has no owner/phase/case, any critical chain loses its recovery path, or a selected contract dependency is concealed. This draft establishes coverage obligations; it does not certify that those obligations have passed.
 

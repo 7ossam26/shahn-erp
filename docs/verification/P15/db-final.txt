@@ -1,0 +1,14 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p15/transfer.db.test.ts
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p15/transfer.db.test.ts (6 tests) 81180ms
+   ✓ one physical manifest with immutable custody (6)
+     ✓ rechecks active carrier at handover and serializes cancellation against departure 40624ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  20:11:59
+   Duration  86.28s (tests 94%, import 4%, transform 1%)
+

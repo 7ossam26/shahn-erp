@@ -13,7 +13,7 @@ const digits = (v: string) =>
 const base = `SELECT s.id,s.reference,s.brand_id AS "brandId",b.name AS "brandName",pc.branch_id AS "branchId",br.name AS "branchName",
  r.fields->>'recipientName' AS "recipientName",r.fields->>'phoneDisplay' AS phone,r.fields->>'service' AS service,
  COALESCE(eo.record->>'outcome',st.data->'record'->>'outcome',st.data->>'type',s.preparation) AS state,
- CASE WHEN COALESCE(eo.record->>'outcome',st.data->'record'->>'outcome')='full' THEN 'recipient' ELSE COALESCE(pc.holder,'unknown') END AS custodian,
+ CASE WHEN pc.transfer_id IS NOT NULL THEN 'transfer' WHEN COALESCE(eo.record->>'outcome',st.data->'record'->>'outcome')='full' THEN 'recipient' ELSE COALESCE(pc.holder,'unknown') END AS custodian,
  COALESCE(ed.name,d.name) AS "driverName",s.received_at AS "createdAt",te.at AS "lastEventAt",
  EXISTS(SELECT 1 FROM integration.inbox ib WHERE ib.company_id=s.company_id AND ib.source_id=cy.source_id AND (ib.aggregate_id=cy.task_id OR ib.aggregate_id IN(SELECT identity FROM execution.state rs WHERE rs.company_id=s.company_id AND rs.source_id=cy.source_id AND rs.kind='round' AND rs.data->'taskIds' ? cy.task_id::text) OR ib.aggregate_id IN(SELECT (rs.data->>'workdayId')::uuid FROM execution.state rs WHERE rs.company_id=s.company_id AND rs.source_id=cy.source_id AND rs.kind='round' AND rs.data->'taskIds' ? cy.task_id::text)) AND ib.application_state='pending') AS pending,
  r.fields,cy.source_id,cy.task_id,s.branch_id AS native_branch
@@ -49,7 +49,7 @@ function operational(r: Row): TrackingRow {
     service: r.service,
     state: r.state,
     custodian: r.custodian,
-    driverName: r.custodian === 'driver' ? r.driverName : null,
+    driverName: r.custodian === 'driver' || r.custodian === 'transfer' ? r.driverName : null,
     createdAt: r.createdAt.toISOString(),
     lastEventAt: r.lastEventAt?.toISOString() ?? null,
     pending: r.pending,
@@ -193,6 +193,25 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
       [company, id],
     )
   ).rows;
+  const transferFacts = (
+    await u.client.query<{
+      id: string;
+      kind: string;
+      actual_at: Date;
+      recorded_at: Date;
+    }>(
+      `SELECT a.id,'goods.handover' AS kind,a.actual_at,a.recorded_at FROM goods_transfer.action_fact a
+     JOIN goods_transfer.line l ON(l.company_id,l.manifest_id)=(a.company_id,a.manifest_id)
+     WHERE a.company_id=$1 AND l.shipment_id=$2 AND a.kind='handover'
+     UNION ALL
+     SELECT r.id,CASE WHEN r.kind='destination' THEN 'goods.receive' ELSE 'goods.sourceReturn' END,
+       r.actual_at,r.recorded_at FROM goods_transfer.receipt r
+     JOIN goods_transfer.line l ON(l.company_id,l.manifest_id)=(r.company_id,r.manifest_id)
+     JOIN goods_transfer.receipt_line rl ON(rl.company_id,rl.receipt_id,rl.line_id)=(r.company_id,r.id,l.id)
+     WHERE r.company_id=$1 AND l.shipment_id=$2`,
+      [company, id],
+    )
+  ).rows;
   // Local same-clock readable observation; remote clock subtraction is deliberately absent.
   await u.client.query(
     `UPDATE execution.timeline SET first_read_at=clock_timestamp() WHERE company_id=$1 AND source_id=$2 AND task_id=$3 AND first_read_at IS NULL`,
@@ -215,13 +234,24 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
         ? 'تم التسليم حسب التقرير؛ توريد الأموال مسار منفصل'
         : r.custodian === 'driver'
           ? 'بانتظار تحديث المندوب أو الاستلام الفعلي للمرتجع'
-          : 'راجع تجهيز الشحنة وتسليمها',
+          : r.custodian === 'transfer'
+            ? 'مع ناقل الرحلة الداخلية؛ بانتظار الاستلام الفعلي في الفرع'
+            : 'راجع تجهيز الشحنة وتسليمها',
     detailPath:
       u.access.grants.includes('intake') &&
       u.access.assignedBranches.some((b) => b.id === r.native_branch)
         ? '/shipments/' + r.reference
         : null,
     timeline: [
+      ...transferFacts.map((t) => ({
+        id: 'transfer:' + t.id,
+        origin: 'ERP' as const,
+        kind: t.kind,
+        recordedAt: t.actual_at.toISOString(),
+        observedAt: t.actual_at.toISOString(),
+        receivedAt: t.recorded_at.toISOString(),
+        observationUnknown: false,
+      })),
       ...returnFacts
         .filter((t) => !remote.some((e) => e.action_id === t.fact.time.actionId))
         .map((t) => ({
@@ -242,15 +272,17 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
         receivedAt: e.received_at.toISOString(),
         observationUnknown: e.record.time.observation.observedAt === null,
       })),
-      ...native.map((e) => ({
-        id: 'native:' + e.version,
-        origin: 'ERP' as const,
-        kind: e.kind,
-        recordedAt: e.recorded_at.toISOString(),
-        observedAt: null,
-        receivedAt: null,
-        observationUnknown: true,
-      })),
+      ...native
+        .filter((e) => !e.kind.startsWith('transfer_'))
+        .map((e) => ({
+          id: 'native:' + e.version,
+          origin: 'ERP' as const,
+          kind: e.kind,
+          recordedAt: e.recorded_at.toISOString(),
+          observedAt: null,
+          receivedAt: null,
+          observationUnknown: true,
+        })),
       ...remote.map((e) => ({
         id: e.event_id,
         origin: 'Tawsel' as const,

@@ -189,7 +189,7 @@ async function assertPhysical(u: UnitOfWork, d: ShipmentDetail, branch: string, 
   if (d.preparation === 'awaiting_preparation') throw new AccessError('PREPARATION_REQUIRED', 409);
   const custody = (
     await u.client.query(
-      `SELECT 1 FROM shipments.parcel_custody WHERE company_id=$1 AND shipment_id=$2 AND branch_id=$3 AND holder='branch'`,
+      `SELECT 1 FROM shipments.parcel_custody WHERE company_id=$1 AND shipment_id=$2 AND branch_id=$3 AND holder='branch' AND exterior_condition='sound'`,
       [u.access.companyId, d.id, branch],
     )
   ).rowCount;

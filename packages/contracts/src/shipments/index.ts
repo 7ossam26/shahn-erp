@@ -96,7 +96,16 @@ export interface ShipmentDetail {
   handedOver: boolean;
   timeline: {
     version: number;
-    kind: 'received' | 'reserved' | 'corrected' | 'prepared' | 'cancelled' | 'unpack_inspected';
+    kind:
+      | 'received'
+      | 'reserved'
+      | 'corrected'
+      | 'prepared'
+      | 'cancelled'
+      | 'unpack_inspected'
+      | 'transfer_handover'
+      | 'transfer_received'
+      | 'transfer_source_return';
     at: string;
     actor: string;
     reason: string;
@@ -149,7 +158,8 @@ export interface ParcelItem {
   receivedAt: string;
   ageDays: number;
   blocked: boolean;
-  custody: 'branch';
+  custody: 'branch' | 'transfer';
+  transferId: string | null;
 }
 export interface ParcelList {
   items: ParcelItem[];
@@ -157,7 +167,7 @@ export interface ParcelList {
   page: number;
   limit: number;
   custody: 'branch' | 'external';
-  boundary: 'LOCAL_CUSTODY_ONLY';
+  boundary: 'LOCAL_CUSTODY_ONLY' | 'NATIVE_TRANSFER_ONLY';
 }
 export interface ShipmentFilter {
   branches: string[];
@@ -355,7 +365,8 @@ const parcelSchema = closed({
   receivedAt: { type: 'string', format: 'date-time' },
   ageDays: { type: 'integer', minimum: 0 },
   blocked: bool,
-  custody: { const: 'branch' },
+  custody: { enum: ['branch', 'transfer'] },
+  transferId: nullable(uuid),
 });
 export const parcelListSchema = closed({
   items: array(parcelSchema),
@@ -363,7 +374,7 @@ export const parcelListSchema = closed({
   page: { type: 'integer', minimum: 1 },
   limit: { enum: [25, 50, 100] },
   custody: { enum: ['branch', 'external'] },
-  boundary: { const: 'LOCAL_CUSTODY_ONLY' },
+  boundary: { enum: ['LOCAL_CUSTODY_ONLY', 'NATIVE_TRANSFER_ONLY'] },
 });
 const allocationSchema = closed({
   reservationId: uuid,
@@ -410,7 +421,17 @@ const detailSchema = closed({
     closed({
       version,
       kind: {
-        enum: ['received', 'reserved', 'corrected', 'prepared', 'cancelled', 'unpack_inspected'],
+        enum: [
+          'received',
+          'reserved',
+          'corrected',
+          'prepared',
+          'cancelled',
+          'unpack_inspected',
+          'transfer_handover',
+          'transfer_received',
+          'transfer_source_return',
+        ],
       },
       at: { type: 'string', format: 'date-time' },
       actor: text(200),
