@@ -1,0 +1,17 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts tests/integration/p13/monitoring.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/integration/p13/monitoring.db.test.ts (6 tests) 36123ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (10 tests) 67500ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 30841ms
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  07:54:10
+   Duration  109.28s (tests 95%, import 4%, transform 1%)
+

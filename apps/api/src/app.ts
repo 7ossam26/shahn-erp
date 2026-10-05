@@ -1,4 +1,6 @@
 import { registerDispatch } from './modules/dispatch/dispatch.controller.js';
+import { registerTracking } from './modules/tracking/http.js';
+import { registerExecutionReads } from './modules/execution/http.js';
 import { registerFinance } from './modules/finance/http.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
@@ -162,6 +164,8 @@ export async function createApplication(
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
+  registerTracking(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
+  registerExecutionReads(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
   registerDispatch(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,

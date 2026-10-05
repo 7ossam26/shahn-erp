@@ -1,12 +1,14 @@
 import { createPool, databaseConfig, loadEnvironment } from '@shahn/database';
 import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/api/access';
 import { integrationRuntime, SourceCommandWorker } from '@shahn/api/integration';
+import { ProjectionWorker } from '@shahn/api/execution';
 loadEnvironment();
 try {
   const db = databaseConfig(),
     identity = identityConfig();
   const pool = createPool(db.runtimeUrl);
   const sourceWorker = new SourceCommandWorker(pool, integrationRuntime());
+  const projectionWorker = new ProjectionWorker(pool);
   const worker =
     pool && identity ? new IdentityWorker(pool, new KeycloakIdentityAdapter(identity)) : null;
   let working = false;
@@ -17,7 +19,7 @@ try {
         service: 'worker',
         state,
         checkedAt: new Date().toISOString(),
-        businessQueues: worker ? 2 : 1,
+        businessQueues: worker ? 3 : 2,
       }),
     );
   report('started');
@@ -25,14 +27,16 @@ try {
   const poll = setInterval(() => {
     if (!working && !stopping) {
       working = true;
-      void Promise.all([worker?.runOne(), sourceWorker.runOne()])
-        .catch(() => report('durable_work_retry'))
+      void Promise.allSettled([worker?.runOne(), sourceWorker.runOne(), projectionWorker.runOne()])
+        .then((results) => {
+          if (results.some((result) => result.status === 'rejected')) report('durable_work_retry');
+        })
         .finally(() => {
           working = false;
         });
     }
   }, 1000);
-  // Allow both durable workers to release or finish their fenced work before closing the pool.
+  // Allow every durable worker to finish its transaction before closing the pool.
   const stop = async () => {
     if (stopping) return;
     stopping = true;

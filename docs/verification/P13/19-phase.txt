@@ -1,0 +1,71 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P13
+P13 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/integration/p13/contracts.unit.test.ts (167 tests) 468ms
+
+ Test Files  1 passed (1)
+      Tests  167 passed (167)
+   Start at  08:17:39
+   Duration  7.37s (import 31%, environment 29%, setup 22%, transform 11%, tests 6%)
+
+P13 unit: PASSED
+P13 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p13/execution.db.test.ts (12 tests | 1 failed) 73817ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 249ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 236ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 217ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 118ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 294ms
+   ✓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome 131ms
+   ✓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 180ms
+   ✓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash 107ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 30997ms
+   × another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 327ms
+   ✓ a protected correction retains prior postings, creates one review and never moves company cash 155ms
+   ✓ keeps P14 events pending and never advances an applied checkpoint 81ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 37175ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 471ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved
+AssertionError: expected { visits: 2, outcomes: +0, …(3) } to match object { visits: 2, revenue: '11000', …(2) }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "cash": 0,
+-   "commission": "1000",
++   "commission": "500",
+    "revenue": "11000",
+    "visits": 2,
+  }
+
+ ❯ tests/integration/p13/execution.db.test.ts:408:38
+    406|   );
+    407|   await drain();
+    408|   expect(await facts(x.task.taskId)).toMatchObject({
+       |                                      ^
+    409|     visits: 2,
+    410|     revenue: '11000',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 19 passed (20)
+   Start at  08:17:47
+   Duration  116.54s (tests 95%, import 4%, transform 1%)
+
+P13 database: FAILED (1)

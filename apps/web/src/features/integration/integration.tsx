@@ -209,6 +209,7 @@ export function IntegrationPage() {
         title="حالة الربط"
         description="تابع تأكيد الطلبات وجاهزية الهويات واستلام الأحداث كلّاً على حدة."
       />
+      <Link to="/execution/reviews">مراجعات تصحيح التنفيذ</Link>
       {q.isPending && <p role="status">جارٍ تحميل حالة الاتصال…</p>}
       <ErrorBox error={q.error ?? error} />
       {intent.recovery}

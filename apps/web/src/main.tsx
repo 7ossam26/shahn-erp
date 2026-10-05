@@ -12,6 +12,8 @@ import {
   TreasuryDetailPage,
 } from './features/finance/treasury-transfers/treasury.js';
 import React from 'react';
+import { TrackingPage, TrackingDetailPage } from './features/tracking/tracking.js';
+import { ExecutionRecordsPage } from './features/tracking/execution-records.js';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
       ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
+      { path: '/tracking', element: <TrackingPage /> },
+      { path: '/execution/earnings', element: <ExecutionRecordsPage kind="earnings" /> },
+      { path: '/execution/reviews', element: <ExecutionRecordsPage kind="reviews" /> },
+      { path: '/tracking/:id', element: <TrackingDetailPage /> },
       {
         path: '/',
         element:

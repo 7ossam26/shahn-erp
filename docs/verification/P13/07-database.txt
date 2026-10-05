@@ -1,0 +1,34 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts tests/integration/p13/monitoring.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/integration/p13/execution.db.test.ts (6 tests) 37265ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 320ms
+ ❯ tests/integration/p13/monitoring.db.test.ts (6 tests | 1 failed) 35435ms
+   ✓ fetches authorized scoped HTTP data, retains body on 304 and updates refresh metadata 41ms
+   ✓ keeps 503 visibly stale; hides cached source body on 404 without deleting native history 17ms
+   ✓ discards a partial 409 page set and restarts under a stable scope/revision 20ms
+   ✓ rejects foreign source filtering and requires sourceId for action reads 7ms
+   ✓ a quiet inbox and snapshot cannot certify a round without a closure and complete history 12ms
+   × rechecks native authorization before returning cached data after revocation 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/monitoring.db.test.ts > rechecks native authorization before returning cached data after revocation
+AssertionError: expected [Function] to throw error including 'FORBIDDEN_CAPABILITY' but got 'FORBIDDEN_SCOPE'
+
+Expected: "FORBIDDEN_CAPABILITY"
+Received: "FORBIDDEN_SCOPE"
+
+ ❯ tests/integration/p13/monitoring.db.test.ts:33:292
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 11 passed (12)
+   Start at  07:47:38
+   Duration  77.84s (tests 94%, import 5%, transform 1%)
+

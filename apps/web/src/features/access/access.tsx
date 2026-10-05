@@ -10,6 +10,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react';
+import { HomeTrackingSearch } from '../tracking/tracking.js';
 import {
   Link,
   Outlet,
@@ -140,11 +141,13 @@ export function AccessShell() {
         }
       />
       <PageContainer home={location.pathname === '/'}>
-        {location.pathname !== '/' && (
-          <button className="back-link" onClick={() => navigate('/')}>
-            العودة للرئيسية
-          </button>
-        )}
+        {location.pathname !== '/' &&
+          !location.pathname.startsWith('/tracking/') &&
+          !location.pathname.startsWith('/execution/') && (
+            <button className="back-link" onClick={() => navigate('/')}>
+              العودة للرئيسية
+            </button>
+          )}
         {registry.data?.context.supportExpiresAt && (
           <StatePanel state="pending" title="جلسة دعم فني نشطة">
             تنتهي {new Date(registry.data.context.supportExpiresAt).toLocaleTimeString('ar-EG')} ·
@@ -329,6 +332,7 @@ export function AccessHome() {
         description="اختر المهمة التي تريد إنجازها."
       />
       <BranchContext />
+      <HomeTrackingSearch />
       <div className="module-grid">
         {cards.map((c) => (
           <Link key={c.id} className="module-card" to={c.route}>

@@ -60,7 +60,10 @@
     "tawsel:operator": "node scripts/tawsel-operator.mjs",
     "test:p12:browser": "node scripts/build.mjs && playwright test --config playwright.p12.config.ts",
     "p12:trial": "node scripts/build.mjs && node --import tsx tests/integration/p12/serve.ts",
-    "test:p12:public": "node scripts/build-packages.mjs && vitest run --config vitest.p12.public.config.ts"
+    "test:p12:public": "node scripts/build-packages.mjs && vitest run --config vitest.p12.public.config.ts",
+    "test:p13:browser": "node scripts/build.mjs && playwright test --config playwright.p13.config.ts",
+    "test:p13:public": "node scripts/build-packages.mjs && vitest run --config vitest.p13.public.config.ts",
+    "p13:trial": "node scripts/build.mjs && node --import tsx tests/integration/p13/serve.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

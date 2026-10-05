@@ -1,0 +1,21 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts tests/integration/p12/dispatch.db.test.ts tests/integration/p12/migration.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/employees.test.ts (12 tests) 74504ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 36467ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p12/dispatch.db.test.ts (20 tests) 69913ms
+   ✓ accepted result then signed event echo creates one local custody effect 334ms
+   ✓ persists exact prices, source bytes and quantities after PostgreSQL restart 30892ms
+ ✓ tests/integration/p12/migration.db.test.ts (1 test) 35722ms
+   ✓ upgrades a populated P11 database without changing native identity, prices, balances or grants 35721ms
+
+ Test Files  3 passed (3)
+      Tests  33 passed (33)
+   Start at  07:19:19
+   Duration  187.58s (tests 96%, import 3%, transform 1%)
+

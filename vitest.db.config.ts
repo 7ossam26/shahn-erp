@@ -5,6 +5,7 @@ export default defineConfig({
       'tests/db/**/*.test.ts',
       'tests/integration/p11/**/*.db.test.ts',
       'tests/integration/p12/**/*.db.test.ts',
+      'tests/integration/p13/**/*.db.test.ts',
     ],
     environment: 'node',
     passWithNoTests: false,

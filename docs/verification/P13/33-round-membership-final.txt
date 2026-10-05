@@ -1,0 +1,21 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts tests/integration/p13/monitoring.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 69194ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 332ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 301ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 30872ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 437ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 36771ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 390ms
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  08:30:22
+   Duration  111.14s (tests 96%, import 4%, transform 1%)
+

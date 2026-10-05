@@ -1,0 +1,9 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/execution/round-evidence.service.ts(16,11): error TS7034: Variable 'histories' implicitly has type 'any[]' in some locations where its type cannot be determined.
+apps/api/src/modules/execution/round-evidence.service.ts(23,10): error TS7005: Variable 'histories' implicitly has an 'any[]' type.
+apps/api/src/modules/execution/round-evidence.service.ts(29,21): error TS7005: Variable 'histories' implicitly has an 'any[]' type.
+apps/api/src/modules/execution/round-evidence.service.ts(29,69): error TS7006: Parameter 'x' implicitly has an 'any' type.
+apps/api/src/modules/execution/round-evidence.service.ts(29,111): error TS7006: Parameter 'x' implicitly has an 'any' type.
+apps/api/src/modules/execution/round-evidence.service.ts(37,150): error TS7005: Variable 'histories' implicitly has an 'any[]' type.
+apps/web/src/features/tracking/tracking.tsx(20,27): error TS2322: Type '"denied"' is not assignable to type '"pending" | "empty" | "error" | "ready"'.

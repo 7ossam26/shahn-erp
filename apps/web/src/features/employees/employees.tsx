@@ -392,6 +392,7 @@ export function EmployeesPage() {
         <Link className="primary-link" to="/employees/new">
           موظف جديد
         </Link>
+        <Link to="/execution/earnings">عمولات الزيارات</Link>
       </div>
       <div className="employee-filters">
         <TextField label="بحث بالاسم أو المرجع" value={search} onChange={(v) => set('search', v)} />

@@ -1,6 +1,6 @@
 # ERP implementation phases
 
-Revision PHASES-001, 2026-10-03; execution status updated2026-10-04. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P10 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06/P07/P08/P09/P10's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P11 is **implemented locally with required live Tawsel/issuer/callback acceptance blocked**; see its [execution record](execution/P11.md). P12 is **implemented locally with required live Tawsel acceptance blocked**; see its [execution record](execution/P12.md). P13–P26 remain **not started**. Authoring a prompt does not run it.
+Revision PHASES-001, 2026-10-03; execution status updated2026-10-04. PLAN-001 is approved for phase authoring under ERP-D-205 / ERP-R-214. These are complete execution prompts. P01–P10 are **verified within their stated local scopes**, including P02's earlier isolated PostgreSQL/Keycloak evidence and P03/P04/P05/P06/P07/P08/P09/P10's PostgreSQL 18.3 checks. Owner manual review, customer live issuer and a fresh Keycloak browser regression on this host remain unverified. P11 is **implemented locally with required live Tawsel/issuer/callback acceptance blocked**; see its [execution record](execution/P11.md). P12 is **implemented locally with required live Tawsel acceptance blocked**; see its [execution record](execution/P12.md). P13 is **implemented locally with required independent Tawsel/human acceptance blocked**; see its [execution record](execution/P13.md). P14–P26 remain **not started**. Authoring a prompt does not run it.
 
 ## How to use
 
@@ -28,7 +28,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | P10 | [Treasury sending and full receipt](10-treasury-transfers.md) | P09 | `gpt-6.1-sol` / `high` | [Verified locally](execution/P10.md) |
 | P11 | [Tawsel bootstrap and durable command/event boundary](11-tawsel-bootstrap-and-durable-receiver.md) | P02, P03, P04, P08 | `gpt-6-astra` / `xhigh` | [Local implementation; live acceptance blocked](execution/P11.md) |
 | P12 | [Customer dispatch, actual handover and shipping cover](12-customer-dispatch-and-shipping-cover.md) | P06, P07, P08, P09, P11 | `gpt-6-astra` / `xhigh` | [Local implementation; live acceptance blocked](execution/P12.md) |
-| P13 | [Execution projections, visit facts and full tracking](13-execution-projections-and-tracking.md) | P08, P12 | `gpt-6.1-sol` / `high` | [Not started](execution/P13.md) |
+| P13 | [Execution projections, visit facts and full tracking](13-execution-projections-and-tracking.md) | P08, P12 | `gpt-6.1-sol` / `high` | [Local implementation; live acceptance blocked](execution/P13.md) |
 | P14 | [Actual return receipt, disposition and redispatch](14-returns-and-redispatch.md) | P05, P13 | `gpt-6-astra` / `xhigh` | [Not started](execution/P14.md) |
 | P15 | [Internal physical branch transfers](15-interbranch-goods-transfers.md) | P05, P07, P08, P11, P13, P14 | `gpt-6.1-sol` / `high` | [Not started](execution/P15.md) |
 | P16 | [Full driver remittance with source evidence](16-full-driver-remittance.md) | P09, P13 | `gpt-6-astra` / `xhigh` | [Not started](execution/P16.md) |

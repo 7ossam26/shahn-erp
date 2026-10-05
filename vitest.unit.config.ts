@@ -5,6 +5,7 @@ export default defineConfig({
       'tests/unit/**/*.test.{ts,tsx}',
       'tests/integration/p11/**/*.unit.test.ts',
       'tests/integration/p12/**/*.unit.test.ts',
+      'tests/integration/p13/**/*.unit.test.ts',
     ],
     environment: 'jsdom',
     setupFiles: ['tests/unit/setup.ts'],

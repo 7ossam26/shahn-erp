@@ -31,3 +31,5 @@ export * from './shipments/index.js';
 export * from './inventory/stock-reservations.repository.js';
 export * from './employees/index.js';
 export * from './repositories/dispatch.repository.js';
+
+export * from './repositories/execution.repository.js';

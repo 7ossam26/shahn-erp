@@ -1,0 +1,292 @@
+[
+  {
+    "upgrade": "0001..0003 fixture to 0004",
+    "priorCommandsReadable": true,
+    "priorIdentityJobReadable": true,
+    "postgres": {
+      "server_version": "18.3"
+    }
+  },
+  {
+    "case": "duplicate-native-command",
+    "commandId": "d7b65927-7c0f-4d90-aebd-48e951c017ea",
+    "status": 200,
+    "body": {
+      "fixture": true,
+      "resultId": "58bd6c90-0779-4f40-b929-4ddfd831d082",
+      "brandId": "3ca4d229-af4d-4b3f-9f37-e8e1d9e2bf8b",
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "version": 1,
+      "wallet": {
+        "eligible": "10000",
+        "pending": "25000",
+        "debits": "0",
+        "held": "0",
+        "cover": "0",
+        "signedEntitlement": "35000",
+        "eligibleToPay": "10000"
+      },
+      "reference": "1"
+    }
+  },
+  {
+    "case": "100 eligible,250 pending,50 cover then fee",
+    "seed": {
+      "schemaVersion": 1,
+      "commandId": "8cf186f5-250b-4a9f-8b6c-c1c0fcda8a6d",
+      "companyId": "3bf7a91a-b569-47f9-b3a2-7873e082cfdd",
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "brandId": "aa22f4fb-76f0-4fd8-bf67-b6fd386d4f29",
+      "sourceId": "5cfe667b-c49c-4eb3-a882-97e06f2b67ac",
+      "type": "kernel.seed"
+    },
+    "cover": {
+      "schemaVersion": 1,
+      "commandId": "ccbb53cc-20ca-4b41-b17a-0c76b9cff8ad",
+      "companyId": "3bf7a91a-b569-47f9-b3a2-7873e082cfdd",
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "brandId": "aa22f4fb-76f0-4fd8-bf67-b6fd386d4f29",
+      "sourceId": "0686374d-f5a0-410b-84f8-9d560a037752",
+      "type": "kernel.reserve",
+      "expectedVersion": 1,
+      "money": {
+        "currency": "EGP",
+        "amountMinor": "5000"
+      }
+    },
+    "fee": {
+      "schemaVersion": 1,
+      "commandId": "8402e758-0a64-4658-96bd-df72faf98470",
+      "companyId": "3bf7a91a-b569-47f9-b3a2-7873e082cfdd",
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "brandId": "aa22f4fb-76f0-4fd8-bf67-b6fd386d4f29",
+      "sourceId": "36618d9c-ebff-4f05-ac70-98bd607906f2",
+      "type": "kernel.fee",
+      "money": {
+        "currency": "EGP",
+        "amountMinor": "5000"
+      },
+      "coverSourceId": "0686374d-f5a0-410b-84f8-9d560a037752"
+    },
+    "result": {
+      "fixture": true,
+      "resultId": "0512df0b-4c92-4bde-9e1a-78db2782bd4c",
+      "brandId": "aa22f4fb-76f0-4fd8-bf67-b6fd386d4f29",
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "version": 3,
+      "wallet": {
+        "eligible": "5000",
+        "pending": "25000",
+        "debits": "0",
+        "held": "0",
+        "cover": "0",
+        "signedEntitlement": "30000",
+        "eligibleToPay": "5000"
+      },
+      "reference": "5"
+    },
+    "journals": [
+      {
+        "id": "9dfcbef4-01b0-4488-a2ed-312f62ce9a9e",
+        "family": "brand",
+        "kind": "opening",
+        "amount_minor": "10000",
+        "source_id": "51c210ea-e8fb-45f9-ac6e-10a03d2c50cc"
+      },
+      {
+        "id": "a7b35957-851c-4ac2-aa3c-957c463d443e",
+        "family": "brand",
+        "kind": "goods",
+        "amount_minor": "25000",
+        "source_id": "51c210ea-e8fb-45f9-ac6e-10a03d2c50cc"
+      },
+      {
+        "id": "d8ad0733-48e5-4c89-824f-d641db67043e",
+        "family": "money",
+        "kind": "opening",
+        "amount_minor": "100000",
+        "source_id": "51c210ea-e8fb-45f9-ac6e-10a03d2c50cc"
+      },
+      {
+        "id": "ecb65bcf-c135-44de-ba83-7d3fc8777acc",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "source_id": "712915f1-c590-4ca8-b211-857ec87e6092"
+      },
+      {
+        "id": "68c97344-4661-48e4-ad76-4b4e67539058",
+        "family": "operating",
+        "kind": "shipping",
+        "amount_minor": "5000",
+        "source_id": "712915f1-c590-4ca8-b211-857ec87e6092"
+      }
+    ]
+  },
+  {
+    "case": "wallet-lock-race",
+    "barrier": "after resource FOR UPDATE before effects",
+    "firstType": "kernel.payout",
+    "observedDatabaseLockWaiters": 1,
+    "first": {
+      "status": 200,
+      "body": {
+        "fixture": true,
+        "resultId": "169ac3b6-f6c2-4be8-b940-741c138fb386",
+        "brandId": "23ae2f06-9469-4e9a-95b5-557c5499f1d9",
+        "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+        "version": 2,
+        "wallet": {
+          "eligible": "4000",
+          "pending": "25000",
+          "debits": "0",
+          "held": "0",
+          "cover": "0",
+          "signedEntitlement": "29000",
+          "eligibleToPay": "4000"
+        },
+        "reference": "8"
+      }
+    },
+    "second": {
+      "value": null,
+      "error": "INSUFFICIENT_SHIPPING_COVER"
+    },
+    "effects": [
+      {
+        "id": "a90cef20-550f-4ece-b8ca-10d7b67e8e5a",
+        "source_id": "6d16d5aa-7ec0-4c07-ac1d-dc92647f087e",
+        "family": "brand",
+        "kind": "opening",
+        "amount_minor": "10000"
+      },
+      {
+        "id": "de787c69-ef8c-494a-80e6-4a0a50a57a3f",
+        "source_id": "6d16d5aa-7ec0-4c07-ac1d-dc92647f087e",
+        "family": "brand",
+        "kind": "goods",
+        "amount_minor": "25000"
+      },
+      {
+        "id": "e0d0d26a-5393-4f96-9613-424dbbe826b8",
+        "source_id": "6d16d5aa-7ec0-4c07-ac1d-dc92647f087e",
+        "family": "money",
+        "kind": "opening",
+        "amount_minor": "100000"
+      },
+      {
+        "id": "f23adb99-9d1e-499e-96f7-dd0c6fe85573",
+        "source_id": "d38b7c25-9089-474c-969a-3ce2f576c73b",
+        "family": "brand",
+        "kind": "payout",
+        "amount_minor": "-6000"
+      },
+      {
+        "id": "5b2a5ecd-6e75-450b-8703-b21c60afac8c",
+        "source_id": "d38b7c25-9089-474c-969a-3ce2f576c73b",
+        "family": "money",
+        "kind": "payment",
+        "amount_minor": "-6000"
+      }
+    ]
+  },
+  {
+    "case": "wallet-lock-race",
+    "barrier": "after resource FOR UPDATE before effects",
+    "firstType": "kernel.reserve",
+    "observedDatabaseLockWaiters": 1,
+    "first": {
+      "status": 200,
+      "body": {
+        "fixture": true,
+        "resultId": "f555f7de-7c4c-4426-ab92-2fb89882c4d4",
+        "brandId": "bbdced46-9284-48f8-8ad6-0827a16a845f",
+        "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+        "version": 2,
+        "wallet": {
+          "eligible": "10000",
+          "pending": "25000",
+          "debits": "0",
+          "held": "0",
+          "cover": "6000",
+          "signedEntitlement": "35000",
+          "eligibleToPay": "4000"
+        },
+        "reference": "10"
+      }
+    },
+    "second": {
+      "value": null,
+      "error": "INSUFFICIENT_ELIGIBLE_CREDIT"
+    },
+    "effects": [
+      {
+        "id": "d321cd13-8954-482c-b456-3df2264d72c7",
+        "source_id": "263978e5-2853-4ccc-a90f-bc04d6adffcf",
+        "family": "brand",
+        "kind": "opening",
+        "amount_minor": "10000"
+      },
+      {
+        "id": "ec64c09f-f417-435b-ba6b-ed7615a2632f",
+        "source_id": "263978e5-2853-4ccc-a90f-bc04d6adffcf",
+        "family": "brand",
+        "kind": "goods",
+        "amount_minor": "25000"
+      },
+      {
+        "id": "53d9769c-657b-4113-8d46-b80359278351",
+        "source_id": "263978e5-2853-4ccc-a90f-bc04d6adffcf",
+        "family": "money",
+        "kind": "opening",
+        "amount_minor": "100000"
+      }
+    ]
+  },
+  {
+    "case": "worker-fencing",
+    "workId": "b1e55e3c-abcb-4ed3-9e5d-6e1789e1ef6e",
+    "aFence": 1,
+    "bFence": 2,
+    "final": {
+      "state": "ready",
+      "fence": 2,
+      "outcome_kind": "success"
+    }
+  },
+  {
+    "crashPosition": "posted-before-audit-and-commit"
+  },
+  {
+    "crashPosition": "committed-before-http-response"
+  },
+  {
+    "case": "actual-api-process-crash-and-restart",
+    "exitCode": 73,
+    "commandId": "4764bba2-ebc3-475c-b5c3-90b0b70b0bc6",
+    "result": {
+      "wallet": {
+        "held": "0",
+        "cover": "0",
+        "debits": "0",
+        "pending": "25000",
+        "eligible": "10000",
+        "eligibleToPay": "10000",
+        "signedEntitlement": "35000"
+      },
+      "brandId": "6da1e0f4-718b-4bbb-b24f-bde1b5be8678",
+      "fixture": true,
+      "version": 1,
+      "branchId": "312edbe0-cd7d-4d31-9ad4-e40cedbdc62e",
+      "resultId": "d3422bb6-2a1d-4b1a-a36c-cc16bb751b51",
+      "reference": "19"
+    }
+  },
+  {
+    "counts": {
+      "effects": "72",
+      "audit": "44",
+      "commands": "47"
+    }
+  }
+]

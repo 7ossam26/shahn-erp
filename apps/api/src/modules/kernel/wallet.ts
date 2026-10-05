@@ -84,6 +84,24 @@ export class WalletService {
       [this.uow.access.companyId, lotId, sourceId],
     );
   }
+  /** Cancel only the unreleased pending lot through its exact linked correction.
+   * This is a source revaluation, never a payment or eligibility release. */
+  async cancelPendingCredit(lotId: string, correctionEffectId: string, amount: string) {
+    this.check();
+    const valid = await this.uow.client.query(
+      `SELECT 1 FROM kernel.credit_lot l JOIN kernel.journal_effect e ON e.company_id=l.company_id
+       AND e.id=$3 AND e.family='brand' AND e.kind='correction' AND e.supersedes_id=l.id
+       AND e.amount_minor=-$4::bigint
+       WHERE l.company_id=$1 AND l.brand_id=$2 AND l.id=$5 AND l.readiness='pending'
+       AND NOT EXISTS(SELECT 1 FROM kernel.credit_release r WHERE r.company_id=l.company_id AND r.lot_id=l.id)`,
+      [this.uow.access.companyId, this.brandId, correctionEffectId, amount, lotId],
+    );
+    if (!valid.rowCount) throw new AccessError('PENDING_CORRECTION_REQUIRES_REVIEW', 409);
+    await this.uow.client.query(
+      `INSERT INTO kernel.lot_allocation(id,company_id,lot_id,effect_id,amount_minor) VALUES($1,$2,$3,$4,$5)`,
+      [randomUUID(), this.uow.access.companyId, lotId, correctionEffectId, amount],
+    );
+  }
   private async allocate(effectId: string, requested: bigint): Promise<bigint> {
     let remaining = requested;
     for (const lot of await this.lots()) {

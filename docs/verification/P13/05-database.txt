@@ -1,0 +1,28 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/integration/p13/execution.db.test.ts (6 tests | 1 failed) 38192ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 235ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 217ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 203ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 112ms
+   × tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 217ms
+   ✓ keeps P14 events pending and never advances an applied checkpoint 64ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope
+AssertionError: expected [ 403, 404 ] to include 400
+ ❯ tests/integration/p13/execution.db.test.ts:41:124
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  07:43:40
+   Duration  42.28s (tests 91%, import 7%, transform 2%)
+

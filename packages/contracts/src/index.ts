@@ -1,3 +1,4 @@
+import { trackingPaths } from './execution/tracking.js';
 import { dispatchPaths } from './dispatch/index.js';
 export * from './dispatch/index.js';
 import { financePaths } from './finance/index.js';
@@ -132,6 +133,7 @@ export const openApi: Record<string, unknown> = {
     ...financePaths,
     ...integrationPaths,
     ...dispatchPaths,
+    ...trackingPaths,
     ...employeePaths,
     ...shipmentPaths,
     ...commercialPaths,
