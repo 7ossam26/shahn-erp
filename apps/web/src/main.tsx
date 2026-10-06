@@ -6,6 +6,14 @@ import {
 } from './features/finance/remittances/remittances.js';
 import { ReturnsPage } from './features/returns/returns.js';
 import {
+  BrandPayoutsPage,
+  BrandPayoutCalendarPage,
+  BrandPayoutHistoryPage,
+  BrandWalletPage,
+  BrandPayoutNewPage,
+  BrandPayoutDetailPage,
+} from './features/finance/brand-payouts/brand-payouts.js';
+import {
   TransferListPage,
   TransferNewPage,
   TransferDetailPage,
@@ -85,6 +93,12 @@ const router = createBrowserRouter([
       { path: '/remittances', element: <RemittanceListPage /> },
       { path: '/remittances/review', element: <RemittanceReviewPage /> },
       { path: '/remittances/:id', element: <RemittanceDetailPage /> },
+      { path: '/brand-payouts', element: <BrandPayoutsPage /> },
+      { path: '/brand-payouts/calendar', element: <BrandPayoutCalendarPage /> },
+      { path: '/brand-payouts/history', element: <BrandPayoutHistoryPage /> },
+      { path: '/brand-payouts/payouts/:payoutId', element: <BrandPayoutDetailPage /> },
+      { path: '/brand-payouts/brands/:brandId', element: <BrandWalletPage /> },
+      { path: '/brand-payouts/brands/:brandId/pay', element: <BrandPayoutNewPage /> },
       { path: '/tracking', element: <TrackingPage /> },
       { path: '/execution/earnings', element: <ExecutionRecordsPage kind="earnings" /> },
       { path: '/execution/reviews', element: <ExecutionRecordsPage kind="reviews" /> },

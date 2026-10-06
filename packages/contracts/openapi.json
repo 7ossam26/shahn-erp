@@ -8,6 +8,3990 @@
     }
   },
   "paths": {
+    "/api/v1/finance/brand-wallets": {
+      "get": {
+        "summary": "Shared eligible brand dues (REP-09) with pending, held, cover and debt separated",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 180 }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "payable", "pending", "held", "debt"] }
+          },
+          {
+            "name": "scheduled",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "today"] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shared eligible brand dues (REP-09) with pending, held, cover and debt separated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          },
+                          "scheduledToday": { "type": "boolean" },
+                          "nextPayoutDate": { "type": "string", "format": "date" },
+                          "amounts": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "eligibleMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "pendingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "debitsMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "heldMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "coverMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "signedEntitlementMinor": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                              },
+                              "eligibleToPayMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                            },
+                            "required": [
+                              "eligibleMinor",
+                              "pendingMinor",
+                              "debitsMinor",
+                              "heldMinor",
+                              "coverMinor",
+                              "signedEntitlementMinor",
+                              "eligibleToPayMinor",
+                              "paidMinor"
+                            ]
+                          },
+                          "reasons": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "PENDING_REMITTANCE",
+                                "HELD_FOR_REVIEW",
+                                "SHIPPING_COVER",
+                                "DEBT",
+                                "NO_ELIGIBLE_CREDIT"
+                              ]
+                            },
+                            "uniqueItems": true
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "brandName",
+                          "active",
+                          "payoutWeekdays",
+                          "scheduledToday",
+                          "nextPayoutDate",
+                          "amounts",
+                          "reasons"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 999999 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 },
+                    "today": { "type": "string", "format": "date" }
+                  },
+                  "required": ["items", "total", "page", "limit", "today"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Brand payout screen grant missing or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not in this company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-wallets/calendar": {
+      "get": {
+        "summary": "Agreed payout weekdays and actual payouts by Cairo date (REP-09)",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agreed payout weekdays and actual payouts by Cairo date (REP-09)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "from": { "type": "string", "format": "date" },
+                    "to": { "type": "string", "format": "date" },
+                    "today": { "type": "string", "format": "date" },
+                    "days": {
+                      "type": "array",
+                      "maxItems": 42,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": { "type": "string", "format": "date" },
+                          "weekday": { "type": "integer", "minimum": 0, "maximum": 6 },
+                          "scheduled": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "brandId": { "type": "string", "format": "uuid" },
+                                "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                                "eligibleToPayMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                }
+                              },
+                              "required": ["brandId", "brandName", "eligibleToPayMinor"]
+                            }
+                          },
+                          "payouts": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                                "brandId": { "type": "string", "format": "uuid" },
+                                "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^[1-9][0-9]{0,18}$"
+                                },
+                                "offDay": { "type": "boolean" }
+                              },
+                              "required": [
+                                "id",
+                                "reference",
+                                "brandId",
+                                "brandName",
+                                "amountMinor",
+                                "offDay"
+                              ]
+                            }
+                          }
+                        },
+                        "required": ["date", "weekday", "scheduled", "payouts"]
+                      }
+                    }
+                  },
+                  "required": ["from", "to", "today", "days"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Brand payout screen grant missing or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not in this company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-wallets/{brandId}": {
+      "get": {
+        "summary": "Locked shared wallet summary with source-branch breakdown and readiness revision",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Locked shared wallet summary with source-branch breakdown and readiness revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "active": { "type": "boolean" },
+                    "allowNegativeBalance": { "type": "boolean" },
+                    "payoutWeekdays": {
+                      "type": "array",
+                      "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                      "minItems": 1,
+                      "maxItems": 7,
+                      "uniqueItems": true
+                    },
+                    "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "amounts": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "eligibleMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "pendingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "debitsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "signedEntitlementMinor": {
+                          "type": "string",
+                          "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                        },
+                        "eligibleToPayMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": [
+                        "eligibleMinor",
+                        "pendingMinor",
+                        "debitsMinor",
+                        "heldMinor",
+                        "coverMinor",
+                        "signedEntitlementMinor",
+                        "eligibleToPayMinor",
+                        "paidMinor"
+                      ]
+                    },
+                    "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "branchId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "eligibleMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "pendingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "debitsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "branchId",
+                          "branchName",
+                          "eligibleMinor",
+                          "pendingMinor",
+                          "heldMinor",
+                          "debitsMinor",
+                          "coverMinor"
+                        ]
+                      }
+                    },
+                    "reasons": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING_REMITTANCE",
+                          "HELD_FOR_REVIEW",
+                          "SHIPPING_COVER",
+                          "DEBT",
+                          "NO_ELIGIBLE_CREDIT"
+                        ]
+                      },
+                      "uniqueItems": true
+                    },
+                    "today": { "type": "string", "format": "date" },
+                    "scheduledToday": { "type": "boolean" },
+                    "nextPayoutDate": { "type": "string", "format": "date" },
+                    "openReviews": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "activeHolds": { "type": "integer", "minimum": 0, "maximum": 2147483647 }
+                  },
+                  "required": [
+                    "brandId",
+                    "brandName",
+                    "active",
+                    "allowNegativeBalance",
+                    "payoutWeekdays",
+                    "policyVersion",
+                    "amounts",
+                    "readinessRevision",
+                    "branches",
+                    "reasons",
+                    "today",
+                    "scheduledToday",
+                    "nextPayoutDate",
+                    "openReviews",
+                    "activeHolds"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Brand payout screen grant missing or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not in this company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-wallets/{brandId}/lots": {
+      "get": {
+        "summary": "Credit lots with pending/eligible/held/consumed state and source links",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["all", "pending", "eligible", "held", "consumed"]
+            }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit lots with pending/eligible/held/consumed state and source links",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "lotId": { "type": "string", "format": "uuid" },
+                          "kind": {
+                            "type": "string",
+                            "enum": ["goods", "compensation", "opening", "correction"]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "effectiveDate": { "type": "string", "format": "date" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "allocatedMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "remainingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "readiness": { "type": "string", "enum": ["pending", "eligible"] },
+                          "state": {
+                            "type": "string",
+                            "enum": ["pending", "eligible", "held", "consumed"]
+                          },
+                          "shipment": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "remittance": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "holds": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^[1-9][0-9]{0,18}$"
+                                },
+                                "reason": { "type": "string", "maxLength": 500 },
+                                "active": { "type": "boolean" }
+                              },
+                              "required": ["id", "amountMinor", "reason", "active"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "lotId",
+                          "kind",
+                          "branchId",
+                          "branchName",
+                          "effectiveDate",
+                          "amountMinor",
+                          "allocatedMinor",
+                          "heldMinor",
+                          "remainingMinor",
+                          "readiness",
+                          "state",
+                          "shipment",
+                          "remittance",
+                          "holds"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 999999 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Brand payout screen grant missing or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not in this company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-wallets/{brandId}/statement": {
+      "get": {
+        "summary": "Brand account statement (REP-08): opening, signed movements, running balance, closing",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["all", "goods", "compensation", "fee", "payout", "correction", "opening"]
+            }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "basis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "source", "paying"] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Brand account statement (REP-08): opening, signed movements, running balance, closing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "goods",
+                              "compensation",
+                              "fee",
+                              "payout",
+                              "correction",
+                              "opening"
+                            ]
+                          },
+                          "amountMinor": {
+                            "type": "string",
+                            "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                          },
+                          "balanceAfterMinor": {
+                            "type": "string",
+                            "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                          },
+                          "effectiveDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "basis": { "type": "string", "enum": ["source", "paying"] },
+                          "readiness": {
+                            "anyOf": [
+                              { "type": "string", "enum": ["pending", "eligible"] },
+                              { "type": "null" }
+                            ]
+                          },
+                          "payout": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "shipment": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "remittance": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "supersedesId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "reason": {
+                            "anyOf": [{ "type": "string", "maxLength": 1000 }, { "type": "null" }]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "amountMinor",
+                          "balanceAfterMinor",
+                          "effectiveDate",
+                          "recordedAt",
+                          "branchId",
+                          "branchName",
+                          "basis",
+                          "readiness",
+                          "payout",
+                          "shipment",
+                          "remittance",
+                          "supersedesId",
+                          "reason"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 999999 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "from": {
+                      "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                    },
+                    "to": { "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }] },
+                    "filtered": { "type": "boolean" },
+                    "openingMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]{0,18})$" },
+                    "closingMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]{0,18})$" },
+                    "creditsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "debitsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "current": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "eligibleMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "pendingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "debitsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "signedEntitlementMinor": {
+                          "type": "string",
+                          "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                        },
+                        "eligibleToPayMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": [
+                        "eligibleMinor",
+                        "pendingMinor",
+                        "debitsMinor",
+                        "heldMinor",
+                        "coverMinor",
+                        "signedEntitlementMinor",
+                        "eligibleToPayMinor",
+                        "paidMinor"
+                      ]
+                    },
+                    "journalMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]{0,18})$" },
+                    "reconciled": { "type": "boolean" }
+                  },
+                  "required": [
+                    "items",
+                    "total",
+                    "page",
+                    "limit",
+                    "brandId",
+                    "brandName",
+                    "from",
+                    "to",
+                    "filtered",
+                    "openingMinor",
+                    "closingMinor",
+                    "creditsMinor",
+                    "debitsMinor",
+                    "current",
+                    "journalMinor",
+                    "reconciled"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Brand payout screen grant missing or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not in this company",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts": {
+      "get": {
+        "summary": "Actual brand payout history (REP-10) with source/paying-branch filters",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "payingBranchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "sourceBranchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "cash", "bank_deposit", "instapay"] }
+          },
+          {
+            "name": "dateBasis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["actual", "recorded"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 120 }
+          },
+          {
+            "name": "offDay",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "true", "false"] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated immutable history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "payoutId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "payingBranchId": { "type": "string", "format": "uuid" },
+                          "payingBranchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180
+                          },
+                          "accountName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "externalReference": { "type": "string", "maxLength": 120 },
+                          "offDay": { "type": "boolean" },
+                          "actorName": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": [
+                          "payoutId",
+                          "reference",
+                          "brandId",
+                          "brandName",
+                          "amountMinor",
+                          "payingBranchId",
+                          "payingBranchName",
+                          "accountName",
+                          "method",
+                          "actualDate",
+                          "recordedAt",
+                          "externalReference",
+                          "offDay",
+                          "actorName"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 999999 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 }
+                  },
+                  "required": ["items", "total", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts/catalog": {
+      "get": {
+        "summary": "Assigned paying branches, permitted funding accounts and company brands",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "minLength": 1, "maxLength": 180 }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 },
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription",
+                          "id",
+                          "version",
+                          "balanceMinor"
+                        ]
+                      }
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "active": { "type": "boolean" },
+                          "payoutWeekdays": {
+                            "type": "array",
+                            "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                            "minItems": 1,
+                            "maxItems": 7,
+                            "uniqueItems": true
+                          }
+                        },
+                        "required": ["id", "name", "active", "payoutWeekdays"]
+                      }
+                    }
+                  },
+                  "required": ["branches", "accounts", "brands"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts/{payoutId}": {
+      "get": {
+        "summary": "Committed payout with source allocations and later linked reviews",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "payoutId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payout detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "payoutId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "eligibleToPayAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "signedEntitlementAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                    },
+                    "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "payingBranchId": { "type": "string", "format": "uuid" },
+                    "payingBranchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "accountId": { "type": "string", "format": "uuid" },
+                    "accountName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "externalReference": { "type": "string", "maxLength": 120 },
+                    "weekday": { "type": "integer", "minimum": 0, "maximum": 6 },
+                    "scheduledWeekdays": {
+                      "type": "array",
+                      "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                      "minItems": 1,
+                      "maxItems": 7,
+                      "uniqueItems": true
+                    },
+                    "offDay": { "type": "boolean" },
+                    "offDayReason": {
+                      "anyOf": [{ "type": "string", "maxLength": 500 }, { "type": "null" }]
+                    },
+                    "actorName": { "type": "string", "maxLength": 180 },
+                    "eligibleToPayBeforeMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "lotId": { "type": "string", "format": "uuid" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "lotKind": {
+                            "type": "string",
+                            "enum": ["goods", "compensation", "opening", "correction"]
+                          },
+                          "sourceBranchId": { "type": "string", "format": "uuid" },
+                          "sourceBranchName": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180
+                          },
+                          "effectiveDate": { "type": "string", "format": "date" },
+                          "shipment": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" }
+                                },
+                                "required": ["id", "reference"]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "lotId",
+                          "amountMinor",
+                          "lotKind",
+                          "sourceBranchId",
+                          "sourceBranchName",
+                          "effectiveDate",
+                          "shipment"
+                        ]
+                      }
+                    },
+                    "reviews": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "state": { "type": "string", "enum": ["open", "resolved"] },
+                          "visitId": { "type": "string", "format": "uuid" },
+                          "lotId": { "type": "string", "format": "uuid" },
+                          "createdAt": { "type": "string", "format": "date-time" }
+                        },
+                        "required": ["id", "state", "visitId", "lotId", "createdAt"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "payoutId",
+                    "reference",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "eligibleToPayAfterMinor",
+                    "signedEntitlementAfterMinor",
+                    "brandName",
+                    "payingBranchId",
+                    "payingBranchName",
+                    "accountId",
+                    "accountName",
+                    "method",
+                    "recordedAt",
+                    "externalReference",
+                    "weekday",
+                    "scheduledWeekdays",
+                    "offDay",
+                    "offDayReason",
+                    "actorName",
+                    "eligibleToPayBeforeMinor",
+                    "allocations",
+                    "reviews"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts/preview": {
+      "post": {
+        "summary": "Locked read of eligibility, cover, holds, funds and off-day status; no effects",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "payingBranchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" }
+                },
+                "required": [
+                  "companyId",
+                  "brandId",
+                  "payingBranchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preview and readiness revision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "wallet": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "active": { "type": "boolean" },
+                        "allowNegativeBalance": { "type": "boolean" },
+                        "payoutWeekdays": {
+                          "type": "array",
+                          "items": { "type": "integer", "minimum": 0, "maximum": 6 },
+                          "minItems": 1,
+                          "maxItems": 7,
+                          "uniqueItems": true
+                        },
+                        "policyVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "branches": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "branchId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                              "eligibleMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "pendingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "heldMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "debitsMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "coverMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": [
+                              "branchId",
+                              "branchName",
+                              "eligibleMinor",
+                              "pendingMinor",
+                              "heldMinor",
+                              "debitsMinor",
+                              "coverMinor"
+                            ]
+                          }
+                        },
+                        "reasons": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "PENDING_REMITTANCE",
+                              "HELD_FOR_REVIEW",
+                              "SHIPPING_COVER",
+                              "DEBT",
+                              "NO_ELIGIBLE_CREDIT"
+                            ]
+                          },
+                          "uniqueItems": true
+                        },
+                        "today": { "type": "string", "format": "date" },
+                        "scheduledToday": { "type": "boolean" },
+                        "nextPayoutDate": { "type": "string", "format": "date" },
+                        "openReviews": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "activeHolds": { "type": "integer", "minimum": 0, "maximum": 2147483647 }
+                      },
+                      "required": [
+                        "brandId",
+                        "brandName",
+                        "active",
+                        "allowNegativeBalance",
+                        "payoutWeekdays",
+                        "policyVersion",
+                        "amounts",
+                        "readinessRevision",
+                        "branches",
+                        "reasons",
+                        "today",
+                        "scheduledToday",
+                        "nextPayoutDate",
+                        "openReviews",
+                        "activeHolds"
+                      ]
+                    },
+                    "account": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "name": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "type": { "type": "string", "enum": ["cash", "bank"] },
+                        "active": { "type": "boolean" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": ["id", "name", "type", "active", "availableMinor"]
+                    },
+                    "weekday": { "type": "integer", "minimum": 0, "maximum": 6 },
+                    "offDay": { "type": "boolean" },
+                    "blockers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "INSUFFICIENT_ELIGIBLE_CREDIT",
+                          "INSUFFICIENT_FUNDS",
+                          "ACCOUNT_INACTIVE",
+                          "ACCOUNT_USAGE_FORBIDDEN",
+                          "METHOD_ACCOUNT_MISMATCH",
+                          "FUTURE_PAYMENT_DATE",
+                          "ACCOUNT_RECONCILIATION_REQUIRED"
+                        ]
+                      },
+                      "uniqueItems": true
+                    },
+                    "eligibleToPayAfterMinor": {
+                      "anyOf": [
+                        { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                  },
+                  "required": [
+                    "brandId",
+                    "amountMinor",
+                    "wallet",
+                    "account",
+                    "weekday",
+                    "offDay",
+                    "blockers",
+                    "eligibleToPayAfterMinor",
+                    "readinessRevision"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts/commands": {
+      "post": {
+        "summary": "Confirm one actual full or partial brand payout from a permitted funded account",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "schemaVersion": { "type": "integer", "const": 1 },
+                  "type": { "type": "string", "const": "brand.payout.confirm" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "payingBranchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" },
+                  "externalReference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\u0000-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u001f\\u007f]*$"
+                  },
+                  "offDayReason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+                  },
+                  "expectedReadinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                },
+                "required": [
+                  "schemaVersion",
+                  "type",
+                  "commandId",
+                  "companyId",
+                  "brandId",
+                  "payingBranchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate",
+                  "expectedReadinessRevision"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Committed payout (or retained original result)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "payoutId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "eligibleToPayAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "signedEntitlementAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "payoutId",
+                    "reference",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "eligibleToPayAfterMinor",
+                    "signedEntitlementAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained rejection: insufficient eligibility/funds, missing off-day reason, changed wallet, or changed payload for the same commandId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/finance/brand-payouts/commands/{commandId}": {
+      "get": {
+        "summary": "Recover the original result for the same principal after an unknown outcome",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retained committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "payoutId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "eligibleToPayAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "signedEntitlementAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "payoutId",
+                    "reference",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "eligibleToPayAfterMinor",
+                    "signedEntitlementAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input or future actual date; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, paying branch or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained original rejection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "amounts": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "eligibleMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "pendingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "debitsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "heldMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "coverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "signedEntitlementMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "eligibleToPayMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "paidMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                          },
+                          "required": [
+                            "eligibleMinor",
+                            "pendingMinor",
+                            "debitsMinor",
+                            "heldMinor",
+                            "coverMinor",
+                            "signedEntitlementMinor",
+                            "eligibleToPayMinor",
+                            "paidMinor"
+                          ]
+                        },
+                        "readinessRevision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/finance/remittances": {
       "get": {
         "summary": "Authorized full driver remittance from received evidence",
@@ -4981,7 +8965,8 @@
                               "general",
                               "treasury_send",
                               "treasury_receive",
-                              "remittance"
+                              "remittance",
+                              "brand_payout"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -6263,7 +10248,8 @@
                               "general",
                               "treasury_send",
                               "treasury_receive",
-                              "remittance"
+                              "remittance",
+                              "brand_payout"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -6644,7 +10630,8 @@
                         "general",
                         "treasury_send",
                         "treasury_receive",
-                        "remittance"
+                        "remittance",
+                        "brand_payout"
                       ]
                     },
                     "reason": { "type": "string", "maxLength": 1000 }

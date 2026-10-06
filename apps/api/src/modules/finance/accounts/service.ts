@@ -102,7 +102,7 @@ export class AccountFundsService {
     movementId?: string;
     fields: PaymentFields;
     direction: 'deposit' | 'withdrawal';
-    sourceKind: 'general' | 'expense' | 'remittance';
+    sourceKind: 'general' | 'expense' | 'remittance' | 'brand_payout';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
   }) {
@@ -128,7 +128,8 @@ export class AccountFundsService {
     movementId?: string;
     fields: PaymentFields;
     direction: 'deposit' | 'withdrawal';
-    sourceKind: 'general' | 'expense' | 'treasury_send' | 'treasury_receive' | 'remittance';
+    sourceKind:
+      'general' | 'expense' | 'treasury_send' | 'treasury_receive' | 'remittance' | 'brand_payout';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
   }) {

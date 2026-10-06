@@ -131,6 +131,8 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...brandWalletPaths,
+    ...brandPayoutPaths,
     ...remittancePaths,
     ...goodsTransferPaths,
     ...treasuryPaths,
@@ -181,3 +183,7 @@ import { returnsPaths } from './returns/index.js';
 export * from './returns/index.js';
 import { remittancePaths } from './finance/remittances/index.js';
 export * from './finance/remittances/index.js';
+import { brandWalletPaths } from './finance/brand-wallet/index.js';
+export * from './finance/brand-wallet/index.js';
+import { brandPayoutPaths } from './finance/brand-payouts/index.js';
+export * from './finance/brand-payouts/index.js';

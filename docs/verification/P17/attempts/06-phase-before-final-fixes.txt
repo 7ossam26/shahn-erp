@@ -1,0 +1,54 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P17
+P17 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p17/contracts.unit.test.ts (17 tests) 31ms
+ ✓ tests/integration/p17/ui.unit.test.tsx (8 tests) 3136ms
+   ✓ P17 payout form (connected browser-equivalent script checks, no Playwright) (6)
+     ✓ labels payable, pending, held and cover separately instead of one balance 326ms
+     ✓ reviews a closed scope, confirms once with the preview revision and follows the committed response 653ms
+     ✓ requires an off-day reason before confirmation; the server decides off-day 845ms
+     ✓ shows server blockers (insufficient funds or held credit) and cannot confirm 323ms
+     ✓ an unknown result keeps the same command identity through reload-style recovery; no second payout 350ms
+     ✓ a changed wallet reopens review with committed numbers and keeps the entered intent 327ms
+
+ Test Files  2 passed (2)
+      Tests  25 passed (25)
+   Start at  10:21:28
+   Duration  7.12s (import 36%, tests 27%, transform 22%, environment 14%, setup 2%)
+
+P17 unit: PASSED
+P17 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests) 15544ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 1138ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 640ms
+   ✓ A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact 486ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 812ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 1198ms
+   ✓ A05 off-day payout: missing reason fails; a reason never bypasses funds or a hold; agreed-day reason is rejected 338ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 951ms
+   ✓ rolls every effect back at debit, allocation, payout and result fault boundaries 344ms
+   ✓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 1034ms
+   ✓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 3351ms
+   ✓ migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility 358ms
+ ✓ tests/integration/p17/trial.db.test.ts (1 test) 6921ms
+   ✓ owner trial: shared brand eligible 250 paid partially from B and A cash, off-day reason, cover and retry 2143ms
+ ✓ tests/integration/p17/http.db.test.ts (3 tests) 6695ms
+ ✓ tests/integration/p17/migration.db.test.ts (1 test) 5219ms
+   ✓ populated P16 upgrade adds payout tables only: no eligibility, payout or balance change; projections reconcile to lots 5216ms
+
+ Test Files  4 passed (4)
+      Tests  19 passed (19)
+   Start at  10:21:36
+   Duration  45.64s (tests 76%, import 19%, transform 5%)
+
+P17 database: PASSED
+P17 browser: NOT APPLICABLE — Owner instruction 2026-10-06: skip browser (Playwright) tests, run script tests only. Payout form/dues/wallet flows are covered by jsdom script tests (ui.unit.test.tsx) and the real API by http.db.test.ts/trial.db.test.ts; no 320/390/768/1440 captures were produced.
+P17 publicIntegration: NOT APPLICABLE — P17 issues no Tawsel call. Real-source P13/P16 inputs run natively with controlled source HTTP; the independent public witness remains the P16-owned IP-GAP-004 gate.
+P17: all required layers passed
+EXIT 0

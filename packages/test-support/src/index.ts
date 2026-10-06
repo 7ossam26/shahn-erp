@@ -59,24 +59,31 @@ export async function isolatedPostgres() {
   try {
     const url = `postgresql://shahn_p01_test:${password}@127.0.0.1:${port}/shahn_p01_test`;
     pool = createPool(url);
-    let ready = false;
-    for (let attempt = 0; attempt < 60; attempt++) {
-      try {
-        await pool.query('SELECT 1');
-        ready = true;
-        break;
-      } catch {
-        await new Promise((resolve) => setTimeout(resolve, 250));
-      }
-    }
-    if (!ready) throw new Error('Isolated PostgreSQL did not become ready');
     const ownedPool = pool;
+    // `docker start` returns before PostgreSQL accepts connections; restart callers need the
+    // same readiness guarantee as the native harness's `pg_ctl -w start`.
+    const waitReady = async () => {
+      for (let attempt = 0; attempt < 60; attempt++) {
+        try {
+          await ownedPool.query('SELECT 1');
+          return;
+        } catch {
+          await new Promise((resolve) => setTimeout(resolve, 250));
+        }
+      }
+      throw new Error('Isolated PostgreSQL did not become ready');
+    };
+    await waitReady();
     return {
       name,
       url,
       pool: ownedPool,
       stop: () => docker(['stop', '-t', '1', name]),
-      start: () => docker(['start', name]),
+      start: async () => {
+        const output = await docker(['start', name]);
+        await waitReady();
+        return output;
+      },
       dispose: async () => {
         await ownedPool.end();
         await docker(['rm', '-f', '-v', name]);

@@ -5,6 +5,8 @@ import { registerTracking } from './modules/tracking/http.js';
 import { registerExecutionReads } from './modules/execution/http.js';
 import { registerFinance } from './modules/finance/http.js';
 import { registerRemittances } from './modules/finance/remittances/http.js';
+import { registerBrandWallets } from './modules/finance/brand-wallet/http.js';
+import { registerBrandPayouts } from './modules/finance/brand-payouts/http.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
 import { registerTreasury } from './modules/finance/treasury-transfers/http.js';
@@ -203,6 +205,12 @@ export async function createApplication(
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
     integration,
+  );
+  registerBrandWallets(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
+  registerBrandPayouts(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
   );
   registerTreasury(
     app.getHttpAdapter().getInstance(),

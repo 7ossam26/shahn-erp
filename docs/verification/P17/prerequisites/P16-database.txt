@@ -1,0 +1,29 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p16/remittance.db.test.ts tests/integration/p16/migration.db.test.ts
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 34046ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 3927ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 1761ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 1948ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 1197ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 1522ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 1144ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 1020ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 2146ms
+   ✓ rechecks native branch/grant for review and retained result 986ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 6980ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 1334ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 1370ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 1889ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 1956ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 3621ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 3617ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  09:42:43
+   Duration  43.30s (tests 88%, import 8%, transform 5%)
+
+EXIT 0

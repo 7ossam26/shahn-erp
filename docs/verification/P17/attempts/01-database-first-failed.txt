@@ -1,0 +1,210 @@
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ❯ tests/integration/p17/payout.db.test.ts (14 tests | 6 failed) 117193ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 1339ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 562ms
+   × A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact 219ms
+   × payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 249ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 6224ms
+   ✓ A05 off-day payout: missing reason fails; a reason never bypasses funds or a hold; agreed-day reason is rejected 424ms
+   ✓ A06 confirmed compensation 400 is independently eligible through its typed source; replay adds no credit 147ms
+   × A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 745ms
+   ✓ rolls every effect back at debit, allocation, payout and result fault boundaries 293ms
+   ✓ account lock: a payout and a P09 withdrawal competing for the last funds cannot overdraw the paying account 156ms
+   × statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 6012ms
+   × A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 2044ms
+   ✓ database guards: a raw payout effect or payout cash movement without its payout record cannot commit 76ms
+   × migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility 5092ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts [ tests/integration/p17/payout.db.test.ts ]
+Error: Hook timed out in 90000ms.
+If this is a long-running hook, pass a timeout value as the last argument or configure it globally with "hookTimeout".
+ ❯ tests/integration/p17/payout.db.test.ts:27:1
+     25|   f = await payoutFixture(db.pool);
+     26| });
+     27| afterAll(async () => {
+       | ^
+     28|   if (Object.keys(evidence).length) {
+     29|     await mkdir('docs/verification/P17', { recursive: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact
+Error: UNKNOWN_COMMAND_KIND
+ ❯ CommandService.definition apps/api/src/modules/kernel/commands.ts:77:28
+     75|   private definition(kind: string) {
+     76|     const definition = this.definitions.find((d) => d.kind === kind);
+     77|     if (!definition) throw new AccessError('UNKNOWN_COMMAND_KIND', 400…
+       |                            ^
+     78|     return definition;
+     79|   }
+ ❯ CommandService.execute apps/api/src/modules/kernel/commands.ts:81:29
+ ❯ tests/integration/p17/payout.db.test.ts:226:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > payout versus P12 cover reservation: both commit orders on independent connections spend the credit once
+Error: UNKNOWN_COMMAND_KIND
+ ❯ CommandService.definition apps/api/src/modules/kernel/commands.ts:77:28
+     75|   private definition(kind: string) {
+     76|     const definition = this.definitions.find((d) => d.kind === kind);
+     77|     if (!definition) throw new AccessError('UNKNOWN_COMMAND_KIND', 400…
+       |                            ^
+     78|     return definition;
+     79|   }
+ ❯ CommandService.execute apps/api/src/modules/kernel/commands.ts:81:29
+ ❯ receive tests/integration/p17/payout.db.test.ts:268:18
+ ❯ tests/integration/p17/payout.db.test.ts:288:28
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable
+Error: INSUFFICIENT_FUNDS
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p17/payout.db.test.ts:465:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model
+error: canceling statement due to statement timeout
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ JournalPosting.lock apps/api/src/modules/kernel/journals.ts:71:7
+     69|     this.uow.lockOrder(resourceClass[family], resourceKey(family, id));
+     70|     const row = (
+     71|       await this.uow.client.query<{ version: number; fixture: boolean …
+       |       ^
+     72|         'SELECT version,fixture FROM kernel.resource WHERE company_id=…
+     73|         [this.uow.access.companyId, id, family],
+ ❯ BrandWalletService.lock apps/api/src/modules/finance/brand-wallet/wallet.service.ts:80:53
+ ❯ tests/integration/p17/fixtures.ts:248:7
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p17/payout.db.test.ts:637:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details
+Error: apps/api/src/modules/kernel/commands.ts:174
+      if (reply.status >= 400) throw new RetainedCommandError(reply);
+                                     ^
+
+RetainedCommandError: INSUFFICIENT_FUNDS
+    at <anonymous> (apps/api/src/modules/kernel/commands.ts:174:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (tests/integration/p17/restart-child.ts:18:3) {
+  code: 'INSUFFICIENT_FUNDS',
+  status: 409,
+  currentVersion: undefined,
+  reply: {
+    status: 409,
+    body: {
+      code: 'INSUFFICIENT_FUNDS',
+      messageKey: 'kernel.insufficient_funds',
+      commandId: 'b885506a-0a44-4be0-9ab4-f4d2a4a9afb8',
+      correlationId: 'ad631dc4-a2a7-4620-ae12-c84c67818505',
+      details: { availableMinor: '5000' }
+    }
+  }
+}
+
+Node.js v24.21.0
+
+ ❯ <anonymous> apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ ChildProcess.<anonymous> tests/integration/p17/payout.db.test.ts:677:77
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts > migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility
+error: canceling statement due to statement timeout
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ JournalPosting.lock apps/api/src/modules/kernel/journals.ts:71:7
+     69|     this.uow.lockOrder(resourceClass[family], resourceKey(family, id));
+     70|     const row = (
+     71|       await this.uow.client.query<{ version: number; fixture: boolean …
+       |       ^
+     72|         'SELECT version,fixture FROM kernel.resource WHERE company_id=…
+     73|         [this.uow.access.companyId, id, family],
+ ❯ BrandWalletService.lock apps/api/src/modules/finance/brand-wallet/wallet.service.ts:80:53
+ ❯ tests/integration/p17/fixtures.ts:248:7
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p17/payout.db.test.ts:755:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: FORBIDDEN_SCOPE
+ ❯ UnitOfWork.assertBranch apps/api/src/modules/kernel/unit-of-work.ts:40:13
+     38|   assertBranch(branchId: string): void {
+     39|     if (!this.access.assignedBranches.some((branch) => branch.id === b…
+     40|       throw new AccessError('FORBIDDEN_SCOPE');
+       |             ^
+     41|   }
+     42|   static async run<T>(
+ ❯ apps/api/src/modules/finance/brand-payouts/service.ts:405:9
+ ❯ apps/api/src/modules/kernel/unit-of-work.ts:56:18
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.command tests/integration/p17/fixtures.ts:276:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'FORBIDDEN_SCOPE', status: 403, currentVersion: undefined }
+This error originated in "tests/integration/p17/payout.db.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "payout versus P12 cover reservation: both commit orders on independent connections spend the credit once". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: FORBIDDEN_SCOPE
+ ❯ UnitOfWork.assertBranch apps/api/src/modules/kernel/unit-of-work.ts:40:13
+     38|   assertBranch(branchId: string): void {
+     39|     if (!this.access.assignedBranches.some((branch) => branch.id === b…
+     40|       throw new AccessError('FORBIDDEN_SCOPE');
+       |             ^
+     41|   }
+     42|   static async run<T>(
+ ❯ apps/api/src/modules/finance/brand-payouts/service.ts:405:9
+ ❯ apps/api/src/modules/kernel/unit-of-work.ts:56:18
+ ❯ processTicksAndRejections node:internal/process/task_queues:104:5
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.command tests/integration/p17/fixtures.ts:276:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'FORBIDDEN_SCOPE', status: 403, currentVersion: undefined }
+This error originated in "tests/integration/p17/payout.db.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 8 passed (14)
+     Errors  2 errors
+   Start at  10:02:53
+   Duration  121.94s (tests 96%, transform 2%, import 2%)

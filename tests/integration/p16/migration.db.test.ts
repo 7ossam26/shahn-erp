@@ -10,7 +10,8 @@ it('populated P15 upgrade preserves wallets, accounts, movements and identities 
   try {
     await migrate(
       db.pool,
-      (await readMigrations()).filter((m) => !m.version.startsWith('0020')),
+      // Apply only the state before 0020; later migrations exist after P16.
+      (await readMigrations()).filter((m) => m.version < '0020'),
     );
     const f = await accessFixture(db.pool);
     await seedCommercial(db.pool, f.admin.token, f.company, f.a, 'test');

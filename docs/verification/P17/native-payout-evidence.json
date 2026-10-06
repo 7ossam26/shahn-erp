@@ -1,0 +1,572 @@
+{
+  "capturedAt": "2026-10-06T10:32:44.562Z",
+  "provenance": "Isolated real PostgreSQL; real P12 dispatch, P13 outcome projection and P16 full receipt with controlled source HTTP. Compensation credits use the P17 typed producer with a labelled controlled source. Not independent Tawsel acceptance.",
+  "postgres": {
+    "server_version": "18.6 (Debian 18.6-1.pgdg12+2)"
+  },
+  "A01": {
+    "wallet": {
+      "brandId": "a02457d5-a0d0-4cdf-be82-fa9bcfcaf332",
+      "brandName": "براند A01",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "15000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "15000",
+        "eligibleToPayMinor": "15000",
+        "paidMinor": "10000"
+      },
+      "readinessRevision": "c969669d0e2d5d2e2d9e44fb55364efcdd661c8b37ac96889d6630ba0de1a1f8",
+      "branches": [
+        {
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "15000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        }
+      ],
+      "reasons": [],
+      "today": "2026-10-06",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-06",
+      "openReviews": 0,
+      "activeHolds": 0
+    },
+    "detail": {
+      "commandId": "4c8f7691-731c-4f73-b751-2586568bfbd7",
+      "payoutId": "e200e45b-b463-41b3-a1c3-a8861e5ac72f",
+      "reference": "1",
+      "brandId": "a02457d5-a0d0-4cdf-be82-fa9bcfcaf332",
+      "brandName": "براند A01",
+      "amountMinor": "10000",
+      "actualDate": "2026-10-06",
+      "movementId": "e726f21b-17c3-4f62-a43b-2ef5609860de",
+      "eligibleToPayAfterMinor": "15000",
+      "signedEntitlementAfterMinor": "15000",
+      "eligibleToPayBeforeMinor": "25000",
+      "payingBranchId": "adca7866-0374-47d2-b101-a730085814d0",
+      "payingBranchName": "الفرع ب",
+      "accountId": "fb10d192-c1cf-49f3-a5f0-d8403a243c00",
+      "accountName": "خزنة الفرع ب",
+      "method": "cash",
+      "recordedAt": "2026-10-06T10:32:35.234Z",
+      "externalReference": "",
+      "weekday": 2,
+      "scheduledWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "offDay": false,
+      "offDayReason": null,
+      "actorName": "pay-b",
+      "allocations": [
+        {
+          "lotId": "c149c3a1-2610-4030-91b1-3277ed212dcb",
+          "amountMinor": "10000",
+          "lotKind": "goods",
+          "sourceBranchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "sourceBranchName": "الفرع أ",
+          "effectiveDate": "2026-10-06",
+          "shipment": {
+            "id": "c053d770-140a-49bf-89fc-45463f83cfe8",
+            "reference": "10000"
+          }
+        }
+      ],
+      "reviews": []
+    },
+    "statement": {
+      "brandId": "a02457d5-a0d0-4cdf-be82-fa9bcfcaf332",
+      "brandName": "براند A01",
+      "from": null,
+      "to": null,
+      "filtered": false,
+      "openingMinor": "0",
+      "closingMinor": "15000",
+      "creditsMinor": "25000",
+      "debitsMinor": "10000",
+      "items": [
+        {
+          "id": "c149c3a1-2610-4030-91b1-3277ed212dcb",
+          "kind": "goods",
+          "amountMinor": "25000",
+          "balanceAfterMinor": "25000",
+          "effectiveDate": "2026-10-06",
+          "recordedAt": "2026-10-06T10:32:34.557Z",
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "basis": "source",
+          "readiness": "eligible",
+          "payout": null,
+          "shipment": {
+            "id": "c053d770-140a-49bf-89fc-45463f83cfe8",
+            "reference": "10000"
+          },
+          "remittance": {
+            "id": "95447339-8b92-4d52-b7f9-6f1aac58c4a9",
+            "reference": "1"
+          },
+          "supersedesId": null,
+          "reason": null
+        },
+        {
+          "id": "4aaa7970-67ab-4f5e-afe7-87f6cfc937a7",
+          "kind": "payout",
+          "amountMinor": "-10000",
+          "balanceAfterMinor": "15000",
+          "effectiveDate": "2026-10-06",
+          "recordedAt": "2026-10-06T10:32:35.220Z",
+          "branchId": "adca7866-0374-47d2-b101-a730085814d0",
+          "branchName": "الفرع ب",
+          "basis": "paying",
+          "readiness": null,
+          "payout": {
+            "id": "e200e45b-b463-41b3-a1c3-a8861e5ac72f",
+            "reference": "1"
+          },
+          "shipment": null,
+          "remittance": null,
+          "supersedesId": null,
+          "reason": null
+        }
+      ],
+      "total": 2,
+      "page": 1,
+      "limit": 50,
+      "current": {
+        "eligibleMinor": "15000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "15000",
+        "eligibleToPayMinor": "15000",
+        "paidMinor": "10000"
+      },
+      "journalMinor": "15000",
+      "reconciled": true
+    }
+  },
+  "A02": [
+    {
+      "first": "A",
+      "eligibleAfter": "10000",
+      "rejected": "INSUFFICIENT_ELIGIBLE_CREDIT"
+    },
+    {
+      "first": "B",
+      "eligibleAfter": "10000",
+      "rejected": "INSUFFICIENT_ELIGIBLE_CREDIT"
+    }
+  ],
+  "A03": {
+    "wallet": {
+      "brandId": "055c2036-782f-417f-b89e-3b4f35192b69",
+      "brandName": "براند A03",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "5000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "5000",
+        "signedEntitlementMinor": "5000",
+        "eligibleToPayMinor": "0",
+        "paidMinor": "5000"
+      },
+      "readinessRevision": "c9eda322faeaccc3cce4ae785d8c4ca51868eaf8474911961241eb7c3ea5c1c7",
+      "branches": [
+        {
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "5000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "5000"
+        }
+      ],
+      "reasons": [
+        "SHIPPING_COVER"
+      ],
+      "today": "2026-10-06",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-06",
+      "openReviews": 0,
+      "activeHolds": 0
+    },
+    "payout": {
+      "commandId": "d5735575-ee21-49e9-89c8-f33c27bc707b",
+      "payoutId": "26a2558e-b4f2-4cad-a32f-02b451032627",
+      "reference": "4",
+      "brandId": "055c2036-782f-417f-b89e-3b4f35192b69",
+      "amountMinor": "5000",
+      "actualDate": "2026-10-06",
+      "movementId": "fb90d8f8-d01b-4e9b-8fc6-a8dcf0846490",
+      "eligibleToPayAfterMinor": "0",
+      "signedEntitlementAfterMinor": "5000"
+    }
+  },
+  "coverRace": [
+    {
+      "first": "payout",
+      "outcomes": [
+        "committed",
+        "INSUFFICIENT_SHIPPING_COVER"
+      ],
+      "amounts": {
+        "eligibleMinor": "4000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "4000",
+        "eligibleToPayMinor": "4000",
+        "paidMinor": "6000"
+      }
+    },
+    {
+      "first": "cover",
+      "outcomes": [
+        "committed",
+        "INSUFFICIENT_ELIGIBLE_CREDIT"
+      ],
+      "amounts": {
+        "eligibleMinor": "10000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "5000",
+        "signedEntitlementMinor": "10000",
+        "eligibleToPayMinor": "5000",
+        "paidMinor": "0"
+      }
+    }
+  ],
+  "A04": {
+    "wallet": {
+      "brandId": "d80dc805-a809-4dc5-b057-1b929ecd4743",
+      "brandName": "براند A04",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "0",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "0",
+        "eligibleToPayMinor": "0",
+        "paidMinor": "20000"
+      },
+      "readinessRevision": "c5fa84f7e6cb3aefbf39391dbab75e010d10f3cd934209689df25784dfb62167",
+      "branches": [],
+      "reasons": [
+        "NO_ELIGIBLE_CREDIT"
+      ],
+      "today": "2026-10-06",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-06",
+      "openReviews": 0,
+      "activeHolds": 0
+    },
+    "lots": {
+      "items": [
+        {
+          "lotId": "655b5233-e3d9-40d3-b12d-317820d2a2a0",
+          "kind": "goods",
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "effectiveDate": "2026-10-06",
+          "amountMinor": "25000",
+          "allocatedMinor": "25000",
+          "heldMinor": "0",
+          "remainingMinor": "0",
+          "readiness": "eligible",
+          "state": "consumed",
+          "shipment": {
+            "id": "f06800ee-37a6-4d40-b0aa-63bf2ed54302",
+            "reference": "10004"
+          },
+          "remittance": {
+            "id": "0b388828-79fa-41b5-938a-3cdb02f46570",
+            "reference": "2"
+          },
+          "holds": []
+        }
+      ],
+      "total": 1,
+      "page": 1,
+      "limit": 25
+    }
+  },
+  "A05": {
+    "detail": {
+      "commandId": "24ad8460-bc4e-4bc9-8987-88e3c0cae567",
+      "payoutId": "db75c9b5-0815-4bba-98ec-e35c22e1a66c",
+      "reference": "7",
+      "brandId": "7a212d5a-1798-4d78-b7b7-f5f4faba0906",
+      "brandName": "براند A05",
+      "amountMinor": "5000",
+      "actualDate": "2026-10-05",
+      "movementId": "04c0ba57-f189-4fe4-ad80-a0baa100346a",
+      "eligibleToPayAfterMinor": "25000",
+      "signedEntitlementAfterMinor": "25000",
+      "eligibleToPayBeforeMinor": "30000",
+      "payingBranchId": "adca7866-0374-47d2-b101-a730085814d0",
+      "payingBranchName": "الفرع ب",
+      "accountId": "fb10d192-c1cf-49f3-a5f0-d8403a243c00",
+      "accountName": "خزنة الفرع ب",
+      "method": "cash",
+      "recordedAt": "2026-10-06T10:32:38.510Z",
+      "externalReference": "نقدي-يدوي-٧",
+      "weekday": 1,
+      "scheduledWeekdays": [
+        2
+      ],
+      "offDay": true,
+      "offDayReason": "طلب البراند الصرف قبل موعده بموافقة الإدارة",
+      "actorName": "admin",
+      "allocations": [
+        {
+          "lotId": "59ceba29-1914-4062-9beb-630cdc7d39bd",
+          "amountMinor": "5000",
+          "lotKind": "compensation",
+          "sourceBranchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "sourceBranchName": "الفرع أ",
+          "effectiveDate": "2026-10-06",
+          "shipment": null
+        }
+      ],
+      "reviews": []
+    }
+  },
+  "A06": {
+    "lotId": "5b8efc6c-253c-4f46-9ca0-71cfb17f3a6c",
+    "payout": {
+      "commandId": "70d9967b-3a77-4c8d-9bbc-f1e85a76868a",
+      "payoutId": "c2598a4a-3a35-4424-822f-cc2d74e6873f",
+      "reference": "8",
+      "brandId": "afd32c69-a56b-4607-979e-a8c97da68c8c",
+      "amountMinor": "40000",
+      "actualDate": "2026-10-06",
+      "movementId": "248cdf88-8f03-4601-9e5a-9840e5766c2d",
+      "eligibleToPayAfterMinor": "0",
+      "signedEntitlementAfterMinor": "0"
+    }
+  },
+  "A07": {
+    "original": {
+      "commandId": "71e582bb-5ae0-4aca-b550-d4ed9167f5eb",
+      "payoutId": "61446d0f-a062-4f19-b178-5d17819d3a88",
+      "reference": "9",
+      "brandId": "145a1195-2732-41bb-8ea6-72805308b479",
+      "brandName": "براند A07",
+      "amountMinor": "10000",
+      "actualDate": "2026-10-06",
+      "movementId": "745b2ce4-f8da-43d7-87a7-cb6cc1a97605",
+      "eligibleToPayAfterMinor": "15000",
+      "signedEntitlementAfterMinor": "15000",
+      "eligibleToPayBeforeMinor": "25000",
+      "payingBranchId": "adca7866-0374-47d2-b101-a730085814d0",
+      "payingBranchName": "الفرع ب",
+      "accountId": "fb10d192-c1cf-49f3-a5f0-d8403a243c00",
+      "accountName": "خزنة الفرع ب",
+      "method": "cash",
+      "recordedAt": "2026-10-06T10:32:39.339Z",
+      "externalReference": "",
+      "weekday": 2,
+      "scheduledWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "offDay": false,
+      "offDayReason": null,
+      "actorName": "admin",
+      "allocations": [
+        {
+          "lotId": "d2e38c75-7bd3-405d-aae9-f3e0e170b44f",
+          "amountMinor": "10000",
+          "lotKind": "goods",
+          "sourceBranchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "sourceBranchName": "الفرع أ",
+          "effectiveDate": "2026-10-06",
+          "shipment": {
+            "id": "e158acc5-fc6e-422a-9cf7-2a7ac9c19b88",
+            "reference": "10006"
+          }
+        }
+      ],
+      "reviews": [
+        {
+          "id": "25f0551b-884b-44c1-892d-989d82ab2f92",
+          "state": "open",
+          "visitId": "1a2b8ec8-2b0a-49cd-a534-647b97608b07",
+          "lotId": "d2e38c75-7bd3-405d-aae9-f3e0e170b44f",
+          "createdAt": "2026-10-06T10:32:39.379Z"
+        }
+      ]
+    },
+    "wallet": {
+      "brandId": "145a1195-2732-41bb-8ea6-72805308b479",
+      "brandName": "براند A07",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "20000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "15000",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "20000",
+        "eligibleToPayMinor": "5000",
+        "paidMinor": "10000"
+      },
+      "readinessRevision": "10a8eb7b5f0873841404ca67d37b2962f3b7728a162ee5b4412ae1ff57c841c2",
+      "branches": [
+        {
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "15000",
+          "pendingMinor": "0",
+          "heldMinor": "15000",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        },
+        {
+          "branchId": "adca7866-0374-47d2-b101-a730085814d0",
+          "branchName": "الفرع ب",
+          "eligibleMinor": "5000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        }
+      ],
+      "reasons": [
+        "HELD_FOR_REVIEW"
+      ],
+      "today": "2026-10-06",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-06",
+      "openReviews": 1,
+      "activeHolds": 1
+    }
+  },
+  "queries": {
+    "mixed": {
+      "brandId": "c2299ccf-d4ea-45f6-a279-f7f3141255a3",
+      "brandName": "براند متعدد الفروع",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "7000",
+        "pendingMinor": "12000",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "19000",
+        "eligibleToPayMinor": "7000",
+        "paidMinor": "0"
+      },
+      "readinessRevision": "ee73e022901c822d30e1152a929ffe580c6305c4c7f09a013c30e6b83b741e29",
+      "branches": [
+        {
+          "branchId": "9c1c77a0-23ee-4e47-a84c-1313aeb74f6f",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "0",
+          "pendingMinor": "12000",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        },
+        {
+          "branchId": "adca7866-0374-47d2-b101-a730085814d0",
+          "branchName": "الفرع ب",
+          "eligibleMinor": "7000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        }
+      ],
+      "reasons": [
+        "PENDING_REMITTANCE"
+      ],
+      "today": "2026-10-06",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-06",
+      "openReviews": 0,
+      "activeHolds": 0
+    },
+    "duesTotal": 9
+  }
+}

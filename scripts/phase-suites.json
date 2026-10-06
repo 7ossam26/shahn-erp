@@ -414,5 +414,35 @@
       "extension": ".public.test",
       "script": "test:p16:public"
     }
+  },
+  "P17": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/integration/p17",
+      "extension": ".unit.test",
+      "filter": [
+        "tests/integration/p17/contracts.unit.test.ts",
+        "tests/integration/p17/ui.unit.test.tsx"
+      ]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/integration/p17",
+      "extension": ".db.test",
+      "filter": [
+        "tests/integration/p17/payout.db.test.ts",
+        "tests/integration/p17/http.db.test.ts",
+        "tests/integration/p17/trial.db.test.ts",
+        "tests/integration/p17/migration.db.test.ts"
+      ]
+    },
+    "browser": {
+      "applicable": false,
+      "reason": "Owner instruction 2026-10-06: skip browser (Playwright) tests, run script tests only. Payout form/dues/wallet flows are covered by jsdom script tests (ui.unit.test.tsx) and the real API by http.db.test.ts/trial.db.test.ts; no 320/390/768/1440 captures were produced."
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P17 issues no Tawsel call. Real-source P13/P16 inputs run natively with controlled source HTTP; the independent public witness remains the P16-owned IP-GAP-004 gate."
+    }
   }
 }

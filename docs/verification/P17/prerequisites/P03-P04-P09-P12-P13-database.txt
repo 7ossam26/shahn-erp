@@ -1,0 +1,241 @@
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 17062ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 10920ms
+ ✓ tests/db/finance.test.ts (18 tests) 17542ms
+   ✓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 347ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 11227ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p12/dispatch.db.test.ts (20 tests | 7 failed) 9025ms
+   ✓ migrates additively with native prices and explicit unsynchronized identity 76ms
+   ✓ separates snapshot, preparation, actual handover, and planning failure 457ms
+   ✓ keeps explicit prepaid goods and recipient shipping 186ms
+   ✓ keeps explicit prepaid goods and brand shipping 134ms
+   ✓ native duplicate returns one intent; changed payload under the same ID conflicts 164ms
+   ✓ blocks stale version, incomplete packing, competing claim, and disabled driver 203ms
+   ✓ competing independent parcel dispatch and transfer transactions have one winner 93ms
+   ✓ reserves eligible 60 from 100, excludes pending 500 and rejects competing payout 60 404ms
+   ✓ rollback after an injected outbox insert failure leaves no cover, intent audit or stock effect 232ms
+   ✓ unknown handover keeps immutable action, cover and unavailable goods; late lease cannot apply 324ms
+   ✓ accepted result then signed event echo creates one local custody effect 376ms
+   ✓ retains atomic capacity rejection for a two-parcel batch without local custody 361ms
+   ✓ native HTTP enforces current grants, scope, CSRF and closed responses 351ms
+   × persists exact prices, source bytes and quantities after PostgreSQL restart 730ms
+   × pending 500 alone cannot reserve 60, while allow-negative creates no payout cash 8ms
+   × independent cover and payout-allocation transactions cannot both spend 60 of eligible 100 4ms
+   × stored-stock receipt, reservation, packing and accepted handover consume the same physical units once 3ms
+   × approved typed waiver journey preserves goods and commission without brand shipping cover 4ms
+   × definite rejection requires reread and a new native intent; old action JSON stays unchanged 3ms
+   × authorized predeparture withdrawal releases unused cover once and retains original cycle for another preparation 3ms
+ ✓ tests/db/brands.test.ts (13 tests) 5866ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p13/execution.db.test.ts (13 tests | 5 failed) 10116ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 572ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 468ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 376ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 378ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 833ms
+   ✓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome 423ms
+   ✓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 371ms
+   ✓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash 359ms
+   × committed visit survives database restart and lost worker acknowledgement without another earning 1186ms
+   × another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 6ms
+   × a protected correction retains prior postings, creates one review and never moves company cash 3ms
+   × rejects an arrival attached to a different known round without posting or advancing 3ms
+   × keeps an unmapped return request pending and never advances its applied checkpoint 19ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > committed visit survives database restart and lost worker acknowledgement without another earning
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ tests/integration/p13/execution.db.test.ts:335:3
+    333|   await db.stop();
+    334|   await db.start();
+    335|   await f.receive(a);
+       |   ^
+    336|   await drain();
+    337|   expect(await facts(x.task.taskId)).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ Object.create tests/integration/p12/fixtures.ts:123:7
+    121|   const create = async (extra: Partial<ShipmentFields> = {}) => {
+    122|     const tariff = (
+    123|       await pool.query<{ id: string; version: number }>(
+       |       ^
+    124|         `SELECT t.id,t.version FROM commercial.tariff t JOIN commercia…
+    125|        ON b.company_id=t.company_id AND b.tier_id=t.tier_id
+ ❯ Object.received tests/integration/p13/fixtures.ts:109:15
+ ❯ tests/integration/p13/execution.db.test.ts:340:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > a protected correction retains prior postings, creates one review and never moves company cash
+Error: Connection terminated unexpectedly
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ Object.create tests/integration/p12/fixtures.ts:123:7
+    121|   const create = async (extra: Partial<ShipmentFields> = {}) => {
+    122|     const tariff = (
+    123|       await pool.query<{ id: string; version: number }>(
+       |       ^
+    124|         `SELECT t.id,t.version FROM commercial.tariff t JOIN commercia…
+    125|        ON b.company_id=t.company_id AND b.tier_id=t.tier_id
+ ❯ Object.received tests/integration/p13/fixtures.ts:109:15
+ ❯ tests/integration/p13/execution.db.test.ts:471:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > rejects an arrival attached to a different known round without posting or advancing
+Error: Connection terminated unexpectedly
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ Object.create tests/integration/p12/fixtures.ts:123:7
+    121|   const create = async (extra: Partial<ShipmentFields> = {}) => {
+    122|     const tariff = (
+    123|       await pool.query<{ id: string; version: number }>(
+       |       ^
+    124|         `SELECT t.id,t.version FROM commercial.tariff t JOIN commercia…
+    125|        ON b.company_id=t.company_id AND b.tier_id=t.tier_id
+ ❯ Object.received tests/integration/p13/fixtures.ts:109:15
+ ❯ tests/integration/p13/execution.db.test.ts:515:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts > keeps an unmapped return request pending and never advances its applied checkpoint
+Error: Connection terminated unexpectedly
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ tests/integration/p13/execution.db.test.ts:553:3
+    551|   };
+    552|   replace(e);
+    553|   await f.receive(e);
+       |   ^
+    554|   await drain();
+    555|   expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > persists exact prices, source bytes and quantities after PostgreSQL restart
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p12/dispatch.db.test.ts:353:6
+    351|   await db.start();
+    352|   expect(
+    353|     (await db.pool.query('SELECT snapshot,price FROM dispatch.item ORD…
+       |      ^
+    354|       .rows,
+    355|   ).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > pending 500 alone cannot reserve 60, while allow-negative creates no payout cash
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ newBrand tests/integration/p12/dispatch.db.test.ts:360:5
+ ❯ tests/integration/p12/dispatch.db.test.ts:369:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > independent cover and payout-allocation transactions cannot both spend 60 of eligible 100
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ newBrand tests/integration/p12/dispatch.db.test.ts:360:5
+ ❯ tests/integration/p12/dispatch.db.test.ts:391:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > stored-stock receipt, reservation, packing and accepted handover consume the same physical units once
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ newBrand tests/integration/p12/dispatch.db.test.ts:360:5
+ ❯ tests/integration/p12/dispatch.db.test.ts:437:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > approved typed waiver journey preserves goods and commission without brand shipping cover
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ Object.create tests/integration/p12/fixtures.ts:123:7
+    121|   const create = async (extra: Partial<ShipmentFields> = {}) => {
+    122|     const tariff = (
+    123|       await pool.query<{ id: string; version: number }>(
+       |       ^
+    124|         `SELECT t.id,t.version FROM commercial.tariff t JOIN commercia…
+    125|        ON b.company_id=t.company_id AND b.tier_id=t.tier_id
+ ❯ tests/integration/p12/dispatch.db.test.ts:546:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > definite rejection requires reread and a new native intent; old action JSON stays unchanged
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ newBrand tests/integration/p12/dispatch.db.test.ts:360:5
+ ❯ tests/integration/p12/dispatch.db.test.ts:572:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/12]⎯
+
+ FAIL  tests/integration/p12/dispatch.db.test.ts > authorized predeparture withdrawal releases unused cover once and retains original cycle for another preparation
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ transaction packages/database/src/transaction.ts:11:18
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ newBrand tests/integration/p12/dispatch.db.test.ts:360:5
+ ❯ tests/integration/p12/dispatch.db.test.ts:604:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/12]⎯
+
+
+ Test Files  2 failed | 3 passed (5)
+      Tests  12 failed | 73 passed (85)
+   Start at  09:46:57
+   Duration  74.20s (tests 81%, import 16%, transform 3%)
+
+EXIT 1

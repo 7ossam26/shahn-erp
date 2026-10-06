@@ -1,0 +1,105 @@
+
+ RUN  v5.0.3 <isolated clone at 7c16e32, no P17 changes>
+
+ ❯ tests/db/inventory.test.ts (17 tests | 1 failed) 6214ms
+   ❯ P05 committed inventory and real authenticated HTTP (17)
+     ✓ creates immutable product/variant IDs without stock or financial effects 143ms
+     ✓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit 81ms
+     ✓ replays lost response once, rejects changed payload, and recovers compacted original reference 107ms
+     ✓ allows two independent first-receipt transactions to add exactly 3+4 into absent position 107ms
+     ✓ interrupts after first movement with zero committed receipt/position/audit/result effects 49ms
+     ✓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects 119ms
+     ✓ denies branch B query, receipt/history/name leakage despite company tracking grant 70ms
+     ✓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture 56ms
+     ✓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots 132ms
+     ✓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable 110ms
+     ✓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow 83ms
+     ✓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination 106ms
+     ✓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL 72ms
+     ✓ rejects real mixed-brand variants and repeated display names remain separate identities 119ms
+     ✓ shared reserve/release/condition interfaces conserve units, retain history and deduplicate source effects 91ms
+     ✓ rejects absent module grant and missing CSRF on mutations 30ms
+     × returns truthful authorized parcel boundary and reconciles every persisted position to movements 146ms
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p11/boundary.db.test.ts (19 tests | 2 failed) 43121ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1227ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 1245ms
+   ✓ serves closed safe native responses and denies direct spoofed, cross-company and CSRF calls 150ms
+   ✓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company 78ms
+   ✓ retains unknown response, replays the same action and fences expired worker completion 64ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 4153ms
+   ✓ queues exact operator bootstrap without making operator credentials available to the ordinary worker 77ms
+   ✓ serializes all operations on one user revision stream with independent transactions 70ms
+   ✓ rejects missing/disabled references, unsupported operations and finance capability forwarding 72ms
+   ✓ keeps accepted user separate from issuer-ready and accepts authoritative completed disable 31ms
+   ✓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application 88ms
+   ✓ rejects signed changed bytes under one event and recipient sequence collisions 23ms
+   ✓ rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows 31ms
+   ✓ accepts exactly 2 MiB at actual HTTP ingress and rejects an extra byte 130ms
+   ✓ keeps gaps visible and never advances applied through unhandled domain events 35ms
+   ✓ enforces recorded old-key expiry while accepting the preprovisioned next key 22ms
+   ✓ records returned key rotation overlap without exposing secret values 43ms
+   × kills receiver after committed inbox before acknowledgement, then redelivers once after restart 30007ms
+   × retains committed inbox/outbox after database restart and denies revoked command recovery 1071ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/inventory.test.ts > P05 committed inventory and real authenticated HTTP > returns truthful authorized parcel boundary and reconciles every persisted position to movements
+AssertionError: expected { items: [], total: +0, page: 1, …(3) } to deeply equal { items: [], total: +0, page: 1, …(3) }
+
+- Expected
++ Received
+
+@@ -1,7 +1,7 @@
+  {
+-   "boundary": "LOCAL_CUSTODY_ONLY",
++   "boundary": "NATIVE_TRANSFER_ONLY",
+    "custody": "external",
+    "items": [],
+    "limit": 25,
+    "page": 1,
+    "total": 0,
+
+ ❯ tests/db/inventory.test.ts:765:7
+    763|         )
+    764|       ).body,
+    765|     ).toEqual({
+       |       ^
+    766|       items: [],
+    767|       total: 0,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts > kills receiver after committed inbox before acknowledgement, then redelivers once after restart
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/integration/p11/boundary.db.test.ts:694:1
+    692|   expect(keys.find((k) => k.key_id === 'next').verify_until).toBeNull(…
+    693| });
+    694| it('kills receiver after committed inbox before acknowledgement, then …
+       | ^
+    695|   const child = fork('tests/integration/p11/crash-receiver.ts', [], {
+    696|     execArgv: ['--import', 'tsx'],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts > retains committed inbox/outbox after database restart and denies revoked command recovery
+Error: read ECONNRESET
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p11/boundary.db.test.ts:731:11
+    729|   await db.stop();
+    730|   await db.start();
+    731|   expect((await db.pool.query('SELECT count(*)::int AS n FROM integrat…
+       |           ^
+    732|     before,
+    733|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 33 passed (36)
+   Start at  10:30:03
+   Duration  57.67s (tests 86%, import 9%, transform 5%)
+
+EXIT 1

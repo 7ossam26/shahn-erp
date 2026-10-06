@@ -1,0 +1,20 @@
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests) 16440ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 1211ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 651ms
+   ✓ A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact 446ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 789ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 1300ms
+   ✓ A05 off-day payout: missing reason fails; a reason never bypasses funds or a hold; agreed-day reason is rejected 414ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 910ms
+   ✓ rolls every effect back at debit, allocation, payout and result fault boundaries 355ms
+   ✓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 1114ms
+   ✓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 4312ms
+   ✓ migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility 370ms
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  10:06:05
+   Duration  20.75s (tests 80%, import 10%, transform 10%)
