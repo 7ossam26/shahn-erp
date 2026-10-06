@@ -35,9 +35,13 @@ const movementName = (m: MoneyMovement) =>
         ? 'استلام أموال مندوب'
         : m.sourceKind === 'brand_payout'
           ? 'تحصيل براند'
-          : m.direction === 'deposit'
-            ? 'إيداع'
-            : 'سحب';
+          : m.sourceKind === 'storage_receipt'
+            ? 'تحصيل اشتراك تخزين'
+            : m.sourceKind === 'storage_refund'
+              ? 'استرداد رصيد تخزين'
+              : m.direction === 'deposit'
+                ? 'إيداع'
+                : 'سحب';
 const cap = (s: Screen) =>
   s === 'expenses' ? 'expenses' : s === 'accounts' ? 'finance.accounts' : 'finance.movements';
 const path = (s: Screen) => (s === 'expenses' ? '/expenses' : '/finance/' + s);

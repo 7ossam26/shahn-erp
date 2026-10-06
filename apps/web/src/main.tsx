@@ -87,6 +87,11 @@ const router = createBrowserRouter([
       ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
+      { path: '/storage', element: <StorageListPage /> },
+      { path: '/storage/payments/new', element: <StoragePaymentPage /> },
+      { path: '/storage/:agreementId', element: <StorageDetailPage /> },
+      { path: '/storage/:agreementId/refund', element: <StorageRefundPage /> },
+      { path: '/storage/:agreementId/stop', element: <StorageStopPage /> },
       { path: '/incidents', element: <IncidentListPage /> },
       { path: '/incidents/new', element: <IncidentReportPage /> },
       { path: '/incidents/:id', element: <IncidentDetailPage /> },
@@ -215,3 +220,10 @@ import {
   IncidentReportPage,
   IncidentDetailPage,
 } from './features/incidents/incidents.js';
+import {
+  StorageListPage,
+  StorageDetailPage,
+  StoragePaymentPage,
+  StorageRefundPage,
+  StorageStopPage,
+} from './features/storage/storage.js';

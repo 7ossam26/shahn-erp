@@ -8,6 +8,3941 @@
     }
   },
   "paths": {
+    "/api/v1/storage/agreements": {
+      "get": {
+        "summary": "Storage agreements with charges, arrears and separate unallocated credit (UI-STORAGE-001)",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "active", "stopped"] }
+          },
+          {
+            "name": "payment",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "unpaid", "partial", "paid"] }
+          },
+          {
+            "name": "overdue",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["all", "true"] }
+          },
+          {
+            "name": "dueFrom",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "dueTo",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "paymentBasis",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["actual", "recorded"] }
+          },
+          {
+            "name": "paidFrom",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "paidTo",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 120 }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated agreements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "agreementId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "state": { "type": "string", "enum": ["active", "stopped"] },
+                          "origin": {
+                            "type": "string",
+                            "enum": ["brand_setup", "p04_configuration"]
+                          },
+                          "startDate": { "type": "string", "format": "date" },
+                          "anchorDay": { "type": "integer", "minimum": 1, "maximum": 31 },
+                          "firstBillableStartDate": { "type": "string", "format": "date" },
+                          "stopBoundary": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "lastServiceDate": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "currentFeeMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "nextChange": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "effectivePeriodIndex": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 12000
+                                  },
+                                  "effectiveStartDate": { "type": "string", "format": "date" },
+                                  "feeMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "branchName": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 180
+                                  }
+                                },
+                                "required": [
+                                  "effectivePeriodIndex",
+                                  "effectiveStartDate",
+                                  "feeMinor",
+                                  "branchId",
+                                  "branchName"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "nextPeriodStartDate": {
+                            "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                          },
+                          "charges": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "chargedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "allocatedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "outstandingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "overdueMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": [
+                              "chargedMinor",
+                              "allocatedMinor",
+                              "outstandingMinor",
+                              "overdueMinor"
+                            ]
+                          },
+                          "credit": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "receiptsMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "correctionsMinor": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                              },
+                              "allocatedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "refundedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "unallocatedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": [
+                              "receiptsMinor",
+                              "correctionsMinor",
+                              "allocatedMinor",
+                              "refundedMinor",
+                              "unallocatedMinor"
+                            ]
+                          },
+                          "overdue": { "type": "boolean" },
+                          "periodCount": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "creditVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          }
+                        },
+                        "required": [
+                          "agreementId",
+                          "brandId",
+                          "brandName",
+                          "state",
+                          "origin",
+                          "startDate",
+                          "anchorDay",
+                          "firstBillableStartDate",
+                          "stopBoundary",
+                          "lastServiceDate",
+                          "branchId",
+                          "branchName",
+                          "currentFeeMinor",
+                          "nextChange",
+                          "nextPeriodStartDate",
+                          "charges",
+                          "credit",
+                          "overdue",
+                          "periodCount",
+                          "version",
+                          "creditVersion"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 999999 },
+                    "limit": { "type": "integer", "minimum": 1, "maximum": 100 },
+                    "today": { "type": "string", "format": "date" },
+                    "renewal": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "pending": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "leased": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "failed": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "oldestPendingSince": {
+                          "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                        },
+                        "lastError": {
+                          "anyOf": [{ "type": "string", "maxLength": 500 }, { "type": "null" }]
+                        },
+                        "lastCompletedAt": {
+                          "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                        }
+                      },
+                      "required": [
+                        "pending",
+                        "leased",
+                        "failed",
+                        "oldestPendingSince",
+                        "lastError",
+                        "lastCompletedAt"
+                      ]
+                    }
+                  },
+                  "required": ["items", "total", "page", "limit", "today", "renewal"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/catalog": {
+      "get": {
+        "summary": "Assigned receiving/funding branches, permitted accounts and storage agreements",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "today": { "type": "string", "format": "date" },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "minLength": 1, "maxLength": 180 }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 },
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription",
+                          "id",
+                          "version",
+                          "balanceMinor"
+                        ]
+                      }
+                    },
+                    "agreements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "agreementId": { "type": "string", "format": "uuid" },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "state": { "type": "string", "enum": ["active", "stopped"] }
+                        },
+                        "required": ["agreementId", "brandId", "brandName", "state"]
+                      }
+                    }
+                  },
+                  "required": ["today", "branches", "accounts", "agreements"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/agreements/{agreementId}": {
+      "get": {
+        "summary": "Agreement terms/revisions, periods, receipts with allocations, refunds, stop and renewal status. Terms are updated prospectively through P04 brand setup (brand.update).",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "agreementId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agreement detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "state": { "type": "string", "enum": ["active", "stopped"] },
+                    "origin": { "type": "string", "enum": ["brand_setup", "p04_configuration"] },
+                    "startDate": { "type": "string", "format": "date" },
+                    "anchorDay": { "type": "integer", "minimum": 1, "maximum": 31 },
+                    "firstBillableStartDate": { "type": "string", "format": "date" },
+                    "stopBoundary": {
+                      "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                    },
+                    "lastServiceDate": {
+                      "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                    },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                    "currentFeeMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "nextChange": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "effectivePeriodIndex": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 12000
+                            },
+                            "effectiveStartDate": { "type": "string", "format": "date" },
+                            "feeMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "branchId": { "type": "string", "format": "uuid" },
+                            "branchName": { "type": "string", "minLength": 1, "maxLength": 180 }
+                          },
+                          "required": [
+                            "effectivePeriodIndex",
+                            "effectiveStartDate",
+                            "feeMinor",
+                            "branchId",
+                            "branchName"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    },
+                    "nextPeriodStartDate": {
+                      "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                    },
+                    "charges": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "chargedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "outstandingMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "overdueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": [
+                        "chargedMinor",
+                        "allocatedMinor",
+                        "outstandingMinor",
+                        "overdueMinor"
+                      ]
+                    },
+                    "credit": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "receiptsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "correctionsMinor": {
+                          "type": "string",
+                          "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "refundedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        }
+                      },
+                      "required": [
+                        "receiptsMinor",
+                        "correctionsMinor",
+                        "allocatedMinor",
+                        "refundedMinor",
+                        "unallocatedMinor"
+                      ]
+                    },
+                    "overdue": { "type": "boolean" },
+                    "periodCount": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "today": { "type": "string", "format": "date" },
+                    "revisions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "effectivePeriodIndex": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 12000
+                          },
+                          "effectiveStartDate": { "type": "string", "format": "date" },
+                          "feeMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "origin": {
+                            "type": "string",
+                            "enum": ["brand_setup", "p04_configuration"]
+                          },
+                          "actorName": { "type": "string", "maxLength": 180 },
+                          "recordedAt": { "type": "string", "format": "date-time" }
+                        },
+                        "required": [
+                          "revision",
+                          "effectivePeriodIndex",
+                          "effectiveStartDate",
+                          "feeMinor",
+                          "branchId",
+                          "branchName",
+                          "origin",
+                          "actorName",
+                          "recordedAt"
+                        ]
+                      }
+                    },
+                    "periods": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "periodId": { "type": "string", "format": "uuid" },
+                          "periodIndex": { "type": "integer", "minimum": 0, "maximum": 12000 },
+                          "startDate": { "type": "string", "format": "date" },
+                          "endDate": { "type": "string", "format": "date" },
+                          "nextStartDate": { "type": "string", "format": "date" },
+                          "dueDate": { "type": "string", "format": "date" },
+                          "feeMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "revenueMonth": {
+                            "type": "string",
+                            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                          },
+                          "allocatedMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "outstandingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "status": { "type": "string", "enum": ["unpaid", "partial", "paid"] },
+                          "overdue": { "type": "boolean" },
+                          "generatedOn": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "allocations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "receiptId": { "type": "string", "format": "uuid" },
+                                "receiptReference": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]{1,30}$"
+                                },
+                                "receiptActualDate": { "type": "string", "format": "date" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^[1-9][0-9]{0,18}$"
+                                },
+                                "triggerKind": { "type": "string", "enum": ["payment", "renewal"] },
+                                "recordedAt": { "type": "string", "format": "date-time" }
+                              },
+                              "required": [
+                                "receiptId",
+                                "receiptReference",
+                                "receiptActualDate",
+                                "amountMinor",
+                                "triggerKind",
+                                "recordedAt"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "periodId",
+                          "periodIndex",
+                          "startDate",
+                          "endDate",
+                          "nextStartDate",
+                          "dueDate",
+                          "feeMinor",
+                          "branchId",
+                          "branchName",
+                          "revision",
+                          "revenueMonth",
+                          "allocatedMinor",
+                          "outstandingMinor",
+                          "status",
+                          "overdue",
+                          "generatedOn",
+                          "recordedAt",
+                          "allocations"
+                        ]
+                      }
+                    },
+                    "receipts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "receiptId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "accountName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "externalReference": { "type": "string", "maxLength": 120 },
+                          "actorName": { "type": "string", "maxLength": 180 },
+                          "allocatedMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "refundedMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "unallocatedMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "allocations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "periodId": { "type": "string", "format": "uuid" },
+                                "startDate": { "type": "string", "format": "date" },
+                                "endDate": { "type": "string", "format": "date" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^[1-9][0-9]{0,18}$"
+                                },
+                                "triggerKind": { "type": "string", "enum": ["payment", "renewal"] },
+                                "recordedAt": { "type": "string", "format": "date-time" }
+                              },
+                              "required": [
+                                "periodId",
+                                "startDate",
+                                "endDate",
+                                "amountMinor",
+                                "triggerKind",
+                                "recordedAt"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "receiptId",
+                          "reference",
+                          "amountMinor",
+                          "actualDate",
+                          "recordedAt",
+                          "method",
+                          "accountId",
+                          "accountName",
+                          "branchId",
+                          "branchName",
+                          "externalReference",
+                          "actorName",
+                          "allocatedMinor",
+                          "refundedMinor",
+                          "unallocatedMinor",
+                          "allocations"
+                        ]
+                      }
+                    },
+                    "refunds": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "refundId": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "method": {
+                            "type": "string",
+                            "enum": ["cash", "bank_deposit", "instapay"]
+                          },
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "accountName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                          "reason": { "type": "string", "minLength": 1, "maxLength": 500 },
+                          "externalReference": { "type": "string", "maxLength": 120 },
+                          "actorName": { "type": "string", "maxLength": 180 },
+                          "sources": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "receiptId": { "type": "string", "format": "uuid" },
+                                "receiptReference": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]{1,30}$"
+                                },
+                                "receiptActualDate": { "type": "string", "format": "date" },
+                                "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" }
+                              },
+                              "required": [
+                                "receiptId",
+                                "receiptReference",
+                                "receiptActualDate",
+                                "amountMinor"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "refundId",
+                          "reference",
+                          "amountMinor",
+                          "actualDate",
+                          "recordedAt",
+                          "method",
+                          "accountId",
+                          "accountName",
+                          "branchId",
+                          "branchName",
+                          "reason",
+                          "externalReference",
+                          "actorName",
+                          "sources"
+                        ]
+                      }
+                    },
+                    "stop": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "stopBoundary": { "type": "string", "format": "date" },
+                            "lastServiceDate": { "type": "string", "format": "date" },
+                            "requestedOn": { "type": "string", "format": "date" },
+                            "reason": { "type": "string", "maxLength": 500 },
+                            "actorName": { "type": "string", "maxLength": 180 },
+                            "recordedAt": { "type": "string", "format": "date-time" }
+                          },
+                          "required": [
+                            "stopBoundary",
+                            "lastServiceDate",
+                            "requestedOn",
+                            "reason",
+                            "actorName",
+                            "recordedAt"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    },
+                    "renewal": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "pending": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "leased": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "failed": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "oldestPendingSince": {
+                          "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                        },
+                        "lastError": {
+                          "anyOf": [{ "type": "string", "maxLength": 500 }, { "type": "null" }]
+                        },
+                        "lastCompletedAt": {
+                          "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }]
+                        }
+                      },
+                      "required": [
+                        "pending",
+                        "leased",
+                        "failed",
+                        "oldestPendingSince",
+                        "lastError",
+                        "lastCompletedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "agreementId",
+                    "brandId",
+                    "brandName",
+                    "state",
+                    "origin",
+                    "startDate",
+                    "anchorDay",
+                    "firstBillableStartDate",
+                    "stopBoundary",
+                    "lastServiceDate",
+                    "branchId",
+                    "branchName",
+                    "currentFeeMinor",
+                    "nextChange",
+                    "nextPeriodStartDate",
+                    "charges",
+                    "credit",
+                    "overdue",
+                    "periodCount",
+                    "version",
+                    "creditVersion",
+                    "today",
+                    "revisions",
+                    "periods",
+                    "receipts",
+                    "refunds",
+                    "stop",
+                    "renewal"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/agreements/{agreementId}/stop/preview": {
+      "get": {
+        "summary": "Locked read of the stop boundary; no effects",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "agreementId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stop preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "agreement": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "agreementId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "state": { "type": "string", "enum": ["active", "stopped"] },
+                        "origin": {
+                          "type": "string",
+                          "enum": ["brand_setup", "p04_configuration"]
+                        },
+                        "startDate": { "type": "string", "format": "date" },
+                        "anchorDay": { "type": "integer", "minimum": 1, "maximum": 31 },
+                        "firstBillableStartDate": { "type": "string", "format": "date" },
+                        "stopBoundary": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "lastServiceDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "currentFeeMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "nextChange": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "effectivePeriodIndex": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 12000
+                                },
+                                "effectiveStartDate": { "type": "string", "format": "date" },
+                                "feeMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                },
+                                "branchId": { "type": "string", "format": "uuid" },
+                                "branchName": { "type": "string", "minLength": 1, "maxLength": 180 }
+                              },
+                              "required": [
+                                "effectivePeriodIndex",
+                                "effectiveStartDate",
+                                "feeMinor",
+                                "branchId",
+                                "branchName"
+                              ]
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "nextPeriodStartDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "charges": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "chargedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "outstandingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "overdueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "chargedMinor",
+                            "allocatedMinor",
+                            "outstandingMinor",
+                            "overdueMinor"
+                          ]
+                        },
+                        "credit": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "receiptsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "correctionsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "refundedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "unallocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "receiptsMinor",
+                            "correctionsMinor",
+                            "allocatedMinor",
+                            "refundedMinor",
+                            "unallocatedMinor"
+                          ]
+                        },
+                        "overdue": { "type": "boolean" },
+                        "periodCount": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                      },
+                      "required": [
+                        "agreementId",
+                        "brandId",
+                        "brandName",
+                        "state",
+                        "origin",
+                        "startDate",
+                        "anchorDay",
+                        "firstBillableStartDate",
+                        "stopBoundary",
+                        "lastServiceDate",
+                        "branchId",
+                        "branchName",
+                        "currentFeeMinor",
+                        "nextChange",
+                        "nextPeriodStartDate",
+                        "charges",
+                        "credit",
+                        "overdue",
+                        "periodCount",
+                        "version",
+                        "creditVersion"
+                      ]
+                    },
+                    "stopBoundary": { "type": "string", "format": "date" },
+                    "lastServiceDate": { "type": "string", "format": "date" },
+                    "generatesNoPeriod": { "type": "boolean" },
+                    "today": { "type": "string", "format": "date" }
+                  },
+                  "required": [
+                    "agreement",
+                    "stopBoundary",
+                    "lastServiceDate",
+                    "generatesNoPeriod",
+                    "today"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/agreements/{agreementId}/stop": {
+      "post": {
+        "summary": "Stop renewal after the current protected period; dues, credit and history are kept; no refund",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [
+          {
+            "name": "agreementId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "schemaVersion": { "type": "integer", "const": 1 },
+                  "type": { "type": "string", "const": "storage.agreement.stop" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "agreementId": { "type": "string", "format": "uuid" },
+                  "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+                  },
+                  "confirmStop": { "type": "boolean", "const": true }
+                },
+                "required": [
+                  "schemaVersion",
+                  "type",
+                  "commandId",
+                  "companyId",
+                  "agreementId",
+                  "expectedVersion",
+                  "confirmStop"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recorded stop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "stopBoundary": { "type": "string", "format": "date" },
+                    "lastServiceDate": { "type": "string", "format": "date" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "outstandingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "unallocatedCreditMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "agreementId",
+                    "brandId",
+                    "stopBoundary",
+                    "lastServiceDate",
+                    "version",
+                    "outstandingMinor",
+                    "unallocatedCreditMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained rejection: stale version or already stopped",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/agreements/commands/{commandId}": {
+      "get": {
+        "summary": "Recover a stop result for the same principal",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retained committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "stopBoundary": { "type": "string", "format": "date" },
+                    "lastServiceDate": { "type": "string", "format": "date" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "outstandingMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "unallocatedCreditMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "agreementId",
+                    "brandId",
+                    "stopBoundary",
+                    "lastServiceDate",
+                    "version",
+                    "outstandingMinor",
+                    "unallocatedCreditMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained original rejection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/payments/preview": {
+      "post": {
+        "summary": "Locked read of the oldest-due allocation plan and resulting credit; no effects",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" }
+                },
+                "required": [
+                  "companyId",
+                  "brandId",
+                  "branchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "agreement": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "agreementId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "state": { "type": "string", "enum": ["active", "stopped"] },
+                        "origin": {
+                          "type": "string",
+                          "enum": ["brand_setup", "p04_configuration"]
+                        },
+                        "startDate": { "type": "string", "format": "date" },
+                        "anchorDay": { "type": "integer", "minimum": 1, "maximum": 31 },
+                        "firstBillableStartDate": { "type": "string", "format": "date" },
+                        "stopBoundary": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "lastServiceDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "currentFeeMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "nextChange": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "effectivePeriodIndex": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 12000
+                                },
+                                "effectiveStartDate": { "type": "string", "format": "date" },
+                                "feeMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                },
+                                "branchId": { "type": "string", "format": "uuid" },
+                                "branchName": { "type": "string", "minLength": 1, "maxLength": 180 }
+                              },
+                              "required": [
+                                "effectivePeriodIndex",
+                                "effectiveStartDate",
+                                "feeMinor",
+                                "branchId",
+                                "branchName"
+                              ]
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "nextPeriodStartDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "charges": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "chargedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "outstandingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "overdueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "chargedMinor",
+                            "allocatedMinor",
+                            "outstandingMinor",
+                            "overdueMinor"
+                          ]
+                        },
+                        "credit": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "receiptsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "correctionsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "refundedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "unallocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "receiptsMinor",
+                            "correctionsMinor",
+                            "allocatedMinor",
+                            "refundedMinor",
+                            "unallocatedMinor"
+                          ]
+                        },
+                        "overdue": { "type": "boolean" },
+                        "periodCount": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                      },
+                      "required": [
+                        "agreementId",
+                        "brandId",
+                        "brandName",
+                        "state",
+                        "origin",
+                        "startDate",
+                        "anchorDay",
+                        "firstBillableStartDate",
+                        "stopBoundary",
+                        "lastServiceDate",
+                        "branchId",
+                        "branchName",
+                        "currentFeeMinor",
+                        "nextChange",
+                        "nextPeriodStartDate",
+                        "charges",
+                        "credit",
+                        "overdue",
+                        "periodCount",
+                        "version",
+                        "creditVersion"
+                      ]
+                    },
+                    "account": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "name": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "type": { "type": "string", "enum": ["cash", "bank"] },
+                        "active": { "type": "boolean" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": ["id", "name", "type", "active", "availableMinor"]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "blockers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "STORAGE_AGREEMENT_REQUIRED",
+                          "ACCOUNT_INACTIVE",
+                          "ACCOUNT_USAGE_FORBIDDEN",
+                          "METHOD_ACCOUNT_MISMATCH",
+                          "FUTURE_PAYMENT_DATE",
+                          "ACCOUNT_RECONCILIATION_REQUIRED"
+                        ]
+                      },
+                      "uniqueItems": true
+                    },
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "periodId": { "type": "string", "format": "uuid" },
+                          "periodIndex": { "type": "integer", "minimum": 0, "maximum": 12000 },
+                          "startDate": { "type": "string", "format": "date" },
+                          "endDate": { "type": "string", "format": "date" },
+                          "dueDate": { "type": "string", "format": "date" },
+                          "outstandingBeforeMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "outstandingAfterMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          }
+                        },
+                        "required": [
+                          "periodId",
+                          "periodIndex",
+                          "startDate",
+                          "endDate",
+                          "dueDate",
+                          "outstandingBeforeMinor",
+                          "amountMinor",
+                          "outstandingAfterMinor"
+                        ]
+                      }
+                    },
+                    "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "outstandingBeforeMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "outstandingAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "unallocatedBeforeMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "unallocatedAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "today": { "type": "string", "format": "date" }
+                  },
+                  "required": [
+                    "agreement",
+                    "account",
+                    "amountMinor",
+                    "blockers",
+                    "allocations",
+                    "allocatedMinor",
+                    "outstandingBeforeMinor",
+                    "outstandingAfterMinor",
+                    "unallocatedBeforeMinor",
+                    "unallocatedAfterMinor",
+                    "creditVersion",
+                    "today"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/payments": {
+      "post": {
+        "summary": "Record one actual partial/full/advance storage receipt and its deterministic allocation",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "schemaVersion": { "type": "integer", "const": 1 },
+                  "type": { "type": "string", "const": "storage.payment.record" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" },
+                  "externalReference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\u0000-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u001f\\u007f]*$"
+                  },
+                  "expectedCreditVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2147483647
+                  },
+                  "confirmReceived": { "type": "boolean", "const": true }
+                },
+                "required": [
+                  "schemaVersion",
+                  "type",
+                  "commandId",
+                  "companyId",
+                  "brandId",
+                  "branchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate",
+                  "expectedCreditVersion",
+                  "confirmReceived"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Committed receipt (or retained original result)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "receiptId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "periodId": { "type": "string", "format": "uuid" },
+                          "periodIndex": { "type": "integer", "minimum": 0, "maximum": 12000 },
+                          "startDate": { "type": "string", "format": "date" },
+                          "endDate": { "type": "string", "format": "date" },
+                          "dueDate": { "type": "string", "format": "date" },
+                          "outstandingBeforeMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "outstandingAfterMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          }
+                        },
+                        "required": [
+                          "periodId",
+                          "periodIndex",
+                          "startDate",
+                          "endDate",
+                          "dueDate",
+                          "outstandingBeforeMinor",
+                          "amountMinor",
+                          "outstandingAfterMinor"
+                        ]
+                      }
+                    },
+                    "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "outstandingAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "unallocatedCreditAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "receiptId",
+                    "reference",
+                    "agreementId",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "allocations",
+                    "allocatedMinor",
+                    "outstandingAfterMinor",
+                    "unallocatedCreditAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained rejection: changed credit/allocation, future date, missing agreement, or changed payload for the same commandId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/payments/commands/{commandId}": {
+      "get": {
+        "summary": "Recover a storage receipt after an unknown outcome",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retained committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "receiptId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "allocations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "periodId": { "type": "string", "format": "uuid" },
+                          "periodIndex": { "type": "integer", "minimum": 0, "maximum": 12000 },
+                          "startDate": { "type": "string", "format": "date" },
+                          "endDate": { "type": "string", "format": "date" },
+                          "dueDate": { "type": "string", "format": "date" },
+                          "outstandingBeforeMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "outstandingAfterMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          }
+                        },
+                        "required": [
+                          "periodId",
+                          "periodIndex",
+                          "startDate",
+                          "endDate",
+                          "dueDate",
+                          "outstandingBeforeMinor",
+                          "amountMinor",
+                          "outstandingAfterMinor"
+                        ]
+                      }
+                    },
+                    "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "outstandingAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "unallocatedCreditAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "receiptId",
+                    "reference",
+                    "agreementId",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "allocations",
+                    "allocatedMinor",
+                    "outstandingAfterMinor",
+                    "unallocatedCreditAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained original rejection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/credit-refunds/preview": {
+      "post": {
+        "summary": "Locked read of refundable unallocated credit, source receipts and funds; no effects",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" }
+                },
+                "required": [
+                  "companyId",
+                  "brandId",
+                  "branchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Refund preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "agreement": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "agreementId": { "type": "string", "format": "uuid" },
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "brandName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "state": { "type": "string", "enum": ["active", "stopped"] },
+                        "origin": {
+                          "type": "string",
+                          "enum": ["brand_setup", "p04_configuration"]
+                        },
+                        "startDate": { "type": "string", "format": "date" },
+                        "anchorDay": { "type": "integer", "minimum": 1, "maximum": 31 },
+                        "firstBillableStartDate": { "type": "string", "format": "date" },
+                        "stopBoundary": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "lastServiceDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "branchName": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "currentFeeMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "nextChange": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "effectivePeriodIndex": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 12000
+                                },
+                                "effectiveStartDate": { "type": "string", "format": "date" },
+                                "feeMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                },
+                                "branchId": { "type": "string", "format": "uuid" },
+                                "branchName": { "type": "string", "minLength": 1, "maxLength": 180 }
+                              },
+                              "required": [
+                                "effectivePeriodIndex",
+                                "effectiveStartDate",
+                                "feeMinor",
+                                "branchId",
+                                "branchName"
+                              ]
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "nextPeriodStartDate": {
+                          "anyOf": [{ "type": "string", "format": "date" }, { "type": "null" }]
+                        },
+                        "charges": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "chargedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "outstandingMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "overdueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "chargedMinor",
+                            "allocatedMinor",
+                            "outstandingMinor",
+                            "overdueMinor"
+                          ]
+                        },
+                        "credit": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "receiptsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "correctionsMinor": {
+                              "type": "string",
+                              "pattern": "^(0|-?[1-9][0-9]{0,18})$"
+                            },
+                            "allocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "refundedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "unallocatedMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            }
+                          },
+                          "required": [
+                            "receiptsMinor",
+                            "correctionsMinor",
+                            "allocatedMinor",
+                            "refundedMinor",
+                            "unallocatedMinor"
+                          ]
+                        },
+                        "overdue": { "type": "boolean" },
+                        "periodCount": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+                        "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                      },
+                      "required": [
+                        "agreementId",
+                        "brandId",
+                        "brandName",
+                        "state",
+                        "origin",
+                        "startDate",
+                        "anchorDay",
+                        "firstBillableStartDate",
+                        "stopBoundary",
+                        "lastServiceDate",
+                        "branchId",
+                        "branchName",
+                        "currentFeeMinor",
+                        "nextChange",
+                        "nextPeriodStartDate",
+                        "charges",
+                        "credit",
+                        "overdue",
+                        "periodCount",
+                        "version",
+                        "creditVersion"
+                      ]
+                    },
+                    "account": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "name": { "type": "string", "minLength": 1, "maxLength": 180 },
+                        "type": { "type": "string", "enum": ["cash", "bank"] },
+                        "active": { "type": "boolean" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": ["id", "name", "type", "active", "availableMinor"]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "blockers": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "STORAGE_AGREEMENT_REQUIRED",
+                          "INSUFFICIENT_STORAGE_CREDIT",
+                          "STORAGE_CREDIT_ALLOCATED",
+                          "INSUFFICIENT_FUNDS",
+                          "ACCOUNT_INACTIVE",
+                          "ACCOUNT_USAGE_FORBIDDEN",
+                          "METHOD_ACCOUNT_MISMATCH",
+                          "FUTURE_PAYMENT_DATE",
+                          "ACCOUNT_RECONCILIATION_REQUIRED"
+                        ]
+                      },
+                      "uniqueItems": true
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "receiptId": { "type": "string", "format": "uuid" },
+                          "receiptReference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "receiptActualDate": { "type": "string", "format": "date" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" }
+                        },
+                        "required": [
+                          "receiptId",
+                          "receiptReference",
+                          "receiptActualDate",
+                          "amountMinor"
+                        ]
+                      }
+                    },
+                    "unallocatedBeforeMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "unallocatedAfterMinor": {
+                      "anyOf": [
+                        { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "today": { "type": "string", "format": "date" }
+                  },
+                  "required": [
+                    "agreement",
+                    "account",
+                    "amountMinor",
+                    "blockers",
+                    "sources",
+                    "unallocatedBeforeMinor",
+                    "unallocatedAfterMinor",
+                    "allocatedMinor",
+                    "creditVersion",
+                    "today"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/credit-refunds": {
+      "post": {
+        "summary": "Refund unallocated storage credit with an actual cash-out; never allocated money or revenue",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "schemaVersion": { "type": "integer", "const": 1 },
+                  "type": { "type": "string", "const": "storage.credit.refund" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "brandId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "accountId": { "type": "string", "format": "uuid" },
+                  "method": { "type": "string", "enum": ["cash", "bank_deposit", "instapay"] },
+                  "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "actualDate": { "type": "string", "format": "date" },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+                  },
+                  "externalReference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\u0000-\\u001f\\u007f]*[^\\s\\u0000-\\u001f\\u007f][^\\u0000-\\u001f\\u007f]*$"
+                  },
+                  "expectedCreditVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2147483647
+                  },
+                  "confirmCashOut": { "type": "boolean", "const": true }
+                },
+                "required": [
+                  "schemaVersion",
+                  "type",
+                  "commandId",
+                  "companyId",
+                  "brandId",
+                  "branchId",
+                  "accountId",
+                  "method",
+                  "amountMinor",
+                  "actualDate",
+                  "reason",
+                  "expectedCreditVersion",
+                  "confirmCashOut"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Committed refund",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "refundId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "receiptId": { "type": "string", "format": "uuid" },
+                          "receiptReference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "receiptActualDate": { "type": "string", "format": "date" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" }
+                        },
+                        "required": [
+                          "receiptId",
+                          "receiptReference",
+                          "receiptActualDate",
+                          "amountMinor"
+                        ]
+                      }
+                    },
+                    "unallocatedCreditAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "refundId",
+                    "reference",
+                    "agreementId",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "sources",
+                    "unallocatedCreditAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained rejection: insufficient/allocated credit, insufficient funds, changed credit, or changed payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/storage/credit-refunds/commands/{commandId}": {
+      "get": {
+        "summary": "Recover a storage refund after an unknown outcome",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retained committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "refundId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                    "agreementId": { "type": "string", "format": "uuid" },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "movementId": { "type": "string", "format": "uuid" },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "receiptId": { "type": "string", "format": "uuid" },
+                          "receiptReference": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+                          "receiptActualDate": { "type": "string", "format": "date" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" }
+                        },
+                        "required": [
+                          "receiptId",
+                          "receiptReference",
+                          "receiptActualDate",
+                          "amountMinor"
+                        ]
+                      }
+                    },
+                    "unallocatedCreditAfterMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "refundId",
+                    "reference",
+                    "agreementId",
+                    "brandId",
+                    "amountMinor",
+                    "actualDate",
+                    "movementId",
+                    "sources",
+                    "unallocatedCreditAfterMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed input; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Authentication required" },
+          "403": {
+            "description": "Grant, assigned branch, account usage or CSRF denied; no effects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found within current authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Retained original rejection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,79}$" },
+                    "messageKey": { "type": "string", "maxLength": 120 },
+                    "commandId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "details": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "creditVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                        "agreementVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "unallocatedMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "allocatedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "today": { "type": "string", "format": "date" }
+                      },
+                      "required": []
+                    }
+                  },
+                  "required": ["code", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/incidents": {
       "get": {
         "summary": "Scoped incident journey",
@@ -11584,7 +15519,9 @@
                               "treasury_send",
                               "treasury_receive",
                               "remittance",
-                              "brand_payout"
+                              "brand_payout",
+                              "storage_receipt",
+                              "storage_refund"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -12867,7 +16804,9 @@
                               "treasury_send",
                               "treasury_receive",
                               "remittance",
-                              "brand_payout"
+                              "brand_payout",
+                              "storage_receipt",
+                              "storage_refund"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -13249,7 +17188,9 @@
                         "treasury_send",
                         "treasury_receive",
                         "remittance",
-                        "brand_payout"
+                        "brand_payout",
+                        "storage_receipt",
+                        "storage_refund"
                       ]
                     },
                     "reason": { "type": "string", "maxLength": 1000 }
@@ -33839,6 +37780,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "storage": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "incidents": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -33933,6 +37875,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "storage": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "incidents": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -34020,10 +37963,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 23,
+                        "maxItems": 24,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "storage",
                             "incidents",
                             "remittances",
                             "returns",
@@ -34081,10 +38025,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 23,
+                        "maxItems": 24,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "storage",
                             "incidents",
                             "remittances",
                             "returns",
@@ -34697,6 +38642,7 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "storage",
                               "incidents",
                               "remittances",
                               "returns",
@@ -34765,6 +38711,7 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "storage",
                               "incidents",
                               "remittances",
                               "returns",
@@ -35010,6 +38957,7 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "storage": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "incidents": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -35111,6 +39059,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "storage",
                                 "incidents",
                                 "remittances",
                                 "returns",
@@ -35350,6 +39299,7 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "storage": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "incidents": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -35451,6 +39401,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "storage",
                                 "incidents",
                                 "remittances",
                                 "returns",
@@ -35652,6 +39603,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "storage",
                                 "incidents",
                                 "remittances",
                                 "returns",
@@ -36305,6 +40257,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "storage",
                 "incidents",
                 "remittances",
                 "returns",

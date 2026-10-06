@@ -125,6 +125,12 @@ export const errorMessage = (error: unknown) => {
         STORAGE_REQUIRED: 'أكمل اتفاق التخزين للخدمة المفعلة.',
         INVALID_STORAGE_AGREEMENT: 'راجع تاريخ البداية ويوم التجديد وتاريخ الإيقاف.',
         INVALID_STORAGE_BRANCH: 'اختر فرعًا نشطًا من الشركة لاتفاق التخزين.',
+        STORAGE_STOP_USE_STORAGE_FLOW:
+          'إيقاف تجديد التخزين يتم من صفحة اشتراك التخزين حتى تُحفظ المتأخرات والرصيد المقدم.',
+        STORAGE_ANCHOR_IMMUTABLE: 'تاريخ بداية التخزين الأصلي لا يتغير بعد بدء أول فترة.',
+        STORAGE_AGREEMENT_STOPPED: 'تجديد التخزين متوقف؛ لا تتغير شروط فترات لن تبدأ.',
+        STORAGE_AGREEMENT_RETAINED:
+          'لا يمكن حذف اتفاق التخزين؛ سجله وفتراته باقية. أوقف التجديد من صفحة اشتراك التخزين.',
         TARIFF_KEY_EXISTS: 'يوجد سعر لهذا الاختيار. افتح السعر الموجود لتعديله.',
         SERVICE_UNAVAILABLE: 'البراند أو الخدمة موقوفة.',
         REVISION_CONFLICT:

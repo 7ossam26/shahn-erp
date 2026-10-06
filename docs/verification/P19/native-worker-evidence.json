@@ -1,0 +1,197 @@
+{
+  "kill-before-ack": {
+    "killed": {
+      "outcome": {
+        "status": "generated",
+        "agreementId": "785345b0-1caf-4bb8-8e3a-51585d61c7d8",
+        "periodId": "789f20da-eb77-4f20-ad26-912ee2e8e7bb",
+        "periodIndex": 0,
+        "startDate": "2027-01-13",
+        "feeMinor": "31000",
+        "allocatedMinor": "31000"
+      },
+      "lease": {
+        "id": "314f87cc-9088-479a-a579-48e4dffdec3e",
+        "fence": 1
+      }
+    },
+    "jobs": [
+      {
+        "state": "ready",
+        "fence": 2,
+        "attempts": 2,
+        "lease_owner": null,
+        "source_identity": "785345b0-1caf-4bb8-8e3a-51585d61c7d8:0:2027-01-13"
+      }
+    ],
+    "counts": {
+      "periods": 1,
+      "receipts": 1,
+      "allocations": 1,
+      "refunds": 0,
+      "revenue": 1,
+      "creditEffects": 2,
+      "walletEffects": 0,
+      "movements": 1,
+      "commands": 1,
+      "creditVersion": 3
+    }
+  },
+  "P19-AC-01": {
+    "periods": [
+      [
+        "2027-01-31",
+        "2027-02-27",
+        "31000"
+      ],
+      [
+        "2027-02-28",
+        "2027-03-30",
+        "35000"
+      ],
+      [
+        "2027-03-31",
+        "2027-04-29",
+        "35000"
+      ]
+    ],
+    "revisions": [
+      {
+        "revision": 1,
+        "effectivePeriodIndex": 0,
+        "effectiveStartDate": "2027-01-31",
+        "feeMinor": "31000",
+        "branchId": "39e21964-ea54-488d-9f4f-77a3e7ee4642",
+        "branchName": "الفرع أ",
+        "origin": "brand_setup",
+        "actorName": "admin",
+        "recordedAt": "2026-10-06T23:56:29.519Z"
+      },
+      {
+        "revision": 2,
+        "effectivePeriodIndex": 1,
+        "effectiveStartDate": "2027-02-28",
+        "feeMinor": "35000",
+        "branchId": "39e21964-ea54-488d-9f4f-77a3e7ee4642",
+        "branchName": "الفرع أ",
+        "origin": "brand_setup",
+        "actorName": "admin",
+        "recordedAt": "2026-10-06T23:56:29.579Z"
+      }
+    ]
+  },
+  "two-workers": {
+    "workerA": 4,
+    "workerB": 4
+  },
+  "P19-AC-06-renewal-first": {
+    "credit": {
+      "receiptsMinor": "50000",
+      "correctionsMinor": "0",
+      "allocatedMinor": "31000",
+      "refundedMinor": "0",
+      "unallocatedMinor": "19000"
+    },
+    "periods": [
+      {
+        "periodId": "35ac382a-e47f-4d46-b0bd-780a6c701e46",
+        "periodIndex": 0,
+        "startDate": "2028-11-05",
+        "endDate": "2028-12-04",
+        "nextStartDate": "2028-12-05",
+        "dueDate": "2028-11-05",
+        "feeMinor": "31000",
+        "branchId": "39e21964-ea54-488d-9f4f-77a3e7ee4642",
+        "branchName": "الفرع أ",
+        "revision": 1,
+        "revenueMonth": "2028-11",
+        "allocatedMinor": "31000",
+        "outstandingMinor": "0",
+        "status": "paid",
+        "overdue": false,
+        "generatedOn": "2028-11-05",
+        "recordedAt": "2026-10-06T23:56:32.450Z",
+        "allocations": [
+          {
+            "receiptId": "672f87fd-58e1-412a-b916-30a1d9e2371f",
+            "receiptReference": "3",
+            "receiptActualDate": "2028-11-01",
+            "amountMinor": "31000",
+            "triggerKind": "renewal",
+            "recordedAt": "2026-10-06T23:56:32.856Z"
+          }
+        ]
+      }
+    ],
+    "reconciliation": {
+      "brandId": "df6fb530-f9ce-4766-9068-f7e90ca24d5f",
+      "receiptsMinor": "50000",
+      "journalReceiptsMinor": "50000",
+      "allocationsMinor": "31000",
+      "journalAllocationsMinor": "31000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "19000",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "50000",
+      "movementRefundsMinor": "0"
+    }
+  },
+  "P19-AC-06-refund-first": {
+    "credit": {
+      "receiptsMinor": "50000",
+      "correctionsMinor": "0",
+      "allocatedMinor": "20000",
+      "refundedMinor": "30000",
+      "unallocatedMinor": "0"
+    },
+    "periods": [
+      {
+        "periodId": "7003e648-be6a-47dc-9074-0423a403bbd1",
+        "periodIndex": 0,
+        "startDate": "2028-11-05",
+        "endDate": "2028-12-04",
+        "nextStartDate": "2028-12-05",
+        "dueDate": "2028-11-05",
+        "feeMinor": "31000",
+        "branchId": "39e21964-ea54-488d-9f4f-77a3e7ee4642",
+        "branchName": "الفرع أ",
+        "revision": 1,
+        "revenueMonth": "2028-11",
+        "allocatedMinor": "20000",
+        "outstandingMinor": "11000",
+        "status": "partial",
+        "overdue": false,
+        "generatedOn": "2028-11-05",
+        "recordedAt": "2026-10-06T23:56:33.820Z",
+        "allocations": [
+          {
+            "receiptId": "8a00cc46-728e-432c-aee7-6d8cc1c3cb02",
+            "receiptReference": "4",
+            "receiptActualDate": "2028-11-01",
+            "amountMinor": "20000",
+            "triggerKind": "renewal",
+            "recordedAt": "2026-10-06T23:56:33.822Z"
+          }
+        ]
+      }
+    ],
+    "reconciliation": {
+      "brandId": "61ff82ef-490f-4450-bce5-c1ac8e7bf619",
+      "receiptsMinor": "50000",
+      "journalReceiptsMinor": "50000",
+      "allocationsMinor": "20000",
+      "journalAllocationsMinor": "20000",
+      "refundsMinor": "30000",
+      "journalRefundsMinor": "30000",
+      "unallocatedMinor": "0",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "11000",
+      "movementReceiptsMinor": "50000",
+      "movementRefundsMinor": "30000"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.db.config.ts tests/db/kernel.test.ts tests/db/finance.test.ts tests/db/brands.test.ts tests/integration/p12/transport.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/finance.test.ts (18 tests) 14186ms
+   ✓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 395ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6687ms
+ ✓ tests/db/kernel.test.ts (21 tests) 13682ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6124ms
+ ✓ tests/integration/p12/transport.db.test.ts (1 test) 5800ms
+   ✓ kills a worker after HTTP fixture commit, then recovers the exact action over real HTTP once 5799ms
+ ✓ tests/db/brands.test.ts (13 tests) 4772ms
+
+ Test Files  4 passed (4)
+      Tests  53 passed (53)
+   Start at  01:59:40
+   Duration  56.26s (tests 69%, import 26%, transform 5%)

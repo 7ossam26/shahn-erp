@@ -31,7 +31,7 @@ test('fixture login and grant-filtered module entry reach real seeded brand conf
   await page.goto('/api/test/brands-login');
   await expect(page.getByRole('heading', { name: 'البراندات', exact: true })).toBeVisible();
   await page.goto('/');
-  await page.getByRole('link', { name: /البراندات/ }).click();
+  await page.getByRole('link', { name: /^البراندات/ }).click();
   await expect(page.locator('.commercial-row').first()).toContainText('براند التجربة');
 });
 test('scope-limited ordinary fixture signs in and has no commercial screen grant', async ({
@@ -199,6 +199,8 @@ test('reference and tariff editors save actual revisions; storage settings creat
     '310.00',
   );
   await expect(
-    page.getByText('الفترات والتحصيل الجزئي والمقدم والاسترداد تتاح في مرحلة التخزين لاحقًا.'),
+    page.getByText(
+      'الفترات والتحصيل الجزئي والمقدم واسترداد الرصيد تُدار من صفحة اشتراكات التخزين.',
+    ),
   ).toBeVisible();
 });

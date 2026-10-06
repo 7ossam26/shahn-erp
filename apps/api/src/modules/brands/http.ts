@@ -15,6 +15,7 @@ import { RetainedCommandError } from '../kernel/commands.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { catalog, configurationLock } from '../reference-data/service.js';
 import { brandDetail, brandList, commercialCommands, pricing } from './service.js';
+import type { StorageClock } from '../storage/clock.js';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 async function csrfCheck(pool: Pool, req: FastifyRequest, origin: string) {
   const session = await sessionIdentity(pool, sessionToken(req)),
@@ -27,8 +28,16 @@ async function csrfCheck(pool: Pool, req: FastifyRequest, origin: string) {
   )
     throw new AccessError('CSRF_FAILED');
 }
-export function registerBrands(app: FastifyInstance, pool: Pool, origin: string) {
-  const commands = commercialCommands(pool);
+export function registerBrands(
+  app: FastifyInstance,
+  pool: Pool,
+  origin: string,
+  options: { storageClock?: StorageClock } = {},
+) {
+  const commands = commercialCommands(
+    pool,
+    options.storageClock ? { storageClock: options.storageClock } : {},
+  );
   const routes = [
     ['GET', '/api/v1/brands', 'list'],
     ['GET', '/api/v1/brands/catalog', 'catalog'],

@@ -1,6 +1,7 @@
 import AjvModule from 'ajv';
 import formatsModule from 'ajv-formats';
 export const capabilityIds = [
+  'storage',
   'incidents',
   'remittances',
   'returns',

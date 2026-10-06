@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { spawn, spawnSync } from 'node:child_process';
 import { expect, it } from 'vitest';
-it('worker registers source and projection queues and gracefully stops its actual process', async () => {
+it('worker registers source, projection and storage renewal queues and gracefully stops its actual process', async () => {
   const worker = spawn(process.execPath, ['--import', 'tsx', 'apps/worker/src/main.ts'], {
     env: {
       ...process.env,
@@ -37,7 +37,7 @@ it('worker registers source and projection queues and gracefully stops its actua
   expect(await stopped).toBe(0);
   expect(output).toContain('"state":"stopping"');
   expect(output).toContain('"state":"stopped"');
-  expect(output).toContain('"businessQueues":2');
+  expect(output).toContain('"businessQueues":3');
   expect(output + errors).not.toContain('LOCAL_SENTINEL');
 }, 20000);
 it('missing mandatory worker variable has a readable failure without a secret', () => {

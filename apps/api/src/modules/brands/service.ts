@@ -22,6 +22,8 @@ import { CommandService, type CommandDefinition } from '../kernel/commands.js';
 import { JournalPosting } from '../kernel/journals.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { configurationLock, requireReference } from '../reference-data/service.js';
+import { applyBrandStorageTerms, ensureStorageCreditAccount } from '../storage/agreements.js';
+import { databaseStorageClock, type StorageClock } from '../storage/clock.js';
 export async function pricing(uow: UnitOfWork, input: PricingInput): Promise<PriceSnapshot> {
   await configurationLock(uow);
   uow.assertBranch(input.branchId);
@@ -109,8 +111,9 @@ async function validatePolicy(uow: UnitOfWork, fields: BrandFields) {
 }
 export function commercialCommands(
   pool: Pool,
-  hooks: { afterBrandInsert?: () => Promise<void> } = {},
+  hooks: { afterBrandInsert?: () => Promise<void>; storageClock?: StorageClock } = {},
 ) {
+  const storageClock = hooks.storageClock ?? databaseStorageClock;
   const kinds: CommercialCommand['type'][] = [
     'brand.create',
     'brand.update',
@@ -218,12 +221,29 @@ export function commercialCommands(
               [company, entityId, fields.name, fields.active, version],
             );
             await hooks.afterBrandInsert?.();
+            // P19: the storage agreement (aggregate lock) precedes the brand/credit wallet locks.
+            const agreement = await applyBrandStorageTerms(uow, {
+              brandId: entityId,
+              storage: fields.storage,
+              recordId,
+              clock: storageClock,
+            });
             await new JournalPosting(uow).createResource('brand', entityId);
-          } else
+            if (agreement) await ensureStorageCreditAccount(uow, entityId);
+          } else {
             await client.query(
               'UPDATE commercial.brand SET name=$3,active=$4,version=$5 WHERE company_id=$1 AND id=$2',
               [company, entityId, fields.name, fields.active, version],
             );
+            // Terms apply prospectively from the next period; old period snapshots never change.
+            const agreement = await applyBrandStorageTerms(uow, {
+              brandId: entityId,
+              storage: fields.storage,
+              recordId,
+              clock: storageClock,
+            });
+            if (agreement) await ensureStorageCreditAccount(uow, entityId);
+          }
           const s = fields.storage;
           await client.query(
             `INSERT INTO commercial.brand_policy(company_id,brand_id,version,tier_id,services,default_service,packing_uplift_minor,storage_fee_minor,storage_branch_id,storage_start,anniversary_day,fields) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,

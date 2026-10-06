@@ -506,7 +506,11 @@ function BrandEditor({
           {draft.storage && (
             <FormGroup
               title="اتفاق التخزين"
-              description="اتفاق شهري واحد حتى مع وجود المخزون في أكثر من فرع. حفظ الإعداد لا يسجل إيرادًا أو تحصيلًا."
+              description={
+                initial?.brand.storage
+                  ? 'تغيير الرسم أو فرع الإيراد يسري من بداية الفترة التالية فقط؛ الفترات المسجلة تحتفظ بقيمها. تاريخ البداية الأصلي لا يتغير بعد بدء أول فترة.'
+                  : 'اتفاق شهري واحد حتى مع وجود المخزون في أكثر من فرع. حفظ الإعداد لا يسجل إيرادًا أو تحصيلًا، وتُحتسب الفترات بدءًا من أول فترة تبدأ في تاريخ الحفظ أو بعده.'
+              }
             >
               <TextField
                 label="رسم التخزين الشهري بالجنيه"
@@ -543,31 +547,42 @@ function BrandEditor({
                   ))}
                 </select>
               </Field>
-              <label className="commercial-check">
-                <input
-                  type="checkbox"
-                  checked={draft.storage.active}
-                  onChange={(e) =>
-                    update('storage', {
-                      ...draft.storage!,
-                      active: e.target.checked,
-                      stopDate: e.target.checked ? null : draft.storage!.stopDate,
-                    })
-                  }
-                />
-                اتفاق التخزين نشط
-              </label>
-              {!draft.storage.active && (
-                <TextField
-                  label="تاريخ إيقاف الاتفاق"
-                  type="date"
-                  value={draft.storage.stopDate ?? ''}
-                  onChange={(v) => update('storage', { ...draft.storage!, stopDate: v || null })}
-                  required
-                />
+              {initial?.brand.storage ? (
+                <p className="muted">
+                  إيقاف التجديد إجراء منفصل يحفظ المتأخرات والرصيد المقدم؛ افتح{' '}
+                  <Link to={'/storage?brandId=' + initial.brand.id}>اشتراك التخزين</Link>.
+                </p>
+              ) : (
+                <>
+                  <label className="commercial-check">
+                    <input
+                      type="checkbox"
+                      checked={draft.storage.active}
+                      onChange={(e) =>
+                        update('storage', {
+                          ...draft.storage!,
+                          active: e.target.checked,
+                          stopDate: e.target.checked ? null : draft.storage!.stopDate,
+                        })
+                      }
+                    />
+                    اتفاق التخزين نشط
+                  </label>
+                  {!draft.storage.active && (
+                    <TextField
+                      label="تاريخ إيقاف الاتفاق"
+                      type="date"
+                      value={draft.storage.stopDate ?? ''}
+                      onChange={(v) =>
+                        update('storage', { ...draft.storage!, stopDate: v || null })
+                      }
+                      required
+                    />
+                  )}
+                </>
               )}
               <p className="muted">
-                الفترات والتحصيل الجزئي والمقدم والاسترداد تتاح في مرحلة التخزين لاحقًا.
+                الفترات والتحصيل الجزئي والمقدم واسترداد الرصيد تُدار من صفحة اشتراكات التخزين.
               </p>
             </FormGroup>
           )}

@@ -2,6 +2,7 @@ import { createPool, databaseConfig, loadEnvironment } from '@shahn/database';
 import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/api/access';
 import { integrationRuntime, SourceCommandWorker } from '@shahn/api/integration';
 import { ProjectionWorker } from '@shahn/api/execution';
+import { StorageRenewalJob } from './jobs/storage-renewal.js';
 loadEnvironment();
 try {
   const db = databaseConfig(),
@@ -9,6 +10,8 @@ try {
   const pool = createPool(db.runtimeUrl);
   const sourceWorker = new SourceCommandWorker(pool, integrationRuntime());
   const projectionWorker = new ProjectionWorker(pool);
+  // P19: scheduled storage renewal on the same PostgreSQL work lane.
+  const storageRenewal = new StorageRenewalJob(pool);
   const worker =
     pool && identity ? new IdentityWorker(pool, new KeycloakIdentityAdapter(identity)) : null;
   let working = false;
@@ -19,7 +22,7 @@ try {
         service: 'worker',
         state,
         checkedAt: new Date().toISOString(),
-        businessQueues: worker ? 3 : 2,
+        businessQueues: worker ? 4 : 3,
       }),
     );
   report('started');
@@ -27,7 +30,12 @@ try {
   const poll = setInterval(() => {
     if (!working && !stopping) {
       working = true;
-      void Promise.allSettled([worker?.runOne(), sourceWorker.runOne(), projectionWorker.runOne()])
+      void Promise.allSettled([
+        worker?.runOne(),
+        sourceWorker.runOne(),
+        projectionWorker.runOne(),
+        storageRenewal.runOne(),
+      ])
         .then((results) => {
           if (results.some((result) => result.status === 'rejected')) report('durable_work_retry');
         })

@@ -76,7 +76,9 @@
     "p17:trial": "node scripts/build.mjs && node --import tsx tests/integration/p17/serve.ts",
     "test:p18:browser": "node scripts/build.mjs && playwright test --config playwright.p18.config.ts",
     "test:p18:public": "node scripts/build-packages.mjs && vitest run --config vitest.p18.public.config.ts",
-    "p18:trial": "node scripts/build.mjs && node --import tsx tests/integration/p18/serve.ts"
+    "p18:trial": "node scripts/build.mjs && node --import tsx tests/integration/p18/serve.ts",
+    "test:p19:browser": "node scripts/build.mjs && playwright test --config playwright.p19.config.ts",
+    "p19:trial": "node scripts/build.mjs && node --import tsx tests/integration/p19/serve.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

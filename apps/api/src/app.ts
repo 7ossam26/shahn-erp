@@ -8,6 +8,8 @@ import { registerRemittances } from './modules/finance/remittances/http.js';
 import { registerBrandWallets } from './modules/finance/brand-wallet/http.js';
 import { registerBrandPayouts } from './modules/finance/brand-payouts/http.js';
 import { registerIncidents } from './modules/incidents/http.js';
+import { registerStorage } from './modules/storage/http.js';
+import type { StorageClock } from './modules/storage/clock.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
 import { registerTreasury } from './modules/finance/treasury-transfers/http.js';
@@ -142,6 +144,8 @@ export async function createApplication(
   config = databaseConfig(),
   identity: IdentityConfig | null = identityConfig(),
   integration: IntegrationRuntime = integrationRuntime(),
+  /** Isolated tests/trials only: controlled storage business date. Production omits it. */
+  options: { storageClock?: StorageClock } = {},
 ): Promise<NestFastifyApplication> {
   @Module({
     controllers: [StatusController],
@@ -213,6 +217,12 @@ export async function createApplication(
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
   );
+  registerStorage(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    options.storageClock ? { clock: options.storageClock } : {},
+  );
   registerBrandPayouts(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
@@ -242,6 +252,7 @@ export async function createApplication(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    options.storageClock ? { storageClock: options.storageClock } : {},
   );
   if (config.environment === 'development' && process.env['ENABLE_KERNEL_FIXTURES'] === 'true')
     registerKernel(

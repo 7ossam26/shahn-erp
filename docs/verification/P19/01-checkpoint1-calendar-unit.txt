@@ -1,0 +1,28 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.unit.config.ts tests/integration/p19/calendar.unit.test.ts --reporter verbose
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > January 20 covers January 20 through February 19 as a half-open local range 2ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > anchor 31 clamps to February and restores March 31 from the original anchor 1ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > handles leap and century rules without permanent drift 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > produces unique, contiguous, non-overlapping periods over long runs 64ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > rejects a start date whose day is not the anchor, impossible dates and unsafe indexes 1ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > P19 anniversary calendar (ERP-D-192 / ERP-R-201, DOM-15) > uses the Cairo calendar date, including summer time, never a fixed UTC offset 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > generation, stop and prospective terms > generates a period only when its start date has arrived, one boundary at a time 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > generation, stop and prospective terms > stop protects the current period and prevents any period at or after its boundary 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > generation, stop and prospective terms > a price/branch change applies from the next period and preserves earlier snapshots 1ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > generation, stop and prospective terms > earlier anniversary periods before a backdated entry are historical, not auto-earned 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > Example A: fee 310 from January 20 and partial receipt 100 leave 210 due 1ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > Example B: advance 500 before start, then period 310: credit 190, no new cash 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > AC-R-213: receipt 400 against a 1000 period leaves 600 due 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > allocates oldest due date then period ID, consuming lots by receipt date then ID 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > a surplus remains unallocated advance credit; no allocation without credit or dues 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > refund draws only unallocated credit and never goes negative 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > uses exact bigint integer piastres; floats, signs and unsafe input are rejected 0ms
+ ✓ tests/integration/p19/calendar.unit.test.ts > exact storage money (ERP-D-201/204, DOM-21/22, AC-R-213) > marks overdue only after the due date with a remaining charge 0ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  02:05:55
+   Duration  1.91s (import 38%, environment 37%, transform 14%, setup 6%, tests 4%)

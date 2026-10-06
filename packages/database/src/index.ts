@@ -36,3 +36,4 @@ export * from './repositories/execution.repository.js';
 export * from './repositories/returns.repository.js';
 export * from './repositories/goods-transfer.repository.js';
 export * from './incidents/index.js';
+export * from './storage/index.js';
