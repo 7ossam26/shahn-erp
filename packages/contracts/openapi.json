@@ -8,6 +8,944 @@
     }
   },
   "paths": {
+    "/api/v1/finance/remittances": {
+      "get": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "roundId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "enum": ["all", "unremitted", "received", "checked"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "roundId": { "type": "string", "format": "uuid" },
+                          "driverId": { "type": "string", "format": "uuid" },
+                          "driverName": { "type": "string" },
+                          "startedAt": { "type": "string", "format": "date-time" },
+                          "endedAt": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "remittanceId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "reference": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "state": { "enum": ["received", "checked", null] },
+                          "receivedMinor": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "roundId",
+                          "driverId",
+                          "driverName",
+                          "startedAt",
+                          "endedAt",
+                          "remittanceId",
+                          "reference",
+                          "state",
+                          "receivedMinor"
+                        ]
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "const": 25 }
+                  },
+                  "required": ["items", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/catalog": {
+      "get": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "roundId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "enum": ["all", "unremitted", "received", "checked"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "type": { "type": "string", "enum": ["cash", "bank"] },
+                          "currency": { "type": "string", "const": "EGP" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" },
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "uniqueItems": true
+                          },
+                          "active": { "type": "boolean" },
+                          "bankDescription": { "type": "string", "maxLength": 1000 },
+                          "id": { "type": "string", "format": "uuid" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": [
+                          "name",
+                          "type",
+                          "currency",
+                          "branchIds",
+                          "active",
+                          "bankDescription",
+                          "id",
+                          "version",
+                          "balanceMinor"
+                        ]
+                      }
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          },
+                          "active": { "type": "boolean" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 }
+                        },
+                        "required": ["id", "name", "active", "version"]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 180,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    }
+                  },
+                  "required": ["accounts", "categories", "branches"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/{id}": {
+      "get": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "roundId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "enum": ["all", "unremitted", "received", "checked"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "kind": { "enum": ["received", "checked"] },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "companyId": { "type": "string", "format": "uuid" },
+                    "driverId": { "type": "string", "format": "uuid" },
+                    "roundId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "actualDate": { "type": "string", "format": "date" },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "actorName": { "type": "string" },
+                    "witness": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "companyId": { "type": "string", "format": "uuid" },
+                        "driverId": { "type": "string", "format": "uuid" },
+                        "roundId": { "type": "string", "format": "uuid" },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "id": { "type": "string", "format": "uuid" },
+                        "revision": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "expectedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "blockers": { "type": "array", "items": { "type": "string" } },
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "taskId": { "type": "string", "format": "uuid" },
+                              "cycleId": { "type": "string", "format": "uuid" },
+                              "attemptId": { "type": "string", "format": "uuid" },
+                              "outcomeId": { "type": "string", "format": "uuid" },
+                              "outcomeRevision": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "visitId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "brandId": { "type": "string", "format": "uuid" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "shipmentId": { "type": "string", "format": "uuid" },
+                              "shipmentReference": { "type": "string", "pattern": "^[0-9]+$" },
+                              "reportedMinor": {
+                                "anyOf": [
+                                  { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "goodsMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "shippingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "creditLotId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "covered": { "type": "boolean" }
+                            },
+                            "required": [
+                              "taskId",
+                              "cycleId",
+                              "attemptId",
+                              "outcomeId",
+                              "outcomeRevision",
+                              "visitId",
+                              "brandId",
+                              "branchId",
+                              "shipmentId",
+                              "shipmentReference",
+                              "reportedMinor",
+                              "goodsMinor",
+                              "shippingMinor",
+                              "creditLotId",
+                              "covered"
+                            ]
+                          }
+                        },
+                        "createdAt": { "type": "string", "format": "date-time" },
+                        "receivedEvidenceOnly": { "const": true },
+                        "basisRevision": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "basisDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                      },
+                      "required": [
+                        "companyId",
+                        "driverId",
+                        "roundId",
+                        "branchId",
+                        "id",
+                        "revision",
+                        "digest",
+                        "expectedMinor",
+                        "blockers",
+                        "sources",
+                        "createdAt",
+                        "receivedEvidenceOnly",
+                        "basisRevision",
+                        "basisDigest"
+                      ]
+                    },
+                    "components": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "reference": { "type": "string", "maxLength": 250 },
+                          "movementId": { "type": "string", "format": "uuid" },
+                          "accountName": { "type": "string" }
+                        },
+                        "required": [
+                          "method",
+                          "accountId",
+                          "amountMinor",
+                          "reference",
+                          "movementId",
+                          "accountName"
+                        ]
+                      }
+                    },
+                    "reviews": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "state": { "enum": ["open", "resolved"] },
+                          "visitId": { "type": "string", "format": "uuid" },
+                          "createdAt": { "type": "string", "format": "date-time" }
+                        },
+                        "required": ["id", "state", "visitId", "createdAt"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "commandId",
+                    "id",
+                    "reference",
+                    "kind",
+                    "amountMinor",
+                    "companyId",
+                    "driverId",
+                    "roundId",
+                    "branchId",
+                    "actualDate",
+                    "recordedAt",
+                    "actorName",
+                    "witness",
+                    "components",
+                    "reviews"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/rounds": {
+      "get": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "roundId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "enum": ["all", "unremitted", "received", "checked"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "roundId": { "type": "string", "format": "uuid" },
+                          "driverId": { "type": "string", "format": "uuid" },
+                          "driverName": { "type": "string" },
+                          "startedAt": { "type": "string", "format": "date-time" },
+                          "endedAt": {
+                            "anyOf": [
+                              { "type": "string", "format": "date-time" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "remittanceId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "reference": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "state": { "enum": ["received", "checked", null] },
+                          "receivedMinor": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "roundId",
+                          "driverId",
+                          "driverName",
+                          "startedAt",
+                          "endedAt",
+                          "remittanceId",
+                          "reference",
+                          "state",
+                          "receivedMinor"
+                        ]
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1 },
+                    "limit": { "const": 25 }
+                  },
+                  "required": ["items", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/review": {
+      "post": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "driverId": { "type": "string", "format": "uuid" },
+                  "roundId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["companyId", "driverId", "roundId", "branchId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "companyId": { "type": "string", "format": "uuid" },
+                    "driverId": { "type": "string", "format": "uuid" },
+                    "roundId": { "type": "string", "format": "uuid" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "revision": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                    "expectedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "blockers": { "type": "array", "items": { "type": "string" } },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "taskId": { "type": "string", "format": "uuid" },
+                          "cycleId": { "type": "string", "format": "uuid" },
+                          "attemptId": { "type": "string", "format": "uuid" },
+                          "outcomeId": { "type": "string", "format": "uuid" },
+                          "outcomeRevision": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "visitId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "shipmentId": { "type": "string", "format": "uuid" },
+                          "shipmentReference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "reportedMinor": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "goodsMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "shippingMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "creditLotId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "covered": { "type": "boolean" }
+                        },
+                        "required": [
+                          "taskId",
+                          "cycleId",
+                          "attemptId",
+                          "outcomeId",
+                          "outcomeRevision",
+                          "visitId",
+                          "brandId",
+                          "branchId",
+                          "shipmentId",
+                          "shipmentReference",
+                          "reportedMinor",
+                          "goodsMinor",
+                          "shippingMinor",
+                          "creditLotId",
+                          "covered"
+                        ]
+                      }
+                    },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "receivedEvidenceOnly": { "const": true },
+                    "basisRevision": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "basisDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                  },
+                  "required": [
+                    "companyId",
+                    "driverId",
+                    "roundId",
+                    "branchId",
+                    "id",
+                    "revision",
+                    "digest",
+                    "expectedMinor",
+                    "blockers",
+                    "sources",
+                    "createdAt",
+                    "receivedEvidenceOnly",
+                    "basisRevision",
+                    "basisDigest"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/commands": {
+      "post": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "driverId": { "type": "string", "format": "uuid" },
+                  "roundId": { "type": "string", "format": "uuid" },
+                  "branchId": { "type": "string", "format": "uuid" },
+                  "schemaVersion": { "const": 1 },
+                  "type": { "const": "remittance.confirm" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "witnessId": { "type": "string", "format": "uuid" },
+                  "expectedRevision": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                  "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                  "actualDate": { "type": "string", "format": "date" },
+                  "components": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                        "accountId": { "type": "string", "format": "uuid" },
+                        "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                        "reference": { "type": "string", "maxLength": 250 }
+                      },
+                      "required": ["method", "accountId", "amountMinor"]
+                    }
+                  }
+                },
+                "required": [
+                  "companyId",
+                  "driverId",
+                  "roundId",
+                  "branchId",
+                  "schemaVersion",
+                  "type",
+                  "commandId",
+                  "witnessId",
+                  "expectedRevision",
+                  "expectedDigest",
+                  "actualDate",
+                  "components"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "kind": { "enum": ["received", "checked"] },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": ["commandId", "id", "reference", "kind", "amountMinor"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
+    "/api/v1/finance/remittances/commands/{commandId}": {
+      "get": {
+        "summary": "Authorized full driver remittance from received evidence",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "driverId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "roundId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "branchId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": { "enum": ["all", "unremitted", "received", "checked"] }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "pattern": "^[1-9][0-9]{0,5}$" }
+          },
+          {
+            "name": "commandId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Scoped remittance evidence or committed result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "kind": { "enum": ["received", "checked"] },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": ["commandId", "id", "reference", "kind", "amountMinor"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Grant or branch denied" },
+          "409": { "description": "Evidence changed, incomplete receipt or already covered" },
+          "503": { "description": "Source unavailable; no receipt posted" }
+        }
+      }
+    },
     "/api/v1/goods-transfers": { "get": { "summary": "Scoped physical manifests" } },
     "/api/v1/goods-transfers/{id}": {
       "get": { "summary": "Manifest and immutable receipt trail" }
@@ -4038,7 +4976,13 @@
                           "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
                           "sourceKind": {
                             "type": "string",
-                            "enum": ["expense", "general", "treasury_send", "treasury_receive"]
+                            "enum": [
+                              "expense",
+                              "general",
+                              "treasury_send",
+                              "treasury_receive",
+                              "remittance"
+                            ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
                         },
@@ -5314,7 +6258,13 @@
                           "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
                           "sourceKind": {
                             "type": "string",
-                            "enum": ["expense", "general", "treasury_send", "treasury_receive"]
+                            "enum": [
+                              "expense",
+                              "general",
+                              "treasury_send",
+                              "treasury_receive",
+                              "remittance"
+                            ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
                         },
@@ -5689,7 +6639,13 @@
                     "direction": { "type": "string", "enum": ["deposit", "withdrawal"] },
                     "sourceKind": {
                       "type": "string",
-                      "enum": ["expense", "general", "treasury_send", "treasury_receive"]
+                      "enum": [
+                        "expense",
+                        "general",
+                        "treasury_send",
+                        "treasury_receive",
+                        "remittance"
+                      ]
                     },
                     "reason": { "type": "string", "maxLength": 1000 }
                   },
@@ -25973,6 +26929,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -26065,6 +27022,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "dispatch": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -26150,10 +27108,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 21,
+                        "maxItems": 22,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "remittances",
                             "returns",
                             "integration",
                             "dispatch",
@@ -26209,10 +27168,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 21,
+                        "maxItems": 22,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "remittances",
                             "returns",
                             "integration",
                             "dispatch",
@@ -26823,6 +27783,7 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "remittances",
                               "returns",
                               "integration",
                               "dispatch",
@@ -26889,6 +27850,7 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "remittances",
                               "returns",
                               "integration",
                               "dispatch",
@@ -27132,6 +28094,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "remittances": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "integration": {
                                 "type": "string",
@@ -27225,6 +28191,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "remittances",
                                 "returns",
                                 "integration",
                                 "dispatch",
@@ -27462,6 +28429,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "remittances": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                               "integration": {
                                 "type": "string",
@@ -27555,6 +28526,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "remittances",
                                 "returns",
                                 "integration",
                                 "dispatch",
@@ -27754,6 +28726,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "remittances",
                                 "returns",
                                 "integration",
                                 "dispatch",
@@ -28405,6 +29378,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "remittances",
                 "returns",
                 "integration",
                 "dispatch",

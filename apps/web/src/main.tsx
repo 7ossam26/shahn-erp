@@ -1,4 +1,9 @@
 import { DispatchPage, DispatchDetailPage } from './features/dispatch/dispatch.js';
+import {
+  RemittanceListPage,
+  RemittanceReviewPage,
+  RemittanceDetailPage,
+} from './features/finance/remittances/remittances.js';
 import { ReturnsPage } from './features/returns/returns.js';
 import {
   TransferListPage,
@@ -74,6 +79,12 @@ const router = createBrowserRouter([
       ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
+      { path: '/driver-remittances', element: <RemittanceListPage /> },
+      { path: '/driver-remittances/review', element: <RemittanceReviewPage /> },
+      { path: '/driver-remittances/:id', element: <RemittanceDetailPage /> },
+      { path: '/remittances', element: <RemittanceListPage /> },
+      { path: '/remittances/review', element: <RemittanceReviewPage /> },
+      { path: '/remittances/:id', element: <RemittanceDetailPage /> },
       { path: '/tracking', element: <TrackingPage /> },
       { path: '/execution/earnings', element: <ExecutionRecordsPage kind="earnings" /> },
       { path: '/execution/reviews', element: <ExecutionRecordsPage kind="reviews" /> },

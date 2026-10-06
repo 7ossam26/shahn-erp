@@ -29,7 +29,7 @@ export function registerExecutionReads(app: FastifyInstance, pool: Pool) {
             if (kind === 'reviews')
               return (
                 await u.client.query(
-                  `SELECT r.id,v.shipment_id AS "shipmentId",s.reference,r.state,r.created_at AS "createdAt",'legacy reason unavailable' AS reason FROM execution.settlement_review r JOIN execution.visit_fact v ON(v.company_id,v.id)=(r.company_id,r.visit_id) JOIN shipments.shipment s ON(s.company_id,s.id)=(v.company_id,v.shipment_id) WHERE r.company_id=$1 AND v.branch_id=ANY($2::uuid[]) ORDER BY r.created_at DESC,r.id LIMIT 25 OFFSET $3`,
+                  `SELECT r.id,v.shipment_id AS "shipmentId",s.reference,r.state,r.created_at AS "createdAt",COALESCE(r.basis->>'reason','legacy reason unavailable') AS reason FROM execution.settlement_review r JOIN execution.visit_fact v ON(v.company_id,v.id)=(r.company_id,r.visit_id) JOIN shipments.shipment s ON(s.company_id,s.id)=(v.company_id,v.shipment_id) WHERE r.company_id=$1 AND v.branch_id=ANY($2::uuid[]) ORDER BY r.created_at DESC,r.id LIMIT 25 OFFSET $3`,
                   [u.access.companyId, u.access.assignedBranches.map((b) => b.id), (page - 1) * 25],
                 )
               ).rows;

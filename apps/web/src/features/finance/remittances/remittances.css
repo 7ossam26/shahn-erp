@@ -1,0 +1,72 @@
+.remittance-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  display: grid;
+  gap: 20px;
+}
+.remittance-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.remittance-page .form-fields {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+.remittance-page .form-group {
+  margin-block: 8px;
+}
+.remittance-page .form-fields > button {
+  justify-self: start;
+  max-width: 100%;
+}
+.remittance-page input:not([type='checkbox']),
+.remittance-page select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid #cbd5c1;
+  border-radius: 10px;
+  background: white;
+  color: #243122;
+  font: inherit;
+}
+.remittance-card,
+.remittance-component,
+.remittance-sources article {
+  min-width: 0;
+  border: 1px solid #e2e7db;
+  border-radius: 16px;
+  padding: 18px;
+  background: white;
+}
+.remittance-card small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.remittance-total {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #365124;
+}
+.remittance-sources {
+  display: grid;
+  gap: 12px;
+}
+.remittance-component {
+  margin: 12px 0;
+}
+.remittance-page p,
+.remittance-page a {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .remittance-page {
+    padding: 18px 12px;
+  }
+  .remittance-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     include: [
+      'tests/integration/p16/**/*.db.test.ts',
       'tests/integration/p15/**/*.db.test.ts',
       'tests/integration/p14/**/*.db.test.ts',
       'tests/db/**/*.test.ts',

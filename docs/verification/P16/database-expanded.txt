@@ -1,0 +1,39 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p16/remittance.db.test.ts tests/integration/p16/migration.db.test.ts tests/integration/p13/monitoring.db.test.ts tests/integration/p13/execution.db.test.ts
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 78560ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 301ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 301ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 366ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 32484ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 622ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 364ms
+ ✓ tests/integration/p16/remittance.db.test.ts (13 tests) 53849ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 1899ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 737ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 1018ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 619ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 804ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 488ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 449ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 966ms
+   ✓ rechecks native branch/grant for review and retained result 477ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 3906ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 519ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 484ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 877ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 41533ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 498ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 39253ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 39252ms
+
+ Test Files  4 passed (4)
+      Tests  35 passed (35)
+   Start at  01:30:39
+   Duration  245.99s (tests 87%, import 12%, transform 1%)
+

@@ -1,0 +1,108 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P16
+P16 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p16/contracts.unit.test.ts (79 tests) 166ms
+
+ Test Files  1 passed (1)
+      Tests  79 passed (79)
+   Start at  01:37:07
+   Duration  4.98s (import 60%, environment 18%, transform 14%, setup 4%, tests 3%)
+
+P16 unit: PASSED
+P16 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 57580ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 1678ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 688ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 939ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 636ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 929ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 699ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 685ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 1482ms
+   ✓ rechecks native branch/grant for review and retained result 741ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 4248ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 575ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 539ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 944ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 886ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 39780ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 39779ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  01:37:12
+   Duration  103.55s (tests 94%, import 5%, transform 1%)
+
+P16 database: PASSED
+P16 browser: test:p16:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2726 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-D44RhyR-.css                           99.30 kB │ gzip:  19.53 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-DPdl0WOW.js                           656.91 kB │ gzip: 138.78 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 518ms
+[WebServer] (node:30436) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:15908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p16\remittance.spec.ts:3:1 › real API/DB remittance preserves components on refresh, blocks gaps and recovers an unknown committed result (2.9s)
+
+
+  1) tests\integration\p16\remittance.spec.ts:3:1 › real API/DB remittance preserves components on refresh, blocks gaps and recovers an unknown committed result 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('link', { name: 'مراجعة أدلة الجولة' })
+    Expected: visible
+    Error: strict mode violation: getByRole('link', { name: 'مراجعة أدلة الجولة' }) resolved to 3 elements:
+        1) <a data-discover="true" href="/remittances/review?roundId=75499c4e-725e-4072-81c2-4eefe8df53cb&driverId=36a51f31-f661-4007-bbea-07de2efb17ba&branchId=e4cf5930-b755-4c69-9fa9-a72cd64ba01f&back=branchId%3De4cf5930-b755-4c69-9fa9-a72cd64ba01f%26state%3Dunremitted">مراجعة أدلة الجولة</a> aka getByRole('article').filter({ hasText: 'سائق التجربةالجولة 75499c4e-' }).getByRole('link')
+        2) <a data-discover="true" href="/remittances/review?roundId=0bb4dad3-8025-4ef5-9f2a-0357bcf18099&driverId=36a51f31-f661-4007-bbea-07de2efb17ba&branchId=e4cf5930-b755-4c69-9fa9-a72cd64ba01f&back=branchId%3De4cf5930-b755-4c69-9fa9-a72cd64ba01f%26state%3Dunremitted">مراجعة أدلة الجولة</a> aka getByRole('article').filter({ hasText: 'سائق التجربةالجولة 0bb4dad3-' }).getByRole('link')
+        3) <a data-discover="true" href="/remittances/review?roundId=882bd34f-ef3c-4149-87e4-e284d1f49003&driverId=36a51f31-f661-4007-bbea-07de2efb17ba&branchId=e4cf5930-b755-4c69-9fa9-a72cd64ba01f&back=branchId%3De4cf5930-b755-4c69-9fa9-a72cd64ba01f%26state%3Dunremitted">مراجعة أدلة الجولة</a> aka getByRole('article').filter({ hasText: 'سائق التجربةالجولة 882bd34f-' }).getByRole('link')
+
+    Call log:
+      - Expect "toBeVisible" getByRole('link', { name: 'مراجعة أدلة الجولة' }) with timeout 15000ms
+      - waiting for getByRole('link', { name: 'مراجعة أدلة الجولة' })
+
+
+      22 |   await page.goto('/api/test/p16-login/admin');
+      23 |   await page.goto('/remittances?branchId=' + f.branchId + '&state=unremitted');
+    > 24 |   await expect(page.getByRole('link', { name: 'مراجعة أدلة الجولة' })).toBeVisible();
+         |                                                                        ^
+      25 |   await page.getByRole('link', { name: 'مراجعة أدلة الجولة' }).click();
+      26 |   await page.getByRole('link', { name: 'العودة للجولات' }).click();
+      27 |   await expect(page).toHaveURL(/state=unremitted/);
+        at C:\Coding\Antigravity\shahn\tests\integration\p16\remittance.spec.ts:24:72
+
+    Error Context: test-results\remittance-real-API-DB-rem-3e5ef-an-unknown-committed-result\error-context.md
+
+  1 failed
+    tests\integration\p16\remittance.spec.ts:3:1 › real API/DB remittance preserves components on refresh, blocks gaps and recovers an unknown committed result 
+P16 browser: FAILED (1)

@@ -1,4 +1,5 @@
 export const capabilityPolicies = {
+  remittances: 'assigned',
   returns: 'assigned',
   dispatch: 'assigned',
   integration: 'company',

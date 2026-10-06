@@ -31,9 +31,11 @@ const movementName = (m: MoneyMovement) =>
     ? 'إرسال تحويل أموال'
     : m.sourceKind === 'treasury_receive'
       ? 'استلام تحويل أموال'
-      : m.direction === 'deposit'
-        ? 'إيداع'
-        : 'سحب';
+      : m.sourceKind === 'remittance'
+        ? 'استلام أموال مندوب'
+        : m.direction === 'deposit'
+          ? 'إيداع'
+          : 'سحب';
 const cap = (s: Screen) =>
   s === 'expenses' ? 'expenses' : s === 'accounts' ? 'finance.accounts' : 'finance.movements';
 const path = (s: Screen) => (s === 'expenses' ? '/expenses' : '/finance/' + s);

@@ -44,7 +44,7 @@ export interface MoneyMovement extends PaymentFields {
   sourceId: string;
   effectId: string;
   direction: 'deposit' | 'withdrawal';
-  sourceKind: 'expense' | 'general' | 'treasury_send' | 'treasury_receive';
+  sourceKind: 'expense' | 'general' | 'treasury_send' | 'treasury_receive' | 'remittance';
   accountName: string;
   branchName: string;
   reason: string;
@@ -164,7 +164,10 @@ const movementSchema = closed({
   sourceId: uuid,
   effectId: uuid,
   direction,
-  sourceKind: { type: 'string', enum: ['expense', 'general', 'treasury_send', 'treasury_receive'] },
+  sourceKind: {
+    type: 'string',
+    enum: ['expense', 'general', 'treasury_send', 'treasury_receive', 'remittance'],
+  },
   reason: note,
 });
 const expenseSchema = closed({

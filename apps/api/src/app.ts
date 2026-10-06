@@ -4,6 +4,7 @@ import { registerGoodsTransfers } from './modules/goods-transfers/http.js';
 import { registerTracking } from './modules/tracking/http.js';
 import { registerExecutionReads } from './modules/execution/http.js';
 import { registerFinance } from './modules/finance/http.js';
+import { registerRemittances } from './modules/finance/remittances/http.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
 import { registerTreasury } from './modules/finance/treasury-transfers/http.js';
@@ -196,6 +197,12 @@ export async function createApplication(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+  );
+  registerRemittances(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    integration,
   );
   registerTreasury(
     app.getHttpAdapter().getInstance(),

@@ -1,0 +1,115 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P16
+P16 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p16/contracts.unit.test.ts (79 tests) 210ms
+
+ Test Files  1 passed (1)
+      Tests  79 passed (79)
+   Start at  09:24:16
+   Duration  44.84s (environment 73%, setup 14%, import 10%, transform 3%)
+
+P16 unit: PASSED
+P16 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 65549ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 2232ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 871ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 1298ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 948ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 1128ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 610ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 555ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 1087ms
+   ✓ rechecks native branch/grant for review and retained result 572ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 6000ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 917ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 776ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 1241ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 1151ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 40812ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 40811ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  09:25:01
+   Duration  114.80s (tests 93%, import 6%, transform 1%)
+
+P16 database: PASSED
+P16 browser: test:p16:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2726 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-D44RhyR-.css                           99.30 kB │ gzip:  19.53 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-unKzZkyB.js                           657.57 kB │ gzip: 138.88 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 17.65s
+[PLUGIN_TIMINGS] JavaScript callbacks ran for 2.1s of this 17.6s build (12%).
+The slowest callbacks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - plugin vite:css-post renderChunk (9%, 1.6s, 8 calls)
+Additional callback time came from the callbacks below and from callbacks under 1s.
+1 callback is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - plugin @tailwindcss/vite:generate:build transform (14 calls)
+See https://rolldown.rs/reference/InputOptions.checks#bundlertimings for more details.
+
+[WebServer] (node:28204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:25736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\integration\p16\remittance.spec.ts:3:1 › real API/DB remittance preserves components on refresh, blocks gaps and recovers an unknown committed result (20.8s)
+
+  1 passed (1.7m)
+P16 browser: PASSED
+P16 publicIntegration: test:p16:public; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Coding/Antigravity/shahn
+
+ ❯ tests/integration/p16/tawsel.public.test.ts (1 test | 1 failed) 12ms
+   × independent public source histories match the stored witness and the actual isolated 800+200 receipt 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p16/tawsel.public.test.ts > independent public source histories match the stored witness and the actual isolated 800+200 receipt
+Error: BLOCKED P16 publicIntegration / IP-GAP-004: missing TAWSEL_CONFIG_FILE, TAWSEL_P16_TRIAL_FILE. An approved independent Tawsel runtime and real driver outcome/round-end trial are required; controlled HTTP fixtures do not certify public acceptance.
+ ❯ tests/integration/p16/tawsel.public.test.ts:33:11
+     31|   const missing = ['TAWSEL_CONFIG_FILE', 'TAWSEL_P16_TRIAL_FILE'].filt…
+     32|   if (missing.length)
+     33|     throw Error(
+       |           ^
+     34|       'BLOCKED P16 publicIntegration / IP-GAP-004: missing ' +
+     35|         missing.join(', ') +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  09:29:03
+   Duration  6.57s (import 82%, transform 18%)
+
+P16 publicIntegration: FAILED (1)

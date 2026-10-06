@@ -119,6 +119,20 @@ export async function dispatchFixture(
     profile: 'car',
   });
   const create = async (extra: Partial<ShipmentFields> = {}) => {
+    const tariff = (
+      await pool.query<{ id: string; version: number }>(
+        `SELECT t.id,t.version FROM commercial.tariff t JOIN commercial.brand_policy b
+       ON b.company_id=t.company_id AND b.tier_id=t.tier_id
+       WHERE b.company_id=$1 AND b.brand_id=$2 AND b.version=(SELECT max(version) FROM commercial.brand_policy WHERE company_id=$1 AND brand_id=$2)
+       AND t.governorate_id=$3 AND (t.area_id=$4 OR t.area_id IS NULL) AND t.active ORDER BY t.area_id NULLS LAST LIMIT 1`,
+        [
+          f.company,
+          extra.brandId ?? seed.brand,
+          extra.governorateId ?? seed.cairo,
+          extra.areaId ?? null,
+        ],
+      )
+    ).rows[0];
     const input: ShipmentCommand = {
       schemaVersion: 1,
       companyId: f.company,
@@ -138,8 +152,8 @@ export async function dispatchFixture(
           ])
         ).rows[0].version,
       ),
-      expectedTariffVersion: 1,
-      expectedTariffId: extra.areaId === seed.dokki ? seed.override : seed.base,
+      expectedTariffVersion: tariff?.version ?? 1,
+      expectedTariffId: tariff?.id ?? seed.base,
     };
     return (await shipmentCommands(pool).execute(f.admin.token, input)).body as ShipmentResult;
   };

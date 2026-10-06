@@ -385,16 +385,30 @@ export async function applyVisitAndOutcome(
         [company, visitId, previous?.goods_effect_id ?? null],
       )
     ).rowCount;
-    if (n.correction && protectedRow) {
+    const remittedRound = (
+      await c.query<{ id: string }>(
+        `SELECT id FROM finance.remittance WHERE company_id=$1 AND source_id=$2 AND round_id=$3`,
+        [company, source, outcome.roundId],
+      )
+    ).rows[0];
+    if ((n.correction && protectedRow) || remittedRound) {
       await c.query(
         `INSERT INTO execution.settlement_review(company_id,id,source_id,correction_id,visit_id,basis) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING`,
         [
           company,
           randomUUID(),
           source,
-          n.correction.correctionId,
+          n.correction?.correctionId ?? outcome.outcomeId,
           visitId,
-          JSON.stringify({ previous, basis, outcome, reason: 'legacy reason unavailable' }),
+          JSON.stringify({
+            previous,
+            basis,
+            outcome,
+            remittanceId: remittedRound?.id ?? null,
+            reason: n.correction
+              ? 'Accepted outcome correction conflicts with protected settlement'
+              : 'Later received evidence after company receipt',
+          }),
         ],
       );
       if (previous?.goods_effect_id) {

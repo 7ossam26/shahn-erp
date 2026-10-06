@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import type { Pool } from 'pg';
-import { AccessError } from '@shahn/domain';
+import { AccessError, type Capability } from '@shahn/domain';
 import { canonical } from '../access/crypto.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { sourceByCompany } from '@shahn/database';
@@ -18,37 +18,58 @@ export class RoundEvidenceService {
   constructor(
     readonly pool: Pool,
     readonly reader: MonitoringReader,
+    readonly capability: Capability = 'integration',
   ) {}
   async refresh(token: string, company: string, roundId: string): Promise<RoundEvidenceBasis> {
-    const trip = await this.reader.read(token, company, 'trips', roundId);
+    const options = { capability: this.capability };
+    const trip = await this.reader.read(token, company, 'trips', roundId, options);
     const workdayId = trip.body?.round?.workdayId;
-    const day = workdayId ? await this.reader.read(token, company, 'workdays', workdayId) : null;
+    const day = workdayId
+      ? await this.reader.read(token, company, 'workdays', workdayId, options)
+      : null;
     const known = await UnitOfWork.run(
       this.pool,
       token,
       company,
-      'integration',
+      this.capability,
       async (u) =>
         (
           await u.client.query(
-            `SELECT st.data FROM execution.state st JOIN integration.source s ON(s.company_id,s.id)=(st.company_id,st.source_id) WHERE st.company_id=$1 AND st.kind='round' AND st.identity=$2`,
+            `SELECT st.data,cl.data AS closure FROM execution.state st JOIN integration.source s ON(s.company_id,s.id)=(st.company_id,st.source_id) LEFT JOIN execution.state cl ON (cl.company_id,cl.source_id,cl.identity)=(st.company_id,st.source_id,st.identity) AND cl.kind='round.ended' WHERE st.company_id=$1 AND st.kind='round' AND st.identity=$2`,
             [company, roundId],
           )
-        ).rows[0]?.data?.taskIds ?? ([] as string[]),
+        ).rows.flatMap((r) => [
+          ...(r.data?.taskIds ?? []),
+          ...(r.closure?.tasks ?? []).map((t: { taskId: string }) => t.taskId),
+        ]) as string[],
     );
+    const dayTasks = (day?.body?.items ?? []).flatMap((x) => {
+      const fact = (x.outcome ?? x.attempt) as { roundId?: string; taskId?: string } | undefined;
+      return fact?.roundId === roundId && fact.taskId ? [fact.taskId] : [];
+    });
     const taskIds = [
-      ...new Set<string>([...known, ...(trip.body?.items ?? []).map((x) => String(x.taskId))]),
+      ...new Set<string>([
+        ...known,
+        ...dayTasks,
+        ...(trip.body?.items ?? []).map((x) => String(x.taskId)),
+      ]),
     ].sort();
     const histories: (MonitoringRead & { taskId: string })[] = [];
-    for (const id of taskIds)
-      histories.push({ taskId: id, ...(await this.reader.read(token, company, 'tasks', id)) });
-    return UnitOfWork.run(this.pool, token, company, 'integration', async (u) => {
+    let denied = [401, 403].includes(trip.status) || [401, 403].includes(day?.status ?? 0);
+    for (const id of taskIds) {
+      if (denied) break;
+      const history = await this.reader.read(token, company, 'tasks', id, options);
+      histories.push({ taskId: id, ...history });
+      denied = [401, 403].includes(history.status);
+    }
+    return UnitOfWork.run(this.pool, token, company, this.capability, async (u) => {
       const s = await sourceByCompany(u.client, company, true);
       if (!s) throw new AccessError('SOURCE_NOT_READY', 409);
       const blockers: string[] = [];
       if (trip.stale || !trip.body) blockers.push('TRIP_EVIDENCE_UNAVAILABLE');
       if (!day || day.stale || !day.body) blockers.push('WORKDAY_EVIDENCE_UNAVAILABLE');
       if (histories.some((h) => h.stale || !h.body)) blockers.push('TASK_HISTORY_INCOMPLETE');
+      if (denied || histories.length !== taskIds.length) blockers.push('TASK_HISTORY_INCOMPLETE');
       const closure = (
         await u.client.query(
           `SELECT data,event_id FROM execution.state WHERE company_id=$1 AND source_id=$2 AND kind='round.ended' AND identity=$3`,
@@ -94,6 +115,33 @@ export class RoundEvidenceService {
         )
       )
         blockers.push('HISTORY_PROJECTION_DIFFERENCE');
+      const dayOutcomes = (day?.body?.items ?? [])
+        .filter((x) => x.kind === 'outcome' && x.effective)
+        .map((x) => x.outcome as Record<string, unknown>)
+        .filter((o) => o.roundId === roundId);
+      if (
+        dayOutcomes.length !== outcomes.length ||
+        dayOutcomes.some(
+          (o) =>
+            !outcomes.some(
+              (x) => x.outcome_id === o.outcomeId && Number(x.revision) === o.revision,
+            ),
+        )
+      )
+        blockers.push('WORKDAY_HISTORY_DIFFERENCE');
+      if (
+        (trip.body?.items ?? []).some(
+          (t) =>
+            t.outcome !== null &&
+            !outcomes.some(
+              (o) =>
+                o.task_id === t.taskId &&
+                o.attempt_id === t.attemptId &&
+                Number(o.revision) === t.outcomeRevision,
+            ),
+        )
+      )
+        blockers.push('TRIP_OUTCOME_DIFFERENCE');
       const reviews = (
         await u.client.query(
           `SELECT r.id FROM execution.settlement_review r JOIN execution.visit_fact v ON(v.company_id,v.id)=(r.company_id,r.visit_id) WHERE r.company_id=$1 AND v.source_id=$2 AND v.round_id=$3 AND r.state='open' ORDER BY r.id`,
@@ -121,7 +169,7 @@ export class RoundEvidenceService {
             : value;
       const basis = stable({
         roundId,
-        workdayId,
+        workdayId: workdayId ?? null,
         taskIds,
         closure: closure ?? null,
         checkpoints,
