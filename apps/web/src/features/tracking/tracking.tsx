@@ -42,6 +42,7 @@ const labels: Record<string, string> = {
   'return.requested': 'عرض مرتجع — لا يضيف مخزوناً',
   'return.subsetReceived': 'قُبل استلام كمية مرتجعة فعلياً',
   'return.dispositionRecorded': 'سُجل قرار فقد أو تلف دون استلام',
+  'incident.reported': 'بلاغ تلف أو فقد مسجل عن بضاعة الشحنة',
   brand_packed: 'طرد جاهز',
   company_packed: 'تجهيز الشركة',
   stored_stock: 'من المخزون',

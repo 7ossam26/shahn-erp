@@ -1,0 +1,37 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p18/incidents.db.test.ts (9 tests) 41632ms
+ ✓ tests/integration/p18/replacement.db.test.ts (2 tests) 39843ms
+ ❯ tests/integration/p18/custody.db.test.ts (2 tests | 2 skipped) 37124ms
+   ↓ stock report conserves quantities, excludes reserved goods, confirms loss from unavailable stock without cash
+   ↓ transfer discrepancy uses actual driver custody and source branch, blocks affected receipt, preserves uncompensated remainder
+ ✓ tests/integration/p18/payout.db.test.ts (1 test) 39681ms
+   ✓ P17 pays the real incident credit from isolated test funds before employee recovery; review retains paid source history 39680ms
+ ✓ tests/integration/p18/migration.db.test.ts (1 test) 39284ms
+   ✓ populated P17 upgrade preserves ordinary source money/custody/journals without compensation or waiver backfill 39283ms
+ ✓ tests/integration/p18/http.db.test.ts (1 test) 38166ms
+   ✓ real HTTP report → preview → confirm → durable recovery; grant, branch, CSRF and closed inputs enforced 486ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p18/custody.db.test.ts [ tests/integration/p18/custody.db.test.ts ]
+error: duplicate key value violates unique constraint "role_grant_pkey"
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p18/custody.db.test.ts:18:3
+     16|   await migrate(db.pool);
+     17|   f = await transferFixture(db.pool);
+     18|   await db.pool.query(
+       |   ^
+     19|     `INSERT INTO access.role_grant(company_id,role_id,capability) VALU…
+     20|     [f.company, f.adminRole],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  14 passed | 2 skipped (16)
+   Start at  14:51:15
+   Duration  244.77s (tests 97%, import 3%, transform 1%)

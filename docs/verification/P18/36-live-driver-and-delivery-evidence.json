@@ -1,0 +1,2471 @@
+{
+  "recordedAt": "2026-10-06T22:16:51.035Z",
+  "driverCommands": {
+    "original-pin-703f8ab5-949c-52c8-a3c2-fd3c77546afa": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "a05ddff6-40f1-499c-a17a-c7ca1c3000db",
+      "operationId": "location.confirmPin",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 1
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:16.990Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "expectedSourceRevision": 1,
+        "expectedLocationRevision": 0,
+        "confirmed": true,
+        "selection": {
+          "kind": "manual",
+          "coordinates": {
+            "latitude": 30.04,
+            "longitude": 31.24
+          }
+        }
+      }
+    },
+    "original-pin-v2-703f8ab5-949c-52c8-a3c2-fd3c77546afa": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "701f35ce-5bf0-47d9-b0d9-1ee5692f7f2e",
+      "operationId": "location.confirmPin",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 2
+      },
+      "resources": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:38.153Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "expectedSourceRevision": 1,
+        "expectedLocationRevision": 0,
+        "confirmed": true,
+        "selection": {
+          "kind": "manual",
+          "coordinates": {
+            "latitude": 30.04,
+            "longitude": 31.24
+          }
+        }
+      }
+    },
+    "original-draft": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "2ce1d1dc-6fc7-4157-bbfc-c9ac22d961c7",
+      "operationId": "planning.saveDraft",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 3
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:38.616Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "expectedSettingsRevision": 0,
+        "settings": {
+          "mode": "motorcycle",
+          "origin": {
+            "kind": "manual-pin",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "endpoint": {
+            "kind": "last-customer"
+          },
+          "plannedStartAt": "2026-10-06T22:09:38.616Z"
+        }
+      }
+    },
+    "original-order": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "0a0b1860-6d8d-484c-93bb-fb545b3d361b",
+      "operationId": "planning.setManualOrder",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 4
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:38.941Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "expectedSettingsRevision": 1,
+        "expectedInputRevision": 3,
+        "expectedManualRevision": 0,
+        "selection": {
+          "kind": "order",
+          "taskIds": [
+            "703f8ab5-949c-52c8-a3c2-fd3c77546afa"
+          ]
+        }
+      }
+    },
+    "original-start": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "bd599d20-021b-4430-8509-31822cba09cf",
+      "operationId": "round.start",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 5
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:50.329Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "planId": "c2ca51c6-9e6a-46e7-b068-c160f1f6bbe5",
+        "expectedPlanRevision": 1,
+        "readinessId": "e4d0bd33-84a1-4bcb-8d53-945fa6537fd0"
+      }
+    },
+    "original-heading": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "203028c9-aa3b-4c09-a660-fb124f7cb139",
+      "operationId": "current.selectHeading",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 6
+      },
+      "resources": {
+        "tripId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:51.260Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 0,
+        "expectedCurrentAttemptId": null
+      }
+    },
+    "original-arrival": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+      "operationId": "current.recordArrival",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 7
+      },
+      "resources": {
+        "tripId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:51.876Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 1,
+        "expectedCurrentAttemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+      }
+    },
+    "original-outcome": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "92dbfd20-cd77-4086-ab40-1cd20c65df53",
+      "operationId": "outcome.recordNoAnswer",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 8
+      },
+      "resources": {
+        "tripId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:09:52.285Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 2,
+        "expectedCurrentAttemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+      }
+    },
+    "original-offer": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "67a517a2-7749-4897-a9d6-7cd958ec842e",
+      "operationId": "return.requestHandover",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 9
+      },
+      "resources": {
+        "tripId": "da3b840c-ca51-47f7-85a4-712808cff699"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:10:42.453Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "sourceBranchId": "01c37655-de17-4b76-a660-4d4078a4b24d",
+        "items": [
+          {
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "dispatchCycleId": "79f94f13-6c6c-4ebb-82ac-a245eaf9e28c",
+            "outcomeId": "6a29949a-bd92-49bb-9d53-429f68c18344",
+            "sourceLineId": "69167b07-38b2-43ff-b8a3-26d987df89fe",
+            "quantity": 2
+          }
+        ]
+      }
+    },
+    "original-close": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "e2be4d50-8612-4adb-8ba2-b483f8d53a9b",
+      "operationId": "round.end",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 10
+      },
+      "resources": {
+        "tripId": "da3b840c-ca51-47f7-85a4-712808cff699"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:10:59.191Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+        "expectedActiveRoundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "expectedActivityRevision": 3,
+        "expectedCurrentAttemptId": null,
+        "currentAction": "require-none"
+      }
+    },
+    "replacement-pin-v2-2ffc74a1-0fb5-5725-a2d7-116c655a0fad": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "6a8aa345-514c-4f68-8d27-f3ec5ac92dde",
+      "operationId": "location.confirmPin",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 11
+      },
+      "resources": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:04.528Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "expectedSourceRevision": 1,
+        "expectedLocationRevision": 0,
+        "confirmed": true,
+        "selection": {
+          "kind": "manual",
+          "coordinates": {
+            "latitude": 30.04,
+            "longitude": 31.24
+          }
+        }
+      }
+    },
+    "replacement-pin-v2-00471b31-518f-5bf1-a360-e3ca502c850a": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "66a93f7f-c24a-4d12-87a5-26fccfb6e51a",
+      "operationId": "location.confirmPin",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 12
+      },
+      "resources": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:05.186Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "expectedSourceRevision": 1,
+        "expectedLocationRevision": 0,
+        "confirmed": true,
+        "selection": {
+          "kind": "manual",
+          "coordinates": {
+            "latitude": 30.04,
+            "longitude": 31.24
+          }
+        }
+      }
+    },
+    "replacement-draft": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "41109ddf-d83e-4e7b-b7b1-1ce2a836a85b",
+      "operationId": "planning.saveDraft",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 13
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:05.597Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "expectedSettingsRevision": 5,
+        "settings": {
+          "mode": "motorcycle",
+          "origin": {
+            "kind": "manual-pin",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "endpoint": {
+            "kind": "last-customer"
+          },
+          "plannedStartAt": "2026-10-06T22:11:05.597Z"
+        }
+      }
+    },
+    "replacement-order": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "46207ee3-d46f-4a71-ba5a-bc0abf978e67",
+      "operationId": "planning.setManualOrder",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 14
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:06.006Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "expectedSettingsRevision": 6,
+        "expectedInputRevision": 14,
+        "expectedManualRevision": 1,
+        "selection": {
+          "kind": "order",
+          "taskIds": [
+            "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "00471b31-518f-5bf1-a360-e3ca502c850a"
+          ]
+        }
+      }
+    },
+    "replacement-start": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "12c43666-7a7a-46e9-98b8-4a168a225e38",
+      "operationId": "round.start",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 15
+      },
+      "resources": {},
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:06.626Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "planId": "52cd2f88-77a8-4e1e-90d3-95cc9f7a3c85",
+        "expectedPlanRevision": 4,
+        "readinessId": "d50ce14d-3a9c-487f-8d5c-1b84991b2cf9"
+      }
+    },
+    "goods-250-heading": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "75d1df43-de4c-4f08-95d6-83eaef5ec52a",
+      "operationId": "current.selectHeading",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 1,
+        "deviceSequence": 16
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:07.041Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 0,
+        "expectedCurrentAttemptId": null
+      }
+    },
+    "goods-250-v2-heading": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "9c028889-a8ae-491f-bc70-a5500979184f",
+      "operationId": "current.selectHeading",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 17
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:37.090Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 0,
+        "expectedCurrentAttemptId": null
+      }
+    },
+    "goods-250-v2-arrival": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+      "operationId": "current.recordArrival",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 18
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:37.755Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 1,
+        "expectedCurrentAttemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+      }
+    },
+    "goods-250-v2-outcome": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "ea27e81a-e454-4f91-ba4e-137611687a17",
+      "operationId": "outcome.recordFull",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 19
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:38.166Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 2,
+        "expectedCurrentAttemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+        "reportedCollection": {
+          "currency": "EGP",
+          "exponent": 2,
+          "amountMinor": 25000
+        }
+      }
+    },
+    "prepaid-goods-v2-heading": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "0b0016c9-c339-4c33-b3e1-314355596147",
+      "operationId": "current.selectHeading",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 20
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:38.631Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 3,
+        "expectedCurrentAttemptId": null
+      }
+    },
+    "prepaid-goods-v2-arrival": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+      "operationId": "current.recordArrival",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 21
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:38.919Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 4,
+        "expectedCurrentAttemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+      }
+    },
+    "prepaid-goods-v2-outcome": {
+      "schemaVersion": "1.0.0",
+      "payloadVersion": "1.0.0",
+      "actionId": "87880d69-4a52-4d56-98de-b61906927c73",
+      "operationId": "outcome.recordFull",
+      "context": {
+        "kind": "device",
+        "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+        "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+        "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+        "deviceGeneration": 2,
+        "deviceSequence": 22
+      },
+      "resources": {
+        "tripId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+      },
+      "baseVersions": {},
+      "dependsOnActionIds": [],
+      "observation": {
+        "observedAt": "2026-10-06T22:11:39.197Z",
+        "clock": {
+          "quality": "unknown"
+        }
+      },
+      "payload": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+        "expectedSourceRevision": 1,
+        "expectedAssignmentRevision": 2,
+        "expectedPinRevision": 1,
+        "expectedActivityRevision": 5,
+        "expectedCurrentAttemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+        "reportedCollection": {
+          "currency": "EGP",
+          "exponent": 2,
+          "amountMinor": 0
+        }
+      }
+    }
+  },
+  "driverResults": {
+    "original-pin-v2-703f8ab5-949c-52c8-a3c2-fd3c77546afa": {
+      "receipt": {
+        "actionId": "701f35ce-5bf0-47d9-b0d9-1ee5692f7f2e",
+        "receiptId": "3180b216-9ccb-4523-9944-fe12246dade7",
+        "receivedAt": "2026-10-06T22:09:37.852Z",
+        "committedAt": "2026-10-06T22:09:37.892Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "sourceRevision": 1,
+          "locationRevision": 1,
+          "planningInputRevision": 1
+        }
+      },
+      "operationId": "location.confirmPin",
+      "retention": "full",
+      "summary": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "locationRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "location": {
+            "pin": {
+              "provenance": {
+                "kind": "manual"
+              },
+              "confirmedAt": "2026-10-06T22:09:37.859Z",
+              "confirmedBy": "835358e6-926d-46f6-bacd-d8bb9562b548",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              },
+              "sourceRevision": 1
+            },
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "editable": true,
+            "original": {
+              "kind": "address",
+              "addressText": "عنوان البوليصة المكتوب — القاهرة"
+            },
+            "recipientName": "مستلم التجربة",
+            "planningStatus": "pending",
+            "sourceRevision": 1,
+            "locationRevision": 1,
+            "locationReadiness": "confirmed",
+            "planningInputRevision": 1
+          }
+        }
+      }
+    },
+    "original-draft": {
+      "receipt": {
+        "actionId": "2ce1d1dc-6fc7-4157-bbfc-c9ac22d961c7",
+        "receiptId": "04a71696-916f-4f0e-948b-885de36bd097",
+        "receivedAt": "2026-10-06T22:09:38.193Z",
+        "committedAt": "2026-10-06T22:09:38.222Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "planningInputRevision": 3
+        }
+      },
+      "operationId": "planning.saveDraft",
+      "retention": "full",
+      "summary": {
+        "jobId": "d0895931-ce3d-4b43-9177-85002a473ba6",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679"
+      },
+      "response": {
+        "status": 202,
+        "body": {
+          "job": {
+            "error": null,
+            "jobId": "d0895931-ce3d-4b43-9177-85002a473ba6",
+            "planId": null,
+            "status": "pending",
+            "attempts": 0,
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "createdAt": "2026-10-06T22:09:38.218Z",
+            "finishedAt": null,
+            "resultKind": null,
+            "fingerprint": "420176a9f232a2be239fadb2f04d365ee90f9cef33b6443bc789eceb57be6214",
+            "blockedReason": null,
+            "nextAttemptAt": "2026-10-06T22:09:38.218Z",
+            "leaseExpiresAt": null,
+            "settingsRevision": 1,
+            "supersededByJobId": null
+          },
+          "settingsRevision": 1
+        }
+      }
+    },
+    "original-order": {
+      "receipt": {
+        "actionId": "0a0b1860-6d8d-484c-93bb-fb545b3d361b",
+        "receiptId": "b50cdf7f-a944-4f04-b1ed-4dbe0815bc82",
+        "receivedAt": "2026-10-06T22:09:38.497Z",
+        "committedAt": "2026-10-06T22:09:38.537Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "planningInputRevision": 4
+        }
+      },
+      "operationId": "planning.setManualOrder",
+      "retention": "full",
+      "summary": {
+        "planId": "c2ca51c6-9e6a-46e7-b068-c160f1f6bbe5",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "planId": "c2ca51c6-9e6a-46e7-b068-c160f1f6bbe5",
+          "revision": 1,
+          "inputRevision": 4,
+          "manualRevision": 1
+        }
+      }
+    },
+    "original-start": {
+      "receipt": {
+        "actionId": "bd599d20-021b-4430-8509-31822cba09cf",
+        "receiptId": "d9f2355a-118d-4fee-bbb1-f50d5a82bc89",
+        "receivedAt": "2026-10-06T22:09:49.956Z",
+        "committedAt": "2026-10-06T22:09:50.102Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 1
+        }
+      },
+      "operationId": "round.start",
+      "retention": "full",
+      "summary": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+        "firstForecastId": "953c77d1-21af-4c91-8cab-6bbc8c935d89",
+        "firstWorkloadId": "c41365c7-471e-4112-9267-f33817d9672c"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "round": {
+            "owner": {
+              "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+              "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+              "generation": 1
+            },
+            "state": "active",
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "startedAt": "2026-10-06T22:09:50.005Z",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "firstPlanId": "c2ca51c6-9e6a-46e7-b068-c160f1f6bbe5",
+            "currentActivity": null,
+            "firstForecastId": "953c77d1-21af-4c91-8cab-6bbc8c935d89",
+            "firstWorkloadId": "c41365c7-471e-4112-9267-f33817d9672c"
+          },
+          "workday": {
+            "state": "open",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "openedAt": "2026-10-06T22:09:49.990Z",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d"
+          },
+          "disposition": "started"
+        }
+      }
+    },
+    "original-heading": {
+      "receipt": {
+        "actionId": "203028c9-aa3b-4c09-a660-fb124f7cb139",
+        "receiptId": "e549755d-b127-4d8e-be0e-40a8d93e1d33",
+        "receivedAt": "2026-10-06T22:09:50.828Z",
+        "committedAt": "2026-10-06T22:09:50.906Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 1
+        }
+      },
+      "operationId": "current.selectHeading",
+      "retention": "full",
+      "summary": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+          "revision": 1,
+          "physicalOrigin": null,
+          "currentActivity": {
+            "stage": "heading",
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "arrival": null,
+            "heading": {
+              "actionId": "203028c9-aa3b-4c09-a660-fb124f7cb139",
+              "recordedAt": "2026-10-06T22:09:50.850Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.260Z"
+              }
+            },
+            "revision": 1,
+            "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+          }
+        }
+      }
+    },
+    "original-arrival": {
+      "receipt": {
+        "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+        "receiptId": "a1cbe9fb-5b6e-4abb-9bda-f8f3fb702132",
+        "receivedAt": "2026-10-06T22:09:51.423Z",
+        "committedAt": "2026-10-06T22:09:51.471Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 2
+        }
+      },
+      "operationId": "current.recordArrival",
+      "retention": "full",
+      "summary": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 2
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+          "revision": 2,
+          "physicalOrigin": {
+            "kind": "last-confirmed-stop",
+            "time": {
+              "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+              "recordedAt": "2026-10-06T22:09:51.440Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.876Z"
+              }
+            },
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "revision": 1,
+            "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "currentActivity": {
+            "stage": "arrived",
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "arrival": {
+              "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+              "recordedAt": "2026-10-06T22:09:51.440Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.876Z"
+              }
+            },
+            "heading": {
+              "actionId": "203028c9-aa3b-4c09-a660-fb124f7cb139",
+              "recordedAt": "2026-10-06T22:09:50.850Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.260Z"
+              }
+            },
+            "revision": 2,
+            "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677"
+          }
+        }
+      }
+    },
+    "original-outcome": {
+      "receipt": {
+        "actionId": "92dbfd20-cd77-4086-ab40-1cd20c65df53",
+        "receiptId": "10161e6e-816f-42f3-a507-602b0466ac5f",
+        "receivedAt": "2026-10-06T22:09:51.999Z",
+        "committedAt": "2026-10-06T22:09:52.218Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "outcomeRevision": 1,
+          "deviceGeneration": 1,
+          "resourceRevision": 3
+        }
+      },
+      "operationId": "outcome.recordNoAnswer",
+      "retention": "full",
+      "summary": {
+        "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "outcomeId": "6a29949a-bd92-49bb-9d53-429f68c18344",
+        "outcomeRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "current": {
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "revision": 3,
+            "physicalOrigin": {
+              "kind": "last-confirmed-stop",
+              "time": {
+                "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+                "recordedAt": "2026-10-06T22:09:51.440Z",
+                "observation": {
+                  "clock": {
+                    "quality": "unknown"
+                  },
+                  "observedAt": "2026-10-06T22:09:51.876Z"
+                }
+              },
+              "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+              "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+              "revision": 1,
+              "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              }
+            },
+            "currentActivity": null
+          },
+          "outcome": {
+            "kind": "company",
+            "time": {
+              "actionId": "92dbfd20-cd77-4086-ab40-1cd20c65df53",
+              "recordedAt": "2026-10-06T22:09:52.046Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:52.285Z"
+              }
+            },
+            "lines": [
+              {
+                "unitDue": {
+                  "currency": "EGP",
+                  "exponent": 2,
+                  "amountMinor": 20000
+                },
+                "delivered": 0,
+                "sourceLineId": "69167b07-38b2-43ff-b8a3-26d987df89fe",
+                "sourceQuantity": 2,
+                "heldReturnRequired": 2
+              }
+            ],
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "arrival": {
+              "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+              "recordedAt": "2026-10-06T22:09:51.440Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.876Z"
+              }
+            },
+            "heading": {
+              "actionId": "203028c9-aa3b-4c09-a660-fb124f7cb139",
+              "recordedAt": "2026-10-06T22:09:50.850Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.260Z"
+              }
+            },
+            "outcome": "no-answer",
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "branchId": "01c37655-de17-4b76-a660-4d4078a4b24d",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "revision": 1,
+            "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+            "outcomeId": "6a29949a-bd92-49bb-9d53-429f68c18344",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "collection": {
+              "goods": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "reported": null,
+              "shipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "shippingStatus": "not-attempted",
+              "unpaidShipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              }
+            },
+            "returnRequired": true,
+            "sourceRevision": 1,
+            "dispatchCycleId": "79f94f13-6c6c-4ebb-82ac-a245eaf9e28c",
+            "sourceReference": {
+              "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+              "externalId": "shipment:d3eede97-08c0-4946-b38c-7480d8c100e0",
+              "integrationId": "b18abb3d-5c62-4ab9-b904-666d2af13d95"
+            },
+            "assignmentRevision": 2,
+            "sourceDispatchCycleId": "cycle:82d77bce-8004-4bb2-979e-6b90273c6ec6"
+          }
+        }
+      }
+    },
+    "original-offer": {
+      "receipt": {
+        "actionId": "67a517a2-7749-4897-a9d6-7cd958ec842e",
+        "receiptId": "88c4459a-f72d-40ba-8782-bab0500a6060",
+        "receivedAt": "2026-10-06T22:10:42.163Z",
+        "committedAt": "2026-10-06T22:10:42.309Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {}
+      },
+      "operationId": "return.requestHandover",
+      "retention": "full",
+      "summary": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "requestId": "34db4e2a-8862-4944-8f3e-29e1705847a1"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "request": {
+            "items": [
+              {
+                "lost": 0,
+                "itemId": "b5bae5bd-445d-407e-ac1d-d2d4d2a3bb99",
+                "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+                "custody": {
+                  "held": 2,
+                  "lost": 0,
+                  "damaged": 0,
+                  "received": 0,
+                  "delivered": 0,
+                  "sourceQuantity": 2
+                },
+                "damaged": 0,
+                "received": 0,
+                "revision": 0,
+                "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+                "outcomeId": "6a29949a-bd92-49bb-9d53-429f68c18344",
+                "requested": 2,
+                "externalId": "shipment:d3eede97-08c0-4946-b38c-7480d8c100e0",
+                "unresolved": 2,
+                "eligibility": "pending",
+                "sourceLineId": "69167b07-38b2-43ff-b8a3-26d987df89fe",
+                "sourceRevision": 1,
+                "dispatchCycleId": "79f94f13-6c6c-4ebb-82ac-a245eaf9e28c",
+                "sourceDispatchCycleId": "cycle:82d77bce-8004-4bb2-979e-6b90273c6ec6"
+              }
+            ],
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "requestId": "34db4e2a-8862-4944-8f3e-29e1705847a1",
+            "requestedAt": "2026-10-06T22:10:42.201Z",
+            "integrationId": "b18abb3d-5c62-4ab9-b904-666d2af13d95",
+            "sourceBranchId": "01c37655-de17-4b76-a660-4d4078a4b24d",
+            "sourceBranchName": "الفرع أ"
+          },
+          "transitions": []
+        }
+      }
+    },
+    "original-close": {
+      "receipt": {
+        "actionId": "e2be4d50-8612-4adb-8ba2-b483f8d53a9b",
+        "receiptId": "bb6f261d-ac32-42ce-ab98-6ef08f26826e",
+        "receivedAt": "2026-10-06T22:10:58.884Z",
+        "committedAt": "2026-10-06T22:10:58.956Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 3
+        }
+      },
+      "operationId": "round.end",
+      "retention": "full",
+      "summary": {
+        "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "closureId": "b4448051-f566-474d-ad5d-c6a38a376257",
+        "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "closure": {
+            "time": {
+              "actionId": "e2be4d50-8612-4adb-8ba2-b483f8d53a9b",
+              "recordedAt": "2026-10-06T22:10:58.898Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:10:59.191Z"
+              }
+            },
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "closureId": "b4448051-f566-474d-ad5d-c6a38a376257",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "operationId": "round.end",
+            "endedRoundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "ownerRoundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "roundEndedAt": "2026-10-06T22:10:58.898Z",
+            "pausedActivity": null,
+            "workdayEndedAt": null,
+            "activityRevision": 3
+          },
+          "disposition": "closed"
+        }
+      }
+    },
+    "replacement-pin-v2-2ffc74a1-0fb5-5725-a2d7-116c655a0fad": {
+      "receipt": {
+        "actionId": "6a8aa345-514c-4f68-8d27-f3ec5ac92dde",
+        "receiptId": "a9472dc0-f0e3-4a6b-8434-d8a95f58f3b9",
+        "receivedAt": "2026-10-06T22:11:04.334Z",
+        "committedAt": "2026-10-06T22:11:04.367Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "sourceRevision": 1,
+          "locationRevision": 1,
+          "planningInputRevision": 2
+        }
+      },
+      "operationId": "location.confirmPin",
+      "retention": "full",
+      "summary": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "locationRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "location": {
+            "pin": {
+              "provenance": {
+                "kind": "manual"
+              },
+              "confirmedAt": "2026-10-06T22:11:04.341Z",
+              "confirmedBy": "835358e6-926d-46f6-bacd-d8bb9562b548",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              },
+              "sourceRevision": 1
+            },
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "editable": true,
+            "original": {
+              "kind": "address",
+              "addressText": "عنوان البوليصة المكتوب — القاهرة"
+            },
+            "recipientName": "مستلم التجربة",
+            "planningStatus": "pending",
+            "sourceRevision": 1,
+            "locationRevision": 1,
+            "locationReadiness": "confirmed",
+            "planningInputRevision": 2
+          }
+        }
+      }
+    },
+    "replacement-pin-v2-00471b31-518f-5bf1-a360-e3ca502c850a": {
+      "receipt": {
+        "actionId": "66a93f7f-c24a-4d12-87a5-26fccfb6e51a",
+        "receiptId": "c913b19e-dcf1-49cc-a36a-dfd3429afd9d",
+        "receivedAt": "2026-10-06T22:11:04.754Z",
+        "committedAt": "2026-10-06T22:11:04.780Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "sourceRevision": 1,
+          "locationRevision": 1,
+          "planningInputRevision": 3
+        }
+      },
+      "operationId": "location.confirmPin",
+      "retention": "full",
+      "summary": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "locationRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "location": {
+            "pin": {
+              "provenance": {
+                "kind": "manual"
+              },
+              "confirmedAt": "2026-10-06T22:11:04.760Z",
+              "confirmedBy": "835358e6-926d-46f6-bacd-d8bb9562b548",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              },
+              "sourceRevision": 1
+            },
+            "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "editable": true,
+            "original": {
+              "kind": "address",
+              "addressText": "عنوان البوليصة المكتوب — القاهرة"
+            },
+            "recipientName": "مستلم التجربة",
+            "planningStatus": "pending",
+            "sourceRevision": 1,
+            "locationRevision": 1,
+            "locationReadiness": "confirmed",
+            "planningInputRevision": 3
+          }
+        }
+      }
+    },
+    "replacement-draft": {
+      "receipt": {
+        "actionId": "41109ddf-d83e-4e7b-b7b1-1ce2a836a85b",
+        "receiptId": "9cd6b2d7-d48e-401f-ae49-25e5af1baec9",
+        "receivedAt": "2026-10-06T22:11:05.155Z",
+        "committedAt": "2026-10-06T22:11:05.185Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "planningInputRevision": 14
+        }
+      },
+      "operationId": "planning.saveDraft",
+      "retention": "full",
+      "summary": {
+        "jobId": "77a5a239-5a4b-4638-895f-851f234dc529",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679"
+      },
+      "response": {
+        "status": 202,
+        "body": {
+          "job": {
+            "error": null,
+            "jobId": "77a5a239-5a4b-4638-895f-851f234dc529",
+            "planId": null,
+            "status": "pending",
+            "attempts": 0,
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "createdAt": "2026-10-06T22:11:05.183Z",
+            "finishedAt": null,
+            "resultKind": null,
+            "fingerprint": "bf36e958e203db79a162b821042c13e52ea9f69856dbb394fc994224362ddcfb",
+            "blockedReason": null,
+            "nextAttemptAt": "2026-10-06T22:11:05.183Z",
+            "leaseExpiresAt": null,
+            "settingsRevision": 6,
+            "supersededByJobId": null
+          },
+          "settingsRevision": 6
+        }
+      }
+    },
+    "replacement-order": {
+      "receipt": {
+        "actionId": "46207ee3-d46f-4a71-ba5a-bc0abf978e67",
+        "receiptId": "602ab8a7-d86e-4d61-b04e-f9e4740d3a83",
+        "receivedAt": "2026-10-06T22:11:05.563Z",
+        "committedAt": "2026-10-06T22:11:05.602Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "planningInputRevision": 15
+        }
+      },
+      "operationId": "planning.setManualOrder",
+      "retention": "full",
+      "summary": {
+        "planId": "52cd2f88-77a8-4e1e-90d3-95cc9f7a3c85",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "planId": "52cd2f88-77a8-4e1e-90d3-95cc9f7a3c85",
+          "revision": 4,
+          "inputRevision": 15,
+          "manualRevision": 2
+        }
+      }
+    },
+    "replacement-start": {
+      "receipt": {
+        "actionId": "12c43666-7a7a-46e9-98b8-4a168a225e38",
+        "receiptId": "ed8c1b2a-5538-48d6-8c36-8c2de13fa7c9",
+        "receivedAt": "2026-10-06T22:11:06.192Z",
+        "committedAt": "2026-10-06T22:11:06.235Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 2
+        }
+      },
+      "operationId": "round.start",
+      "retention": "full",
+      "summary": {
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+        "firstForecastId": "a37768fa-f991-4dc4-a195-924543b47032",
+        "firstWorkloadId": "6c454474-c0dc-4f20-8c92-04cefbb1853c"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "round": {
+            "owner": {
+              "deviceId": "f4d9174d-020b-4204-be5e-2f6f260cbf4c",
+              "accountId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+              "generation": 2
+            },
+            "state": "active",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "startedAt": "2026-10-06T22:11:06.223Z",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "firstPlanId": "52cd2f88-77a8-4e1e-90d3-95cc9f7a3c85",
+            "currentActivity": null,
+            "firstForecastId": "a37768fa-f991-4dc4-a195-924543b47032",
+            "firstWorkloadId": "6c454474-c0dc-4f20-8c92-04cefbb1853c"
+          },
+          "workday": {
+            "state": "open",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "openedAt": "2026-10-06T22:09:49.990Z",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d"
+          },
+          "disposition": "started"
+        }
+      }
+    },
+    "goods-250-heading": {
+      "receipt": {
+        "problem": {
+          "code": "stale_device",
+          "type": "https://schemas.tawsel.invalid/problems/stale-device",
+          "title": "Device execution unavailable",
+          "detail": "التنفيذ على هاتف آخر. حُفظ الإجراء للمراجعة ولم يُطبّق.",
+          "status": 409,
+          "actionId": "75d1df43-de4c-4f08-95d6-83eaef5ec52a",
+          "retryable": false,
+          "correlationId": "4905671a-0e66-4bdf-bef4-762c4117ce1f"
+        },
+        "actionId": "75d1df43-de4c-4f08-95d6-83eaef5ec52a",
+        "receiptId": "d7caded1-11a8-4969-8394-c310cbf2a307",
+        "receivedAt": "2026-10-06T22:11:06.590Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "review-required",
+        "evidenceStatus": "received"
+      },
+      "operationId": "current.selectHeading",
+      "retention": "full",
+      "summary": {
+        "code": "stale_device",
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d"
+      },
+      "response": {
+        "status": 409,
+        "body": {
+          "code": "stale_device",
+          "type": "https://schemas.tawsel.invalid/problems/stale-device",
+          "title": "Device execution unavailable",
+          "detail": "التنفيذ على هاتف آخر. حُفظ الإجراء للمراجعة ولم يُطبّق.",
+          "status": 409,
+          "actionId": "75d1df43-de4c-4f08-95d6-83eaef5ec52a",
+          "retryable": false,
+          "correlationId": "4905671a-0e66-4bdf-bef4-762c4117ce1f"
+        }
+      }
+    },
+    "goods-250-v2-heading": {
+      "receipt": {
+        "actionId": "9c028889-a8ae-491f-bc70-a5500979184f",
+        "receiptId": "ab2c8d9d-813f-4530-98f4-d7c87f0d946f",
+        "receivedAt": "2026-10-06T22:11:36.894Z",
+        "committedAt": "2026-10-06T22:11:36.932Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 2,
+          "resourceRevision": 1
+        }
+      },
+      "operationId": "current.selectHeading",
+      "retention": "full",
+      "summary": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+          "revision": 1,
+          "physicalOrigin": {
+            "kind": "last-confirmed-stop",
+            "time": {
+              "actionId": "b90513d2-a7be-4e4b-b7fc-bb1930e9af01",
+              "recordedAt": "2026-10-06T22:09:51.440Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:09:51.876Z"
+              }
+            },
+            "taskId": "703f8ab5-949c-52c8-a3c2-fd3c77546afa",
+            "roundId": "da3b840c-ca51-47f7-85a4-712808cff699",
+            "revision": 1,
+            "attemptId": "70fbedec-ff54-4579-bf5d-d47f703dc677",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "currentActivity": {
+            "stage": "heading",
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "arrival": null,
+            "heading": {
+              "actionId": "9c028889-a8ae-491f-bc70-a5500979184f",
+              "recordedAt": "2026-10-06T22:11:36.908Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.090Z"
+              }
+            },
+            "revision": 1,
+            "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+          }
+        }
+      }
+    },
+    "goods-250-v2-arrival": {
+      "receipt": {
+        "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+        "receiptId": "a2bcc4d2-3796-4b11-97ba-7850c6508307",
+        "receivedAt": "2026-10-06T22:11:37.306Z",
+        "committedAt": "2026-10-06T22:11:37.352Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 2,
+          "resourceRevision": 2
+        }
+      },
+      "operationId": "current.recordArrival",
+      "retention": "full",
+      "summary": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 2
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+          "revision": 2,
+          "physicalOrigin": {
+            "kind": "last-confirmed-stop",
+            "time": {
+              "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+              "recordedAt": "2026-10-06T22:11:37.328Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.755Z"
+              }
+            },
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "revision": 2,
+            "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "currentActivity": {
+            "stage": "arrived",
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "arrival": {
+              "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+              "recordedAt": "2026-10-06T22:11:37.328Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.755Z"
+              }
+            },
+            "heading": {
+              "actionId": "9c028889-a8ae-491f-bc70-a5500979184f",
+              "recordedAt": "2026-10-06T22:11:36.908Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.090Z"
+              }
+            },
+            "revision": 2,
+            "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3"
+          }
+        }
+      }
+    },
+    "goods-250-v2-outcome": {
+      "receipt": {
+        "actionId": "ea27e81a-e454-4f91-ba4e-137611687a17",
+        "receiptId": "d0f1af03-fcd2-498a-9278-2bc730d5520b",
+        "receivedAt": "2026-10-06T22:11:37.713Z",
+        "committedAt": "2026-10-06T22:11:37.755Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "outcomeRevision": 1,
+          "deviceGeneration": 2,
+          "resourceRevision": 3
+        }
+      },
+      "operationId": "outcome.recordFull",
+      "retention": "full",
+      "summary": {
+        "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "outcomeId": "25344c0a-f15f-4a2e-8812-7ca56ea07d14",
+        "outcomeRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "current": {
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "revision": 3,
+            "physicalOrigin": {
+              "kind": "last-confirmed-stop",
+              "time": {
+                "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+                "recordedAt": "2026-10-06T22:11:37.328Z",
+                "observation": {
+                  "clock": {
+                    "quality": "unknown"
+                  },
+                  "observedAt": "2026-10-06T22:11:37.755Z"
+                }
+              },
+              "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+              "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+              "revision": 2,
+              "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              }
+            },
+            "currentActivity": null
+          },
+          "outcome": {
+            "kind": "company",
+            "time": {
+              "actionId": "ea27e81a-e454-4f91-ba4e-137611687a17",
+              "recordedAt": "2026-10-06T22:11:37.733Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.166Z"
+              }
+            },
+            "lines": [
+              {
+                "unitDue": {
+                  "currency": "EGP",
+                  "exponent": 2,
+                  "amountMinor": 25000
+                },
+                "delivered": 1,
+                "sourceLineId": "dbca5182-cab0-4afc-8a63-8cb561bd38c6",
+                "sourceQuantity": 1,
+                "heldReturnRequired": 0
+              }
+            ],
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "arrival": {
+              "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+              "recordedAt": "2026-10-06T22:11:37.328Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.755Z"
+              }
+            },
+            "heading": {
+              "actionId": "9c028889-a8ae-491f-bc70-a5500979184f",
+              "recordedAt": "2026-10-06T22:11:36.908Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.090Z"
+              }
+            },
+            "outcome": "full",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "branchId": "01c37655-de17-4b76-a660-4d4078a4b24d",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "revision": 1,
+            "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+            "outcomeId": "25344c0a-f15f-4a2e-8812-7ca56ea07d14",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "collection": {
+              "goods": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 25000
+              },
+              "reported": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 25000
+              },
+              "shipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "shippingStatus": "not-due",
+              "unpaidShipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              }
+            },
+            "returnRequired": false,
+            "sourceRevision": 1,
+            "dispatchCycleId": "f0924d87-1f1e-472e-8606-9be9f51bfe54",
+            "sourceReference": {
+              "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+              "externalId": "shipment:04617a30-9df9-4fd0-afcf-c521ea382ac1",
+              "integrationId": "b18abb3d-5c62-4ab9-b904-666d2af13d95"
+            },
+            "assignmentRevision": 2,
+            "sourceDispatchCycleId": "cycle:31651826-01d7-4b9f-a685-8c2eaf193b34"
+          }
+        }
+      }
+    },
+    "prepaid-goods-v2-heading": {
+      "receipt": {
+        "actionId": "0b0016c9-c339-4c33-b3e1-314355596147",
+        "receiptId": "2503bded-1c83-4d9c-ae8d-0c8da72e379b",
+        "receivedAt": "2026-10-06T22:11:38.184Z",
+        "committedAt": "2026-10-06T22:11:38.216Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 2,
+          "resourceRevision": 4
+        }
+      },
+      "operationId": "current.selectHeading",
+      "retention": "full",
+      "summary": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 4
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+          "revision": 4,
+          "physicalOrigin": {
+            "kind": "last-confirmed-stop",
+            "time": {
+              "actionId": "2927b899-e2ab-40f2-8e34-5cc6ee182ce4",
+              "recordedAt": "2026-10-06T22:11:37.328Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:37.755Z"
+              }
+            },
+            "taskId": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "revision": 2,
+            "attemptId": "2cb17b91-cfd6-4384-8e68-370f625ff0d3",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "currentActivity": {
+            "stage": "heading",
+            "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "arrival": null,
+            "heading": {
+              "actionId": "0b0016c9-c339-4c33-b3e1-314355596147",
+              "recordedAt": "2026-10-06T22:11:38.198Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.631Z"
+              }
+            },
+            "revision": 4,
+            "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+          }
+        }
+      }
+    },
+    "prepaid-goods-v2-arrival": {
+      "receipt": {
+        "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+        "receiptId": "6c6c9b99-c9ab-4adf-9580-43d2f9abc3ae",
+        "receivedAt": "2026-10-06T22:11:38.462Z",
+        "committedAt": "2026-10-06T22:11:38.495Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "deviceGeneration": 2,
+          "resourceRevision": 5
+        }
+      },
+      "operationId": "current.recordArrival",
+      "retention": "full",
+      "summary": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "activityRevision": 5
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+          "revision": 5,
+          "physicalOrigin": {
+            "kind": "last-confirmed-stop",
+            "time": {
+              "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+              "recordedAt": "2026-10-06T22:11:38.475Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.919Z"
+              }
+            },
+            "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "revision": 3,
+            "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+            "coordinates": {
+              "latitude": 30.04,
+              "longitude": 31.24
+            }
+          },
+          "currentActivity": {
+            "stage": "arrived",
+            "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "arrival": {
+              "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+              "recordedAt": "2026-10-06T22:11:38.475Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.919Z"
+              }
+            },
+            "heading": {
+              "actionId": "0b0016c9-c339-4c33-b3e1-314355596147",
+              "recordedAt": "2026-10-06T22:11:38.198Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.631Z"
+              }
+            },
+            "revision": 5,
+            "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76"
+          }
+        }
+      }
+    },
+    "prepaid-goods-v2-outcome": {
+      "receipt": {
+        "actionId": "87880d69-4a52-4d56-98de-b61906927c73",
+        "receiptId": "db22ced6-017b-4a16-8ff8-13fcbc4a78ee",
+        "receivedAt": "2026-10-06T22:11:38.739Z",
+        "committedAt": "2026-10-06T22:11:38.781Z",
+        "schemaVersion": "1.0.0",
+        "businessStatus": "accepted",
+        "evidenceStatus": "received",
+        "resourceVersions": {
+          "outcomeRevision": 1,
+          "deviceGeneration": 2,
+          "resourceRevision": 6
+        }
+      },
+      "operationId": "outcome.recordFull",
+      "retention": "full",
+      "summary": {
+        "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+        "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+        "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+        "outcomeId": "64e2d3c4-d510-46cb-ba9a-63bc5374db24",
+        "outcomeRevision": 1
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "current": {
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "revision": 6,
+            "physicalOrigin": {
+              "kind": "last-confirmed-stop",
+              "time": {
+                "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+                "recordedAt": "2026-10-06T22:11:38.475Z",
+                "observation": {
+                  "clock": {
+                    "quality": "unknown"
+                  },
+                  "observedAt": "2026-10-06T22:11:38.919Z"
+                }
+              },
+              "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+              "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+              "revision": 3,
+              "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+              "coordinates": {
+                "latitude": 30.04,
+                "longitude": 31.24
+              }
+            },
+            "currentActivity": null
+          },
+          "outcome": {
+            "kind": "company",
+            "time": {
+              "actionId": "87880d69-4a52-4d56-98de-b61906927c73",
+              "recordedAt": "2026-10-06T22:11:38.758Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:39.197Z"
+              }
+            },
+            "lines": [
+              {
+                "unitDue": {
+                  "currency": "EGP",
+                  "exponent": 2,
+                  "amountMinor": 0
+                },
+                "delivered": 1,
+                "sourceLineId": "0305382f-91cf-48ee-a6a1-e2d3f5d79970",
+                "sourceQuantity": 1,
+                "heldReturnRequired": 0
+              }
+            ],
+            "taskId": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "arrival": {
+              "actionId": "31eba3e7-909b-4dbd-a0e1-ceffa7a3365e",
+              "recordedAt": "2026-10-06T22:11:38.475Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.919Z"
+              }
+            },
+            "heading": {
+              "actionId": "0b0016c9-c339-4c33-b3e1-314355596147",
+              "recordedAt": "2026-10-06T22:11:38.198Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-06T22:11:38.631Z"
+              }
+            },
+            "outcome": "full",
+            "roundId": "ce9649e7-1408-4feb-b97d-c42875937c7a",
+            "branchId": "01c37655-de17-4b76-a660-4d4078a4b24d",
+            "driverId": "e962a829-d99d-4b9c-81a8-f7d1b13a5679",
+            "revision": 1,
+            "attemptId": "f9c7bff5-1676-4bad-8489-551f0af8ef76",
+            "outcomeId": "64e2d3c4-d510-46cb-ba9a-63bc5374db24",
+            "workdayId": "cd706f39-fbca-466a-a481-2764e91a2e8d",
+            "collection": {
+              "goods": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "reported": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "shipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "shippingStatus": "not-due",
+              "unpaidShipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              }
+            },
+            "returnRequired": false,
+            "sourceRevision": 1,
+            "dispatchCycleId": "38d1f8d6-2ba4-4026-a3c6-f04839892264",
+            "sourceReference": {
+              "tenantId": "80a9f186-2a9a-4bea-9f09-0497b0b5f6a5",
+              "externalId": "shipment:20cbaaed-8121-4a70-8f0c-9234d91811b0",
+              "integrationId": "b18abb3d-5c62-4ab9-b904-666d2af13d95"
+            },
+            "assignmentRevision": 2,
+            "sourceDispatchCycleId": "cycle:bd23481b-984a-48e3-9eaa-ef194d4597bf"
+          }
+        }
+      }
+    }
+  },
+  "delivery": [
+    {
+      "inbox": {
+        "event_id": "4e38861b-8d2f-4a91-88c2-66931c6e78f1",
+        "event_type": "current.arrivalRecorded",
+        "body_hash": "2c5cc7bc42e8c9a66a8133e91e4438396938924733c02c5d564c8a1ebc7403f2",
+        "key_id": "p18-live",
+        "application_state": "applied",
+        "received_at": "2026-10-06T22:11:38.437Z",
+        "applied_at": "2026-10-06T22:11:38.940Z"
+      },
+      "sourceDelivery": {
+        "delivery": {
+          "eventId": "4e38861b-8d2f-4a91-88c2-66931c6e78f1",
+          "eventType": "current.arrivalRecorded",
+          "aggregate": {
+            "type": "task",
+            "id": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "recipientSequence": 6
+          },
+          "createdAt": "2026-10-06T22:11:37.351Z",
+          "status": "received",
+          "attempts": 1,
+          "nextAttemptAt": "2026-10-06T22:11:38.524Z",
+          "leaseUntil": null,
+          "receivedAt": "2026-10-06T22:11:37.911Z",
+          "lastError": null,
+          "projectionStatus": "unknown",
+          "blockedBy": null
+        },
+        "attempts": [
+          {
+            "attemptId": "0b0cd432-263a-4e77-b536-2a646e12bd52",
+            "number": 1,
+            "startedAt": "2026-10-06T22:11:37.521Z",
+            "finishedAt": "2026-10-06T22:11:37.911Z",
+            "keyId": "p18-live",
+            "deliveryTimestamp": "1791324697519",
+            "result": "received",
+            "errorCode": null,
+            "httpStatus": 200
+          }
+        ],
+        "nextAttemptBefore": null
+      }
+    },
+    {
+      "inbox": {
+        "event_id": "9e4f2a68-4e22-4f20-9622-f2e00a23c039",
+        "event_type": "outcome.recorded",
+        "body_hash": "898435a3e8cdc07a55e998cb57e9777b9b682bb981a75301c81acc79873bd9f8",
+        "key_id": "p18-live",
+        "application_state": "applied",
+        "received_at": "2026-10-06T22:11:38.945Z",
+        "applied_at": "2026-10-06T22:11:38.994Z"
+      },
+      "sourceDelivery": {
+        "delivery": {
+          "eventId": "9e4f2a68-4e22-4f20-9622-f2e00a23c039",
+          "eventType": "outcome.recorded",
+          "aggregate": {
+            "type": "task",
+            "id": "2ffc74a1-0fb5-5725-a2d7-116c655a0fad",
+            "recipientSequence": 7
+          },
+          "createdAt": "2026-10-06T22:11:37.754Z",
+          "status": "received",
+          "attempts": 1,
+          "nextAttemptAt": "2026-10-06T22:11:39.275Z",
+          "leaseUntil": null,
+          "receivedAt": "2026-10-06T22:11:38.412Z",
+          "lastError": null,
+          "projectionStatus": "unknown",
+          "blockedBy": null
+        },
+        "attempts": [
+          {
+            "attemptId": "bdd6087d-40ef-4a09-86a7-fff9bbac389e",
+            "number": 1,
+            "startedAt": "2026-10-06T22:11:38.175Z",
+            "finishedAt": "2026-10-06T22:11:38.413Z",
+            "keyId": "p18-live",
+            "deliveryTimestamp": "1791324698171",
+            "result": "received",
+            "errorCode": null,
+            "httpStatus": 200
+          }
+        ],
+        "nextAttemptBefore": null
+      }
+    },
+    {
+      "inbox": {
+        "event_id": "14769b5a-5ac8-48e2-ab26-7aa86165eb6b",
+        "event_type": "current.arrivalRecorded",
+        "body_hash": "af02a99ffb72314b877fc2b60c26d583b5266ccf9e44a1aa3b03c2c60b915f03",
+        "key_id": "p18-live",
+        "application_state": "applied",
+        "received_at": "2026-10-06T22:11:39.437Z",
+        "applied_at": "2026-10-06T22:11:39.714Z"
+      },
+      "sourceDelivery": {
+        "delivery": {
+          "eventId": "14769b5a-5ac8-48e2-ab26-7aa86165eb6b",
+          "eventType": "current.arrivalRecorded",
+          "aggregate": {
+            "type": "task",
+            "id": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "recipientSequence": 6
+          },
+          "createdAt": "2026-10-06T22:11:38.495Z",
+          "status": "received",
+          "attempts": 1,
+          "nextAttemptAt": "2026-10-06T22:11:39.611Z",
+          "leaseUntil": null,
+          "receivedAt": "2026-10-06T22:11:38.908Z",
+          "lastError": null,
+          "projectionStatus": "unknown",
+          "blockedBy": null
+        },
+        "attempts": [
+          {
+            "attemptId": "293e2e54-a39c-42c0-a52c-d231db5718c0",
+            "number": 1,
+            "startedAt": "2026-10-06T22:11:38.678Z",
+            "finishedAt": "2026-10-06T22:11:38.909Z",
+            "keyId": "p18-live",
+            "deliveryTimestamp": "1791324698675",
+            "result": "received",
+            "errorCode": null,
+            "httpStatus": 200
+          }
+        ],
+        "nextAttemptBefore": null
+      }
+    },
+    {
+      "inbox": {
+        "event_id": "6a125d6d-2453-417e-a21a-f71962d6f99e",
+        "event_type": "outcome.recorded",
+        "body_hash": "4cfda56f0daa7984179bc11727ffcf11779842fe4695ac77d47124c8ae44a5d7",
+        "key_id": "p18-live",
+        "application_state": "applied",
+        "received_at": "2026-10-06T22:11:39.965Z",
+        "applied_at": "2026-10-06T22:11:40.449Z"
+      },
+      "sourceDelivery": {
+        "delivery": {
+          "eventId": "6a125d6d-2453-417e-a21a-f71962d6f99e",
+          "eventType": "outcome.recorded",
+          "aggregate": {
+            "type": "task",
+            "id": "00471b31-518f-5bf1-a360-e3ca502c850a",
+            "recipientSequence": 7
+          },
+          "createdAt": "2026-10-06T22:11:38.780Z",
+          "status": "received",
+          "attempts": 1,
+          "nextAttemptAt": "2026-10-06T22:11:39.941Z",
+          "leaseUntil": null,
+          "receivedAt": "2026-10-06T22:11:39.433Z",
+          "lastError": null,
+          "projectionStatus": "unknown",
+          "blockedBy": null
+        },
+        "attempts": [
+          {
+            "attemptId": "c81b685e-6d4a-467b-80cb-2d547484e04e",
+            "number": 1,
+            "startedAt": "2026-10-06T22:11:39.195Z",
+            "finishedAt": "2026-10-06T22:11:39.434Z",
+            "keyId": "p18-live",
+            "deliveryTimestamp": "1791324699194",
+            "result": "received",
+            "errorCode": null,
+            "httpStatus": 200
+          }
+        ],
+        "nextAttemptBefore": null
+      }
+    }
+  ],
+  "rejectedSnapshots": [
+    {
+      "name": "unsafe-money",
+      "actionId": "65ca0891-6ecf-480a-9f16-c0fb6f2e29d8",
+      "status": 400,
+      "body": {
+        "type": "https://schemas.tawsel.invalid/problems/validation-failed",
+        "title": "Intake request failed",
+        "status": 400,
+        "code": "validation_failed",
+        "detail": "Invalid source command: /payload/lines/0/unitDue/amountMinor must be <= 9007199254740991",
+        "correlationId": "39ace9f7-2bdb-4015-9c47-91ef8700ac6c",
+        "retryable": false
+      }
+    },
+    {
+      "name": "wrong-total",
+      "actionId": "b075e038-8c8a-401f-b8f0-c83261d79e10",
+      "status": 422,
+      "body": {
+        "type": "https://schemas.tawsel.invalid/problems/unsupported-price-allocation",
+        "title": "Intake request failed",
+        "status": 422,
+        "code": "unsupported_price_allocation",
+        "detail": "totalDue must equal the exact sum of quantity × unitDue plus shippingDue, within safe integer minor units.",
+        "correlationId": "fab3eefd-6d86-4183-8264-6f14ad7a21d1",
+        "retryable": false
+      }
+    },
+    {
+      "name": "invented-waiver",
+      "actionId": "7b36a9e2-a92d-49ec-a967-7828288a5594",
+      "status": 400,
+      "body": {
+        "type": "https://schemas.tawsel.invalid/problems/validation-failed",
+        "title": "Intake request failed",
+        "status": 400,
+        "code": "validation_failed",
+        "detail": "Invalid source command: /payload must NOT have additional properties",
+        "correlationId": "198ea7e9-fb28-40e4-b868-1732f180192d",
+        "retryable": false
+      }
+    }
+  ],
+  "reportedMoney": [
+    {
+      "shipment_id": "04617a30-9df9-4fd0-afcf-c521ea382ac1",
+      "reported_minor": "25000",
+      "goods_minor": "25000",
+      "shipping_minor": "0",
+      "shipping_status": "not-due"
+    },
+    {
+      "shipment_id": "20cbaaed-8121-4a70-8f0c-9234d91811b0",
+      "reported_minor": "0",
+      "goods_minor": "0",
+      "shipping_minor": "0",
+      "shipping_status": "not-due"
+    },
+    {
+      "shipment_id": "d3eede97-08c0-4946-b38c-7480d8c100e0",
+      "reported_minor": null,
+      "goods_minor": "0",
+      "shipping_minor": "0",
+      "shipping_status": "not-attempted"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+ M .gitignore
+ M IMPLEMENTATION-STATUS.md
+ M REQUIREMENTS-TRACEABILITY.md
+ M TAWSEL-BASELINE.md
+ M apps/api/src/app.ts
+ M apps/api/src/modules/dispatch/dispatch.service.ts
+ M apps/api/src/modules/dispatch/snapshot.ts
+ M apps/api/src/modules/goods-transfers/receipt.service.ts
+ M apps/api/src/modules/goods-transfers/transfer.service.ts
+ M apps/api/src/modules/integration/tawsel-client.ts
+ M apps/api/src/modules/inventory/service.ts
+ M apps/api/src/modules/returns/receipt.service.ts
+ M apps/api/src/modules/shipments/service.ts
+ M apps/api/src/modules/tracking/tracking.service.ts
+ M apps/web/src/features/shipments/shipments.tsx
+ M apps/web/src/features/tracking/tracking.tsx
+ M apps/web/src/main.tsx
+ M docs/planning/INTEGRATION-CONTRACT-COVERAGE.md
+ M package.json
+ M packages/contracts/openapi.json
+ M packages/contracts/src/access.ts
+ M packages/contracts/src/dispatch/index.ts
+ M packages/contracts/src/index.ts
+ M packages/contracts/src/shipments/index.ts
+ M packages/database/src/index.ts
+ M packages/domain/src/access.ts
+ M packages/domain/src/index.ts
+ M packages/domain/src/kernel.ts
+ M packages/domain/src/shipments/index.ts
+ M phases/README.md
+ M phases/execution/P18.md
+ M scripts/phase-suites.json
+ M tests/db/inventory.test.ts
+ M tests/unit/process-lifecycle.test.ts
+ M vitest.db.config.ts
+ M vitest.unit.config.ts
+?? apps/api/src/modules/incidents/http.ts
+?? apps/api/src/modules/incidents/replacement.service.ts
+?? apps/api/src/modules/incidents/service.ts
+?? apps/web/src/features/incidents/api.tsx
+?? apps/web/src/features/incidents/incidents.css
+?? apps/web/src/features/incidents/incidents.tsx
+?? docs/verification/P18/01-typecheck.txt
+?? docs/verification/P18/02-typecheck.txt
+?? docs/verification/P18/03-db.txt
+?? docs/verification/P18/04-typecheck.txt
+?? docs/verification/P18/05-db.txt
+?? docs/verification/P18/06-typecheck.txt
+?? docs/verification/P18/07-db.txt
+?? docs/verification/P18/08-ui-scripts.txt
+?? docs/verification/P18/09-typecheck.txt
+?? docs/verification/P18/10-db.txt
+?? docs/verification/P18/11-typecheck.txt
+?? docs/verification/P18/12-format.txt
+?? docs/verification/P18/13-typecheck.txt
+?? docs/verification/P18/14-db.txt
+?? docs/verification/P18/15-typecheck.txt
+?? docs/verification/P18/16-db.txt
+?? docs/verification/P18/17-unit.txt
+?? docs/verification/P18/18-custody-db.txt
+?? docs/verification/P18/19-browser.txt
+?? docs/verification/P18/20-browser.txt
+?? docs/verification/P18/21-browser.txt
+?? docs/verification/P18/22-browser.txt
+?? docs/verification/P18/23-lint-typecheck.txt
+?? docs/verification/P18/24-build.txt
+?? docs/verification/P18/25-phase.txt
+?? docs/verification/P18/26-regression-unit.txt
+?? docs/verification/P18/27-regression-database.txt
+?? docs/verification/P18/28-diff-check.txt
+?? docs/verification/P18/29-live-intake-preflight.json
+?? docs/verification/P18/30-live-native-journey.json
+?? docs/verification/P18/31-live-public-test.txt
+?? docs/verification/P18/32-regression-unit.txt
+?? docs/verification/P18/33-regression-database.txt
+?? docs/verification/P18/34-live-public-outcome-test.txt
+?? docs/verification/P18/35-phase-scripts.txt
+?? docs/verification/P18/36-live-driver-and-delivery-evidence.json
+?? docs/verification/P18/37-lint.txt
+?? docs/verification/P18/38-typecheck.txt
+?? docs/verification/P18/39-lint-rerun.txt
+?? docs/verification/P18/40-build.txt
+?? docs/verification/P18/41-live-cleanup.json
+?? docs/verification/P18/42-vps-restoration.json
+?? docs/verification/P18/43-live-db-status.txt
+?? docs/verification/P18/44-final-security-and-cleanup.txt
+?? docs/verification/P18/45-dismissal-typecheck.txt
+?? docs/verification/P18/46-dismissal-database.txt
+?? docs/verification/P18/47-dismissal-lint.txt
+?? docs/verification/P18/48-dismissal-typecheck-rerun.txt
+?? docs/verification/P18/49-dismissal-database-rerun.txt
+?? docs/verification/P18/50-final-regression-database.txt
+?? docs/verification/P18/51-runner-regression.txt
+?? docs/verification/P18/52-final-build.txt
+?? docs/verification/P18/53-final-lint.txt
+?? docs/verification/P18/54-final-typecheck.txt
+?? docs/verification/P18/55-final-checks.txt
+?? docs/verification/P18/HANDOFF.md
+?? docs/verification/P18/P19-READINESS.md
+?? docs/verification/P18/PUBLIC-ACCEPTANCE-SETUP.md
+?? docs/verification/P18/README.md
+?? docs/verification/P18/TRACEABILITY.md
+?? docs/verification/P18/browser-results.json
+?? docs/verification/P18/changed-paths.txt
+?? docs/verification/P18/prerequisites/native.txt
+?? docs/verification/P18/screenshots/confirmation-review-1440.png
+?? docs/verification/P18/screenshots/confirmation-review-320.png
+?? docs/verification/P18/screenshots/confirmation-review-390.png
+?? docs/verification/P18/screenshots/confirmation-review-768.png
+?? docs/verification/P18/screenshots/confirmed-1440.png
+?? docs/verification/P18/screenshots/confirmed-390.png
+?? docs/verification/P18/screenshots/protected-period-1440.png
+?? docs/verification/P18/screenshots/protected-period-390.png
+?? docs/verification/P18/screenshots/replacement-detail-1440.png
+?? docs/verification/P18/screenshots/replacement-detail-390.png
+?? docs/verification/P18/screenshots/replacement-dialog-320.png
+?? docs/verification/P18/screenshots/replacement-dialog-390.png
+?? docs/verification/P18/screenshots/replacement-review-1440.png
+?? docs/verification/P18/screenshots/replacement-review-320.png
+?? docs/verification/P18/screenshots/replacement-review-390.png
+?? docs/verification/P18/screenshots/replacement-review-768.png
+?? docs/verification/P18/screenshots/report-partial-1440.png
+?? docs/verification/P18/screenshots/report-partial-320.png
+?? docs/verification/P18/screenshots/report-partial-390.png
+?? docs/verification/P18/screenshots/report-partial-768.png
+?? docs/verification/P18/screenshots/reported-partial-1440.png
+?? docs/verification/P18/screenshots/reported-partial-390.png
+?? docs/verification/P18/screenshots/unknown-result-390.png
+?? packages/contracts/src/incidents/index.ts
+?? packages/database/migrations/0022_p18_incidents.sql
+?? packages/database/src/incidents/index.ts
+?? packages/domain/src/incidents/index.ts
+?? playwright.p18.config.ts
+?? tests/integration/p18/contracts.unit.test.ts
+?? tests/integration/p18/custody.db.test.ts
+?? tests/integration/p18/fixtures.ts
+?? tests/integration/p18/http.db.test.ts
+?? tests/integration/p18/incidents.db.test.ts
+?? tests/integration/p18/incidents.spec.ts
+?? tests/integration/p18/migration.db.test.ts
+?? tests/integration/p18/outbox-adapter.unit.test.ts
+?? tests/integration/p18/payout.db.test.ts
+?? tests/integration/p18/replacement.db.test.ts
+?? tests/integration/p18/serve.ts
+?? tests/integration/p18/tawsel.public.test.ts
+?? tests/integration/p18/teardown.mjs
+?? tests/integration/p18/ui.unit.test.tsx
+?? vitest.p18.public.config.ts

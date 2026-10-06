@@ -1,0 +1,70 @@
+npm notice run shahn-erp@0.1.0 test:p18:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p18.config.ts
+[36mvite v8.3.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 2736 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-BzNqkREI.css                          103.44 kB │ gzip:  20.17 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-6Y_d7OxK.js                           747.61 kB │ gzip: 161.50 kB
+
+[33m[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 746ms[39m
+
+Running 1 test using 1 worker
+
+  x  1 tests\integration\p18\incidents.spec.ts:46:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement (2.0m)
+
+
+  1) tests\integration\p18\incidents.spec.ts:46:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+
+    Test timeout of 120000ms exceeded.
+
+    Error: locator.click: Test timeout of 120000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'تسجيل البلاغ دون تعويض' })
+        - locator resolved to <button disabled data-slot="button" data-size="default" data-variant="default" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([c…>تسجيل البلاغ دون تعويض</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is not enabled
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is not enabled
+        - retrying click action
+          - waiting 100ms
+        221 × waiting for element to be visible, enabled and stable
+            - element is not enabled
+          - retrying click action
+            - waiting 500ms
+
+
+      54 |   await expect(page.getByText('مطالب به 0')).toBeVisible();
+      55 |   await capture(page, 'report-partial', [320, 390, 768, 1440]);
+    > 56 |   await page.getByRole('button', { name: 'تسجيل البلاغ دون تعويض' }).click();
+         |                                                                      ^
+      57 |   await expect(page).toHaveURL(/\/incidents\/[0-9a-f-]{36}$/);
+      58 |   await expect(page.getByText('بلاغ بانتظار المراجعة').first()).toBeVisible();
+      59 |   await expect(page.getByText(/المتأثر 1 قطعة/)).toBeVisible();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p18\incidents.spec.ts:56:70
+
+    Error Context: test-results\incidents-real-API-DB-inci-84363--company-funded-replacement\error-context.md
+
+  1 failed
+    tests\integration\p18\incidents.spec.ts:46:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+exit 1

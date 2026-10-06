@@ -14,6 +14,7 @@ export interface ShipmentLine {
   unitDue: ShipmentMoney;
 }
 export interface ShipmentFields {
+  replacement?: { incidentId: string; payer: 'recipient' | 'brand' | 'company'; reason: string };
   branchId: string;
   brandId: string;
   service: 'brand_packed' | 'company_packed' | 'stored_stock';
@@ -31,6 +32,14 @@ export interface ShipmentFields {
   comment: string;
 }
 export interface ShipmentPrice extends PriceSnapshot {
+  waiverMinor?: string;
+  incidentAgreement?: {
+    incidentId: string;
+    confirmationId: string;
+    originalShipmentId: string | null;
+    payer: 'recipient' | 'brand' | 'company';
+    reason: string;
+  };
   agreedPackingUpliftMinor: string;
   brandShippingMinor: string;
   shippingPayer: 'recipient' | 'brand' | 'shared';
@@ -248,6 +257,11 @@ export const shipmentFieldsSchema = closed({
   inspectionAllowed: bool,
   comment: text(1000, false),
 });
+shipmentFieldsSchema.properties['replacement'] = closed({
+  incidentId: uuid,
+  payer: { enum: ['recipient', 'brand', 'company'] },
+  reason: text(2000),
+});
 const envelope = { schemaVersion: { const: 1 }, companyId: uuid, commandId: uuid },
   edit = { shipmentId: uuid, expectedVersion: version };
 export const shipmentCommandSchema = {
@@ -344,6 +358,14 @@ export const shipmentPriceSchema = closed({
   brandShippingMinor: minor,
   shippingPayer: { enum: ['recipient', 'brand', 'shared'] },
 });
+shipmentPriceSchema.properties['incidentAgreement'] = closed({
+  incidentId: uuid,
+  confirmationId: uuid,
+  originalShipmentId: nullable(uuid),
+  payer: { enum: ['recipient', 'brand', 'company'] },
+  reason: text(2000),
+});
+shipmentPriceSchema.properties['waiverMinor'] = minor;
 const resultSchema = closed({
   commandId: uuid,
   shipmentId: uuid,

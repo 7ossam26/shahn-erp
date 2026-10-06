@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import {
   appendShipmentRevision,
+  assertNoIncidentHold,
   readManifest,
   readShipment,
   readTransferLines,
@@ -47,6 +48,20 @@ export async function receiveGoods(
       throw new AccessError('LOOSE_COUNT_REQUIRED', 409);
     return { line, input: x, total };
   });
+  for (const { line, total } of selected) {
+    if (line.kind === 'loose') {
+      const held = Number(
+        (
+          await u.client.query<{ quantity: string }>(
+            `SELECT COALESCE(sum(a.quantity),0)::text quantity FROM incidents.affected_item a JOIN incidents.incident i ON(i.company_id,i.id)=(a.company_id,a.incident_id) WHERE a.company_id=$1 AND a.source_key=$2 AND NOT a.released AND NOT(i.state='confirmed' AND i.kind='loss')`,
+            [u.access.companyId, 'transfer_line:' + line.id],
+          )
+        ).rows[0]!.quantity,
+      );
+      if (total > line.remaining - held) throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
+    } else if (!(await assertNoIncidentHold(u.client, u.access.companyId, line.shipment_id!)))
+      throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
+  }
   for (const id of [
     ...new Set(selected.flatMap((x) => (x.line.shipment_id ? [x.line.shipment_id] : []))),
   ].sort()) {

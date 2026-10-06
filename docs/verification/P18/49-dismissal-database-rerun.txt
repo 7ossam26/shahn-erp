@@ -1,0 +1,20 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18/incidents.db.test.ts tests/integration/p18/custody.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 10860ms
+   ✓ P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 466ms
+   ✓ P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 372ms
+   ✓ P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 351ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 477ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 483ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 540ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 696ms
+   ✓ unavailable source operation does not drop local compensation; explicit follow-up queues the same affected subset with no second money 534ms
+ ✓ tests/integration/p18/custody.db.test.ts (3 tests) 4156ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  01:30:01
+   Duration  19.20s (tests 80%, import 14%, transform 6%)

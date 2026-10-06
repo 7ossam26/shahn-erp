@@ -1,0 +1,54 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18/incidents.db.test.ts tests/integration/p18/custody.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p18/incidents.db.test.ts (10 tests | 1 failed) 17312ms
+   × dismissal releases an ordinary shipment hold while retaining history; another active report still blocks correction 255ms
+   ✓ P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 390ms
+   ✓ P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 469ms
+   ✓ P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 467ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 974ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 1686ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 1048ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 1374ms
+   ✓ warehouse loss cannot charge an employee and holds original shipment from ordinary dispatch/edit 287ms
+   ✓ unavailable source operation does not drop local compensation; explicit follow-up queues the same affected subset with no second money 1173ms
+ ❯ tests/integration/p18/custody.db.test.ts (3 tests | 1 failed) 4474ms
+   ✓ stock report conserves quantities, excludes reserved goods, confirms loss from unavailable stock without cash 160ms
+   ✓ transfer discrepancy uses actual driver custody and source branch, blocks affected receipt, preserves uncompensated remainder 256ms
+   × dismissed parcel incident retains its hold history but permits an actual transfer receipt 171ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p18/custody.db.test.ts > dismissed parcel incident retains its hold history but permits an actual transfer receipt
+Error: INCIDENT_CUSTODY_HELD
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p18/custody.db.test.ts:193:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > dismissal releases an ordinary shipment hold while retaining history; another active report still blocks correction
+Error: INCIDENT_CUSTODY_HELD
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p18/incidents.db.test.ts:63:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 11 passed (13)
+   Start at  01:29:11
+   Duration  25.63s (tests 86%, import 10%, transform 4%)

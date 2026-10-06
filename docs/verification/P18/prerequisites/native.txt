@@ -1,0 +1,136 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/kernel.test.ts tests/db/shipments.test.ts tests/db/employees.test.ts tests/integration/p14/returns.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/db/kernel.test.ts (21 tests | 21 skipped) 40082ms
+   ↓ P03 committed PostgreSQL command/posting kernel (21)
+     ↓ commits one command/effect set for concurrent identical HTTP requests; rejects changed payload
+     ↓ same source through two command IDs posts once and rejects changed source meaning
+     ↓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing
+     ↓ rolls back all journals, command, source and audit when interrupted between posting and audit
+     ↓ barrier race, kernel.payout owns the wallet first
+     ↓ barrier race, kernel.reserve owns the wallet first
+     ↓ stale expectedVersion, revoked capability, another principal and changed branch scope cannot expose/reexecute results
+     ↓ compacts only expired resolved responses and recovers the immutable authorized domain result
+     ↓ rejects cross-company effects and invalid signs at the database boundary; history is append-only
+     ↓ fences worker A after database-expired lease; B commits, A cannot publish
+     ↓ holds source-specific eligible lots and keeps pending/storage out of payouts
+     ↓ does not register the controlled trial in production
+     ↓ kills the actual API after commit before response, restarts and recovers the same identity
+     ↓ retains an authorized version rejection even after the aggregate reaches that version
+     ↓ replays an expired compacted identity without executing, and never compacts a pending command
+     ↓ records a fee above its cover as truthful debt and consumes that cover only once
+     ↓ allow-negative only bypasses cover; money funding and payout eligibility still apply
+     ↓ releases identified holds/pending lots and keeps real storage-class facts outside the wallet
+     ↓ allocates the oldest eligible effective date then movement ID, without subtracting payout twice
+     ↓ appends a linked correction and preserves the original amount and effective date
+     ↓ releases cover once; a different release source cannot repeat it
+ ❯ tests/db/employees.test.ts (12 tests | 12 skipped) 40391ms
+   ↓ upgrades P07 and fresh schema without converting users or posting cash/earning
+   ↓ creates all independent modes and distinct duplicate names without login/driver linkage
+   ↓ runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision
+   ↓ corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods
+   ↓ serializes salary edit first then simulated P20 freeze using the real shared control row
+   ↓ serializes P20 freeze first then edit, which rejects without policy/revision changes
+   ↓ two independent SQL transactions cannot commit overlapping policies or associations
+   ↓ concurrent API links produce one exact association and a retained conflict
+   ↓ resolves exact work-time policy/link/branch snapshots and refuses pending external mapping
+   ↓ preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery
+   ↓ rolls back injected mutation failure and retains one success after same-intent retry
+   ↓ enforces same-company FKs, formula constraints, immutable histories and descriptive filters
+ ❯ tests/db/shipments.test.ts (17 tests | 17 skipped) 39098ms
+   ↓ P06 real PostgreSQL atomic shipment confirmation and authenticated HTTP (17)
+     ↓ commits ready 300 and packed 305 as distinct numeric references without loose stock or earned money
+     ↓ blocks missing tariff with zero business effects and permits explicit zero
+     ↓ rolls back shipment, receipt, custody, queue, audit and successful command after injected receipt failure
+     ↓ creates concurrent legitimate references and replays concurrent same-command only once
+     ↓ warns repeated brand reference, requires deliberate acknowledgement and keeps order identities independent
+     ↓ prepaid goods and prepaid-all retain tariff without goods credit or fictitious receipt
+     ↓ stores exact partial shipping remainder and exposes immutable native source-ready revisions
+     ↓ completes packing once; replay does not duplicate completion, custody or fee
+     ↓ cancellation retains prepared external custody; stale cancellation/completion races have one winner
+     ↓ corrects branch only on actual assertion, with immutable original receipt and reviewed preparation effects
+     ↓ rejects invalid phones/URLs/line quantities, unsafe money and unknown fields without business effects
+     ↓ enforces current assigned branches, company/module scope and CSRF for write/read/recovery
+     ↓ recovers committed same reference after compaction and retains stale rejection authoritatively
+     ↓ P05 Parcels reads real custody with AND/OR filters, Arabic search and retained cancelled parcels
+     ↓ protects immutable revisions, identities and real same-company/brand foreign keys
+     ↓ rejects integrated or handed-over correction/cancel/packing without shortcuts
+     ↓ tariff/policy edits never reprice old order; explicit service correction uses captured agreement
+ ❯ tests/integration/p14/returns.db.test.ts (11 tests | 11 skipped) 38824ms
+   ↓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody
+   ↓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history
+   ↓ out-of-order offer waits for outcome and never creates stock
+   ↓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters
+   ↓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds
+   ↓ wrong branch, excess, duplicate and stale input have no physical effect
+   ↓ parcel brand handover consumes custody once, creates no SKU stock or money
+   ↓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle
+   ↓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation
+   ↓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload
+   ↓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/employees.test.ts [ tests/db/employees.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/db/employees.test.ts:138:3
+    136|   const before = (await db.pool.query('SELECT count(*)::int AS users F…
+    137|     .rows[0];
+    138|   await migrate(db.pool);
+       |   ^
+    139|   expect(
+    140|     (await db.pool.query('SELECT count(*)::int AS users FROM access.or…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/db/kernel.test.ts [ tests/db/kernel.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/db/kernel.test.ts:92:3
+     90|     [oldWork.jobId, f.company, f.admin.id, records[1], f.staffA.id, ra…
+     91|   );
+     92|   await migrate(db.pool);
+       |   ^
+     93|   expect(await access.recover(f.admin.token, old.commandId)).toEqual(o…
+     94|   expect(await access.recover(f.admin.token, oldWork.commandId)).toEqu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/db/shipments.test.ts [ tests/db/shipments.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/db/shipments.test.ts:89:3
+     87|   seed = await seedCommercial(db.pool, f.admin.token, f.company, f.a, …
+     88|   const before = await db.pool.query('SELECT count(*)::int AS n FROM k…
+     89|   await migrate(db.pool);
+       |   ^
+     90|   expect((await migrationStatus(db.pool)).state).toBe('current');
+     91|   expect((await counts()).shipments).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/integration/p14/returns.db.test.ts [ tests/integration/p14/returns.db.test.ts ]
+error: syntax error at end of input
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ migrate packages/database/src/migrations.ts:99:9
+ ❯ tests/integration/p14/returns.db.test.ts:11:3
+      9| beforeAll(async () => {
+     10|   db = await isolatedPostgres();
+     11|   await migrate(db.pool);
+       |   ^
+     12|   f = await returnFixture(db.pool);
+     13| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  61 skipped (61)
+   Start at  13:49:05
+   Duration  166.85s (tests 95%, import 4%, transform 1%)

@@ -1,0 +1,13 @@
+Final P18 checks, 2026-10-07:
+- npm run test:unit: 602 cases / 24 files pass (32; unchanged unit scope).
+- npm run test:phase -- P18: 12 unit / 16 DB / 1 actual public pass (35), before the native dismissal fix and source cleanup. Browser owner exemption explicit.
+- Post-fix npm run test:db: 301 cases / 34 files pass (50), including all 18 registered P18 DB/HTTP cases.
+- npm run test:runner: 1 case pass (51).
+- npm run build, lint, typecheck pass (52, 53, 54); existing build chunk advisory retained.
+- git diff --check passed after final evidence update.
+- Known supplied/generated credentials scanned across 147 changed/untracked candidates: none found.
+- Other phases' test-generated evidence restored to exact pre-run bytes; no active Docker test containers remain.
+- Tawsel checkout clean; original VPS configuration restored; dedicated source and driver user disabled.
+- Latest main/origin comparison: 0/0 at 3413821fe0096fd4a495bbb80e23817d3d755c96 before completion commit. No branch/worktree created.
+- Browser reruns exempted by owner; manual device review unrun; broader historical conformance and P20/P21 gates remain separately owned.
+- Staged diff inspected: 148 phase files; git diff --cached --check passed; supplied/generated secret scan across staged candidates passed; no unstaged/untracked phase candidates remain.

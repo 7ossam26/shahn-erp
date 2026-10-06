@@ -1,0 +1,77 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/employees.test.ts (9 tests) 413ms
+ ✓ tests/unit/finance.test.ts (12 tests) 23ms
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 21ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 23ms
+ ✓ tests/unit/brands.test.ts (4 tests) 26ms
+ ✓ tests/unit/access.test.ts (37 tests) 29ms
+ ✓ tests/unit/shipments.test.ts (17 tests) 34ms
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 271ms
+ ✓ tests/integration/p18/contracts.unit.test.ts (8 tests) 23ms
+ ✓ tests/integration/p12/contracts.unit.test.ts (23 tests) 103ms
+ ✓ tests/integration/p17/contracts.unit.test.ts (17 tests) 29ms
+ ✓ tests/unit/money.test.ts (22 tests) 17ms
+ ✓ tests/unit/inventory.test.ts (4 tests) 16ms
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 20ms
+ ✓ tests/unit/form.test.tsx (2 tests) 4021ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 2764ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 1255ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 8ms
+ ❯ tests/unit/process-lifecycle.test.ts (3 tests | 1 failed) 10495ms
+   × worker registers the source queue and gracefully stops its actual process 5559ms
+   ✓ missing mandatory worker variable has a readable failure without a secret 4745ms
+   ✓ seed refuses production before attempting any database access 189ms
+ ✓ tests/integration/p15/contracts.unit.test.ts (12 tests) 90ms
+ ✓ tests/integration/p16/contracts.unit.test.ts (79 tests) 352ms
+ ✓ tests/integration/p13/contracts.unit.test.ts (167 tests) 885ms
+ ✓ tests/integration/p14/contracts.unit.test.ts (39 tests) 146ms
+ ✓ tests/integration/p17/ui.unit.test.tsx (8 tests) 6260ms
+   ✓ P17 payout form (connected browser-equivalent script checks, no Playwright) (6)
+     ✓ labels payable, pending, held and cover separately instead of one balance 657ms
+     ✓ reviews a closed scope, confirms once with the preview revision and follows the committed response 1372ms
+     ✓ requires an off-day reason before confirmation; the server decides off-day 2170ms
+     ✓ shows server blockers (insufficient funds or held credit) and cannot confirm 463ms
+     ✓ an unknown result keeps the same command identity through reload-style recovery; no second payout 639ms
+     ✓ a changed wallet reopens review with committed numbers and keeps the entered intent 623ms
+ ✓ tests/integration/p18/ui.unit.test.tsx (3 tests) 11097ms
+   ✓ explicit review explains 400 eligible / 200 obligation / zero cash before confirm and preserves unknown response across remount 4644ms
+   ✓ protected period and incorrect shares keep confirmation disabled; explicit allowed month requires another preview 2735ms
+   ✓ partial report selects only unclaimed pieces, preserves long reasons and has no valuation intake field 3717ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/process-lifecycle.test.ts > worker registers the source queue and gracefully stops its actual process
+AssertionError: expected '{"service":"worker","state":"started"…' to contain '"businessQueues":1'
+
+- Expected
++ Received
+
+- "businessQueues":1
++ {"service":"worker","state":"started","checkedAt":"2026-10-06T12:11:31.900Z","businessQueues":2}
++ {"service":"worker","state":"stopping","checkedAt":"2026-10-06T12:11:31.905Z","businessQueues":2}
++ {"service":"worker","state":"stopped","checkedAt":"2026-10-06T12:11:31.906Z","businessQueues":2}
++
+
+ ❯ tests/unit/process-lifecycle.test.ts:40:18
+     38|   expect(output).toContain('"state":"stopping"');
+     39|   expect(output).toContain('"state":"stopped"');
+     40|   expect(output).toContain('"businessQueues":1');
+       |                  ^
+     41|   expect(output + errors).not.toContain('LOCAL_SENTINEL');
+     42| }, 20000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 22 passed (23)
+      Tests  1 failed | 600 passed (601)
+   Start at  15:11:26
+   Duration  18.11s (import 40%, environment 25%, tests 22%, transform 8%, setup 5%)
+
+    Isolate  23 workers spawned · ~1.93s startup each (spawn + environment, per file)
+             at least ~1.03s faster with isolate: false — reuses workers across files instead of one per file
+
+exit 1

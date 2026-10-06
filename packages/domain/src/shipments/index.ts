@@ -71,11 +71,13 @@ export function shipmentPrice(
 ): ShipmentPrice {
   const goods = shipmentGoods(fields.lines),
     recipientShipping =
-      fields.shippingPayer === 'recipient'
-        ? price.tariffMinor
-        : fields.shippingPayer === 'brand'
-          ? '0'
-          : fields.recipientShippingDue?.amountMinor;
+      fields.replacement?.payer === 'company'
+        ? '0'
+        : fields.shippingPayer === 'recipient'
+          ? price.tariffMinor
+          : fields.shippingPayer === 'brand'
+            ? '0'
+            : fields.recipientShippingDue?.amountMinor;
   if (
     recipientShipping === undefined ||
     (fields.shippingPayer !== 'shared' && fields.recipientShippingDue !== null)
@@ -92,8 +94,12 @@ export function shipmentPrice(
     goodsDueMinor: goods,
     recipientShippingMinor: recipientShipping,
     recipientDueMinor: due.toString(),
-    brandShippingMinor: (BigInt(price.tariffMinor) - BigInt(recipientShipping)).toString(),
+    brandShippingMinor:
+      fields.replacement?.payer === 'company'
+        ? '0'
+        : (BigInt(price.tariffMinor) - BigInt(recipientShipping)).toString(),
     shippingPayer: fields.shippingPayer,
+    ...(fields.replacement?.payer === 'company' ? { waiverMinor: price.tariffMinor } : {}),
   };
 }
 /** Connected pure contract used by preview and committed confirmation; reference validity is checked in the transaction. */

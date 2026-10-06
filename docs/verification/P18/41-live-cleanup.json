@@ -1,0 +1,119 @@
+{
+  "recordedAt": "2026-10-06T22:18:52.270Z",
+  "runId": "379e9739-54fa-400a-b6bf-6e84d3b1292c",
+  "actions": [
+    {
+      "actionId": "cb561f3c-fb80-4e93-8cf7-57c492b2a571",
+      "operationId": "user.disable",
+      "result": {
+        "receipt": {
+          "actionId": "cb561f3c-fb80-4e93-8cf7-57c492b2a571",
+          "receiptId": "e71af91b-6fc2-44c9-91e1-d454a5afaccb",
+          "receivedAt": "2026-10-06T22:18:52.803Z",
+          "committedAt": "2026-10-06T22:18:52.815Z",
+          "schemaVersion": "1.0.0",
+          "businessStatus": "accepted",
+          "evidenceStatus": "received",
+          "resourceVersions": {
+            "sourceRevision": 2
+          }
+        },
+        "summary": {
+          "entity": "user",
+          "externalId": "user:d4b49b0c-722d-4c7b-ba72-1c936c1d6615",
+          "resourceId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+          "issuerStatus": "pending",
+          "sourceRevision": 2
+        },
+        "response": {
+          "body": {
+            "entity": "user",
+            "externalId": "user:d4b49b0c-722d-4c7b-ba72-1c936c1d6615",
+            "resourceId": "835358e6-926d-46f6-bacd-d8bb9562b548",
+            "issuerStatus": "pending",
+            "sourceRevision": 2
+          },
+          "status": 200
+        },
+        "retention": "full",
+        "operationId": "user.disable"
+      }
+    },
+    {
+      "actionId": "d21c2bba-739e-4617-b7b7-89cc4abbcb5a",
+      "operationId": "integration.configureWebhook",
+      "result": {
+        "receipt": {
+          "actionId": "d21c2bba-739e-4617-b7b7-89cc4abbcb5a",
+          "receiptId": "8cf92c8c-0893-4758-9f18-f24f688a7a0a",
+          "receivedAt": "2026-10-06T22:18:54.783Z",
+          "committedAt": "2026-10-06T22:18:54.786Z",
+          "schemaVersion": "1.0.0",
+          "businessStatus": "accepted",
+          "evidenceStatus": "received",
+          "resourceVersions": {}
+        },
+        "summary": {
+          "url": "https://app.switch2tech.cloud/api/p18-acceptance/api/v1/consumer/events",
+          "enabled": false,
+          "revision": 2
+        },
+        "response": {
+          "body": {
+            "url": "https://app.switch2tech.cloud/api/p18-acceptance/api/v1/consumer/events",
+            "enabled": false,
+            "revision": 2
+          },
+          "status": 200
+        },
+        "retention": "full",
+        "operationId": "integration.configureWebhook"
+      }
+    },
+    {
+      "actionId": "eeff9ce5-467a-466f-a18d-3a5a6994e580",
+      "operationId": "integration.disableSource",
+      "result": {
+        "receipt": {
+          "actionId": "eeff9ce5-467a-466f-a18d-3a5a6994e580",
+          "receiptId": "b7be9209-0402-4faa-ac49-a4fac3887e2b",
+          "receivedAt": "2026-10-06T22:18:55.535Z",
+          "committedAt": "2026-10-06T22:18:55.538Z",
+          "schemaVersion": "1.0.0",
+          "businessStatus": "accepted",
+          "evidenceStatus": "received",
+          "resourceVersions": {
+            "sourceRevision": 2
+          }
+        },
+        "summary": {
+          "entity": "source",
+          "externalId": "shahn-p18-379e9739-54fa-400a-b6bf-6e84d3b1292c",
+          "resourceId": "b18abb3d-5c62-4ab9-b904-666d2af13d95",
+          "issuerStatus": "not-required",
+          "sourceRevision": 2
+        },
+        "response": {
+          "body": {
+            "entity": "source",
+            "externalId": "shahn-p18-379e9739-54fa-400a-b6bf-6e84d3b1292c",
+            "resourceId": "b18abb3d-5c62-4ab9-b904-666d2af13d95",
+            "issuerStatus": "not-required",
+            "sourceRevision": 2
+          },
+          "status": 200
+        },
+        "retention": "full",
+        "operationId": "integration.disableSource"
+      }
+    }
+  ],
+  "driverDisableAttempt": {
+    "result": "native rejection",
+    "code": "NATIVE_REFERENCE_MISMATCH",
+    "effects": "none",
+    "resolution": "disable owning native/canonical user and entire dedicated source; retain driver reference history"
+  },
+  "revokedServiceStatus": 403,
+  "revokedDriverStatus": 401
+}

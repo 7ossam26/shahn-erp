@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, type ReactNode } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
   Button,
@@ -41,6 +41,8 @@ export const preparationNames = {
 const messages: Record<string, string> = {
   STOCK_SHORTAGE:
     'المخزون المتاح لا يكفي لكل القطع. أضف مخزونًا باستلام فعلي أو راجع الكميات والفرع ثم أعد المحاولة.',
+  INCIDENT_CUSTODY_HELD: 'البضاعة متأثرة ببلاغ تلف أو فقد؛ راجع البلاغ قبل متابعة العهدة.',
+  CONFIRMED_INCIDENT_REQUIRED: 'يلزم بلاغ مؤكد لنفس البراند ودون مراجعة تصحيح مفتوحة.',
   PREPARATION_HELD: 'التجهيز موقوف بسبب عجز المخزون. راجع الحجز أو ألغِ الطلب أو استكمل المخزون.',
   STOCK_VARIANT_UNAVAILABLE: 'هذا الصنف غير نشط أو لا ينتمي للبراند. راجع الاختيار.',
   STOCK_VARIANT_REQUIRED: 'اختر صنفًا لكل قطعة.',
@@ -105,6 +107,13 @@ export function PriceSummary({ price }: { price: ShipmentPrice }) {
         ['الشحن الأساسي', price.baseShippingMinor],
         ['إضافة التغليف', price.packingUpliftMinor],
         ['التعريفة التجارية', price.tariffMinor],
+        ...(price.waiverMinor
+          ? [
+              ['إعفاء شحن تتحمله الشركة', price.waiverMinor],
+              ['صافي إيراد الشحن عند الزيارة', '0'],
+              ['أساس عمولة المندوب المعتادة', price.commissionBaseMinor],
+            ]
+          : []),
         ['شحن مستحق على المستلم', price.recipientShippingMinor],
         ['شحن يموله البراند', price.brandShippingMinor],
         ['إجمالي المستلم', price.recipientDueMinor],
@@ -152,7 +161,9 @@ export function ShipmentEditor({
   disabled,
   onChange,
   stockOnly = false,
+  replacement,
 }: {
+  replacement?: ShipmentFields['replacement'] & { brandId: string };
   stockOnly?: boolean;
   catalog: ShipmentCatalog;
   initial?: ShipmentFields;
@@ -166,6 +177,16 @@ export function ShipmentEditor({
         ...emptyFields(),
         ...(stockOnly ? { service: 'stored_stock' as const } : {}),
         branchId: catalog.branches.length === 1 ? catalog.branches[0]!.id : '',
+        ...(replacement
+          ? {
+              brandId: replacement.brandId,
+              replacement: {
+                incidentId: replacement.incidentId,
+                payer: replacement.payer,
+                reason: replacement.reason,
+              },
+            }
+          : {}),
       },
   );
   const [rawLines, setLines] = useState(() =>
@@ -566,18 +587,59 @@ export function ShipmentEditor({
         >
           إضافة قطعة
         </Button>
-        <Field label="سداد الشحن">
-          <select
-            value={fields.shippingPayer}
-            onChange={(e) =>
-              update('shippingPayer', e.target.value as ShipmentFields['shippingPayer'])
-            }
-          >
-            <option value="recipient">مستحق على المستلم</option>
-            <option value="brand">مدفوع إلى البراند — يموله البراند</option>
-            <option value="shared">مستحق شحن محدد من البراند</option>
-          </select>
-        </Field>
+        {fields.replacement ? (
+          <>
+            <Field label="تمويل شحن البديل">
+              <select
+                value={fields.replacement.payer}
+                disabled={!!oldPrice}
+                onChange={(e) => {
+                  const payer = e.target.value as 'recipient' | 'brand' | 'company';
+                  setFields({
+                    ...fields,
+                    shippingPayer: payer === 'brand' ? 'brand' : 'recipient',
+                    replacement: { ...fields.replacement!, payer },
+                  });
+                }}
+              >
+                <option value="recipient">المستلم</option>
+                <option value="brand">البراند</option>
+                <option value="company">الشركة باتفاق الواقعة</option>
+              </select>
+            </Field>
+            <Field label="اتفاق الشحنة البديلة">
+              <textarea
+                required
+                disabled={!!oldPrice}
+                maxLength={2000}
+                value={fields.replacement.reason}
+                onChange={(e) =>
+                  setFields({
+                    ...fields,
+                    replacement: { ...fields.replacement!, reason: e.target.value },
+                  })
+                }
+              />
+            </Field>
+            <p>
+              شحنة جديدة باستلام أو مخزون فعلي. إعفاء الشحن يحتفظ بالبضاعة المستحقة وعمولة المندوب؛
+              لا تُكتسب رسوم قبل الزيارة.
+            </p>
+          </>
+        ) : (
+          <Field label="سداد الشحن">
+            <select
+              value={fields.shippingPayer}
+              onChange={(e) =>
+                update('shippingPayer', e.target.value as ShipmentFields['shippingPayer'])
+              }
+            >
+              <option value="recipient">مستحق على المستلم</option>
+              <option value="brand">مدفوع إلى البراند — يموله البراند</option>
+              <option value="shared">مستحق شحن محدد من البراند</option>
+            </select>
+          </Field>
+        )}
         {fields.shippingPayer === 'shared' && (
           <Field label="المتبقي من الشحن على المستلم (ج.م)">
             <Input
@@ -605,6 +667,9 @@ export function ShipmentEditor({
   );
 }
 export function ShipmentNewPage({ stockOnly = false }: { stockOnly?: boolean }) {
+  const [replacementParams] = useSearchParams();
+  const replacementId = replacementParams.get('incidentId'),
+    replacementBrand = replacementParams.get('brandId');
   const catalog = useShipmentCatalog(),
     navigate = useNavigate(),
     [fields, setFields] = useState<ShipmentFields | null>(null),
@@ -632,6 +697,12 @@ export function ShipmentNewPage({ stockOnly = false }: { stockOnly?: boolean }) 
       <Link className="back-link" to="/preparation">
         قائمة التجهيز
       </Link>
+      {replacementId && (
+        <p className="commercial-warning">
+          شحنة بديلة مرتبطة بواقعة مؤكدة ·{' '}
+          <Link to={'/incidents/' + replacementId}>مراجعة البلاغ والشحنة الأصلية</Link>
+        </p>
+      )}
       {stockOnly && catalog.access.registry?.context.grants.includes('inventory') && (
         <Link className="back-link" to="/inventory/receipts/new">
           إضافة مخزون باستلام فعلي
@@ -650,6 +721,16 @@ export function ShipmentNewPage({ stockOnly = false }: { stockOnly?: boolean }) 
           }}
         >
           <ShipmentEditor
+            {...(replacementId && replacementBrand
+              ? {
+                  replacement: {
+                    incidentId: replacementId,
+                    brandId: replacementBrand,
+                    payer: 'recipient' as const,
+                    reason: '',
+                  },
+                }
+              : {})}
             stockOnly={stockOnly}
             catalog={catalog.data}
             disabled={mutation.busy || !!mutation.pending}
@@ -864,6 +945,26 @@ export function ShipmentDetailPage() {
             {d.fields.comment && <p>{d.fields.comment}</p>}
           </section>
           <PriceSummary price={d.price} />
+          {d.fields.replacement && (
+            <section className="commercial-warning">
+              <Link to={'/incidents/' + d.fields.replacement.incidentId}>
+                البلاغ المرتبط بالشحنة البديلة
+              </Link>
+              <p>{d.fields.replacement.reason}</p>
+              <p>اتفاق الشحن محفوظ، وعمولة المندوب المعتادة مستمرة.</p>
+              {d.fields.replacement.payer === 'company' && (
+                <p>
+                  الشحن المرسل إلى نظام التوصيل صفر، والبضاعة المستحقة محفوظة. يظل قبول الإرسال
+                  والتصرف في العهدة ظاهرًا في حالة طلب التسليم.
+                </p>
+              )}
+            </section>
+          )}
+          {access.registry?.context.grants.includes('incidents') && (
+            <Link to={'/incidents/new?shipmentId=' + d.id + '&brandId=' + d.fields.brandId}>
+              تسجيل بلاغ عن بضاعة الشحنة
+            </Link>
+          )}
           <StockHistory detail={d} onSaved={() => void query.refetch()} />
           <section className="parcel-contents">
             <h2>القطع والمستحق للقطعة</h2>

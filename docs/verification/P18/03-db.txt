@@ -1,0 +1,148 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p18/incidents.db.test.ts (8 tests | 8 failed) 39585ms
+   × P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 175ms
+   × P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 112ms
+   × P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 97ms
+   × P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 99ms
+   × P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 157ms
+   × P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 176ms
+   × P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 110ms
+   × warehouse loss cannot charge an employee and holds original shipment from ordinary dispatch/edit 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:11:55
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:19:35
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:23:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:29:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/integration/p18/incidents.db.test.ts:38:153
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:44:47
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:51:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > warehouse loss cannot charge an employee and holds original shipment from ordinary dispatch/edit
+error: record "new" has no field "incident_id"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ transaction packages/database/src/transaction.ts:16:5
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ Object.report tests/integration/p18/fixtures.ts:14:25
+ ❯ tests/integration/p18/incidents.db.test.ts:58:132
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed (8)
+   Start at  14:29:58
+   Duration  41.63s (tests 95%, import 3%, transform 2%)

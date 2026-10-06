@@ -1,0 +1,43 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p18/incidents.db.test.ts (8 tests) 42448ms
+   ✓ P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 396ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 366ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 367ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 353ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 354ms
+ ❯ tests/integration/p18/replacement.db.test.ts (2 tests | 2 failed) 40033ms
+   × P18-AC-06/07 ordinary new receipt snapshots 250 goods / zero recipient shipping; real P13 projection posts one fee+waiver+commission and no brand shipping debit 16ms
+   × P18-AC-07 replacement lost response recovers one reference; no cloned receipt and no unsupported payer 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p18/replacement.db.test.ts > P18-AC-06/07 ordinary new receipt snapshots 250 goods / zero recipient shipping; real P13 projection posts one fee+waiver+commission and no brand shipping debit
+ FAIL  tests/integration/p18/replacement.db.test.ts > P18-AC-07 replacement lost response recovers one reference; no cloned receipt and no unsupported payer
+error: new row for relation "price_snapshot" violates check constraint "price_snapshot_snapshot_check6"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ appendShipmentRevision packages/database/src/shipments/index.ts:26:3
+ ❯ createShipmentAggregate packages/database/src/shipments/index.ts:52:3
+ ❯ confirmShipment apps/api/src/modules/shipments/service.ts:279:17
+    277| ) {
+    278|   const id = randomUUID(),
+    279|     reference = await createShipmentAggregate(
+       |                 ^
+    280|       uow.client,
+    281|       uow.access.companyId,
+ ❯ Object.execute apps/api/src/modules/shipments/service.ts:380:27
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.create tests/integration/p12/fixtures.ts:158:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 8 passed (10)
+   Start at  14:40:42
+   Duration  86.12s (tests 96%, import 3%, transform 1%)

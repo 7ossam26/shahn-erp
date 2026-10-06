@@ -8,6 +8,2624 @@
     }
   },
   "paths": {
+    "/api/v1/incidents": {
+      "get": {
+        "summary": "Scoped incident journey",
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                          "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                          "state": { "enum": ["reported", "confirmed", "dismissed"] },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "brandName": { "type": "string", "maxLength": 2000 },
+                          "custodyBranchId": { "type": "string", "format": "uuid" },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchName": { "type": "string", "maxLength": 2000 },
+                          "holder": { "enum": ["branch", "driver"] },
+                          "driverId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "report": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "brandId": { "type": "string", "format": "uuid" },
+                              "kind": { "enum": ["loss", "damage"] },
+                              "observedAt": { "type": "string", "format": "date-time" },
+                              "cause": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              "comment": { "type": "string", "maxLength": 2000 },
+                              "evidence": {
+                                "type": "array",
+                                "maxItems": 10,
+                                "items": {
+                                  "type": "string",
+                                  "maxLength": 2000,
+                                  "minLength": 1,
+                                  "pattern": "\\S"
+                                }
+                              },
+                              "items": {
+                                "type": "array",
+                                "minItems": 1,
+                                "maxItems": 100,
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "kind": {
+                                      "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                    },
+                                    "sourceId": { "type": "string", "format": "uuid" },
+                                    "lineId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "offset": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007198254740991
+                                    },
+                                    "quantity": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "maximum": 1000000
+                                    }
+                                  },
+                                  "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                                }
+                              }
+                            },
+                            "required": [
+                              "brandId",
+                              "kind",
+                              "observedAt",
+                              "cause",
+                              "comment",
+                              "evidence",
+                              "items"
+                            ]
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                                "snapshot": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "kind": {
+                                      "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                    },
+                                    "sourceId": { "type": "string", "format": "uuid" },
+                                    "lineId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "key": { "type": "string", "maxLength": 2000 },
+                                    "brandId": { "type": "string", "format": "uuid" },
+                                    "branchId": { "type": "string", "format": "uuid" },
+                                    "shipmentId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "label": { "type": "string", "maxLength": 2000 },
+                                    "capacity": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "holder": { "enum": ["branch", "driver"] },
+                                    "driverId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "variantId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "sourceCondition": { "enum": ["sound", "unavailable"] },
+                                    "returnRequestId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "returnItemId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "returnRevision": {
+                                      "anyOf": [
+                                        {
+                                          "type": "integer",
+                                          "minimum": 0,
+                                          "maximum": 9007199254740991
+                                        },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "claimed": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "offset": { "type": "integer", "minimum": 0 },
+                                          "quantity": { "type": "integer", "minimum": 1 }
+                                        },
+                                        "required": ["offset", "quantity"]
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "kind",
+                                    "sourceId",
+                                    "lineId",
+                                    "key",
+                                    "brandId",
+                                    "branchId",
+                                    "shipmentId",
+                                    "label",
+                                    "capacity",
+                                    "holder",
+                                    "driverId",
+                                    "variantId",
+                                    "sourceCondition",
+                                    "returnRequestId",
+                                    "returnItemId",
+                                    "returnRevision",
+                                    "claimed"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "sourceId",
+                                "lineId",
+                                "offset",
+                                "quantity",
+                                "snapshot"
+                              ]
+                            }
+                          },
+                          "recordedAt": { "type": "string", "format": "date-time" },
+                          "actorName": { "type": "string", "maxLength": 2000 },
+                          "dismissalReason": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "confirmation": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "expectedVersion": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 2147483647
+                                  },
+                                  "goodsValueMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "compensationMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "companyShareMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "employeeShareMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "responsibleBranchId": { "type": "string", "format": "uuid" },
+                                  "branchReason": { "type": "string", "maxLength": 2000 },
+                                  "employeeId": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "uuid" },
+                                      { "type": "null" }
+                                    ]
+                                  },
+                                  "payrollMonth": {
+                                    "anyOf": [
+                                      { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                                      { "type": "null" }
+                                    ]
+                                  },
+                                  "agreementReason": {
+                                    "type": "string",
+                                    "maxLength": 2000,
+                                    "minLength": 1,
+                                    "pattern": "\\S"
+                                  },
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "sourceId": { "type": "string", "format": "uuid" },
+                                  "lotId": { "type": "string", "format": "uuid" },
+                                  "obligationId": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "uuid" },
+                                      { "type": "null" }
+                                    ]
+                                  },
+                                  "employeePayrollBranchId": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "uuid" },
+                                      { "type": "null" }
+                                    ]
+                                  },
+                                  "confirmedAt": { "type": "string", "format": "date-time" },
+                                  "actorName": { "type": "string", "maxLength": 2000 },
+                                  "effects": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "id": { "type": "string", "format": "uuid" },
+                                        "family": { "type": "string", "maxLength": 2000 },
+                                        "kind": { "type": "string", "maxLength": 2000 },
+                                        "amountMinor": {
+                                          "type": "string",
+                                          "pattern": "^(0|-?[1-9][0-9]*)$"
+                                        },
+                                        "branchId": { "type": "string", "format": "uuid" }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "family",
+                                        "kind",
+                                        "amountMinor",
+                                        "branchId"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "expectedVersion",
+                                  "goodsValueMinor",
+                                  "compensationMinor",
+                                  "companyShareMinor",
+                                  "employeeShareMinor",
+                                  "responsibleBranchId",
+                                  "branchReason",
+                                  "employeeId",
+                                  "payrollMonth",
+                                  "agreementReason",
+                                  "id",
+                                  "sourceId",
+                                  "lotId",
+                                  "obligationId",
+                                  "employeePayrollBranchId",
+                                  "confirmedAt",
+                                  "actorName",
+                                  "effects"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "disposition": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "state": {
+                                "enum": [
+                                  "not_confirmed",
+                                  "native_recorded",
+                                  "awaiting_request",
+                                  "awaiting_dependency",
+                                  "pending",
+                                  "accepted",
+                                  "review"
+                                ]
+                              },
+                              "actionIds": {
+                                "type": "array",
+                                "items": { "type": "string", "format": "uuid" }
+                              }
+                            },
+                            "required": ["state", "actionIds"]
+                          },
+                          "replacements": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "reference": { "type": "string" },
+                                "payer": { "enum": ["recipient", "brand", "company"] }
+                              },
+                              "required": ["id", "reference", "payer"]
+                            }
+                          },
+                          "payouts": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": { "type": "string", "format": "uuid" },
+                                "reference": { "type": "string" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                }
+                              },
+                              "required": ["id", "reference", "amountMinor"]
+                            }
+                          },
+                          "review": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "reason": {
+                                    "type": "string",
+                                    "maxLength": 2000,
+                                    "minLength": 1,
+                                    "pattern": "\\S"
+                                  },
+                                  "holdMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "status": { "const": "awaiting_p21" },
+                                  "recordedAt": { "type": "string", "format": "date-time" }
+                                },
+                                "required": ["id", "reason", "holdMinor", "status", "recordedAt"]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "recovery": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "obligationId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "status": { "const": "awaiting_p20" },
+                              "amountMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": ["obligationId", "status", "amountMinor"]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "reference",
+                          "version",
+                          "state",
+                          "brandId",
+                          "brandName",
+                          "custodyBranchId",
+                          "responsibleBranchId",
+                          "branchName",
+                          "holder",
+                          "driverId",
+                          "report",
+                          "items",
+                          "recordedAt",
+                          "actorName",
+                          "dismissalReason",
+                          "confirmation",
+                          "disposition",
+                          "replacements",
+                          "payouts",
+                          "review",
+                          "recovery"
+                        ]
+                      }
+                    },
+                    "total": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["items", "total"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      },
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.report" },
+                      "report": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["loss", "damage"] },
+                          "observedAt": { "type": "string", "format": "date-time" },
+                          "cause": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "comment": { "type": "string", "maxLength": 2000 },
+                          "evidence": {
+                            "type": "array",
+                            "maxItems": 10,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                              },
+                              "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "kind",
+                          "observedAt",
+                          "cause",
+                          "comment",
+                          "evidence",
+                          "items"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "report"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.confirm" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "confirmation": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "expectedVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          },
+                          "goodsValueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "compensationMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "companyShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "employeeShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchReason": { "type": "string", "maxLength": 2000 },
+                          "employeeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "payrollMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "agreementReason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "expectedVersion",
+                          "goodsValueMinor",
+                          "compensationMinor",
+                          "companyShareMinor",
+                          "employeeShareMinor",
+                          "responsibleBranchId",
+                          "branchReason",
+                          "employeeId",
+                          "payrollMonth",
+                          "agreementReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "confirmation"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.dismiss" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.review" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.disposition" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/catalog": {
+      "get": {
+        "summary": "Scoped incident journey",
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "maxLength": 2000 }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "maxLength": 2000 }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "employees": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string", "maxLength": 2000 },
+                          "branchId": { "type": "string", "format": "uuid" }
+                        },
+                        "required": ["id", "name", "branchId"]
+                      }
+                    },
+                    "currentMonth": { "type": "string" }
+                  },
+                  "required": ["branches", "brands", "employees", "currentMonth"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/candidates": {
+      "get": {
+        "summary": "Scoped incident journey",
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": { "enum": ["shipment_line", "stock_movement", "transfer_line"] },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "lineId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "key": { "type": "string", "maxLength": 2000 },
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "shipmentId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "label": { "type": "string", "maxLength": 2000 },
+                          "capacity": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "holder": { "enum": ["branch", "driver"] },
+                          "driverId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "variantId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "sourceCondition": { "enum": ["sound", "unavailable"] },
+                          "returnRequestId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "returnItemId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "returnRevision": {
+                            "anyOf": [
+                              { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                              { "type": "null" }
+                            ]
+                          },
+                          "claimed": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "offset": { "type": "integer", "minimum": 0 },
+                                "quantity": { "type": "integer", "minimum": 1 }
+                              },
+                              "required": ["offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "sourceId",
+                          "lineId",
+                          "key",
+                          "brandId",
+                          "branchId",
+                          "shipmentId",
+                          "label",
+                          "capacity",
+                          "holder",
+                          "driverId",
+                          "variantId",
+                          "sourceCondition",
+                          "returnRequestId",
+                          "returnItemId",
+                          "returnRevision",
+                          "claimed"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["items"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}": {
+      "get": {
+        "summary": "Scoped incident journey",
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "state": { "enum": ["reported", "confirmed", "dismissed"] },
+                    "brandId": { "type": "string", "format": "uuid" },
+                    "brandName": { "type": "string", "maxLength": 2000 },
+                    "custodyBranchId": { "type": "string", "format": "uuid" },
+                    "responsibleBranchId": { "type": "string", "format": "uuid" },
+                    "branchName": { "type": "string", "maxLength": 2000 },
+                    "holder": { "enum": ["branch", "driver"] },
+                    "driverId": {
+                      "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                    },
+                    "report": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "brandId": { "type": "string", "format": "uuid" },
+                        "kind": { "enum": ["loss", "damage"] },
+                        "observedAt": { "type": "string", "format": "date-time" },
+                        "cause": {
+                          "type": "string",
+                          "maxLength": 2000,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "comment": { "type": "string", "maxLength": 2000 },
+                        "evidence": {
+                          "type": "array",
+                          "maxItems": 10,
+                          "items": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "items": {
+                          "type": "array",
+                          "minItems": 1,
+                          "maxItems": 100,
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "kind": {
+                                "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                              },
+                              "sourceId": { "type": "string", "format": "uuid" },
+                              "lineId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "offset": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007198254740991
+                              },
+                              "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                            },
+                            "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                          }
+                        }
+                      },
+                      "required": [
+                        "brandId",
+                        "kind",
+                        "observedAt",
+                        "cause",
+                        "comment",
+                        "evidence",
+                        "items"
+                      ]
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": { "enum": ["shipment_line", "stock_movement", "transfer_line"] },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "lineId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "offset": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007198254740991
+                          },
+                          "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                          "snapshot": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "kind": {
+                                "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                              },
+                              "sourceId": { "type": "string", "format": "uuid" },
+                              "lineId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "key": { "type": "string", "maxLength": 2000 },
+                              "brandId": { "type": "string", "format": "uuid" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "shipmentId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "label": { "type": "string", "maxLength": 2000 },
+                              "capacity": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "holder": { "enum": ["branch", "driver"] },
+                              "driverId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "variantId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "sourceCondition": { "enum": ["sound", "unavailable"] },
+                              "returnRequestId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "returnItemId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "returnRevision": {
+                                "anyOf": [
+                                  { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "claimed": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "offset": { "type": "integer", "minimum": 0 },
+                                    "quantity": { "type": "integer", "minimum": 1 }
+                                  },
+                                  "required": ["offset", "quantity"]
+                                }
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "sourceId",
+                              "lineId",
+                              "key",
+                              "brandId",
+                              "branchId",
+                              "shipmentId",
+                              "label",
+                              "capacity",
+                              "holder",
+                              "driverId",
+                              "variantId",
+                              "sourceCondition",
+                              "returnRequestId",
+                              "returnItemId",
+                              "returnRevision",
+                              "claimed"
+                            ]
+                          }
+                        },
+                        "required": ["kind", "sourceId", "lineId", "offset", "quantity", "snapshot"]
+                      }
+                    },
+                    "recordedAt": { "type": "string", "format": "date-time" },
+                    "actorName": { "type": "string", "maxLength": 2000 },
+                    "dismissalReason": {
+                      "anyOf": [
+                        { "type": "string", "maxLength": 2000, "minLength": 1, "pattern": "\\S" },
+                        { "type": "null" }
+                      ]
+                    },
+                    "confirmation": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "expectedVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 2147483647
+                            },
+                            "goodsValueMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "compensationMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "companyShareMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "employeeShareMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "responsibleBranchId": { "type": "string", "format": "uuid" },
+                            "branchReason": { "type": "string", "maxLength": 2000 },
+                            "employeeId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "payrollMonth": {
+                              "anyOf": [
+                                { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                                { "type": "null" }
+                              ]
+                            },
+                            "agreementReason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            "id": { "type": "string", "format": "uuid" },
+                            "sourceId": { "type": "string", "format": "uuid" },
+                            "lotId": { "type": "string", "format": "uuid" },
+                            "obligationId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "employeePayrollBranchId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "confirmedAt": { "type": "string", "format": "date-time" },
+                            "actorName": { "type": "string", "maxLength": 2000 },
+                            "effects": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "family": { "type": "string", "maxLength": 2000 },
+                                  "kind": { "type": "string", "maxLength": 2000 },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "branchId": { "type": "string", "format": "uuid" }
+                                },
+                                "required": ["id", "family", "kind", "amountMinor", "branchId"]
+                              }
+                            }
+                          },
+                          "required": [
+                            "expectedVersion",
+                            "goodsValueMinor",
+                            "compensationMinor",
+                            "companyShareMinor",
+                            "employeeShareMinor",
+                            "responsibleBranchId",
+                            "branchReason",
+                            "employeeId",
+                            "payrollMonth",
+                            "agreementReason",
+                            "id",
+                            "sourceId",
+                            "lotId",
+                            "obligationId",
+                            "employeePayrollBranchId",
+                            "confirmedAt",
+                            "actorName",
+                            "effects"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    },
+                    "disposition": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "not_confirmed",
+                            "native_recorded",
+                            "awaiting_request",
+                            "awaiting_dependency",
+                            "pending",
+                            "accepted",
+                            "review"
+                          ]
+                        },
+                        "actionIds": {
+                          "type": "array",
+                          "items": { "type": "string", "format": "uuid" }
+                        }
+                      },
+                      "required": ["state", "actionIds"]
+                    },
+                    "replacements": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string" },
+                          "payer": { "enum": ["recipient", "brand", "company"] }
+                        },
+                        "required": ["id", "reference", "payer"]
+                      }
+                    },
+                    "payouts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "reference": { "type": "string" },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                        },
+                        "required": ["id", "reference", "amountMinor"]
+                      }
+                    },
+                    "review": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": { "type": "string", "format": "uuid" },
+                            "reason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            "holdMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "status": { "const": "awaiting_p21" },
+                            "recordedAt": { "type": "string", "format": "date-time" }
+                          },
+                          "required": ["id", "reason", "holdMinor", "status", "recordedAt"]
+                        },
+                        { "type": "null" }
+                      ]
+                    },
+                    "recovery": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "obligationId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "status": { "const": "awaiting_p20" },
+                        "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                      },
+                      "required": ["obligationId", "status", "amountMinor"]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "reference",
+                    "version",
+                    "state",
+                    "brandId",
+                    "brandName",
+                    "custodyBranchId",
+                    "responsibleBranchId",
+                    "branchName",
+                    "holder",
+                    "driverId",
+                    "report",
+                    "items",
+                    "recordedAt",
+                    "actorName",
+                    "dismissalReason",
+                    "confirmation",
+                    "disposition",
+                    "replacements",
+                    "payouts",
+                    "review",
+                    "recovery"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/commands/{commandId}": {
+      "get": {
+        "summary": "Scoped incident journey",
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}/confirmation-preview": {
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "confirmation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "goodsValueMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                      "compensationMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                      },
+                      "companyShareMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                      },
+                      "employeeShareMinor": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                      },
+                      "responsibleBranchId": { "type": "string", "format": "uuid" },
+                      "branchReason": { "type": "string", "maxLength": 2000 },
+                      "employeeId": {
+                        "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                      },
+                      "payrollMonth": {
+                        "anyOf": [
+                          { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                          { "type": "null" }
+                        ]
+                      },
+                      "agreementReason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "expectedVersion",
+                      "goodsValueMinor",
+                      "compensationMinor",
+                      "companyShareMinor",
+                      "employeeShareMinor",
+                      "responsibleBranchId",
+                      "branchReason",
+                      "employeeId",
+                      "payrollMonth",
+                      "agreementReason"
+                    ]
+                  }
+                },
+                "required": ["companyId", "confirmation"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "confirmation": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "expectedVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 2147483647
+                        },
+                        "goodsValueMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "compensationMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "companyShareMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "employeeShareMinor": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "responsibleBranchId": { "type": "string", "format": "uuid" },
+                        "branchReason": { "type": "string", "maxLength": 2000 },
+                        "employeeId": {
+                          "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                        },
+                        "payrollMonth": {
+                          "anyOf": [
+                            { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                            { "type": "null" }
+                          ]
+                        },
+                        "agreementReason": {
+                          "type": "string",
+                          "maxLength": 2000,
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        }
+                      },
+                      "required": [
+                        "expectedVersion",
+                        "goodsValueMinor",
+                        "compensationMinor",
+                        "companyShareMinor",
+                        "employeeShareMinor",
+                        "responsibleBranchId",
+                        "branchReason",
+                        "employeeId",
+                        "payrollMonth",
+                        "agreementReason"
+                      ]
+                    },
+                    "blockers": { "type": "array", "items": { "type": "string" } },
+                    "allowedPayrollMonth": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "walletCreditMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "employeeObligationMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "compensationCostMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "employeeCompensationShareMinor": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]{0,18})$"
+                    },
+                    "cashMinor": { "const": "0" }
+                  },
+                  "required": [
+                    "confirmation",
+                    "blockers",
+                    "allowedPayrollMonth",
+                    "walletCreditMinor",
+                    "employeeObligationMinor",
+                    "compensationCostMinor",
+                    "employeeCompensationShareMinor",
+                    "cashMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}/confirm": {
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.report" },
+                      "report": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["loss", "damage"] },
+                          "observedAt": { "type": "string", "format": "date-time" },
+                          "cause": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "comment": { "type": "string", "maxLength": 2000 },
+                          "evidence": {
+                            "type": "array",
+                            "maxItems": 10,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                              },
+                              "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "kind",
+                          "observedAt",
+                          "cause",
+                          "comment",
+                          "evidence",
+                          "items"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "report"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.confirm" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "confirmation": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "expectedVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          },
+                          "goodsValueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "compensationMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "companyShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "employeeShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchReason": { "type": "string", "maxLength": 2000 },
+                          "employeeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "payrollMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "agreementReason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "expectedVersion",
+                          "goodsValueMinor",
+                          "compensationMinor",
+                          "companyShareMinor",
+                          "employeeShareMinor",
+                          "responsibleBranchId",
+                          "branchReason",
+                          "employeeId",
+                          "payrollMonth",
+                          "agreementReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "confirmation"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.dismiss" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.review" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.disposition" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}/dismiss": {
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.report" },
+                      "report": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["loss", "damage"] },
+                          "observedAt": { "type": "string", "format": "date-time" },
+                          "cause": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "comment": { "type": "string", "maxLength": 2000 },
+                          "evidence": {
+                            "type": "array",
+                            "maxItems": 10,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                              },
+                              "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "kind",
+                          "observedAt",
+                          "cause",
+                          "comment",
+                          "evidence",
+                          "items"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "report"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.confirm" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "confirmation": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "expectedVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          },
+                          "goodsValueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "compensationMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "companyShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "employeeShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchReason": { "type": "string", "maxLength": 2000 },
+                          "employeeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "payrollMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "agreementReason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "expectedVersion",
+                          "goodsValueMinor",
+                          "compensationMinor",
+                          "companyShareMinor",
+                          "employeeShareMinor",
+                          "responsibleBranchId",
+                          "branchReason",
+                          "employeeId",
+                          "payrollMonth",
+                          "agreementReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "confirmation"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.dismiss" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.review" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.disposition" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}/review": {
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.report" },
+                      "report": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["loss", "damage"] },
+                          "observedAt": { "type": "string", "format": "date-time" },
+                          "cause": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "comment": { "type": "string", "maxLength": 2000 },
+                          "evidence": {
+                            "type": "array",
+                            "maxItems": 10,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                              },
+                              "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "kind",
+                          "observedAt",
+                          "cause",
+                          "comment",
+                          "evidence",
+                          "items"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "report"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.confirm" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "confirmation": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "expectedVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          },
+                          "goodsValueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "compensationMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "companyShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "employeeShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchReason": { "type": "string", "maxLength": 2000 },
+                          "employeeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "payrollMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "agreementReason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "expectedVersion",
+                          "goodsValueMinor",
+                          "compensationMinor",
+                          "companyShareMinor",
+                          "employeeShareMinor",
+                          "responsibleBranchId",
+                          "branchReason",
+                          "employeeId",
+                          "payrollMonth",
+                          "agreementReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "confirmation"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.dismiss" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.review" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.disposition" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
+    "/api/v1/incidents/{id}/disposition": {
+      "post": {
+        "summary": "Scoped incident journey",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.report" },
+                      "report": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "brandId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["loss", "damage"] },
+                          "observedAt": { "type": "string", "format": "date-time" },
+                          "cause": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          "comment": { "type": "string", "maxLength": 2000 },
+                          "evidence": {
+                            "type": "array",
+                            "maxItems": 10,
+                            "items": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 100,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "kind": {
+                                  "enum": ["shipment_line", "stock_movement", "transfer_line"]
+                                },
+                                "sourceId": { "type": "string", "format": "uuid" },
+                                "lineId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007198254740991
+                                },
+                                "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+                              },
+                              "required": ["kind", "sourceId", "lineId", "offset", "quantity"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "brandId",
+                          "kind",
+                          "observedAt",
+                          "cause",
+                          "comment",
+                          "evidence",
+                          "items"
+                        ]
+                      }
+                    },
+                    "required": ["schemaVersion", "companyId", "commandId", "type", "report"]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.confirm" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "confirmation": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "expectedVersion": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 2147483647
+                          },
+                          "goodsValueMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "compensationMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "companyShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "employeeShareMinor": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "responsibleBranchId": { "type": "string", "format": "uuid" },
+                          "branchReason": { "type": "string", "maxLength": 2000 },
+                          "employeeId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "payrollMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "agreementReason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": [
+                          "expectedVersion",
+                          "goodsValueMinor",
+                          "compensationMinor",
+                          "companyShareMinor",
+                          "employeeShareMinor",
+                          "responsibleBranchId",
+                          "branchReason",
+                          "employeeId",
+                          "payrollMonth",
+                          "agreementReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "confirmation"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.dismiss" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.review" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "type": { "const": "incident.disposition" },
+                      "incidentId": { "type": "string", "format": "uuid" },
+                      "expectedVersion": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                      "reason": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "type",
+                      "incidentId",
+                      "expectedVersion",
+                      "reason"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized incident result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "incidentId": { "type": "string", "format": "uuid" },
+                    "reference": { "type": "string", "pattern": "^[0-9]+$" },
+                    "version": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+                    "commandId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["incidentId", "reference", "version", "commandId"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid closed input" },
+          "403": { "description": "Scope denied" },
+          "409": { "description": "State, quantity, shares or protected period conflict" }
+        }
+      }
+    },
     "/api/v1/finance/brand-wallets": {
       "get": {
         "summary": "Shared eligible brand dues (REP-09) with pending, held, cover and debt separated",
@@ -18556,7 +21174,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -18696,7 +21329,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -19799,7 +22447,22 @@
                           ]
                         },
                         "inspectionAllowed": { "type": "boolean" },
-                        "comment": { "type": "string", "maxLength": 1000 }
+                        "comment": { "type": "string", "maxLength": 1000 },
+                        "replacement": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "incidentId": { "type": "string", "format": "uuid" },
+                            "payer": { "enum": ["recipient", "brand", "company"] },
+                            "reason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "required": ["incidentId", "payer", "reason"]
+                        }
                       },
                       "required": [
                         "branchId",
@@ -19903,7 +22566,33 @@
                           "type": "string",
                           "pattern": "^(0|[1-9][0-9]{0,18})$"
                         },
-                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                        "incidentAgreement": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "incidentId": { "type": "string", "format": "uuid" },
+                            "confirmationId": { "type": "string", "format": "uuid" },
+                            "originalShipmentId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "payer": { "enum": ["recipient", "brand", "company"] },
+                            "reason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "required": [
+                            "incidentId",
+                            "confirmationId",
+                            "originalShipmentId",
+                            "payer",
+                            "reason"
+                          ]
+                        },
+                        "waiverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
                       },
                       "required": [
                         "schemaVersion",
@@ -20183,7 +22872,22 @@
                                 ]
                               },
                               "inspectionAllowed": { "type": "boolean" },
-                              "comment": { "type": "string", "maxLength": 1000 }
+                              "comment": { "type": "string", "maxLength": 1000 },
+                              "replacement": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "incidentId": { "type": "string", "format": "uuid" },
+                                  "payer": { "enum": ["recipient", "brand", "company"] },
+                                  "reason": {
+                                    "type": "string",
+                                    "maxLength": 2000,
+                                    "minLength": 1,
+                                    "pattern": "\\S"
+                                  }
+                                },
+                                "required": ["incidentId", "payer", "reason"]
+                              }
                             },
                             "required": [
                               "branchId",
@@ -20302,7 +23006,39 @@
                                 "type": "string",
                                 "pattern": "^(0|[1-9][0-9]{0,18})$"
                               },
-                              "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                              "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                              "incidentAgreement": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "incidentId": { "type": "string", "format": "uuid" },
+                                  "confirmationId": { "type": "string", "format": "uuid" },
+                                  "originalShipmentId": {
+                                    "anyOf": [
+                                      { "type": "string", "format": "uuid" },
+                                      { "type": "null" }
+                                    ]
+                                  },
+                                  "payer": { "enum": ["recipient", "brand", "company"] },
+                                  "reason": {
+                                    "type": "string",
+                                    "maxLength": 2000,
+                                    "minLength": 1,
+                                    "pattern": "\\S"
+                                  }
+                                },
+                                "required": [
+                                  "incidentId",
+                                  "confirmationId",
+                                  "originalShipmentId",
+                                  "payer",
+                                  "reason"
+                                ]
+                              },
+                              "waiverMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
                             },
                             "required": [
                               "schemaVersion",
@@ -20769,7 +23505,22 @@
                         ]
                       },
                       "inspectionAllowed": { "type": "boolean" },
-                      "comment": { "type": "string", "maxLength": 1000 }
+                      "comment": { "type": "string", "maxLength": 1000 },
+                      "replacement": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "incidentId": { "type": "string", "format": "uuid" },
+                          "payer": { "enum": ["recipient", "brand", "company"] },
+                          "reason": {
+                            "type": "string",
+                            "maxLength": 2000,
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "required": ["incidentId", "payer", "reason"]
+                      }
                     },
                     "required": [
                       "branchId",
@@ -20892,7 +23643,33 @@
                           "type": "string",
                           "pattern": "^(0|[1-9][0-9]{0,18})$"
                         },
-                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                        "incidentAgreement": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "incidentId": { "type": "string", "format": "uuid" },
+                            "confirmationId": { "type": "string", "format": "uuid" },
+                            "originalShipmentId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "payer": { "enum": ["recipient", "brand", "company"] },
+                            "reason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "required": [
+                            "incidentId",
+                            "confirmationId",
+                            "originalShipmentId",
+                            "payer",
+                            "reason"
+                          ]
+                        },
+                        "waiverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
                       },
                       "required": [
                         "schemaVersion",
@@ -21006,7 +23783,33 @@
                           "type": "string",
                           "pattern": "^(0|[1-9][0-9]{0,18})$"
                         },
-                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] }
+                        "shippingPayer": { "enum": ["recipient", "brand", "shared"] },
+                        "incidentAgreement": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "incidentId": { "type": "string", "format": "uuid" },
+                            "confirmationId": { "type": "string", "format": "uuid" },
+                            "originalShipmentId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "payer": { "enum": ["recipient", "brand", "company"] },
+                            "reason": {
+                              "type": "string",
+                              "maxLength": 2000,
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          },
+                          "required": [
+                            "incidentId",
+                            "confirmationId",
+                            "originalShipmentId",
+                            "payer",
+                            "reason"
+                          ]
+                        },
+                        "waiverMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
                       },
                       "required": [
                         "schemaVersion",
@@ -21505,7 +24308,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -21645,7 +24463,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -22230,7 +25063,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -22370,7 +25218,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -22955,7 +25818,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -23095,7 +25973,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -24134,7 +27027,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -24274,7 +27182,22 @@
                             ]
                           },
                           "inspectionAllowed": { "type": "boolean" },
-                          "comment": { "type": "string", "maxLength": 1000 }
+                          "comment": { "type": "string", "maxLength": 1000 },
+                          "replacement": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "incidentId": { "type": "string", "format": "uuid" },
+                              "payer": { "enum": ["recipient", "brand", "company"] },
+                              "reason": {
+                                "type": "string",
+                                "maxLength": 2000,
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            },
+                            "required": ["incidentId", "payer", "reason"]
+                          }
                         },
                         "required": [
                           "branchId",
@@ -30916,6 +33839,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "incidents": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -31009,6 +33933,7 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "incidents": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "remittances": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "returns": { "type": "string", "enum": ["inherit", "allow", "deny"] },
                           "integration": { "type": "string", "enum": ["inherit", "allow", "deny"] },
@@ -31095,10 +34020,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 22,
+                        "maxItems": 23,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "incidents",
                             "remittances",
                             "returns",
                             "integration",
@@ -31155,10 +34081,11 @@
                       "grants": {
                         "type": "array",
                         "uniqueItems": true,
-                        "maxItems": 22,
+                        "maxItems": 23,
                         "items": {
                           "type": "string",
                           "enum": [
+                            "incidents",
                             "remittances",
                             "returns",
                             "integration",
@@ -31770,6 +34697,7 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "incidents",
                               "remittances",
                               "returns",
                               "integration",
@@ -31837,6 +34765,7 @@
                           "id": {
                             "type": "string",
                             "enum": [
+                              "incidents",
                               "remittances",
                               "returns",
                               "integration",
@@ -32081,6 +35010,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "incidents": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "remittances": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -32178,6 +35111,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "incidents",
                                 "remittances",
                                 "returns",
                                 "integration",
@@ -32416,6 +35350,10 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
+                              "incidents": {
+                                "type": "string",
+                                "enum": ["inherit", "allow", "deny"]
+                              },
                               "remittances": {
                                 "type": "string",
                                 "enum": ["inherit", "allow", "deny"]
@@ -32513,6 +35451,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "incidents",
                                 "remittances",
                                 "returns",
                                 "integration",
@@ -32713,6 +35652,7 @@
                             "items": {
                               "type": "string",
                               "enum": [
+                                "incidents",
                                 "remittances",
                                 "returns",
                                 "integration",
@@ -33365,6 +36305,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "incidents",
                 "remittances",
                 "returns",
                 "integration",

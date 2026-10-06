@@ -1,0 +1,47 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p18/incidents.db.test.ts (8 tests | 2 failed) 40966ms
+   × P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 448ms
+   ✓ P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 198ms
+   ✓ P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 133ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 207ms
+   × P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 278ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 268ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 317ms
+   ✓ warehouse loss cannot charge an employee and holds original shipment from ordinary dispatch/edit 69ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/p18/incidents.db.test.ts:12:95
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p18/incidents.db.test.ts > P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result
+AssertionError: expected [Function] to throw error including 'INCIDENT_ALREADY_RESOLVED' but got 'REVISION_CONFLICT'
+
+Expected: "INCIDENT_ALREADY_RESOLVED"
+Received: "REVISION_CONFLICT"
+
+ ❯ tests/integration/p18/incidents.db.test.ts:41:84
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  14:34:39
+   Duration  43.02s (tests 96%, import 3%, transform 2%)

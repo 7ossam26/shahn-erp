@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import { authorizeReplacement, recordReplacement } from '../incidents/replacement.service.js';
+import { assertNoIncidentHold } from '@shahn/database';
 import type { Pool } from 'pg';
 import {
   AccessError,
@@ -136,6 +138,8 @@ async function lockShipment(uow: UnitOfWork, id: string) {
     'SELECT id FROM shipments.shipment WHERE company_id=$1 AND id=$2 FOR UPDATE',
     [uow.access.companyId, id],
   );
+  if (!(await assertNoIncidentHold(uow.client, uow.access.companyId, id)))
+    throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
   if (
     (
       await uow.client.query(
@@ -172,6 +176,8 @@ export async function correctionPreview(
         JSON.stringify(stockRequirements(detail.fields))
       : contentsChanged);
   const beforeClaims = detail.stock.allocations.filter((a) => a.active);
+  if (JSON.stringify(fields.replacement) !== JSON.stringify(detail.fields.replacement))
+    throw new AccessError('REPLACEMENT_AGREEMENT_IMMUTABLE', 409);
   const newClaims = stockRequirements(fields);
   const keySet = new Map([
     ...beforeClaims.map((a) => [
@@ -366,7 +372,11 @@ export function shipmentCommands(pool: Pool, hooks: { afterReceipt?: () => Promi
           captured.tariffId !== input.expectedTariffId
         )
           throw new AccessError('PRICING_REVISION_CONFLICT', 409);
-        const price = shipmentPrice(captured, brand.packingUpliftMinor, input.fields);
+        const agreement = await authorizeReplacement(uow, input.fields);
+        const price = {
+          ...shipmentPrice(captured, brand.packingUpliftMinor, input.fields),
+          ...(agreement ? { incidentAgreement: agreement } : {}),
+        };
         const confirmed = await confirmShipment(
           uow,
           recordId,
@@ -393,6 +403,7 @@ export function shipmentCommands(pool: Pool, hooks: { afterReceipt?: () => Promi
           },
         );
         id = confirmed.id;
+        await recordReplacement(uow, id, price);
         reference = confirmed.reference;
         branchId = input.fields.branchId;
       } else {

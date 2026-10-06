@@ -4,7 +4,7 @@ import type { ShipmentPrice } from '../shipments/index.js';
 export interface ApprovedShippingWaiver {
   incidentId: string;
   approvalId: string;
-  originalShipmentId: string;
+  originalShipmentId: string | null;
   replacementShipmentId: string;
 }
 export interface DispatchPrice extends ShipmentPrice {

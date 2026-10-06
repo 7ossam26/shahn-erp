@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { assertNoIncidentHold } from '@shahn/database';
 import type { Pool } from 'pg';
 import {
   readManifest,
@@ -118,6 +119,8 @@ export async function createTransfer(
         [company, d.id],
       )
     ).rows[0];
+    if (!(await assertNoIncidentHold(u.client, company, d.id)))
+      throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
     const custody = await u.client.query(
       `SELECT 1 FROM shipments.parcel_custody WHERE company_id=$1 AND shipment_id=$2 AND branch_id=$3 AND holder='branch' AND transfer_id IS NULL`,
       [company, d.id, input.branchId],
@@ -531,6 +534,8 @@ export async function actOnTransfer(
         throw new AccessError('STOCK_SHORTAGE', 409);
     for (const l of lines)
       if (l.kind === 'parcel') {
+        if (!(await assertNoIncidentHold(u.client, u.access.companyId, l.shipment_id!)))
+          throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
         const custody = await u.client.query(
           `SELECT 1 FROM shipments.parcel_custody WHERE company_id=$1 AND shipment_id=$2 AND branch_id=$3 AND holder='branch' AND transfer_id IS NULL`,
           [u.access.companyId, l.shipment_id, m.source_branch_id],

@@ -87,6 +87,9 @@ const router = createBrowserRouter([
       ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
+      { path: '/incidents', element: <IncidentListPage /> },
+      { path: '/incidents/new', element: <IncidentReportPage /> },
+      { path: '/incidents/:id', element: <IncidentDetailPage /> },
       { path: '/driver-remittances', element: <RemittanceListPage /> },
       { path: '/driver-remittances/review', element: <RemittanceReviewPage /> },
       { path: '/driver-remittances/:id', element: <RemittanceDetailPage /> },
@@ -207,3 +210,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Direction.Provider>
   </React.StrictMode>,
 );
+import {
+  IncidentListPage,
+  IncidentReportPage,
+  IncidentDetailPage,
+} from './features/incidents/incidents.js';

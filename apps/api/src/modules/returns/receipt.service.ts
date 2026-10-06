@@ -236,6 +236,21 @@ export async function queueReturnIntent(
     );
     if (inflight.rowCount) throw new AccessError('PENDING_RETURN_CONFIRMATION', 409);
     if (!disposition) {
+      if (
+        (await c.query("SELECT to_regclass('incidents.affected_item') AS relation")).rows[0]
+          .relation
+      ) {
+        const held = Number(
+          (
+            await c.query<{ quantity: string }>(
+              `SELECT COALESCE(sum(a.quantity),0)::text quantity FROM incidents.affected_item a LEFT JOIN incidents.disposition d ON(d.company_id,d.affected_item_id)=(a.company_id,a.id) LEFT JOIN incidents.disposition_attempt p ON(p.company_id,p.affected_item_id)=(a.company_id,a.id) LEFT JOIN returns.intent r ON(r.company_id,r.id)=(a.company_id,COALESCE(p.return_intent_id,d.return_intent_id)) WHERE a.company_id=$1 AND a.source_key=$2 AND NOT a.released AND (r.state IS NULL OR r.state<>'accepted')`,
+              [s.company_id, 'shipment_line:' + i.shipment_id + ':' + i.source_line_id],
+            )
+          ).rows[0]!.quantity,
+        );
+        if (selected.quantity > i.unresolved - held)
+          throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
+      }
       const d = (await readShipment(c, s.company_id, i.shipment_id))!,
         observation = selected as Extract<
           ReturnCommand,

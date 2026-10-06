@@ -1,0 +1,237 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/kernel.test.ts (21 tests) 23919ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing 397ms
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 5953ms
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests) 16210ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 1085ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 546ms
+   ✓ A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact 411ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 742ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 1233ms
+   ✓ A05 off-day payout: missing reason fails; a reason never bypasses funds or a hold; agreed-day reason is rejected 347ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 1766ms
+   ✓ rolls every effect back at debit, allocation, payout and result fault boundaries 340ms
+   ✓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 1009ms
+   ✓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 2014ms
+ ✓ tests/db/finance.test.ts (18 tests) 12945ms
+   ✓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost 396ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 5988ms
+ ❯ tests/db/inventory.test.ts (17 tests | 1 failed) 7244ms
+   ❯ P05 committed inventory and real authenticated HTTP (17)
+     ✓ creates immutable product/variant IDs without stock or financial effects 95ms
+     ✓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit 67ms
+     ✓ replays lost response once, rejects changed payload, and recovers compacted original reference 113ms
+     ✓ allows two independent first-receipt transactions to add exactly 3+4 into absent position 89ms
+     ✓ interrupts after first movement with zero committed receipt/position/audit/result effects 41ms
+     ✓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects 50ms
+     ✓ denies branch B query, receipt/history/name leakage despite company tracking grant 56ms
+     ✓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture 50ms
+     ✓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots 127ms
+     ✓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable 128ms
+     ✓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow 90ms
+     ✓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination 87ms
+     ✓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL 27ms
+     ✓ rejects real mixed-brand variants and repeated display names remain separate identities 86ms
+     ✓ shared reserve/release/condition interfaces conserve units, retain history and deduplicate source effects 91ms
+     ✓ rejects absent module grant and missing CSRF on mutations 27ms
+     × returns truthful authorized parcel boundary and reconciles every persisted position to movements 74ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p11/boundary.db.test.ts (19 tests) 25638ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1953ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 1872ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 3184ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 2024ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 9221ms
+ ✓ tests/db/treasury-transfers.test.ts (22 tests) 13981ms
+   ✓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 5978ms
+ ✓ tests/db/employees.test.ts (12 tests) 12639ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 4915ms
+   ✓ corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods 350ms
+ ✓ tests/db/stock-fulfillment.test.ts (15 tests) 8174ms
+   ✓ P07-AC-06 failed increase retains old revision/claim; branch delta uses actual destination stock 361ms
+   ✓ P07-AC-07 truthful 5/7 holds every affected order but permits unrelated preparation 359ms
+   ✓ two commercial values share one claim; bounded inspection rejects excessive/stale quantities and replays once 302ms
+   ✓ service correction shares custody, requires actual external intake and never repeats its receipt 314ms
+ ✓ tests/db/shipments.test.ts (17 tests) 6894ms
+   ✓ P06 real PostgreSQL atomic shipment confirmation and authenticated HTTP (17)
+     ✓ cancellation retains prepared external custody; stale cancellation/completion races have one winner 351ms
+     ✓ tariff/policy edits never reprice old order; explicit service correction uses captured agreement 443ms
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 21112ms
+   ✓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody 708ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 1519ms
+   ✓ out-of-order offer waits for outcome and never creates stock 1057ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 2355ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 1425ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 957ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 1275ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 1311ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 1498ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 1153ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 1174ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/db/foundation.test.ts (5 tests) 8623ms
+   ✓ Real isolated PostgreSQL foundation (5)
+     ✓ two migration runners wait for one lock and cannot apply a migration twice 945ms
+     ✓ real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 3124ms
+ ✓ tests/db/access.test.ts (17 tests) 5138ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p12/dispatch.db.test.ts (20 tests) 11700ms
+   ✓ unknown handover keeps immutable action, cover and unavailable goods; late lease cannot apply 312ms
+   ✓ accepted result then signed event echo creates one local custody effect 306ms
+   ✓ retains atomic capacity rejection for a two-parcel batch without local custody 346ms
+   ✓ native HTTP enforces current grants, scope, CSRF and closed responses 341ms
+   ✓ persists exact prices, source bytes and quantities after PostgreSQL restart 2705ms
+   ✓ pending 500 alone cannot reserve 60, while allow-negative creates no payout cash 477ms
+   ✓ stored-stock receipt, reservation, packing and accepted handover consume the same physical units once 330ms
+   ✓ definite rejection requires reread and a new native intent; old action JSON stays unchanged 365ms
+   ✓ authorized predeparture withdrawal releases unused cover once and retains original cycle for another preparation 464ms
+ ✓ tests/db/brands.test.ts (13 tests) 4301ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 12358ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 468ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 392ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 363ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 333ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 647ms
+   ✓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome 359ms
+   ✓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 343ms
+   ✓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash 320ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 3071ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 753ms
+   ✓ a protected correction retains prior postings, creates one review and never moves company cash 396ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 585ms
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 31621ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 3687ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 1764ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 2218ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 1243ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 1511ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 1147ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 1133ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 2061ms
+   ✓ rechecks native branch/grant for review and retained result 1145ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 3522ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 1068ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 1025ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 1897ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 1790ms
+ ✓ tests/integration/p15/transfer.db.test.ts (6 tests) 10978ms
+   ✓ one physical manifest with immutable custody (6)
+     ✓ moves a prepared two-unit parcel and three loose units only at handover and actual receipt 332ms
+     ✓ rechecks active carrier at handover and serializes cancellation against departure 5689ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 8454ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 836ms
+   ✓ history-only outcome followed by delayed arrival retains outcome state and posts one allocation 374ms
+ ✓ tests/integration/p18/incidents.db.test.ts (9 tests) 10813ms
+   ✓ P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 417ms
+   ✓ P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 352ms
+   ✓ P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 345ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 524ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 469ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 594ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 826ms
+   ✓ unavailable source operation does not drop local compensation; explicit follow-up queues the same affected subset with no second money 656ms
+ ✓ tests/integration/p17/http.db.test.ts (3 tests) 5019ms
+ ✓ tests/integration/p17/trial.db.test.ts (1 test) 5734ms
+   ✓ owner trial: shared brand eligible 250 paid partially from B and A cash, off-day reason, cover and retry 1937ms
+ ✓ tests/integration/p15/returned-parcel.db.test.ts (2 tests) 5558ms
+   ✓ moves only an entirely sound accepted customer return, reserves its receipt against brand handover, and leaves CHECK-003 disabled 660ms
+   ✓ claims an accepted partial stored-stock return before moving loose goods, so later replenishment cannot reuse its receipt 1174ms
+ ✓ tests/integration/p17/migration.db.test.ts (1 test) 3648ms
+   ✓ populated P16 upgrade adds payout tables only: no eligibility, payout or balance change; projections reconcile to lots 3647ms
+ ✓ tests/integration/p14/transport.db.test.ts (1 test) 6469ms
+   ✓ paginated scoped reads and process death after receipt commit recover unchanged action exactly once 6468ms
+ ✓ tests/integration/p18/http.db.test.ts (1 test) 5677ms
+   ✓ real HTTP report → preview → confirm → durable recovery; grant, branch, CSRF and closed inputs enforced 720ms
+ ✓ tests/integration/p18/payout.db.test.ts (1 test) 4885ms
+   ✓ P17 pays the real incident credit from isolated test funds before employee recovery; review retains paid source history 4884ms
+ ✓ tests/integration/p18/replacement.db.test.ts (2 tests) 5038ms
+   ✓ P18-AC-06/07 ordinary new receipt snapshots 250 goods / zero recipient shipping; real P13 projection posts one fee+waiver+commission and no brand shipping debit 385ms
+ ✓ tests/integration/p18/custody.db.test.ts (2 tests) 4513ms
+stdout | tests/db/oidc-validation.test.ts > P02 rejects issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects audience at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects subject at the OIDC server boundary
+{"event":"oidc_rejected","stage":"binding","code":"LOGIN_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects nonce at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_CLAIM_COMPARISON_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects expired at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_JWT_TIMESTAMP_CHECK_FAILED"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects signature at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"OAUTH_INVALID_RESPONSE"}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects state at the OIDC server boundary
+{"event":"oidc_rejected","stage":"attempt","browserPresent":true}
+
+stdout | tests/db/oidc-validation.test.ts > P02 rejects discovery-issuer at the OIDC server boundary
+{"event":"oidc_rejected","stage":"exchange","code":"IDENTITY_UNAVAILABLE"}
+
+ ✓ tests/db/oidc-validation.test.ts (9 tests) 4050ms
+ ✓ tests/integration/p12/transport.db.test.ts (1 test) 7089ms
+   ✓ kills a worker after HTTP fixture commit, then recovers the exact action over real HTTP once 7088ms
+ ✓ tests/integration/p14/migration.db.test.ts (1 test) 5280ms
+   ✓ upgrades a populated P13 database without changing native identity, prices, balances or grants 5279ms
+ ✓ tests/integration/p12/migration.db.test.ts (1 test) 3441ms
+   ✓ upgrades a populated P11 database without changing native identity, prices, balances or grants 3439ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 5662ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 5661ms
+ ✓ tests/integration/p18/migration.db.test.ts (1 test) 6688ms
+   ✓ populated P17 upgrade preserves ordinary source money/custody/journals without compensation or waiver backfill 6686ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/inventory.test.ts > P05 committed inventory and real authenticated HTTP > returns truthful authorized parcel boundary and reconciles every persisted position to movements
+AssertionError: expected { items: [], total: +0, page: 1, …(3) } to deeply equal { items: [], total: +0, page: 1, …(3) }
+
+- Expected
++ Received
+
+@@ -1,7 +1,7 @@
+  {
+-   "boundary": "LOCAL_CUSTODY_ONLY",
++   "boundary": "NATIVE_TRANSFER_ONLY",
+    "custody": "external",
+    "items": [],
+    "limit": 25,
+    "page": 1,
+    "total": 0,
+
+ ❯ tests/db/inventory.test.ts:765:7
+    763|         )
+    764|       ).body,
+    765|     ).toEqual({
+       |       ^
+    766|       items: [],
+    767|       total: 0,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 33 passed (34)
+      Tests  1 failed | 298 passed (299)
+   Start at  15:11:22
+   Duration  376.41s (tests 89%, import 11%)
+
+exit 1

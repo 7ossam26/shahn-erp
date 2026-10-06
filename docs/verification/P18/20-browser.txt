@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement (19.8s)
+
+
+  1) tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: 'آثار تأكيد التعويض' }).getByRole('alert')
+    Expected substring: "الفترة محمية"
+    Received string:    "لا توجد رابطة موظف صالحة مع صاحب العهدة وقت الواقعة."
+    Timeout: 15000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('region', { name: 'آثار تأكيد التعويض' }).getByRole('alert') with timeout 15000ms
+      - waiting for getByRole('region', { name: 'آثار تأكيد التعويض' }).getByRole('alert')
+        32 × locator resolved to <p role="alert">لا توجد رابطة موظف صالحة مع صاحب العهدة وقت الواق…</p>
+           - unexpected value "لا توجد رابطة موظف صالحة مع صاحب العهدة وقت الواقعة."
+
+
+      85 |   await page.getByRole('button', { name: 'معاينة آثار التأكيد' }).click();
+      86 |   const review = page.getByRole('region', { name: 'آثار تأكيد التعويض' });
+    > 87 |   await expect(review.getByRole('alert')).toContainText('الفترة محمية');
+         |                                           ^
+      88 |   await expect(review.getByRole('button', { name: 'تأكيد التعويض والمسؤولية' })).toBeDisabled();
+      89 |   await capture(page, 'protected-period');
+      90 |   await review.getByRole('button', { name: /استخدام الفترة المسموحة/ }).click();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p18\incidents.spec.ts:87:43
+
+    Error Context: test-results\incidents-real-API-DB-inci-84363--company-funded-replacement\error-context.md
+
+  1 failed
+    tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+exit 1

@@ -767,7 +767,7 @@ describe('P05 committed inventory and real authenticated HTTP', () => {
       total: 0,
       page: 1,
       limit: 25,
-      boundary: 'LOCAL_CUSTODY_ONLY',
+      boundary: 'NATIVE_TRANSFER_ONLY',
       custody: 'external',
     });
     expect(

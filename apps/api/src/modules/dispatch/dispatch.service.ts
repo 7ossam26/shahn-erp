@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import { replacementWaiver } from '../incidents/replacement.service.js';
+import { assertNoIncidentHold } from '@shahn/database';
 import type { Pool } from 'pg';
 import { AccessError, type AccessContext } from '@shahn/domain';
 import {
@@ -182,6 +184,8 @@ export async function lockDispatchShipments(u: UnitOfWork, ids: string[]) {
   return details;
 }
 async function assertPhysical(u: UnitOfWork, d: ShipmentDetail, branch: string, version?: number) {
+  if (!(await assertNoIncidentHold(u.client, u.access.companyId, d.id)))
+    throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
   if (version !== undefined && d.version !== version)
     throw new AccessError('REVISION_CONFLICT', 409, d.version);
   if (d.fields.branchId !== branch || d.state !== 'active' || d.handedOver)
@@ -261,7 +265,9 @@ export async function prepareDispatch(
   for (const d of details) {
     const old = reusable.get(d.id),
       cycle = old?.cycle_id ?? randomUUID(),
-      price = old?.price ?? dispatchPrice(d.price, d.id, waivers.get(d.id));
+      price =
+        old?.price ??
+        dispatchPrice(d.price, d.id, (await replacementWaiver(u, d.id)) ?? waivers.get(d.id));
     const snapshot =
       old?.snapshot ??
       buildSourceSnapshot(d, price as ReturnType<typeof dispatchPrice>, {

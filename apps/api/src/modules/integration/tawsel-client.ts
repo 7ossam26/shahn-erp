@@ -5,6 +5,7 @@ import {
   validateProvisioningCommand,
   validateDeliveryCommand,
   provisioningOperations,
+  deliveryOperations,
   validateIntakeCommand,
   validateReturnCommand,
   returnOperations,
@@ -160,7 +161,14 @@ export class TawselClient {
     let configuration: SourceConfiguration | null = null;
     if (!operator) {
       configuration = await this.configuration();
-      if (!configuration.allowedOperations.includes(envelope.operationId))
+      // The pinned provisioning advertisement covers provisioning/intake/returns.
+      // The separate closed outbox catalog authorizes these commands through
+      // integration.manage, which configuration() itself requires remotely.
+      // Tawsel still enforces the service grant, destination and key selectors.
+      if (
+        !Object.hasOwn(deliveryOperations, envelope.operationId) &&
+        !configuration.allowedOperations.includes(envelope.operationId)
+      )
         throw new SourceFailure('configuration-blocked', 'OPERATION_NOT_ALLOWED');
     }
     if (

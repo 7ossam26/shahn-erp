@@ -444,5 +444,41 @@
       "applicable": false,
       "reason": "P17 issues no Tawsel call. Real-source P13/P16 inputs run natively with controlled source HTTP; the independent public witness remains the P16-owned IP-GAP-004 gate."
     }
+  },
+  "P18": {
+    "unit": {
+      "script": "test:unit",
+      "directory": "tests/integration/p18",
+      "extension": ".unit.test",
+      "filter": [
+        "tests/integration/p18/contracts.unit.test.ts",
+        "tests/integration/p18/outbox-adapter.unit.test.ts",
+        "tests/integration/p18/ui.unit.test.tsx"
+      ]
+    },
+    "database": {
+      "script": "test:db",
+      "directory": "tests/integration/p18",
+      "extension": ".db.test",
+      "filter": [
+        "tests/integration/p18/incidents.db.test.ts",
+        "tests/integration/p18/custody.db.test.ts",
+        "tests/integration/p18/replacement.db.test.ts",
+        "tests/integration/p18/payout.db.test.ts",
+        "tests/integration/p18/http.db.test.ts",
+        "tests/integration/p18/migration.db.test.ts"
+      ]
+    },
+    "browser": {
+      "applicable": false,
+      "reason": "Owner instruction 2026-10-07: skip browser tests, run scripts only. Prior P18 browser run and captures remain historical evidence (22-browser.txt); current form checks run through ui.unit.test.tsx and real API checks through http.db.test.ts. No fresh browser/manual-device claim."
+    },
+    "publicIntegration": {
+      "filter": ["tests/integration/p18/tawsel.public.test.ts"],
+      "config": "vitest.p18.public.config.ts",
+      "directory": "tests/integration/p18",
+      "extension": ".public.test",
+      "script": "test:p18:public"
+    }
   }
 }

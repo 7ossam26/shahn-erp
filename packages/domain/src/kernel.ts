@@ -77,6 +77,7 @@ export const journalKinds = {
     correction: 'signed',
   },
   operating: {
+    employee_compensation_share: 'positive',
     shipping: 'positive',
     storage: 'positive',
     cost: 'negative',

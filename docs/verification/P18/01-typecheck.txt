@@ -1,0 +1,12 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/incidents/service.ts(106,36): error TS2339: Property 'incidentId' does not exist on type 'Record<string, unknown> | IncidentCommand'.
+  Property 'incidentId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "incident.report"; report: IncidentReport; }'.
+apps/api/src/modules/incidents/service.ts(106,76): error TS2339: Property 'incidentId' does not exist on type 'Record<string, unknown> | IncidentCommand'.
+  Property 'incidentId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "incident.report"; report: IncidentReport; }'.
+apps/api/src/modules/incidents/service.ts(106,109): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | IncidentCommand'.
+  Property 'branchId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "incident.report"; report: IncidentReport; }'.
+apps/api/src/modules/incidents/service.ts(106,150): error TS2339: Property 'branchId' does not exist on type 'Record<string, unknown> | IncidentCommand'.
+  Property 'branchId' does not exist on type '{ schemaVersion: 1; companyId: string; commandId: string; } & { type: "incident.report"; report: IncidentReport; }'.
+apps/api/src/modules/incidents/service.ts(122,15): error TS7034: Variable 'items' implicitly has type 'any[]' in some locations where its type cannot be determined.
+apps/api/src/modules/incidents/service.ts(124,125): error TS7005: Variable 'items' implicitly has an 'any[]' type.

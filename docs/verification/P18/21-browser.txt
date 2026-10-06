@@ -1,0 +1,41 @@
+
+Running 1 test using 1 worker
+
+  x  1 tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement (5.5s)
+
+
+  1) tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+
+    Error: route.abort: Route is already handled!
+
+       99 |   await page.route('**/api/v1/incidents/*/confirm', async (route) => {
+      100 |     await route.fetch();
+    > 101 |     await route.abort('failed');
+          |                 ^
+      102 |   });
+      103 |   await review.getByRole('button', { name: 'تأكيد التعويض والمسؤولية' }).click();
+      104 |   await expect(page.getByRole('button', { name: 'التحقق من النتيجة' })).toBeVisible();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p18\incidents.spec.ts:101:17
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'التحقق من النتيجة' })
+        - locator resolved to <button disabled type="button" data-slot="button" data-size="default" data-variant="default" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0…>التحقق من النتيجة</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+      105 |   await page.unroute('**/api/v1/incidents/*/confirm');
+      106 |   await capture(page, 'unknown-result', [390]);
+    > 107 |   await page.getByRole('button', { name: 'التحقق من النتيجة' }).click();
+          |                                                                 ^
+      108 |   await expect(page.getByRole('heading', { name: 'الآثار المؤكدة' })).toBeVisible();
+      109 |   await expect(
+      110 |     page.getByText(/تعويض 400\.00 ج\.م · حصة الشركة 200\.00 · حصة الموظف 200\.00/),
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p18\incidents.spec.ts:107:65
+
+    Error Context: test-results\incidents-real-API-DB-inci-84363--company-funded-replacement\error-context.md
+
+  1 failed
+    tests\integration\p18\incidents.spec.ts:47:1 › real API/DB incident: report holds without money, protected period, lost confirm recovered once, eligible credit and company-funded replacement
+exit 1

@@ -21,9 +21,11 @@ export function dispatchPrice(
     waiver &&
     (waiver.replacementShipmentId !== shipmentId ||
       waiver.originalShipmentId === shipmentId ||
-      ![waiver.incidentId, waiver.approvalId, waiver.originalShipmentId].every((x) =>
-        /^[0-9a-f-]{36}$/i.test(x),
-      ))
+      ![
+        waiver.incidentId,
+        waiver.approvalId,
+        ...(waiver.originalShipmentId ? [waiver.originalShipmentId] : []),
+      ].every((x) => /^[0-9a-f-]{36}$/i.test(x)))
   )
     throw new AccessError('INVALID_APPROVED_WAIVER', 409);
   return {

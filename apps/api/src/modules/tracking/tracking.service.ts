@@ -118,6 +118,13 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
     r = (await u.client.query<Row>(base + ' WHERE s.company_id=$1 AND s.id=$2', [company, id]))
       .rows[0];
   if (!r) throw new AccessError('NOT_FOUND', 404);
+  // Company-wide tracking exposes only the operational milestone, never compensation shares.
+  const incidents = (
+    await u.client.query<{ id: string; observed_at: Date; recorded_at: Date }>(
+      `SELECT i.id,i.observed_at,i.recorded_at FROM incidents.incident i WHERE i.company_id=$1 AND EXISTS(SELECT 1 FROM incidents.affected_item a WHERE a.company_id=i.company_id AND a.incident_id=i.id AND a.snapshot->>'shipmentId'=$2) ORDER BY i.recorded_at`,
+      [company, id],
+    )
+  ).rows;
   const native = (
     await u.client.query<{ version: number; kind: string; recorded_at: Date }>(
       `SELECT version,kind,recorded_at FROM shipments.event WHERE company_id=$1 AND shipment_id=$2 ORDER BY version`,
@@ -243,6 +250,15 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
         ? '/shipments/' + r.reference
         : null,
     timeline: [
+      ...incidents.map((i) => ({
+        id: 'incident:' + i.id,
+        origin: 'ERP' as const,
+        kind: 'incident.reported',
+        recordedAt: i.recorded_at.toISOString(),
+        observedAt: i.observed_at.toISOString(),
+        receivedAt: null,
+        observationUnknown: false,
+      })),
       ...transferFacts.map((t) => ({
         id: 'transfer:' + t.id,
         origin: 'ERP' as const,

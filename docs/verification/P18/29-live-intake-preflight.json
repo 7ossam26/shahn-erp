@@ -1,0 +1,75 @@
+{
+  "status": "passed-with-explicitly-limited-scope",
+  "completedAt": "2026-10-06T21:51:06.153Z",
+  "classification": "Actual deployed Tawsel public HTTP using its existing pilot Mock ERP service identity and new isolated branch/task references. No Shahn dispatch, driver visit/outcome, signed Shahn projection or disposition acceptance is claimed. Tasks remain unassigned.",
+  "sourceOrigin": "https://app.switch2tech.cloud",
+  "imageDigest": "sha256:5ed185887f47cf66fcd01d8dd1acaa508d0ae5f6697551e82083994b8760b271",
+  "nativeContractVersion": "1.0.0",
+  "humanDelegation": false,
+  "branchActionId": "6033be58-be94-46a2-8910-b373c47c3b14",
+  "runId": "80f979b8-2900-413c-a0a2-9c179fd6e9c1",
+  "cases": [
+    {
+      "name": "goods-250",
+      "actionId": "bc0cd12d-bc90-4d4e-8a1c-330633075983",
+      "externalId": "shahn-p18-goods-250-80f979b8-2900-413c-a0a2-9c179fd6e9c1",
+      "taskId": "e9358e9a-2a60-5b21-a64c-6e0fdcf13c08",
+      "shippingDue": {
+        "currency": "EGP",
+        "exponent": 2,
+        "amountMinor": 0
+      },
+      "totalDue": {
+        "currency": "EGP",
+        "exponent": 2,
+        "amountMinor": 25000
+      },
+      "replayVerified": true,
+      "canonicalSnapshotSha256": "29eb0ac215501047871c58bf56cbae8e60d41ef3303087cd499d0b134198d12e"
+    },
+    {
+      "name": "prepaid-goods",
+      "actionId": "f21755f1-a445-4c8f-920e-c29fa47c8e18",
+      "externalId": "shahn-p18-prepaid-goods-80f979b8-2900-413c-a0a2-9c179fd6e9c1",
+      "taskId": "499d9404-9aaa-5835-a901-fbd70ca41591",
+      "shippingDue": {
+        "currency": "EGP",
+        "exponent": 2,
+        "amountMinor": 0
+      },
+      "totalDue": {
+        "currency": "EGP",
+        "exponent": 2,
+        "amountMinor": 0
+      },
+      "replayVerified": true,
+      "canonicalSnapshotSha256": "75f7ca9860dc7e0668afd10898330eb879edf85f2e495d807a67623f3b218856"
+    }
+  ],
+  "rejected": [
+    {
+      "name": "unsafe-money",
+      "actionId": "3a828f0b-0e6e-493e-8c40-35a63a69c3b8",
+      "httpStatus": 400,
+      "problemCode": "validation_failed"
+    },
+    {
+      "name": "wrong-total",
+      "actionId": "3ce312ff-e378-42d4-ad74-0c980ed4599b",
+      "httpStatus": 422,
+      "problemCode": "unsupported_price_allocation"
+    },
+    {
+      "name": "invented-waiver",
+      "actionId": "030ac095-46ff-44e8-866c-48f12962f7de",
+      "httpStatus": 400,
+      "problemCode": "validation_failed"
+    }
+  ],
+  "stillRequired": [
+    "Dedicated Shahn ERP source and permitted driver identity",
+    "Actual visit/outcome and signed Shahn projection",
+    "Exact permitted disposition acceptance/replay",
+    "Full registered P18 public suite"
+  ]
+}

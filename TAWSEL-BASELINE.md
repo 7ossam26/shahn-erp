@@ -84,3 +84,7 @@ Follow attachment 07 explicitly:
 5. Retain the old package and delta. Advance the adopted baseline only after the material dependencies are resolved and relevant conformance checks pass. Record the full new identity, evidence and result in [INTEGRATION-CHANGELOG.md](INTEGRATION-CHANGELOG.md). Until then, keep this reference pinned and label the candidate change pending.
 
 No update is inferred from GitHub activity, another chat or a changed local working tree. This document pins the supplied reference, not an uninspected deployed Tawsel instance.
+
+## P18 public observation, 2026-10-07
+
+The owner-approved test-only pilot run passed the registered IP-AC-22/P18 public suite with the pinned existing Money/SourceSnapshot/return-disposition contract. [Native facts](docs/verification/P18/30-live-native-journey.json), [public checks](docs/verification/P18/34-live-public-outcome-test.txt), [actual driver/delivery receipts](docs/verification/P18/36-live-driver-and-delivery-evidence.json). Runtime API/outbox image digest5ed185887f47cf66fcd01d8dd1acaa508d0ae5f6697551e82083994b8760b271 was observed; its source commit is unverified. No baseline advance or Tawsel code edit was made. Temporary callback/operator/signing configuration was restored and the dedicated source disabled. This supplies the P18 bounded runtime evidence; broader historical conformance gaps stay open.

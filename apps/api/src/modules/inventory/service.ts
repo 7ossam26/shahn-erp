@@ -571,6 +571,21 @@ export async function changeStockCondition(
     throw new AccessError('REVISION_CONFLICT', 409, pos.version);
   const sound = safeStockNumber(pos.sound),
     unavailable = safeStockNumber(pos.unavailable);
+  if (
+    input.to === 'sound' &&
+    (await uow.client.query("SELECT to_regclass('incidents.affected_item') AS relation")).rows[0]
+      .relation
+  ) {
+    const held = Number(
+      (
+        await uow.client.query<{ quantity: string }>(
+          `SELECT COALESCE(sum(a.quantity),0)::text quantity FROM incidents.affected_item a JOIN incidents.incident i ON(i.company_id,i.id)=(a.company_id,a.incident_id) WHERE a.company_id=$1 AND a.snapshot->>'branchId'=$2 AND a.snapshot->>'variantId'=$3 AND a.snapshot->>'holder'='branch' AND i.state<>'dismissed' AND NOT(i.state='confirmed' AND i.kind='loss')`,
+          [company, key.branchId, key.variantId],
+        )
+      ).rows[0]!.quantity,
+    );
+    if (input.quantity > unavailable - held) throw new AccessError('INCIDENT_CUSTODY_HELD', 409);
+  }
   if ((input.to === 'sound' ? unavailable : sound) < input.quantity)
     throw new AccessError('STOCK_SHORTAGE', 409);
   const nextSound =
