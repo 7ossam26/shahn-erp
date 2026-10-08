@@ -1,0 +1,52 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p23/custody.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p23/custody.db.test.ts (2 tests | 2 failed) 8791ms
+   × A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim 309ms
+   × A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p23/custody.db.test.ts > A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim
+error: column sl.variant_id does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ readReport apps/api/src/modules/reporting/read-services.ts:265:16
+    263|   }
+    264|   const p = queryPlan(id, u.access.companyId, branches, f, sort);
+    265|   const raw = (await u.client.query<RawRow>(p.sql, p.args)).rows;
+       |                ^
+    266|   const rows: ReportRow[] = raw.map((r) => ({
+    267|     id: r.id + ':' + r.branch_id,
+ ❯ apps/api/src/modules/reporting/service.ts:125:33
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ tests/integration/p23/custody.db.test.ts:21:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p23/custody.db.test.ts > A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown
+error: duplicate key value violates unique constraint "company_code_key"
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ accessFixture tests/support/access.ts:27:3
+     25|     adminRole = randomUUID(),
+     26|     staffRole = randomUUID();
+     27|   await pool.query(
+       |   ^
+     28|     "INSERT INTO access.company(id,code,name) VALUES($1,'trial','شركة …
+     29|     [company, other],
+ ❯ integrationFixture tests/integration/p11/fixtures.ts:58:13
+ ❯ dispatchFixture tests/integration/p12/fixtures.ts:34:13
+ ❯ executionFixture tests/integration/p13/fixtures.ts:18:13
+ ❯ returnFixture tests/integration/p14/fixtures.ts:30:13
+ ❯ tests/integration/p23/custody.db.test.ts:28:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  19:29:41
+   Duration  11.04s (tests 80%, import 11%, transform 8%)

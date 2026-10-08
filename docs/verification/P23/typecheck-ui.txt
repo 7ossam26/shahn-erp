@@ -1,0 +1,16 @@
+
+> shahn-erp@0.1.0 typecheck
+> tsc -b
+
+apps/web/src/features/reports/reports.tsx(24,26): error TS2741: Property 'eyebrow' is missing in type '{ title: string; description: string; }' but required in type '{ title: string; description: string; eyebrow: string; }'.
+apps/web/src/features/reports/reports.tsx(24,178): error TS2322: Type '{ title: string; detail: string; }' is not assignable to type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+  Property 'detail' does not exist on type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+apps/web/src/features/reports/reports.tsx(50,20): error TS2741: Property 'state' is missing in type '{ title: string; }' but required in type '{ state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+apps/web/src/features/reports/reports.tsx(56,26): error TS2741: Property 'eyebrow' is missing in type '{ title: string; description: string; }' but required in type '{ title: string; description: string; eyebrow: string; }'.
+apps/web/src/features/reports/reports.tsx(64,109): error TS2322: Type '{ title: string; detail: string; action: Element; }' is not assignable to type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+  Property 'detail' does not exist on type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+apps/web/src/features/reports/reports.tsx(67,76): error TS2322: Type '{ title: string; detail: string; }' is not assignable to type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+  Property 'detail' does not exist on type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+apps/web/src/features/reports/reports.tsx(79,26): error TS2741: Property 'eyebrow' is missing in type '{ title: string; description: string; }' but required in type '{ title: string; description: string; eyebrow: string; }'.
+apps/web/src/features/reports/reports.tsx(79,221): error TS2322: Type '{ title: string; detail: string; }' is not assignable to type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.
+  Property 'detail' does not exist on type 'IntrinsicAttributes & { state: "error" | "pending" | "empty" | "ready"; title: string; children?: ReactNode; action?: ReactNode; }'.

@@ -1,0 +1,64 @@
+npm notice run shahn-erp@0.1.0 test:browser
+npm notice run node scripts/build.mjs && playwright test
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2760 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-oB2Z13je.css                          116.19 kB │ gzip:  22.28 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-f3EqdbcX.js                           959.60 kB │ gzip: 211.47 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 843ms
+[WebServer] (node:3860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:33096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:41952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:26692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\browser\foundation.spec.ts:8:1 › real readiness, RTL, keyboard palette close/focus return and token sharing (4.5s)
+[WebServer] 7:43:42 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 2 tests\browser\foundation.spec.ts:46:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 390 (6.9s)
+[WebServer] 7:43:48 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 3 tests\browser\foundation.spec.ts:46:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 1440 (5.8s)
+[WebServer] 7:43:55 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 4 tests\browser\foundation.spec.ts:46:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 320 (6.4s)
+[WebServer] 7:44:00 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 5 tests\browser\foundation.spec.ts:46:3 › responsive home/list/form/timeline, long Arabic and no sideways scroll 768 (4.7s)
+[WebServer] 7:44:02 PM [vite] (client) [console.warn] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+  ok 6 tests\browser\foundation.spec.ts:82:1 › form required validation, exact 50.5 display, keyboard dialog and pending/error retention (2.9s)
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+[WebServer] {"event":"database_idle_connection_unavailable"}
+  ok 7 tests\browser\foundation.spec.ts:112:1 › real loading, database stop/unavailable and restart recovery retain the migration (6.2s)
+  ok 8 tests\browser\foundation.spec.ts:147:1 › production bundle exposes no demonstration entries or routes (1.7s)
+
+  8 passed (1.0m)

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { ReportWorkspace } from '../../reports/reports.js';
 import { useQuery } from '@tanstack/react-query';
 import {
   Button,
@@ -318,6 +319,29 @@ function Reasons({ reasons }: { reasons: WalletReason[] }) {
 }
 const heading = 'تحصيل البراندات';
 export function BrandPayoutsPage() {
+  const [params] = useSearchParams();
+  const report = params.get('report');
+  if (report === 'REP-09' || report === 'REP-10')
+    return (
+      <>
+        <div className="payout-views">
+          <Link to="/brand-payouts">عمليات الصرف</Link>
+          <Link to="/brand-payouts?report=REP-09">المستحق والتصدير</Link>
+          <Link to="/brand-payouts?report=REP-10">تاريخ الصرف والتصدير</Link>
+        </div>
+        <ReportWorkspace reportId={report} />
+      </>
+    );
+  return (
+    <>
+      <div className="payout-views">
+        <Link to="/brand-payouts?report=REP-09">المستحق وتاريخ الصرف - تقارير وتصدير</Link>
+      </div>
+      <BrandPayoutOperationsPage />
+    </>
+  );
+}
+function BrandPayoutOperationsPage() {
   const { registry } = useAccess(),
     company = registry?.context.companyId,
     { params, setParams, set } = useParamState();

@@ -8,6 +8,3336 @@
     }
   },
   "paths": {
+    "/api/v1/reports/catalog": {
+      "get": {
+        "operationId": "erp.reports.catalog",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "reports": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "enum": [
+                              "REP-01",
+                              "REP-05",
+                              "REP-07",
+                              "REP-08",
+                              "REP-09",
+                              "REP-10",
+                              "REP-12",
+                              "REP-14",
+                              "REP-18"
+                            ]
+                          },
+                          "title": { "type": "string" },
+                          "surface": { "type": "string" },
+                          "scope": { "enum": ["assigned", "wallet"] },
+                          "capabilities": { "type": "array", "items": { "type": "string" } },
+                          "filters": { "type": "array", "items": { "type": "string" } },
+                          "dateBases": { "type": "array", "items": { "type": "string" } },
+                          "dateMeaning": { "type": "string" },
+                          "formula": { "type": "string" },
+                          "columns": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": { "type": "string" },
+                                "title": { "type": "string" },
+                                "type": { "enum": ["text", "money", "quantity", "date"] },
+                                "total": { "type": "boolean" }
+                              },
+                              "required": ["key", "title", "type"]
+                            }
+                          },
+                          "sorts": { "type": "array", "items": { "type": "string" } }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "surface",
+                          "scope",
+                          "capabilities",
+                          "filters",
+                          "dateBases",
+                          "dateMeaning",
+                          "formula",
+                          "columns",
+                          "sorts"
+                        ]
+                      }
+                    },
+                    "branches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "companyBranches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "brands": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "drivers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "name"]
+                      }
+                    },
+                    "references": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" },
+                          "kind": { "type": "string" }
+                        },
+                        "required": ["id", "name", "kind"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "reports",
+                    "branches",
+                    "companyBranches",
+                    "brands",
+                    "drivers",
+                    "accounts",
+                    "references"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/snapshots": {
+      "post": {
+        "operationId": "erp.reports.snapshot",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "schemaVersion",
+                  "commandId",
+                  "companyId",
+                  "type",
+                  "reportId",
+                  "filters",
+                  "sort"
+                ],
+                "properties": {
+                  "schemaVersion": { "const": 1 },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "type": { "const": "report.snapshot" },
+                  "reportId": {
+                    "enum": [
+                      "REP-01",
+                      "REP-05",
+                      "REP-07",
+                      "REP-08",
+                      "REP-09",
+                      "REP-10",
+                      "REP-12",
+                      "REP-14",
+                      "REP-18"
+                    ]
+                  },
+                  "filters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "branchIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "brandIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "driverIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "accountIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "categoryIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "governorateIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "areaIds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "format": "uuid" }
+                      },
+                      "services": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                      },
+                      "statuses": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                      },
+                      "methods": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                      },
+                      "conditions": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                      },
+                      "kinds": {
+                        "type": "array",
+                        "maxItems": 50,
+                        "uniqueItems": true,
+                        "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                      },
+                      "from": { "type": "string", "format": "date" },
+                      "to": { "type": "string", "format": "date" },
+                      "search": { "type": "string", "maxLength": 180 },
+                      "dateBasis": { "type": "string", "maxLength": 30 },
+                      "minMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                      "maxMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" }
+                    }
+                  },
+                  "sort": { "enum": ["dateAsc", "dateDesc"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "snapshot": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "reportId": {
+                          "enum": [
+                            "REP-01",
+                            "REP-05",
+                            "REP-07",
+                            "REP-08",
+                            "REP-09",
+                            "REP-10",
+                            "REP-12",
+                            "REP-14",
+                            "REP-18"
+                          ]
+                        },
+                        "companyName": { "type": "string" },
+                        "asOf": { "type": "string", "format": "date-time" },
+                        "filterDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "dataDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "filters": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "brandIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "driverIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "accountIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "categoryIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "governorateIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "areaIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "services": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "statuses": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "methods": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "conditions": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "kinds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "from": { "type": "string", "format": "date" },
+                            "to": { "type": "string", "format": "date" },
+                            "search": { "type": "string", "maxLength": 180 },
+                            "dateBasis": { "type": "string", "maxLength": 30 },
+                            "minMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                            "maxMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" }
+                          }
+                        },
+                        "sort": { "enum": ["dateAsc", "dateDesc"] },
+                        "dateBasis": { "type": "string" },
+                        "scope": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "authorizationRevision": { "type": "string" },
+                            "completeCompany": { "type": "boolean" },
+                            "policy": { "enum": ["assigned", "wallet"] }
+                          },
+                          "required": [
+                            "branchIds",
+                            "authorizationRevision",
+                            "completeCompany",
+                            "policy"
+                          ]
+                        },
+                        "totalRows": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "totals": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "pattern": "^(0|-?[1-9][0-9]*)$"
+                          }
+                        },
+                        "context": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "walletScope": { "type": "string" },
+                            "period": { "type": "string" },
+                            "openingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "openingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "branchWallets": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "brandId": { "type": "string", "format": "uuid" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "branchName": { "type": "string" },
+                                  "eligibleMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "pendingMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "debitsMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "coverMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "brandId",
+                                  "branchId",
+                                  "branchName",
+                                  "eligibleMinor",
+                                  "pendingMinor",
+                                  "heldMinor",
+                                  "debitsMinor",
+                                  "coverMinor"
+                                ]
+                              }
+                            },
+                            "filteredStatement": { "type": "boolean" },
+                            "units": { "type": "string" },
+                            "stockTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "parcelTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "accounts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "name": { "type": "string" },
+                                  "bookMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "availableMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "bookMinor",
+                                  "heldMinor",
+                                  "availableMinor"
+                                ]
+                              }
+                            },
+                            "transit": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "sourceAccount": { "type": "string" },
+                                  "destinationAccount": { "type": "string" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "sentAt": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "id",
+                                  "sourceAccount",
+                                  "destinationAccount",
+                                  "amountMinor",
+                                  "sentAt"
+                                ]
+                              }
+                            },
+                            "discrepancies": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "caseId": { "type": "string", "format": "uuid" },
+                                  "account": { "type": "string" },
+                                  "bookAtObservationMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "differenceMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "actualDate": { "type": "string", "format": "date" }
+                                },
+                                "required": [
+                                  "caseId",
+                                  "account",
+                                  "bookAtObservationMinor",
+                                  "observedMinor",
+                                  "differenceMinor",
+                                  "heldMinor",
+                                  "actualDate"
+                                ]
+                              }
+                            }
+                          },
+                          "required": []
+                        },
+                        "coverage": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "complete": { "type": "boolean" },
+                            "flags": { "type": "array", "items": { "type": "string" } },
+                            "revisions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "source_id": { "type": "string", "format": "uuid" },
+                                  "aggregate_type": { "type": "string" },
+                                  "aggregate_id": { "type": "string", "format": "uuid" },
+                                  "revision": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_high": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "applied_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "history_complete": { "type": "boolean" },
+                                  "financial_ready": { "type": "boolean" },
+                                  "gapped": { "type": "boolean" },
+                                  "updated_at": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "source_id",
+                                  "aggregate_type",
+                                  "aggregate_id",
+                                  "revision",
+                                  "received_high",
+                                  "received_through",
+                                  "applied_through",
+                                  "history_complete",
+                                  "financial_ready",
+                                  "gapped",
+                                  "updated_at"
+                                ]
+                              }
+                            }
+                          },
+                          "required": ["complete", "flags", "revisions"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "reportId",
+                        "companyName",
+                        "asOf",
+                        "filterDigest",
+                        "dataDigest",
+                        "filters",
+                        "sort",
+                        "dateBasis",
+                        "scope",
+                        "totalRows",
+                        "totals",
+                        "context",
+                        "coverage"
+                      ]
+                    },
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string" },
+                          "values": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "reference": { "type": ["string", "null"] },
+                              "branch": { "type": ["string", "null"] },
+                              "brand": { "type": ["string", "null"] },
+                              "recipient": { "type": ["string", "null"] },
+                              "phone": { "type": ["string", "null"] },
+                              "service": { "type": ["string", "null"] },
+                              "status": { "type": ["string", "null"] },
+                              "execution": { "type": ["string", "null"] },
+                              "custody": { "type": ["string", "null"] },
+                              "custodyBranch": { "type": ["string", "null"] },
+                              "originalOutcome": { "type": ["string", "null"] },
+                              "effectiveOutcome": { "type": ["string", "null"] },
+                              "tier": { "type": ["string", "null"] },
+                              "tariffMinor": { "type": ["string", "null"] },
+                              "tariffRevision": { "type": ["string", "null"] },
+                              "date": { "type": ["string", "null"] },
+                              "recordedAt": { "type": ["string", "null"] },
+                              "kind": { "type": ["string", "null"] },
+                              "driver": { "type": ["string", "null"] },
+                              "visits": { "type": ["string", "null"] },
+                              "shipments": { "type": ["string", "null"] },
+                              "endAt": { "type": ["string", "null"] },
+                              "offered": { "type": ["string", "null"] },
+                              "received": { "type": ["string", "null"] },
+                              "sound": { "type": ["string", "null"] },
+                              "damaged": { "type": ["string", "null"] },
+                              "handed": { "type": ["string", "null"] },
+                              "handoverAt": { "type": ["string", "null"] },
+                              "amountMinor": { "type": ["string", "null"] },
+                              "balanceMinor": { "type": ["string", "null"] },
+                              "reason": { "type": ["string", "null"] },
+                              "weekdays": { "type": ["string", "null"] },
+                              "signedMinor": { "type": ["string", "null"] },
+                              "pendingMinor": { "type": ["string", "null"] },
+                              "heldMinor": { "type": ["string", "null"] },
+                              "coverMinor": { "type": ["string", "null"] },
+                              "eligibleMinor": { "type": ["string", "null"] },
+                              "paidMinor": { "type": ["string", "null"] },
+                              "account": { "type": ["string", "null"] },
+                              "payoutExtent": { "type": ["string", "null"] },
+                              "method": { "type": ["string", "null"] },
+                              "category": { "type": ["string", "null"] },
+                              "description": { "type": ["string", "null"] },
+                              "actor": { "type": ["string", "null"] },
+                              "onHand": { "type": ["string", "null"] },
+                              "reserved": { "type": ["string", "null"] },
+                              "available": { "type": ["string", "null"] },
+                              "unavailable": { "type": ["string", "null"] },
+                              "carrier": { "type": ["string", "null"] }
+                            },
+                            "required": []
+                          },
+                          "sourceIds": { "type": "array", "items": { "type": "string" } },
+                          "revision": { "type": "string" },
+                          "effectiveAt": { "type": ["string", "null"], "format": "date-time" },
+                          "recordedAt": { "type": ["string", "null"], "format": "date-time" },
+                          "detail": { "type": ["string", "null"] }
+                        },
+                        "required": [
+                          "id",
+                          "values",
+                          "sourceIds",
+                          "revision",
+                          "effectiveAt",
+                          "recordedAt",
+                          "detail"
+                        ]
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "limit": { "enum": [25, 50, 100] }
+                  },
+                  "required": ["snapshot", "rows", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/snapshots/{id}": {
+      "get": {
+        "operationId": "erp.reports.page",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          { "name": "limit", "in": "query", "required": false, "schema": { "enum": [25, 50, 100] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "snapshot": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "reportId": {
+                          "enum": [
+                            "REP-01",
+                            "REP-05",
+                            "REP-07",
+                            "REP-08",
+                            "REP-09",
+                            "REP-10",
+                            "REP-12",
+                            "REP-14",
+                            "REP-18"
+                          ]
+                        },
+                        "companyName": { "type": "string" },
+                        "asOf": { "type": "string", "format": "date-time" },
+                        "filterDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "dataDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "filters": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "brandIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "driverIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "accountIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "categoryIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "governorateIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "areaIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "services": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "statuses": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "methods": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "conditions": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "kinds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "from": { "type": "string", "format": "date" },
+                            "to": { "type": "string", "format": "date" },
+                            "search": { "type": "string", "maxLength": 180 },
+                            "dateBasis": { "type": "string", "maxLength": 30 },
+                            "minMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                            "maxMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" }
+                          }
+                        },
+                        "sort": { "enum": ["dateAsc", "dateDesc"] },
+                        "dateBasis": { "type": "string" },
+                        "scope": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "authorizationRevision": { "type": "string" },
+                            "completeCompany": { "type": "boolean" },
+                            "policy": { "enum": ["assigned", "wallet"] }
+                          },
+                          "required": [
+                            "branchIds",
+                            "authorizationRevision",
+                            "completeCompany",
+                            "policy"
+                          ]
+                        },
+                        "totalRows": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "totals": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "pattern": "^(0|-?[1-9][0-9]*)$"
+                          }
+                        },
+                        "context": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "walletScope": { "type": "string" },
+                            "period": { "type": "string" },
+                            "openingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "openingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "branchWallets": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "brandId": { "type": "string", "format": "uuid" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "branchName": { "type": "string" },
+                                  "eligibleMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "pendingMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "debitsMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "coverMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "brandId",
+                                  "branchId",
+                                  "branchName",
+                                  "eligibleMinor",
+                                  "pendingMinor",
+                                  "heldMinor",
+                                  "debitsMinor",
+                                  "coverMinor"
+                                ]
+                              }
+                            },
+                            "filteredStatement": { "type": "boolean" },
+                            "units": { "type": "string" },
+                            "stockTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "parcelTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "accounts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "name": { "type": "string" },
+                                  "bookMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "availableMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "bookMinor",
+                                  "heldMinor",
+                                  "availableMinor"
+                                ]
+                              }
+                            },
+                            "transit": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "sourceAccount": { "type": "string" },
+                                  "destinationAccount": { "type": "string" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "sentAt": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "id",
+                                  "sourceAccount",
+                                  "destinationAccount",
+                                  "amountMinor",
+                                  "sentAt"
+                                ]
+                              }
+                            },
+                            "discrepancies": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "caseId": { "type": "string", "format": "uuid" },
+                                  "account": { "type": "string" },
+                                  "bookAtObservationMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "differenceMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "actualDate": { "type": "string", "format": "date" }
+                                },
+                                "required": [
+                                  "caseId",
+                                  "account",
+                                  "bookAtObservationMinor",
+                                  "observedMinor",
+                                  "differenceMinor",
+                                  "heldMinor",
+                                  "actualDate"
+                                ]
+                              }
+                            }
+                          },
+                          "required": []
+                        },
+                        "coverage": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "complete": { "type": "boolean" },
+                            "flags": { "type": "array", "items": { "type": "string" } },
+                            "revisions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "source_id": { "type": "string", "format": "uuid" },
+                                  "aggregate_type": { "type": "string" },
+                                  "aggregate_id": { "type": "string", "format": "uuid" },
+                                  "revision": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_high": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "applied_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "history_complete": { "type": "boolean" },
+                                  "financial_ready": { "type": "boolean" },
+                                  "gapped": { "type": "boolean" },
+                                  "updated_at": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "source_id",
+                                  "aggregate_type",
+                                  "aggregate_id",
+                                  "revision",
+                                  "received_high",
+                                  "received_through",
+                                  "applied_through",
+                                  "history_complete",
+                                  "financial_ready",
+                                  "gapped",
+                                  "updated_at"
+                                ]
+                              }
+                            }
+                          },
+                          "required": ["complete", "flags", "revisions"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "reportId",
+                        "companyName",
+                        "asOf",
+                        "filterDigest",
+                        "dataDigest",
+                        "filters",
+                        "sort",
+                        "dateBasis",
+                        "scope",
+                        "totalRows",
+                        "totals",
+                        "context",
+                        "coverage"
+                      ]
+                    },
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string" },
+                          "values": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "reference": { "type": ["string", "null"] },
+                              "branch": { "type": ["string", "null"] },
+                              "brand": { "type": ["string", "null"] },
+                              "recipient": { "type": ["string", "null"] },
+                              "phone": { "type": ["string", "null"] },
+                              "service": { "type": ["string", "null"] },
+                              "status": { "type": ["string", "null"] },
+                              "execution": { "type": ["string", "null"] },
+                              "custody": { "type": ["string", "null"] },
+                              "custodyBranch": { "type": ["string", "null"] },
+                              "originalOutcome": { "type": ["string", "null"] },
+                              "effectiveOutcome": { "type": ["string", "null"] },
+                              "tier": { "type": ["string", "null"] },
+                              "tariffMinor": { "type": ["string", "null"] },
+                              "tariffRevision": { "type": ["string", "null"] },
+                              "date": { "type": ["string", "null"] },
+                              "recordedAt": { "type": ["string", "null"] },
+                              "kind": { "type": ["string", "null"] },
+                              "driver": { "type": ["string", "null"] },
+                              "visits": { "type": ["string", "null"] },
+                              "shipments": { "type": ["string", "null"] },
+                              "endAt": { "type": ["string", "null"] },
+                              "offered": { "type": ["string", "null"] },
+                              "received": { "type": ["string", "null"] },
+                              "sound": { "type": ["string", "null"] },
+                              "damaged": { "type": ["string", "null"] },
+                              "handed": { "type": ["string", "null"] },
+                              "handoverAt": { "type": ["string", "null"] },
+                              "amountMinor": { "type": ["string", "null"] },
+                              "balanceMinor": { "type": ["string", "null"] },
+                              "reason": { "type": ["string", "null"] },
+                              "weekdays": { "type": ["string", "null"] },
+                              "signedMinor": { "type": ["string", "null"] },
+                              "pendingMinor": { "type": ["string", "null"] },
+                              "heldMinor": { "type": ["string", "null"] },
+                              "coverMinor": { "type": ["string", "null"] },
+                              "eligibleMinor": { "type": ["string", "null"] },
+                              "paidMinor": { "type": ["string", "null"] },
+                              "account": { "type": ["string", "null"] },
+                              "payoutExtent": { "type": ["string", "null"] },
+                              "method": { "type": ["string", "null"] },
+                              "category": { "type": ["string", "null"] },
+                              "description": { "type": ["string", "null"] },
+                              "actor": { "type": ["string", "null"] },
+                              "onHand": { "type": ["string", "null"] },
+                              "reserved": { "type": ["string", "null"] },
+                              "available": { "type": ["string", "null"] },
+                              "unavailable": { "type": ["string", "null"] },
+                              "carrier": { "type": ["string", "null"] }
+                            },
+                            "required": []
+                          },
+                          "sourceIds": { "type": "array", "items": { "type": "string" } },
+                          "revision": { "type": "string" },
+                          "effectiveAt": { "type": ["string", "null"], "format": "date-time" },
+                          "recordedAt": { "type": ["string", "null"], "format": "date-time" },
+                          "detail": { "type": ["string", "null"] }
+                        },
+                        "required": [
+                          "id",
+                          "values",
+                          "sourceIds",
+                          "revision",
+                          "effectiveAt",
+                          "recordedAt",
+                          "detail"
+                        ]
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "limit": { "enum": [25, 50, 100] }
+                  },
+                  "required": ["snapshot", "rows", "page", "limit"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/snapshots/{id}/rows/{ordinal}": {
+      "get": {
+        "operationId": "erp.reports.row",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "ordinal",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "minimum": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string" },
+                    "values": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "reference": { "type": ["string", "null"] },
+                        "branch": { "type": ["string", "null"] },
+                        "brand": { "type": ["string", "null"] },
+                        "recipient": { "type": ["string", "null"] },
+                        "phone": { "type": ["string", "null"] },
+                        "service": { "type": ["string", "null"] },
+                        "status": { "type": ["string", "null"] },
+                        "execution": { "type": ["string", "null"] },
+                        "custody": { "type": ["string", "null"] },
+                        "custodyBranch": { "type": ["string", "null"] },
+                        "originalOutcome": { "type": ["string", "null"] },
+                        "effectiveOutcome": { "type": ["string", "null"] },
+                        "tier": { "type": ["string", "null"] },
+                        "tariffMinor": { "type": ["string", "null"] },
+                        "tariffRevision": { "type": ["string", "null"] },
+                        "date": { "type": ["string", "null"] },
+                        "recordedAt": { "type": ["string", "null"] },
+                        "kind": { "type": ["string", "null"] },
+                        "driver": { "type": ["string", "null"] },
+                        "visits": { "type": ["string", "null"] },
+                        "shipments": { "type": ["string", "null"] },
+                        "endAt": { "type": ["string", "null"] },
+                        "offered": { "type": ["string", "null"] },
+                        "received": { "type": ["string", "null"] },
+                        "sound": { "type": ["string", "null"] },
+                        "damaged": { "type": ["string", "null"] },
+                        "handed": { "type": ["string", "null"] },
+                        "handoverAt": { "type": ["string", "null"] },
+                        "amountMinor": { "type": ["string", "null"] },
+                        "balanceMinor": { "type": ["string", "null"] },
+                        "reason": { "type": ["string", "null"] },
+                        "weekdays": { "type": ["string", "null"] },
+                        "signedMinor": { "type": ["string", "null"] },
+                        "pendingMinor": { "type": ["string", "null"] },
+                        "heldMinor": { "type": ["string", "null"] },
+                        "coverMinor": { "type": ["string", "null"] },
+                        "eligibleMinor": { "type": ["string", "null"] },
+                        "paidMinor": { "type": ["string", "null"] },
+                        "account": { "type": ["string", "null"] },
+                        "payoutExtent": { "type": ["string", "null"] },
+                        "method": { "type": ["string", "null"] },
+                        "category": { "type": ["string", "null"] },
+                        "description": { "type": ["string", "null"] },
+                        "actor": { "type": ["string", "null"] },
+                        "onHand": { "type": ["string", "null"] },
+                        "reserved": { "type": ["string", "null"] },
+                        "available": { "type": ["string", "null"] },
+                        "unavailable": { "type": ["string", "null"] },
+                        "carrier": { "type": ["string", "null"] }
+                      },
+                      "required": []
+                    },
+                    "sourceIds": { "type": "array", "items": { "type": "string" } },
+                    "revision": { "type": "string" },
+                    "effectiveAt": { "type": ["string", "null"], "format": "date-time" },
+                    "recordedAt": { "type": ["string", "null"], "format": "date-time" },
+                    "detail": { "type": ["string", "null"] }
+                  },
+                  "required": [
+                    "id",
+                    "values",
+                    "sourceIds",
+                    "revision",
+                    "effectiveAt",
+                    "recordedAt",
+                    "detail"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/exports": {
+      "post": {
+        "operationId": "erp.reports.export",
+        "security": [{ "erpSession": [], "csrfToken": [] }],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "schemaVersion",
+                  "commandId",
+                  "companyId",
+                  "type",
+                  "snapshotId",
+                  "filterDigest",
+                  "format"
+                ],
+                "properties": {
+                  "schemaVersion": { "const": 1 },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "type": { "const": "report.export" },
+                  "snapshotId": { "type": "string", "format": "uuid" },
+                  "filterDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                  "format": { "enum": ["xlsx", "pdf"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "snapshotId": { "type": "string", "format": "uuid" },
+                    "format": { "enum": ["xlsx", "pdf"] },
+                    "state": { "enum": ["pending", "running", "completed", "failed", "expired"] },
+                    "attempts": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "error": { "type": ["string", "null"] },
+                    "artifactId": { "type": ["string", "null"], "format": "uuid" },
+                    "expiresAt": { "type": "string", "format": "date-time" },
+                    "downloadUrl": { "type": ["string", "null"] }
+                  },
+                  "required": [
+                    "id",
+                    "snapshotId",
+                    "format",
+                    "state",
+                    "attempts",
+                    "error",
+                    "artifactId",
+                    "expiresAt",
+                    "downloadUrl"
+                  ]
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Retained export intent queued; file is not yet available",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "snapshotId": { "type": "string", "format": "uuid" },
+                    "format": { "enum": ["xlsx", "pdf"] },
+                    "state": { "enum": ["pending", "running", "completed", "failed", "expired"] },
+                    "attempts": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "error": { "type": ["string", "null"] },
+                    "artifactId": { "type": ["string", "null"], "format": "uuid" },
+                    "expiresAt": { "type": "string", "format": "date-time" },
+                    "downloadUrl": { "type": ["string", "null"] }
+                  },
+                  "required": [
+                    "id",
+                    "snapshotId",
+                    "format",
+                    "state",
+                    "attempts",
+                    "error",
+                    "artifactId",
+                    "expiresAt",
+                    "downloadUrl"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/exports/{id}": {
+      "get": {
+        "operationId": "erp.reports.exportJob",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "snapshotId": { "type": "string", "format": "uuid" },
+                    "format": { "enum": ["xlsx", "pdf"] },
+                    "state": { "enum": ["pending", "running", "completed", "failed", "expired"] },
+                    "attempts": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "error": { "type": ["string", "null"] },
+                    "artifactId": { "type": ["string", "null"], "format": "uuid" },
+                    "expiresAt": { "type": "string", "format": "date-time" },
+                    "downloadUrl": { "type": ["string", "null"] }
+                  },
+                  "required": [
+                    "id",
+                    "snapshotId",
+                    "format",
+                    "state",
+                    "attempts",
+                    "error",
+                    "artifactId",
+                    "expiresAt",
+                    "downloadUrl"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/exports/{id}/download": {
+      "get": {
+        "operationId": "erp.reports.download",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nonpublic authorized unexpired XLSX/PDF bytes",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": { "type": "string", "format": "binary" }
+              },
+              "application/pdf": { "schema": { "type": "string", "format": "binary" } }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/commands/{id}": {
+      "get": {
+        "operationId": "erp.reports.recover",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string", "format": "uuid" },
+                    "snapshotId": { "type": "string", "format": "uuid" },
+                    "format": { "enum": ["xlsx", "pdf"] },
+                    "state": { "enum": ["pending", "running", "completed", "failed", "expired"] },
+                    "attempts": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+                    "error": { "type": ["string", "null"] },
+                    "artifactId": { "type": ["string", "null"], "format": "uuid" },
+                    "expiresAt": { "type": "string", "format": "date-time" },
+                    "downloadUrl": { "type": ["string", "null"] }
+                  },
+                  "required": [
+                    "id",
+                    "snapshotId",
+                    "format",
+                    "state",
+                    "attempts",
+                    "error",
+                    "artifactId",
+                    "expiresAt",
+                    "downloadUrl"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/integration/recovery": {
       "get": {
         "operationId": "erp.integration.recovery",

@@ -1,0 +1,113 @@
+{
+  "capturedAt": "2026-10-08T16:07:49.453Z",
+  "provenance": "Isolated real PostgreSQL and native services; controlled source HTTP fixtures, not public Tawsel acceptance",
+  "postgres": {
+    "server_version": "18.3"
+  },
+  "detail": {
+    "id": "d93633d0-1960-493f-b8e0-8003234a25f5",
+    "reference": "1",
+    "kind": "received",
+    "amountMinor": "100000",
+    "companyId": "6268d963-2f2a-4de5-9182-f532885765d4",
+    "driverId": "97665f22-3e80-473c-9cff-497ce03f8f0a",
+    "roundId": "cca7482d-1810-479f-a467-aec4f0a93330",
+    "branchId": "43cda00b-153b-4b07-8362-69052d1822b7",
+    "actualDate": "2026-10-08",
+    "recordedAt": "2026-10-08T16:07:49.428Z",
+    "actorName": "admin",
+    "commandId": "5383d2bd-0f23-409a-8627-06e4d5425a53",
+    "witness": {
+      "id": "86e1bb9a-486e-4004-9f33-2bcbbb94497e",
+      "companyId": "6268d963-2f2a-4de5-9182-f532885765d4",
+      "driverId": "97665f22-3e80-473c-9cff-497ce03f8f0a",
+      "roundId": "cca7482d-1810-479f-a467-aec4f0a93330",
+      "branchId": "43cda00b-153b-4b07-8362-69052d1822b7",
+      "revision": "1",
+      "digest": "e78e1783983c2dce913a0ca153c23fbf9326db5c2c16c0fda5b8eabb3d274096",
+      "expectedMinor": "100000",
+      "blockers": [],
+      "sources": [
+        {
+          "taskId": "6421a1af-0a33-4cbf-a6e4-a9e962fa699f",
+          "brandId": "0b6c4532-7d91-45a0-8a7f-e42e6e76a1e4",
+          "covered": false,
+          "cycleId": "4bb21631-0a51-4bd9-882f-2224faea0c0a",
+          "visitId": "32704c58-ee3d-4d13-9a94-98c769c5d7e6",
+          "branchId": "43cda00b-153b-4b07-8362-69052d1822b7",
+          "attemptId": "33e80909-4450-4165-a477-043085841762",
+          "outcomeId": "f8a577db-35fa-44e6-a00d-44d0f5bc2648",
+          "goodsMinor": "60000",
+          "shipmentId": "2ff23f5c-c4ee-44a5-b2ec-b0e6a7bfa92b",
+          "creditLotId": "24dddfd5-be7b-4ca5-bccc-dbb7c77cd834",
+          "reportedMinor": "70000",
+          "shippingMinor": "10000",
+          "outcomeRevision": "1",
+          "shipmentReference": "10011"
+        },
+        {
+          "taskId": "baacd4dd-bc8c-410b-be4a-477581e75389",
+          "brandId": "0b6c4532-7d91-45a0-8a7f-e42e6e76a1e4",
+          "covered": false,
+          "cycleId": "9d228b98-d6e5-42f4-b236-98b77c3855fc",
+          "visitId": "9dc4bb67-a6c0-4d56-9020-d743f527b568",
+          "branchId": "43cda00b-153b-4b07-8362-69052d1822b7",
+          "attemptId": "6a2dc406-13ed-434b-8628-f779ea6802a0",
+          "outcomeId": "64cabf6e-0f6a-4fad-9adf-ee6ee7552eb5",
+          "goodsMinor": "25000",
+          "shipmentId": "7d50c57b-f903-4500-901e-1b2c1664ba1d",
+          "creditLotId": "11904e58-cdea-4135-aece-4551f2092026",
+          "reportedMinor": "30000",
+          "shippingMinor": "5000",
+          "outcomeRevision": "1",
+          "shipmentReference": "10010"
+        }
+      ],
+      "createdAt": "2026-10-08T16:07:49.143Z",
+      "basisRevision": "1",
+      "basisDigest": "f838241e91307807b17131552d363046c2197ed511809afd1395513de58b15df",
+      "receivedEvidenceOnly": true
+    },
+    "components": [
+      {
+        "method": "cash",
+        "accountId": "06b1401a-3cc3-436a-b57c-8cd5af8bb847",
+        "amountMinor": "80000",
+        "reference": "",
+        "movementId": "05b5f8af-1d76-4913-b5b8-50e1ea1ba1bb",
+        "accountName": "الخزنة"
+      },
+      {
+        "method": "instapay",
+        "accountId": "0936f5b5-8b0e-438d-a578-b048d75e6e92",
+        "amountMinor": "20000",
+        "reference": "",
+        "movementId": "5e3cb791-e2ca-4c7b-b237-f9e0d43fb516",
+        "accountName": "البنك"
+      }
+    ],
+    "reviews": []
+  },
+  "accounts": [
+    {
+      "account_id": "06b1401a-3cc3-436a-b57c-8cd5af8bb847",
+      "amount_minor": "80000"
+    },
+    {
+      "account_id": "0936f5b5-8b0e-438d-a578-b048d75e6e92",
+      "amount_minor": "20000"
+    }
+  ],
+  "releases": [
+    {
+      "id": "24dddfd5-be7b-4ca5-bccc-dbb7c77cd834",
+      "amount_minor": "60000",
+      "source_id": "743c08d1-4588-4e02-a6fe-0fc1e277b96e"
+    },
+    {
+      "id": "11904e58-cdea-4135-aece-4551f2092026",
+      "amount_minor": "25000",
+      "source_id": "743c08d1-4588-4e02-a6fe-0fc1e277b96e"
+    }
+  ]
+}

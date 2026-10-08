@@ -1,0 +1,849 @@
+{
+  "A01": {
+    "variantId": "388cb9be-288c-4cd4-99b6-42d213488542",
+    "result": {
+      "commandId": "9984495c-a869-479b-a160-f9bc83857b87",
+      "caseId": "6c6f8f45-4f9b-4df2-9683-776be61e28df",
+      "caseReference": "1",
+      "resolutionId": "aa2593a4-2730-4f2b-a83a-8bfa8c28acc8",
+      "operation": "product.observe",
+      "classification": "stock_observation",
+      "state": "resolved",
+      "preview": {
+        "operation": "product.observe",
+        "classification": "stock_observation",
+        "target": {
+          "kind": "product",
+          "id": "388cb9be-288c-4cd4-99b6-42d213488542",
+          "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product cddbd6b5 · Single",
+          "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "soundOnHand",
+            "unit": "quantity",
+            "before": "12",
+            "after": "10"
+          },
+          {
+            "key": "delta",
+            "unit": "quantity",
+            "before": null,
+            "after": "-2"
+          },
+          {
+            "key": "physicalOnHand",
+            "unit": "quantity",
+            "before": "12",
+            "after": "10"
+          },
+          {
+            "key": "reserved",
+            "unit": "quantity",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "available",
+            "unit": "quantity",
+            "before": "12",
+            "after": "10"
+          },
+          {
+            "key": "reservationShortage",
+            "unit": "quantity",
+            "before": "0",
+            "after": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "stock",
+            "kind": "observed_decrease",
+            "label": "سليم براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product cddbd6b5 · Single",
+            "amountMinor": null,
+            "quantity": -2,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [],
+        "warnings": [],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "stock.position",
+            "version": "2"
+          }
+        ],
+        "digest": "d05c59a4de48a545e9739b5532d7adc7d97e598c05104261527cfd3383c5c4ff"
+      },
+      "links": [
+        {
+          "role": "original",
+          "entityKind": "product_variant",
+          "entityId": "388cb9be-288c-4cd4-99b6-42d213488542",
+          "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product cddbd6b5 · Single"
+        },
+        {
+          "role": "result",
+          "entityKind": "stock_source",
+          "entityId": "42923837-8ce3-42e4-b642-9331c8d510ea",
+          "label": "حركة ملاحظة الجرد"
+        }
+      ]
+    },
+    "moves": [
+      {
+        "sound_delta": 12,
+        "unavailable_delta": 0,
+        "kind": "receipt",
+        "source_system": "erp"
+      },
+      {
+        "sound_delta": -2,
+        "unavailable_delta": 0,
+        "kind": "adjustment",
+        "source_system": "settlement"
+      }
+    ]
+  },
+  "A02": {
+    "variants": {
+      "Short": "aaaeb3f8-24ab-4d24-b12c-67b2d46bde62",
+      "Other": "433ed5de-d05a-4a66-a3f0-49517fe99f9b"
+    },
+    "orders": [
+      {
+        "commandId": "af1d913f-67f6-4cce-95a9-135f57b39f64",
+        "shipmentId": "cdec1da0-cb53-4445-9c2a-1319ede1bf43",
+        "reference": "10000",
+        "version": 1,
+        "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2"
+      },
+      {
+        "commandId": "c9722b5d-3e8f-40c6-9a62-115ca7124798",
+        "shipmentId": "e1689575-f999-4a85-b48e-fd5c41ba4f8b",
+        "reference": "10001",
+        "version": 1,
+        "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2"
+      },
+      {
+        "commandId": "7cfe45be-0ea5-407a-959d-29c0bb926fd2",
+        "shipmentId": "c095f994-2b7b-4dbc-a6e1-d8cd63ec6d19",
+        "reference": "10002",
+        "version": 1,
+        "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2"
+      }
+    ],
+    "result": {
+      "commandId": "93911aee-8783-4ad4-aff4-90ef987cf69f",
+      "caseId": "40960926-ead6-43d0-a873-5cdeb422091a",
+      "caseReference": "2",
+      "resolutionId": "33fa7889-a1c7-45d9-a5a3-35a884a836b5",
+      "operation": "product.observe",
+      "classification": "stock_observation",
+      "state": "resolved",
+      "preview": {
+        "operation": "product.observe",
+        "classification": "stock_observation",
+        "target": {
+          "kind": "product",
+          "id": "aaaeb3f8-24ab-4d24-b12c-67b2d46bde62",
+          "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product 7f5fb2e7 · Short",
+          "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "soundOnHand",
+            "unit": "quantity",
+            "before": "12",
+            "after": "5"
+          },
+          {
+            "key": "delta",
+            "unit": "quantity",
+            "before": null,
+            "after": "-7"
+          },
+          {
+            "key": "physicalOnHand",
+            "unit": "quantity",
+            "before": "12",
+            "after": "5"
+          },
+          {
+            "key": "reserved",
+            "unit": "quantity",
+            "before": "7",
+            "after": "7"
+          },
+          {
+            "key": "available",
+            "unit": "quantity",
+            "before": "5",
+            "after": "0"
+          },
+          {
+            "key": "reservationShortage",
+            "unit": "quantity",
+            "before": "0",
+            "after": "2"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "stock",
+            "kind": "observed_decrease",
+            "label": "سليم براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product 7f5fb2e7 · Short",
+            "amountMinor": null,
+            "quantity": -7,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "hold",
+            "kind": "reservation_shortage_hold",
+            "label": "إيقاف كل الحجوزات غير المسلمة لهذا الصنف حتى التعويض أو التعديل",
+            "amountMinor": null,
+            "quantity": 2,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [
+          {
+            "kind": "order_reservation",
+            "id": "4101d256-2660-409b-a7f1-c337ffbfea6e",
+            "label": "شحنة 10000 · 4",
+            "state": "held"
+          },
+          {
+            "kind": "order_reservation",
+            "id": "91bc63de-5630-45ac-a30d-2941e12d8c38",
+            "label": "شحنة 10001 · 3",
+            "state": "held"
+          }
+        ],
+        "warnings": [
+          "RESERVATION_SHORTAGE_HOLDS_AFFECTED_WORK"
+        ],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "stock.position",
+            "version": "4"
+          }
+        ],
+        "digest": "760e71fc0da7ce151429aeaf6a164f11084337f69781e0a1d913ec597ca37277"
+      },
+      "links": [
+        {
+          "role": "original",
+          "entityKind": "product_variant",
+          "entityId": "aaaeb3f8-24ab-4d24-b12c-67b2d46bde62",
+          "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product 7f5fb2e7 · Short"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "order_reservation",
+          "entityId": "4101d256-2660-409b-a7f1-c337ffbfea6e",
+          "label": "شحنة 10000 · 4"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "order_reservation",
+          "entityId": "91bc63de-5630-45ac-a30d-2941e12d8c38",
+          "label": "شحنة 10001 · 3"
+        },
+        {
+          "role": "result",
+          "entityKind": "stock_source",
+          "entityId": "ad67f405-b480-4164-bbcb-e099d89d44d0",
+          "label": "حركة ملاحظة الجرد"
+        }
+      ]
+    }
+  },
+  "A03": {
+    "account": "68c359c4-bfff-4d3e-b734-66f7eea75f6f",
+    "observation": {
+      "commandId": "df1edc26-77a9-424b-80f1-986391cc4d31",
+      "caseId": "7435b5a2-ab5b-4e3b-9d7a-adeccda8223b",
+      "caseReference": "4",
+      "resolutionId": "57b8607a-4f47-4c61-be53-f47fb57a477b",
+      "operation": "account.observe",
+      "classification": "account_observation",
+      "state": "open",
+      "preview": {
+        "operation": "account.observe",
+        "classification": "account_observation",
+        "target": {
+          "kind": "account",
+          "id": "68c359c4-bfff-4d3e-b734-66f7eea75f6f",
+          "label": "خزنة ملاحظة الفرق",
+          "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "bookBalance",
+            "unit": "minor",
+            "before": "100000",
+            "after": "100000"
+          },
+          {
+            "key": "observedActual",
+            "unit": "minor",
+            "before": null,
+            "after": "90000"
+          },
+          {
+            "key": "difference",
+            "unit": "minor",
+            "before": null,
+            "after": "-10000"
+          },
+          {
+            "key": "discrepancyHold",
+            "unit": "minor",
+            "before": "0",
+            "after": "10000"
+          },
+          {
+            "key": "availableFunds",
+            "unit": "minor",
+            "before": "100000",
+            "after": "90000"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "hold",
+            "kind": "unexplained_shortage_hold",
+            "label": "حجز العجز غير المفسر من الرصيد المتاح حتى تسويته",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [],
+        "warnings": [
+          "UNEXPLAINED_SHORTAGE_HELD_UNTIL_RESOLVED"
+        ],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "money.account.effects",
+            "version": "1"
+          }
+        ],
+        "digest": "9632084d57ef43aab82e071a3782f6e34c69209af29a1f95d4b80586fd1024f4"
+      },
+      "links": [
+        {
+          "role": "original",
+          "entityKind": "money_account",
+          "entityId": "68c359c4-bfff-4d3e-b734-66f7eea75f6f",
+          "label": "خزنة ملاحظة الفرق"
+        }
+      ]
+    },
+    "resolution": {
+      "commandId": "4d2308e1-34e1-405f-b348-73245b2c078b",
+      "caseId": "7435b5a2-ab5b-4e3b-9d7a-adeccda8223b",
+      "caseReference": "4",
+      "resolutionId": "3dfd03d0-8d57-42b2-b52a-52d9b8160551",
+      "operation": "account.resolve",
+      "classification": "missed_expense",
+      "state": "resolved",
+      "preview": {
+        "operation": "account.resolve",
+        "classification": "missed_expense",
+        "target": {
+          "kind": "account",
+          "id": "68c359c4-bfff-4d3e-b734-66f7eea75f6f",
+          "label": "خزنة ملاحظة الفرق",
+          "branchId": "8126d57e-ff15-4bb7-982b-f0a4926e3da2",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "bookBalance",
+            "unit": "minor",
+            "before": "100000",
+            "after": "90000"
+          },
+          {
+            "key": "discrepancyHold",
+            "unit": "minor",
+            "before": "10000",
+            "after": "0"
+          },
+          {
+            "key": "availableFunds",
+            "unit": "minor",
+            "before": "90000",
+            "after": "90000"
+          },
+          {
+            "key": "unexplainedRemaining",
+            "unit": "minor",
+            "before": "10000",
+            "after": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "money",
+            "kind": "payment",
+            "label": "خزنة ملاحظة الفرق",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "operating",
+            "kind": "cost",
+            "label": "مصروف مدفوع فعلًا ولم يسجل",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "hold",
+            "kind": "shortage_hold_release",
+            "label": "استبدال الحجز بالترحيل المحدد",
+            "amountMinor": "10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [],
+        "warnings": [],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "settlement.case",
+            "version": "1"
+          },
+          {
+            "key": "money.account.effects",
+            "version": "1"
+          }
+        ],
+        "digest": "3f48e35841446c527bad4956c8778162d649b4b8c63546700f50cd145dc072a5"
+      },
+      "links": [
+        {
+          "role": "result",
+          "entityKind": "paid_expense",
+          "entityId": "d19fe3b3-5111-44e3-9921-56e0feb2da50",
+          "label": "مصروف مدفوع فعلًا ولم يسجل"
+        },
+        {
+          "role": "result",
+          "entityKind": "money_movement",
+          "entityId": "918dc1a9-509c-4222-9d51-b6917a91bc68",
+          "label": "حركة الحساب"
+        },
+        {
+          "role": "original",
+          "entityKind": "money_account",
+          "entityId": "68c359c4-bfff-4d3e-b734-66f7eea75f6f",
+          "label": "الحساب"
+        }
+      ]
+    },
+    "funds": {
+      "book": "90000",
+      "held": "0",
+      "available": "90000"
+    }
+  },
+  "A04": {
+    "employeeId": "e8bfbb18-a941-4c28-9e4b-ea228956b8c6",
+    "month": "2026-10",
+    "rejected": "PAYROLL_PERIOD_PROTECTED"
+  },
+  "A06": {
+    "batch": {
+      "commandId": "9bf0528a-377b-4f05-bb79-c18637101d17",
+      "batchId": "a1c256a9-ce0a-474e-8b78-b3fc979577f9",
+      "reference": "1",
+      "openingDate": "2026-10-08",
+      "lines": [
+        {
+          "lineNumber": 1,
+          "classification": "account_balance",
+          "targetKey": "account:ba36e8fd-86ad-4613-9b35-2a40699ebc9f",
+          "effectId": "60537d8f-ae3e-4fdb-8843-e511bdc5277a",
+          "stockSourceId": null
+        },
+        {
+          "lineNumber": 2,
+          "classification": "brand_eligible_credit",
+          "targetKey": "brand:76956f8e-b8b1-4594-a9d1-0878621cf28f:brand_eligible_credit",
+          "effectId": "237f2d35-f281-41a9-bde2-ed3991863bb4",
+          "stockSourceId": null
+        },
+        {
+          "lineNumber": 3,
+          "classification": "employee_obligation",
+          "targetKey": "employee:a90ca842-f588-4ea2-a1fd-78ad460f0d54:employee_obligation",
+          "effectId": "0af153fc-c9b0-4578-898f-5408a7624f0c",
+          "stockSourceId": null
+        },
+        {
+          "lineNumber": 4,
+          "classification": "stock_sound",
+          "targetKey": "stock:8126d57e-ff15-4bb7-982b-f0a4926e3da2:76956f8e-b8b1-4594-a9d1-0878621cf28f:f7f3d81a-9a84-47b5-83f8-939b61fc19c5:stock_sound",
+          "effectId": null,
+          "stockSourceId": "697f93db-d1ca-4049-8488-3212b6c6a391"
+        }
+      ],
+      "preview": {
+        "openingDate": "2026-10-08",
+        "lines": [
+          {
+            "lineNumber": 1,
+            "classification": "account_balance",
+            "targetKey": "account:ba36e8fd-86ad-4613-9b35-2a40699ebc9f",
+            "label": "خزنة افتتاحية",
+            "branchName": "الفرع أ",
+            "amountMinor": "50000",
+            "quantity": null,
+            "ledger": "money",
+            "readiness": "available"
+          },
+          {
+            "lineNumber": 2,
+            "classification": "brand_eligible_credit",
+            "targetKey": "brand:76956f8e-b8b1-4594-a9d1-0878621cf28f:brand_eligible_credit",
+            "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+            "branchName": "الفرع أ",
+            "amountMinor": "20000",
+            "quantity": null,
+            "ledger": "brand",
+            "readiness": "eligible"
+          },
+          {
+            "lineNumber": 3,
+            "classification": "employee_obligation",
+            "targetKey": "employee:a90ca842-f588-4ea2-a1fd-78ad460f0d54:employee_obligation",
+            "label": "موظف رصيد افتتاحي · 2026-10",
+            "branchName": "الفرع أ",
+            "amountMinor": "10000",
+            "quantity": null,
+            "ledger": "employee",
+            "readiness": "obligation"
+          },
+          {
+            "lineNumber": 4,
+            "classification": "stock_sound",
+            "targetKey": "stock:8126d57e-ff15-4bb7-982b-f0a4926e3da2:76956f8e-b8b1-4594-a9d1-0878621cf28f:f7f3d81a-9a84-47b5-83f8-939b61fc19c5:stock_sound",
+            "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · P21 product 5b6a6f59 · Opening",
+            "branchName": "الفرع أ",
+            "amountMinor": null,
+            "quantity": 3,
+            "ledger": "stock",
+            "readiness": "available"
+          }
+        ],
+        "totals": {
+          "moneyMinor": "50000",
+          "brandEligibleMinor": "20000",
+          "brandPendingMinor": "0",
+          "brandDebtMinor": "0",
+          "employeeObligationMinor": "10000",
+          "employeeEntitlementMinor": "0",
+          "stockQuantity": 3
+        },
+        "existing": [],
+        "blockers": [],
+        "digest": "e77c3fbea8fb4c2b89aa42fb2290161a36a708b53480f606fd475ff8b55f9392"
+      }
+    },
+    "wallet": {
+      "eligibleMinor": "20000",
+      "pendingMinor": "7000",
+      "debitsMinor": "0",
+      "heldMinor": "0",
+      "coverMinor": "0",
+      "signedEntitlementMinor": "27000",
+      "eligibleToPayMinor": "20000",
+      "paidMinor": "0"
+    },
+    "payroll": {
+      "salary": "600000",
+      "commission": "0",
+      "bonus": "0",
+      "overtime": "0",
+      "positiveEarningAdjustments": "0",
+      "grossEarning": "600000",
+      "newAdvancesDue": "0",
+      "newOrdinaryDeductions": "0",
+      "newIncidentDeductions": "0",
+      "priorCarriedUnrecoveredObligations": "0",
+      "obligations": "10000",
+      "recoveryThisPeriod": "10000",
+      "earningDeductionsRecovered": "0",
+      "advanceRecovered": "0",
+      "incidentRecovered": "0",
+      "openingEntitlement": "0",
+      "newSettlementObligations": "10000",
+      "settlementRecovered": "10000",
+      "outstandingAmount": "10000",
+      "reservedForFrozenPeriods": "0",
+      "availableForNewAllocation": "10000",
+      "netPayable": "590000",
+      "carryRemaining": "0",
+      "employeeCost": "600000",
+      "allocations": [
+        {
+          "obligationId": "66034bd2-9032-4699-a6af-51858330b88f",
+          "kind": "settlement",
+          "amountMinor": "10000",
+          "remainingMinor": "0"
+        }
+      ]
+    }
+  },
+  "companyId": "387f1eb1-a7af-48af-9def-169ea2af226c",
+  "authorityMatrix": [
+    {
+      "operation": "product.observe",
+      "target": "product",
+      "grants": [
+        "settlements",
+        "inventory"
+      ],
+      "allowedStates": "Any current branch position of a company variant within assigned branches.",
+      "forbidden": [
+        "stale position version (concurrent receipt/dispatch/reservation) — SETTLEMENT_PREVIEW_STALE",
+        "reducing incident-held unavailable custody — INCIDENT_CUSTODY_HELD",
+        "releasing, reassigning or cancelling another reservation",
+        "creating a brand stock receipt"
+      ]
+    },
+    {
+      "operation": "account.observe",
+      "target": "account",
+      "grants": [
+        "settlements",
+        "finance.accounts"
+      ],
+      "allowedStates": "Active account usable by an assigned branch, with no other open observation.",
+      "forbidden": [
+        "automatic gain, loss, receipt or employee penalty from the difference",
+        "spendable funds from a positive observation",
+        "a second open observation for the same account — ACCOUNT_OBSERVATION_OPEN",
+        "accepting a short driver remittance or partial treasury receipt"
+      ]
+    },
+    {
+      "operation": "account.resolve",
+      "target": "account",
+      "grants": [
+        "settlements",
+        "finance.accounts"
+      ],
+      "allowedStates": "An open account observation with an unexplained remainder.",
+      "forbidden": [
+        "resolving more than the observed difference — RESOLUTION_EXCEEDS_DIFFERENCE",
+        "loss/expense/liability for a positive observation — RESOLUTION_KIND_NOT_LAWFUL",
+        "protected payroll month for a liability — PAST_PAYROLL_PROTECTED/PAYROLL_PERIOD_PROTECTED",
+        "resolving an already resolved case — SETTLEMENT_ALREADY_RESOLVED"
+      ]
+    },
+    {
+      "operation": "brand.correct",
+      "target": "brand",
+      "grants": [
+        "settlements",
+        "brand.payout"
+      ],
+      "allowedStates": "A goods, fee, opening or commercial-adjustment movement of a company brand in an assigned branch, with no open source review.",
+      "forbidden": [
+        "payout reversal without actual returned money — PAYOUT_CORRECTION_REQUIRES_ACTUAL_RETURN",
+        "compensation outside its incident review — USE_INCIDENT_REVIEW",
+        "credit becoming debit or debit becoming credit — CORRECTION_CHANGES_CLASS",
+        "stale wallet readiness — SETTLEMENT_PREVIEW_STALE"
+      ]
+    },
+    {
+      "operation": "brand.adjust",
+      "target": "brand",
+      "grants": [
+        "settlements",
+        "brand.payout"
+      ],
+      "allowedStates": "Any company brand; paying/recording branch within assigned branches.",
+      "forbidden": [
+        "cash, remittance or refund — no account effect is posted",
+        "operating-profit classification without a justified typed resolution"
+      ]
+    },
+    {
+      "operation": "employee.adjust",
+      "target": "employee",
+      "grants": [
+        "settlements",
+        "employees"
+      ],
+      "allowedStates": "An editable unpaid current or future payroll month without source review.",
+      "forbidden": [
+        "paid, zero-closed, frozen or past month — PAST_PAYROLL_PROTECTED/PAYROLL_PERIOD_PROTECTED",
+        "partial salary payout or cash repayment from a deduction",
+        "advance or incident recovery reclassified as an entitlement deduction"
+      ]
+    },
+    {
+      "operation": "source.resolve",
+      "target": "source",
+      "grants": [
+        "settlements",
+        "brand.payout"
+      ],
+      "allowedStates": "An open P13/P16/P17 settlement review in an assigned visit branch.",
+      "forbidden": [
+        "automatic refund, cash withdrawal or Tawsel mutation — none is offered",
+        "rewriting payouts, remittance or paid payroll — originals retained",
+        "resolving twice — SETTLEMENT_ALREADY_RESOLVED",
+        "an empty money difference posted as a correction — NO_MONEY_DIFFERENCE_RETAIN"
+      ]
+    },
+    {
+      "operation": "incident.resolve",
+      "target": "brand",
+      "grants": [
+        "settlements",
+        "incidents",
+        "brand.payout"
+      ],
+      "allowedStates": "A confirmed incident with a P18 review awaiting P21 and no prior resolution.",
+      "forbidden": [
+        "second resolution of the same review — SETTLEMENT_ALREADY_RESOLVED",
+        "compensation below the approved employee share — COMPENSATION_BELOW_EMPLOYEE_SHARE",
+        "reversing paid allocations or inferring cash recovery"
+      ]
+    },
+    {
+      "operation": "storage.refund",
+      "target": "storage",
+      "grants": [
+        "settlements",
+        "storage"
+      ],
+      "allowedStates": "A brand storage agreement with unallocated advance/partial credit.",
+      "forbidden": [
+        "refund of credit already allocated to an earned period — STORAGE_CREDIT_ALLOCATED",
+        "revenue reversal or brand-wallet payout — none is posted",
+        "stop treated as refund — stop is a separate P19 action",
+        "competing allocation or refund — STORAGE_CREDIT_CHANGED"
+      ]
+    },
+    {
+      "operation": "parcel.incident",
+      "target": "parcel",
+      "grants": [
+        "settlements",
+        "incidents"
+      ],
+      "allowedStates": "Unclaimed branch- or driver-held shipment/stock quantity in an assigned branch.",
+      "forbidden": [
+        "deleting or teleporting custody",
+        "compensation or employee liability at report time",
+        "already claimed quantities — INCIDENT_QUANTITY_CLAIMED"
+      ]
+    },
+    {
+      "operation": "parcel.cancel",
+      "target": "parcel",
+      "grants": [
+        "settlements",
+        "intake"
+      ],
+      "allowedStates": "An active shipment still at the branch before any driver handover.",
+      "forbidden": [
+        "hard deletion of the shipment or its history",
+        "after-departure override — HANDED_OVER_PROTECTED",
+        "unsupported Tawsel source mutation — SOURCE_ADAPTER_REQUIRED",
+        "restoring packed units to sound stock without inspection"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "6c6f8f45-4f9b-4df2-9683-776be61e28df",
+      "reference": "1",
+      "target_kind": "product",
+      "operation": "product.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "40960926-ead6-43d0-a873-5cdeb422091a",
+      "reference": "2",
+      "target_kind": "product",
+      "operation": "product.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "7ce02232-77ef-4d34-805f-05fe793a5411",
+      "reference": "3",
+      "target_kind": "product",
+      "operation": "product.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "7435b5a2-ab5b-4e3b-9d7a-adeccda8223b",
+      "reference": "4",
+      "target_kind": "account",
+      "operation": "account.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "b3ac9cd7-20de-4f33-8f14-a4dc2c9a87dc",
+      "reference": "5",
+      "target_kind": "account",
+      "operation": "account.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "275f6ed8-ebc6-4ff5-af5f-f1ebbdea731e",
+      "reference": "6",
+      "target_kind": "account",
+      "operation": "account.observe",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "658b9c17-eb38-4920-a854-79173f8cae40",
+      "reference": "7",
+      "target_kind": "employee",
+      "operation": "employee.adjust",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    },
+    {
+      "id": "db67419e-ca52-46c5-aad8-a600d44c9ff6",
+      "reference": "16",
+      "target_kind": "parcel",
+      "operation": "parcel.cancel",
+      "state": "resolved",
+      "reason": "سبب تسوية موثق في P21",
+      "actual_date": "2026-10-08"
+    }
+  ]
+}

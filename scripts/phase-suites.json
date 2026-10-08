@@ -622,5 +622,36 @@
         "handoff": "TAWSEL-CHANGE-REQUESTS.md"
       }
     }
+  },
+  "P23": {
+    "unit": {
+      "directory": "tests/integration/p23",
+      "extension": ".unit.test",
+      "script": "test:unit",
+      "filter": [
+        "tests/integration/p23/contracts.unit.test.ts",
+        "tests/integration/p23/ui.unit.test.tsx"
+      ]
+    },
+    "database": {
+      "directory": "tests/integration/p23",
+      "extension": ".db.test",
+      "script": "test:db",
+      "filter": [
+        "tests/integration/p23/reporting.db.test.ts",
+        "tests/integration/p23/custody.db.test.ts",
+        "tests/integration/p23/exports.db.test.ts",
+        "tests/integration/p23/http.db.test.ts",
+        "tests/integration/p23/formats.db.test.ts"
+      ]
+    },
+    "browser": {
+      "applicable": false,
+      "reason": "Owner instruction 2026-10-08: skip browser testing, focus on scripts. Earlier actual-API browser attempts and partial screenshots remain historical evidence; no fresh UI/device/manual pass is claimed. Real PostgreSQL/HTTP, actual worker process kills, generated XLSX parsing and PDF rendering/inspection remain required script gates."
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P23 performs native authorized read/snapshot/export operations and issues no Tawsel request. Canonical source facts are consumed through implemented P13/P22 adapters. The available existing P22 independent live read suite is separately rerun under P23 evidence; external CR-001/CHECK-003/joint index stay in TAWSEL-CHANGE-REQUESTS.md."
+    }
   }
 }

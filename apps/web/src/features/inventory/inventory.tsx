@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { OperationalReportLink } from '../reports/reports.js';
 import { useQuery } from '@tanstack/react-query';
 import {
   Button,
@@ -262,6 +263,7 @@ function ProductInventoryPage() {
         تسجيل استلام مخزون
       </Link>
       <p className="scope-note">
+        <OperationalReportLink reportId="REP-18" params={params} />
         المخزون الفعلي داخل فروعك فقط. الحجز مطالبة ضمن الموجود؛ لا يضيف وحدات جديدة.
       </p>
       <ErrorNotice error={catalog.error ?? catalog.access.authorityError} />

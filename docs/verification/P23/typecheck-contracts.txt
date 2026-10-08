@@ -1,0 +1,8 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+tests/integration/p23/reporting.db.test.ts(105,28): error TS2345: Argument of type 'Buffer<ArrayBufferLike>' is not assignable to parameter of type 'Buffer'.
+  The types of 'slice(...)[Symbol.toStringTag]' are incompatible between these types.
+    Type '"Uint8Array"' is not assignable to type '"ArrayBuffer"'.
+tests/integration/p23/reporting.db.test.ts(123,22): error TS2345: Argument of type 'Buffer<ArrayBufferLike>' is not assignable to parameter of type 'Buffer'.
+  The types of 'slice(...)[Symbol.toStringTag]' are incompatible between these types.
+    Type '"Uint8Array"' is not assignable to type '"ArrayBuffer"'.

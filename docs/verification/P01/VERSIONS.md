@@ -99,3 +99,7 @@ P09 uses the unchanged external dependency pins/root lockfile, Node24.21.0/npm12
 ## P10 reuse — 2026-10-04
 
 P10 retains all exact dependency pins and the root/prototype lockfiles. Actual runtime is Node24.21.0/npm12.2.0 and disposable native PostgreSQL18.3. Additive0014 extends P09 finance with source-linked treasury transit and safe full receipt. No runtime library, bank provider or package upgrade was installed. [P10 identities/evidence](../P10/VERSIONS.md) distinguish local fixture verification from customer issuer, owner/device and production acceptance.
+
+## P23 targeted renderer additions — 2026-10-08
+
+P23 adds exact API runtime pins ExcelJS4.4.0 (MIT), Playwright1.63.0 (Apache2.0, matching existing test pin), and Cairo font5.3.0 (SIL OFL1.1, matching existing web pin). Real XLSX and local Arabic RTL PDF use these maintained existing-compatible interfaces. Final script runtime remains Node24.21.0/npm12.2.0/native PostgreSQL18.3. The root lock changed for the targeted renderer additions; the prototype remains unchanged. [P23 dependencies](../P23/DEPENDENCIES.md) records actual upstream/local license inspection, initial engine failure/rerun, two moderate transitive audit findings and their bounded writer-path assessment, and final artifact identities. No clean-audit, production-capacity, browser/device or P24 profit claim.

@@ -1,0 +1,117 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P23
+P23 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p23/contracts.unit.test.ts (3 tests) 13ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  19:54:54
+   Duration  10.87s (import 56%, transform 22%, environment 19%, setup 3%)
+
+P23 unit: PASSED
+P23 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p23/reporting.db.test.ts (7 tests) 7627ms
+ ✓ tests/integration/p23/custody.db.test.ts (3 tests) 20924ms
+   ✓ A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim 6121ms
+   ✓ A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown 8162ms
+   ✓ AC-REP-07 offered3 received2 handed1 leaves one received unit at the branch and one unresolved unit with the carrier 6639ms
+ ✓ tests/integration/p23/exports.db.test.ts (5 tests) 18036ms
+   ✓ A06 actual process dies before/after publication; lease reclaim returns one artifact and lost-response replay retains one job 6607ms
+   ✓ stale worker cannot publish or announce success under a reclaimed fence 1178ms
+   ✓ expiry denies old endpoint, purges only bytes, retains snapshot/metadata and allows a new export intent 2207ms
+   ✓ A01 readable real PDF and XLSX consume same27-row snapshot and expense200; rendering holds no database transaction 951ms
+   ✓ export lane preparation overlaps actual source application; records sample size/timing without a capacity claim 534ms
+ ✓ tests/integration/p23/http.db.test.ts (1 test) 5404ms
+
+ Test Files  4 passed (4)
+      Tests  16 passed (16)
+   Start at  19:55:06
+   Duration  65.28s (tests 80%, import 15%, transform 4%)
+
+P23 database: PASSED
+P23 browser: test:p23:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2760 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-DooYnzKm.css                          116.19 kB │ gzip:  22.28 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-E1qrlhOs.js                           963.67 kB │ gzip: 212.37 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 703ms
+[WebServer] (node:36144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:15500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states (32.4s)
+(node:8016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p23\reports.spec.ts:150:1 › A02/A03/A07 real API forged filters/exports/downloads and revocation; tracking does not authorize reports (5.7s)
+
+
+  1) tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' }) with timeout 20000ms
+      - waiting for getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })
+
+
+      103 |   await page.getByLabel('بحث', { exact: true }).fill('P23 no result');
+      104 |   await page.getByRole('button', { name: 'تطبيق الفلاتر' }).click();
+    > 105 |   await expect(page.getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })).toBeVisible();
+          |                                                                                    ^
+      106 |   await page.route('**/api/v1/reports/snapshots', (route) =>
+      107 |     route.fulfill({
+      108 |       status: 503,
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p23\reports.spec.ts:105:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\p23\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\p23\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\p23\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\p23\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states
+  1 passed (50.9s)
+P23 browser: FAILED (1)

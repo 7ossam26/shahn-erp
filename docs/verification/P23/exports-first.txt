@@ -1,0 +1,18 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p23/exports.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p23/exports.db.test.ts (5 tests) 21827ms
+   ✓ A06 actual process dies before/after publication; lease reclaim returns one artifact and lost-response replay retains one job 7159ms
+   ✓ stale worker cannot publish or announce success under a reclaimed fence 1173ms
+   ✓ expiry denies old endpoint, purges only bytes, retains snapshot/metadata and allows a new export intent 2202ms
+   ✓ A01 readable real PDF and XLSX consume same27-row snapshot and expense200; rendering holds no database transaction 1417ms
+   ✓ export lane preparation overlaps actual source application; records sample size/timing without a capacity claim 420ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  19:32:23
+   Duration  24.68s (tests 89%, import 7%, transform 4%)

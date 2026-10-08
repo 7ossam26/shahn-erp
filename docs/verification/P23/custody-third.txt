@@ -1,0 +1,15 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p23/custody.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p23/custody.db.test.ts (2 tests) 13164ms
+   ✓ A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim 5966ms
+   ✓ A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown 7195ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  19:33:47
+   Duration  15.41s (tests 86%, import 8%, transform 6%)

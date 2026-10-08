@@ -1,0 +1,62 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p23/reporting.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p23/reporting.db.test.ts (5 tests | 3 failed) 7630ms
+   × A01 money trial reconciles 700/300 cash, 150 eligible, 100 payout, 200 paid expense from independent journals 42ms
+   ✓ A05 27 rows paginate25+2, Arabic digits find references, export every row and literal formula-like text 146ms
+   ✓ A02/03/07 report scope and download reauthorize, tracking alone cannot query/create/export 41ms
+   × A09 independent late/backdated commit during snapshot read cannot change its rows or totals; explicit refresh sees it 5ms
+   × snapshot source query plans retain company/branch/date predicates and stable tie breakers 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p23/reporting.db.test.ts > A01 money trial reconciles 700/300 cash, 150 eligible, 100 payout, 200 paid expense from independent journals
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/p23/reporting.db.test.ts:30:67
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/p23/reporting.db.test.ts > A09 independent late/backdated commit during snapshot read cannot change its rows or totals; explicit refresh sees it
+Error: NESTED_INDEPENDENT_TRANSACTION_FORBIDDEN
+ ❯ transaction packages/database/src/transaction.ts:10:32
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:22
+     49|     for (let attempt = 0; ; attempt++) {
+     50|       try {
+     51|         return await transaction(pool, async (client) => {
+       |                      ^
+     52|           // Authorization preamble precedes domain lock order; SHARE …
+     53|           // until commit without serializing every wallet in the comp…
+ ❯ CommandService.execute apps/api/src/modules/kernel/commands.ts:85:23
+ ❯ Object.expense tests/integration/p23/fixtures.ts:17:144
+ ❯ Object.afterSourceRead tests/integration/p23/reporting.db.test.ts:58:81
+ ❯ apps/api/src/modules/reporting/service.ts:132:24
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ tests/integration/p23/reporting.db.test.ts:59:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/p23/reporting.db.test.ts > snapshot source query plans retain company/branch/date predicates and stable tie breakers
+error: could not determine data type of parameter $3
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p23/reporting.db.test.ts:65:243
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+   Start at  19:23:20
+   Duration  10.72s (tests 72%, import 19%, transform 9%)

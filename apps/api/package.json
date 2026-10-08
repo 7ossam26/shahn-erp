@@ -4,19 +4,23 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@fontsource-variable/cairo": "5.3.0",
     "@nestjs/common": "12.1.2",
     "@nestjs/core": "12.1.2",
     "@nestjs/platform-fastify": "12.1.2",
     "@shahn/contracts": "0.1.0",
     "@shahn/database": "0.1.0",
+    "@shahn/domain": "0.1.0",
+    "exceljs": "4.4.0",
     "fastify": "5.12.5",
     "jose": "6.2.12",
     "openid-client": "6.8.8",
+    "playwright": "1.63.0",
     "reflect-metadata": "0.2.2",
-    "rxjs": "7.8.2",
-    "@shahn/domain": "0.1.0"
+    "rxjs": "7.8.2"
   },
   "exports": {
+    "./reporting": "./dist/modules/reporting/index.js",
     "./returns": "./dist/modules/returns/index.js",
     "./employees": "./dist/modules/employees/index.js",
     "./inventory": "./dist/modules/inventory/index.js",

@@ -1,0 +1,103 @@
+npm notice run shahn-erp@0.1.0 test:p23:browser
+npm notice run node scripts/build.mjs && playwright test --config playwright.p23.config.ts
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2760 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.43 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-oB2Z13je.css                          116.19 kB │ gzip:  22.28 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-f3EqdbcX.js                           959.60 kB │ gzip: 211.47 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 826ms
+[WebServer] (node:37932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:40692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states (2.0m)
+(node:26080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 tests\integration\p23\reports.spec.ts:150:1 › A02/A03/A07 real API forged filters/exports/downloads and revocation; tracking does not authorize reports (2.7s)
+
+
+  1) tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states
+
+    Test timeout of 120000ms exceeded.
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\traces\d2ea609703bae19dcdce-ada39ba4332049d8b74e-recording2.network' -> 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\traces\d2ea609703bae19dcdce-ada39ba4332049d8b74e-recording2-pwnetcopy-1.network'
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\traces\d2ea609703bae19dcdce-ada39ba4332049d8b74e-recording1.network' -> 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\traces\d2ea609703bae19dcdce-ada39ba4332049d8b74e-recording1-pwnetcopy-1.network'
+
+    Error: browserContext._wrapApiCall: ENOENT: no such file or directory, open 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\traces\d2ea609703bae19dcdce-ada39ba4332049d8b74e.trace'
+
+    Error: locator.selectOption: Test ended.
+    Call log:
+      - waiting for getByLabel('الفروع', { exact: true })
+
+
+      60 |   await page.getByLabel('إلى تاريخ').fill(f.today);
+      61 |   await page.getByText(/فلاتر متقدمة/).click();
+    > 62 |   await page.getByLabel('الفروع', { exact: true }).selectOption([f.a]);
+         |                                                    ^
+      63 |   await page.getByRole('button', { name: 'تطبيق الفلاتر' }).click();
+      64 |   await expect(page.getByLabel('إجماليات اللقطة')).toContainText('200.00');
+      65 |   const expenseSnapshot = new URL(page.url()).searchParams.get('snapshot');
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p23\reports.spec.ts:62:52
+
+    Error: ENOENT: no such file or directory, open 'C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\test-results\.playwright-artifacts-0\8c8fbd0f8165eb56ec6248d760fc4315.zip'
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests\integration\p23\reports.spec.ts:150:1 › A02/A03/A07 real API forged filters/exports/downloads and revocation; tracking does not authorize reports
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 401
+
+      171 |     sort: 'dateAsc',
+      172 |   });
+    > 173 |   expect(forged.status()).toBe(403);
+          |                           ^
+      174 |   expect((await forged.json()).code).toBe('FORBIDDEN_SCOPE');
+      175 |   await page.getByRole('button', { name: 'تصدير XLSX' }).click();
+      176 |   await expect(page.getByRole('link', { name: 'تنزيل XLSX' })).toBeVisible();
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p23\reports.spec.ts:173:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\reports-A02-A03-A07-real-A-5c468--does-not-authorize-reports\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\reports-A02-A03-A07-real-A-5c468--does-not-authorize-reports\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\reports-A02-A03-A07-real-A-5c468--does-not-authorize-reports\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\reports-A02-A03-A07-real-A-5c468--does-not-authorize-reports\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests\integration\p23\reports.spec.ts:4:1 › A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states
+    tests\integration\p23\reports.spec.ts:150:1 › A02/A03/A07 real API forged filters/exports/downloads and revocation; tracking does not authorize reports

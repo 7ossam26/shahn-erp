@@ -3,6 +3,7 @@ import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/
 import { integrationRuntime, SourceCommandWorker, RecoveryWorker } from '@shahn/api/integration';
 import { ProjectionWorker } from '@shahn/api/execution';
 import { StorageRenewalJob } from './jobs/storage-renewal.js';
+import { ExportWorker } from '@shahn/api/reporting';
 loadEnvironment();
 try {
   const db = databaseConfig(),
@@ -13,6 +14,8 @@ try {
   const projectionWorker = new ProjectionWorker(pool);
   // P19: scheduled storage renewal on the same PostgreSQL work lane.
   const storageRenewal = new StorageRenewalJob(pool);
+  const exportWorker = new ExportWorker(pool);
+  let exporting = false;
   const worker =
     pool && identity ? new IdentityWorker(pool, new KeycloakIdentityAdapter(identity)) : null;
   let working = false;
@@ -23,12 +26,23 @@ try {
         service: 'worker',
         state,
         checkedAt: new Date().toISOString(),
-        businessQueues: worker ? 5 : 4,
+        businessQueues: worker ? 6 : 5,
       }),
     );
   report('started');
   const heartbeat = setInterval(() => report('idle'), 30000);
   const poll = setInterval(() => {
+    // Export formatting has its own bounded lane. An export never gates inbox polling.
+    if (!exporting && !stopping) {
+      exporting = true;
+      void exportWorker
+        .runOne()
+        .then(() => exportWorker.expire())
+        .catch(() => report('export_retry'))
+        .finally(() => {
+          exporting = false;
+        });
+    }
     if (!working && !stopping) {
       working = true;
       void Promise.allSettled([
@@ -53,7 +67,7 @@ try {
     report('stopping');
     clearInterval(heartbeat);
     clearInterval(poll);
-    while (working) await new Promise((resolve) => setTimeout(resolve, 50));
+    while (working || exporting) await new Promise((resolve) => setTimeout(resolve, 50));
     await pool?.end();
     report('stopped');
     if (process.connected) process.disconnect();

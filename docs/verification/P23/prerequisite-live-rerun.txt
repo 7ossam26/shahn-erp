@@ -1,0 +1,18 @@
+npm notice run shahn-erp@0.1.0 test:p22:public
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.p22.public.config.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovered-identities.public.test.ts (3 tests) 138ms
+ ✓ tests/integration/p22/tawsel.public.test.ts (1 test) 1999ms
+   ✓ reads the actual public recovery boundary with a dedicated service and identified scoped stream 1997ms
+ ✓ tests/integration/p22/live-recovery.public.test.ts (4 tests) 18961ms
+   ✓ runs native durable replay, reconciliation and checkpoint reporting against actual Tawsel without changing committed business identities 1867ms
+   ✓ restores the actual isolated ERP trial and repeats original live source actions and signed events with posted receipt, payout and hold preserved 12465ms
+   ✓ checks real service authorization and bounded request rejection, including distinct real human driver sessions 473ms
+   ✓ verifies actual TLS proxy body limit and signed receiver negatives using original live event bytes 4154ms
+
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Start at  19:51:50
+   Duration  25.46s (tests 72%, import 17%, transform 11%)

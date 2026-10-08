@@ -1,0 +1,207 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p23.config.ts"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p23.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/integration/p23",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results/p23",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/integration/p23",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P23/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/integration/p23/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4426/health",
+      "reuseExistingServer": false,
+      "timeout": 180000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "reports.spec.ts",
+      "file": "reports.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "A01/A04/A05 desktop/phone real snapshot, full XLSX/PDF, filters/back, late refresh and load/empty states",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 32433,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' }) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' }) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\reports.spec.ts:105:84",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\reports.spec.ts",
+                      "column": 84,
+                      "line": 105
+                    },
+                    "snippet": "  103 |   await page.getByLabel('بحث', { exact: true }).fill('P23 no result');\n  104 |   await page.getByRole('button', { name: 'تطبيق الفلاتر' }).click();\n> 105 |   await expect(page.getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })).toBeVisible();\n      |                                                                                    ^\n  106 |   await page.route('**/api/v1/reports/snapshots', (route) =>\n  107 |     route.fulfill({\n  108 |       status: 503,"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\reports.spec.ts",
+                        "column": 84,
+                        "line": 105
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' }) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })\u001b[22m\n\n\n  103 |   await page.getByLabel('بحث', { exact: true }).fill('P23 no result');\n  104 |   await page.getByRole('button', { name: 'تطبيق الفلاتر' }).click();\n> 105 |   await expect(page.getByRole('heading', { name: 'لا توجد بيانات لهذه الفلاتر' })).toBeVisible();\n      |                                                                                    ^\n  106 |   await page.route('**/api/v1/reports/snapshots', (route) =>\n  107 |     route.fulfill({\n  108 |       status: 503,\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\reports.spec.ts:105:84"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T16:56:38.022Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\p23\\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\p23\\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\p23\\reports-A01-A04-A05-deskto-5dd3b-fresh-and-load-empty-states\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p23\\reports.spec.ts",
+                    "column": 84,
+                    "line": 105
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d2ea609703bae19dcdce-ada39ba4332049d8b74e",
+          "file": "reports.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "A02/A03/A07 real API forged filters/exports/downloads and revocation; tracking does not authorize reports",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5741,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-08T16:57:11.408Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2ea609703bae19dcdce-03f49706f4b9c5b4ca9d",
+          "file": "reports.spec.ts",
+          "line": 150,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-08T16:56:26.879Z",
+    "duration": 50911,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

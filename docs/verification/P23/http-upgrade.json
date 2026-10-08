@@ -1,0 +1,187 @@
+{
+  "upgrade": {
+    "unchangedTables": [
+      "kernel.journal_effect",
+      "kernel.source_record",
+      "kernel.lot_allocation",
+      "inventory.stock_movement",
+      "execution.visit_fact",
+      "finance.paid_expense",
+      "access.role_grant"
+    ],
+    "status": {
+      "state": "current",
+      "applied": [
+        {
+          "version": "0001_foundation",
+          "checksum": "76e06daf1100a47ac61387f39e1563fe4ad84fb90d1327dcad212c268a354c4e",
+          "appliedAt": "2026-10-08T17:33:48.246Z"
+        },
+        {
+          "version": "0002_access",
+          "checksum": "2b9c6c2573573012727a32fedb92a8ff808fd5a5cc92b1903d953d38d3a7e39f",
+          "appliedAt": "2026-10-08T17:33:48.250Z"
+        },
+        {
+          "version": "0003_access_result_error",
+          "checksum": "a3c3292b687266c97ab06e7538b58d8ce45e8fb5044eccc4ba2f74924ae478d1",
+          "appliedAt": "2026-10-08T17:33:48.307Z"
+        },
+        {
+          "version": "0004_kernel",
+          "checksum": "4d924aeb2f21d023ab72146b45d7d94dc96cd0a5b2c1ee7c5fcd64b207962704",
+          "appliedAt": "2026-10-08T17:33:48.309Z"
+        },
+        {
+          "version": "0005_kernel_allocation_guards",
+          "checksum": "4157e12e80985285500353167914f85f91c21dce724617ca5d3dab60a153cbf8",
+          "appliedAt": "2026-10-08T17:33:48.369Z"
+        },
+        {
+          "version": "0006_work_generated_identity",
+          "checksum": "f0d3f294de4f9c2fe6ca01abe9357c71a22370163e39511ddce07dec3df33a4d",
+          "appliedAt": "2026-10-08T17:33:48.372Z"
+        },
+        {
+          "version": "0007_kernel_guards",
+          "checksum": "e952591ab8cf1e6629d56f3fa6f53cc37aab2512fdbae2e3d1324dca4946eb2d",
+          "appliedAt": "2026-10-08T17:33:48.373Z"
+        },
+        {
+          "version": "0008_brands_pricing",
+          "checksum": "e16530dd33124e96e242fbb54ac7ff282f3e6803444ae1c98709606728d1551e",
+          "appliedAt": "2026-10-08T17:33:48.376Z"
+        },
+        {
+          "version": "0009_p05_products_stock",
+          "checksum": "c66f23109a64d0d70b8d7e3bfbd1194e029bee067452ff09773603b293f8486d",
+          "appliedAt": "2026-10-08T17:33:48.415Z"
+        },
+        {
+          "version": "0010_p06_parcel_intake",
+          "checksum": "32d4f4f811f5eab25f8e0173913ce955615c1c1bf517ace7ca5b9f18a5e96fa3",
+          "appliedAt": "2026-10-08T17:33:48.459Z"
+        },
+        {
+          "version": "0011_p07_stock_fulfillment",
+          "checksum": "744da11383c3a9baf24b9babcdcf89b3648c191028d1f1613cacd81d53716f32",
+          "appliedAt": "2026-10-08T17:33:48.493Z"
+        },
+        {
+          "version": "0012_p08_employee_terms",
+          "checksum": "a32201697ada80291e78e6e183d70484ea164813081272f594c499fb4e260b2b",
+          "appliedAt": "2026-10-08T17:33:48.506Z"
+        },
+        {
+          "version": "0013_p09_accounts_expenses",
+          "checksum": "a4f902a9b148cf02825e24c618df9a104bd609197a9005911d86b09f37ab06ed",
+          "appliedAt": "2026-10-08T17:33:48.573Z"
+        },
+        {
+          "version": "0014_p10_treasury_transfers",
+          "checksum": "182bc9270c06915d83bca03e062216b3e9e9f39198a690691a43c102ef3f4d4a",
+          "appliedAt": "2026-10-08T17:33:48.609Z"
+        },
+        {
+          "version": "0015_p11_integration",
+          "checksum": "47aaeddbeaf7af591a10fe6a042ef0f5a70544413691feeed529e24d14ef7732",
+          "appliedAt": "2026-10-08T17:33:48.629Z"
+        },
+        {
+          "version": "0016_p12_dispatch",
+          "checksum": "0dc3b9542d829a1c622d233eaa015be9518f71b40e4b0fc5a80d04b1bd0848f2",
+          "appliedAt": "2026-10-08T17:33:48.660Z"
+        },
+        {
+          "version": "0017_p13_execution",
+          "checksum": "0b55b6393121511995b0efa8531a5be3fcb996adf7c9b8f51b8d62c10bd3ed1a",
+          "appliedAt": "2026-10-08T17:33:48.688Z"
+        },
+        {
+          "version": "0018_p14_returns",
+          "checksum": "f45bbbc70cb646af83a1fe32a1e522964b02c7261d6988cb9df05a965fd32279",
+          "appliedAt": "2026-10-08T17:33:48.735Z"
+        },
+        {
+          "version": "0019_p15_goods_transfers",
+          "checksum": "1830b90ca9f8ea8b72af286327b282fe7ff33ce06e53f24b54f1d147f5192632",
+          "appliedAt": "2026-10-08T17:33:48.780Z"
+        },
+        {
+          "version": "0020_p16_remittances",
+          "checksum": "131b4a284c9ab7997eded926fb78558fa771b5e0d83c96e155accf2f0a4d8b3e",
+          "appliedAt": "2026-10-08T17:33:48.811Z"
+        },
+        {
+          "version": "0021_p17_brand_payouts",
+          "checksum": "ee5f69429b069a3e2ddff5ece4f697381f3b0c058f51d349fb042feacad98d8f",
+          "appliedAt": "2026-10-08T17:33:48.888Z"
+        },
+        {
+          "version": "0022_p18_incidents",
+          "checksum": "b22c9c2743576142013feffeafafc2359988b017d2f36e361bfa4b5b360b967f",
+          "appliedAt": "2026-10-08T17:33:48.910Z"
+        },
+        {
+          "version": "0023_p19_storage",
+          "checksum": "1e66ee498205d580f3a2482100e8b49020a9492a0ed75fff9261300e870d6335",
+          "appliedAt": "2026-10-08T17:33:48.964Z"
+        },
+        {
+          "version": "0024_p20_payroll",
+          "checksum": "023a370cb83f9328048ce313df31bcee1441d929a60e58f7e3ac8125755fe920",
+          "appliedAt": "2026-10-08T17:33:49.029Z"
+        },
+        {
+          "version": "0025_p21_settlements",
+          "checksum": "dcb3e0f32a9f060c6c30f645f7327af3e9c6923572272d843dc4e98cdac4bb7d",
+          "appliedAt": "2026-10-08T17:33:49.061Z"
+        },
+        {
+          "version": "0026_p22_recovery",
+          "checksum": "fd2f54e76822f39b7bc7669106b403353084b1bc9ac241f96f20f690f63dd42a",
+          "appliedAt": "2026-10-08T17:33:49.114Z"
+        },
+        {
+          "version": "0027_p23_reporting",
+          "checksum": "a2c5c408416997efbc849e7c43bc29c9732d6796275e4226babed906bbead617",
+          "appliedAt": "2026-10-08T17:33:50.240Z"
+        }
+      ],
+      "required": [
+        "0001_foundation",
+        "0002_access",
+        "0003_access_result_error",
+        "0004_kernel",
+        "0005_kernel_allocation_guards",
+        "0006_work_generated_identity",
+        "0007_kernel_guards",
+        "0008_brands_pricing",
+        "0009_p05_products_stock",
+        "0010_p06_parcel_intake",
+        "0011_p07_stock_fulfillment",
+        "0012_p08_employee_terms",
+        "0013_p09_accounts_expenses",
+        "0014_p10_treasury_transfers",
+        "0015_p11_integration",
+        "0016_p12_dispatch",
+        "0017_p13_execution",
+        "0018_p14_returns",
+        "0019_p15_goods_transfers",
+        "0020_p16_remittances",
+        "0021_p17_brand_payouts",
+        "0022_p18_incidents",
+        "0023_p19_storage",
+        "0024_p20_payroll",
+        "0025_p21_settlements",
+        "0026_p22_recovery",
+        "0027_p23_reporting"
+      ]
+    }
+  },
+  "authorization": {
+    "snapshotId": "337e7fec-934c-4232-b2ca-5b08039bd75f",
+    "jobId": "8a2a233d-769a-42ad-91cb-c448d987e3a3",
+    "revokedOldLinkDenied": true
+  }
+}

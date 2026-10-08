@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { PageHeading, Button } from '@shahn/ui';
+import { OperationalReportLink } from '../reports/reports.js';
 import {
   type ReturnCommand,
   type ReturnDesk,
@@ -184,6 +185,7 @@ export function ReturnsPage() {
     canDispatch = a.registry?.context.grants.includes('dispatch') ?? false;
   return (
     <div className="returns-page">
+      <OperationalReportLink reportId="REP-07" params={params} />
       <PageHeading
         eyebrow="العهدة الفعلية"
         title={

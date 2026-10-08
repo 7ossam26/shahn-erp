@@ -39,6 +39,7 @@ import {
   TreasuryDetailPage,
 } from './features/finance/treasury-transfers/treasury.js';
 import React from 'react';
+import { ReportsPage, ReportRowPage } from './features/reports/reports.js';
 import { TrackingPage, TrackingDetailPage } from './features/tracking/tracking.js';
 import { ExecutionRecordsPage } from './features/tracking/execution-records.js';
 import ReactDOM from 'react-dom/client';
@@ -92,6 +93,9 @@ const router = createBrowserRouter([
       ),
     hydrateFallbackElement: <p role="status">جارٍ فتح صفحة العرض…</p>,
     children: [
+      { path: '/reports', element: <ReportsPage /> },
+      { path: '/reports/snapshots/:snapshotId/rows/:ordinal', element: <ReportRowPage /> },
+      { path: '/reports/:reportId', element: <ReportsPage /> },
       { path: '/storage', element: <StorageListPage /> },
       { path: '/storage/payments/new', element: <StoragePaymentPage /> },
       { path: '/storage/:agreementId', element: <StorageDetailPage /> },

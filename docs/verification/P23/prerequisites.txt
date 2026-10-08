@@ -1,0 +1,449 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/finance.test.ts tests/db/treasury-transfers.test.ts tests/db/inventory.test.ts tests/db/kernel.test.ts tests/db/access.test.ts tests/integration/p13/execution.db.test.ts tests/integration/p13/monitoring.db.test.ts tests/integration/p14/returns.db.test.ts tests/integration/p15/transfer.db.test.ts tests/integration/p16/remittance.db.test.ts tests/integration/p17/payout.db.test.ts tests/integration/p19/storage.db.test.ts tests/integration/p20/sources.db.test.ts tests/integration/p21/settlements.db.test.ts tests/integration/p22/recovery.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/recovery.db.test.ts (5 tests | 5 failed) 790ms
+   × sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 187ms
+   × rolls back inbox, evidence and cursor together; ignores an old fenced response 149ms
+   × persists 410 as expired and bounds 503 retry without altering confirmed counters 148ms
+   × follows bounded replay pages with competing workers and revalidates a changed live basis 148ms
+   × binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 158ms
+ ❯ tests/db/finance.test.ts (18 tests | 18 skipped) 162ms
+   ↓ upgrades without replay and creates accounts at zero, idempotently
+   ↓ deposit1000 expense200 withdrawal100 commits balance700, three movements and one cost
+   ↓ B-only shared bank funding preserves branchB and rejects forged branchA and method mismatch
+   ↓ insufficient past expense rejects without effects and has recoverable audit
+   ↓ rolls back expense, journal, projection, audit and result at afterExpenseInsert
+   ↓ rolls back expense, journal, projection, audit and result at afterPosting
+   ↓ rolls back expense, journal, projection, audit and result at beforeResult
+   ↓ serializes competing700 withdrawals through the shared account lock: movement first
+   ↓ serializes competing700 withdrawals through the shared account lock: expense first
+   ↓ rejects stale account setup, preserves history on deactivation and gates pending obligations
+   ↓ closed real HTTP validates CSRF, filters, cross-company IDs and revoked preview grants
+   ↓ recovers after compaction and denies recovery after branch loss; changed payload conflicts
+   ↓ checks immutable records, exact reconciliation and combined deterministic pagination
+   ↓ crashes real process before and after commit, restarts and recovers exactly one record
+   ↓ source identity prevents duplicate debit even through a different caller and rejects changed facts
+   ↓ cross-company actual account ID is hidden in direct reads, commands, filters and recovery
+   ↓ database rejects negative projection, removed cash scope and immutable effect relabeling
+   ↓ isolated P09 seed refuses production, is repeatable and never replays historical cash
+ ❯ tests/db/kernel.test.ts (21 tests | 21 skipped) 171ms
+   ↓ P03 committed PostgreSQL command/posting kernel (21)
+     ↓ commits one command/effect set for concurrent identical HTTP requests; rejects changed payload
+     ↓ same source through two command IDs posts once and rejects changed source meaning
+     ↓ 50 cover and 50 fee leave 50 available; pending 250 stays separate and retry adds nothing
+     ↓ rolls back all journals, command, source and audit when interrupted between posting and audit
+     ↓ barrier race, kernel.payout owns the wallet first
+     ↓ barrier race, kernel.reserve owns the wallet first
+     ↓ stale expectedVersion, revoked capability, another principal and changed branch scope cannot expose/reexecute results
+     ↓ compacts only expired resolved responses and recovers the immutable authorized domain result
+     ↓ rejects cross-company effects and invalid signs at the database boundary; history is append-only
+     ↓ fences worker A after database-expired lease; B commits, A cannot publish
+     ↓ holds source-specific eligible lots and keeps pending/storage out of payouts
+     ↓ does not register the controlled trial in production
+     ↓ kills the actual API after commit before response, restarts and recovers the same identity
+     ↓ retains an authorized version rejection even after the aggregate reaches that version
+     ↓ replays an expired compacted identity without executing, and never compacts a pending command
+     ↓ records a fee above its cover as truthful debt and consumes that cover only once
+     ↓ allow-negative only bypasses cover; money funding and payout eligibility still apply
+     ↓ releases identified holds/pending lots and keeps real storage-class facts outside the wallet
+     ↓ allocates the oldest eligible effective date then movement ID, without subtracting payout twice
+     ↓ appends a linked correction and preserves the original amount and effective date
+     ↓ releases cover once; a different release source cannot repeat it
+ ❯ tests/integration/p13/monitoring.db.test.ts (8 tests | 8 skipped) 161ms
+   ↓ fetches authorized scoped HTTP data, retains body on 304 and updates refresh metadata
+   ↓ keeps 503 visibly stale; hides cached source body on 404 without deleting native history
+   ↓ discards a partial 409 page set and restarts under a stable scope/revision
+   ↓ rejects foreign source filtering and requires sourceId for action reads
+   ↓ a quiet inbox and snapshot cannot certify a round without a closure and complete history
+   ↓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction
+   ↓ history-only outcome followed by delayed arrival retains outcome state and posts one allocation
+   ↓ rechecks native authorization before returning cached data after revocation
+ ❯ tests/integration/p14/returns.db.test.ts (11 tests | 11 skipped) 166ms
+   ↓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody
+   ↓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history
+   ↓ out-of-order offer waits for outcome and never creates stock
+   ↓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters
+   ↓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds
+   ↓ wrong branch, excess, duplicate and stale input have no physical effect
+   ↓ parcel brand handover consumes custody once, creates no SKU stock or money
+   ↓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle
+   ↓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation
+   ↓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload
+   ↓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity
+ ❯ tests/db/treasury-transfers.test.ts (22 tests | 22 skipped) 162ms
+   ↓ A01 sends300 across unrelated assigned C, debits only source and conserves source+transit+destination
+   ↓ A02/A05 receives exactly300 at any company destination; separate grant and unrelated expense denied
+   ↓ A06 rejects sender-only receipt, receiver-only send, cross-company IDs and revoked recovery
+   ↓ A07 rejects partial amount, altered destination, same accounts, inactive accounts and stale versions before any effects
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterDebit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransfer failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on afterTransit failure
+   ↓ rolls back send source, transfer, transit, audit, outcome and balance on beforeResult failure
+   ↓ rolls back full receipt and keeps pending obligations on afterDebit failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransfer failure
+   ↓ rolls back full receipt and keeps pending obligations on afterTransit failure
+   ↓ rolls back full receipt and keeps pending obligations on beforeResult failure
+   ↓ A03 serializes two committed receipts with distinct commands and connections to one destination effect
+   ↓ send/withdrawal independent race: send first cannot spend beyond1000
+   ↓ send/withdrawal independent race: withdrawal first cannot spend beyond1000
+   ↓ A04 races two sends700 against1000, one committed source debit/transit
+   ↓ blocks unsafe source/destination deactivation and usage removal with transfer reference; immutable snapshots survive renaming
+   ↓ serves closed HTTP pending/detail/filter queries without granting general account history; unknown/stale receipt safe
+   ↓ protects actual shared-bank allowed usage and pending obligations against API and direct SQL removal
+   ↓ enforces SQL positive amount, source uniqueness, same-company FKs and immutable scope snapshots
+   ↓ same person with both grants sends/receives, permanent command outcomes recover after compaction without credit twice
+   ↓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result
+ ❯ tests/integration/p13/execution.db.test.ts (13 tests | 13 skipped) 167ms
+   ↓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null
+   ↓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions
+   ↓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds
+   ↓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation
+   ↓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing
+   ↓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome
+   ↓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope
+   ↓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash
+   ↓ committed visit survives database restart and lost worker acknowledgement without another earning
+   ↓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved
+   ↓ a protected correction retains prior postings, creates one review and never moves company cash
+   ↓ rejects an arrival attached to a different known round without posting or advancing
+   ↓ keeps an unmapped return request pending and never advances its applied checkpoint
+ ❯ tests/integration/p17/payout.db.test.ts (14 tests | 14 skipped) 161ms
+   ↓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150
+   ↓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders)
+   ↓ A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact
+   ↓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once
+   ↓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200
+   ↓ A05 off-day payout: missing reason fails; a reason never bypasses funds or a hold; agreed-day reason is rejected
+   ↓ A06 confirmed compensation 400 is independently eligible through its typed source; replay adds no credit
+   ↓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable
+   ↓ rolls every effect back at debit, allocation, payout and result fault boundaries
+   ↓ account lock: a payout and a P09 withdrawal competing for the last funds cannot overdraw the paying account
+   ↓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model
+   ↓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details
+   ↓ database guards: a raw payout effect or payout cash movement without its payout record cannot commit
+   ↓ migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility
+ ❯ tests/integration/p19/storage.db.test.ts (13 tests | 13 skipped) 161ms
+   ↓ P19 storage periods, receipts, credit and refunds (real PostgreSQL) (13)
+     ↓ P19-AC-02/09: Jan 20–Feb 19 fee 310 at branch A, partial 100 into a branch B account
+     ↓ P19-AC-03: advance 500 before start, then first period 310 allocates 310 and leaves 190
+     ↓ P19-AC-04: a receipt too small for two unpaid periods pays the oldest first with exact sources
+     ↓ P19-AC-05: stop keeps arrears, credit and history; the worker never renews after it
+     ↓ a future agreement stopped before its first period earns no charge and keeps its credit
+     ↓ P19-AC-07: a duplicate receipt after a dropped response is recovered without a second credit
+     ↓ P19-AC-08: allocated money, beyond credit/funds, stale preview and forbidden accounts reject whole refunds
+     ↓ refunds 50 of unallocated credit once, from another permitted account, and replays the original
+     ↓ a backdated receipt is entered now against current dues without rewriting history
+     ↓ rolls back every dependent effect when a payment, refund or renewal fails mid-transaction
+     ↓ brand setup changes terms only prospectively and protects the original anchor
+     ↓ database guards reject over-allocation, unrecorded storage money, history edits and retroactive terms
+     ↓ reconciles every brand: rows, typed journals and actual-money movements agree exactly
+ ❯ tests/integration/p21/settlements.db.test.ts (10 tests | 10 skipped) 162ms
+   ↓ A01 observed quantity 12→10 posts exactly one -2 movement, retains the observation and case links
+   ↓ A02 actual5/reserved7 keeps shortage2, holds every unhanded reservation of that variant only, then receipt2 clears holds
+   ↓ stale observation preview after an actual receipt fails without effects; independent-connection race orders keep both truths
+   ↓ A03 cash1000/observed900 holds100 (available900); one missed paid expense100 resolves to book900/hold0, never 800
+   ↓ rolling comparison: a later genuine expense changes book while the hold amount stays; a surplus is never spendable
+   ↓ A04 a paid payroll month offers no edit path; current-unpaid additions go through P20 only
+   ↓ A06 opening batch: Cash500, eligible brand200, employee obligation100, stock3; replay once; duplicate targets rejected
+   ↓ two different opening commands for the same target race on independent connections; exactly one posts
+   ↓ fault injection after each settlement stage leaves no partial stock, money, case, link or audit result
+   ↓ A08 missing, out-of-scope or unsupported targets reject atomically without a case
+ ❯ tests/integration/p15/transfer.db.test.ts (6 tests | 6 skipped) 161ms
+   ↓ one physical manifest with immutable custody (6)
+     ↓ moves a prepared two-unit parcel and three loose units only at handover and actual receipt
+     ↓ cancels a prepared reservation without moving physical stock and retains command payload identity
+     ↓ rejects an invalid final line without reserving an earlier valid line or creating a manifest
+     ↓ serializes two competing manifest reservations and rejects wrong scope or same branch
+     ↓ lets exactly one overlapping destination/source receipt win and leaves damaged stock unavailable
+     ↓ rechecks active carrier at handover and serializes cancellation against departure
+ ❯ tests/integration/p16/remittance.db.test.ts (14 tests | 14 skipped) 166ms
+   ↓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero
+   ↓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage
+   ↓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data
+   ↓ A05 different commands racing one round produce one receipt and one coverage set
+   ↓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount
+   ↓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold
+   ↓ A08 explicit zero and unreported no-answer are checked without account movement or credit release
+   ↓ rolls all effects back at coverage, money, release and result fault boundaries
+   ↓ rechecks native branch/grant for review and retained result
+   ↓ A09 a process dies after commit; a separate restarted process recovers the same receipt
+   ↓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash
+   ↓ correction commits after remote refresh but before confirmation locks; stale money cannot post
+   ↓ a known predecessor gap blocks only its round, leaving an unrelated round usable
+   ↓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt
+ ❯ tests/integration/p20/sources.db.test.ts (4 tests | 4 skipped) 158ms
+   ↓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost
+   ↓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period
+   ↓ AC08 late immutable historical earning after paid month becomes one explicit linked future adjustment
+   ↓ a corrected protected source retains payment and posted recovery, shows review, and holds only its affected month
+ ❯ tests/db/inventory.test.ts (17 tests | 17 skipped) 168ms
+   ↓ P05 committed inventory and real authenticated HTTP (17)
+     ↓ creates immutable product/variant IDs without stock or financial effects
+     ↓ receives Blue 10 sound/2 damaged and Red 3 all in one real API commit
+     ↓ replays lost response once, rejects changed payload, and recovers compacted original reference
+     ↓ allows two independent first-receipt transactions to add exactly 3+4 into absent position
+     ↓ interrupts after first movement with zero committed receipt/position/audit/result effects
+     ↓ rejects fractional, negative, future, mixed-brand and forbidden branches without effects
+     ↓ denies branch B query, receipt/history/name leakage despite company tracking grant
+     ↓ reauthorizes revoked branch before duplicate/recovery/detail read, then restores isolated fixture
+     ↓ keeps stable variants through rename, stale rejection and deactivation with retained receipt snapshots
+     ↓ represents actual 5/reserved 7, holds all affected sources, replenishes atomically and leaves unrelated usable
+     ↓ bounds aggregate quantities beyond SQL integer range and rolls back safe-integer overflow
+     ↓ ANDs fields, ORs categories, uses current balances under movement-date filter and stable pagination
+     ↓ enforces same company/brand constraints, immutable history and source-effect uniqueness in SQL
+     ↓ rejects real mixed-brand variants and repeated display names remain separate identities
+     ↓ shared reserve/release/condition interfaces conserve units, retain history and deduplicate source effects
+     ↓ rejects absent module grant and missing CSRF on mutations
+     ↓ returns truthful authorized parcel boundary and reconciles every persisted position to movements
+ ❯ tests/db/access.test.ts (17 tests | 17 skipped) 232ms
+   ↓ P02 real PostgreSQL and server authorization (17)
+     ↓ same-company constraints reject cross-branch assignment and ordinary support-account linkage
+     ↓ ordinary branch queries distinguish A, B and A+B; tracking operational read is company-wide
+     ↓ closed API rejects forged headers, support self-grant and missing CSRF with no partial writes
+     ↓ concurrent duplicate command commits one result and immutable audit; changed payload/stale edit rejected
+     ↓ user creation commits pending native identity, work, command and audit together; unknown stays pending after restart
+     ↓ a definite invalid issuer intent stays rejected; corrected reviewed intent gets a new command
+     ↓ foreign-company user edits roll back every row; bootstrap is durable and has no HTTP endpoint
+     ↓ support is separate, MFA bound, reasoned, attributed and expires on the next action
+     ↓ revocation affects an already open session, totals, recovered results and file downloads
+     ↓ expired idle/absolute sessions cannot read; server-only token ciphertext is absent from API
+     ↓ role revocation through the real command API denies an old session and its retained command result
+     ↓ failure at audit insertion rolls back principal, native user, command and durable job together
+     ↓ lease fencing ignores a late worker acknowledgement; no transaction is held during issuer IO
+     ↓ support start rechecks expiry after waiting for company authority lock
+     ↓ command recovery rejects ambiguous cross-family UUID reuse instead of returning a different result
+     ↓ concurrent support company selection leaves one current scope and rejects the superseded company
+     ↓ a staff display name cannot masquerade as the support audit actor
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 14 ⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/access.test.ts [ tests/db/access.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/access.test.ts:20:8
+     18|   origin: string;
+     19| beforeAll(async () => {
+     20|   db = await isolatedPostgres();
+       |        ^
+     21|   await migrate(db.pool);
+     22|   fixture = await accessFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/19]⎯
+
+ FAIL  tests/db/finance.test.ts [ tests/db/finance.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/finance.test.ts:90:8
+     88| }
+     89| beforeAll(async () => {
+     90|   db = await isolatedPostgres();
+       |        ^
+     91|   await migrate(db.pool, (await readMigrations()).slice(0, 12));
+     92|   f = await accessFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/19]⎯
+
+ FAIL  tests/db/inventory.test.ts [ tests/db/inventory.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/inventory.test.ts:91:8
+     89|   ).rows[0];
+     90| beforeAll(async () => {
+     91|   db = await isolatedPostgres();
+       |        ^
+     92|   const migrations = await readMigrations();
+     93|   await migrate(db.pool, migrations.slice(0, 8));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/19]⎯
+
+ FAIL  tests/db/kernel.test.ts [ tests/db/kernel.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/kernel.test.ts:42:8
+     40| const run = (input: KernelCommand) => service.execute(f.admin.token, i…
+     41| beforeAll(async () => {
+     42|   db = await isolatedPostgres();
+       |        ^
+     43|   const migrations = await readMigrations();
+     44|   await migrate(db.pool, migrations.slice(0, 3));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/19]⎯
+
+ FAIL  tests/db/treasury-transfers.test.ts [ tests/db/treasury-transfers.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/db/treasury-transfers.test.ts:89:8
+     87| }
+     88| beforeAll(async () => {
+     89|   db = await isolatedPostgres();
+       |        ^
+     90|   await migrate(db.pool, (await readMigrations()).slice(0, 13));
+     91|   f = await treasuryFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/19]⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts [ tests/integration/p13/execution.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p13/execution.db.test.ts:18:8
+     16|   origin: string;
+     17| beforeAll(async () => {
+     18|   db = await isolatedPostgres();
+       |        ^
+     19|   await migrate(db.pool, (await readMigrations()).slice(0, 16));
+     20|   f = await executionFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/19]⎯
+
+ FAIL  tests/integration/p13/monitoring.db.test.ts [ tests/integration/p13/monitoring.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p13/monitoring.db.test.ts:85:8
+     83|   await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
+     84|   const port = (server.address() as { port: number }).port;
+     85|   db = await isolatedPostgres();
+       |        ^
+     86|   await migrate(db.pool);
+     87|   f = await executionFixture(db.pool, 'http://127.0.0.1:5331', 'http:/…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/19]⎯
+
+ FAIL  tests/integration/p14/returns.db.test.ts [ tests/integration/p14/returns.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p14/returns.db.test.ts:10:8
+      8| let db: Awaited<ReturnType<typeof isolatedPostgres>>, f: Awaited<Retur…
+      9| beforeAll(async () => {
+     10|   db = await isolatedPostgres();
+       |        ^
+     11|   await migrate(db.pool);
+     12|   f = await returnFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/19]⎯
+
+ FAIL  tests/integration/p15/transfer.db.test.ts [ tests/integration/p15/transfer.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p15/transfer.db.test.ts:17:8
+     15|   f: Awaited<ReturnType<typeof transferFixture>>;
+     16| beforeAll(async () => {
+     17|   db = await isolatedPostgres();
+       |        ^
+     18|   await migrate(db.pool, (await readMigrations()).slice(0, 18));
+     19|   await migrate(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/19]⎯
+
+ FAIL  tests/integration/p16/remittance.db.test.ts [ tests/integration/p16/remittance.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p16/remittance.db.test.ts:17:8
+     15|   f: Awaited<ReturnType<typeof remittanceFixture>>;
+     16| beforeAll(async () => {
+     17|   db = await isolatedPostgres();
+       |        ^
+     18|   await migrate(db.pool);
+     19|   f = await remittanceFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/19]⎯
+
+ FAIL  tests/integration/p17/payout.db.test.ts [ tests/integration/p17/payout.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p17/payout.db.test.ts:22:8
+     20| const evidence: Record<string, unknown> = {};
+     21| beforeAll(async () => {
+     22|   db = await isolatedPostgres();
+       |        ^
+     23|   await migrate(db.pool);
+     24|   f = await payoutFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/19]⎯
+
+ FAIL  tests/integration/p19/storage.db.test.ts [ tests/integration/p19/storage.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p19/storage.db.test.ts:21:8
+     19| const evidence: Record<string, unknown> = {};
+     20| beforeAll(async () => {
+     21|   db = await isolatedPostgres();
+       |        ^
+     22|   await migrate(db.pool);
+     23|   f = await storageFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/19]⎯
+
+ FAIL  tests/integration/p20/sources.db.test.ts [ tests/integration/p20/sources.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p20/sources.db.test.ts:24:8
+     22| let firstOutcome: Awaited<ReturnType<typeof firstVisit.outcome>>;
+     23| beforeAll(async () => {
+     24|   db = await isolatedPostgres();
+       |        ^
+     25|   await migrate(db.pool);
+     26|   f = await incidentFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/19]⎯
+
+ FAIL  tests/integration/p21/settlements.db.test.ts [ tests/integration/p21/settlements.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p21/settlements.db.test.ts:22:8
+     20| const evidence: Record<string, unknown> = {};
+     21| beforeAll(async () => {
+     22|   db = await isolatedPostgres();
+       |        ^
+     23|   await migrate(db.pool);
+     24|   f = await settlementFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/19]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/recovery.db.test.ts > sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash
+ FAIL  tests/integration/p22/recovery.db.test.ts > rolls back inbox, evidence and cursor together; ignores an old fenced response
+ FAIL  tests/integration/p22/recovery.db.test.ts > persists 410 as expired and bounds 503 retry without altering confirmed counters
+ FAIL  tests/integration/p22/recovery.db.test.ts > follows bounded replay pages with competing workers and revalidates a changed live basis
+ FAIL  tests/integration/p22/recovery.db.test.ts > binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p22/recovery.db.test.ts:33:8
+     31|   f: Awaited<ReturnType<typeof executionFixture>>;
+     32| beforeEach(async () => {
+     33|   db = await isolatedPostgres();
+       |        ^
+     34|   await migrate(db.pool, (await readMigrations()).slice(0, 16));
+     35|   f = await executionFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/19]⎯
+
+
+ Test Files  15 failed (15)
+      Tests  5 failed | 188 skipped (193)
+   Start at  19:05:23
+   Duration  27.74s (import 81%, tests 12%, transform 7%)
+
+     Import  254 modules were evaluated 386 times · 21.26s total, 81% of tracked time
+             ~7.27s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

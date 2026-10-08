@@ -131,6 +131,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...reportingPaths,
     ...recoveryPaths,
     ...settlementPaths,
     ...payrollPaths,
@@ -202,3 +203,5 @@ import { settlementPaths } from './settlements/index.js';
 export * from './settlements/index.js';
 export * from './integration-recovery.js';
 import { recoveryPaths } from './integration-recovery.js';
+export * from './reporting/index.js';
+import { reportingPaths } from './reporting/index.js';

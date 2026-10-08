@@ -85,7 +85,9 @@
     "p21:trial": "node scripts/build.mjs && node --import tsx tests/integration/p21/serve.ts",
     "test:p22:browser": "node scripts/build.mjs && playwright test --config playwright.p22.config.ts",
     "test:p22:public": "node scripts/build-packages.mjs && vitest run --config vitest.p22.public.config.ts",
-    "test:p22:acceptance": "node scripts/build-packages.mjs && vitest run --config vitest.p22.acceptance.config.ts"
+    "test:p22:acceptance": "node scripts/build-packages.mjs && vitest run --config vitest.p22.acceptance.config.ts",
+    "test:p23:browser": "node scripts/build.mjs && playwright test --config playwright.p23.config.ts",
+    "p23:trial": "node scripts/build.mjs && node --import tsx tests/integration/p23/serve.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

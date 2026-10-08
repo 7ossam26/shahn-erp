@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { PageHeading, Button, StatePanel } from '@shahn/ui';
+import { OperationalReportLink } from '../reports/reports.js';
 import {
   validateTrackingList,
   validateTrackingDetail,
@@ -121,6 +122,7 @@ export function TrackingPage() {
         </StatePanel>
       ) : (
         <>
+          <OperationalReportLink reportId="REP-01" params={params} />
           <form
             className="p13-tracking-search"
             onSubmit={(e) => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams, useLocation } from 'react-router-dom';
+import { OperationalReportLink } from '../reports/reports.js';
 import { useQuery } from '@tanstack/react-query';
 import { PageHeading, FormGroup, Button, StatePanel, Input } from '@shahn/ui';
 import type {
@@ -170,6 +171,10 @@ export function FinanceListPage({ screen }: { screen: Screen }) {
             : 'تسجيل حركة'}
       </Link>
       <div className="commercial-filter-row">
+        <OperationalReportLink
+          reportId={screen === 'expenses' ? 'REP-14' : 'REP-12'}
+          params={params}
+        />
         <TextField
           label="بحث"
           value={params.get('search') ?? ''}

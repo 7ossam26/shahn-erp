@@ -1,0 +1,132 @@
+.report-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+.report-picker > a,
+.report-picker > div {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--card);
+}
+.report-picker span {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.report-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin: 20px 0;
+}
+.report-filters label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  flex: 1 1 160px;
+}
+.report-filters input,
+.report-filters select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  background: var(--card);
+  font: inherit;
+}
+.report-filters details {
+  width: 100%;
+}
+.report-filters summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 12px;
+}
+.report-advanced {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.report-advanced select[multiple] {
+  min-height: 110px;
+}
+.report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0;
+}
+.report-context {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin: 14px 0;
+  background: var(--card);
+}
+.report-context p {
+  overflow-wrap: anywhere;
+}
+.report-rows {
+  display: grid;
+  gap: 10px;
+}
+.report-rows article {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 0;
+}
+.report-rows dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr));
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.report-rows dt,
+.report-detail dt {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.report-rows dd,
+.report-detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.report-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  margin-top: 16px;
+}
+.report-json {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  direction: ltr;
+  text-align: left;
+  font-size: 12px;
+  max-width: 100%;
+}
+.report-detail {
+  display: grid;
+  gap: 10px;
+}
+.report-filters select:focus,
+.report-filters input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

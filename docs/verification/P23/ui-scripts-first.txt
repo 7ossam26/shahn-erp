@@ -1,0 +1,628 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/integration/p23/ui.unit.test.tsx
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p23/ui.unit.test.tsx (3 tests | 2 failed) 484ms
+   × advanced filters stay collapsed by default, pagination keeps filters, applying/resetting starts page1 and source gaps stay visible 177ms
+   × lost export response retains original command identity; no download announced until an existing completed artifact is returned 217ms
+   ✓ load errors and empty results are distinct and both retain selected filters 89ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p23/ui.unit.test.tsx > advanced filters stay collapsed by default, pagination keeps filters, applying/resetting starts page1 and source gaps stay visible
+TestingLibraryElementError: Unable to find a label with the text of: إجماليات اللقطة
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <main
+      class="main-content "
+      id="main-content"
+      tabindex="-1"
+    >
+      <div
+        class="page-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            التقارير
+          </p>
+          <h1
+            tabindex="-1"
+          >
+            المصروفات المدفوعة
+          </h1>
+          <p
+            class="page-description"
+          >
+            تاريخ الدفع الفعلي بما فيه القيد المتأخر أو وقت التسجيل
+          </p>
+        </div>
+      </div>
+      <a
+        data-discover="true"
+        href="/reports"
+      >
+        اختيار تقرير آخر
+      </a>
+      <form
+        class="report-filters"
+      >
+        <label>
+          بحث
+          <input
+            value="P23"
+          />
+        </label>
+        <label>
+          من تاريخ
+          <input
+            type="date"
+            value=""
+          />
+        </label>
+        <label>
+          إلى تاريخ
+          <input
+            type="date"
+            value=""
+          />
+        </label>
+        <label>
+          أساس التاريخ
+          <select>
+            <option
+              value="actual"
+            >
+              تاريخ الدفع الفعلي
+            </option>
+            <option
+              value="recorded"
+            >
+              وقت التسجيل
+            </option>
+          </select>
+        </label>
+        <details>
+          <summary>
+            فلاتر متقدمة (
+            1
+            )
+          </summary>
+          <div
+            class="report-advanced"
+          >
+            <label>
+              الفروع
+              <select
+                aria-label="الفروع"
+                multiple=""
+              >
+                <option
+                  value="00000000-0000-4000-8000-000000000003"
+                >
+                  الفرع أ
+                </option>
+              </select>
+            </label>
+            <label>
+              الحسابات
+              <select
+                aria-label="الحسابات"
+                multiple=""
+              />
+            </label>
+            <label>
+              فئات المصروف
+              <select
+                aria-label="فئات المصروف"
+                multiple=""
+              />
+            </label>
+            <label>
+              طرق الدفع
+              <select
+                aria-label="طرق الدفع"
+                multiple=""
+              >
+                <option
+                  value="cash"
+                >
+                  نقدي
+                </option>
+                <option
+                  value="bank_deposit"
+                >
+                  إيداع بنكي
+                </option>
+                <option
+                  value="instapay"
+                >
+                  إنستاباي
+                </option>
+              </select>
+            </label>
+            <label>
+              الحد الأدنى - قروش صحيحة
+              <input
+                aria-label="الحد الأدنى - قروش صحيحة"
+                inputmode="numeric"
+                value=""
+              />
+            </label>
+            <label>
+              الحد الأقصى - قروش صحيحة
+              <input
+                aria-label="الحد الأقصى - قروش صحيحة"
+                inputmode="numeric"
+                value=""
+              />
+            </label>
+          </div>
+        </details>
+        <label>
+          ترتيب التاريخ
+          <select
+            aria-label="ترتيب التاريخ"
+          >
+            <option
+              value="dateAsc"
+            >
+              الأقدم أولاً
+            </option>
+            <option
+              value="dateDesc"
+            >
+              الأحدث أولاً
+            </option>
+          </select>
+        </label>
+        <div
+          class="report-actions"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-size="default"
+            data-slot="button"
+            data-variant="default"
+            type="submit"
+          >
+            تطبيق الفلاتر
+          </button>
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            مسح الفلاتر
+          </button>
+        </div>
+      </form>
+      <p
+        role="status"
+      >
+        جارٍ تحميل اللقطة…
+      </p>
+    </main>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getAllByLabelText node_modules/@testing-library/dom/dist/queries/label-text.js:111:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/integration/p23/ui.unit.test.tsx:110:17
+    108|   );
+    109|   await screen.findByText(/البيانات غير مكتملة/);
+    110|   expect(screen.getByLabelText('إجماليات اللقطة')).toHaveTextContent('…
+       |                 ^
+    111|   expect(screen.getByText(/فلاتر متقدمة/).closest('details')).not.toHa…
+    112|   fireEvent.click(screen.getByRole('button', { name: 'التالي', exact: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p23/ui.unit.test.tsx > lost export response retains original command identity; no download announced until an existing completed artifact is returned
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "تصدير XLSX"
+
+Here are the accessible roles:
+
+  main:
+
+  Name "":
+  <main
+    class="main-content "
+    id="main-content"
+    tabindex="-1"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="eyebrow"
+  />
+
+  Name "":
+  <p
+    class="page-description"
+  />
+
+  --------------------------------------------------
+  heading:
+
+  Name "المصروفات المدفوعة":
+  <h1
+    tabindex="-1"
+  />
+
+  --------------------------------------------------
+  link:
+
+  Name "اختيار تقرير آخر":
+  <a
+    data-discover="true"
+    href="/reports"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "بحث":
+  <input
+    value="P23"
+  />
+
+  Name "الحد الأدنى - قروش صحيحة":
+  <input
+    aria-label="الحد الأدنى - قروش صحيحة"
+    inputmode="numeric"
+    value=""
+  />
+
+  Name "الحد الأقصى - قروش صحيحة":
+  <input
+    aria-label="الحد الأقصى - قروش صحيحة"
+    inputmode="numeric"
+    value=""
+  />
+
+  --------------------------------------------------
+  combobox:
+
+  Name "أساس التاريخ":
+  <select />
+
+  Name "ترتيب التاريخ":
+  <select
+    aria-label="ترتيب التاريخ"
+  />
+
+  --------------------------------------------------
+  option:
+
+  Name "تاريخ الدفع الفعلي":
+  <option
+    value="actual"
+  />
+
+  Name "وقت التسجيل":
+  <option
+    value="recorded"
+  />
+
+  Name "الفرع أ":
+  <option
+    value="00000000-0000-4000-8000-000000000003"
+  />
+
+  Name "نقدي":
+  <option
+    value="cash"
+  />
+
+  Name "إيداع بنكي":
+  <option
+    value="bank_deposit"
+  />
+
+  Name "إنستاباي":
+  <option
+    value="instapay"
+  />
+
+  Name "الأقدم أولاً":
+  <option
+    value="dateAsc"
+  />
+
+  Name "الأحدث أولاً":
+  <option
+    value="dateDesc"
+  />
+
+  --------------------------------------------------
+  group:
+
+  Name "":
+  <details />
+
+  --------------------------------------------------
+  listbox:
+
+  Name "الفروع":
+  <select
+    aria-label="الفروع"
+    multiple=""
+  />
+
+  Name "الحسابات":
+  <select
+    aria-label="الحسابات"
+    multiple=""
+  />
+
+  Name "فئات المصروف":
+  <select
+    aria-label="فئات المصروف"
+    multiple=""
+  />
+
+  Name "طرق الدفع":
+  <select
+    aria-label="طرق الدفع"
+    multiple=""
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "تطبيق الفلاتر":
+  <button
+    class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+    data-size="default"
+    data-slot="button"
+    data-variant="default"
+    type="submit"
+  />
+
+  Name "مسح الفلاتر":
+  <button
+    class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+    data-size="default"
+    data-slot="button"
+    data-variant="outline"
+    type="button"
+  />
+
+  --------------------------------------------------
+  status:
+
+  Name "":
+  <p
+    role="status"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <main
+      class="main-content "
+      id="main-content"
+      tabindex="-1"
+    >
+      <div
+        class="page-heading"
+      >
+        <div>
+          <p
+            class="eyebrow"
+          >
+            التقارير
+          </p>
+          <h1
+            tabindex="-1"
+          >
+            المصروفات المدفوعة
+          </h1>
+          <p
+            class="page-description"
+          >
+            تاريخ الدفع الفعلي بما فيه القيد المتأخر أو وقت التسجيل
+          </p>
+        </div>
+      </div>
+      <a
+        data-discover="true"
+        href="/reports"
+      >
+        اختيار تقرير آخر
+      </a>
+      <form
+        class="report-filters"
+      >
+        <label>
+          بحث
+          <input
+            value="P23"
+          />
+        </label>
+        <label>
+          من تاريخ
+          <input
+            type="date"
+            value=""
+          />
+        </label>
+        <label>
+          إلى تاريخ
+          <input
+            type="date"
+            value=""
+          />
+        </label>
+        <label>
+          أساس التاريخ
+          <select>
+            <option
+              value="actual"
+            >
+              تاريخ الدفع الفعلي
+            </option>
+            <option
+              value="recorded"
+            >
+              وقت التسجيل
+            </option>
+          </select>
+        </label>
+        <details>
+          <summary>
+            فلاتر متقدمة (
+            1
+            )
+          </summary>
+          <div
+            class="report-advanced"
+          >
+            <label>
+              الفروع
+              <select
+                aria-label="الفروع"
+                multiple=""
+              >
+                <option
+                  value="00000000-0000-4000-8000-000000000003"
+                >
+                  الفرع أ
+                </option>
+              </select>
+            </label>
+            <label>
+              الحسابات
+              <select
+                aria-label="الحسابات"
+                multiple=""
+              />
+            </label>
+            <label>
+              فئات المصروف
+              <select
+                aria-label="فئات المصروف"
+                multiple=""
+              />
+            </label>
+            <label>
+              طرق الدفع
+              <select
+                aria-label="طرق الدفع"
+                multiple=""
+              >
+                <option
+                  value="cash"
+                >
+                  نقدي
+                </option>
+                <option
+                  value="bank_deposit"
+                >
+                  إيداع بنكي
+                </option>
+                <option
+                  value="instapay"
+                >
+                  إنستاباي
+                </option>
+              </select>
+            </label>
+            <label>
+              الحد الأدنى - قروش صحيحة
+              <input
+                aria-label="الحد الأدنى - قروش صحيحة"
+                inputmode="numeric"
+                value=""
+              />
+            </label>
+            <label>
+              الحد الأقصى - قروش صحيحة
+              <input
+                aria-label="الحد الأقصى - قروش صحيحة"
+                inputmode="numeric"
+                value=""
+              />
+            </label>
+          </div>
+        </details>
+        <label>
+          ترتيب التاريخ
+          <select
+            aria-label="ترتيب التاريخ"
+          >
+            <option
+              value="dateAsc"
+            >
+              الأقدم أولاً
+            </option>
+            <option
+              value="dateDesc"
+            >
+              الأحدث أولاً
+            </option>
+          </select>
+        </label>
+        <div
+          class="report-actions"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-size="default"
+            data-slot="button"
+            data-variant="default"
+            type="submit"
+          >
+            تطبيق الفلاتر
+          </button>
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            مسح الفلاتر
+          </button>
+        </div>
+      </form>
+      <p
+        role="status"
+      >
+        جارٍ تحميل اللقطة…
+      </p>
+    </main>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/integration/p23/ui.unit.test.tsx:158:26
+    156|   );
+    157|   await screen.findByText(/27 صف/);
+    158|   fireEvent.click(screen.getByRole('button', { name: 'تصدير XLSX' }));
+       |                          ^
+    159|   await screen.findByText(/لم تصل نتيجة التصدير/);
+    160|   expect(screen.queryByRole('link', { name: 'تنزيل XLSX' })).toBeNull(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  20:05:39
+   Duration  5.76s (import 52%, environment 20%, transform 16%, tests 9%, setup 3%)

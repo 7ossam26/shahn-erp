@@ -1,0 +1,110 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P23
+P23 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p23/contracts.unit.test.ts (5 tests) 69ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  20:00:41
+   Duration  3.33s (import 56%, transform 20%, environment 19%, setup 3%, tests 2%)
+
+P23 unit: PASSED
+P23 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p23/custody.db.test.ts (3 tests | 3 failed) 516ms
+   × A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim 211ms
+   × A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown 152ms
+   × AC-REP-07 offered3 received2 handed1 leaves one received unit at the branch and one unresolved unit with the carrier 149ms
+ ❯ tests/integration/p23/exports.db.test.ts (5 tests | 5 skipped) 167ms
+   ↓ A06 actual process dies before/after publication; lease reclaim returns one artifact and lost-response replay retains one job
+   ↓ stale worker cannot publish or announce success under a reclaimed fence
+   ↓ expiry denies old endpoint, purges only bytes, retains snapshot/metadata and allows a new export intent
+   ↓ A01 readable real PDF and XLSX consume same27-row snapshot and expense200; rendering holds no database transaction
+   ↓ export lane preparation overlaps actual source application; records sample size/timing without a capacity claim
+ ❯ tests/integration/p23/http.db.test.ts (1 test | 1 skipped) 160ms
+   ↓ A02/03 authenticated HTTP closes authority/filter/schema/CSRF and independent financial scopes
+ ❯ tests/integration/p23/reporting.db.test.ts (8 tests | 8 skipped) 163ms
+   ↓ A01 money trial reconciles 700/300 cash, 150 eligible, 100 payout, 200 paid expense from independent journals
+   ↓ A05 27 rows paginate25+2, Arabic digits find references, export every row and literal formula-like text
+   ↓ A02/03/07 report scope and download reauthorize, tracking alone cannot query/create/export
+   ↓ A09 independent late/backdated commit during snapshot read cannot change its rows or totals; explicit refresh sees it
+   ↓ snapshot source query plans retain company/branch/date predicates and stable tie breakers
+   ↓ inclusive integer bounds combine OR selections with AND fields; equal actual dates paginate deterministically and backdated expense stays in its actual period
+   ↓ prepaid zero-goods delivery adds no goods credit, pending dues stay separate, current delivered parcel is not carrier stock; reporting cannot reprice its source
+   ↓ A09 accepted late correction keeps original/current source outcomes distinct and old register snapshot coherent without a second visit
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p23/exports.db.test.ts [ tests/integration/p23/exports.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p23/exports.db.test.ts:20:8
+     18| const evidence: Record<string, unknown> = {};
+     19| beforeAll(async () => {
+     20|   db = await isolatedPostgres();
+       |        ^
+     21|   await migrate(db.pool);
+     22|   f = await reportFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/integration/p23/http.db.test.ts [ tests/integration/p23/http.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p23/http.db.test.ts:25:8
+     23| ];
+     24| beforeAll(async () => {
+     25|   db = await isolatedPostgres();
+       |        ^
+     26|   await migrate(
+     27|     db.pool,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/integration/p23/reporting.db.test.ts [ tests/integration/p23/reporting.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p23/reporting.db.test.ts:21:8
+     19| const evidence: Record<string, unknown> = {};
+     20| beforeAll(async () => {
+     21|   db = await isolatedPostgres();
+       |        ^
+     22|   await migrate(db.pool);
+     23|   f = await reportFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p23/custody.db.test.ts > A08 physical10 reserved4 loose2 carrier: A8/4/4, destination0 then2, prepared components remain one claim
+ FAIL  tests/integration/p23/custody.db.test.ts > A08 offered2 received1 and brand handover retain separate immutable receipt facts; unreceived date stays unknown
+ FAIL  tests/integration/p23/custody.db.test.ts > AC-REP-07 offered3 received2 handed1 leaves one received unit at the branch and one unresolved unit with the carrier
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p23/custody.db.test.ts:15:8
+     13| const evidence: Record<string, unknown> = {};
+     14| beforeEach(async () => {
+     15|   db = await isolatedPostgres();
+       |        ^
+     16|   await migrate(db.pool);
+     17| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  3 failed | 14 skipped (17)
+   Start at  20:00:45
+   Duration  10.42s (import 73%, transform 17%, tests 10%)
+
+P23 database: FAILED (1)
