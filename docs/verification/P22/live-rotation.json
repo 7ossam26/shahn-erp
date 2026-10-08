@@ -1,0 +1,37 @@
+{
+  "capturedAt": "2026-10-08T14:53:11.214Z",
+  "signingRotation": {
+    "actionId": "a0d3a02e-16f3-41de-a071-ffc5285d38db",
+    "result": {
+      "keyId": "p22-live-next",
+      "activatedAt": "2026-10-08T14:46:20.313Z",
+      "verifyUntil": "2026-10-08T14:51:20.313Z",
+      "previousKeyId": "p22-live"
+    }
+  },
+  "credentialRotation": {
+    "actionId": "39b78a66-49a7-49f9-9599-d9678a10a667",
+    "acceptedAt": "2026-10-08T14:49:04.949Z"
+  },
+  "inFlightSigning": [
+    {
+      "eventId": "e3c1f95e-9ea4-4f79-9677-29ce5a17871a",
+      "signedRequestTimestamp": "1791470778915",
+      "receiverBodyCompleteAt": "2026-10-08T14:46:21.305Z"
+    }
+  ],
+  "oldSigningExpiredStatus": 401,
+  "newSigningStatus": 200,
+  "oldServiceExpiredStatus": 403,
+  "newServiceStatus": 200,
+  "signingOverlapSeconds": 300,
+  "serviceOverlapSeconds": 5,
+  "inFlightAssertions": "rotate.mjs sent half of each original request before the native rotation and completed after accepted rotation. Both old overlap requests asserted HTTP200. The first collector then failed on a wrong configuration path (404); corrected collector probes the documented provisioning/configuration endpoint.",
+  "earlierFailures": [
+    "5s signing overlap rejected by exact minimum300 schema",
+    "Local harness reload initially lost the preprovisioned selector; known native409, no remote acceptance",
+    "HTTPS reused-socket readiness fixed in private fault harness",
+    "Wrong configuration probe path404 corrected"
+  ],
+  "secrets": "Protected local configuration only; no signing/service/root/Dokploy value exported"
+}

@@ -1,5 +1,7 @@
 # Integration changelog
 
+P22 owner-ordered ERP-first closure, 2026-10-08: verified ERP recovery implementation and selected actual public scripts may commit under the explicit owner exception in phases/EXECUTION-CONTRACT.md. Named Tawsel acceptance is deferred, not passed: CR-001 reviewed baseline/07/IP-AC-18; CHECK-003 exact accepted-A→B and receipt-A→cycle-B; complete jointly reviewed43+1/27 matrix. Single later handoff: TAWSEL-CHANGE-REQUESTS.md. Actual whole-retry/correction/replay, interrupted source worker retained-result recovery,3-before1/2 current/history recovery, and CI runtime source provenance now have evidence in docs/verification/P22/README.md. No Tawsel code/baseline adoption, full integration-readiness claim or P23 start.
+
 This log records deliberate reference adoption and later reviewed integration changes. It does not monitor Tawsel automatically or certify runtime compatibility from documentation alone.
 
 ## INT-CHG-001 - Initial reference pin
@@ -25,6 +27,10 @@ This log records deliberate reference adoption and later reviewed integration ch
 Retained directory: `docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/`.
 
 ## Future entries
+
+### INT-CHG-006 — P22 native ERP recovery (2026-10-08)
+
+Old/new accepted baseline remain32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada /1.0.0; no reviewed replacement adoption or Tawsel source change. ERP migration0026 adds immutable recovery/projection/checkpoint/report references on P03/P11. Owner-authorized dedicated test pilot config and scoped signed callback connect to isolated ERP; temporary bootstrap operator removed. [Evidence](docs/verification/P22/README.md) records native and selected actual public recovery/issuer/two-human/proxy/rotation, posted-money correction/typed resolution, live-source isolated restore and six measured healthy samples. Valid fractional source data uses existing wire canonicalization for source/recovery digests; native money hashing unchanged. Image digest observed, source commit unattested. Full reviewed44/27 conformance and CR-001/CHECK-003 remain blocked; browser excluded by owner. No baseline upgrade, production ERP deployment or completion commit/push.
 
 Use a new stable change ID. Record full old/new commits, manifest hashes, actual versions, exact contract differences, compatibility classification and reasons, affected requirement/decision IDs and phase files, implementation/migration state, owner choices, executed evidence and the baseline result. Keep candidate changes visibly pending until reviewed dependencies and required checks permit adoption. Preserve earlier entries and packages; do not rewrite a historical entry to imply its planned checks ran later.
 

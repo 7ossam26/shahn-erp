@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-10-08T15:54:20.243Z",
+  "ownerDecision": "Allow ERP commits with named Tawsel acceptance deferred",
+  "authority": "phases/EXECUTION-CONTRACT.md:2026-10-08 exception",
+  "scope": "ERP implementation commit only; all ERP-owned and available independent actual public checks remain required; browser separately excluded by owner; no final full integration acceptance",
+  "gates": [
+    {
+      "id": "CR-001 / IP-AC-18",
+      "owner": "Tawsel contract/driver owner and ERP baseline reviewer",
+      "pending": "Reviewed reason/Other/legacy/human/correction/history/event/replay/reconciliation baseline,07 adoption and actual ERP trial",
+      "affected": "Driver-origin reason display remains honest legacy until approved adoption"
+    },
+    {
+      "id": "CHECK-003",
+      "owner": "Tawsel engineering/contract owner and ERP integration acceptance",
+      "pending": "Exact accepted-A-to-B and receipt-A-to-cycle-B sequence/revisions/quantities/allocation/branches plus positive/negative/duplicate/lost-response proof",
+      "affected": "Dependent customer redispatch compatibility remains unverified; independent ERP physical transfer retains native evidence"
+    },
+    {
+      "id": "full43+1/27 reviewed acceptance",
+      "owner": "Joint Tawsel/ERP acceptance reviewer",
+      "pending": "Reviewed per-row actual producer/authority/negative/recovery index with baseline/runtime/schema identities",
+      "affected": "Only identified current actual live slices are verified; other variants and joint negative matrix remain pending"
+    }
+  ],
+  "handoff": "TAWSEL-CHANGE-REQUESTS.md",
+  "acceptanceCommand": "npm run test:p22:acceptance",
+  "observedWithoutArtifact": {
+    "testsBlocked": 2,
+    "exitCode": 1,
+    "transcript": "deferred-acceptance-attempt.txt"
+  },
+  "baselineAdopted": false,
+  "tawselRepositoryModified": false
+}

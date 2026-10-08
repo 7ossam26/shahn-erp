@@ -1,6 +1,6 @@
 import { createPool, databaseConfig, loadEnvironment } from '@shahn/database';
 import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/api/access';
-import { integrationRuntime, SourceCommandWorker } from '@shahn/api/integration';
+import { integrationRuntime, SourceCommandWorker, RecoveryWorker } from '@shahn/api/integration';
 import { ProjectionWorker } from '@shahn/api/execution';
 import { StorageRenewalJob } from './jobs/storage-renewal.js';
 loadEnvironment();
@@ -9,6 +9,7 @@ try {
     identity = identityConfig();
   const pool = createPool(db.runtimeUrl);
   const sourceWorker = new SourceCommandWorker(pool, integrationRuntime());
+  const recoveryWorker = new RecoveryWorker(pool, integrationRuntime());
   const projectionWorker = new ProjectionWorker(pool);
   // P19: scheduled storage renewal on the same PostgreSQL work lane.
   const storageRenewal = new StorageRenewalJob(pool);
@@ -22,7 +23,7 @@ try {
         service: 'worker',
         state,
         checkedAt: new Date().toISOString(),
-        businessQueues: worker ? 4 : 3,
+        businessQueues: worker ? 5 : 4,
       }),
     );
   report('started');
@@ -33,6 +34,7 @@ try {
       void Promise.allSettled([
         worker?.runOne(),
         sourceWorker.runOne(),
+        recoveryWorker.runOne(),
         projectionWorker.runOne(),
         storageRenewal.runOne(),
       ])

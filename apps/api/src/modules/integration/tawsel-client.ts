@@ -20,6 +20,7 @@ import {
   intakeOperations,
   tawselValidator,
   canonicalTawselJson,
+  validateReportCommand,
   type IntakeTask,
   type SourceEnvelope,
   type SourceConfiguration,
@@ -36,7 +37,8 @@ const validateProblem = tawselValidator<{
 }>('common.schema.json#/$defs/Problem');
 export class SourceFailure extends Error {
   constructor(
-    readonly kind: 'unknown' | 'retryable' | 'configuration-blocked' | 'review-required',
+    readonly kind:
+      'unknown' | 'pending' | 'retryable' | 'configuration-blocked' | 'review-required',
     readonly code: string,
     readonly httpStatus: number | null = null,
     readonly problem?: unknown,
@@ -53,7 +55,8 @@ export class TawselClient {
     path: string,
     body?: string,
     operator?: string,
-  ): Promise<{ status: number; body: unknown }> {
+    maxBytes = 2097152,
+  ): Promise<{ status: number; body: unknown; rawBody: Buffer; retrievedAt: string }> {
     const token = operator ?? this.connection.serviceBearer;
     if (
       !token ||
@@ -82,7 +85,7 @@ export class TawselClient {
           const { done, value } = await reader.read();
           if (done) break;
           length += value.length;
-          if (length > 2097152) {
+          if (length > maxBytes) {
             await reader.cancel();
             throw new SourceFailure('unknown', 'REMOTE_RESULT_TOO_LARGE');
           }
@@ -91,11 +94,19 @@ export class TawselClient {
       }
       let result: unknown;
       try {
-        result = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+        result =
+          length === 0 && (response.status === 202 || response.status >= 500)
+            ? null
+            : JSON.parse(Buffer.concat(chunks).toString('utf8'));
       } catch {
         throw new SourceFailure('unknown', 'INVALID_REMOTE_RESULT', response.status);
       }
-      return { status: response.status, body: result };
+      return {
+        status: response.status,
+        body: result,
+        rawBody: Buffer.concat(chunks),
+        retrievedAt: new Date().toISOString(),
+      };
     } catch (error) {
       if (error instanceof SourceFailure) throw error;
       throw new SourceFailure('unknown', 'REMOTE_RESULT_UNKNOWN');
@@ -143,7 +154,8 @@ export class TawselClient {
       (!validateProvisioningCommand(envelope) &&
         !validateDeliveryCommand(envelope) &&
         !validateIntakeCommand(envelope) &&
-        !validateReturnCommand(envelope)) ||
+        !validateReturnCommand(envelope) &&
+        !validateReportCommand(envelope)) ||
       envelope.context.tenantId !== this.connection.tenantId ||
       envelope.context.integrationId !== this.connection.integrationId ||
       canonicalTawselJson(JSON.parse(raw)) !== canonicalTawselJson(envelope)
@@ -167,6 +179,7 @@ export class TawselClient {
       // Tawsel still enforces the service grant, destination and key selectors.
       if (
         !Object.hasOwn(deliveryOperations, envelope.operationId) &&
+        envelope.operationId !== 'integration.reportAppliedCheckpoint' &&
         !configuration.allowedOperations.includes(envelope.operationId)
       )
         throw new SourceFailure('configuration-blocked', 'OPERATION_NOT_ALLOWED');
@@ -191,6 +204,8 @@ export class TawselClient {
       raw,
       operator,
     );
+    if (r.status === 202) throw new SourceFailure('pending', 'REMOTE_RESULT_PENDING', 202);
+    if (r.status >= 500) throw new SourceFailure('retryable', 'REMOTE_OUTAGE', r.status);
     // A correlated, definite Problem is retained as a problem, never a fabricated receipt.
     if (
       ['intake', 'erp/returns'].includes(family) &&

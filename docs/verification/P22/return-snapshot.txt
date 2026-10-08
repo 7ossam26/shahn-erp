@@ -1,0 +1,14 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p22/return-snapshot.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/return-snapshot.db.test.ts (1 test) 9053ms
+   ✓ reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history 9052ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:48:16
+   Duration  11.54s (tests 79%, import 12%, transform 9%)

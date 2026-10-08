@@ -1,0 +1,14 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p19/worker-process.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p19/worker-process.db.test.ts (1 test) 9984ms
+   ✓ the actual worker process discovers and renews a due agreement with the Cairo database date, then stops cleanly 9982ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:46:43
+   Duration  12.31s (tests 82%, import 12%, transform 6%)

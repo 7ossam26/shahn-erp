@@ -82,7 +82,10 @@
     "test:p20:browser": "node scripts/build.mjs && playwright test --config playwright.p20.config.ts",
     "p20:trial": "node scripts/build.mjs && node --import tsx tests/integration/p20/serve.ts",
     "test:p21:browser": "node scripts/build.mjs && playwright test --config playwright.p21.config.ts",
-    "p21:trial": "node scripts/build.mjs && node --import tsx tests/integration/p21/serve.ts"
+    "p21:trial": "node scripts/build.mjs && node --import tsx tests/integration/p21/serve.ts",
+    "test:p22:browser": "node scripts/build.mjs && playwright test --config playwright.p22.config.ts",
+    "test:p22:public": "node scripts/build-packages.mjs && vitest run --config vitest.p22.public.config.ts",
+    "test:p22:acceptance": "node scripts/build-packages.mjs && vitest run --config vitest.p22.acceptance.config.ts"
   },
   "devDependencies": {
     "typescript": "6.0.3",

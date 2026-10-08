@@ -1,0 +1,44 @@
+.integration-recovery {
+  max-width: 1100px;
+  margin: auto;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+.recovery-card {
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--border, #ccd4dd);
+  border-radius: 8px;
+}
+.recovery-actions,
+.recovery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.recovery-filters label {
+  display: grid;
+  gap: 0.5rem;
+}
+.recovery-filters select {
+  min-height: 44px;
+  padding: 0.5rem;
+}
+.integration-recovery button {
+  min-height: 44px;
+}
+.integration-recovery details p[dir='ltr'] {
+  font-size: 0.85rem;
+}
+@media (max-width: 600px) {
+  .recovery-actions {
+    flex-direction: column;
+  }
+  .recovery-actions button {
+    width: 100%;
+  }
+  .recovery-filters label {
+    width: 100%;
+  }
+}

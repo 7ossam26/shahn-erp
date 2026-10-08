@@ -577,5 +577,50 @@
       "applicable": false,
       "reason": "P21 issues no Tawsel request and moves no external money. Source reviews consume the implemented P13 immutable visit/basis records and P17 posted allocations through native PostgreSQL fixtures; a parcel adapter-owned shipment is rejected (SOURCE_ADAPTER_REQUIRED) without any outbound call. No new independent Tawsel acceptance is claimed."
     }
+  },
+  "P22": {
+    "unit": {
+      "directory": "tests/integration/p22",
+      "extension": ".unit.test",
+      "script": "test:unit",
+      "filter": ["tests/integration/p22/contracts.unit.test.ts"]
+    },
+    "database": {
+      "directory": "tests/integration/p22",
+      "extension": ".db.test",
+      "script": "test:db",
+      "filter": [
+        "tests/integration/p22/recovery.db.test.ts",
+        "tests/integration/p22/restore.db.test.ts",
+        "tests/integration/p22/migration.db.test.ts",
+        "tests/integration/p22/return-snapshot.db.test.ts"
+      ]
+    },
+    "browser": {
+      "applicable": false,
+      "reason": "Owner instruction 2026-10-08: skip browser testing and focus on script tests. Earlier P22 actual-API browser attempts and failures are retained; no fresh browser pass or manual/device review is claimed."
+    },
+    "publicIntegration": {
+      "directory": "tests/integration/p22",
+      "config": "vitest.p22.public.config.ts",
+      "extension": ".public.test",
+      "script": "test:p22:public"
+    },
+    "externalAcceptance": {
+      "directory": "tests/integration/p22",
+      "config": "vitest.p22.acceptance.config.ts",
+      "extension": ".acceptance.test",
+      "script": "test:p22:acceptance",
+      "deferred": {
+        "ownerInstruction": "2026-10-08: Allow ERP commits with named Tawsel acceptance deferred",
+        "gates": [
+          "CR-001 approved baseline/adoption and IP-AC-18",
+          "CHECK-003 exact A-to-B and receipt-to-cycle public sequence",
+          "complete jointly reviewed 43+1-operation/27-event acceptance index"
+        ],
+        "reason": "Owner applies Tawsel work after ERP implementation; current independent actual public scripts remain required. These tests still fail closed when explicitly run without approved artifacts.",
+        "handoff": "TAWSEL-CHANGE-REQUESTS.md"
+      }
+    }
   }
 }

@@ -1,0 +1,79 @@
+
+> shahn-erp@0.1.0 test:phase
+> node scripts/test-phase.mjs P22
+
+P22 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/contracts.unit.test.ts (7 tests) 38ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:05:30
+   Duration  3.64s (import 50%, transform 23%, environment 19%, setup 8%, tests 1%)
+
+P22 unit: PASSED
+P22 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovery.db.test.ts (5 tests) 51724ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 7539ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 6294ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 9740ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 12874ms
+   ✓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 15276ms
+ ✓ tests/integration/p22/migration.db.test.ts (1 test) 10694ms
+   ✓ detects inconsistent old checkpoints without rewriting counters or posted remittance, payout and custody 10693ms
+ ✓ tests/integration/p22/restore.db.test.ts (1 test) 10287ms
+   ✓ backs up disposable ERP, restores a separate DB, rebuilds API/worker and redelivers original messages without additional ledger/custody/visit effects 10285ms
+ ✓ tests/integration/p22/return-snapshot.db.test.ts (1 test) 6657ms
+   ✓ reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history 6656ms
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+   Start at  18:05:34
+   Duration  87.64s (tests 91%, import 7%, transform 2%)
+
+P22 database: PASSED
+P22 browser: NOT APPLICABLE — Owner instruction 2026-10-08: skip browser testing and focus on script tests. Earlier P22 actual-API browser attempts and failures are retained; no fresh browser pass or manual/device review is claimed.
+P22 publicIntegration: test:p22:public; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/tawsel.public.test.ts (3 tests | 2 failed) 3171ms
+   ✓ reads the actual public recovery boundary with a dedicated service and identified scoped stream 3162ms
+   × requires complete reviewed actual public evidence beyond the bounded reader smoke test 6ms
+   × requires reviewed CR-001 baseline adoption and the exact CHECK-003 public sequences 1ms
+ ✓ tests/integration/p22/live-recovery.public.test.ts (4 tests) 19176ms
+   ✓ runs native durable replay, reconciliation and checkpoint reporting against actual Tawsel without changing committed business identities 2262ms
+   ✓ restores the actual isolated ERP trial and repeats original live source actions and signed events with posted receipt, payout and hold preserved 12271ms
+   ✓ checks real service authorization and bounded request rejection, including distinct real human driver sessions 539ms
+   ✓ verifies actual TLS proxy body limit and signed receiver negatives using original live event bytes 4101ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/tawsel.public.test.ts > requires complete reviewed actual public evidence beyond the bounded reader smoke test
+Error: BLOCKED P22 acceptance: TAWSEL_P22_ACCEPTANCE_FILE absent. Complete reviewed producer/authority/recovery/rotation/performance/restore evidence and CR-001/CHECK-003 artifacts are required. Local fixtures cannot close these gates.
+ ❯ evidenceIndex tests/integration/p22/tawsel.public.test.ts:69:11
+
+ ❯ tests/integration/p22/tawsel.public.test.ts:87:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p22/tawsel.public.test.ts > requires reviewed CR-001 baseline adoption and the exact CHECK-003 public sequences
+Error: BLOCKED P22 acceptance: TAWSEL_P22_ACCEPTANCE_FILE absent. Complete reviewed producer/authority/recovery/rotation/performance/restore evidence and CR-001/CHECK-003 artifacts are required. Local fixtures cannot close these gates.
+ ❯ evidenceIndex tests/integration/p22/tawsel.public.test.ts:69:11
+
+ ❯ tests/integration/p22/tawsel.public.test.ts:111:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 5 passed (7)
+   Start at  18:07:02
+   Duration  23.72s (tests 81%, import 11%, transform 8%)
+
+P22 publicIntegration: FAILED (1)

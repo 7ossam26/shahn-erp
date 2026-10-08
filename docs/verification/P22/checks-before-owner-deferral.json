@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-08",
+  "phase": "P22",
+  "status": "native recovery and selected actual Tawsel scripts verified; full reviewed public and external contract gates blocked",
+  "branch": "main",
+  "head": "03bd15385a71413e71ea79825de491e8ee594fce",
+  "lint": {
+    "result": "passed",
+    "transcript": "live-lint-final.txt"
+  },
+  "typecheck": {
+    "result": "passed",
+    "transcript": "live-typecheck-final.txt"
+  },
+  "build": {
+    "result": "passed",
+    "transcript": "live-build-final.txt",
+    "warning": "existing large web application chunk"
+  },
+  "phaseSuite": {
+    "command": "npm run test:phase -- P22",
+    "unitPassed": 7,
+    "databasePassed": 8,
+    "publicPassed": 5,
+    "publicBlocked": 2,
+    "browser": "owner-excluded; no fresh pass/manual-device claim",
+    "result": "failed: required complete reviewed/public contract gates blocked",
+    "exitCode": 1,
+    "transcript": "live-phase-with-review-final.txt"
+  },
+  "regressions": {
+    "affectedDatabasePassed": 47,
+    "unitPassed": 667,
+    "targetedMoneyPassed": 4,
+    "actualWorkerProcessPassed": 1,
+    "unitBoundary": "before one additional P22 classifier case",
+    "liveAffectedP13Passed": 13,
+    "liveAffectedP16A04Passed": 1,
+    "liveAffectedP16Unselected": 13
+  },
+  "publicSamples": 6,
+  "commit": "not created: required gates blocked",
+  "push": "not attempted: required gates blocked",
+  "runtimeSourceCommit": null,
+  "performanceEvidence": "live-performance.json",
+  "connection": "active dedicated pilot scope; isolated ERP; private credentials; temporary operator removed",
+  "initialAttempt": "checks-before-live.json",
+  "restore": {
+    "comparedTables": 35,
+    "backupPoint": "2026-10-08T15:17:56.965Z",
+    "elapsedMs": 12016,
+    "actionReplayCount": 31,
+    "eventRedeliveryCount": 192,
+    "equal": true,
+    "reviewTableIncluded": true
+  },
+  "finalReview": "live-final-review.json"
+}

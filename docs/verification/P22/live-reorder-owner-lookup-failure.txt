@@ -1,0 +1,9 @@
+file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/.tools/p22-access/reorder-producer.mjs:73
+ if(!journey.results['close-whole-retry']){const cs=await current.read(prior.roundId);await command('close-whole-retry','round.end',{roundId:prior.roundId,workdayId:prior.workdayId,expectedActiveRoundId:prior.roundId,expectedActivityRevision:cs.revision,expectedCurrentAttemptId:cs.currentActivity?.attemptId??null,currentAction:'require-none'},c=>closure.endRound(c));}
+                                                    ^
+
+ReferenceError: Cannot access 'current' before initialization
+    at file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/.tools/p22-access/reorder-producer.mjs:73:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0

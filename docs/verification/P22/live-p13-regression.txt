@@ -1,0 +1,43 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p13/execution.db.test.ts (13 tests | 13 skipped) 186ms
+   ↓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null
+   ↓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions
+   ↓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds
+   ↓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation
+   ↓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing
+   ↓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome
+   ↓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope
+   ↓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash
+   ↓ committed visit survives database restart and lost worker acknowledgement without another earning
+   ↓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved
+   ↓ a protected correction retains prior postings, creates one review and never moves company cash
+   ↓ rejects an arrival attached to a different known round without posting or advancing
+   ↓ keeps an unmapped return request pending and never advances its applied checkpoint
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/execution.db.test.ts [ tests/integration/p13/execution.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p13/execution.db.test.ts:18:8
+     16|   origin: string;
+     17| beforeAll(async () => {
+     18|   db = await isolatedPostgres();
+       |        ^
+     19|   await migrate(db.pool, (await readMigrations()).slice(0, 16));
+     20|   f = await executionFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 skipped (13)
+   Start at  17:56:52
+   Duration  3.44s (import 51%, transform 43%, tests 6%)

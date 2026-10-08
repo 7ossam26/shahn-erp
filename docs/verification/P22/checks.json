@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-08",
+  "phase": "P22",
+  "status": "ERP implementation verified; named Tawsel acceptance explicitly deferred by owner",
+  "branch": "main",
+  "head": "03bd15385a71413e71ea79825de491e8ee594fce",
+  "lint": {
+    "result": "passed",
+    "transcript": "erp-final-lint.txt"
+  },
+  "typecheck": {
+    "result": "passed",
+    "transcript": "erp-final-typecheck.txt"
+  },
+  "build": {
+    "result": "passed",
+    "transcript": "erp-final-build.txt",
+    "warning": "existing large web application chunk"
+  },
+  "phaseSuite": {
+    "command": "npm run test:phase -- P22",
+    "unitPassed": 7,
+    "databasePassed": 8,
+    "publicPassed": 8,
+    "externalAcceptance": "owner-deferred;3 named gate families not passed",
+    "browser": "owner-excluded; no fresh browser/manual-device claim",
+    "result": "required implementation checks passed; joint acceptance pending",
+    "exitCode": 0,
+    "transcript": "erp-final-phase.txt"
+  },
+  "regressions": {
+    "affectedDatabasePassed": 47,
+    "unitPassed": 667,
+    "targetedMoneyPassed": 4,
+    "actualWorkerProcessPassed": 1,
+    "unitBoundary": "before one additional P22 classifier case",
+    "liveAffectedP13Passed": 13,
+    "liveAffectedP16A04Passed": 1,
+    "liveAffectedP16Unselected": 13
+  },
+  "publicSamples": 6,
+  "commit": "authorized ERP implementation commit pending final diff/secret review",
+  "push": "pending",
+  "runtimeSourceCommit": "bbc977b6662a9093eabd0039661f4992a0e5f292",
+  "performanceEvidence": "live-performance.json",
+  "connection": "active dedicated pilot scope; isolated ERP; private credentials; temporary operator removed",
+  "initialAttempt": "checks-before-live.json",
+  "restore": {
+    "comparedTables": 35,
+    "backupPoint": "2026-10-08T15:53:20.226Z",
+    "elapsedMs": 15554,
+    "actionReplayCount": 48,
+    "eventRedeliveryCount": 272,
+    "equal": true,
+    "reviewTableIncluded": true
+  },
+  "finalReview": "live-final-review.json",
+  "checkedAt": "2026-10-08T15:56:23.063Z",
+  "runtimeSourceEvidence": "live-runtime-provenance.json",
+  "ownerDeferredAcceptance": "owner-deferred-acceptance.json",
+  "priorAttempt": "checks-before-owner-deferral.json",
+  "runner": {
+    "result": "passed",
+    "unknownPhaseExit": 1,
+    "controlledFailureExit": 1
+  }
+}

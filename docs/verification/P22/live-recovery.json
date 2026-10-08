@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-08T14:25:21.187Z",
+  "publicOrigin": "https://app.switch2tech.cloud",
+  "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+  "aggregate": {
+    "type": "task",
+    "id": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a"
+  },
+  "humanDelegation": false,
+  "deliveries": {
+    "pending": 0,
+    "sending": 0,
+    "failed": 0,
+    "received": 37
+  },
+  "attemptPagination": null,
+  "eventId": "065e1f82-0a8c-40d1-bda2-eb817483607b",
+  "replayCount": 7,
+  "replayNext": null,
+  "replayTypes": [
+    "task.snapshotAccepted",
+    "assignment.prepared",
+    "assignment.received",
+    "location.pinConfirmed",
+    "current.headingSelected",
+    "current.arrivalRecorded",
+    "outcome.recorded"
+  ],
+  "snapshotHistory": "current-state-only",
+  "checkpoint": {
+    "report": {
+      "checkpoint": {
+        "revision": 23,
+        "tenantId": "771dfff0-e9bb-4e60-bf1a-73c1e668658b",
+        "aggregate": {
+          "id": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+          "type": "task"
+        },
+        "appliedAt": "2026-10-08T14:19:20.894Z",
+        "lastError": null,
+        "receivedAt": "2026-10-08T14:19:20.731Z",
+        "pendingCount": 0,
+        "receivedHigh": 7,
+        "schemaVersion": "1.0.0",
+        "appliedThrough": 7,
+        "historyComplete": true,
+        "receivedThrough": 7,
+        "snapshotThrough": 7,
+        "projectedThrough": 7,
+        "recipientIntegrationId": "b9bf8e77-c620-4a46-bb55-7205cba0f6a5"
+      },
+      "reportedAt": "2026-10-08T14:25:20.420Z",
+      "evidence": "receiver-reported"
+    }
+  },
+  "stream": {
+    "aggregateType": "task",
+    "aggregateId": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+    "revision": "23",
+    "receivedThrough": "7",
+    "receivedHigh": "7",
+    "appliedThrough": "7",
+    "snapshotThrough": "7",
+    "projectedThrough": "7",
+    "historyComplete": true,
+    "rebuildRequired": false,
+    "updatedAt": "2026-10-08T14:25:19.850Z",
+    "missingFrom": null,
+    "missingTo": null,
+    "pendingReason": null
+  },
+  "operationResults": [
+    "integration.getConfiguration",
+    "integration.getDeliveryStatus",
+    "integration.getDeliveryDetail",
+    "integration.replayEvents",
+    "integration.getReconciliationSnapshot",
+    "integration.reportAppliedCheckpoint",
+    "integration.getAppliedCheckpoint"
+  ],
+  "runtimeCommitAttested": false
+}

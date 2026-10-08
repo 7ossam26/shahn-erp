@@ -273,7 +273,7 @@ export class ProjectionWorker {
         await c.query(`SELECT cp.* FROM integration.checkpoint cp
         JOIN integration.inbox b ON(b.company_id,b.source_id,b.aggregate_type,b.aggregate_id,b.recipient_sequence)=
         (cp.company_id,cp.source_id,cp.aggregate_type,cp.aggregate_id,cp.applied_through+1)
-        WHERE cp.applied_through<cp.received_through
+        WHERE cp.applied_through<cp.received_through AND (to_jsonb(cp)->>'rebuild_required')::boolean IS DISTINCT FROM true
         ORDER BY cp.updated_at,b.received_at LIMIT 1`)
       ).rows[0];
       if (!candidate) return false;
@@ -335,7 +335,7 @@ export class ProjectionWorker {
           [row.company_id, row.source_id, row.event_id],
         );
         await c.query(
-          `UPDATE integration.checkpoint SET applied_through=$5,projected_through=$5,updated_at=clock_timestamp() WHERE company_id=$1 AND source_id=$2 AND aggregate_type=$3 AND aggregate_id=$4`,
+          `UPDATE integration.checkpoint SET applied_through=$5,projected_through=GREATEST(projected_through,$5),updated_at=clock_timestamp() WHERE company_id=$1 AND source_id=$2 AND aggregate_type=$3 AND aggregate_id=$4`,
           [...key, row.recipient_sequence],
         );
       } catch (error) {

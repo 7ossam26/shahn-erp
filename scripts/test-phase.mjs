@@ -15,12 +15,25 @@ if (
   process.exit(1);
 }
 const suite = registry[phase];
+let deferredLayers = 0;
 function execute(args) {
   const result = spawnSync(process.execPath, args, { stdio: 'inherit', env: process.env });
   return result.status ?? 1;
 }
 const commands = { unit: [['scripts/build-packages.mjs']], database: [], browser: [] };
 for (const [layer, definition] of Object.entries(suite)) {
+  if (definition.deferred) {
+    const d = definition.deferred;
+    if (!d.ownerInstruction || !d.reason || !d.handoff || !d.gates?.length) {
+      console.error(`${phase} ${layer}: invalid explicit owner deferral`);
+      process.exit(1);
+    }
+    deferredLayers++;
+    console.log(
+      `${phase} ${layer}: DEFERRED BY OWNER — ${d.ownerInstruction}; ${d.reason}; gates: ${d.gates.join(', ')}; handoff: ${d.handoff}. Acceptance remains pending.`,
+    );
+    continue;
+  }
   if (definition.applicable === false) {
     console.log(`${phase} ${layer}: NOT APPLICABLE — ${definition.reason}`);
     continue;
@@ -71,7 +84,7 @@ for (const [layer, definition] of Object.entries(suite)) {
             definition.config ?? 'vitest.db.config.ts',
             ...(definition.filter ?? []),
           ]
-        : layer === 'publicIntegration'
+        : layer === 'publicIntegration' || layer === 'externalAcceptance'
           ? [
               'node_modules/vitest/vitest.mjs',
               'run',
@@ -107,4 +120,8 @@ for (const [layer, definition] of Object.entries(suite)) {
   }
   console.log(`${phase} ${layer}: PASSED`);
 }
-console.log(`${phase}: all required layers passed`);
+console.log(
+  deferredLayers
+    ? `${phase}: all required implementation layers passed; ${deferredLayers} external acceptance layer(s) explicitly deferred, not passed`
+    : `${phase}: all required layers passed`,
+);

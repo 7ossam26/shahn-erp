@@ -1,0 +1,272 @@
+{
+  "capturedAt": "2026-10-08T14:41:20.232Z",
+  "preview": {
+    "operation": "source.resolve",
+    "classification": "source_review_retained",
+    "target": {
+      "kind": "source",
+      "id": "ff5c3c36-8baa-4326-b83f-225cf58aec7c",
+      "label": "شحنة 10001",
+      "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+      "branchName": "الفرع أ"
+    },
+    "facts": [
+      {
+        "key": "sourceGoods",
+        "unit": "minor",
+        "before": "25000",
+        "after": "25000"
+      },
+      {
+        "key": "sourceBrandFee",
+        "unit": "minor",
+        "before": "0",
+        "after": "0"
+      },
+      {
+        "key": "eligibleCredit",
+        "unit": "minor",
+        "before": "50000",
+        "after": "50000"
+      },
+      {
+        "key": "pendingCredit",
+        "unit": "minor",
+        "before": "0",
+        "after": "0"
+      },
+      {
+        "key": "brandDebits",
+        "unit": "minor",
+        "before": "0",
+        "after": "0"
+      },
+      {
+        "key": "heldCredit",
+        "unit": "minor",
+        "before": "25000",
+        "after": "0"
+      },
+      {
+        "key": "signedEntitlement",
+        "unit": "minor",
+        "before": "50000",
+        "after": "50000"
+      },
+      {
+        "key": "eligibleToPay",
+        "unit": "minor",
+        "before": "25000",
+        "after": "50000"
+      },
+      {
+        "key": "paidToBrand",
+        "unit": "minor",
+        "before": "10000",
+        "after": "10000"
+      }
+    ],
+    "effects": [
+      {
+        "ledger": "hold",
+        "kind": "review_hold_release",
+        "label": "إلغاء إيقاف الأهلية المرتبط بهذه المراجعة فقط",
+        "amountMinor": "25000",
+        "quantity": null,
+        "effectiveDate": "2026-10-08"
+      },
+      {
+        "ledger": "review",
+        "kind": "resolved",
+        "label": "Accepted outcome correction conflicts with protected settlement",
+        "amountMinor": null,
+        "quantity": null,
+        "effectiveDate": "2026-10-08"
+      }
+    ],
+    "dependents": [
+      {
+        "kind": "remittance",
+        "id": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+        "label": "استلام أموال المندوب المؤكد",
+        "state": "retained"
+      },
+      {
+        "kind": "protected_remittance",
+        "id": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+        "label": "سجل محمي: remittance",
+        "state": "retained"
+      }
+    ],
+    "warnings": [],
+    "blockers": [],
+    "versions": [
+      {
+        "key": "brand.wallet",
+        "version": "11a98ced2db54280636d1a4c90ac30c10fcbb716019285907e3b8cd2d6dabeb5"
+      },
+      {
+        "key": "source.review",
+        "version": "open"
+      }
+    ],
+    "digest": "27b952b9cc905ae1f7b0e8a507637d3b54b32ca30b0b9bf837a60b677c81331a"
+  },
+  "result": {
+    "commandId": "412ecf79-dd6d-4733-a18c-6c0b902bcf3b",
+    "caseId": "72789566-9816-422b-a7f9-786dd9fdb07b",
+    "caseReference": "1",
+    "resolutionId": "7eda48dd-97e4-4812-bbdc-a997dea0da6c",
+    "operation": "source.resolve",
+    "classification": "source_review_retained",
+    "state": "resolved",
+    "preview": {
+      "operation": "source.resolve",
+      "classification": "source_review_retained",
+      "target": {
+        "kind": "source",
+        "id": "ff5c3c36-8baa-4326-b83f-225cf58aec7c",
+        "label": "شحنة 10001",
+        "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+        "branchName": "الفرع أ"
+      },
+      "facts": [
+        {
+          "key": "sourceGoods",
+          "unit": "minor",
+          "before": "25000",
+          "after": "25000"
+        },
+        {
+          "key": "sourceBrandFee",
+          "unit": "minor",
+          "before": "0",
+          "after": "0"
+        },
+        {
+          "key": "eligibleCredit",
+          "unit": "minor",
+          "before": "50000",
+          "after": "50000"
+        },
+        {
+          "key": "pendingCredit",
+          "unit": "minor",
+          "before": "0",
+          "after": "0"
+        },
+        {
+          "key": "brandDebits",
+          "unit": "minor",
+          "before": "0",
+          "after": "0"
+        },
+        {
+          "key": "heldCredit",
+          "unit": "minor",
+          "before": "25000",
+          "after": "0"
+        },
+        {
+          "key": "signedEntitlement",
+          "unit": "minor",
+          "before": "50000",
+          "after": "50000"
+        },
+        {
+          "key": "eligibleToPay",
+          "unit": "minor",
+          "before": "25000",
+          "after": "50000"
+        },
+        {
+          "key": "paidToBrand",
+          "unit": "minor",
+          "before": "10000",
+          "after": "10000"
+        }
+      ],
+      "effects": [
+        {
+          "ledger": "hold",
+          "kind": "review_hold_release",
+          "label": "إلغاء إيقاف الأهلية المرتبط بهذه المراجعة فقط",
+          "amountMinor": "25000",
+          "quantity": null,
+          "effectiveDate": "2026-10-08"
+        },
+        {
+          "ledger": "review",
+          "kind": "resolved",
+          "label": "Accepted outcome correction conflicts with protected settlement",
+          "amountMinor": null,
+          "quantity": null,
+          "effectiveDate": "2026-10-08"
+        }
+      ],
+      "dependents": [
+        {
+          "kind": "remittance",
+          "id": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+          "label": "استلام أموال المندوب المؤكد",
+          "state": "retained"
+        },
+        {
+          "kind": "protected_remittance",
+          "id": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+          "label": "سجل محمي: remittance",
+          "state": "retained"
+        }
+      ],
+      "warnings": [],
+      "blockers": [],
+      "versions": [
+        {
+          "key": "brand.wallet",
+          "version": "11a98ced2db54280636d1a4c90ac30c10fcbb716019285907e3b8cd2d6dabeb5"
+        },
+        {
+          "key": "source.review",
+          "version": "open"
+        }
+      ],
+      "digest": "27b952b9cc905ae1f7b0e8a507637d3b54b32ca30b0b9bf837a60b677c81331a"
+    },
+    "links": [
+      {
+        "role": "original",
+        "entityKind": "settlement_review",
+        "entityId": "ff5c3c36-8baa-4326-b83f-225cf58aec7c",
+        "label": "مراجعة فرق المصدر"
+      },
+      {
+        "role": "original",
+        "entityKind": "shipment",
+        "entityId": "843645fe-03d5-4f17-ae20-5521aa7d6214",
+        "label": "شحنة 10001"
+      },
+      {
+        "role": "dependent",
+        "entityKind": "remittance",
+        "entityId": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+        "label": "استلام أموال المندوب المؤكد"
+      },
+      {
+        "role": "dependent",
+        "entityKind": "protected_remittance",
+        "entityId": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+        "label": "سجل محمي: remittance"
+      }
+    ]
+  },
+  "actualCashMinor": "15000",
+  "authority": "Existing native authenticated admin with current settlement/source-review grants; typed P21 prepare/confirm, same-intent duplicate preserved.",
+  "decision": "retain_original for this identified disposable acceptance case",
+  "holdReleases": [
+    {
+      "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+      "hold_id": "971505e3-01a6-4369-8e8a-c8acf2abf8e3",
+      "source_id": "4f419669-3232-4fc2-b9ac-46d220b77fc7"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 10889ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 306ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 2442ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 412ms
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  18:01:15
+   Duration  14.45s (tests 76%, import 13%, transform 11%)

@@ -1,0 +1,37 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p22/recovery.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/recovery.db.test.ts (5 tests | 1 failed) 58022ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 7127ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 7741ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 14524ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 16109ms
+   × binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 12517ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/recovery.db.test.ts > binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access
+error: column i.task_id does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ recoveryDetail apps/api/src/modules/integration/recovery.service.ts:447:5
+    445|     cp = await authorizeRecoveryStream(u, s, a);
+    446|   const relatedShipments = (
+    447|     await u.client.query<{ id: string; reference: string; cycleId: str…
+       |     ^
+    448|       `SELECT DISTINCT sh.id,sh.reference,d.id AS "cycleId",d.branch_i…
+    449|     JOIN shipments.shipment sh ON(sh.company_id,sh.id)=(d.company_id,d…
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p22/recovery.db.test.ts:390:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  15:07:24
+   Duration  62.04s (tests 94%, import 3%, transform 3%)

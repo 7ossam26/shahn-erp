@@ -12,6 +12,8 @@ import {
   validateKeyRotation,
   validateIntakeCommand,
   validateReturnCommand,
+  validateReportCommand,
+  validateRetryResult,
   returnOperations,
   intakeOperations,
   type IntakeTask,
@@ -259,7 +261,8 @@ export class SourceCommandWorker {
         !validateProvisioningCommand(envelope) &&
         !validateDeliveryCommand(envelope) &&
         !validateIntakeCommand(envelope) &&
-        !validateReturnCommand(envelope)
+        !validateReturnCommand(envelope) &&
+        !validateReportCommand(envelope)
       )
         throw new SourceFailure('configuration-blocked', 'IMMUTABLE_REQUEST_INVALID');
       const client = this.clientFor(connection);
@@ -273,6 +276,14 @@ export class SourceCommandWorker {
         ? { result: recovered, status: 200, configuration: null }
         : await client.send(envelope, work.request_body, this.operatorToken);
       const tasks: IntakeTask[] = [];
+      if (
+        work.operation_id === 'integration.retryDelivery' &&
+        outcome.result.receipt.businessStatus === 'accepted' &&
+        outcome.result.retention === 'full' &&
+        (!validateRetryResult(outcome.result.response?.body) ||
+          outcome.result.response.body.eventId !== envelope.payload.eventId)
+      )
+        throw new SourceFailure('unknown', 'RETRY_RESULT_IDENTITY_MISMATCH');
       if (
         Object.hasOwn(intakeOperations, work.operation_id) &&
         outcome.result.receipt.businessStatus === 'accepted'

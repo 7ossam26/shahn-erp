@@ -37,7 +37,7 @@ it('worker registers source, projection and storage renewal queues and gracefull
   expect(await stopped).toBe(0);
   expect(output).toContain('"state":"stopping"');
   expect(output).toContain('"state":"stopped"');
-  expect(output).toContain('"businessQueues":3');
+  expect(output).toContain('"businessQueues":4');
   expect(output + errors).not.toContain('LOCAL_SENTINEL');
 }, 20000);
 it('missing mandatory worker variable has a readable failure without a secret', () => {

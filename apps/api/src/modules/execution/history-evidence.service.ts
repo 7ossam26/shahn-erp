@@ -4,7 +4,7 @@ import { sourceByCompany } from '@shahn/database';
 import { AccessError } from '@shahn/domain';
 import { tawselValidator } from '@shahn/contracts/tawsel';
 import type { OutcomeRecord, CorrectionRecord } from '@shahn/contracts/execution';
-import { canonical } from '../access/crypto.js';
+import { canonicalTawselJson } from '@shahn/contracts/tawsel';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { MonitoringReader, type MonitoringRead } from './monitoring-reader.service.js';
 import {
@@ -47,7 +47,7 @@ export class HistoryEvidenceService {
           )
         ).rowCount;
         if (!retained) throw new AccessError('AUTHORIZED_HISTORY_REQUIRED', 409);
-        const digest = createHash('sha256').update(canonical(h)).digest('hex');
+        const digest = createHash('sha256').update(canonicalTawselJson(h)).digest('hex');
         await u.client.query(
           `INSERT INTO execution.source_evidence(company_id,source_id,id,scope_key,snapshot_revision,resource_id,digest,payload) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`,
           [

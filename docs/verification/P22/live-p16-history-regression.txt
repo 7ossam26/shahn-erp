@@ -1,0 +1,14 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p16/remittance.db.test.ts -t A04
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests | 13 skipped) 7879ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 1302ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 13 skipped (14)
+   Start at  18:04:00
+   Duration  10.48s (tests 76%, import 14%, transform 10%)

@@ -1,0 +1,74 @@
+
+> shahn-erp@0.1.0 test:phase
+> node scripts/test-phase.mjs P22
+
+P22 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/contracts.unit.test.ts (7 tests) 70ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  15:09:01
+   Duration  3.65s (import 52%, transform 23%, environment 20%, setup 3%, tests 2%)
+
+P22 unit: PASSED
+P22 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/recovery.db.test.ts (5 tests | 1 failed) 58680ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 7205ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 7860ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 13124ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 16653ms
+   × binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 13837ms
+ ✓ tests/integration/p22/restore.db.test.ts (1 test) 12165ms
+   ✓ backs up disposable ERP, restores a separate DB, rebuilds API/worker and redelivers original messages without additional ledger/custody/visit effects 12163ms
+ ✓ tests/integration/p22/migration.db.test.ts (1 test) 10515ms
+   ✓ detects inconsistent old checkpoints without rewriting counters or posted remittance, payout and custody 10513ms
+ ❯ tests/integration/p22/return-snapshot.db.test.ts (1 test | 1 failed) 7182ms
+   × reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history 7181ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/recovery.db.test.ts > binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access
+error: column i.task_id does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ recoveryDetail apps/api/src/modules/integration/recovery.service.ts:447:5
+    445|     cp = await authorizeRecoveryStream(u, s, a);
+    446|   const relatedShipments = (
+    447|     await u.client.query<{ id: string; reference: string; cycleId: str…
+       |     ^
+    448|       `SELECT DISTINCT sh.id,sh.reference,d.id AS "cycleId",d.branch_i…
+    449|     JOIN shipments.shipment sh ON(sh.company_id,sh.id)=(d.company_id,d…
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p22/recovery.db.test.ts:403:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p22/return-snapshot.db.test.ts > reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history
+error: column i.task_id does not exist
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ recoveryDetail apps/api/src/modules/integration/recovery.service.ts:447:5
+    445|     cp = await authorizeRecoveryStream(u, s, a);
+    446|   const relatedShipments = (
+    447|     await u.client.query<{ id: string; reference: string; cycleId: str…
+       |     ^
+    448|       `SELECT DISTINCT sh.id,sh.reference,d.id AS "cycleId",d.branch_i…
+    449|     JOIN shipments.shipment sh ON(sh.company_id,sh.id)=(d.company_id,d…
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p22/return-snapshot.db.test.ts:87:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 6 passed (8)
+   Start at  15:09:05
+   Duration  96.39s (tests 92%, import 6%, transform 2%)
+
+P22 database: FAILED (1)

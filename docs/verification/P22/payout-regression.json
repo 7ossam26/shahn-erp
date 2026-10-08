@@ -1,0 +1,156 @@
+{
+  "capturedAt": "2026-10-08T10:45:05.312Z",
+  "provenance": "Isolated real PostgreSQL; real P12 dispatch, P13 outcome projection and P16 full receipt with controlled source HTTP. Compensation credits use the P17 typed producer with a labelled controlled source. Not independent Tawsel acceptance.",
+  "postgres": {
+    "server_version": "18.3"
+  },
+  "coverRace": [
+    {
+      "first": "payout",
+      "outcomes": [
+        "committed",
+        "INSUFFICIENT_SHIPPING_COVER"
+      ],
+      "amounts": {
+        "eligibleMinor": "4000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "4000",
+        "eligibleToPayMinor": "4000",
+        "paidMinor": "6000"
+      }
+    },
+    {
+      "first": "cover",
+      "outcomes": [
+        "committed",
+        "INSUFFICIENT_ELIGIBLE_CREDIT"
+      ],
+      "amounts": {
+        "eligibleMinor": "10000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "0",
+        "coverMinor": "5000",
+        "signedEntitlementMinor": "10000",
+        "eligibleToPayMinor": "5000",
+        "paidMinor": "0"
+      }
+    }
+  ],
+  "A07": {
+    "original": {
+      "commandId": "dfdad053-77ac-4c1a-8b04-a65b66b35d43",
+      "payoutId": "935fafa8-ed08-40fe-8c00-ced5e63467ea",
+      "reference": "2",
+      "brandId": "4cd80a0c-cf9e-43e0-9fc1-497572302c25",
+      "brandName": "براند A07",
+      "amountMinor": "10000",
+      "actualDate": "2026-10-08",
+      "movementId": "1402fca8-72c6-47e2-b885-4b2018c22718",
+      "eligibleToPayAfterMinor": "15000",
+      "signedEntitlementAfterMinor": "15000",
+      "eligibleToPayBeforeMinor": "25000",
+      "payingBranchId": "a08e4449-7cac-408b-8c54-f3930e287540",
+      "payingBranchName": "الفرع ب",
+      "accountId": "48669472-da02-4d8e-80bd-8b1ed878a9c5",
+      "accountName": "خزنة الفرع ب",
+      "method": "cash",
+      "recordedAt": "2026-10-08T10:45:05.193Z",
+      "externalReference": "",
+      "weekday": 4,
+      "scheduledWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "offDay": false,
+      "offDayReason": null,
+      "actorName": "admin",
+      "allocations": [
+        {
+          "lotId": "c0654e04-f759-4a76-83da-3df775567777",
+          "amountMinor": "10000",
+          "lotKind": "goods",
+          "sourceBranchId": "0e5c2870-b21c-46d3-b87a-dcf81b0f9e64",
+          "sourceBranchName": "الفرع أ",
+          "effectiveDate": "2026-10-08",
+          "shipment": {
+            "id": "55adf6ee-9a79-4833-904c-5f51653fb143",
+            "reference": "10002"
+          }
+        }
+      ],
+      "reviews": [
+        {
+          "id": "df79ab7b-bd1f-4015-b4ee-5e74fdef8ede",
+          "state": "open",
+          "visitId": "ce9247f3-4756-4fa9-87d6-2e4dc6b6675f",
+          "lotId": "c0654e04-f759-4a76-83da-3df775567777",
+          "createdAt": "2026-10-08T10:45:05.216Z"
+        }
+      ]
+    },
+    "wallet": {
+      "brandId": "4cd80a0c-cf9e-43e0-9fc1-497572302c25",
+      "brandName": "براند A07",
+      "active": true,
+      "allowNegativeBalance": false,
+      "payoutWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "policyVersion": 1,
+      "amounts": {
+        "eligibleMinor": "20000",
+        "pendingMinor": "0",
+        "debitsMinor": "0",
+        "heldMinor": "15000",
+        "coverMinor": "0",
+        "signedEntitlementMinor": "20000",
+        "eligibleToPayMinor": "5000",
+        "paidMinor": "10000"
+      },
+      "readinessRevision": "a9417b9bd8d3d125bd6b8947cb7b1d97439eac0d7bc85fdcdc9f2a32a48e8bc6",
+      "branches": [
+        {
+          "branchId": "0e5c2870-b21c-46d3-b87a-dcf81b0f9e64",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "15000",
+          "pendingMinor": "0",
+          "heldMinor": "15000",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        },
+        {
+          "branchId": "a08e4449-7cac-408b-8c54-f3930e287540",
+          "branchName": "الفرع ب",
+          "eligibleMinor": "5000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        }
+      ],
+      "reasons": [
+        "HELD_FOR_REVIEW"
+      ],
+      "today": "2026-10-08",
+      "scheduledToday": true,
+      "nextPayoutDate": "2026-10-08",
+      "openReviews": 1,
+      "activeHolds": 1
+    }
+  }
+}

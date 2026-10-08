@@ -1,0 +1,345 @@
+{
+  "capturedAt": "2026-10-08T14:33:26.483Z",
+  "taskId": "8812b8e6-0514-5c31-acaf-ce5eb8a8f0b4",
+  "correctionActionId": "e0936918-21e3-4e87-a08b-2c12e7be633a",
+  "acceptedCorrection": {
+    "receipt": {
+      "actionId": "e0936918-21e3-4e87-a08b-2c12e7be633a",
+      "receiptId": "ef3741bc-f66c-4f5f-bb26-9d50fb2f1f88",
+      "receivedAt": "2026-10-08T14:32:16.238Z",
+      "committedAt": "2026-10-08T14:32:16.313Z",
+      "schemaVersion": "1.0.0",
+      "businessStatus": "accepted",
+      "evidenceStatus": "received",
+      "resourceVersions": {
+        "outcomeRevision": 2,
+        "deviceGeneration": 2
+      }
+    },
+    "operationId": "outcome.correct",
+    "retention": "full",
+    "summary": {
+      "taskId": "8812b8e6-0514-5c31-acaf-ce5eb8a8f0b4",
+      "roundId": "80f6548b-5598-4301-88a0-14d1895771e7",
+      "driverId": "861e0465-f8c5-4bdf-944a-e90b20540280",
+      "outcomeId": "e12a493b-1914-455e-9d73-e17574817118",
+      "outcomeRevision": 2
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "correction": {
+          "outcome": {
+            "kind": "company",
+            "time": {
+              "actionId": "e0936918-21e3-4e87-a08b-2c12e7be633a",
+              "recordedAt": "2026-10-08T14:32:16.270Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-08T14:32:15.914Z"
+              }
+            },
+            "lines": [
+              {
+                "unitDue": {
+                  "currency": "EGP",
+                  "exponent": 2,
+                  "amountMinor": 25000
+                },
+                "delivered": 0,
+                "sourceLineId": "c68ead82-6312-476b-8dc8-02f77d4abb7b",
+                "sourceQuantity": 1,
+                "heldReturnRequired": 1
+              }
+            ],
+            "taskId": "8812b8e6-0514-5c31-acaf-ce5eb8a8f0b4",
+            "arrival": {
+              "actionId": "698e28cf-326a-4b50-9480-72ecf7c3168d",
+              "recordedAt": "2026-10-08T14:19:31.829Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-08T14:19:31.504Z"
+              }
+            },
+            "heading": {
+              "actionId": "5acb2245-89dd-417e-b3f5-d8d0ba9a95b9",
+              "recordedAt": "2026-10-08T14:19:31.478Z",
+              "observation": {
+                "clock": {
+                  "quality": "unknown"
+                },
+                "observedAt": "2026-10-08T14:19:31.192Z"
+              }
+            },
+            "outcome": "no-answer",
+            "roundId": "80f6548b-5598-4301-88a0-14d1895771e7",
+            "branchId": "71bf3ff8-66d7-4fdc-8d0e-06c78583d6c5",
+            "driverId": "861e0465-f8c5-4bdf-944a-e90b20540280",
+            "revision": 2,
+            "attemptId": "b0a2a932-9fa4-4c8e-8aae-4a9a12612c89",
+            "outcomeId": "e12a493b-1914-455e-9d73-e17574817118",
+            "workdayId": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+            "collection": {
+              "goods": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "reported": null,
+              "shipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              },
+              "shippingStatus": "not-attempted",
+              "unpaidShipping": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 0
+              }
+            },
+            "returnRequired": true,
+            "sourceRevision": 1,
+            "dispatchCycleId": "44d2d0ec-0749-40f1-b201-aba5e0fa4130",
+            "sourceReference": {
+              "tenantId": "771dfff0-e9bb-4e60-bf1a-73c1e668658b",
+              "externalId": "shipment:843645fe-03d5-4f17-ae20-5521aa7d6214",
+              "integrationId": "b9bf8e77-c620-4a46-bb55-7205cba0f6a5"
+            },
+            "assignmentRevision": 2,
+            "sourceDispatchCycleId": "cycle:27f7fff6-de0f-49d1-a715-33bb67169947"
+          },
+          "correctionId": "a2b3a861-7eae-4655-847d-9985ae884541",
+          "evidenceActionId": null,
+          "previousRevision": 1,
+          "evidenceReceiptId": null,
+          "previousOutcomeId": "9db8d611-fba5-4ea2-97cd-ccc524c23228"
+        }
+      }
+    }
+  },
+  "jobs": [
+    {
+      "id": "f3343b7b-98a6-4492-9573-c6340e6ff071",
+      "kind": "reconcile",
+      "requested_after": "7",
+      "next_after": "8",
+      "state": "complete",
+      "page_count": 1
+    },
+    {
+      "id": "10161ff5-af1e-4cdd-81aa-edce66150551",
+      "kind": "replay",
+      "requested_after": "7",
+      "next_after": "8",
+      "state": "complete",
+      "page_count": 1
+    }
+  ],
+  "evidence": [
+    {
+      "kind": "reconcile",
+      "requested_after": "7",
+      "through_sequence": "8",
+      "basis_revision": "22",
+      "body_hash": "5a769f0b5a971e0d0e9d1669265932c0b73c7898f2296ddae417f0971bfc7619",
+      "recorded_at": "2026-10-08T14:32:16.922Z"
+    },
+    {
+      "kind": "replay",
+      "requested_after": "7",
+      "through_sequence": "8",
+      "basis_revision": "23",
+      "body_hash": "9e9a52e896dbafa2420e1f356db60a225e9f56c9c8384d9241eb62df53a219bc",
+      "recorded_at": "2026-10-08T14:32:18.140Z"
+    }
+  ],
+  "checkpoint": {
+    "received_through": "8",
+    "received_high": "8",
+    "applied_through": "8",
+    "projected_through": "8",
+    "snapshot_through": "8",
+    "history_complete": true
+  },
+  "reviews": [
+    {
+      "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+      "id": "ff5c3c36-8baa-4326-b83f-225cf58aec7c",
+      "source_id": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86",
+      "correction_id": "a2b3a861-7eae-4655-847d-9985ae884541",
+      "visit_id": "9810d3c9-e8a7-4284-b332-b0e5e22720e9",
+      "basis": {
+        "basis": {
+          "fee": "0",
+          "goods": "0"
+        },
+        "reason": "Accepted outcome correction conflicts with protected settlement",
+        "outcome": {
+          "kind": "company",
+          "time": {
+            "actionId": "e0936918-21e3-4e87-a08b-2c12e7be633a",
+            "recordedAt": "2026-10-08T14:32:16.270Z",
+            "observation": {
+              "clock": {
+                "quality": "unknown"
+              },
+              "observedAt": "2026-10-08T14:32:15.914Z"
+            }
+          },
+          "lines": [
+            {
+              "unitDue": {
+                "currency": "EGP",
+                "exponent": 2,
+                "amountMinor": 25000
+              },
+              "delivered": 0,
+              "sourceLineId": "c68ead82-6312-476b-8dc8-02f77d4abb7b",
+              "sourceQuantity": 1,
+              "heldReturnRequired": 1
+            }
+          ],
+          "taskId": "8812b8e6-0514-5c31-acaf-ce5eb8a8f0b4",
+          "arrival": {
+            "actionId": "698e28cf-326a-4b50-9480-72ecf7c3168d",
+            "recordedAt": "2026-10-08T14:19:31.829Z",
+            "observation": {
+              "clock": {
+                "quality": "unknown"
+              },
+              "observedAt": "2026-10-08T14:19:31.504Z"
+            }
+          },
+          "heading": {
+            "actionId": "5acb2245-89dd-417e-b3f5-d8d0ba9a95b9",
+            "recordedAt": "2026-10-08T14:19:31.478Z",
+            "observation": {
+              "clock": {
+                "quality": "unknown"
+              },
+              "observedAt": "2026-10-08T14:19:31.192Z"
+            }
+          },
+          "outcome": "no-answer",
+          "roundId": "80f6548b-5598-4301-88a0-14d1895771e7",
+          "branchId": "71bf3ff8-66d7-4fdc-8d0e-06c78583d6c5",
+          "driverId": "861e0465-f8c5-4bdf-944a-e90b20540280",
+          "revision": 2,
+          "attemptId": "b0a2a932-9fa4-4c8e-8aae-4a9a12612c89",
+          "outcomeId": "e12a493b-1914-455e-9d73-e17574817118",
+          "workdayId": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+          "collection": {
+            "goods": {
+              "currency": "EGP",
+              "exponent": 2,
+              "amountMinor": 0
+            },
+            "reported": null,
+            "shipping": {
+              "currency": "EGP",
+              "exponent": 2,
+              "amountMinor": 0
+            },
+            "shippingStatus": "not-attempted",
+            "unpaidShipping": {
+              "currency": "EGP",
+              "exponent": 2,
+              "amountMinor": 0
+            }
+          },
+          "returnRequired": true,
+          "sourceRevision": 1,
+          "dispatchCycleId": "44d2d0ec-0749-40f1-b201-aba5e0fa4130",
+          "sourceReference": {
+            "tenantId": "771dfff0-e9bb-4e60-bf1a-73c1e668658b",
+            "externalId": "shipment:843645fe-03d5-4f17-ae20-5521aa7d6214",
+            "integrationId": "b9bf8e77-c620-4a46-bb55-7205cba0f6a5"
+          },
+          "assignmentRevision": 2,
+          "sourceDispatchCycleId": "cycle:27f7fff6-de0f-49d1-a715-33bb67169947"
+        },
+        "previous": {
+          "visit_id": "9810d3c9-e8a7-4284-b332-b0e5e22720e9",
+          "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+          "created_at": "2026-10-08T14:19:32.989Z",
+          "outcome_id": "9db8d611-fba5-4ea2-97cd-ccc524c23228",
+          "goods_minor": "25000",
+          "fee_effect_id": null,
+          "brand_fee_minor": "0",
+          "goods_effect_id": "b4db308a-7875-4f0e-89a7-1842ee75587e",
+          "outcome_revision": "1",
+          "source_record_id": "b183a148-f2bd-4902-b4ec-d3c8b5b5c7ba"
+        },
+        "remittanceId": "7a98888c-53ac-43ac-b20f-a92bbff37c5f"
+      },
+      "state": "open",
+      "created_at": "2026-10-08T14:32:18.173Z",
+      "resolved_at": null
+    }
+  ],
+  "holds": [
+    {
+      "id": "971505e3-01a6-4369-8e8a-c8acf2abf8e3",
+      "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+      "lot_id": "b4db308a-7875-4f0e-89a7-1842ee75587e",
+      "source_id": "81fb867e-4379-4306-aa1b-5a88e4db4250",
+      "amount_minor": "25000",
+      "reason": "Accepted correction requires linked settlement review"
+    }
+  ],
+  "actualCash": [
+    {
+      "amount_minor": "15000"
+    }
+  ],
+  "remittances": [
+    {
+      "id": "7a98888c-53ac-43ac-b20f-a92bbff37c5f",
+      "amount_minor": "25000"
+    }
+  ],
+  "payouts": [
+    {
+      "id": "f2f3c733-5cc6-4845-92d2-46522b7656b8",
+      "amount_minor": "10000"
+    }
+  ],
+  "visits": [
+    {
+      "task_id": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+      "n": 1
+    },
+    {
+      "task_id": "2b744a74-12e9-5e1f-a1fe-1b9866793325",
+      "n": 1
+    },
+    {
+      "task_id": "8812b8e6-0514-5c31-acaf-ce5eb8a8f0b4",
+      "n": 1
+    }
+  ],
+  "earning": [
+    {
+      "amount_minor": "500"
+    },
+    {
+      "amount_minor": "500"
+    },
+    {
+      "amount_minor": "500"
+    }
+  ],
+  "collectionFailure": "First script verified snapshot historyComplete:false and unchanged financial/visit/earning facts, then verified replay complete. Collector subsequently failed on nonexistent review.scope; fixed collector preserves immutable recorded evidence and verifies final facts.",
+  "earlierDefiniteRejections": [
+    "Missing human correction.own capability",
+    "shippingPayment refused with zero shipping rejected validation_failed",
+    "omitted shippingPayment for refusal rejected validation_failed"
+  ],
+  "identity": "New no-answer test intent was created only after known rejection; its exact accepted actionId/result replayed.",
+  "legacyDisplay": "No CR-001 reason fields invented"
+}

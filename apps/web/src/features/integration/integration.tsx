@@ -443,6 +443,7 @@ export function IntegrationPage() {
               </p>
             ))}
             <Link to="/integration/delivery">إعداد استقبال الأحداث</Link>
+            <Link to="/integration/recovery">الفجوات ومهام استرداد الربط</Link>
           </section>
           <div className="integration-pagination">
             <Button

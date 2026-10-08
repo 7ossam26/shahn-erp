@@ -137,7 +137,7 @@ export const integrationEventDetailSchema = closed({
   ...event,
   bodyHash: s,
   appliedAt: nullable(t),
-  keyId: s,
+  keyId: nullable(s),
 });
 export const integrationRefreshSchema = closed({ state: { const: 'refreshed' }, identities: n });
 export const integrationErrorSchema = closed(

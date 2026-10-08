@@ -1,5 +1,11 @@
 import { createHash } from 'node:crypto';
-import type { SenderEvent, ReceiptAcknowledgement, BindingKind } from '@shahn/contracts/tawsel';
+import {
+  canonicalTawselJson,
+  validateSenderEvent,
+  type SenderEvent,
+  type ReceiptAcknowledgement,
+  type BindingKind,
+} from '@shahn/contracts/tawsel';
 import type { TransactionClient } from '../transaction.js';
 export interface IntegrationSource {
   company_id: string;
@@ -38,8 +44,15 @@ export async function insertReceivedEvent(
   source: IntegrationSource,
   event: SenderEvent,
   rawBody: Buffer,
-  metadata: { keyId: string; deliveryTimestamp: string },
+  metadata: { keyId: string; deliveryTimestamp: string } | null,
 ): Promise<ReceiptAcknowledgement> {
+  if (
+    !validateSenderEvent(event) ||
+    event.tenantId !== source.tenant_id ||
+    event.recipientIntegrationId !== source.integration_id ||
+    canonicalTawselJson(JSON.parse(rawBody.toString('utf8'))) !== canonicalTawselJson(event)
+  )
+    throw new InboxConflict('payload_mismatch');
   const key = [source.company_id, source.id, event.aggregate.type, event.aggregate.id];
   await client.query(
     `INSERT INTO integration.checkpoint(company_id,source_id,aggregate_type,aggregate_id) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING`,
@@ -58,8 +71,8 @@ export async function insertReceivedEvent(
     acknowledgement: 'received',
   };
   const inserted = await client.query(
-    `INSERT INTO integration.inbox(company_id,source_id,event_id,event_type,aggregate_type,aggregate_id,recipient_sequence,raw_body,body_hash,envelope,acknowledgement,key_id,delivery_timestamp,pending_reason)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) ON CONFLICT DO NOTHING RETURNING event_id`,
+    `INSERT INTO integration.inbox(company_id,source_id,event_id,event_type,aggregate_type,aggregate_id,recipient_sequence,raw_body,body_hash,envelope,acknowledgement,key_id,delivery_timestamp,pending_reason${metadata ? '' : ',provenance'})
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14${metadata ? '' : ", 'replay'"}) ON CONFLICT DO NOTHING RETURNING event_id`,
     [
       source.company_id,
       source.id,
@@ -72,8 +85,8 @@ export async function insertReceivedEvent(
       hash,
       JSON.stringify(event),
       JSON.stringify(acknowledgement),
-      metadata.keyId,
-      metadata.deliveryTimestamp,
+      metadata?.keyId ?? null,
+      metadata?.deliveryTimestamp ?? null,
       event.eventType === 'provisioning.changed' ? 'provisioning_pending' : 'handler_pending',
     ],
   );
@@ -82,15 +95,45 @@ export async function insertReceivedEvent(
       await client.query<{
         body_hash: string;
         raw_body: Buffer;
+        envelope: SenderEvent;
+        key_id: string | null;
         acknowledgement: ReceiptAcknowledgement;
       }>(
-        `SELECT body_hash,raw_body,acknowledgement FROM integration.inbox WHERE company_id=$1 AND source_id=$2 AND event_id=$3`,
+        `SELECT body_hash,raw_body,envelope,key_id,acknowledgement FROM integration.inbox WHERE company_id=$1 AND source_id=$2 AND event_id=$3`,
         [source.company_id, source.id, event.eventId],
       )
     ).rows[0];
     if (!old) throw new InboxConflict('sequence_collision');
-    if (old.body_hash !== hash || !old.raw_body.equals(rawBody))
+    if (canonicalTawselJson(old.envelope) !== canonicalTawselJson(event))
       throw new InboxConflict('payload_mismatch');
+    if (metadata) {
+      if (old.key_id !== null) {
+        if (old.body_hash !== hash || !old.raw_body.equals(rawBody))
+          throw new InboxConflict('payload_mismatch');
+      } else {
+        // Replay supplies semantic identity. First authenticated webhook binds immutable bytes.
+        await client.query(
+          `INSERT INTO integration.webhook_bytes(company_id,source_id,event_id,raw_body,body_hash,key_id,delivery_timestamp) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT DO NOTHING`,
+          [
+            source.company_id,
+            source.id,
+            event.eventId,
+            rawBody,
+            hash,
+            metadata.keyId,
+            metadata.deliveryTimestamp,
+          ],
+        );
+        const bound = (
+          await client.query<{ raw_body: Buffer; body_hash: string }>(
+            `SELECT raw_body,body_hash FROM integration.webhook_bytes WHERE company_id=$1 AND source_id=$2 AND event_id=$3`,
+            [source.company_id, source.id, event.eventId],
+          )
+        ).rows[0]!;
+        if (bound.body_hash !== hash || !bound.raw_body.equals(rawBody))
+          throw new InboxConflict('payload_mismatch');
+      }
+    }
     return old.acknowledgement;
   }
   // Advance only the contiguous received prefix. Application counters stay unchanged.
@@ -105,6 +148,14 @@ export async function insertReceivedEvent(
     key,
   );
   return acknowledgement;
+}
+/** Authorized HTTP replay enters the same durable inbox without fabricated signature metadata. */
+export async function insertReplayedEvent(
+  client: TransactionClient,
+  source: IntegrationSource,
+  event: SenderEvent,
+) {
+  return insertReceivedEvent(client, source, event, Buffer.from(canonicalTawselJson(event)), null);
 }
 export async function sourceByCompany(client: TransactionClient, companyId: string, lock = false) {
   return (

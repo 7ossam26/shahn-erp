@@ -1,5 +1,9 @@
 import { DispatchPage, DispatchDetailPage } from './features/dispatch/dispatch.js';
 import {
+  IntegrationRecoveryPage,
+  IntegrationRecoveryDetailPage,
+} from './features/integration/recovery/recovery.js';
+import {
   RemittanceListPage,
   RemittanceReviewPage,
   RemittanceDetailPage,
@@ -146,6 +150,8 @@ const router = createBrowserRouter([
       { path: '/returns/:id/disposition', element: <ReturnsPage /> },
       { path: '/dispatch/:id', element: <DispatchDetailPage /> },
       { path: '/integration', element: <IntegrationPage /> },
+      { path: '/integration/recovery', element: <IntegrationRecoveryPage /> },
+      { path: '/integration/recovery/jobs/:id', element: <IntegrationRecoveryDetailPage /> },
       { path: '/integration/provision', element: <IntegrationProvisionPage /> },
       { path: '/integration/delivery', element: <IntegrationDeliveryPage /> },
       { path: '/integration/commands/:id', element: <IntegrationDetailPage kind="commands" /> },

@@ -1,0 +1,182 @@
+{
+  "capturedAt": "2026-10-08T15:04:58.196Z",
+  "cause": "Previously bounded snapshot failures from valid fractional source coordinates rejected by native integer-only canonicalization. Existing wire canonicalization prerequisite repaired; authorized same-job retries retain identity, reset automatic retry budget, and record original failure before/after. Latest work-item attempt counter is not cumulative historical attempts.",
+  "results": [
+    {
+      "before": {
+        "id": "91ed8ed7-513e-46bd-8f7b-df602130a98a",
+        "kind": "reconcile",
+        "state": "review-required",
+        "failure_class": "outage",
+        "last_error": "RECOVERY_TRANSPORT_UNAVAILABLE",
+        "last_attempt_at": "2026-10-08T14:21:34.151Z"
+      },
+      "command": {
+        "schemaVersion": 1,
+        "commandId": "a0a49ba9-f20a-4ecc-a566-61657a315cd8",
+        "jobId": "91ed8ed7-513e-46bd-8f7b-df602130a98a",
+        "actionId": null,
+        "state": "pending"
+      },
+      "after": {
+        "job": {
+          "id": "91ed8ed7-513e-46bd-8f7b-df602130a98a",
+          "aggregateType": "task",
+          "aggregateId": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+          "kind": "reconcile",
+          "requestedAfter": "7",
+          "nextAfter": "7",
+          "pageCount": 1,
+          "state": "complete",
+          "failureClass": null,
+          "lastError": null,
+          "httpStatus": 200,
+          "attempts": 0,
+          "createdAt": "2026-10-08T14:21:00.477Z",
+          "lastAttemptAt": "2026-10-08T15:04:56.992Z",
+          "completedAt": "2026-10-08T15:04:56.992Z"
+        },
+        "stream": {
+          "aggregateType": "task",
+          "aggregateId": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+          "revision": "23",
+          "receivedThrough": "7",
+          "receivedHigh": "7",
+          "appliedThrough": "7",
+          "snapshotThrough": "7",
+          "projectedThrough": "7",
+          "historyComplete": true,
+          "rebuildRequired": false,
+          "updatedAt": "2026-10-08T15:04:56.992Z",
+          "missingFrom": null,
+          "missingTo": null,
+          "pendingReason": null
+        },
+        "relatedShipments": [
+          {
+            "id": "de105f4c-4264-4eee-bcb2-7a58805800c3",
+            "reference": "10000",
+            "cycleId": "5fe3a67d-bffd-4e10-8bd1-80e3c8cac743",
+            "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677"
+          }
+        ],
+        "missingRanges": [],
+        "moreMissingRanges": false,
+        "evidence": [
+          {
+            "id": "c58b021c-c995-4d5c-849a-1255a9130d29",
+            "kind": "reconcile",
+            "requestedAfter": "7",
+            "throughSequence": "7",
+            "bodyHash": "2ad31611b24bcead02ae7b239c5d6c0ec73ed48258dcf8f75c122dd31cfbc0c9",
+            "baseline": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+            "schemaHash": "cbff563ea8ea28a6af9f557e85bab0097c89a095d2cb6ca74e3d066d26352fe1",
+            "retrievedAt": "2026-10-08T15:04:56.979Z"
+          }
+        ],
+        "current": {
+          "throughSequence": "7",
+          "history": "current-state-only",
+          "capturedAt": "2026-10-08T15:04:57.021Z",
+          "taskState": "held",
+          "effectiveOutcomes": [
+            {
+              "attemptId": "0dc6461c-804b-418a-970f-ac5abedd5ab0",
+              "outcome": "no-answer",
+              "revision": 1
+            }
+          ],
+          "returnBalances": []
+        }
+      }
+    },
+    {
+      "before": {
+        "id": "0fd27f07-2b30-4479-8e63-a00b8f3aacde",
+        "kind": "reconcile",
+        "state": "review-required",
+        "failure_class": "outage",
+        "last_error": "RECOVERY_TRANSPORT_UNAVAILABLE",
+        "last_attempt_at": "2026-10-08T14:23:36.534Z"
+      },
+      "command": {
+        "schemaVersion": 1,
+        "commandId": "3df4b964-5ac1-493b-bdbf-0b176695aacc",
+        "jobId": "0fd27f07-2b30-4479-8e63-a00b8f3aacde",
+        "actionId": null,
+        "state": "pending"
+      },
+      "after": {
+        "job": {
+          "id": "0fd27f07-2b30-4479-8e63-a00b8f3aacde",
+          "aggregateType": "task",
+          "aggregateId": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+          "kind": "reconcile",
+          "requestedAfter": "7",
+          "nextAfter": "7",
+          "pageCount": 1,
+          "state": "complete",
+          "failureClass": null,
+          "lastError": null,
+          "httpStatus": 200,
+          "attempts": 0,
+          "createdAt": "2026-10-08T14:23:02.692Z",
+          "lastAttemptAt": "2026-10-08T15:04:57.980Z",
+          "completedAt": "2026-10-08T15:04:57.980Z"
+        },
+        "stream": {
+          "aggregateType": "task",
+          "aggregateId": "3417cca9-0b87-5d0b-af2d-ee2c3663de9a",
+          "revision": "23",
+          "receivedThrough": "7",
+          "receivedHigh": "7",
+          "appliedThrough": "7",
+          "snapshotThrough": "7",
+          "projectedThrough": "7",
+          "historyComplete": true,
+          "rebuildRequired": false,
+          "updatedAt": "2026-10-08T15:04:57.980Z",
+          "missingFrom": null,
+          "missingTo": null,
+          "pendingReason": null
+        },
+        "relatedShipments": [
+          {
+            "id": "de105f4c-4264-4eee-bcb2-7a58805800c3",
+            "reference": "10000",
+            "cycleId": "5fe3a67d-bffd-4e10-8bd1-80e3c8cac743",
+            "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677"
+          }
+        ],
+        "missingRanges": [],
+        "moreMissingRanges": false,
+        "evidence": [
+          {
+            "id": "0edabb09-fb89-4559-96ba-e85abf8aab08",
+            "kind": "reconcile",
+            "requestedAfter": "7",
+            "throughSequence": "7",
+            "bodyHash": "350c19a28415b7fc7bbce65a0bc3f81fd57d3f305f2d156a31fb4064afab5d4e",
+            "baseline": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+            "schemaHash": "cbff563ea8ea28a6af9f557e85bab0097c89a095d2cb6ca74e3d066d26352fe1",
+            "retrievedAt": "2026-10-08T15:04:57.974Z"
+          }
+        ],
+        "current": {
+          "throughSequence": "7",
+          "history": "current-state-only",
+          "capturedAt": "2026-10-08T15:04:58.104Z",
+          "taskState": "held",
+          "effectiveOutcomes": [
+            {
+              "attemptId": "0dc6461c-804b-418a-970f-ac5abedd5ab0",
+              "outcome": "no-answer",
+              "revision": 1
+            }
+          ],
+          "returnBalances": []
+        }
+      }
+    }
+  ]
+}

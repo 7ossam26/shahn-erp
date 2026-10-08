@@ -1,0 +1,414 @@
+{
+  "capturedAt": "2026-10-08T15:04:38.141Z",
+  "eventId": "63b224fd-ed23-42e7-9b1d-6d73fd617c80",
+  "durableBeforeFault": {
+    "receivedAt": "2026-10-08T14:56:03.432Z",
+    "applicationState": "applied"
+  },
+  "retryActionId": "c92984d5-0cd3-41f8-a56d-045b0bf1f99e",
+  "before": {
+    "delivery": {
+      "eventId": "63b224fd-ed23-42e7-9b1d-6d73fd617c80",
+      "eventType": "outcome.recorded",
+      "aggregate": {
+        "type": "task",
+        "id": "9e4db63b-7834-5e4e-a18e-dadcdca7a107",
+        "recipientSequence": 7
+      },
+      "createdAt": "2026-10-08T14:56:02.975Z",
+      "status": "received",
+      "attempts": 1,
+      "nextAttemptAt": "2026-10-08T14:56:04.415Z",
+      "leaseUntil": null,
+      "receivedAt": "2026-10-08T14:56:03.629Z",
+      "lastError": null,
+      "projectionStatus": "unknown",
+      "blockedBy": null
+    },
+    "attempts": [
+      {
+        "attemptId": "929ac417-c8bc-4bda-a31f-35ec15618714",
+        "number": 1,
+        "startedAt": "2026-10-08T14:56:03.388Z",
+        "finishedAt": "2026-10-08T14:56:03.630Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471363386",
+        "result": "received",
+        "errorCode": null,
+        "httpStatus": 200
+      }
+    ],
+    "nextAttemptBefore": null
+  },
+  "afterDroppedResponse": {
+    "delivery": {
+      "eventId": "63b224fd-ed23-42e7-9b1d-6d73fd617c80",
+      "eventType": "outcome.recorded",
+      "aggregate": {
+        "type": "task",
+        "id": "9e4db63b-7834-5e4e-a18e-dadcdca7a107",
+        "recipientSequence": 7
+      },
+      "createdAt": "2026-10-08T14:56:02.975Z",
+      "status": "failed",
+      "attempts": 2,
+      "nextAttemptAt": "2026-10-08T15:04:37.163Z",
+      "leaseUntil": null,
+      "receivedAt": "2026-10-08T14:56:03.629Z",
+      "lastError": "http_502",
+      "projectionStatus": "unknown",
+      "blockedBy": null
+    },
+    "attempts": [
+      {
+        "attemptId": "303ec81f-717c-4d10-bf4e-b34e156649dc",
+        "number": 2,
+        "startedAt": "2026-10-08T15:04:35.158Z",
+        "finishedAt": "2026-10-08T15:04:35.324Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471875157",
+        "result": "failed",
+        "errorCode": "http_502",
+        "httpStatus": 502
+      },
+      {
+        "attemptId": "929ac417-c8bc-4bda-a31f-35ec15618714",
+        "number": 1,
+        "startedAt": "2026-10-08T14:56:03.388Z",
+        "finishedAt": "2026-10-08T14:56:03.630Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471363386",
+        "result": "received",
+        "errorCode": null,
+        "httpStatus": 200
+      }
+    ],
+    "nextAttemptBefore": null
+  },
+  "afterRetry": {
+    "delivery": {
+      "eventId": "63b224fd-ed23-42e7-9b1d-6d73fd617c80",
+      "eventType": "outcome.recorded",
+      "aggregate": {
+        "type": "task",
+        "id": "9e4db63b-7834-5e4e-a18e-dadcdca7a107",
+        "recipientSequence": 7
+      },
+      "createdAt": "2026-10-08T14:56:02.975Z",
+      "status": "received",
+      "attempts": 3,
+      "nextAttemptAt": "2026-10-08T15:04:39.584Z",
+      "leaseUntil": null,
+      "receivedAt": "2026-10-08T14:56:03.629Z",
+      "lastError": null,
+      "projectionStatus": "unknown",
+      "blockedBy": null
+    },
+    "attempts": [
+      {
+        "attemptId": "5de0838a-c40c-4318-a19b-d79a3e42bc8b",
+        "number": 3,
+        "startedAt": "2026-10-08T15:04:37.347Z",
+        "finishedAt": "2026-10-08T15:04:37.489Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471877346",
+        "result": "received",
+        "errorCode": null,
+        "httpStatus": 200
+      },
+      {
+        "attemptId": "303ec81f-717c-4d10-bf4e-b34e156649dc",
+        "number": 2,
+        "startedAt": "2026-10-08T15:04:35.158Z",
+        "finishedAt": "2026-10-08T15:04:35.324Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471875157",
+        "result": "failed",
+        "errorCode": "http_502",
+        "httpStatus": 502
+      },
+      {
+        "attemptId": "929ac417-c8bc-4bda-a31f-35ec15618714",
+        "number": 1,
+        "startedAt": "2026-10-08T14:56:03.388Z",
+        "finishedAt": "2026-10-08T14:56:03.630Z",
+        "keyId": "p22-live-next",
+        "deliveryTimestamp": "1791471363386",
+        "result": "received",
+        "errorCode": null,
+        "httpStatus": 200
+      }
+    ],
+    "nextAttemptBefore": null
+  },
+  "businessBefore": {
+    "kernel.source_record": {
+      "count": 33,
+      "hash": "a1495908400adc73b235c5c310085db635c018f6e92fb618e090266689933965"
+    },
+    "kernel.journal_effect": {
+      "count": 32,
+      "hash": "fbdcfd942860771e7946961c5395c30b3fafb9cc7edce262fc1c235eae902f46"
+    },
+    "kernel.shipping_cover": {
+      "count": 9,
+      "hash": "644d6a2f23a2d9e1f46893b24ee669fc3be302df26e23a2c3e14a73e662b95aa"
+    },
+    "kernel.credit_lot": {
+      "count": 8,
+      "hash": "743d8b43097ce26faf5545a8d8d5dc72eac06106e8e5b6b317ee619dd0f2c546"
+    },
+    "kernel.credit_release": {
+      "count": 1,
+      "hash": "ff304f105ba3b356be9bfac5bc78afdcb90d8360b1ca59a53f9251e91221dbc4"
+    },
+    "kernel.lot_allocation": {
+      "count": 2,
+      "hash": "109104924061caa0cd77506a07b735a9889d1e41977e058f938d311de493d66f"
+    },
+    "kernel.wallet_hold": {
+      "count": 1,
+      "hash": "e60022ee1b34f559c484b53be3e3f7a91c400b807fdbf015f9700edb1ab23004"
+    },
+    "kernel.hold_release": {
+      "count": 1,
+      "hash": "9c06dfc959348e14d3310540d7ee29f5db16177f1d7c473a771ad30b14926c03"
+    },
+    "kernel.cover_close": {
+      "count": 9,
+      "hash": "6ad2b9b8dc37e1790b1453ab991ff3b6862a63ef6cdf6a16f1a1e3fd1785ab09"
+    },
+    "shipments.parcel_custody": {
+      "count": 9,
+      "hash": "51d8c63ef76470e2cb7aa23ac0192786f6a66b9abbea160423f72974b8bac633"
+    },
+    "inventory.stock_movement": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "inventory.stock_position": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "inventory.stock_reservation": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "execution.visit_fact": {
+      "count": 9,
+      "hash": "5b52b8edb51bbf36035a3e5cf721a8015a08c7766c4c1c94c2e526a57884431d"
+    },
+    "execution.outcome_fact": {
+      "count": 10,
+      "hash": "14e8cf29430719487e6928c846b98a2591c6147d3c953fe1d0bce2b403ae014c"
+    },
+    "execution.earning_basis": {
+      "count": 9,
+      "hash": "2e655fb2ae6f540ce8e59e4caac9ea160a2d735cc7aeebab2c84bb168fa1c2e9"
+    },
+    "execution.allocation": {
+      "count": 9,
+      "hash": "8708973ba145d8a68f55c8fc7cc9b656df14a50116db28a48350b39e40f65383"
+    },
+    "returns.request": {
+      "count": 1,
+      "hash": "313708c5b74940944d9bab9ad5d2f854bb08b6a9f03db7c743f0ad6cfab09555"
+    },
+    "returns.item": {
+      "count": 1,
+      "hash": "e0c9786a420dd3881eecf6a2835cf9a9c19d749b213885466c193f96d5f5f22f"
+    },
+    "returns.return_receipt": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.return_receipt_line": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.receipt_allocation": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.transition": {
+      "count": 1,
+      "hash": "55612155eb1f77f8d331da8b3133c6ebf454120d0e6fb01ec1c6c470c8f680e9"
+    },
+    "dispatch.cycle": {
+      "count": 9,
+      "hash": "3b5852dbcce0067b2fcf8666af16a53afdaa2e121d35a79a27f23dd3ccab8f8b"
+    },
+    "finance.remittance": {
+      "count": 1,
+      "hash": "cff912de845fabce616f4f12987bf0ef58fc99ab8c719915096e955520264656"
+    },
+    "finance.brand_payout": {
+      "count": 1,
+      "hash": "1eeeffac690540fbb679cf94561e886cbf40a8c07dbd2a780e4746f3c9ee0268"
+    },
+    "finance.payout_allocation": {
+      "count": 1,
+      "hash": "e877059bc9299df4b078aed290475e898d7460237fcdbfd07d5a43827f2e4f88"
+    },
+    "finance.remittance_source": {
+      "count": 2,
+      "hash": "0c20cdbbbe23ce7be4ed17fdeb08f0a1ec2ee426e2ea3b9b47805e5dc2e5f0fc"
+    },
+    "finance.remittance_component": {
+      "count": 1,
+      "hash": "5415cbdf8fbfa9488270467de686944ac843e43cc3936ae1416b0fce4f24d1e8"
+    },
+    "finance.account_balance": {
+      "count": 1,
+      "hash": "b935bbd823fe29f16eb6ccdc651e7cd5d6de02fd62428a0aaf71b8904628b6aa"
+    },
+    "employees.payroll_outcome": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "employees.salary_payment": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "employees.payroll_recovery": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "businessAfter": {
+    "kernel.source_record": {
+      "count": 33,
+      "hash": "a1495908400adc73b235c5c310085db635c018f6e92fb618e090266689933965"
+    },
+    "kernel.journal_effect": {
+      "count": 32,
+      "hash": "fbdcfd942860771e7946961c5395c30b3fafb9cc7edce262fc1c235eae902f46"
+    },
+    "kernel.shipping_cover": {
+      "count": 9,
+      "hash": "644d6a2f23a2d9e1f46893b24ee669fc3be302df26e23a2c3e14a73e662b95aa"
+    },
+    "kernel.credit_lot": {
+      "count": 8,
+      "hash": "743d8b43097ce26faf5545a8d8d5dc72eac06106e8e5b6b317ee619dd0f2c546"
+    },
+    "kernel.credit_release": {
+      "count": 1,
+      "hash": "ff304f105ba3b356be9bfac5bc78afdcb90d8360b1ca59a53f9251e91221dbc4"
+    },
+    "kernel.lot_allocation": {
+      "count": 2,
+      "hash": "109104924061caa0cd77506a07b735a9889d1e41977e058f938d311de493d66f"
+    },
+    "kernel.wallet_hold": {
+      "count": 1,
+      "hash": "e60022ee1b34f559c484b53be3e3f7a91c400b807fdbf015f9700edb1ab23004"
+    },
+    "kernel.hold_release": {
+      "count": 1,
+      "hash": "9c06dfc959348e14d3310540d7ee29f5db16177f1d7c473a771ad30b14926c03"
+    },
+    "kernel.cover_close": {
+      "count": 9,
+      "hash": "6ad2b9b8dc37e1790b1453ab991ff3b6862a63ef6cdf6a16f1a1e3fd1785ab09"
+    },
+    "shipments.parcel_custody": {
+      "count": 9,
+      "hash": "51d8c63ef76470e2cb7aa23ac0192786f6a66b9abbea160423f72974b8bac633"
+    },
+    "inventory.stock_movement": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "inventory.stock_position": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "inventory.stock_reservation": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "execution.visit_fact": {
+      "count": 9,
+      "hash": "5b52b8edb51bbf36035a3e5cf721a8015a08c7766c4c1c94c2e526a57884431d"
+    },
+    "execution.outcome_fact": {
+      "count": 10,
+      "hash": "14e8cf29430719487e6928c846b98a2591c6147d3c953fe1d0bce2b403ae014c"
+    },
+    "execution.earning_basis": {
+      "count": 9,
+      "hash": "2e655fb2ae6f540ce8e59e4caac9ea160a2d735cc7aeebab2c84bb168fa1c2e9"
+    },
+    "execution.allocation": {
+      "count": 9,
+      "hash": "8708973ba145d8a68f55c8fc7cc9b656df14a50116db28a48350b39e40f65383"
+    },
+    "returns.request": {
+      "count": 1,
+      "hash": "313708c5b74940944d9bab9ad5d2f854bb08b6a9f03db7c743f0ad6cfab09555"
+    },
+    "returns.item": {
+      "count": 1,
+      "hash": "e0c9786a420dd3881eecf6a2835cf9a9c19d749b213885466c193f96d5f5f22f"
+    },
+    "returns.return_receipt": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.return_receipt_line": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.receipt_allocation": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "returns.transition": {
+      "count": 1,
+      "hash": "55612155eb1f77f8d331da8b3133c6ebf454120d0e6fb01ec1c6c470c8f680e9"
+    },
+    "dispatch.cycle": {
+      "count": 9,
+      "hash": "3b5852dbcce0067b2fcf8666af16a53afdaa2e121d35a79a27f23dd3ccab8f8b"
+    },
+    "finance.remittance": {
+      "count": 1,
+      "hash": "cff912de845fabce616f4f12987bf0ef58fc99ab8c719915096e955520264656"
+    },
+    "finance.brand_payout": {
+      "count": 1,
+      "hash": "1eeeffac690540fbb679cf94561e886cbf40a8c07dbd2a780e4746f3c9ee0268"
+    },
+    "finance.payout_allocation": {
+      "count": 1,
+      "hash": "e877059bc9299df4b078aed290475e898d7460237fcdbfd07d5a43827f2e4f88"
+    },
+    "finance.remittance_source": {
+      "count": 2,
+      "hash": "0c20cdbbbe23ce7be4ed17fdeb08f0a1ec2ee426e2ea3b9b47805e5dc2e5f0fc"
+    },
+    "finance.remittance_component": {
+      "count": 1,
+      "hash": "5415cbdf8fbfa9488270467de686944ac843e43cc3936ae1416b0fce4f24d1e8"
+    },
+    "finance.account_balance": {
+      "count": 1,
+      "hash": "b935bbd823fe29f16eb6ccdc651e7cd5d6de02fd62428a0aaf71b8904628b6aa"
+    },
+    "employees.payroll_outcome": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "employees.salary_payment": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "employees.payroll_recovery": {
+      "count": 0,
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "equal": true,
+  "boundary": "Actual sender retry of a previously committed live outcome identity. Callback fault gate reads upstream durable acknowledgement then drops response. Sender records failure and retries same identity; no new business action or posting. First receipt-lost-response production sequence remains separately limited."
+}

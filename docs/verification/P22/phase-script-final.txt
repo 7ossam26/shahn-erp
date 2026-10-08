@@ -1,0 +1,58 @@
+
+> shahn-erp@0.1.0 test:phase
+> node scripts/test-phase.mjs P22
+
+P22 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/contracts.unit.test.ts (6 tests) 120ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  14:39:36
+   Duration  7.41s (import 63%, transform 18%, environment 14%, setup 3%, tests 2%)
+
+P22 unit: PASSED
+P22 database: test:db; 3 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/recovery.db.test.ts (5 tests | 1 failed) 58298ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 9500ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 7436ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 11053ms
+   × follows bounded replay pages with competing workers and revalidates a changed live basis 17327ms
+   ✓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 12979ms
+ ✓ tests/integration/p22/restore.db.test.ts (1 test) 17726ms
+   ✓ backs up disposable ERP, restores a separate DB, rebuilds API/worker and redelivers original messages without additional ledger/custody/visit effects 17725ms
+ ✓ tests/integration/p22/migration.db.test.ts (1 test) 11201ms
+   ✓ detects inconsistent old checkpoints without rewriting counters or posted remittance, payout and custody 11199ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/recovery.db.test.ts > follows bounded replay pages with competing workers and revalidates a changed live basis
+Error: KNOWN_STREAM_REQUIRED
+ ❯ authorizeRecoveryStream apps/api/src/modules/integration/recovery.service.ts:58:18
+     56| ) {
+     57|   const cp = await recoveryStream(u.client, u.access.companyId, s.id, …
+     58|   if (!cp) throw new AccessError('KNOWN_STREAM_REQUIRED', 404);
+       |                  ^
+     59|   const branches = (
+     60|     await u.client.query<{ branch_id: string }>(
+ ❯ Object.authorize apps/api/src/modules/integration/recovery.service.ts:144:9
+ ❯ apps/api/src/modules/kernel/commands.ts:87:7
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ command tests/integration/p22/recovery.db.test.ts:55:5
+ ❯ tests/integration/p22/recovery.db.test.ts:273:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 6 passed (7)
+   Start at  14:39:44
+   Duration  95.41s (tests 92%, import 6%, transform 2%)
+
+P22 database: FAILED (1)

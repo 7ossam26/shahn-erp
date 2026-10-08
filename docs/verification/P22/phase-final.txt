@@ -1,0 +1,44 @@
+
+> shahn-erp@0.1.0 test:phase
+> node scripts/test-phase.mjs P22
+
+P22 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/contracts.unit.test.ts (6 tests | 1 failed) 27ms
+   × all 27 sender variants enter the concrete replay boundary; generated envelopes are distinct from nine captured sender examples 12ms
+   ✓ generated replay pages enforce exact scope, continuity and continuation, including empty pages 1ms
+   ✓ uses supplied P26 closed snapshots without treating current state as historical evidence 5ms
+   ✓ generates exact configure, signing rotation and retry command fixtures and rejects injected business fields 4ms
+   ✓ recomputes the supplied raw-byte signature vector, boundary and duplicate header rejection 2ms
+   ✓ requires independent application/history counters and offers no expired-history retry 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/contracts.unit.test.ts > all 27 sender variants enter the concrete replay boundary; generated envelopes are distinct from nine captured sender examples
+AssertionError: provisioning.changed: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/p22/contracts.unit.test.ts:34:64
+     32|         projectionStatus: 'unknown',
+     33|       };
+     34|     expect(validateReplayPage(page, scope, a, 0), e.eventType).toBe(tr…
+       |                                                                ^
+     35|     expect(
+     36|       validateReplayPage({ ...page, events: [{ ...e, payloadVersion: '…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  13:52:30
+   Duration  3.32s (import 52%, transform 23%, environment 20%, setup 4%, tests 1%)
+
+P22 unit: FAILED (1)

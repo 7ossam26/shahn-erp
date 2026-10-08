@@ -1,0 +1,40 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p22/recovery.db.test.ts -t follows bounded
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/recovery.db.test.ts (5 tests | 1 failed | 4 skipped) 6217ms
+   ↓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash
+   ↓ rolls back inbox, evidence and cursor together; ignores an old fenced response
+   ↓ persists 410 as expired and bounds 503 retry without altering confirmed counters
+   × follows bounded replay pages with competing workers and revalidates a changed live basis 6216ms
+   ↓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/recovery.db.test.ts > follows bounded replay pages with competing workers and revalidates a changed live basis
+AssertionError: expected [ true, true ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/integration/p22/recovery.db.test.ts:286:77
+    284|   const one = new RecoveryWorker(db.pool, f.runtime, factory),
+    285|     two = new RecoveryWorker(db.pool, f.runtime, factory);
+    286|   expect((await Promise.all([one.runOne(), two.runOne()])).filter(Bool…
+       |                                                                             ^
+    287|   expect(reads).toBe(1);
+    288|   const lease = (await claimWork(db.pool, two.owner, ['integration.rep…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  14:42:46
+   Duration  9.97s (tests 63%, import 21%, transform 16%)

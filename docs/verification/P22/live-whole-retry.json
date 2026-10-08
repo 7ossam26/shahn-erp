@@ -1,0 +1,807 @@
+{
+  "capturedAt": "2026-10-08T15:38:00.442Z",
+  "evidenceKind": "actual-http",
+  "shipmentId": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+  "taskId": "51358322-e58b-5bf7-abcb-8e381db3da15",
+  "roundId": "4ca8c263-546b-4691-a390-7a2df0472a11",
+  "firstOutcomeActionId": "95375db1-8bf1-47d0-afdb-cae883db0808",
+  "retryActionId": "7b3052e2-948d-4222-b72c-91f36722f880",
+  "secondOutcomeActionId": "d8bc4826-74f0-411a-aefa-4ede5ec8f9bb",
+  "correctionActionId": "5d983c0b-4c3e-495d-a992-340c657daf75",
+  "firstAttemptId": "d6504fa9-0195-4087-b9ec-88880d281c0d",
+  "secondAttemptId": "756bac5a-daf6-41bc-950b-a24f7fe48be0",
+  "duplicateRetainedHumanResultsEqual": true,
+  "before": {
+    "visits": [
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "source_id": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86",
+        "id": "928e7f47-5e68-4d50-805e-a8358dbcc667",
+        "task_id": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "cycle_id": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+        "dispatch_cycle_id": "2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f",
+        "attempt_id": "756bac5a-daf6-41bc-950b-a24f7fe48be0",
+        "round_id": "4ca8c263-546b-4691-a390-7a2df0472a11",
+        "workday_id": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+        "driver_id": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+        "source_driver_id": "861e0465-f8c5-4bdf-944a-e90b20540280",
+        "branch_id": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+        "shipment_id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+        "brand_id": "88f08fd5-b61c-4b8c-9613-08964d955424",
+        "action_id": "df26ea44-1ece-4244-8926-3d7f74ef905c",
+        "arrival": {
+          "actionId": "df26ea44-1ece-4244-8926-3d7f74ef905c",
+          "recordedAt": "2026-10-08T15:36:32.101Z",
+          "observation": {
+            "clock": {
+              "quality": "unknown"
+            },
+            "observedAt": "2026-10-08T15:36:31.744Z"
+          }
+        },
+        "work_at": "2026-10-08T15:36:32.101Z",
+        "price": {
+          "areaId": null,
+          "source": "governorate",
+          "tierId": "4a24f260-6a62-47ec-b4dc-3a842e9aa81d",
+          "waiver": null,
+          "brandId": "88f08fd5-b61c-4b8c-9613-08964d955424",
+          "service": "brand_packed",
+          "areaName": null,
+          "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "currency": "EGP",
+          "tariffId": "3f177d9f-c177-425e-b63b-d8f0a8bf2bb8",
+          "tierName": "الشريحة المتفق عليها",
+          "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+          "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+          "capturedAt": "2026-10-08T15:36:09.293Z",
+          "tariffMinor": "5000",
+          "waiverMinor": "0",
+          "goodsDueMinor": "10000",
+          "governorateId": "f9f37514-1f42-4cee-895c-546932a4a1b1",
+          "policyVersion": 1,
+          "schemaVersion": 1,
+          "shippingPayer": "recipient",
+          "tariffVersion": 1,
+          "governorateName": "القاهرة",
+          "partialDelivery": true,
+          "commissionPolicy": "normal",
+          "baseShippingMinor": "5000",
+          "recipientDueMinor": "15000",
+          "brandShippingMinor": "0",
+          "packingUpliftMinor": "0",
+          "commissionBaseMinor": "5000",
+          "recipientShippingMinor": "5000",
+          "agreedPackingUpliftMinor": "500"
+        },
+        "source_record_id": "0b17f2ae-80d6-427b-97ca-4fbe9403aa4e",
+        "event_id": "d5fd1f2f-e6cd-4366-94b6-45641a0872fa",
+        "evidence_id": null,
+        "created_at": "2026-10-08T15:36:33.295Z"
+      },
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "source_id": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86",
+        "id": "acc80c49-c693-4c7e-9d23-80b29a89981e",
+        "task_id": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "cycle_id": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+        "dispatch_cycle_id": "2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f",
+        "attempt_id": "d6504fa9-0195-4087-b9ec-88880d281c0d",
+        "round_id": "4ca8c263-546b-4691-a390-7a2df0472a11",
+        "workday_id": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+        "driver_id": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+        "source_driver_id": "861e0465-f8c5-4bdf-944a-e90b20540280",
+        "branch_id": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+        "shipment_id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+        "brand_id": "88f08fd5-b61c-4b8c-9613-08964d955424",
+        "action_id": "21fefd5e-458a-4230-b56c-3a6ae0fd28da",
+        "arrival": {
+          "actionId": "21fefd5e-458a-4230-b56c-3a6ae0fd28da",
+          "recordedAt": "2026-10-08T15:36:29.808Z",
+          "observation": {
+            "clock": {
+              "quality": "unknown"
+            },
+            "observedAt": "2026-10-08T15:36:29.454Z"
+          }
+        },
+        "work_at": "2026-10-08T15:36:29.808Z",
+        "price": {
+          "areaId": null,
+          "source": "governorate",
+          "tierId": "4a24f260-6a62-47ec-b4dc-3a842e9aa81d",
+          "waiver": null,
+          "brandId": "88f08fd5-b61c-4b8c-9613-08964d955424",
+          "service": "brand_packed",
+          "areaName": null,
+          "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "currency": "EGP",
+          "tariffId": "3f177d9f-c177-425e-b63b-d8f0a8bf2bb8",
+          "tierName": "الشريحة المتفق عليها",
+          "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+          "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+          "capturedAt": "2026-10-08T15:36:09.293Z",
+          "tariffMinor": "5000",
+          "waiverMinor": "0",
+          "goodsDueMinor": "10000",
+          "governorateId": "f9f37514-1f42-4cee-895c-546932a4a1b1",
+          "policyVersion": 1,
+          "schemaVersion": 1,
+          "shippingPayer": "recipient",
+          "tariffVersion": 1,
+          "governorateName": "القاهرة",
+          "partialDelivery": true,
+          "commissionPolicy": "normal",
+          "baseShippingMinor": "5000",
+          "recipientDueMinor": "15000",
+          "brandShippingMinor": "0",
+          "packingUpliftMinor": "0",
+          "commissionBaseMinor": "5000",
+          "recipientShippingMinor": "5000",
+          "agreedPackingUpliftMinor": "500"
+        },
+        "source_record_id": "d5c9ce1d-371e-4a9b-8840-61d53592f55b",
+        "event_id": "1d0eee25-bae5-445a-bb06-52b8f3780795",
+        "evidence_id": null,
+        "created_at": "2026-10-08T15:36:31.030Z"
+      }
+    ],
+    "earnings": [
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "visit_id": "928e7f47-5e68-4d50-805e-a8358dbcc667",
+        "resolution": {
+          "linkId": "7f0f2de9-f9ba-4618-86a8-f1e07a051f73",
+          "status": "resolved",
+          "driverId": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+          "workDate": "2026-10-08",
+          "commission": {
+            "enabled": true,
+            "formula": "percentage",
+            "perVisit": null,
+            "basisPoints": 1000
+          },
+          "employeeId": "4052c2ba-54a3-4992-936e-6f5cd37c0e94",
+          "employeeName": "P22 commissioned test employee",
+          "branchHistoryId": "e8d5fa44-bfcf-4fb6-a7d7-ef0402b57ea1",
+          "employeeBranchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "commissionPolicyId": "db07d4e2-d5bc-4d33-9d60-634cee562c5e",
+          "employeeBranchName": "الفرع أ",
+          "employeeProfileVersion": 2
+        },
+        "amount_minor": "500",
+        "journal_effect_id": "dd8c715b-7485-4ec2-96f5-58736340b5a1",
+        "created_at": "2026-10-08T15:36:33.300Z"
+      },
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "visit_id": "acc80c49-c693-4c7e-9d23-80b29a89981e",
+        "resolution": {
+          "linkId": "7f0f2de9-f9ba-4618-86a8-f1e07a051f73",
+          "status": "resolved",
+          "driverId": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+          "workDate": "2026-10-08",
+          "commission": {
+            "enabled": true,
+            "formula": "percentage",
+            "perVisit": null,
+            "basisPoints": 1000
+          },
+          "employeeId": "4052c2ba-54a3-4992-936e-6f5cd37c0e94",
+          "employeeName": "P22 commissioned test employee",
+          "branchHistoryId": "e8d5fa44-bfcf-4fb6-a7d7-ef0402b57ea1",
+          "employeeBranchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "commissionPolicyId": "db07d4e2-d5bc-4d33-9d60-634cee562c5e",
+          "employeeBranchName": "الفرع أ",
+          "employeeProfileVersion": 2
+        },
+        "amount_minor": "500",
+        "journal_effect_id": "2fb130a3-53cd-4662-a11d-8fe6b25ebc9c",
+        "created_at": "2026-10-08T15:36:31.038Z"
+      }
+    ],
+    "journal": []
+  },
+  "after": {
+    "visits": [
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "source_id": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86",
+        "id": "928e7f47-5e68-4d50-805e-a8358dbcc667",
+        "task_id": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "cycle_id": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+        "dispatch_cycle_id": "2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f",
+        "attempt_id": "756bac5a-daf6-41bc-950b-a24f7fe48be0",
+        "round_id": "4ca8c263-546b-4691-a390-7a2df0472a11",
+        "workday_id": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+        "driver_id": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+        "source_driver_id": "861e0465-f8c5-4bdf-944a-e90b20540280",
+        "branch_id": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+        "shipment_id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+        "brand_id": "88f08fd5-b61c-4b8c-9613-08964d955424",
+        "action_id": "df26ea44-1ece-4244-8926-3d7f74ef905c",
+        "arrival": {
+          "actionId": "df26ea44-1ece-4244-8926-3d7f74ef905c",
+          "recordedAt": "2026-10-08T15:36:32.101Z",
+          "observation": {
+            "clock": {
+              "quality": "unknown"
+            },
+            "observedAt": "2026-10-08T15:36:31.744Z"
+          }
+        },
+        "work_at": "2026-10-08T15:36:32.101Z",
+        "price": {
+          "areaId": null,
+          "source": "governorate",
+          "tierId": "4a24f260-6a62-47ec-b4dc-3a842e9aa81d",
+          "waiver": null,
+          "brandId": "88f08fd5-b61c-4b8c-9613-08964d955424",
+          "service": "brand_packed",
+          "areaName": null,
+          "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "currency": "EGP",
+          "tariffId": "3f177d9f-c177-425e-b63b-d8f0a8bf2bb8",
+          "tierName": "الشريحة المتفق عليها",
+          "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+          "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+          "capturedAt": "2026-10-08T15:36:09.293Z",
+          "tariffMinor": "5000",
+          "waiverMinor": "0",
+          "goodsDueMinor": "10000",
+          "governorateId": "f9f37514-1f42-4cee-895c-546932a4a1b1",
+          "policyVersion": 1,
+          "schemaVersion": 1,
+          "shippingPayer": "recipient",
+          "tariffVersion": 1,
+          "governorateName": "القاهرة",
+          "partialDelivery": true,
+          "commissionPolicy": "normal",
+          "baseShippingMinor": "5000",
+          "recipientDueMinor": "15000",
+          "brandShippingMinor": "0",
+          "packingUpliftMinor": "0",
+          "commissionBaseMinor": "5000",
+          "recipientShippingMinor": "5000",
+          "agreedPackingUpliftMinor": "500"
+        },
+        "source_record_id": "0b17f2ae-80d6-427b-97ca-4fbe9403aa4e",
+        "event_id": "d5fd1f2f-e6cd-4366-94b6-45641a0872fa",
+        "evidence_id": null,
+        "created_at": "2026-10-08T15:36:33.295Z"
+      },
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "source_id": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86",
+        "id": "acc80c49-c693-4c7e-9d23-80b29a89981e",
+        "task_id": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "cycle_id": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+        "dispatch_cycle_id": "2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f",
+        "attempt_id": "d6504fa9-0195-4087-b9ec-88880d281c0d",
+        "round_id": "4ca8c263-546b-4691-a390-7a2df0472a11",
+        "workday_id": "5b535ba6-e02a-43d9-831f-e24fe6c9fd83",
+        "driver_id": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+        "source_driver_id": "861e0465-f8c5-4bdf-944a-e90b20540280",
+        "branch_id": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+        "shipment_id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+        "brand_id": "88f08fd5-b61c-4b8c-9613-08964d955424",
+        "action_id": "21fefd5e-458a-4230-b56c-3a6ae0fd28da",
+        "arrival": {
+          "actionId": "21fefd5e-458a-4230-b56c-3a6ae0fd28da",
+          "recordedAt": "2026-10-08T15:36:29.808Z",
+          "observation": {
+            "clock": {
+              "quality": "unknown"
+            },
+            "observedAt": "2026-10-08T15:36:29.454Z"
+          }
+        },
+        "work_at": "2026-10-08T15:36:29.808Z",
+        "price": {
+          "areaId": null,
+          "source": "governorate",
+          "tierId": "4a24f260-6a62-47ec-b4dc-3a842e9aa81d",
+          "waiver": null,
+          "brandId": "88f08fd5-b61c-4b8c-9613-08964d955424",
+          "service": "brand_packed",
+          "areaName": null,
+          "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "currency": "EGP",
+          "tariffId": "3f177d9f-c177-425e-b63b-d8f0a8bf2bb8",
+          "tierName": "الشريحة المتفق عليها",
+          "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+          "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+          "capturedAt": "2026-10-08T15:36:09.293Z",
+          "tariffMinor": "5000",
+          "waiverMinor": "0",
+          "goodsDueMinor": "10000",
+          "governorateId": "f9f37514-1f42-4cee-895c-546932a4a1b1",
+          "policyVersion": 1,
+          "schemaVersion": 1,
+          "shippingPayer": "recipient",
+          "tariffVersion": 1,
+          "governorateName": "القاهرة",
+          "partialDelivery": true,
+          "commissionPolicy": "normal",
+          "baseShippingMinor": "5000",
+          "recipientDueMinor": "15000",
+          "brandShippingMinor": "0",
+          "packingUpliftMinor": "0",
+          "commissionBaseMinor": "5000",
+          "recipientShippingMinor": "5000",
+          "agreedPackingUpliftMinor": "500"
+        },
+        "source_record_id": "d5c9ce1d-371e-4a9b-8840-61d53592f55b",
+        "event_id": "1d0eee25-bae5-445a-bb06-52b8f3780795",
+        "evidence_id": null,
+        "created_at": "2026-10-08T15:36:31.030Z"
+      }
+    ],
+    "earnings": [
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "visit_id": "928e7f47-5e68-4d50-805e-a8358dbcc667",
+        "resolution": {
+          "linkId": "7f0f2de9-f9ba-4618-86a8-f1e07a051f73",
+          "status": "resolved",
+          "driverId": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+          "workDate": "2026-10-08",
+          "commission": {
+            "enabled": true,
+            "formula": "percentage",
+            "perVisit": null,
+            "basisPoints": 1000
+          },
+          "employeeId": "4052c2ba-54a3-4992-936e-6f5cd37c0e94",
+          "employeeName": "P22 commissioned test employee",
+          "branchHistoryId": "e8d5fa44-bfcf-4fb6-a7d7-ef0402b57ea1",
+          "employeeBranchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "commissionPolicyId": "db07d4e2-d5bc-4d33-9d60-634cee562c5e",
+          "employeeBranchName": "الفرع أ",
+          "employeeProfileVersion": 2
+        },
+        "amount_minor": "500",
+        "journal_effect_id": "dd8c715b-7485-4ec2-96f5-58736340b5a1",
+        "created_at": "2026-10-08T15:36:33.300Z"
+      },
+      {
+        "company_id": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+        "visit_id": "acc80c49-c693-4c7e-9d23-80b29a89981e",
+        "resolution": {
+          "linkId": "7f0f2de9-f9ba-4618-86a8-f1e07a051f73",
+          "status": "resolved",
+          "driverId": "9e6509ce-c2a9-48cd-9f46-d2b1ea44fb7f",
+          "workDate": "2026-10-08",
+          "commission": {
+            "enabled": true,
+            "formula": "percentage",
+            "perVisit": null,
+            "basisPoints": 1000
+          },
+          "employeeId": "4052c2ba-54a3-4992-936e-6f5cd37c0e94",
+          "employeeName": "P22 commissioned test employee",
+          "branchHistoryId": "e8d5fa44-bfcf-4fb6-a7d7-ef0402b57ea1",
+          "employeeBranchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+          "commissionPolicyId": "db07d4e2-d5bc-4d33-9d60-634cee562c5e",
+          "employeeBranchName": "الفرع أ",
+          "employeeProfileVersion": 2
+        },
+        "amount_minor": "500",
+        "journal_effect_id": "2fb130a3-53cd-4662-a11d-8fe6b25ebc9c",
+        "created_at": "2026-10-08T15:36:31.038Z"
+      }
+    ],
+    "journal": []
+  },
+  "recovered": {
+    "job": {
+      "id": "e45de7e3-78de-45ff-93bd-7c58d2cfd17e",
+      "aggregateType": "task",
+      "aggregateId": "51358322-e58b-5bf7-abcb-8e381db3da15",
+      "kind": "replay",
+      "requestedAfter": "11",
+      "nextAfter": "12",
+      "pageCount": 1,
+      "state": "complete",
+      "failureClass": null,
+      "lastError": null,
+      "httpStatus": 200,
+      "attempts": 0,
+      "createdAt": "2026-10-08T15:37:59.382Z",
+      "lastAttemptAt": "2026-10-08T15:38:00.383Z",
+      "completedAt": "2026-10-08T15:38:00.383Z"
+    },
+    "stream": {
+      "aggregateType": "task",
+      "aggregateId": "51358322-e58b-5bf7-abcb-8e381db3da15",
+      "revision": "37",
+      "receivedThrough": "12",
+      "receivedHigh": "12",
+      "appliedThrough": "12",
+      "snapshotThrough": "0",
+      "projectedThrough": "12",
+      "historyComplete": true,
+      "rebuildRequired": false,
+      "updatedAt": "2026-10-08T15:37:59.940Z",
+      "missingFrom": null,
+      "missingTo": null,
+      "pendingReason": null
+    },
+    "relatedShipments": [
+      {
+        "id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+        "reference": "10009",
+        "cycleId": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+        "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677"
+      }
+    ],
+    "missingRanges": [],
+    "moreMissingRanges": false,
+    "evidence": [
+      {
+        "id": "d6a9cd57-deec-4cb3-b79b-ad7966fc41d8",
+        "kind": "replay",
+        "requestedAfter": "11",
+        "throughSequence": "12",
+        "bodyHash": "5d17373368e025704f2d2c78d0a832413a859b250a17922922f1cf12f2c4cc78",
+        "baseline": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "schemaHash": "acae29b68e9e267b2d1f495c6904880f421f3959684a3c14c8fa7c40f34bbf5b",
+        "retrievedAt": "2026-10-08T15:38:00.374Z"
+      }
+    ],
+    "current": null
+  },
+  "tracking": {
+    "shipment": {
+      "id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+      "reference": "10009",
+      "brandId": "88f08fd5-b61c-4b8c-9613-08964d955424",
+      "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
+      "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677",
+      "branchName": "الفرع أ",
+      "recipientName": "مستلم التجربة",
+      "phone": "٠١٠ ١٢٣٤ ٥٦٧٨",
+      "service": "brand_packed",
+      "state": "refused",
+      "custodian": "driver",
+      "driverName": "P22 dedicated driver",
+      "createdAt": "2026-10-08T15:36:09.293Z",
+      "lastEventAt": "2026-10-08T15:37:59.357Z",
+      "pending": false
+    },
+    "returns": [],
+    "address": "عنوان البوليصة المكتوب — القاهرة",
+    "nextAction": "بانتظار تحديث المندوب أو الاستلام الفعلي للمرتجع",
+    "detailPath": "/shipments/10009",
+    "timeline": [
+      {
+        "id": "native:1",
+        "origin": "ERP",
+        "kind": "received",
+        "recordedAt": "2026-10-08T15:36:09.302Z",
+        "observedAt": null,
+        "receivedAt": null,
+        "observationUnknown": true
+      },
+      {
+        "id": "ad13d5f3-e6a8-4810-90d3-a3d78871415c",
+        "origin": "Tawsel",
+        "kind": "task.snapshotAccepted",
+        "recordedAt": null,
+        "observedAt": null,
+        "receivedAt": "2026-10-08T15:36:10.963Z",
+        "observationUnknown": true
+      },
+      {
+        "id": "b0a7a0a1-5e28-4d75-b9f6-2a51578ac360",
+        "origin": "Tawsel",
+        "kind": "assignment.prepared",
+        "recordedAt": null,
+        "observedAt": null,
+        "receivedAt": "2026-10-08T15:36:12.125Z",
+        "observationUnknown": true
+      },
+      {
+        "id": "5998497d-4520-462d-b843-56b4ae99b1ed",
+        "origin": "Tawsel",
+        "kind": "assignment.received",
+        "recordedAt": null,
+        "observedAt": null,
+        "receivedAt": "2026-10-08T15:36:13.288Z",
+        "observationUnknown": true
+      },
+      {
+        "id": "336523f9-86cf-456a-91ac-dd41f52bcc83",
+        "origin": "Tawsel",
+        "kind": "location.pinConfirmed",
+        "recordedAt": null,
+        "observedAt": null,
+        "receivedAt": "2026-10-08T15:36:27.587Z",
+        "observationUnknown": true
+      },
+      {
+        "id": "dad06199-ca8a-4f1d-8ed6-aaa680e82687",
+        "origin": "Tawsel",
+        "kind": "round.started",
+        "recordedAt": null,
+        "observedAt": null,
+        "receivedAt": "2026-10-08T15:36:29.233Z",
+        "observationUnknown": true
+      },
+      {
+        "id": "9051a778-9927-4778-8cc7-b27a7ded8b42",
+        "origin": "Tawsel",
+        "kind": "current.headingSelected",
+        "recordedAt": "2026-10-08T15:36:29.433Z",
+        "observedAt": "2026-10-08T15:36:29.086Z",
+        "receivedAt": "2026-10-08T15:36:30.404Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "1d0eee25-bae5-445a-bb06-52b8f3780795",
+        "origin": "Tawsel",
+        "kind": "current.arrivalRecorded",
+        "recordedAt": "2026-10-08T15:36:29.808Z",
+        "observedAt": "2026-10-08T15:36:29.454Z",
+        "receivedAt": "2026-10-08T15:36:30.653Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "5391b3c6-c456-475c-8e68-8d40067710e6",
+        "origin": "Tawsel",
+        "kind": "outcome.recorded",
+        "recordedAt": "2026-10-08T15:36:30.236Z",
+        "observedAt": "2026-10-08T15:36:29.866Z",
+        "receivedAt": "2026-10-08T15:36:31.138Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "1b40390b-5fc7-452b-80d5-385e66a80453",
+        "origin": "Tawsel",
+        "kind": "task.retryAdmitted",
+        "recordedAt": "2026-10-08T15:36:30.929Z",
+        "observedAt": "2026-10-08T15:36:30.585Z",
+        "receivedAt": "2026-10-08T15:36:31.383Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "9a56a00e-f1da-42f2-ae84-3d2d6956eb8e",
+        "origin": "Tawsel",
+        "kind": "current.headingSelected",
+        "recordedAt": "2026-10-08T15:36:31.769Z",
+        "observedAt": "2026-10-08T15:36:31.443Z",
+        "receivedAt": "2026-10-08T15:36:31.901Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "d5fd1f2f-e6cd-4366-94b6-45641a0872fa",
+        "origin": "Tawsel",
+        "kind": "current.arrivalRecorded",
+        "recordedAt": "2026-10-08T15:36:32.101Z",
+        "observedAt": "2026-10-08T15:36:31.744Z",
+        "receivedAt": "2026-10-08T15:36:33.061Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "fa70423b-0d29-4f4a-9a36-5ae3721cbad7",
+        "origin": "Tawsel",
+        "kind": "outcome.recorded",
+        "recordedAt": "2026-10-08T15:36:32.405Z",
+        "observedAt": "2026-10-08T15:36:32.086Z",
+        "receivedAt": "2026-10-08T15:36:33.635Z",
+        "observationUnknown": false
+      },
+      {
+        "id": "d0069c1b-a704-4608-bfe2-9f3cb920996a",
+        "origin": "Tawsel",
+        "kind": "outcome.corrected",
+        "recordedAt": "2026-10-08T15:37:59.324Z",
+        "observedAt": "2026-10-08T15:37:58.987Z",
+        "receivedAt": "2026-10-08T15:37:59.585Z",
+        "observationUnknown": false
+      }
+    ],
+    "attempts": [
+      {
+        "attemptId": "756bac5a-daf6-41bc-950b-a24f7fe48be0",
+        "outcome": "refused",
+        "visitKnown": true,
+        "reason": "legacy reason unavailable"
+      },
+      {
+        "attemptId": "d6504fa9-0195-4087-b9ec-88880d281c0d",
+        "outcome": "no-answer",
+        "visitKnown": true,
+        "reason": "legacy reason unavailable"
+      }
+    ],
+    "pendingReasons": [],
+    "evidenceReceivedOnly": true,
+    "cashReceiptKnown": false
+  },
+  "scope": "Real human driver arrival/no-answer, exact whole retry creates one new attempt, second arrival/no-answer and permitted refused correction. Actual service replay, native committed fees/commission. No CR-001 reason field or paid-recipient retry scenario selected.",
+  "postedFeeLineage": {
+    "beforeReplay": [
+      {
+        "id": "2ac7bcca-103f-4389-8e17-eeeaaeb64339",
+        "family": "operating",
+        "kind": "shipping",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "2e6d2cbb-33a2-4316-b677-678b7193a624",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "2fb130a3-53cd-4662-a11d-8fe6b25ebc9c",
+        "family": "employee",
+        "kind": "earning",
+        "amount_minor": "500",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "38c3cae6-e77b-4d10-af71-e32dcd25c33c",
+        "family": "operating",
+        "kind": "shipping",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "4f8303e4-0c40-44fc-a44f-ada4bfe3a3d2",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "5d87a26d-8041-4dfb-9436-6824f8cf813f",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "61a03aec-60d3-4560-ad8d-6ef8261dfac7",
+        "family": "brand",
+        "kind": "correction",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "dd8c715b-7485-4ec2-96f5-58736340b5a1",
+        "family": "employee",
+        "kind": "earning",
+        "amount_minor": "500",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      }
+    ],
+    "afterReplay": [
+      {
+        "id": "2ac7bcca-103f-4389-8e17-eeeaaeb64339",
+        "family": "operating",
+        "kind": "shipping",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "2e6d2cbb-33a2-4316-b677-678b7193a624",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "2fb130a3-53cd-4662-a11d-8fe6b25ebc9c",
+        "family": "employee",
+        "kind": "earning",
+        "amount_minor": "500",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:d6504fa9-0195-4087-b9ec-88880d281c0d"
+      },
+      {
+        "id": "38c3cae6-e77b-4d10-af71-e32dcd25c33c",
+        "family": "operating",
+        "kind": "shipping",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "4f8303e4-0c40-44fc-a44f-ada4bfe3a3d2",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "5d87a26d-8041-4dfb-9436-6824f8cf813f",
+        "family": "brand",
+        "kind": "fee",
+        "amount_minor": "-5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "61a03aec-60d3-4560-ad8d-6ef8261dfac7",
+        "family": "brand",
+        "kind": "correction",
+        "amount_minor": "5000",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      },
+      {
+        "id": "dd8c715b-7485-4ec2-96f5-58736340b5a1",
+        "family": "employee",
+        "kind": "earning",
+        "amount_minor": "500",
+        "identity": "e51d0a65-716c-4bf7-81cf-cc6e1aa27f86:51358322-e58b-5bf7-abcb-8e381db3da15:2a0fc6ee-4d6c-4c16-ac4d-f19235fa193f:756bac5a-daf6-41bc-950b-a24f7fe48be0"
+      }
+    ],
+    "replay": {
+      "job": {
+        "id": "33dfa817-1693-4965-8b02-0e49c21cab5d",
+        "aggregateType": "task",
+        "aggregateId": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "kind": "replay",
+        "requestedAfter": "12",
+        "nextAfter": "12",
+        "pageCount": 1,
+        "state": "complete",
+        "failureClass": null,
+        "lastError": null,
+        "httpStatus": 200,
+        "attempts": 0,
+        "createdAt": "2026-10-08T15:41:49.407Z",
+        "lastAttemptAt": "2026-10-08T15:41:50.766Z",
+        "completedAt": "2026-10-08T15:41:50.766Z"
+      },
+      "stream": {
+        "aggregateType": "task",
+        "aggregateId": "51358322-e58b-5bf7-abcb-8e381db3da15",
+        "revision": "37",
+        "receivedThrough": "12",
+        "receivedHigh": "12",
+        "appliedThrough": "12",
+        "snapshotThrough": "0",
+        "projectedThrough": "12",
+        "historyComplete": true,
+        "rebuildRequired": false,
+        "updatedAt": "2026-10-08T15:37:59.940Z",
+        "missingFrom": null,
+        "missingTo": null,
+        "pendingReason": null
+      },
+      "relatedShipments": [
+        {
+          "id": "48e7d759-0c84-4a36-b4d7-de7b127906c0",
+          "reference": "10009",
+          "cycleId": "7ddd40bc-528f-4f88-94ae-3416909d01f0",
+          "branchId": "338066ec-a5c0-49b0-89ae-ca708a4f0677"
+        }
+      ],
+      "missingRanges": [],
+      "moreMissingRanges": false,
+      "evidence": [
+        {
+          "id": "76d82474-ba19-406b-abb6-224cafaa1d6e",
+          "kind": "replay",
+          "requestedAfter": "12",
+          "throughSequence": "12",
+          "bodyHash": "18d1f20c1f098d969df131063e4adff6ec20bacb221e337113f569c446d3da0e",
+          "baseline": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+          "schemaHash": "acae29b68e9e267b2d1f495c6904880f421f3959684a3c14c8fa7c40f34bbf5b",
+          "retrievedAt": "2026-10-08T15:41:50.759Z"
+        }
+      ],
+      "current": null
+    },
+    "brandNetMinor": -10000,
+    "employeeEarningsMinor": 1000,
+    "operatingShippingMinor": 10000,
+    "explanation": "Two actual eligible visits each earn 50 EGP company shipping and 5 EGP employee commission. The accepted correction reverses/replaces the second commercial fee basis with preserved lineage; net fee remains 100 EGP. Exact replay adds no journal row. The earlier visits/earnings comparison spans the correction; its journal selection was empty, so monetary proof uses this explicit source-record join and repeat replay."
+  },
+  "earlierFailures": [
+    "Script round-owner lookup for non-round command corrected before submit",
+    "Refused correction without explicit zero reportedCollection returned retained review-required validation_failed; inspected and submitted distinct reviewed human correction with zero. Original result retained."
+  ]
+}

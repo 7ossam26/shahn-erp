@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import type { Pool } from 'pg';
 import { AccessError, type Capability } from '@shahn/domain';
 import { canonical } from '../access/crypto.js';
+import { canonicalTawselJson } from '@shahn/contracts/tawsel';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { sourceByCompany } from '@shahn/database';
 import { MonitoringReader, type MonitoringRead } from './monitoring-reader.service.js';
@@ -182,7 +183,7 @@ export class RoundEvidenceService {
         blockers,
         receivedEvidenceOnly: true,
       }) as Record<string, unknown>;
-      const digest = createHash('sha256').update(canonical(basis)).digest('hex');
+      const digest = createHash('sha256').update(canonicalTawselJson(basis)).digest('hex');
       const previous = (
         await u.client.query(
           `SELECT revision::text,digest FROM execution.round_evidence_basis WHERE company_id=$1 AND source_id=$2 AND round_id=$3 ORDER BY revision DESC LIMIT 1`,

@@ -1,0 +1,30 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p22/tawsel.acceptance.test.ts (2 tests | 2 failed) 5ms
+   × requires complete reviewed actual public evidence beyond the bounded reader smoke test 4ms
+   × requires reviewed CR-001 baseline adoption and the exact CHECK-003 public sequences 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p22/tawsel.acceptance.test.ts > requires complete reviewed actual public evidence beyond the bounded reader smoke test
+Error: BLOCKED P22 acceptance: TAWSEL_P22_ACCEPTANCE_FILE absent. Complete reviewed producer/authority/recovery/rotation/performance/restore evidence and CR-001/CHECK-003 artifacts are required. Local fixtures cannot close these gates.
+ ❯ evidenceIndex tests/integration/p22/tawsel.acceptance.test.ts:26:11
+
+ ❯ tests/integration/p22/tawsel.acceptance.test.ts:44:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p22/tawsel.acceptance.test.ts > requires reviewed CR-001 baseline adoption and the exact CHECK-003 public sequences
+Error: BLOCKED P22 acceptance: TAWSEL_P22_ACCEPTANCE_FILE absent. Complete reviewed producer/authority/recovery/rotation/performance/restore evidence and CR-001/CHECK-003 artifacts are required. Local fixtures cannot close these gates.
+ ❯ evidenceIndex tests/integration/p22/tawsel.acceptance.test.ts:26:11
+
+ ❯ tests/integration/p22/tawsel.acceptance.test.ts:68:23
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  18:52:37
+   Duration  158ms (transform 45%, import 32%, tests 12%, worker 10%)

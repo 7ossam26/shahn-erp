@@ -5,3 +5,4 @@ export * from './validation.js';
 export * from './intake.js';
 export * from './canonical-json.js';
 export * from './returns.js';
+export * from './recovery.js';

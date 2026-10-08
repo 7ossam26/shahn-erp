@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-10-08T15:05:09.442Z",
+  "publicOrigin": "https://app.switch2tech.cloud",
+  "issuer": "https://auth.switch2tech.cloud/realms/tawsel-company",
+  "callbackUrl": "https://app.switch2tech.cloud/api/p22-acceptance/api/v1/consumer/events",
+  "companyId": "bab4798f-a109-488f-a9dc-7c08cfe21ef6",
+  "tenantId": "771dfff0-e9bb-4e60-bf1a-73c1e668658b",
+  "integrationId": "b9bf8e77-c620-4a46-bb55-7205cba0f6a5",
+  "selector": "p22-live-pilot",
+  "serviceCredentialExpiresAt": "2026-10-09T14:46:21.385Z",
+  "currentSigningSelector": "p22-live-next",
+  "temporaryOperatorRemoved": true,
+  "originalRuntimeRestored": true,
+  "currentServiceConfigurationStatus": 200,
+  "services": [
+    "app-compress-multi-byte-card-ujg9oy|1/1",
+    "app-compress-optical-program-xz8ugn|1/1",
+    "app-reboot-open-source-port-yzf61j|1/1"
+  ],
+  "scope": "Owner-confirmed test-data-only Tawsel pilot; isolated local ERP database. No production ERP database connected or deployed.",
+  "durability": "Private connection/key/database references retained outside repository with restricted ACL. Local API/workers/fault gate and SSH tunnel must remain running. Test additions exist in actual mounted outbox files; original Dokploy mount records remain unchanged, so redeploy requires deliberate preservation of scoped test references. No permanent production connection claim.",
+  "callbackLimitBytes": 2097152,
+  "secrets": "No service, signing, issuer, root or Dokploy credential exported.",
+  "runtimeCommit": "bbc977b6662a9093eabd0039661f4992a0e5f292",
+  "sourceCommitAttestation": "Successful CI release artifact maps its workflow source commit to the exact deployed runtime digest. Docker labels remain null. This is CI artifact provenance, not a cryptographically signed build attestation.",
+  "runtimeProvenance": "live-runtime-provenance.json"
+}

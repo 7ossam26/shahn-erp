@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-08",
+  "phase": "P22",
+  "status": "verified within implemented native script scope; named dependent acceptance blocked",
+  "branch": "main",
+  "head": "03bd15385a71413e71ea79825de491e8ee594fce",
+  "lint": {
+    "result": "passed",
+    "transcript": "lint-last.txt"
+  },
+  "typecheck": {
+    "result": "passed",
+    "transcript": "typecheck-complete.txt"
+  },
+  "build": {
+    "result": "passed",
+    "transcript": "build-last.txt",
+    "warning": "existing large web application chunk"
+  },
+  "phaseSuite": {
+    "unitPassed": 7,
+    "result": "failed: required public gates blocked",
+    "command": "npm run test:phase -- P22",
+    "publicBlocked": 3,
+    "transcript": "phase-last.txt",
+    "databasePassed": 8,
+    "exitCode": 1,
+    "browser": "owner-excluded, no final pass claimed"
+  },
+  "regressions": {
+    "affectedDatabasePassed": 47,
+    "unitPassed": 667,
+    "targetedMoneyPassed": 4,
+    "actualWorkerProcessPassed": 1,
+    "unitBoundary": "before one additional P22 classifier case"
+  },
+  "publicSamples": 0,
+  "commit": "not created: required gates blocked",
+  "push": "not attempted: required gates blocked"
+}

@@ -45,7 +45,7 @@ it('the actual worker process discovers and renews a due agreement with the Cair
     worker.send('shutdown');
     expect(await exited).toBe(0);
     expect(period).toEqual({ start: today, fee: '31000' });
-    expect(output).toContain('"businessQueues":3');
+    expect(output).toContain('"businessQueues":4');
     expect(output).toContain('"state":"stopped"');
     expect(output).not.toContain(db.url);
     const job = (

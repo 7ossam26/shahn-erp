@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-10-08T15:40:15.423Z",
+  "evidenceKind": "actual-http",
+  "actionId": "df595913-47bc-467d-9c99-5f228d2da9f6",
+  "operationId": "intake.submitSnapshot",
+  "intentId": "7631b740-ceaa-41c4-9746-76702ca87f83",
+  "shipmentId": "0f628da5-f7d0-4b2c-a6e5-ba7abc84795b",
+  "requestSha256": "c09f6e2dfc59768c1ba4159ef73f5348cf5f13e66aeb662e7110e5a500b35e16",
+  "childExitCode": 76,
+  "crashPoint": "Actual remote acceptance and task read complete; process exits before native completion transaction",
+  "remoteReceiptId": "99b89e87-1397-45d1-a870-057a98b3fae5",
+  "uncertain": {
+    "state": "sending",
+    "remote_result": null,
+    "work_state": "leased",
+    "fence": 1,
+    "attempts": 1,
+    "lease_until": "2026-10-08T15:40:12.216Z"
+  },
+  "after": {
+    "state": "accepted",
+    "fence": 2,
+    "attempts": 2,
+    "actionId": "df595913-47bc-467d-9c99-5f228d2da9f6"
+  },
+  "recoveryCalls": [
+    "retained-result:df595913-47bc-467d-9c99-5f228d2da9f6"
+  ],
+  "immutableRequestUnchanged": true,
+  "retainedRemoteResultEqual": true,
+  "sourceRows": 1,
+  "cycles": [
+    {
+      "id": "0a869a7f-5455-439c-9f7c-2f5a01932a3e",
+      "task_id": "f0f6f2fc-ef82-5bc8-a505-7ba546a8faae"
+    }
+  ],
+  "dispatchState": "prepared",
+  "scope": "Actual public service intake accepted; owned local source child process exits before native completion, isolated native workers and callback paused temporarily. A new fenced worker recovers the original retained result without a new action or business send. Callback resumed afterward."
+}

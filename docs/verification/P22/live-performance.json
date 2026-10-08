@@ -1,0 +1,168 @@
+{
+  "capturedAt": "2026-10-08T15:56:23.935Z",
+  "unit": "milliseconds",
+  "sampleCount": 6,
+  "confirmationToAuthorizedReadConservativeUpperBound": {
+    "sampleCount": 6,
+    "p50": 1343,
+    "p95": 2641,
+    "maximum": 2641
+  },
+  "receiptToCommit": {
+    "sampleCount": 6,
+    "p50": 160,
+    "p95": 638,
+    "maximum": 638
+  },
+  "receiptToAuthorizedRead": {
+    "sampleCount": 6,
+    "p50": 226,
+    "p95": 719,
+    "maximum": 719
+  },
+  "bodyBytes": {
+    "minimum": 2814,
+    "maximum": 2814
+  },
+  "conditions": {
+    "process": "warm ERP API/workers and Tawsel pilot; new task streams",
+    "producers": "Two separate real OIDC human driver sessions; two script processes initially launched together. One stale-device rejection and one collector error interrupted the first cohort; retained actions resumed, with remaining four outcomes overlapping. Small sample, no sustained-load or cold-process claim.",
+    "network": "Local Windows isolated ERP PostgreSQL/API/workers, SSH reverse tunnel to remote nginx/Traefik TLS callback and actual Tawsel public process",
+    "clock": "Command observation.observedAt and native P13 received/commit-observed/authorized-read timestamps use the same Windows host clock. Upper bound begins before outcome HTTP submission and therefore includes confirmation. No remote clock subtraction or exact canonical-confirmation latency is claimed; clock quality in human observation remains unknown.",
+    "visible": "Authorized native HTTP tracking read measured; browser visible rendering excluded by owner",
+    "target": "Approximately 5000ms healthy confirmation-to-projection target; all six conservative upper bounds below target. No universal latency/uptime guarantee.",
+    "outages": "Pause503/replay backlog, credential rotation and known harness failures are separate evidence and excluded from healthy cohort explicitly."
+  },
+  "earlierFailures": [
+    "Driver 1 stale_device rejected heading under generation1 when owner generation2; retained rejection followed by reviewed generation2 intent",
+    "Driver 2 collector selected plan.revisionPublished sharing actionId instead of outcome.recorded; already accepted events applied, collector corrected and retained actions resumed"
+  ],
+  "samples": [
+    {
+      "producer": "1",
+      "index": 0,
+      "actionId": "6420adf7-b413-44c6-8c93-c7b770e1ca2f",
+      "shipmentId": "0c5e68e9-87b8-4408-93f9-9cb22d407619",
+      "startedAt": "2026-10-08T14:55:55.916Z",
+      "acceptedAt": "2026-10-08T14:55:57.341Z",
+      "authorizedReadObservedAt": "2026-10-08T14:55:59.089Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 1958,
+      "receiptToCommitMs": 638,
+      "receiptToAuthorizedReadMs": 719,
+      "instrumentation": {
+        "event_id": "81e413b5-bc55-40e9-9148-480b9d868a68",
+        "confirmed_at": "2026-10-08T14:55:57.457Z",
+        "received_at": "2026-10-08T14:55:58.366Z",
+        "projected_at": "2026-10-08T14:55:59.002Z",
+        "projection_commit_observed_at": "2026-10-08T14:55:59.004Z",
+        "first_read_at": "2026-10-08T14:55:59.085Z",
+        "bytes": 2814
+      }
+    },
+    {
+      "producer": "1",
+      "index": 1,
+      "actionId": "d9a59fac-70f0-493d-a129-b4ef05bbdef8",
+      "shipmentId": "dbc1660d-9006-4378-9d77-4f27bc34fbca",
+      "startedAt": "2026-10-08T14:55:59.089Z",
+      "acceptedAt": "2026-10-08T14:56:00.383Z",
+      "authorizedReadObservedAt": "2026-10-08T14:56:01.359Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 1245,
+      "receiptToCommitMs": 95,
+      "receiptToAuthorizedReadMs": 139,
+      "instrumentation": {
+        "event_id": "aee3c815-727a-4e07-aad5-bd5081c7c5f1",
+        "confirmed_at": "2026-10-08T14:56:00.485Z",
+        "received_at": "2026-10-08T14:56:01.217Z",
+        "projected_at": "2026-10-08T14:56:01.309Z",
+        "projection_commit_observed_at": "2026-10-08T14:56:01.312Z",
+        "first_read_at": "2026-10-08T14:56:01.356Z",
+        "bytes": 2814
+      }
+    },
+    {
+      "producer": "1",
+      "index": 2,
+      "actionId": "cd9ea9b9-a89f-4a05-a40b-f79c8739d4f2",
+      "shipmentId": "3834a4a8-0f73-466f-b2dd-ca8e0771eb2c",
+      "startedAt": "2026-10-08T14:56:01.359Z",
+      "acceptedAt": "2026-10-08T14:56:02.865Z",
+      "authorizedReadObservedAt": "2026-10-08T14:56:03.660Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 1053,
+      "receiptToCommitMs": 160,
+      "receiptToAuthorizedReadMs": 226,
+      "instrumentation": {
+        "event_id": "63b224fd-ed23-42e7-9b1d-6d73fd617c80",
+        "confirmed_at": "2026-10-08T14:56:02.975Z",
+        "received_at": "2026-10-08T14:56:03.432Z",
+        "projected_at": "2026-10-08T14:56:03.590Z",
+        "projection_commit_observed_at": "2026-10-08T14:56:03.592Z",
+        "first_read_at": "2026-10-08T14:56:03.658Z",
+        "bytes": 2814
+      }
+    },
+    {
+      "producer": "2",
+      "index": 0,
+      "actionId": "424f4d78-0b55-49fe-93c4-478cee4a7583",
+      "shipmentId": "fd15a494-ceaa-462b-902d-426d372b3482",
+      "startedAt": "2026-10-08T14:55:55.829Z",
+      "acceptedAt": "2026-10-08T14:55:55.830Z",
+      "authorizedReadObservedAt": "2026-10-08T14:55:55.857Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 2641,
+      "receiptToCommitMs": 24,
+      "receiptToAuthorizedReadMs": 64,
+      "instrumentation": {
+        "event_id": "86d801b6-56df-4255-a202-ab94f9441e9e",
+        "confirmed_at": "2026-10-08T14:53:22.061Z",
+        "received_at": "2026-10-08T14:53:24.199Z",
+        "projected_at": "2026-10-08T14:53:24.221Z",
+        "projection_commit_observed_at": "2026-10-08T14:53:24.223Z",
+        "first_read_at": "2026-10-08T14:53:24.263Z",
+        "bytes": 2814
+      }
+    },
+    {
+      "producer": "2",
+      "index": 1,
+      "actionId": "4d9dfd37-7e63-4076-af7b-2a0faea2c54f",
+      "shipmentId": "79c891f4-fec1-4752-9690-e342a19c87dc",
+      "startedAt": "2026-10-08T14:55:55.857Z",
+      "acceptedAt": "2026-10-08T14:55:55.857Z",
+      "authorizedReadObservedAt": "2026-10-08T14:55:55.873Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 1343,
+      "receiptToCommitMs": 316,
+      "receiptToAuthorizedReadMs": 370,
+      "instrumentation": {
+        "event_id": "157b0fd3-2bfa-4619-b9a6-b3f1b894d84d",
+        "confirmed_at": "2026-10-08T14:53:25.522Z",
+        "received_at": "2026-10-08T14:53:26.163Z",
+        "projected_at": "2026-10-08T14:53:26.477Z",
+        "projection_commit_observed_at": "2026-10-08T14:53:26.479Z",
+        "first_read_at": "2026-10-08T14:53:26.533Z",
+        "bytes": 2814
+      }
+    },
+    {
+      "producer": "2",
+      "index": 2,
+      "actionId": "2dc90f3c-75fe-4903-8003-8935ac1ee05e",
+      "shipmentId": "36c8b572-72d5-4cc5-af5b-4446c4cf2963",
+      "startedAt": "2026-10-08T14:55:55.873Z",
+      "acceptedAt": "2026-10-08T14:55:57.297Z",
+      "authorizedReadObservedAt": "2026-10-08T14:55:58.405Z",
+      "confirmationToAuthorizedReadUpperBoundMs": 1392,
+      "receiptToCommitMs": 199,
+      "receiptToAuthorizedReadMs": 281,
+      "instrumentation": {
+        "event_id": "4332ae03-7a12-488f-80d5-e718749e5909",
+        "confirmed_at": "2026-10-08T14:55:57.409Z",
+        "received_at": "2026-10-08T14:55:58.121Z",
+        "projected_at": "2026-10-08T14:55:58.317Z",
+        "projection_commit_observed_at": "2026-10-08T14:55:58.320Z",
+        "first_read_at": "2026-10-08T14:55:58.402Z",
+        "bytes": 2814
+      }
+    }
+  ]
+}

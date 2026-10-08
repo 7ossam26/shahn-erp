@@ -1,0 +1,61 @@
+
+> shahn-erp@0.1.0 test:phase
+> node scripts/test-phase.mjs P22
+
+P22 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/contracts.unit.test.ts (7 tests) 43ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:51:36
+   Duration  3.90s (import 51%, transform 24%, environment 20%, setup 4%, tests 1%)
+
+P22 unit: PASSED
+P22 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovery.db.test.ts (5 tests) 54382ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 6393ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 6036ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 13465ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 15761ms
+   ✓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 12726ms
+ ✓ tests/integration/p22/migration.db.test.ts (1 test) 9104ms
+   ✓ detects inconsistent old checkpoints without rewriting counters or posted remittance, payout and custody 9103ms
+ ✓ tests/integration/p22/restore.db.test.ts (1 test) 11155ms
+   ✓ backs up disposable ERP, restores a separate DB, rebuilds API/worker and redelivers original messages without additional ledger/custody/visit effects 11154ms
+ ✓ tests/integration/p22/return-snapshot.db.test.ts (1 test) 9699ms
+   ✓ reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history 9698ms
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+   Start at  18:51:40
+   Duration  92.94s (tests 91%, import 7%, transform 2%)
+
+P22 database: PASSED
+P22 browser: NOT APPLICABLE — Owner instruction 2026-10-08: skip browser testing and focus on script tests. Earlier P22 actual-API browser attempts and failures are retained; no fresh browser pass or manual/device review is claimed.
+P22 publicIntegration: test:p22:public; 3 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovered-identities.public.test.ts (3 tests) 130ms
+ ✓ tests/integration/p22/tawsel.public.test.ts (1 test) 1653ms
+   ✓ reads the actual public recovery boundary with a dedicated service and identified scoped stream 1653ms
+ ✓ tests/integration/p22/live-recovery.public.test.ts (4 tests) 23928ms
+   ✓ runs native durable replay, reconciliation and checkpoint reporting against actual Tawsel without changing committed business identities 2032ms
+   ✓ restores the actual isolated ERP trial and repeats original live source actions and signed events with posted receipt, payout and hold preserved 16419ms
+   ✓ checks real service authorization and bounded request rejection, including distinct real human driver sessions 768ms
+   ✓ verifies actual TLS proxy body limit and signed receiver negatives using original live event bytes 4706ms
+
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Start at  18:53:14
+   Duration  27.97s (tests 82%, import 11%, transform 7%)
+
+P22 publicIntegration: PASSED
+P22 externalAcceptance: DEFERRED BY OWNER — 2026-10-08: Allow ERP commits with named Tawsel acceptance deferred; Owner applies Tawsel work after ERP implementation; current independent actual public scripts remain required. These tests still fail closed when explicitly run without approved artifacts.; gates: CR-001 approved baseline/adoption and IP-AC-18, CHECK-003 exact A-to-B and receipt-to-cycle public sequence, complete jointly reviewed 43+1-operation/27-event acceptance index; handoff: TAWSEL-CHANGE-REQUESTS.md. Acceptance remains pending.
+P22: all required implementation layers passed; 1 external acceptance layer(s) explicitly deferred, not passed

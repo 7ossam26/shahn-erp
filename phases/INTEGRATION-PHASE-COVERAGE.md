@@ -1,6 +1,10 @@
 # Integration phase coverage
 
+P22 owner-ordered ERP-first closure, 2026-10-08: verified ERP recovery implementation and selected actual public scripts may commit under the explicit owner exception in phases/EXECUTION-CONTRACT.md. Named Tawsel acceptance is deferred, not passed: CR-001 reviewed baseline/07/IP-AC-18; CHECK-003 exact accepted-A→B and receipt-A→cycle-B; complete jointly reviewed43+1/27 matrix. Single later handoff: TAWSEL-CHANGE-REQUESTS.md. Actual whole-retry/correction/replay, interrupted source worker retained-result recovery,3-before1/2 current/history recovery, and CI runtime source provenance now have evidence in docs/verification/P22/README.md. No Tawsel code/baseline adoption, full integration-readiness claim or P23 start.
+
 Authority: PLAN-001, ERP-D-205 / ERP-R-214. Updated 2026-10-03. This is an authored ownership and future verification matrix. **No ERP implementation or runtime conformance is claimed by a row below.**
+
+Execution addition 2026-10-08: P22 [44-operation/27-event evidence](../docs/verification/P22/OPERATION-EVENT-EVIDENCE.md) and [IP-AC/gap ledger](../docs/verification/P22/TRACEABILITY.md) record native scripts and owner-authorized actual isolated Tawsel/issuer/two-human/callback recovery, rotation/proxy, financial correction/resolution, live-source restore and six latency samples. Fourteen sender types and fourteen native outbox operation IDs plus selected public reads have actual positive proof; complete reviewed producer/authority/rejection/recovery matrix remains pending. Authored inventory unchanged. CR-001/CHECK-003 and runtime source-commit attestation remain gated. Browser excluded by owner; initial failures retained. No unconditional completion or baseline upgrade.
 
 The exact inventory is **43 scoped Tawsel service operations plus one operator-bootstrap operation, 44 named operations total, and 27 current sender event types**. External ERP receiver/status operations are listed separately and are not counted as Tawsel service calls. Conditional support is retained explicitly; the presence of a contract operation does not select a new product action.
 

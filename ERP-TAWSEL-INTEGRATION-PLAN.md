@@ -1,5 +1,7 @@
 # ERP–Tawsel Integration Plan
 
+P22 owner-ordered ERP-first closure, 2026-10-08: verified ERP recovery implementation and selected actual public scripts may commit under the explicit owner exception in phases/EXECUTION-CONTRACT.md. Named Tawsel acceptance is deferred, not passed: CR-001 reviewed baseline/07/IP-AC-18; CHECK-003 exact accepted-A→B and receipt-A→cycle-B; complete jointly reviewed43+1/27 matrix. Single later handoff: TAWSEL-CHANGE-REQUESTS.md. Actual whole-retry/correction/replay, interrupted source worker retained-result recovery,3-before1/2 current/history recovery, and CI runtime source provenance now have evidence in docs/verification/P22/README.md. No Tawsel code/baseline adoption, full integration-readiness claim or P23 start.
+
 Current authority, session025 (2026-10-03): ERP-D-205 / ERP-R-214 approve PLAN-001 and authorize phase authoring. Detailed plan mechanics below are adopted; original proposal/review wording is retained as drafting provenance, not a renewed approval gate. External contract gaps, unverified runtime targets and the unnamed palette remain explicitly limited. No production implementation is authorized by this authoring turn.
 
 Updated: 2026-10-03. Status: **draft for owner review, not approved for implementation**.
@@ -438,6 +440,8 @@ These are **required future checks, not tests already run**. Every resulting imp
 Manual scripts in later phases must give exact setup records, clicks, expected visible numbers/statuses, failure injection and cleanup. A final acceptance report names actual runtime/baseline, timestamps, commands run, results and limitations; successful mocked tests cannot be presented as two-system acceptance.
 
 ## 18. Remaining dependencies and closure conditions
+
+P22 execution update 2026-10-08: owner-supplied access enabled dedicated live Tawsel/issuer/two-human/callback proof. [Bounded ledger](docs/verification/P22/TRACEABILITY.md) and [evidence](docs/verification/P22/README.md) record actual recovery, proxy/security/in-flight rotation, complete-history collection witness, remittance/payout/later-correction/P21 resolution and live-source isolated restore. Six healthy outcomes have same-observer conservative read upper-bound p95/max2641ms. IP-GAP-004 identified flow and IP-GAP-006 runtime/restore slices gain actual proof; IP-GAP-003 selected whole-retry/correction/replay passes; IP-GAP-005 full44/27 joint reviewed conformance remains partial/deferred, runtime source commit identified by verified CI release/deployed digest match. IP-GAP-001 CR-001 and IP-GAP-002 CHECK-003 remain blocked by absent approved artifacts. No baseline adoption, universal latency/finality or phase-completion claim; browser excluded by owner.
 
 | Gap ID | Type / exact remaining issue | Effect and next evidence |
 | --- | --- | --- |

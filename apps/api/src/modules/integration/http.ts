@@ -24,6 +24,7 @@ import {
 } from './integration-query.service.js';
 import { registerSignedReceiver } from './signed-receiver.controller.js';
 import type { IntegrationRuntime } from './config.js';
+import { registerRecovery } from './recovery.http.js';
 export function registerIntegration(
   app: FastifyInstance,
   pool: Pool,
@@ -31,6 +32,7 @@ export function registerIntegration(
   runtime: IntegrationRuntime,
 ) {
   registerSignedReceiver(app, pool, runtime);
+  registerRecovery(app, pool, origin, runtime);
   const commands = provisioningCommands(pool, runtime);
   for (const [method, url] of [
     ['GET', '/api/v1/integration'],

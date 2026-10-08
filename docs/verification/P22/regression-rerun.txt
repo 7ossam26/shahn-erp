@@ -1,0 +1,42 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/sources.db.test.ts (4 tests) 7279ms
+   ✓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost 550ms
+   ✓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period 564ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p11/boundary.db.test.ts (19 tests) 24778ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 1135ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 1102ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 2826ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 2371ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 11198ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 14909ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 313ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 307ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 2254ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 335ms
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 16888ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 374ms
+   ✓ out-of-order offer waits for outcome and never creates stock 300ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 692ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 495ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 311ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 338ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 405ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 484ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 334ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 363ms
+
+ Test Files  4 passed (4)
+      Tests  47 passed (47)
+   Start at  13:45:28
+   Duration  71.66s (tests 90%, import 8%, transform 2%)

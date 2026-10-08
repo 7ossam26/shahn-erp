@@ -1,0 +1,1265 @@
+{
+  "baseline": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+  "erpStartingHead": "03bd15385a71413e71ea79825de491e8ee594fce",
+  "checkedAt": "2026-10-08T15:56:24.090Z",
+  "operationCount": 44,
+  "eventCount": 27,
+  "operations": [
+    {
+      "ordinal": 0,
+      "operationId": "integration.bindSource",
+      "firstOwner": "P11",
+      "consumers": "P22; P25",
+      "concreteDefinitionAndCapability": "P+A BindSourceCommand; ProvisioningOperator only",
+      "requiredCases": "IP-AC-01/19",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 1,
+      "operationId": "integration.rotateCredential",
+      "firstOwner": "P11",
+      "consumers": "P22, P25",
+      "concreteDefinitionAndCapability": "P+A `RotateCredentialCommand`; `integration.manage` or allowed operator recovery",
+      "requiredCases": "IP-AC-01/19: expiry/hash/source revision, in-flight old credential, immutable unknown-action recovery, no secret logging",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 2,
+      "operationId": "integration.disableSource",
+      "firstOwner": "P11",
+      "consumers": "P22, P25",
+      "concreteDefinitionAndCapability": "P+A `DisableSourceCommand`; `integration.manage`",
+      "requiredCases": "IP-AC-01/19: current authority/revision, no new source work after disable, retained history and pending custody",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 3,
+      "operationId": "branch.provision",
+      "firstOwner": "P11",
+      "consumers": "P12/P15; P22 verifies",
+      "concreteDefinitionAndCapability": "P+A `BranchCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: duplicate/cross-source/stale branch identity; same action after lost response",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 4,
+      "operationId": "branch.disable",
+      "firstOwner": "P11",
+      "consumers": "P12/P15; P22",
+      "concreteDefinitionAndCapability": "P+A `DisableBranchCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01/03: disabled branch cannot authorize new dispatch; history remains",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 5,
+      "operationId": "role.defineCapabilities",
+      "firstOwner": "P11",
+      "consumers": "P02 operational mapping; P22",
+      "concreteDefinitionAndCapability": "P+A `RoleCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: closed actual capability set; no ERP finance permission forwarded as invented Tawsel capability",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 6,
+      "operationId": "user.provision",
+      "firstOwner": "P11",
+      "consumers": "P02/P08 identity setup; P22",
+      "concreteDefinitionAndCapability": "P+A `UserCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: accepted versus issuer-ready, subject conflict, disabled/missing reference and source revision",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 7,
+      "operationId": "user.setRole",
+      "firstOwner": "P11",
+      "consumers": "P02 identity changes; P22",
+      "concreteDefinitionAndCapability": "P+A `UserRoleCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: shared user revision stream, missing role, competing update and lost response",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 8,
+      "operationId": "user.setCapabilityExceptions",
+      "firstOwner": "P11",
+      "consumers": "P02 identity changes; P22",
+      "concreteDefinitionAndCapability": "P+A `UserExceptionsCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: permitted exceptions only, shared revision fencing, rejected impersonation",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 9,
+      "operationId": "user.setBranchMemberships",
+      "firstOwner": "P11",
+      "consumers": "P02/P15 scope; P22",
+      "concreteDefinitionAndCapability": "P+A `UserBranchesCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01: company/source branch identity, disabled references, concurrent same-user changes",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 10,
+      "operationId": "user.disable",
+      "firstOwner": "P11",
+      "consumers": "P02/P08; P22",
+      "concreteDefinitionAndCapability": "P+A `DisableUserCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01/19: ready with enabled:false is valid, no history deletion, revoked access respected",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 11,
+      "operationId": "driver.provisionReference",
+      "firstOwner": "P11",
+      "consumers": "P08/P12/P15; P22",
+      "concreteDefinitionAndCapability": "P+A `DriverCommand`; `identity.provision`",
+      "requiredCases": "IP-AC-01/17: stable driver identity, disabled/missing references, no automatic employee/login creation",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 12,
+      "operationId": "integration.getConfiguration",
+      "firstOwner": "P11",
+      "consumers": "Every source adapter; P22",
+      "concreteDefinitionAndCapability": "P `SourceConfiguration`; `integration.manage`",
+      "requiredCases": "IP-AC-01/19: identity/version/allowed operations, humanDelegation:false,401/403 configuration block",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 13,
+      "operationId": "provisioning.getStatus",
+      "firstOwner": "P11",
+      "consumers": "P12 readiness; P22",
+      "concreteDefinitionAndCapability": "P `ProvisioningStatus`; `identity.provision`",
+      "requiredCases": "IP-AC-01: accepted/pending/retry/failed/disabled readiness distinctions; no substitute for an old arbitrary action result",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 14,
+      "operationId": "intake.submitSnapshot",
+      "firstOwner": "P12",
+      "consumers": "P14/P18; P22",
+      "concreteDefinitionAndCapability": "I+A `SourceSnapshotCommand`; `intake.prepare`",
+      "requiredCases": "IP-AC-02/04/21/22: exact outstanding money, bounded fields, immutable revisions, goods preserved under waiver, unknown action",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 15,
+      "operationId": "intake.prepare",
+      "firstOwner": "P12",
+      "consumers": "P14; P22",
+      "concreteDefinitionAndCapability": "I+A `PrepareCommand`; `intake.prepare`",
+      "requiredCases": "IP-AC-03/04: source/assignment revision, ready driver, preparation is not physical receipt, atomic capacity",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 16,
+      "operationId": "assignment.receiveBatch",
+      "firstOwner": "P12",
+      "consumers": "P14/P18; P22",
+      "concreteDefinitionAndCapability": "I+A `ReceiveBatchCommand`; `assignment.manage`",
+      "requiredCases": "IP-AC-03/04/21: receiptAsserted:true,49+2 atomic rejection, departure race, one stock/cover effect under response loss",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 17,
+      "operationId": "assignment.withdraw",
+      "firstOwner": "P12",
+      "consumers": "P14/P15 compatibility gate; P22",
+      "concreteDefinitionAndCapability": "I+A `WithdrawCommand`; `assignment.manage`",
+      "requiredCases": "IP-AC-03/04: predeparture lifecycle, actual custody, no timeout rollback or implied physical return; CHECK-003 unresolved",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 18,
+      "operationId": "assignment.reassignBeforeDeparture",
+      "firstOwner": "P12",
+      "consumers": "P14; P22",
+      "concreteDefinitionAndCapability": "I+A `ReassignCommand`; `assignment.manage`",
+      "requiredCases": "IP-AC-03/04: receipt assertion, version/departure race, no direct postdeparture driver-to-driver transfer",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 19,
+      "operationId": "intake.setUrgencyBeforeDeparture",
+      "firstOwner": "P12 conditional adapter/conformance",
+      "consumers": "P22 conditional verification",
+      "concreteDefinitionAndCapability": "I+A `UrgencyCommand`; `intake.prepare`",
+      "requiredCases": "IP-AC-03: stale/departed/unauthorized write rejected. No new ERP urgency action/UI is selected by this row; require existing explicit scope evidence before enabling a business write",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": true,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 20,
+      "operationId": "intake.getTask",
+      "firstOwner": "P12",
+      "consumers": "P13/P14/P22",
+      "concreteDefinitionAndCapability": "I `Task`; `intake.prepare`",
+      "requiredCases": "IP-AC-03/04: scoped external reference/current accepted revision, hidden/missing versus deletion, current state is not full history",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 21,
+      "operationId": "intake.listTasks",
+      "firstOwner": "P12",
+      "consumers": "P22 known-stream recovery",
+      "concreteDefinitionAndCapability": "I `TaskList`; `intake.prepare`",
+      "requiredCases": "IP-AC-03/14: bounded scoped pagination, no first-page completeness claim or all-tenant discovery",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 22,
+      "operationId": "intake.getBatchResult",
+      "firstOwner": "P12",
+      "consumers": "P14/P22",
+      "concreteDefinitionAndCapability": "I `BatchResult`; `assignment.manage`",
+      "requiredCases": "IP-AC-03/04/11: pending 202 is unresolved, retained exact action/operation, no new command identity to repeat acceptance",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 23,
+      "operationId": "dispatch.createFromReceipt",
+      "firstOwner": "P14",
+      "consumers": "P18; P22",
+      "concreteDefinitionAndCapability": "I+A `RedispatchCommand`; `assignment.manage`",
+      "requiredCases": "IP-AC-11/22: actual compatible unallocated receipt, new cycle/stable shipment, unavailable/lost/damaged/double allocation rejected; A→B gate CHECK-003",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 24,
+      "operationId": "dispatch.listCycles",
+      "firstOwner": "P14",
+      "consumers": "P13/P22",
+      "concreteDefinitionAndCapability": "I `CycleList`; `assignment.manage`",
+      "requiredCases": "IP-AC-11: scoped externalId and complete bounded pagination; retain old cycle/branch/price history",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 25,
+      "operationId": "return.listPending",
+      "firstOwner": "P14",
+      "consumers": "P18/P22",
+      "concreteDefinitionAndCapability": "R `RequestList`; `return.receive`",
+      "requiredCases": "IP-AC-10: required driver/source branch, cursor pages, no global-clearance or first-page claim",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 26,
+      "operationId": "return.getNativeRequest",
+      "firstOwner": "P14",
+      "consumers": "P18/P22",
+      "concreteDefinitionAndCapability": "R `RequestView`; `return.receive`",
+      "requiredCases": "IP-AC-10: current item revisions/actual unresolved balances, wrong scope and stale display",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 27,
+      "operationId": "return.getNativeResult",
+      "firstOwner": "P14",
+      "consumers": "P18/P22",
+      "concreteDefinitionAndCapability": "R native action result; `return.receive`",
+      "requiredCases": "IP-AC-10: same action after response loss, pending is not receipt, result/event normalization",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 28,
+      "operationId": "return.confirmSubsetReceipt",
+      "firstOwner": "P14",
+      "consumers": "P15/P18; P22",
+      "concreteDefinitionAndCapability": "R+A `ReceiveCommand`; `return.receive`",
+      "requiredCases": "IP-AC-09/10: actual source-branch subset; wrong branch, duplicate/excess/fraction/stale quantities rejected; receipt/correction/disposition race",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 29,
+      "operationId": "return.recordDisposition",
+      "firstOwner": "P14 typed interface",
+      "consumers": "P18 incident workflow; P22",
+      "concreteDefinitionAndCapability": "R+A `DisposeCommand`; `return.dispose`",
+      "requiredCases": "IP-AC-10: lost/damaged only, authoritative revision, no imaginary stock or automatic compensation; race/retry deduplication",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 30,
+      "operationId": "integration.getExecutionProjection",
+      "firstOwner": "P13",
+      "consumers": "P15 carrier aid; P22",
+      "concreteDefinitionAndCapability": "M `Snapshot`; `monitor.read`",
+      "requiredCases": "IP-AC-15/16: received-evidence-only driver state, source filtering,304/404/409/503, no GPS or availability lock",
+      "adapterPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 31,
+      "operationId": "integration.getTripProjection",
+      "firstOwner": "P13",
+      "consumers": "P16 round witness; P22",
+      "concreteDefinitionAndCapability": "M `Snapshot`; `monitor.read`",
+      "requiredCases": "IP-AC-12/15: stable scoped round evidence, incomplete/changed snapshot, closure is not remittance",
+      "adapterPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 32,
+      "operationId": "integration.getTaskHistory",
+      "firstOwner": "P13",
+      "consumers": "P14/P16/P21/P22",
+      "concreteDefinitionAndCapability": "M `History`; `monitor.read`",
+      "requiredCases": "IP-AC-09/12/13/15: original/effective outcome chain, complete stable pages, scoped correction and known gaps",
+      "adapterPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 33,
+      "operationId": "integration.getWorkdayHistory",
+      "firstOwner": "P13",
+      "consumers": "P16/P21/P22",
+      "concreteDefinitionAndCapability": "M `History`; `monitor.read`",
+      "requiredCases": "IP-AC-12/13/15: complete source history and basis revision/digest,409 restarts, no unseen-device finality",
+      "adapterPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 34,
+      "operationId": "integration.getMonitoringAction",
+      "firstOwner": "P13",
+      "consumers": "P16/P21/P22 investigation",
+      "concreteDefinitionAndCapability": "M `ActionSnapshot`; `monitor.read`",
+      "requiredCases": "IP-AC-12/15: required source query, scoped retained action evidence, no human result endpoint fallback",
+      "adapterPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Current producer/authority acceptance pending; not exercised by this live trial",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 35,
+      "operationId": "integration.configureWebhook",
+      "firstOwner": "P11",
+      "consumers": "P22/P25",
+      "concreteDefinitionAndCapability": "W+A `ConfigureWebhookCommand`; `integration.manage`",
+      "requiredCases": "IP-AC-05/19: exact allowed public HTTPS 443 callback, key selector, revision/auth failure, no redirects/private-host workaround",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 36,
+      "operationId": "integration.rotateSigningKey",
+      "firstOwner": "P11",
+      "consumers": "P22/P25",
+      "concreteDefinitionAndCapability": "W+A `RotateSigningKeyCommand`; `integration.manage`",
+      "requiredCases": "IP-AC-05/19: preprovisioned selector, overlap bounds and verifyUntil, in-flight old valid key versus expired key",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 37,
+      "operationId": "integration.retryDelivery",
+      "firstOwner": "P11 adapter/basic control",
+      "consumers": "P22 full recovery UI",
+      "concreteDefinitionAndCapability": "W+A `RetryDeliveryCommand`; `integration.manage`",
+      "requiredCases": "IP-AC-05/06/19: committed immutable event retry, no business reapplication, wrong source/revision/idempotency rejection",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 38,
+      "operationId": "integration.getDeliveryStatus",
+      "firstOwner": "P22",
+      "consumers": "P25/P26 operational proof",
+      "concreteDefinitionAndCapability": "W `Queue`; `integration.manage`",
+      "requiredCases": "IP-AC-06/07/14: scoped cursor/limit, received versus applied, projectionStatus remains unknown",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 39,
+      "operationId": "integration.getDeliveryDetail",
+      "firstOwner": "P22",
+      "consumers": "P25/P26 diagnostics",
+      "concreteDefinitionAndCapability": "W `Detail`; `integration.manage`",
+      "requiredCases": "IP-AC-06/14: scoped event and bounded attempt history, no secret output or accounting success inference",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 40,
+      "operationId": "integration.replayEvents",
+      "firstOwner": "P22",
+      "consumers": "P25/P26 restore/conformance",
+      "concreteDefinitionAndCapability": "W `Replay`; `integration.manage`",
+      "requiredCases": "IP-AC-07/14/20: exact aggregate/range, nextAfterSequence,410 history gap/503 retained uncertainty, live/replay deduplication",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 41,
+      "operationId": "integration.getReconciliationSnapshot",
+      "firstOwner": "P22",
+      "consumers": "P25/P26 restore/conformance",
+      "concreteDefinitionAndCapability": "C `Snapshot`; `integration.manage`",
+      "requiredCases": "IP-AC-14/20: current-state-only, bounded 503, P26 returnItems versus original request, no invented money/history",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 42,
+      "operationId": "integration.reportAppliedCheckpoint",
+      "firstOwner": "P22",
+      "consumers": "P25/P26",
+      "concreteDefinitionAndCapability": "C+A `ReportCommand`; `integration.manage`",
+      "requiredCases": "IP-AC-14/20: committed independent counters, durable report retry, wrong identity/version, receiver-reported only",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    },
+    {
+      "ordinal": 43,
+      "operationId": "integration.getAppliedCheckpoint",
+      "firstOwner": "P22",
+      "consumers": "P25/P26",
+      "concreteDefinitionAndCapability": "C `ReportRead`; `integration.manage`",
+      "requiredCases": "IP-AC-14/20: exact aggregate scope, distinct receipt/application/current coverage, no independent accounting attestation",
+      "adapterPaths": [
+        "packages/contracts/src/tawsel/recovery.ts",
+        "apps/api/src/modules/integration/recovery-client.ts",
+        "apps/api/src/modules/integration/recovery-worker.ts",
+        "apps/api/src/modules/integration/recovery.service.ts",
+        "apps/api/src/modules/integration/delivery-query.service.ts"
+      ],
+      "conditional": false,
+      "sourceEvidence": "Pinned complete selected definitions; source-derived. This inventory does not certify authority.",
+      "fixtureEvidence": "Existing native-owner suites plus generated P22 configure/rotate/retry and closed recovery boundary. See README for exact executed selections.",
+      "actualP22TawselHttp": "Actual scoped positive; selected negatives/recovery separately evidenced; full row acceptance pending",
+      "result": "unconditional conformance not established"
+    }
+  ],
+  "events": [
+    {
+      "eventType": "provisioning.changed",
+      "concreteDefinition": "P `ProvisioningChanged`",
+      "firstHandlerOwner": "P11",
+      "consumers": "P12/P15/P22",
+      "requiredCases": "IP-AC-01/19: accepted revision/binding does not assert issuer-ready; disabled history retained",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/provisioning.ts",
+        "packages/contracts/src/tawsel/delivery.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts",
+        "apps/api/src/modules/integration/source-command.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.snapshotAccepted",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P14/P22",
+      "requiredCases": "IP-AC-02/04: accepted snapshot/cycle and desired revision, no physical receipt or earning; result/event dedup",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "assignment.prepared",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P22",
+      "requiredCases": "IP-AC-03/04: preparation never asserts physical receipt; stale assignment cannot overwrite newer state",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "assignment.received",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P16/P22",
+      "requiredCases": "IP-AC-03/04: one accepted custody transition, no visit fee or company cash receipt",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "assignment.withdrawn",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P14/P22",
+      "requiredCases": "IP-AC-03/04: preserve actual custody; release only legitimate native reservation/cover, not false physical return",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "assignment.reassigned",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P22",
+      "requiredCases": "IP-AC-03/04: accepted predeparture revision/receipt meaning, no second stock move or commission",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.urgencyChanged",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P12",
+      "consumers": "P13/P22",
+      "requiredCases": "IP-AC-03: retain accepted urgency/source revision without inventing a selected ERP urgency action or financial effect",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/intake.ts",
+        "apps/api/src/modules/dispatch/acceptance.ts",
+        "apps/api/src/modules/integration/tawsel-client.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "dispatch.createdFromReceipt",
+      "concreteDefinition": "I `ChangedEvent`",
+      "firstHandlerOwner": "P14",
+      "consumers": "P13/P18/P22",
+      "requiredCases": "IP-AC-11: one receipt allocation/new cycle, old shipment/history retained, no repeated receipt; CHECK-003 remains",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "location.pinConfirmed",
+      "concreteDefinition": "X location `ConfirmedEvent`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P12 readiness/P22",
+      "requiredCases": "IP-AC-03/15: execution pin distinct from source address; no inferred arrival or repricing",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "plan.revisionPublished",
+      "concreteDefinition": "X planning `PublishedEvent`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P12 status/P22",
+      "requiredCases": "IP-AC-03/15: notice/revision only, no human plan endpoint, invented ETA/GPS or custody rollback after planning failure",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "round.started",
+      "concreteDefinition": "X round-start `StartedEvent`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P15/P16/P22",
+      "requiredCases": "IP-AC-08/12/16: actual round/workday/task identities, no visit fee, receipt or remittance",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "current.headingSelected",
+      "concreteDefinition": "X current-activity `HeadingEvent`",
+      "firstHandlerOwner": "P13",
+      "consumers": "Tracking/P22",
+      "requiredCases": "IP-AC-08: heading is not arrival; time/provenance preserved",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "current.arrivalRecorded",
+      "concreteDefinition": "X current-activity `ArrivalEvent`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P16/P20/P22",
+      "requiredCases": "IP-AC-08/09/17/22: unique task/cycle/attempt visit, delayed embedded/history evidence dedup, normal/waived tariff policy",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "outcome.recorded",
+      "concreteDefinition": "X outcomes `Event` containing `Record`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P14/P16/P17/P20/P22",
+      "requiredCases": "IP-AC-08/09/12/22: exact delivered/held/reported money; nullable arrival and null report; pending goods never actual cash",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.deferred",
+      "concreteDefinition": "X eligibility `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "Tracking/P16/P22",
+      "requiredCases": "IP-AC-08: telephone postponement creates no visit; earliest time/current attempt retained",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.retryAdmitted",
+      "concreteDefinition": "X eligibility `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P16/P20/P22",
+      "requiredCases": "IP-AC-08/09: previous/new attempt identities; a retry is not an actual second visit or branch receipt",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.deferredActivated",
+      "concreteDefinition": "X eligibility `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "Tracking/P22",
+      "requiredCases": "IP-AC-08: activation changes eligibility, not money/stock or arrival",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "task.driverUrgencyChanged",
+      "concreteDefinition": "X eligibility `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "Tracking/P22",
+      "requiredCases": "IP-AC-08: driver's accepted urgency is distinct from ERP source revision; no service impersonation",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "round.ended",
+      "concreteDefinition": "X workday-closure `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P16/P22",
+      "requiredCases": "IP-AC-12/13: closure anchors evidence witness, not all-stream completeness, remittance or automatic returns",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "workday.ended",
+      "concreteDefinition": "X workday-closure `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P16/P20/P22",
+      "requiredCases": "IP-AC-09/12/13: preserve held carry-forward and correction boundary; not payroll closure",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "return.requested",
+      "concreteDefinition": "R `RequestedEvent`",
+      "firstHandlerOwner": "P14",
+      "consumers": "P13/P15/P18/P22",
+      "requiredCases": "IP-AC-07/10/14: offer only, no stock; missing predecessor waits, original request does not overwrite accumulated balances",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "return.subsetReceived",
+      "concreteDefinition": "R `ReceivedEvent`",
+      "firstHandlerOwner": "P14",
+      "consumers": "P13/P15/P18/P22",
+      "requiredCases": "IP-AC-10/11/14: actual unique transition and condition, accepted subset reusable independently, result/replay/snapshot dedup",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "return.dispositionRecorded",
+      "concreteDefinition": "R `DispositionEvent`",
+      "firstHandlerOwner": "P14",
+      "consumers": "P13/P18/P21/P22",
+      "requiredCases": "IP-AC-10/14: lost/damaged custody, no reusable stock or automatic compensation/payroll deduction",
+      "handlerPaths": [
+        "packages/contracts/src/tawsel/returns.ts",
+        "apps/api/src/modules/returns/return-events.ts",
+        "apps/api/src/modules/returns/receipt.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "branch.roundInterrupted",
+      "concreteDefinition": "X branch-activity `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "Tracking/P14/P22",
+      "requiredCases": "IP-AC-10/16: source-branch customer-round service, never an ERP transport manifest",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "branch.arrivalRecorded",
+      "concreteDefinition": "X branch-activity `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P14/P22",
+      "requiredCases": "IP-AC-10/16: branch arrival neither item receipt nor chargeable customer visit",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "branch.roundResumed",
+      "concreteDefinition": "X branch-activity `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P14/P22",
+      "requiredCases": "IP-AC-10/16: documented claimed-subset rules, not all-returns-clear or internal transport completion",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Generated envelope around supplied concrete feature payload; not a captured signed send",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Current producer variant not exercised by this live trial",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    },
+    {
+      "eventType": "outcome.corrected",
+      "concreteDefinition": "X corrections `Event`",
+      "firstHandlerOwner": "P13",
+      "consumers": "P14/P16/P17/P20/P21/P22",
+      "requiredCases": "IP-AC-07/09/13: predecessor/effective chain, unchanged prices, one visit, posted-money review/hold; no automatic refund or paid-period rewrite",
+      "handlerPaths": [
+        "packages/contracts/src/execution/index.ts",
+        "apps/api/src/modules/execution/projection-worker.ts",
+        "apps/api/src/modules/execution/monitoring-reader.service.ts"
+      ],
+      "fixtureProvenance": "Supplied P25 sender example; historical source capture claim only",
+      "localP22Boundary": "7-case unit suite tests this variant positive, injected concrete payload field, wrong source and unsupported version; shared collision/ordering tests have narrower selected event coverage",
+      "actualP22TawselHttp": "Actual producer event received and applied in scoped live trial; full variant acceptance pending",
+      "handlerResult": "Native owner routing retained; selected P11/P13/P14 regressions executed. Full combined per-variant runtime recovery remains unverified."
+    }
+  ]
+}

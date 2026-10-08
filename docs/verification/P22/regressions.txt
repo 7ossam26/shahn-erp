@@ -1,0 +1,35 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests | 12 skipped) 7717ms
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests | 13 skipped) 11785ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 596ms
+ ↓ tests/integration/p14/returns.db.test.ts (11 tests | 11 skipped)
+ ❯ tests/integration/p20/sources.db.test.ts (4 tests | 1 failed | 3 skipped) 9681ms
+   ↓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost
+   ↓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period
+   ↓ AC08 late immutable historical earning after paid month becomes one explicit linked future adjustment
+   × a corrected protected source retains payment and posted recovery, shows review, and holds only its affected month 17ms
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests | 12 skipped) 9895ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 520ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 529ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/sources.db.test.ts > a corrected protected source retains payment and posted recovery, shows review, and holds only its affected month
+TypeError: Cannot read properties of undefined (reading 'outcome')
+ ❯ tests/integration/p20/sources.db.test.ts:365:32
+    363| it('a corrected protected source retains payment and posted recovery, …
+    364|   const before = await read(),
+    365|     revised = await firstVisit.outcome('refused');
+       |                                ^
+    366|   revised.revision = 2;
+    367|   const correction = {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed | 1 skipped (5)
+      Tests  1 failed | 4 passed | 51 skipped (56)
+   Start at  13:44:17
+   Duration  49.22s (tests 80%, import 16%, transform 4%)

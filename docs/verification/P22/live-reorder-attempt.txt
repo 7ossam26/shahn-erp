@@ -1,0 +1,18 @@
+file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/.tools/p22-access/native-control.mjs:14
+ const value=await r.json();if(!r.ok)throw Object.assign(Error('Native HTTP '+r.status+': '+JSON.stringify(value)),{status:r.status,body:value});return value;
+                                                         ^
+
+Error: Native HTTP 409: {"code":"ACTUAL_RETURN_LIFECYCLE_REQUIRED","messageKey":"kernel.actual_return_lifecycle_required","commandId":"f0da9955-b68d-4d1c-b908-20c68f0c838c","correlationId":"6a721ef4-5603-4652-8e79-3521d033bae9"}
+    at api (file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/.tools/p22-access/native-control.mjs:14:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/7OSS/Desktop/projects/routing%20+%20erp/shahn-erp/.tools/p22-access/live-reorder.mjs:20:2 {
+  status: 409,
+  body: {
+    code: 'ACTUAL_RETURN_LIFECYCLE_REQUIRED',
+    messageKey: 'kernel.actual_return_lifecycle_required',
+    commandId: 'f0da9955-b68d-4d1c-b908-20c68f0c838c',
+    correlationId: '6a721ef4-5603-4652-8e79-3521d033bae9'
+  }
+}
+
+Node.js v24.21.0
