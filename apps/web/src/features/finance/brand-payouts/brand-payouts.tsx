@@ -52,6 +52,7 @@ const movementNames: Record<string, string> = {
   payout: 'تحصيل للبراند',
   correction: 'تصحيح مرتبط',
   opening: 'رصيد افتتاحي',
+  adjustment: 'تسوية تجارية متفق عليها',
 };
 const lotStates: Record<string, string> = {
   pending: 'بانتظار استلام أموال المندوب',

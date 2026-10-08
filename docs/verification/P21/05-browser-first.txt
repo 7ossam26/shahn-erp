@@ -1,0 +1,19 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 tests/integration/p21/settlements.spec.ts:80:1 › settlement journey: product delta, stale review, cash hold and typed expense, lost response, blocked, already resolved and denied (19.2s)
+  ✓  2 tests/integration/p21/settlements.spec.ts:208:1 › opening journey: one typed batch, lost response recovered once, duplicate blocked, pending brand stays pending (10.9s)
+[WebServer] /home/user/shahn-erp/packages/test-support/src/native-postgres.ts:68
+[WebServer]         else reject(new Error(`TEST_POSTGRES_CONTROL_FAILED:${code}`));
+[WebServer]                     ^
+[WebServer]
+[WebServer] Error: TEST_POSTGRES_CONTROL_FAILED:null
+[WebServer]     at ChildProcess.<anonymous> (/home/user/shahn-erp/packages/test-support/src/native-postgres.ts:68:21)
+[WebServer]     at ChildProcess.wrapper (node:events:639:12)
+[WebServer]     at ChildProcess.emit (node:events:514:28)
+[WebServer]     at ChildProcess._handle.onexit (node:internal/child_process:295:12)
+[WebServer]
+[WebServer] Node.js v24.21.0
+
+  2 passed (36.9s)
+EXIT 0

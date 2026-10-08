@@ -22,13 +22,14 @@ export async function payrollObligations(
   );
   return (
     await tx.query<PayrollObligation>(
-      `SELECT o.id,o.kind,o.source_id AS "sourceId",CASE o.kind WHEN 'incident' THEN 'مسؤولية حادث' WHEN 'advance' THEN 'سلفة مدفوعة' ELSE a.reason END AS "sourceLabel",
+      `SELECT o.id,o.kind,o.source_id AS "sourceId",CASE o.kind WHEN 'incident' THEN 'مسؤولية حادث' WHEN 'advance' THEN 'سلفة مدفوعة' WHEN 'settlement' THEN so.label ELSE a.reason END AS "sourceLabel",
   to_char(o.month,'YYYY-MM') AS month,o.effective_date::text AS "effectiveDate",o.recorded_at::text AS "recordedAt",o.branch_id AS "branchId",o.amount_minor::text AS "amountMinor",
   o.outstanding_amount::text AS "outstandingAmount",o.reserved_for_frozen_periods::text AS "reservedForFrozenPeriods",o.available_for_new_allocation::text AS "availableForNewAllocation",
   CASE WHEN m.id IS NOT NULL THEN jsonb_build_object('branchId',m.branch_id,'accountId',m.account_id,'method',m.method,'actualDate',m.actual_date::text,'movementId',m.id,'reference',v.reference) ELSE NULL END AS "advancePayment",
   COALESCE((SELECT jsonb_agg(jsonb_build_object('month',to_char(r.month,'YYYY-MM'),'state',r.state,'amountMinor',r.amount_minor::text) ORDER BY r.month) FROM employees.payroll_recovery r WHERE r.company_id=o.company_id AND r.obligation_id=o.id),'[]'::jsonb) AS recoveries
   FROM employees.obligation_balance o LEFT JOIN employees.payroll_adjustment a ON(a.company_id,a.id)=(o.company_id,o.adjustment_id)
   LEFT JOIN employees.advance v ON(v.company_id,v.id)=(o.company_id,o.advance_id)
+  LEFT JOIN settlements.employee_obligation so ON(so.company_id,so.id)=(o.company_id,o.id) AND o.kind='settlement'
   LEFT JOIN finance.money_movement m ON(m.company_id,m.id)=(v.company_id,v.movement_id)
   WHERE o.company_id=$1 AND o.employee_id=$2 AND o.month<=$3 ORDER BY o.effective_date,o.recorded_at,o.id`,
       [company, employee, month + '-01'],

@@ -1,0 +1,24 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run 'vitest' run -c vitest.db.config.ts tests/integration/p11/boundary.db.test.ts
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p11/boundary.db.test.ts (19 tests) 10781ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 671ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 707ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 2596ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 2637ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 861ms
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  01:44:00
+   Duration  15.01s (tests 72%, import 15%, transform 13%)
+
+EXIT 0

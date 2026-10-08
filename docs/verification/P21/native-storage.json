@@ -1,0 +1,160 @@
+{
+  "A07": {
+    "brand": {
+      "brandId": "ebcfc71a-a541-4d83-87f3-cc11ad93b868",
+      "agreementId": "732f28d4-e834-4bc9-bcb2-c0f4e8596425",
+      "fields": {
+        "name": "براند استرداد P21",
+        "active": true,
+        "contact": null,
+        "externalReference": null,
+        "services": [
+          "brand_packed",
+          "stored_stock"
+        ],
+        "defaultService": "brand_packed",
+        "tierId": "82cc4db8-23e7-4d22-8fde-be97877debe1",
+        "packingUpliftMinor": "0",
+        "partialDelivery": false,
+        "payoutWeekdays": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "allowNegativeBalance": false,
+        "storage": {
+          "monthlyFeeMinor": "31000",
+          "startDate": "2026-10-08",
+          "anniversaryDay": 8,
+          "branchId": "07c407b0-1d37-4b5a-a0af-b82767a59e76",
+          "active": true,
+          "stopDate": null
+        }
+      },
+      "version": 1
+    },
+    "result": {
+      "commandId": "b7c8961c-87f6-4276-b30c-9c60db92e5c9",
+      "caseId": "28eec2d2-1bc8-4c52-9fec-ddc454099de9",
+      "caseReference": "1",
+      "resolutionId": "ec4d8ccc-d825-41bf-ab56-a10a38269036",
+      "operation": "storage.refund",
+      "classification": "storage_credit_refund",
+      "state": "resolved",
+      "preview": {
+        "operation": "storage.refund",
+        "classification": "storage_credit_refund",
+        "target": {
+          "kind": "storage",
+          "id": "ebcfc71a-a541-4d83-87f3-cc11ad93b868",
+          "label": "براند استرداد P21",
+          "branchId": "07c407b0-1d37-4b5a-a0af-b82767a59e76",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "unallocatedStorageCredit",
+            "unit": "minor",
+            "before": "19000",
+            "after": "9000"
+          },
+          {
+            "key": "allocatedStorageCredit",
+            "unit": "minor",
+            "before": "31000",
+            "after": "31000"
+          },
+          {
+            "key": "availableFunds",
+            "unit": "minor",
+            "before": "100000",
+            "after": "90000"
+          },
+          {
+            "key": "earnedStorageRevenue",
+            "unit": "text",
+            "before": "unchanged",
+            "after": "unchanged"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "money",
+            "kind": "payment",
+            "label": "خزنة الفرع أ",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "storage",
+            "kind": "refund",
+            "label": "استرداد من رصيد التخزين غير المخصص فقط",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [
+          {
+            "kind": "storage_receipt",
+            "id": "cab5b107-37f2-401f-98e9-40b68ce231b4",
+            "label": "إيصال 1 · 10000",
+            "state": "refund_source"
+          }
+        ],
+        "warnings": [
+          "STORAGE_CREDIT_SEPARATE_FROM_BRAND_WALLET"
+        ],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "storage.credit",
+            "version": "3"
+          }
+        ],
+        "digest": "c4811747854f449f85f6065e40d5a42a8d0df9b44e617021825027563332078b"
+      },
+      "links": [
+        {
+          "role": "original",
+          "entityKind": "brand",
+          "entityId": "ebcfc71a-a541-4d83-87f3-cc11ad93b868",
+          "label": "اتفاق التخزين"
+        },
+        {
+          "role": "result",
+          "entityKind": "storage_refund",
+          "entityId": "58443f8a-ba9c-4753-a18c-4b037feb00de",
+          "label": "استرداد رقم 1"
+        },
+        {
+          "role": "result",
+          "entityKind": "money_movement",
+          "entityId": "aa8947f8-19c2-4896-bff8-755ad71e9d97",
+          "label": "صرف فعلي من الحساب"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "storage_receipt",
+          "entityId": "cab5b107-37f2-401f-98e9-40b68ce231b4",
+          "label": "إيصال 1"
+        }
+      ]
+    },
+    "credit": {
+      "receiptsMinor": "50000",
+      "correctionsMinor": "0",
+      "allocatedMinor": "31000",
+      "refundedMinor": "10000",
+      "unallocatedMinor": "9000"
+    },
+    "revenue": {
+      "2026-10": "31000"
+    }
+  }
+}

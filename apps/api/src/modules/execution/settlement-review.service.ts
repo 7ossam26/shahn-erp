@@ -34,6 +34,10 @@ export interface SettlementResolution {
   resolutionSourceId: string;
   linkedAdjustmentIds: string[];
   holdReleaseIds: string[];
+  /** P21: an authorized reviewer may keep the posted original unchanged (no adjustment rows). */
+  mode?: 'linked_adjustment' | 'retain_original';
+  /** P21: further resolution sources when one brand needs both a goods and a fee correction. */
+  additionalSourceIds?: string[];
 }
 /** P21 must supply its authorized typed adjustment transaction; no public automatic resolution. */
 export async function resolveSettlementReview(u: UnitOfWork, resolution: SettlementResolution) {
@@ -46,17 +50,23 @@ export async function resolveSettlementReview(u: UnitOfWork, resolution: Settlem
   if (!r) throw new AccessError('NOT_FOUND', 404);
   u.assertBranch(r.branch_id);
   if (r.state !== 'open') throw new AccessError('REVIEW_ALREADY_RESOLVED', 409);
-  if (!resolution.linkedAdjustmentIds.length)
+  const retain = resolution.mode === 'retain_original';
+  if (retain ? resolution.linkedAdjustmentIds.length : !resolution.linkedAdjustmentIds.length)
     throw new AccessError('LINKED_RESOLUTION_REQUIRED', 409);
+  // A linked adjustment is either a correction superseding the protected goods/fee posting or a
+  // newly effective goods/fee effect of the same visit brand; both come from the resolution sources.
   const count = (
     await u.client.query(
-      `SELECT count(*)::int n FROM kernel.journal_effect WHERE company_id=$1 AND source_id=$2 AND id=ANY($3::uuid[]) AND kind='correction' AND branch_id=$4 AND supersedes_id=ANY($5::uuid[])`,
+      `SELECT count(*)::int n FROM kernel.journal_effect e JOIN execution.visit_fact v ON v.company_id=e.company_id AND v.id=$6
+       WHERE e.company_id=$1 AND e.source_id=ANY($2::uuid[]) AND e.id=ANY($3::uuid[]) AND e.branch_id=$4 AND e.family='brand' AND e.subject_id=v.brand_id
+       AND ((e.kind='correction' AND e.supersedes_id=ANY($5::uuid[])) OR (e.kind IN ('goods','fee') AND e.supersedes_id IS NULL))`,
       [
         u.access.companyId,
-        resolution.resolutionSourceId,
+        [resolution.resolutionSourceId, ...(resolution.additionalSourceIds ?? [])],
         resolution.linkedAdjustmentIds,
         r.branch_id,
         [r.basis.previous?.goods_effect_id, r.basis.previous?.fee_effect_id].filter(Boolean),
+        r.visit_id,
       ],
     )
   ).rows[0].n;

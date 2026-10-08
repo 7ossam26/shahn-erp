@@ -47,7 +47,7 @@ export function walletReasons(a: BrandWalletAmounts): WalletReason[] {
 export interface PayoutAllocationRow {
   lotId: string;
   amountMinor: string;
-  lotKind: 'goods' | 'compensation' | 'opening' | 'correction';
+  lotKind: 'goods' | 'compensation' | 'opening' | 'correction' | 'adjustment';
   sourceBranchId: string;
   effectiveDate: string;
 }

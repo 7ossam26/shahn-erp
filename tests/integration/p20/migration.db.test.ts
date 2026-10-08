@@ -30,7 +30,7 @@ it('populated P19 upgrade preserves P18 original obligations and all actual mone
     ).rows;
     const status = await migrate(db.pool);
     expect(status.state).toBe('current');
-    expect(status.applied.at(-1)?.version).toBe('0024_p20_payroll');
+    expect(status.applied.map((m) => m.version)).toContain('0024_p20_payroll');
     expect(
       (
         await db.pool.query(

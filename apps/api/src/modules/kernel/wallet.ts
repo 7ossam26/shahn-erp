@@ -102,6 +102,31 @@ export class WalletService {
       [randomUUID(), this.uow.access.companyId, lotId, correctionEffectId, amount],
     );
   }
+  /** P21: a linked negative correction first consumes the free remainder of the lot it supersedes.
+   * Any excess stays an ordinary unallocated debit; paid allocations are never touched. */
+  async allocateCorrection(lotId: string, correctionEffectId: string): Promise<string> {
+    this.check();
+    const row = (
+      await this.uow.client.query<{ amount: string }>(
+        `SELECT (-e.amount_minor)::text AS amount FROM kernel.journal_effect e JOIN kernel.credit_lot l
+         ON l.company_id=e.company_id AND l.id=e.supersedes_id
+         WHERE e.company_id=$1 AND e.id=$2 AND e.family='brand' AND e.kind='correction' AND e.amount_minor<0
+         AND l.id=$3 AND l.brand_id=$4`,
+        [this.uow.access.companyId, correctionEffectId, lotId, this.brandId],
+      )
+    ).rows[0];
+    if (!row) throw new AccessError('INVALID_CORRECTION_SOURCE', 409);
+    const lot = (await this.lots()).find((l) => l.id === lotId)!;
+    const free = subtractMinor(minor(lot.remaining, 'nonnegative'), minor(lot.held, 'nonnegative'));
+    const wanted = minor(row.amount, 'positive'),
+      amount = free < wanted ? free : wanted;
+    if (amount > 0n)
+      await this.uow.client.query(
+        `INSERT INTO kernel.lot_allocation(id,company_id,lot_id,effect_id,amount_minor) VALUES($1,$2,$3,$4,$5)`,
+        [randomUUID(), this.uow.access.companyId, lotId, correctionEffectId, amount.toString()],
+      );
+    return (amount > 0n ? amount : 0n).toString();
+  }
   private async allocate(effectId: string, requested: bigint): Promise<bigint> {
     let remaining = requested;
     for (const lot of await this.lots()) {

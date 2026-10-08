@@ -21,8 +21,14 @@ export function calculatePayroll(
     commission = category('commission'),
     bonus = category('bonus'),
     overtime = category('overtime'),
-    positiveEarningAdjustments = category('earning_correction');
-  const gross = sum([salary, commission, bonus, overtime, positiveEarningAdjustments].map(String));
+    positiveEarningAdjustments = category('earning_correction'),
+    // P21: a pre-ERP entitlement is paid once through payroll but is not current earning cost.
+    openingEntitlement = category('opening_entitlement');
+  const gross = sum(
+    [salary, commission, bonus, overtime, positiveEarningAdjustments, openingEntitlement].map(
+      String,
+    ),
+  );
   const due = originals
     .filter((o) => o.month <= month)
     .sort(
@@ -82,12 +88,17 @@ export function calculatePayroll(
     earningDeductionsRecovered: String(recovered('earning_deduction')),
     advanceRecovered: String(recovered('advance')),
     incidentRecovered: String(recovered('incident')),
+    openingEntitlement: String(openingEntitlement),
+    newSettlementObligations: String(newCategory('settlement')),
+    settlementRecovered: String(recovered('settlement')),
     outstandingAmount: String(sum(due.map((o) => o.outstandingAmount))),
     reservedForFrozenPeriods: String(sum(due.map((o) => o.reservedForFrozenPeriods))),
     availableForNewAllocation: String(obligations),
     netPayable: String(net),
     carryRemaining: String(obligations - (gross - net)),
-    employeeCost: String(subtractMinor(gross, category('earning_deduction'))),
+    employeeCost: String(
+      subtractMinor(subtractMinor(gross, category('earning_deduction')), openingEntitlement),
+    ),
     allocations,
   };
 }

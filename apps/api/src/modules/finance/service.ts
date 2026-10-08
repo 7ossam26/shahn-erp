@@ -30,15 +30,7 @@ async function fieldsScope(u: UnitOfWork, f: AccountFields) {
   if (f.type === 'cash' && (f.branchIds.length !== 1 || f.bankDescription !== ''))
     throw new AccessError('INVALID_ACCOUNT_SCOPE', 400);
 }
-export function financeCommands(
-  pool: Pool,
-  hooks: {
-    afterExpenseInsert?: () => Promise<void>;
-    afterPosting?: () => Promise<void>;
-    beforeResult?: () => Promise<void>;
-    afterAccountLock?: () => Promise<void>;
-  } = {},
-) {
+export function financeCommands(pool: Pool, hooks: FinanceHooks = {}) {
   const kinds: FinanceCommand['type'][] = [
     'account.create',
     'account.update',
@@ -189,91 +181,13 @@ export function financeCommands(
         );
         reference = { entityId: id, accountId: id, branchIds: fields.branchIds };
       } else {
-        const f = input.fields;
-        minor(f.amountMinor, 'positive');
-        u.assertBranch(f.branchId);
-        const today = (
-          await client.query<{ today: string }>(
-            "SELECT (clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date::text AS today",
-          )
-        ).rows[0]!.today;
-        if (f.actualDate > today) throw new AccessError('FUTURE_PAYMENT_DATE', 400);
-        movementId = input.type === 'movement.create' ? id : randomUUID();
-        let categoryName = '';
-        if (input.type === 'expense.create') {
-          categoryName = (await requireReference(u, input.fields.categoryId, 'expense_category'))
-            .name;
-          await journal.createResource('operating', id);
-        }
-        await funds.lock([f.accountId]);
-        await hooks.afterAccountLock?.();
-        await funds.use(f);
-        if (input.type === 'expense.create') {
-          await funds.requireFunds(f.accountId, f.amountMinor);
-          await client.query(
-            `INSERT INTO finance.paid_expense(company_id,id,movement_id,source_id,account_id,branch_id,category_id,category_name,description,amount_minor,currency,actual_date,actor_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'EGP',$11,$12)`,
-            [
-              company,
-              id,
-              movementId,
-              sourceId,
-              f.accountId,
-              f.branchId,
-              input.fields.categoryId,
-              categoryName,
-              input.fields.description,
-              f.amountMinor,
-              f.actualDate,
-              u.access.principalId,
-            ],
-          );
-          await hooks.afterExpenseInsert?.();
-        }
-        const posted = await funds.post({
-          sourceId: sourceId!,
-          recordId,
-          movementId,
-          fields: f,
-          direction: input.type === 'expense.create' ? 'withdrawal' : input.fields.direction,
-          sourceKind: input.type === 'expense.create' ? 'expense' : 'general',
-          reason: input.type === 'expense.create' ? input.fields.description : input.fields.reason,
-          ...(input.type === 'expense.create'
-            ? {
-                additionalEffects: [
-                  {
-                    family: 'operating',
-                    kind: 'cost',
-                    subjectId: id,
-                    amountMinor: '-' + f.amountMinor,
-                    branchId: f.branchId,
-                    effectiveDate: f.actualDate,
-                    supersedesId: null,
-                    reason: input.fields.description,
-                  },
-                ],
-              }
-            : {}),
-        });
-        if (input.type === 'expense.create') {
-          const cost = (
-            await client.query<{ id: string }>(
-              "SELECT id FROM kernel.journal_effect WHERE company_id=$1 AND source_id=$2 AND family='operating'",
-              [company, sourceId],
-            )
-          ).rows[0]!.id;
-          await client.query('INSERT INTO finance.paid_cost VALUES($1,$2,$3,$4,$5,$6,$7)', [
-            company,
-            id,
-            sourceId,
-            cost,
-            f.amountMinor,
-            f.actualDate,
-            f.branchId,
-          ]);
-        }
-        movementId = posted.id;
-        await hooks.afterPosting?.();
-        reference = { entityId: id, accountId: f.accountId, branchId: f.branchId };
+        const paid = await recordPaidMoney(u, input, recordId, { id, sourceId: sourceId!, hooks });
+        movementId = paid.movementId;
+        reference = {
+          entityId: id,
+          accountId: input.fields.accountId,
+          branchId: input.fields.branchId,
+        };
       }
       await hooks.beforeResult?.();
       const body: FinanceResult = { commandId: input.commandId, entityId: id, version, movementId },
@@ -294,6 +208,133 @@ export function financeCommands(
     },
   }));
   return new CommandService(pool, definitions);
+}
+export type PaidMoneyCommand = Extract<
+  FinanceCommand,
+  { type: 'expense.create' | 'movement.create' }
+>;
+export interface FinanceHooks {
+  afterExpenseInsert?: () => Promise<void>;
+  afterPosting?: () => Promise<void>;
+  beforeResult?: () => Promise<void>;
+  afterAccountLock?: () => Promise<void>;
+}
+/**
+ * P09 paid expense / general movement in the caller's UnitOfWork. The P09 command and P21's
+ * typed missed-movement resolution share this one path; neither opens a transaction.
+ * `beforeFunds` runs after the account lock and before the funds check (P21 hold replacement).
+ */
+export async function recordPaidMoney(
+  u: UnitOfWork,
+  input: PaidMoneyCommand,
+  recordId: string,
+  options: {
+    id: string;
+    sourceId?: string;
+    hooks?: FinanceHooks;
+    beforeFunds?: () => Promise<void>;
+  },
+) {
+  const { id, hooks = {} } = options,
+    company = u.access.companyId,
+    client = u.client,
+    journal = new JournalPosting(u),
+    funds = new AccountFundsService(u);
+  const sourceId =
+    options.sourceId ??
+    (
+      await journal.source(
+        { system: 'erp', identity: id, kind: input.type, revision: '1' },
+        input.fields,
+      )
+    ).id;
+  await configurationLock(u);
+  const f = input.fields;
+  minor(f.amountMinor, 'positive');
+  u.assertBranch(f.branchId);
+  const today = (
+    await client.query<{ today: string }>(
+      "SELECT (clock_timestamp() AT TIME ZONE 'Africa/Cairo')::date::text AS today",
+    )
+  ).rows[0]!.today;
+  if (f.actualDate > today) throw new AccessError('FUTURE_PAYMENT_DATE', 400);
+  let movementId = input.type === 'movement.create' ? id : randomUUID();
+  let categoryName = '';
+  if (input.type === 'expense.create') {
+    categoryName = (await requireReference(u, input.fields.categoryId, 'expense_category')).name;
+    await journal.createResource('operating', id);
+  }
+  await funds.lock([f.accountId]);
+  await hooks.afterAccountLock?.();
+  await funds.use(f);
+  await options.beforeFunds?.();
+  if (input.type === 'expense.create') {
+    await funds.requireFunds(f.accountId, f.amountMinor);
+    await client.query(
+      `INSERT INTO finance.paid_expense(company_id,id,movement_id,source_id,account_id,branch_id,category_id,category_name,description,amount_minor,currency,actual_date,actor_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'EGP',$11,$12)`,
+      [
+        company,
+        id,
+        movementId,
+        sourceId,
+        f.accountId,
+        f.branchId,
+        input.fields.categoryId,
+        categoryName,
+        input.fields.description,
+        f.amountMinor,
+        f.actualDate,
+        u.access.principalId,
+      ],
+    );
+    await hooks.afterExpenseInsert?.();
+  }
+  const posted = await funds.post({
+    sourceId,
+    recordId,
+    movementId,
+    fields: f,
+    direction: input.type === 'expense.create' ? 'withdrawal' : input.fields.direction,
+    sourceKind: input.type === 'expense.create' ? 'expense' : 'general',
+    reason: input.type === 'expense.create' ? input.fields.description : input.fields.reason,
+    ...(input.type === 'expense.create'
+      ? {
+          additionalEffects: [
+            {
+              family: 'operating',
+              kind: 'cost',
+              subjectId: id,
+              amountMinor: '-' + f.amountMinor,
+              branchId: f.branchId,
+              effectiveDate: f.actualDate,
+              supersedesId: null,
+              reason: input.fields.description,
+            },
+          ],
+        }
+      : {}),
+  });
+  let costEffectId: string | null = null;
+  if (input.type === 'expense.create') {
+    costEffectId = (
+      await client.query<{ id: string }>(
+        "SELECT id FROM kernel.journal_effect WHERE company_id=$1 AND source_id=$2 AND family='operating'",
+        [company, sourceId],
+      )
+    ).rows[0]!.id;
+    await client.query('INSERT INTO finance.paid_cost VALUES($1,$2,$3,$4,$5,$6,$7)', [
+      company,
+      id,
+      sourceId,
+      costEffectId,
+      f.amountMinor,
+      f.actualDate,
+      f.branchId,
+    ]);
+  }
+  movementId = posted.id;
+  await hooks.afterPosting?.();
+  return { id, sourceId, movementId, effectId: posted.effectId, costEffectId };
 }
 export async function financeCatalog(u: UnitOfWork): Promise<FinanceCatalog> {
   await configurationLock(u);

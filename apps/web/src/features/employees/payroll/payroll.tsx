@@ -40,6 +40,8 @@ const categoryNames = {
   earning_deduction: 'خصم استحقاق',
   advance: 'سلفة',
   incident: 'مسؤولية حادث',
+  opening_entitlement: 'مستحق افتتاحي للموظف',
+  settlement: 'التزام تسوية مرتبط',
 };
 const methodNames = { cash: 'نقدي', bank_deposit: 'إيداع بنكي', instapay: 'إنستا باي' };
 function useMonth(id: string, month: string) {

@@ -1,0 +1,725 @@
+{
+  "P19-AC-02/09": {
+    "result": {
+      "commandId": "95c28eb3-a4bf-4f84-9602-9b490466bfa1",
+      "receiptId": "578d5b02-9edd-47b5-8ae4-d606551b0d02",
+      "reference": "1",
+      "agreementId": "46726694-b483-4ab3-ac0f-43b0c44e8f9c",
+      "brandId": "6a441b01-2f70-47d9-a1a3-10020f505ccc",
+      "amountMinor": "10000",
+      "actualDate": "2027-01-25",
+      "movementId": "52decbc0-59d4-4ee0-9f1c-6adea3edc153",
+      "allocations": [
+        {
+          "periodId": "6845968a-dd37-4d44-9235-6494af00962e",
+          "periodIndex": 0,
+          "startDate": "2027-01-20",
+          "endDate": "2027-02-19",
+          "dueDate": "2027-01-20",
+          "outstandingBeforeMinor": "31000",
+          "amountMinor": "10000",
+          "outstandingAfterMinor": "21000"
+        }
+      ],
+      "allocatedMinor": "10000",
+      "outstandingAfterMinor": "21000",
+      "unallocatedCreditAfterMinor": "0"
+    },
+    "periods": [
+      {
+        "periodId": "6845968a-dd37-4d44-9235-6494af00962e",
+        "periodIndex": 0,
+        "startDate": "2027-01-20",
+        "endDate": "2027-02-19",
+        "nextStartDate": "2027-02-20",
+        "dueDate": "2027-01-20",
+        "feeMinor": "31000",
+        "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+        "branchName": "الفرع أ",
+        "revision": 1,
+        "revenueMonth": "2027-01",
+        "allocatedMinor": "10000",
+        "outstandingMinor": "21000",
+        "status": "partial",
+        "overdue": true,
+        "generatedOn": "2027-01-20",
+        "recordedAt": "2026-10-08T02:05:45.261Z",
+        "allocations": [
+          {
+            "receiptId": "578d5b02-9edd-47b5-8ae4-d606551b0d02",
+            "receiptReference": "1",
+            "receiptActualDate": "2027-01-25",
+            "amountMinor": "10000",
+            "triggerKind": "payment",
+            "recordedAt": "2026-10-08T02:05:45.315Z"
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "family": "operating",
+        "kind": "storage",
+        "amount": "31000",
+        "branch": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+        "date": "2027-01-20"
+      },
+      {
+        "family": "storage",
+        "kind": "receipt",
+        "amount": "10000",
+        "branch": "6b45aa6e-865d-4d0e-aa06-a3966de0f5fc",
+        "date": "2027-01-25"
+      },
+      {
+        "family": "storage",
+        "kind": "allocation",
+        "amount": "-10000",
+        "branch": "6b45aa6e-865d-4d0e-aa06-a3966de0f5fc",
+        "date": "2027-01-25"
+      }
+    ]
+  },
+  "P19-AC-03": {
+    "credit": {
+      "receiptsMinor": "50000",
+      "correctionsMinor": "0",
+      "allocatedMinor": "31000",
+      "refundedMinor": "0",
+      "unallocatedMinor": "19000"
+    },
+    "periods": [
+      {
+        "periodId": "02ce4444-1b99-4d14-b875-b4c357f020a1",
+        "periodIndex": 0,
+        "startDate": "2027-02-01",
+        "endDate": "2027-02-28",
+        "nextStartDate": "2027-03-01",
+        "dueDate": "2027-02-01",
+        "feeMinor": "31000",
+        "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+        "branchName": "الفرع أ",
+        "revision": 1,
+        "revenueMonth": "2027-02",
+        "allocatedMinor": "31000",
+        "outstandingMinor": "0",
+        "status": "paid",
+        "overdue": false,
+        "generatedOn": "2027-02-01",
+        "recordedAt": "2026-10-08T02:05:45.538Z",
+        "allocations": [
+          {
+            "receiptId": "e325cd1f-f9f1-432e-96c9-2d0dc6177040",
+            "receiptReference": "2",
+            "receiptActualDate": "2027-01-10",
+            "amountMinor": "31000",
+            "triggerKind": "renewal",
+            "recordedAt": "2026-10-08T02:05:45.540Z"
+          }
+        ]
+      }
+    ],
+    "revenue": {
+      "2027-02": "31000"
+    }
+  },
+  "P19-AC-04": {
+    "result": {
+      "commandId": "16a2b9fe-bf6e-4057-a9a2-8f14f4cd8afb",
+      "receiptId": "47a90358-fd8a-4e01-acef-6317fc48f907",
+      "reference": "3",
+      "agreementId": "74288f69-30f0-4683-b368-66329ab6c4a2",
+      "brandId": "57135864-6054-476b-8595-57281aa50742",
+      "amountMinor": "40000",
+      "actualDate": "2027-04-07",
+      "movementId": "0f407d30-622c-4c8c-a0a1-07dd609d83f5",
+      "allocations": [
+        {
+          "periodId": "24dde917-b65b-408b-b3b8-6fc322727146",
+          "periodIndex": 0,
+          "startDate": "2027-03-05",
+          "endDate": "2027-04-04",
+          "dueDate": "2027-03-05",
+          "outstandingBeforeMinor": "31000",
+          "amountMinor": "31000",
+          "outstandingAfterMinor": "0"
+        },
+        {
+          "periodId": "52a99ad8-d08c-4c8b-8225-d20f5b6612cb",
+          "periodIndex": 1,
+          "startDate": "2027-04-05",
+          "endDate": "2027-05-04",
+          "dueDate": "2027-04-05",
+          "outstandingBeforeMinor": "31000",
+          "amountMinor": "9000",
+          "outstandingAfterMinor": "22000"
+        }
+      ],
+      "allocatedMinor": "40000",
+      "outstandingAfterMinor": "22000",
+      "unallocatedCreditAfterMinor": "0"
+    },
+    "rows": [
+      {
+        "amount": "31000",
+        "start": "2027-03-05",
+        "receipt": "47a90358-fd8a-4e01-acef-6317fc48f907"
+      },
+      {
+        "amount": "9000",
+        "start": "2027-04-05",
+        "receipt": "47a90358-fd8a-4e01-acef-6317fc48f907"
+      }
+    ]
+  },
+  "P19-AC-05": {
+    "stop": {
+      "commandId": "3068f8c1-8f47-450b-b1aa-4dc82732302a",
+      "agreementId": "612ff418-e53f-4ce3-a13a-8da1a2a78afc",
+      "brandId": "5808d9a5-409a-4fd2-983a-66a40ecda659",
+      "stopBoundary": "2027-08-10",
+      "lastServiceDate": "2027-08-09",
+      "version": 2,
+      "outstandingMinor": "23000",
+      "unallocatedCreditMinor": "0"
+    },
+    "after": {
+      "agreementId": "612ff418-e53f-4ce3-a13a-8da1a2a78afc",
+      "brandId": "5808d9a5-409a-4fd2-983a-66a40ecda659",
+      "brandName": "براند الإيقاف",
+      "state": "stopped",
+      "origin": "brand_setup",
+      "startDate": "2027-05-10",
+      "anchorDay": 10,
+      "firstBillableStartDate": "2027-05-10",
+      "stopBoundary": "2027-08-10",
+      "lastServiceDate": "2027-08-09",
+      "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+      "branchName": "الفرع أ",
+      "currentFeeMinor": "31000",
+      "nextChange": null,
+      "nextPeriodStartDate": null,
+      "charges": {
+        "chargedMinor": "93000",
+        "allocatedMinor": "93000",
+        "outstandingMinor": "0",
+        "overdueMinor": "0"
+      },
+      "credit": {
+        "receiptsMinor": "100000",
+        "correctionsMinor": "0",
+        "allocatedMinor": "93000",
+        "refundedMinor": "0",
+        "unallocatedMinor": "7000"
+      },
+      "overdue": false,
+      "periodCount": 3,
+      "version": 2,
+      "creditVersion": 6,
+      "today": "2027-12-31",
+      "revisions": [
+        {
+          "revision": 1,
+          "effectivePeriodIndex": 0,
+          "effectiveStartDate": "2027-05-10",
+          "feeMinor": "31000",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "origin": "brand_setup",
+          "actorName": "admin",
+          "recordedAt": "2026-10-08T02:05:45.732Z"
+        }
+      ],
+      "periods": [
+        {
+          "periodId": "97a9fc7e-7d1a-499c-9d4d-83a323e20569",
+          "periodIndex": 0,
+          "startDate": "2027-05-10",
+          "endDate": "2027-06-09",
+          "nextStartDate": "2027-06-10",
+          "dueDate": "2027-05-10",
+          "feeMinor": "31000",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "revision": 1,
+          "revenueMonth": "2027-05",
+          "allocatedMinor": "31000",
+          "outstandingMinor": "0",
+          "status": "paid",
+          "overdue": false,
+          "generatedOn": "2027-05-10",
+          "recordedAt": "2026-10-08T02:05:45.761Z",
+          "allocations": [
+            {
+              "receiptId": "3e7827d3-cd3b-470a-9cfd-e80cbe0aed98",
+              "receiptReference": "4",
+              "receiptActualDate": "2027-06-10",
+              "amountMinor": "31000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:45.870Z"
+            }
+          ]
+        },
+        {
+          "periodId": "36c3dda3-0631-4f38-8d35-cd260e762f9d",
+          "periodIndex": 1,
+          "startDate": "2027-06-10",
+          "endDate": "2027-07-09",
+          "nextStartDate": "2027-07-10",
+          "dueDate": "2027-06-10",
+          "feeMinor": "31000",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "revision": 1,
+          "revenueMonth": "2027-06",
+          "allocatedMinor": "31000",
+          "outstandingMinor": "0",
+          "status": "paid",
+          "overdue": false,
+          "generatedOn": "2027-06-10",
+          "recordedAt": "2026-10-08T02:05:45.813Z",
+          "allocations": [
+            {
+              "receiptId": "3e7827d3-cd3b-470a-9cfd-e80cbe0aed98",
+              "receiptReference": "4",
+              "receiptActualDate": "2027-06-10",
+              "amountMinor": "31000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:45.871Z"
+            }
+          ]
+        },
+        {
+          "periodId": "f9f0c590-47c6-4a37-99d1-f00a142c35ef",
+          "periodIndex": 2,
+          "startDate": "2027-07-10",
+          "endDate": "2027-08-09",
+          "nextStartDate": "2027-08-10",
+          "dueDate": "2027-07-10",
+          "feeMinor": "31000",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "revision": 1,
+          "revenueMonth": "2027-07",
+          "allocatedMinor": "31000",
+          "outstandingMinor": "0",
+          "status": "paid",
+          "overdue": false,
+          "generatedOn": "2027-07-10",
+          "recordedAt": "2026-10-08T02:05:45.922Z",
+          "allocations": [
+            {
+              "receiptId": "3e7827d3-cd3b-470a-9cfd-e80cbe0aed98",
+              "receiptReference": "4",
+              "receiptActualDate": "2027-06-10",
+              "amountMinor": "8000",
+              "triggerKind": "renewal",
+              "recordedAt": "2026-10-08T02:05:45.923Z"
+            },
+            {
+              "receiptId": "cc4b8e72-08b7-417b-91f0-b26549293f39",
+              "receiptReference": "5",
+              "receiptActualDate": "2027-12-31",
+              "amountMinor": "23000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:46.262Z"
+            }
+          ]
+        }
+      ],
+      "receipts": [
+        {
+          "receiptId": "cc4b8e72-08b7-417b-91f0-b26549293f39",
+          "reference": "5",
+          "amountMinor": "30000",
+          "actualDate": "2027-12-31",
+          "recordedAt": "2026-10-08T02:05:46.261Z",
+          "method": "cash",
+          "accountId": "99843856-f14d-4276-b3d4-478363363926",
+          "accountName": "خزنة الفرع أ",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "externalReference": "",
+          "actorName": "stor-a",
+          "allocatedMinor": "23000",
+          "refundedMinor": "0",
+          "unallocatedMinor": "7000",
+          "allocations": [
+            {
+              "periodId": "f9f0c590-47c6-4a37-99d1-f00a142c35ef",
+              "startDate": "2027-07-10",
+              "endDate": "2027-08-09",
+              "amountMinor": "23000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:46.262Z"
+            }
+          ]
+        },
+        {
+          "receiptId": "3e7827d3-cd3b-470a-9cfd-e80cbe0aed98",
+          "reference": "4",
+          "amountMinor": "70000",
+          "actualDate": "2027-06-10",
+          "recordedAt": "2026-10-08T02:05:45.870Z",
+          "method": "cash",
+          "accountId": "99843856-f14d-4276-b3d4-478363363926",
+          "accountName": "خزنة الفرع أ",
+          "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+          "branchName": "الفرع أ",
+          "externalReference": "",
+          "actorName": "stor-a",
+          "allocatedMinor": "70000",
+          "refundedMinor": "0",
+          "unallocatedMinor": "0",
+          "allocations": [
+            {
+              "periodId": "97a9fc7e-7d1a-499c-9d4d-83a323e20569",
+              "startDate": "2027-05-10",
+              "endDate": "2027-06-09",
+              "amountMinor": "31000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:45.870Z"
+            },
+            {
+              "periodId": "36c3dda3-0631-4f38-8d35-cd260e762f9d",
+              "startDate": "2027-06-10",
+              "endDate": "2027-07-09",
+              "amountMinor": "31000",
+              "triggerKind": "payment",
+              "recordedAt": "2026-10-08T02:05:45.871Z"
+            },
+            {
+              "periodId": "f9f0c590-47c6-4a37-99d1-f00a142c35ef",
+              "startDate": "2027-07-10",
+              "endDate": "2027-08-09",
+              "amountMinor": "8000",
+              "triggerKind": "renewal",
+              "recordedAt": "2026-10-08T02:05:45.923Z"
+            }
+          ]
+        }
+      ],
+      "refunds": [],
+      "stop": {
+        "stopBoundary": "2027-08-10",
+        "requestedOn": "2027-07-20",
+        "reason": "طلب البراند إنهاء التخزين بعد الفترة الحالية",
+        "actorName": "stor-a",
+        "recordedAt": "2026-10-08T02:05:45.977Z",
+        "lastServiceDate": "2027-08-09"
+      },
+      "renewal": {
+        "pending": 0,
+        "leased": 0,
+        "failed": 0,
+        "oldestPendingSince": null,
+        "lastError": null,
+        "lastCompletedAt": "2026-10-08T02:05:45.925Z"
+      }
+    }
+  },
+  "P19-AC-07-receipt": {
+    "commandId": "a90e73b6-91fc-4ec2-a465-21aa14429ced",
+    "recovered": {
+      "brandId": "62453cae-71e4-4df7-a505-745b7d3a3a54",
+      "commandId": "a90e73b6-91fc-4ec2-a465-21aa14429ced",
+      "receiptId": "ef8b3c9c-2211-4d39-bd96-08a3371cfcb6",
+      "reference": "7",
+      "actualDate": "2027-08-01",
+      "movementId": "0b587ec8-e927-4a7c-a46a-cfc9f8e75abe",
+      "agreementId": "0790a070-ad9f-497e-8b9b-fbc0023d5fa2",
+      "allocations": [
+        {
+          "dueDate": "2027-08-01",
+          "endDate": "2027-08-31",
+          "periodId": "55f0e961-beda-4a8c-b9fc-6f16bdca9359",
+          "startDate": "2027-08-01",
+          "amountMinor": "5000",
+          "periodIndex": 0,
+          "outstandingAfterMinor": "26000",
+          "outstandingBeforeMinor": "31000"
+        }
+      ],
+      "amountMinor": "5000",
+      "allocatedMinor": "5000",
+      "outstandingAfterMinor": "26000",
+      "unallocatedCreditAfterMinor": "0"
+    }
+  },
+  "P19-AC-08": {
+    "credit": {
+      "receiptsMinor": "42000",
+      "correctionsMinor": "0",
+      "allocatedMinor": "31000",
+      "refundedMinor": "0",
+      "unallocatedMinor": "11000"
+    },
+    "rejected": [
+      "STORAGE_CREDIT_ALLOCATED",
+      "INSUFFICIENT_STORAGE_CREDIT",
+      "STORAGE_CREDIT_CHANGED",
+      "NOT_FOUND",
+      "ACCOUNT_USAGE_FORBIDDEN",
+      "INSUFFICIENT_FUNDS",
+      "FORBIDDEN_SCOPE"
+    ]
+  },
+  "refund-50": {
+    "result": {
+      "commandId": "35cbbeef-8c95-4f06-9c08-8bbb6413ea48",
+      "refundId": "3d1f2b42-d9c6-47cc-bf1a-d853f7402e7d",
+      "reference": "1",
+      "agreementId": "7f7b7306-260b-4239-bee1-baa86fa8f307",
+      "brandId": "2077ac72-092f-41f6-a664-8f13ba22c034",
+      "amountMinor": "5000",
+      "actualDate": "2027-10-01",
+      "movementId": "56701ba8-182c-4be3-b3f7-777bf536e980",
+      "sources": [
+        {
+          "receiptId": "76d3d899-fbe7-4c35-bcab-e0e198ad6029",
+          "receiptReference": "10",
+          "receiptActualDate": "2027-10-01",
+          "amountMinor": "5000"
+        }
+      ],
+      "unallocatedCreditAfterMinor": "3000"
+    },
+    "refunds": [
+      {
+        "refundId": "3d1f2b42-d9c6-47cc-bf1a-d853f7402e7d",
+        "reference": "1",
+        "amountMinor": "5000",
+        "actualDate": "2027-10-01",
+        "recordedAt": "2026-10-08T02:05:49.762Z",
+        "method": "cash",
+        "accountId": "99843856-f14d-4276-b3d4-478363363926",
+        "accountName": "خزنة الفرع أ",
+        "branchId": "ed5b4049-bfa5-4938-b901-71940acb59d9",
+        "branchName": "الفرع أ",
+        "reason": "استرداد رصيد تخزين غير مخصص بطلب البراند",
+        "externalReference": "",
+        "actorName": "stor-a",
+        "sources": [
+          {
+            "receiptId": "76d3d899-fbe7-4c35-bcab-e0e198ad6029",
+            "receiptReference": "10",
+            "receiptActualDate": "2027-10-01",
+            "amountMinor": "5000"
+          }
+        ]
+      }
+    ]
+  },
+  "fault-injection": {
+    "stages": [
+      "movement",
+      "receipt",
+      "allocation",
+      "result",
+      "refund",
+      "renewal"
+    ],
+    "job": {
+      "state": "pending",
+      "last_error": "INJECTED_RENEWAL",
+      "attempts": 1
+    }
+  },
+  "reconciliation": [
+    {
+      "brandId": "146d8de4-057d-4c84-8351-6aeac7991ca5",
+      "receiptsMinor": "41000",
+      "journalReceiptsMinor": "41000",
+      "allocationsMinor": "41000",
+      "journalAllocationsMinor": "41000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "186000",
+      "journalRevenueMinor": "186000",
+      "outstandingMinor": "145000",
+      "movementReceiptsMinor": "41000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "2077ac72-092f-41f6-a664-8f13ba22c034",
+      "receiptsMinor": "8000",
+      "journalReceiptsMinor": "8000",
+      "allocationsMinor": "0",
+      "journalAllocationsMinor": "0",
+      "refundsMinor": "5000",
+      "journalRefundsMinor": "5000",
+      "unallocatedMinor": "3000",
+      "chargedMinor": "0",
+      "journalRevenueMinor": "0",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "8000",
+      "movementRefundsMinor": "5000"
+    },
+    {
+      "brandId": "30582578-0cdc-4c35-945f-450922e151de",
+      "receiptsMinor": "0",
+      "journalReceiptsMinor": "0",
+      "allocationsMinor": "0",
+      "journalAllocationsMinor": "0",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "67000",
+      "journalRevenueMinor": "67000",
+      "outstandingMinor": "67000",
+      "movementReceiptsMinor": "0",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "3db8f936-058c-4902-b518-de50f62c9a64",
+      "receiptsMinor": "42000",
+      "journalReceiptsMinor": "42000",
+      "allocationsMinor": "31000",
+      "journalAllocationsMinor": "31000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "11000",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "42000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "3ed040f5-e209-4c76-a571-6955f32b4e90",
+      "receiptsMinor": "50000",
+      "journalReceiptsMinor": "50000",
+      "allocationsMinor": "50000",
+      "journalAllocationsMinor": "50000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "341000",
+      "journalRevenueMinor": "341000",
+      "outstandingMinor": "291000",
+      "movementReceiptsMinor": "50000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "4fb71519-07d1-4cf1-98e9-580007130eab",
+      "receiptsMinor": "40000",
+      "journalReceiptsMinor": "40000",
+      "allocationsMinor": "31000",
+      "journalAllocationsMinor": "31000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "9000",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "40000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "57135864-6054-476b-8595-57281aa50742",
+      "receiptsMinor": "40000",
+      "journalReceiptsMinor": "40000",
+      "allocationsMinor": "40000",
+      "journalAllocationsMinor": "40000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "310000",
+      "journalRevenueMinor": "310000",
+      "outstandingMinor": "270000",
+      "movementReceiptsMinor": "40000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "5808d9a5-409a-4fd2-983a-66a40ecda659",
+      "receiptsMinor": "100000",
+      "journalReceiptsMinor": "100000",
+      "allocationsMinor": "93000",
+      "journalAllocationsMinor": "93000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "7000",
+      "chargedMinor": "93000",
+      "journalRevenueMinor": "93000",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "100000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "62453cae-71e4-4df7-a505-745b7d3a3a54",
+      "receiptsMinor": "5000",
+      "journalReceiptsMinor": "5000",
+      "allocationsMinor": "5000",
+      "journalAllocationsMinor": "5000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "62000",
+      "journalRevenueMinor": "62000",
+      "outstandingMinor": "57000",
+      "movementReceiptsMinor": "5000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "6a441b01-2f70-47d9-a1a3-10020f505ccc",
+      "receiptsMinor": "10000",
+      "journalReceiptsMinor": "10000",
+      "allocationsMinor": "10000",
+      "journalAllocationsMinor": "10000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "372000",
+      "journalRevenueMinor": "372000",
+      "outstandingMinor": "362000",
+      "movementReceiptsMinor": "10000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "8f5074a5-c512-470c-9f00-873c4aead812",
+      "receiptsMinor": "20000",
+      "journalReceiptsMinor": "20000",
+      "allocationsMinor": "0",
+      "journalAllocationsMinor": "0",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "20000",
+      "chargedMinor": "0",
+      "journalRevenueMinor": "0",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "20000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "d065d109-920c-41a8-bf3b-6ba3daa27738",
+      "receiptsMinor": "40000",
+      "journalReceiptsMinor": "40000",
+      "allocationsMinor": "31000",
+      "journalAllocationsMinor": "31000",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "9000",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "0",
+      "movementReceiptsMinor": "40000",
+      "movementRefundsMinor": "0"
+    },
+    {
+      "brandId": "ee0e1904-99d6-4b47-a279-faa8c7765677",
+      "receiptsMinor": "0",
+      "journalReceiptsMinor": "0",
+      "allocationsMinor": "0",
+      "journalAllocationsMinor": "0",
+      "refundsMinor": "0",
+      "journalRefundsMinor": "0",
+      "unallocatedMinor": "0",
+      "chargedMinor": "31000",
+      "journalRevenueMinor": "31000",
+      "outstandingMinor": "31000",
+      "movementReceiptsMinor": "0",
+      "movementRefundsMinor": "0"
+    }
+  ]
+}

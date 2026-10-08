@@ -543,5 +543,39 @@
       "reason": "P20 sends no public integration request. It consumes the implemented P13 immutable visit connector and P18 obligations; real PostgreSQL/worker tests use explicitly controlled canonical source fixtures. No new independent Tawsel acceptance is claimed.",
       "applicable": false
     }
+  },
+  "P21": {
+    "unit": {
+      "directory": "tests/integration/p21",
+      "extension": ".unit.test",
+      "filter": [
+        "tests/integration/p21/contracts.unit.test.ts",
+        "tests/integration/p21/ui.unit.test.tsx"
+      ],
+      "script": "test:unit"
+    },
+    "database": {
+      "directory": "tests/integration/p21",
+      "extension": ".db.test",
+      "filter": [
+        "tests/integration/p21/settlements.db.test.ts",
+        "tests/integration/p21/wallet.db.test.ts",
+        "tests/integration/p21/storage.db.test.ts",
+        "tests/integration/p21/incidents.db.test.ts",
+        "tests/integration/p21/http.db.test.ts",
+        "tests/integration/p21/migration.db.test.ts"
+      ],
+      "script": "test:db"
+    },
+    "browser": {
+      "config": "playwright.p21.config.ts",
+      "directory": "tests/integration/p21",
+      "extension": ".spec",
+      "script": "test:p21:browser"
+    },
+    "publicIntegration": {
+      "applicable": false,
+      "reason": "P21 issues no Tawsel request and moves no external money. Source reviews consume the implemented P13 immutable visit/basis records and P17 posted allocations through native PostgreSQL fixtures; a parcel adapter-owned shipment is rejected (SOURCE_ADAPTER_REQUIRED) without any outbound call. No new independent Tawsel acceptance is claimed."
+    }
   }
 }

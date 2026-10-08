@@ -1,0 +1,163 @@
+[
+  {
+    "operation": "product.observe",
+    "target": "product",
+    "grants": [
+      "settlements",
+      "inventory"
+    ],
+    "allowedStates": "Any current branch position of a company variant within assigned branches.",
+    "forbidden": [
+      "stale position version (concurrent receipt/dispatch/reservation) — SETTLEMENT_PREVIEW_STALE",
+      "reducing incident-held unavailable custody — INCIDENT_CUSTODY_HELD",
+      "releasing, reassigning or cancelling another reservation",
+      "creating a brand stock receipt"
+    ]
+  },
+  {
+    "operation": "account.observe",
+    "target": "account",
+    "grants": [
+      "settlements",
+      "finance.accounts"
+    ],
+    "allowedStates": "Active account usable by an assigned branch, with no other open observation.",
+    "forbidden": [
+      "automatic gain, loss, receipt or employee penalty from the difference",
+      "spendable funds from a positive observation",
+      "a second open observation for the same account — ACCOUNT_OBSERVATION_OPEN",
+      "accepting a short driver remittance or partial treasury receipt"
+    ]
+  },
+  {
+    "operation": "account.resolve",
+    "target": "account",
+    "grants": [
+      "settlements",
+      "finance.accounts"
+    ],
+    "allowedStates": "An open account observation with an unexplained remainder.",
+    "forbidden": [
+      "resolving more than the observed difference — RESOLUTION_EXCEEDS_DIFFERENCE",
+      "loss/expense/liability for a positive observation — RESOLUTION_KIND_NOT_LAWFUL",
+      "protected payroll month for a liability — PAST_PAYROLL_PROTECTED/PAYROLL_PERIOD_PROTECTED",
+      "resolving an already resolved case — SETTLEMENT_ALREADY_RESOLVED"
+    ]
+  },
+  {
+    "operation": "brand.correct",
+    "target": "brand",
+    "grants": [
+      "settlements",
+      "brand.payout"
+    ],
+    "allowedStates": "A goods, fee, opening or commercial-adjustment movement of a company brand in an assigned branch, with no open source review.",
+    "forbidden": [
+      "payout reversal without actual returned money — PAYOUT_CORRECTION_REQUIRES_ACTUAL_RETURN",
+      "compensation outside its incident review — USE_INCIDENT_REVIEW",
+      "credit becoming debit or debit becoming credit — CORRECTION_CHANGES_CLASS",
+      "stale wallet readiness — SETTLEMENT_PREVIEW_STALE"
+    ]
+  },
+  {
+    "operation": "brand.adjust",
+    "target": "brand",
+    "grants": [
+      "settlements",
+      "brand.payout"
+    ],
+    "allowedStates": "Any company brand; paying/recording branch within assigned branches.",
+    "forbidden": [
+      "cash, remittance or refund — no account effect is posted",
+      "operating-profit classification without a justified typed resolution"
+    ]
+  },
+  {
+    "operation": "employee.adjust",
+    "target": "employee",
+    "grants": [
+      "settlements",
+      "employees"
+    ],
+    "allowedStates": "An editable unpaid current or future payroll month without source review.",
+    "forbidden": [
+      "paid, zero-closed, frozen or past month — PAST_PAYROLL_PROTECTED/PAYROLL_PERIOD_PROTECTED",
+      "partial salary payout or cash repayment from a deduction",
+      "advance or incident recovery reclassified as an entitlement deduction"
+    ]
+  },
+  {
+    "operation": "source.resolve",
+    "target": "source",
+    "grants": [
+      "settlements",
+      "brand.payout"
+    ],
+    "allowedStates": "An open P13/P16/P17 settlement review in an assigned visit branch.",
+    "forbidden": [
+      "automatic refund, cash withdrawal or Tawsel mutation — none is offered",
+      "rewriting payouts, remittance or paid payroll — originals retained",
+      "resolving twice — SETTLEMENT_ALREADY_RESOLVED",
+      "an empty money difference posted as a correction — NO_MONEY_DIFFERENCE_RETAIN"
+    ]
+  },
+  {
+    "operation": "incident.resolve",
+    "target": "brand",
+    "grants": [
+      "settlements",
+      "incidents",
+      "brand.payout"
+    ],
+    "allowedStates": "A confirmed incident with a P18 review awaiting P21 and no prior resolution.",
+    "forbidden": [
+      "second resolution of the same review — SETTLEMENT_ALREADY_RESOLVED",
+      "compensation below the approved employee share — COMPENSATION_BELOW_EMPLOYEE_SHARE",
+      "reversing paid allocations or inferring cash recovery"
+    ]
+  },
+  {
+    "operation": "storage.refund",
+    "target": "storage",
+    "grants": [
+      "settlements",
+      "storage"
+    ],
+    "allowedStates": "A brand storage agreement with unallocated advance/partial credit.",
+    "forbidden": [
+      "refund of credit already allocated to an earned period — STORAGE_CREDIT_ALLOCATED",
+      "revenue reversal or brand-wallet payout — none is posted",
+      "stop treated as refund — stop is a separate P19 action",
+      "competing allocation or refund — STORAGE_CREDIT_CHANGED"
+    ]
+  },
+  {
+    "operation": "parcel.incident",
+    "target": "parcel",
+    "grants": [
+      "settlements",
+      "incidents"
+    ],
+    "allowedStates": "Unclaimed branch- or driver-held shipment/stock quantity in an assigned branch.",
+    "forbidden": [
+      "deleting or teleporting custody",
+      "compensation or employee liability at report time",
+      "already claimed quantities — INCIDENT_QUANTITY_CLAIMED"
+    ]
+  },
+  {
+    "operation": "parcel.cancel",
+    "target": "parcel",
+    "grants": [
+      "settlements",
+      "intake"
+    ],
+    "allowedStates": "An active shipment still at the branch before any driver handover.",
+    "forbidden": [
+      "hard deletion of the shipment or its history",
+      "after-departure override — HANDED_OVER_PROTECTED",
+      "unsupported Tawsel source mutation — SOURCE_ADAPTER_REQUIRED",
+      "restoring packed units to sound stock without inspection"
+    ]
+  }
+]

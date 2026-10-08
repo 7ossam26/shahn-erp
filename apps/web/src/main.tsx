@@ -96,6 +96,12 @@ const router = createBrowserRouter([
       { path: '/incidents', element: <IncidentListPage /> },
       { path: '/incidents/new', element: <IncidentReportPage /> },
       { path: '/incidents/:id', element: <IncidentDetailPage /> },
+      { path: '/settlements', element: <SettlementsPage /> },
+      { path: '/settlements/new', element: <SettlementNewPage /> },
+      { path: '/settlements/:caseId', element: <SettlementCasePage /> },
+      { path: '/settings/opening-balances', element: <OpeningPage /> },
+      { path: '/settings/opening-balances/new', element: <OpeningNewPage /> },
+      { path: '/settings/opening-balances/:batchId', element: <OpeningDetailPage /> },
       { path: '/driver-remittances', element: <RemittanceListPage /> },
       { path: '/driver-remittances/review', element: <RemittanceReviewPage /> },
       { path: '/driver-remittances/:id', element: <RemittanceDetailPage /> },
@@ -243,3 +249,9 @@ import {
   StorageRefundPage,
   StorageStopPage,
 } from './features/storage/storage.js';
+import {
+  SettlementsPage,
+  SettlementNewPage,
+  SettlementCasePage,
+} from './features/settlements/settlements.js';
+import { OpeningPage, OpeningNewPage, OpeningDetailPage } from './features/settlements/opening.js';

@@ -1,0 +1,89 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P21
+P21 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p21/contracts.unit.test.ts (13 tests) 50ms
+ ✓ tests/integration/p21/ui.unit.test.tsx (12 tests) 2830ms
+   ✓ normal: the reviewed observation is confirmed once with the previewed versions and a required reason 414ms
+   ✓ stale: nothing is recorded, the new effect is re-previewed and must be confirmed again 375ms
+   ✓ opening lost response is recovered from the command record without a second batch 333ms
+
+ Test Files  2 passed (2)
+      Tests  25 passed (25)
+   Start at  02:01:19
+   Duration  6.02s (import 36%, tests 33%, transform 15%, environment 14%, setup 2%)
+
+P21 unit: PASSED
+P21 database: test:db; 6 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+ ✓ tests/integration/p21/migration.db.test.ts (2 tests) 5765ms
+   ✓ populated P20 upgrade keeps originals, money and journals unchanged; no opening or settlement is backfilled 3392ms
+   ✓ fresh migration creates the closed settlement schema and refuses an unclassified journal kind 2371ms
+ ✓ tests/integration/p21/wallet.db.test.ts (4 tests) 5088ms
+   ✓ A05 accepted source correction after payout keeps the payout and resolves exactly one linked review 728ms
+   ✓ retain-original source decision releases only that hold and leaves unrelated credit untouched 445ms
+   ✓ fault injection inside source resolution rolls back corrections, hold releases and the review state 626ms
+ ✓ tests/integration/p21/settlements.db.test.ts (10 tests) 4435ms
+   ✓ fault injection after each settlement stage leaves no partial stock, money, case, link or audit result 344ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p21/http.db.test.ts (3 tests) 3806ms
+   ✓ closed HTTP: prepare → confirm → recover; stale/denied/CSRF/injected payloads are rejected without effects 302ms
+   ✓ committed result survives a database restart and is recovered by the same command identity 436ms
+ ✓ tests/integration/p21/incidents.db.test.ts (2 tests) 3969ms
+   ✓ incident review: linked compensation correction at the incident branch keeps the employee share and releases only its hold 531ms
+ ✓ tests/integration/p21/storage.db.test.ts (2 tests) 3429ms
+   ✓ storage refund racing a period allocation on independent connections never spends the same credit twice 351ms
+
+ Test Files  6 passed (6)
+      Tests  23 passed (23)
+   Start at  02:01:25
+   Duration  41.30s (tests 65%, import 29%, transform 5%)
+
+     Import  228 modules were evaluated 328 times · 11.90s total, 29% of tracked time
+             ~3.63s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+P21 database: PASSED
+P21 browser: test:p21:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2752 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-CAgoCFHQ.css                          112.97 kB │ gzip:  21.75 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-Dv-MdDpw.js                           911.91 kB │ gzip: 198.90 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.23s
+
+Running 2 tests using 1 worker
+
+  ✓  1 tests/integration/p21/settlements.spec.ts:80:1 › settlement journey: product delta, stale review, cash hold and typed expense, lost response, blocked, already resolved and denied (19.1s)
+  ✓  2 tests/integration/p21/settlements.spec.ts:209:1 › opening journey: one typed batch, lost response recovered once, duplicate blocked, pending brand stays pending (10.4s)
+
+  2 passed (36.9s)
+P21 browser: PASSED
+P21 publicIntegration: NOT APPLICABLE — P21 issues no Tawsel request and moves no external money. Source reviews consume the implemented P13 immutable visit/basis records and P17 posted allocations through native PostgreSQL fixtures; a parcel adapter-owned shipment is rejected (SOURCE_ADAPTER_REQUIRED) without any outbound call. No new independent Tawsel acceptance is claimed.
+P21: all required layers passed
+EXIT 0
+postgres clusters running: 0

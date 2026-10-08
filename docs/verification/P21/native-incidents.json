@@ -1,0 +1,169 @@
+{
+  "incidentCorrection": {
+    "incidentId": "a64c5327-45b8-48f7-9874-a9ee3b34ca2f",
+    "result": {
+      "commandId": "abc77351-bb33-4f4c-ae40-b79470cb50aa",
+      "caseId": "9ca3b45c-861f-40f5-9860-6ea8e024cc45",
+      "caseReference": "1",
+      "resolutionId": "44d25653-0e41-4500-bebc-24b503a272b4",
+      "operation": "incident.resolve",
+      "classification": "incident_review_correction",
+      "state": "resolved",
+      "preview": {
+        "operation": "incident.resolve",
+        "classification": "incident_review_correction",
+        "target": {
+          "kind": "brand",
+          "id": "1d7779f3-a653-4527-98a7-1bcf47f54b93",
+          "label": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها · حادث 1",
+          "branchId": "31cdda36-8deb-4493-92d3-ab157af4c604",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "compensation",
+            "unit": "minor",
+            "before": "40000",
+            "after": "30000"
+          },
+          {
+            "key": "employeeShare",
+            "unit": "minor",
+            "before": "20000",
+            "after": "20000"
+          },
+          {
+            "key": "eligibleCredit",
+            "unit": "minor",
+            "before": "1040000",
+            "after": "1030000"
+          },
+          {
+            "key": "pendingCredit",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "brandDebits",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "heldCredit",
+            "unit": "minor",
+            "before": "40000",
+            "after": "0"
+          },
+          {
+            "key": "signedEntitlement",
+            "unit": "minor",
+            "before": "1040000",
+            "after": "1030000"
+          },
+          {
+            "key": "eligibleToPay",
+            "unit": "minor",
+            "before": "1000000",
+            "after": "1030000"
+          },
+          {
+            "key": "paidToBrand",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "brand",
+            "kind": "correction",
+            "label": "تصحيح تعويض الحادث 1",
+            "amountMinor": "-10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "operating",
+            "kind": "correction",
+            "label": "تصحيح تكلفة التعويض على فرع الحادث",
+            "amountMinor": "10000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "hold",
+            "kind": "review_hold_release",
+            "label": "إلغاء إيقاف مراجعة الحادث بعد التسوية",
+            "amountMinor": "40000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [],
+        "warnings": [],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "brand.wallet",
+            "version": "20c5012220a8418d5718c646a46ad6ea3191a5c73189ca58af6b2ee47d0c9b9d"
+          }
+        ],
+        "digest": "7693e1093d7e80bd9e0910250eb39e87fdfea30fab0194b2166e1dcccd29221e"
+      },
+      "links": [
+        {
+          "role": "result",
+          "entityKind": "brand_movement",
+          "entityId": "e23d8d9d-83b2-4553-ba71-340cdfd62470",
+          "label": "تصحيح التعويض"
+        },
+        {
+          "role": "result",
+          "entityKind": "operating_effect",
+          "entityId": "d8fcd586-02c8-4136-b83d-1c889cebb66b",
+          "label": "تصحيح تكلفة الحادث"
+        },
+        {
+          "role": "result",
+          "entityKind": "posting_batch",
+          "entityId": "6aa6b319-2449-45ce-abe4-018b8da030b4",
+          "label": "دفعة الترحيل"
+        },
+        {
+          "role": "original",
+          "entityKind": "incident",
+          "entityId": "a64c5327-45b8-48f7-9874-a9ee3b34ca2f",
+          "label": "حادث 1"
+        },
+        {
+          "role": "original",
+          "entityKind": "incident_review",
+          "entityId": "5ff0a678-c1a6-48d8-8f45-e4bf66c48e2a",
+          "label": "مراجعة الحادث"
+        },
+        {
+          "role": "result",
+          "entityKind": "wallet_hold_release",
+          "entityId": "516ba12b-7034-4831-ac32-509c33271710",
+          "label": "إلغاء الإيقاف"
+        }
+      ]
+    },
+    "operating": [
+      {
+        "kind": "cost",
+        "amount_minor": "-40000"
+      },
+      {
+        "kind": "employee_compensation_share",
+        "amount_minor": "20000"
+      },
+      {
+        "kind": "correction",
+        "amount_minor": "10000"
+      }
+    ]
+  }
+}

@@ -61,6 +61,8 @@ export const journalKinds = {
     payout: 'negative',
     correction: 'signed',
     opening: 'signed',
+    /** P21 independently agreed commercial credit/debit; outside profit until classified. */
+    adjustment: 'signed',
   },
   money: {
     receipt: 'positive',
@@ -75,6 +77,8 @@ export const journalKinds = {
     obligation: 'positive',
     recovery: 'negative',
     correction: 'signed',
+    /** P21 pre-ERP balance: positive entitlement, negative obligation. Never an earning/cost. */
+    opening: 'signed',
   },
   operating: {
     employee_compensation_share: 'positive',

@@ -708,7 +708,9 @@ it('kills receiver after committed inbox before acknowledgement, then redelivers
     const committed = once(child, 'message');
     const pending = receive(raw, signed(raw), message.origin).catch(() => null);
     expect((await committed)[0]).toEqual({ committed: true });
-    child.kill();
+    // SIGKILL simulates a crash on every platform; SIGTERM would run graceful shutdown and wait
+    // for the deliberately unacknowledged request.
+    child.kill('SIGKILL');
     await once(child, 'exit');
     await pending;
     expect((await receive(raw)).status).toBe(200);

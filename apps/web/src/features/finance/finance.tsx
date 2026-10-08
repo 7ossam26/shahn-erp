@@ -39,9 +39,13 @@ const movementName = (m: MoneyMovement) =>
             ? 'تحصيل اشتراك تخزين'
             : m.sourceKind === 'storage_refund'
               ? 'استرداد رصيد تخزين'
-              : m.direction === 'deposit'
-                ? 'إيداع'
-                : 'سحب';
+              : m.sourceKind === 'opening'
+                ? 'رصيد افتتاحي'
+                : m.sourceKind === 'settlement'
+                  ? 'تسوية فرق حساب'
+                  : m.direction === 'deposit'
+                    ? 'إيداع'
+                    : 'سحب';
 const cap = (s: Screen) =>
   s === 'expenses' ? 'expenses' : s === 'accounts' ? 'finance.accounts' : 'finance.movements';
 const path = (s: Screen) => (s === 'expenses' ? '/expenses' : '/finance/' + s);

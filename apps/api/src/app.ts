@@ -9,6 +9,7 @@ import { registerBrandWallets } from './modules/finance/brand-wallet/http.js';
 import { registerBrandPayouts } from './modules/finance/brand-payouts/http.js';
 import { registerIncidents } from './modules/incidents/http.js';
 import { registerStorage } from './modules/storage/http.js';
+import { registerSettlements } from './modules/settlements/http.js';
 import type { StorageClock } from './modules/storage/clock.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
@@ -224,6 +225,15 @@ export async function createApplication(
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
     options.storageClock ? { clock: options.storageClock } : {},
+  );
+  registerSettlements(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    {
+      ...(options.storageClock ? { storageClock: options.storageClock } : {}),
+      ...(options.payrollClock ? { payrollClock: options.payrollClock } : {}),
+    },
   );
   registerBrandPayouts(
     app.getHttpAdapter().getInstance(),

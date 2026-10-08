@@ -716,7 +716,17 @@ export class StorageService {
     });
   }
   refundPreview(token: string, input: StorageRefundScope): Promise<StorageRefundPreview> {
-    return UnitOfWork.run(this.pool, token, input.companyId, 'storage', async (u) => {
+    return UnitOfWork.run(this.pool, token, input.companyId, 'storage', (u) =>
+      this.refundPreviewIn(u, input),
+    );
+  }
+  /** P21 Settlements consumes this same locked refund read and the same refund definition. */
+  refundDefinition() {
+    return this.refundCommands().definitions[0]!;
+  }
+  /** Locked refund read in the caller's UnitOfWork (P19 route or P21 settlement preview). */
+  async refundPreviewIn(u: UnitOfWork, input: StorageRefundScope): Promise<StorageRefundPreview> {
+    {
       u.assertBranch(input.branchId);
       const c = u.client,
         company = u.access.companyId,
@@ -781,7 +791,7 @@ export class StorageService {
         creditVersion,
         today,
       };
-    });
+    }
   }
   stopPreview(token: string, companyId: string, agreementId: string): Promise<StorageStopPreview> {
     return UnitOfWork.run(this.pool, token, companyId, 'storage', async (u) => {

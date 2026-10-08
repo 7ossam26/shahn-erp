@@ -54,7 +54,9 @@ export interface MoneyMovement extends PaymentFields {
     | 'storage_receipt'
     | 'storage_refund'
     | 'employee_advance'
-    | 'salary_payout';
+    | 'salary_payout'
+    | 'opening'
+    | 'settlement';
   accountName: string;
   branchName: string;
   reason: string;
@@ -187,6 +189,8 @@ const movementSchema = closed({
       'storage_refund',
       'employee_advance',
       'salary_payout',
+      'opening',
+      'settlement',
     ],
   },
   reason: note,

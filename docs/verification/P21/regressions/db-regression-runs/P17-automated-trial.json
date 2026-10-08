@@ -1,0 +1,85 @@
+{
+  "capturedAt": "2026-10-08T02:07:39.322Z",
+  "provenance": "Section 8 manual-trial steps executed automatically through the real HTTP API and PostgreSQL; P13/P16 inputs use controlled source HTTP. Not an owner/manual or independent Tawsel trial.",
+  "steps": [
+    {
+      "step": "both payout users see eligible 250 with branch A source",
+      "observed": [
+        {
+          "branchId": "bbc1a377-08cd-4d56-924b-1c1bf413fed7",
+          "branchName": "الفرع أ",
+          "eligibleMinor": "25000",
+          "pendingMinor": "0",
+          "heldMinor": "0",
+          "debitsMinor": "0",
+          "coverMinor": "0"
+        }
+      ]
+    },
+    {
+      "step": "pay 100 from B Cash",
+      "observed": {
+        "result": {
+          "commandId": "1e0377be-9dfb-4e85-a8b9-cda2f6c32955",
+          "payoutId": "264d634d-2ac7-42ed-8de5-6764ae0d02b0",
+          "reference": "1",
+          "brandId": "21f19133-efb0-4264-a14f-39436258a470",
+          "amountMinor": "10000",
+          "actualDate": "2026-10-08",
+          "movementId": "c7d603e6-73d8-461b-82e6-2ed23545f5d3",
+          "eligibleToPayAfterMinor": "15000",
+          "signedEntitlementAfterMinor": "15000"
+        },
+        "money": {
+          "aCash": "100000",
+          "bCash": "90000",
+          "bank": "30000"
+        }
+      }
+    },
+    {
+      "step": "off-day: rejected without reason, paid 50 with reason",
+      "observed": {
+        "aCash": "100000",
+        "bCash": "85000",
+        "bank": "30000"
+      }
+    },
+    {
+      "step": "cover 50 reserved; 60 rejected; 50 paid from A Cash",
+      "observed": {
+        "amounts": {
+          "eligibleMinor": "5000",
+          "pendingMinor": "0",
+          "debitsMinor": "0",
+          "heldMinor": "0",
+          "coverMinor": "5000",
+          "signedEntitlementMinor": "5000",
+          "eligibleToPayMinor": "0",
+          "paidMinor": "20000"
+        },
+        "money": {
+          "aCash": "95000",
+          "bCash": "85000",
+          "bank": "30000"
+        }
+      }
+    },
+    {
+      "step": "retry returns original; pending 250 shown separately",
+      "observed": {
+        "amounts": {
+          "eligibleMinor": "5000",
+          "pendingMinor": "25000",
+          "debitsMinor": "0",
+          "heldMinor": "0",
+          "coverMinor": "5000",
+          "signedEntitlementMinor": "30000",
+          "eligibleToPayMinor": "0",
+          "paidMinor": "20000"
+        },
+        "payouts": 3
+      }
+    }
+  ]
+}

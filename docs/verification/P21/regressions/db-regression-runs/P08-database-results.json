@@ -1,0 +1,181 @@
+{
+  "deniedBranch": {
+    "status": 403,
+    "body": {
+      "code": "FORBIDDEN_SCOPE",
+      "messageKey": "employees.forbidden_scope",
+      "commandId": null,
+      "correlationId": "f49b0881-140e-4e48-bd31-a9e1274a9ed5"
+    }
+  },
+  "permissionRevision": "1",
+  "salaryRevision": {
+    "employeeId": "0c8cb019-cab5-489d-b569-085848fad253",
+    "policies": [
+      {
+        "id": "ea8dd7a0-48db-4fc8-b4c4-7f65c90c1b5f",
+        "axis": "salary",
+        "from": "2026-10-01",
+        "to": null,
+        "superseded": true,
+        "reason": "Initial employee setup",
+        "recordedAt": "2026-10-08T02:06:22.399Z",
+        "terms": {
+          "enabled": true,
+          "monthly": {
+            "currency": "EGP",
+            "amountMinor": "600000"
+          }
+        }
+      },
+      {
+        "id": "5a37439d-5310-4231-8aba-9e0643c0b954",
+        "axis": "salary",
+        "from": "2026-10-01",
+        "to": "2026-11-01",
+        "superseded": false,
+        "reason": "تصحيح أو جدولة موثقة",
+        "recordedAt": "2026-10-08T02:06:22.413Z",
+        "terms": {
+          "enabled": true,
+          "monthly": {
+            "currency": "EGP",
+            "amountMinor": "610000"
+          }
+        }
+      },
+      {
+        "id": "18b62a8b-6942-4f0b-b966-d69584cdeaf2",
+        "axis": "commission",
+        "from": "2026-10-08",
+        "to": null,
+        "superseded": false,
+        "reason": "Initial employee setup",
+        "recordedAt": "2026-10-08T02:06:22.400Z",
+        "terms": {
+          "enabled": false,
+          "formula": null,
+          "basisPoints": null,
+          "perVisit": null
+        }
+      },
+      {
+        "id": "91af94dd-168b-45d3-bebf-3224ae55261f",
+        "axis": "salary",
+        "from": "2026-11-01",
+        "to": null,
+        "superseded": false,
+        "reason": "تصحيح أو جدولة موثقة",
+        "recordedAt": "2026-10-08T02:06:22.433Z",
+        "terms": {
+          "enabled": false,
+          "monthly": null
+        }
+      }
+    ],
+    "periods": [
+      {
+        "month": "2026-10",
+        "state": "editable_unpaid",
+        "version": 1
+      },
+      {
+        "month": "2026-11",
+        "state": "editable_unpaid",
+        "version": 1
+      }
+    ]
+  },
+  "editThenFreeze": {
+    "waiting": true,
+    "amount": "650000"
+  },
+  "freezeThenEdit": {
+    "unchanged": true
+  },
+  "sqlRaces": {
+    "links": "23P01",
+    "policies": "23P01"
+  },
+  "apiLinkRace": [
+    "fulfilled",
+    "rejected"
+  ],
+  "temporal": {
+    "earlier": {
+      "status": "resolved",
+      "employeeId": "1810797d-0b13-48ed-b7e5-210faa8c48a5",
+      "employeeName": "Mona temporal",
+      "employeeProfileVersion": 2,
+      "driverId": "5cdcbfdd-674b-4b62-a212-5d5aaf355106",
+      "linkId": "31fb4997-8b99-4ecb-b636-de41c7e3c619",
+      "commissionPolicyId": "e7793f75-5cd1-4ea0-ac42-a154f4993f7e",
+      "commission": {
+        "enabled": true,
+        "formula": "percentage",
+        "basisPoints": 1000,
+        "perVisit": null
+      },
+      "employeeBranchId": "fe2f013d-9bc0-4183-9632-0e27b271e4ae",
+      "employeeBranchName": "الفرع أ",
+      "branchHistoryId": "2b5602d5-b0ab-4c8f-9775-86aacfb3a3e8",
+      "workDate": "2026-10-08"
+    },
+    "future": {
+      "status": "resolved",
+      "employeeId": "1810797d-0b13-48ed-b7e5-210faa8c48a5",
+      "employeeName": "Mona temporal",
+      "employeeProfileVersion": 3,
+      "driverId": "5cdcbfdd-674b-4b62-a212-5d5aaf355106",
+      "linkId": "31fb4997-8b99-4ecb-b636-de41c7e3c619",
+      "commissionPolicyId": "43aa9b7b-678e-42a3-b7ad-750bb2354910",
+      "commission": {
+        "enabled": true,
+        "formula": "fixed",
+        "basisPoints": null,
+        "perVisit": {
+          "currency": "EGP",
+          "amountMinor": "700"
+        }
+      },
+      "employeeBranchId": "fe2f013d-9bc0-4183-9632-0e27b271e4ae",
+      "employeeBranchName": "الفرع أ",
+      "branchHistoryId": "2b5602d5-b0ab-4c8f-9775-86aacfb3a3e8",
+      "workDate": "2026-10-09"
+    },
+    "delayed": {
+      "status": "resolved",
+      "employeeId": "1810797d-0b13-48ed-b7e5-210faa8c48a5",
+      "employeeName": "Mona temporal",
+      "employeeProfileVersion": 2,
+      "driverId": "5cdcbfdd-674b-4b62-a212-5d5aaf355106",
+      "linkId": "31fb4997-8b99-4ecb-b636-de41c7e3c619",
+      "commissionPolicyId": "e7793f75-5cd1-4ea0-ac42-a154f4993f7e",
+      "commission": {
+        "enabled": true,
+        "formula": "percentage",
+        "basisPoints": 1000,
+        "perVisit": null
+      },
+      "employeeBranchId": "fe2f013d-9bc0-4183-9632-0e27b271e4ae",
+      "employeeBranchName": "الفرع أ",
+      "branchHistoryId": "2b5602d5-b0ab-4c8f-9775-86aacfb3a3e8",
+      "workDate": "2026-10-08"
+    }
+  },
+  "deactivation": {
+    "saved": {
+      "commandId": "0b0622d1-4ca3-4261-971c-eaad98974706",
+      "employeeId": "bf911a17-4d48-4223-a0b3-50d2a618c27a",
+      "reference": "17",
+      "version": 4,
+      "branchId": "cec2b5c2-3f4f-4939-a4ec-fb3249b5be40"
+    },
+    "audit": [
+      {
+        "principal_id": "b392cd19-4d6f-41bb-bcca-7c44c4f526d8",
+        "actor_label": "admin"
+      }
+    ]
+  }
+}

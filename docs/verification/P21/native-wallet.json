@@ -1,0 +1,338 @@
+{
+  "A05": {
+    "brand": "ec0bc5c1-45c7-4b79-b880-0259d5875da4",
+    "payout": {
+      "commandId": "62edd63d-1440-4a52-b2a8-ce4714b139ce",
+      "payoutId": "7d32d793-5e27-49a2-beea-8fb090c3ce25",
+      "reference": "1",
+      "brandId": "ec0bc5c1-45c7-4b79-b880-0259d5875da4",
+      "amountMinor": "10000",
+      "actualDate": "2026-10-08",
+      "movementId": "639ba928-0b85-4c7f-9e11-180b1ce36887",
+      "eligibleToPayAfterMinor": "15000",
+      "signedEntitlementAfterMinor": "15000"
+    },
+    "review": "4851948f-b305-44e7-8c98-6f2dc7abd987",
+    "result": {
+      "commandId": "936e62c3-f233-4cf8-b819-dabc22008859",
+      "caseId": "eda0a616-93fe-4db8-9e7e-b5b966448bf5",
+      "caseReference": "1",
+      "resolutionId": "762a66e8-8a26-480b-ab6a-6e22ba3772f9",
+      "operation": "source.resolve",
+      "classification": "source_review_correction",
+      "state": "resolved",
+      "preview": {
+        "operation": "source.resolve",
+        "classification": "source_review_correction",
+        "target": {
+          "kind": "source",
+          "id": "4851948f-b305-44e7-8c98-6f2dc7abd987",
+          "label": "شحنة 10000",
+          "branchId": "6a00f72b-a869-44c8-83dc-e15af5e33c6e",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "sourceGoods",
+            "unit": "minor",
+            "before": "25000",
+            "after": "0"
+          },
+          {
+            "key": "sourceBrandFee",
+            "unit": "minor",
+            "before": "0",
+            "after": "5000"
+          },
+          {
+            "key": "eligibleCredit",
+            "unit": "minor",
+            "before": "15000",
+            "after": "0"
+          },
+          {
+            "key": "pendingCredit",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "brandDebits",
+            "unit": "minor",
+            "before": "0",
+            "after": "15000"
+          },
+          {
+            "key": "heldCredit",
+            "unit": "minor",
+            "before": "15000",
+            "after": "0"
+          },
+          {
+            "key": "signedEntitlement",
+            "unit": "minor",
+            "before": "15000",
+            "after": "-15000"
+          },
+          {
+            "key": "eligibleToPay",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "paidToBrand",
+            "unit": "minor",
+            "before": "10000",
+            "after": "10000"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "brand",
+            "kind": "correction",
+            "label": "فرق مستحقات البضاعة حسب الحقيقة الفعالة",
+            "amountMinor": "-25000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "brand",
+            "kind": "fee",
+            "label": "فرق رسوم الشحن على البراند",
+            "amountMinor": "-5000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "hold",
+            "kind": "review_hold_release",
+            "label": "إلغاء إيقاف الأهلية المرتبط بهذه المراجعة فقط",
+            "amountMinor": "15000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          },
+          {
+            "ledger": "review",
+            "kind": "resolved",
+            "label": "Accepted outcome correction conflicts with protected settlement",
+            "amountMinor": null,
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [
+          {
+            "kind": "remittance",
+            "id": "f243adc2-384a-428a-a36b-c4ef3f866af3",
+            "label": "استلام أموال المندوب المؤكد",
+            "state": "retained"
+          },
+          {
+            "kind": "protected_remittance",
+            "id": "f243adc2-384a-428a-a36b-c4ef3f866af3",
+            "label": "سجل محمي: remittance",
+            "state": "retained"
+          },
+          {
+            "kind": "brand_payout",
+            "id": "7d32d793-5e27-49a2-beea-8fb090c3ce25",
+            "label": "تحصيل رقم 1 · 10000",
+            "state": "retained"
+          }
+        ],
+        "warnings": [
+          "RECEIVED_CASH_RETAINED_REVIEW_ACCOUNT",
+          "BRAND_DEBT_AFTER_CORRECTION"
+        ],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "brand.wallet",
+            "version": "e4db586b15345609e37f1a3e49658ca2135f56f54a3dad2a307ee18c8239b072"
+          },
+          {
+            "key": "source.review",
+            "version": "open"
+          }
+        ],
+        "digest": "7faf28dec12e83483b5a22f86a18789d5de397e0e12f19d1e97d343cfa4570a0"
+      },
+      "links": [
+        {
+          "role": "result",
+          "entityKind": "brand_movement",
+          "entityId": "f601a8e6-9849-4462-b71e-59bf742e6eba",
+          "label": "فرق البضاعة"
+        },
+        {
+          "role": "result",
+          "entityKind": "brand_movement",
+          "entityId": "9db16b3f-6aea-459a-bef5-42c85555d45a",
+          "label": "فرق الرسوم"
+        },
+        {
+          "role": "result",
+          "entityKind": "posting_batch",
+          "entityId": "10bf3e4d-0332-4487-a914-cd680651b541",
+          "label": "دفعة الترحيل"
+        },
+        {
+          "role": "original",
+          "entityKind": "settlement_review",
+          "entityId": "4851948f-b305-44e7-8c98-6f2dc7abd987",
+          "label": "مراجعة فرق المصدر"
+        },
+        {
+          "role": "original",
+          "entityKind": "shipment",
+          "entityId": "e8ac13ca-15a1-4554-ba7d-387364279811",
+          "label": "شحنة 10000"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "remittance",
+          "entityId": "f243adc2-384a-428a-a36b-c4ef3f866af3",
+          "label": "استلام أموال المندوب المؤكد"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "protected_remittance",
+          "entityId": "f243adc2-384a-428a-a36b-c4ef3f866af3",
+          "label": "سجل محمي: remittance"
+        },
+        {
+          "role": "dependent",
+          "entityKind": "brand_payout",
+          "entityId": "7d32d793-5e27-49a2-beea-8fb090c3ce25",
+          "label": "تحصيل رقم 1 · 10000"
+        }
+      ]
+    },
+    "wallet": {
+      "eligibleMinor": "0",
+      "pendingMinor": "0",
+      "debitsMinor": "15000",
+      "heldMinor": "0",
+      "coverMinor": "0",
+      "signedEntitlementMinor": "-15000",
+      "eligibleToPayMinor": "0",
+      "paidMinor": "10000"
+    }
+  },
+  "brandCorrection": {
+    "brand": "6b8770a3-9e2d-4956-87b1-f9a29e5e0921",
+    "credit": {
+      "commandId": "a1810cba-b654-43ec-897a-cf63036ee5d8",
+      "caseId": "0beb92de-5747-42c3-84d7-fba576cd1c0a",
+      "caseReference": "3",
+      "resolutionId": "286ce5bd-303a-4d47-a683-d7db4f30a218",
+      "operation": "brand.adjust",
+      "classification": "brand_commercial_unclassified",
+      "state": "resolved",
+      "preview": {
+        "operation": "brand.adjust",
+        "classification": "brand_commercial_unclassified",
+        "target": {
+          "kind": "brand",
+          "id": "6b8770a3-9e2d-4956-87b1-f9a29e5e0921",
+          "label": "براند P21 تصحيح",
+          "branchId": "6a00f72b-a869-44c8-83dc-e15af5e33c6e",
+          "branchName": "الفرع أ"
+        },
+        "facts": [
+          {
+            "key": "eligibleCredit",
+            "unit": "minor",
+            "before": "20000",
+            "after": "25000"
+          },
+          {
+            "key": "pendingCredit",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "brandDebits",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "heldCredit",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          },
+          {
+            "key": "signedEntitlement",
+            "unit": "minor",
+            "before": "20000",
+            "after": "25000"
+          },
+          {
+            "key": "eligibleToPay",
+            "unit": "minor",
+            "before": "20000",
+            "after": "25000"
+          },
+          {
+            "key": "paidToBrand",
+            "unit": "minor",
+            "before": "0",
+            "after": "0"
+          }
+        ],
+        "effects": [
+          {
+            "ledger": "brand",
+            "kind": "adjustment",
+            "label": "تسوية تجارية متفق عليها · اتفاق خصم تجاري رقم 7",
+            "amountMinor": "5000",
+            "quantity": null,
+            "effectiveDate": "2026-10-08"
+          }
+        ],
+        "dependents": [],
+        "warnings": [
+          "UNCLASSIFIED_OUTSIDE_OPERATING_PROFIT",
+          "NO_CASH_MOVEMENT"
+        ],
+        "blockers": [],
+        "versions": [
+          {
+            "key": "brand.wallet",
+            "version": "d034697e6d9c4c68e2a231e3154eefe4120c67e3447bf38518741bacd2325b63"
+          }
+        ],
+        "digest": "22e74fd7e3a254aa1d69389328d9d5e38ee7e8cc99b353c1080ec755f584e653"
+      },
+      "links": [
+        {
+          "role": "result",
+          "entityKind": "brand_movement",
+          "entityId": "796b22ed-7a0c-413f-8115-5834fcb20872",
+          "label": "تسوية تجارية متفق عليها · اتفاق خصم تجاري رقم 7"
+        },
+        {
+          "role": "result",
+          "entityKind": "posting_batch",
+          "entityId": "c5d1de02-7515-4c6d-b537-3a0881750337",
+          "label": "دفعة الترحيل"
+        }
+      ]
+    },
+    "wallet": {
+      "eligibleMinor": "23000",
+      "pendingMinor": "0",
+      "debitsMinor": "0",
+      "heldMinor": "0",
+      "coverMinor": "0",
+      "signedEntitlementMinor": "23000",
+      "eligibleToPayMinor": "23000",
+      "paidMinor": "1000"
+    }
+  },
+  "companyId": "0de7dd06-2478-4aba-a94a-a30be6c69358"
+}

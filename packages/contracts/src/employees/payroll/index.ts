@@ -11,7 +11,8 @@ import { paymentMethods, type PaymentMethod } from '../../finance/index.js';
 import type { PayrollState } from '../index.js';
 import { commissionTermsSchema } from '../index.js';
 
-export type PayrollObligationKind = 'advance' | 'earning_deduction' | 'incident';
+/** `settlement`: a P21 opening obligation or approved account-shortage liability (recovery only). */
+export type PayrollObligationKind = 'advance' | 'earning_deduction' | 'incident' | 'settlement';
 export type PayrollAdditionKind = 'bonus' | 'overtime' | 'earning_correction';
 export interface PayrollObligation {
   id: string;
@@ -38,7 +39,8 @@ export interface PayrollObligation {
 }
 export interface PayrollEarning {
   id: string;
-  kind: 'salary' | 'commission' | PayrollAdditionKind | 'earning_deduction';
+  /** `opening_entitlement`: P21 pre-ERP balance paid once; excluded from employee cost. */
+  kind: 'salary' | 'commission' | PayrollAdditionKind | 'earning_deduction' | 'opening_entitlement';
   amountMinor: string;
   branchId: string;
   workDate: string;
@@ -71,6 +73,10 @@ export interface PayrollCalculation {
   earningDeductionsRecovered: string;
   advanceRecovered: string;
   incidentRecovered: string;
+  /** P21 additions; absent from calculations frozen before P21. */
+  openingEntitlement?: string;
+  newSettlementObligations?: string;
+  settlementRecovered?: string;
   outstandingAmount: string;
   reservedForFrozenPeriods: string;
   availableForNewAllocation: string;
@@ -238,21 +244,36 @@ const calculation = closedObject({
       'carryRemaining',
     ].map((k) => [k, minor]),
   ),
+  openingEntitlement: minor,
+  newSettlementObligations: minor,
+  settlementRecovered: minor,
   employeeCost: { type: 'string', pattern: '^(0|-?[1-9][0-9]*)$' },
   allocations: {
     type: 'array',
     items: closedObject({
       obligationId: uuidSchema,
-      kind: { enum: ['advance', 'earning_deduction', 'incident'] },
+      kind: { enum: ['advance', 'earning_deduction', 'incident', 'settlement'] },
       amountMinor: positiveMinorSchema,
       remainingMinor: minor,
     }),
   },
 });
+// Calculations frozen before P21 lack these keys and must remain readable.
+calculation.required = calculation.required.filter(
+  (k) => !['openingEntitlement', 'newSettlementObligations', 'settlementRecovered'].includes(k),
+);
 const earning = closedObject({
   id: uuidSchema,
   kind: {
-    enum: ['salary', 'commission', 'bonus', 'overtime', 'earning_correction', 'earning_deduction'],
+    enum: [
+      'salary',
+      'commission',
+      'bonus',
+      'overtime',
+      'earning_correction',
+      'earning_deduction',
+      'opening_entitlement',
+    ],
   },
   amountMinor: minor,
   branchId: uuidSchema,
@@ -267,7 +288,7 @@ const earning = closedObject({
 earning.required = earning.required.filter((k) => k !== 'commissionBasis');
 const obligation = closedObject({
   id: uuidSchema,
-  kind: { enum: ['advance', 'earning_deduction', 'incident'] },
+  kind: { enum: ['advance', 'earning_deduction', 'incident', 'settlement'] },
   sourceId: uuidSchema,
   sourceLabel: str,
   month,

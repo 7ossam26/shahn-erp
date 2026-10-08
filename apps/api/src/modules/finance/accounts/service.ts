@@ -56,13 +56,31 @@ export class AccountFundsService {
       throw new AccessError('METHOD_ACCOUNT_MISMATCH', 409);
     return account;
   }
-  async available(accountId: string) {
+  /** Book balance from immutable money effects, checked against the projection. */
+  async book(accountId: string) {
     this.uow.requireLock('money', resourceKey('money', accountId));
     const account = await this.read(accountId);
     const journal = await new JournalPosting(this.uow).moneyBalance(accountId);
     if (journal.toString() !== account.balanceMinor)
       throw new AccessError('ACCOUNT_RECONCILIATION_REQUIRED', 409);
     return journal;
+  }
+  /** P21 unexplained-shortage holds from actual-balance observations (never a positive surplus). */
+  async held(accountId: string) {
+    this.uow.requireLock('money', resourceKey('money', accountId));
+    const row = (
+      await this.uow.client.query<{ held: string }>(
+        `SELECT COALESCE(sum(active_minor),0)::text AS held FROM settlements.account_hold_balance WHERE company_id=$1 AND account_id=$2`,
+        [this.uow.access.companyId, accountId],
+      )
+    ).rows[0]!;
+    return minor(row.held, 'nonnegative');
+  }
+  /** Spendable funds: book minus active discrepancy holds. Every outward action rechecks this. */
+  async available(accountId: string) {
+    const book = await this.book(accountId),
+      held = await this.held(accountId);
+    return book > held ? book - held : 0n;
   }
   async requireFunds(accountId: string, amountMinor: string) {
     if ((await this.available(accountId)) < minor(amountMinor, 'positive'))
@@ -110,9 +128,13 @@ export class AccountFundsService {
       | 'storage_receipt'
       | 'storage_refund'
       | 'employee_advance'
-      | 'salary_payout';
+      | 'salary_payout'
+      | 'opening'
+      | 'settlement';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
+    /** P21 only: an explicit typed money kind ('opening'); default is receipt/payment. */
+    moneyKind?: 'opening';
   }) {
     if (this.treasuryScope) throw new AccessError('FORBIDDEN_SCOPE');
     return this.postMovement(input);
@@ -146,9 +168,12 @@ export class AccountFundsService {
       | 'storage_receipt'
       | 'storage_refund'
       | 'employee_advance'
-      | 'salary_payout';
+      | 'salary_payout'
+      | 'opening'
+      | 'settlement';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
+    moneyKind?: 'opening';
   }) {
     const { uow: u } = this,
       { fields: f } = input;
@@ -186,7 +211,7 @@ export class AccountFundsService {
     const account = await this.use(f);
     const amount = minor(f.amountMinor, 'positive');
     if (input.direction === 'withdrawal') await this.requireFunds(f.accountId, f.amountMinor);
-    else addMinor(await this.available(f.accountId), amount);
+    else addMinor(await this.book(f.accountId), amount);
     const signed = (input.direction === 'deposit' ? amount : -amount).toString();
     const posting = await new JournalPosting(u).append(
       input.sourceId,
@@ -198,9 +223,11 @@ export class AccountFundsService {
             ? input.direction === 'deposit'
               ? 'transfer_in'
               : 'transfer_out'
-            : input.direction === 'deposit'
-              ? 'receipt'
-              : 'payment',
+            : input.moneyKind
+              ? input.moneyKind
+              : input.direction === 'deposit'
+                ? 'receipt'
+                : 'payment',
           subjectId: f.accountId,
           amountMinor: signed,
           branchId: f.branchId,

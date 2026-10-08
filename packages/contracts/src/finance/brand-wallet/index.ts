@@ -4,7 +4,13 @@ import formatsModule from 'ajv-formats';
  * Shared company-level brand wallet views (UI-BRAND-PAYOUT-001, REP-08/09).
  * Every amount is server-derived from the P03 lot model; the browser never submits eligibility.
  */
-export const walletLotKinds = ['goods', 'compensation', 'opening', 'correction'] as const;
+export const walletLotKinds = [
+  'goods',
+  'compensation',
+  'opening',
+  'correction',
+  'adjustment',
+] as const;
 export const walletMovementKinds = [
   'goods',
   'compensation',
@@ -12,6 +18,7 @@ export const walletMovementKinds = [
   'payout',
   'correction',
   'opening',
+  'adjustment',
 ] as const;
 export const walletReasons = [
   'PENDING_REMITTANCE',

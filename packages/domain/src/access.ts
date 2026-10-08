@@ -1,4 +1,6 @@
 export const capabilityPolicies = {
+  settlements: 'assigned',
+  opening: 'assigned',
   storage: 'wallet',
   incidents: 'assigned',
   remittances: 'assigned',

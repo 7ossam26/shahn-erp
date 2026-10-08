@@ -1,0 +1,51 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run 'vitest' run -c vitest.db.config.ts tests/integration/p20/migration.db.test.ts tests/integration/p11/boundary.db.test.ts
+
+ RUN  v5.0.3 /home/user/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+ ❯ tests/integration/p11/boundary.db.test.ts (19 tests | 1 failed) 97661ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 641ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 743ms
+   ✓ serves closed safe native responses and denies direct spoofed, cross-company and CSRF calls 73ms
+   ✓ commits one native intent/audit/immutable action, rejects changed native replay and denies cross-company 45ms
+   ✓ retains unknown response, replays the same action and fences expired worker completion 37ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 2812ms
+   ✓ queues exact operator bootstrap without making operator credentials available to the ordinary worker 42ms
+   ✓ serializes all operations on one user revision stream with independent transactions 39ms
+   ✓ rejects missing/disabled references, unsupported operations and finance capability forwarding 30ms
+   ✓ keeps accepted user separate from issuer-ready and accepts authoritative completed disable 15ms
+   ✓ accepts simultaneous identical callbacks once with byte-identical acknowledgements and pending application 56ms
+   ✓ rejects signed changed bytes under one event and recipient sequence collisions 12ms
+   ✓ rejects tampering, duplicate security headers, wrong scope/key and unknown event without accepted rows 17ms
+   ✓ accepts exactly 2 MiB at actual HTTP ingress and rejects an extra byte 78ms
+   ✓ keeps gaps visible and never advances applied through unhandled domain events 12ms
+   ✓ enforces recorded old-key expiry while accepting the preprovisioned next key 13ms
+   ✓ records returned key rotation overlap without exposing secret values 19ms
+   × kills receiver after committed inbox before acknowledgement, then redelivers once after restart 90008ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 570ms
+ ✓ tests/integration/p20/migration.db.test.ts (1 test) 2772ms
+   ✓ populated P19 upgrade preserves P18 original obligations and all actual money; migration fabricates no advance or salary 2771ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p11/boundary.db.test.ts > kills receiver after committed inbox before acknowledgement, then redelivers once after restart
+Error: Test timed out in 90000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/integration/p11/boundary.db.test.ts:694:1
+    692|   expect(keys.find((k) => k.key_id === 'next').verify_until).toBeNull(…
+    693| });
+    694| it('kills receiver after committed inbox before acknowledgement, then …
+       | ^
+    695|   const child = fork('tests/integration/p11/crash-receiver.ts', [], {
+    696|     execArgv: ['--import', 'tsx'],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 19 passed (20)
+   Start at  01:28:03
+   Duration  106.56s (tests 94%, import 4%, transform 2%)
+
+EXIT 1
