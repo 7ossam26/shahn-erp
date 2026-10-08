@@ -1,0 +1,114 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P20
+P20 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/calculation.unit.test.ts (6 tests) 11ms
+ ✓ tests/integration/p20/ui.unit.test.tsx (3 tests) 693ms
+   ✓ read-only full net; unknown response survives remount and 404 retry reuses the exact command identity 376ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  02:54:03
+   Duration  3.02s (import 42%, environment 26%, tests 15%, transform 12%, setup 5%)
+
+P20 unit: PASSED
+P20 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p20/payroll.db.test.ts (10 tests | 10 skipped) 271ms
+   ↓ AC06 funds, method, arbitrary partial amount and future actual date reject without side effects
+   ↓ a past edit materializes and freezes a previously unprocessed salary before rejecting the edit
+   ↓ AC09 salary correction versus payout and adjustment versus freeze choose a guarded order
+   ↓ before-commit connection termination rolls back; committed payment survives database restart and identity recovery
+   ↓ AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt
+   ↓ AC03 zero closure then next month recovers remaining original 500 once
+   ↓ Cash, Bank deposit and InstaPay preserve actual funding and full payroll while earning cost retains employee branch
+   ↓ AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000
+   ↓ AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries
+   ↓ AC07 independent concurrent commands and retained winning identity debit once
+ ❯ tests/integration/p20/migration.db.test.ts (1 test | 1 failed) 154ms
+   × populated P19 upgrade preserves P18 original obligations and all actual money; migration fabricates no advance or salary 153ms
+ ❯ tests/integration/p20/sources.db.test.ts (4 tests | 4 skipped) 160ms
+   ↓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost
+   ↓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period
+   ↓ AC08 late immutable historical earning after paid month becomes one explicit linked future adjustment
+   ↓ a corrected protected source retains payment and posted recovery, shows review, and holds only its affected month
+ ❯ tests/integration/p20/http.db.test.ts (2 tests | 2 skipped) 156ms
+   ↓ HR filters select actual period states, carry and advance balances without widening branch scope
+   ↓ closed actual HTTP: scope, CSRF, partial payout, supported funded method and unknown-command recovery
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/http.db.test.ts [ tests/integration/p20/http.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p20/http.db.test.ts:11:8
+      9|   url: string;
+     10| beforeAll(async () => {
+     11|   db = await isolatedPostgres();
+       |        ^
+     12|   await migrate(db.pool);
+     13|   f = await payrollFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts [ tests/integration/p20/payroll.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p20/payroll.db.test.ts:14:8
+     12| let db: Awaited<ReturnType<typeof isolatedPostgres>>, f: Awaited<Retur…
+     13| beforeAll(async () => {
+     14|   db = await isolatedPostgres();
+       |        ^
+     15|   await migrate(db.pool);
+     16|   f = await payrollFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/integration/p20/sources.db.test.ts [ tests/integration/p20/sources.db.test.ts ]
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p20/sources.db.test.ts:24:8
+     22| let firstOutcome: Awaited<ReturnType<typeof firstVisit.outcome>>;
+     23| beforeAll(async () => {
+     24|   db = await isolatedPostgres();
+       |        ^
+     25|   await migrate(db.pool);
+     26|   f = await incidentFixture(db.pool);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/migration.db.test.ts > populated P19 upgrade preserves P18 original obligations and all actual money; migration fabricates no advance or salary
+Error: Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.
+ ❯ docker packages/test-support/src/index.ts:12:11
+ ❯ isolatedPostgres packages/test-support/src/index.ts:41:3
+ ❯ tests/integration/p20/migration.db.test.ts:9:14
+      7| import { incidentFixture } from '../p18/fixtures.js';
+      8| it('populated P19 upgrade preserves P18 original obligations and all a…
+      9|   const db = await isolatedPostgres();
+       |              ^
+     10|   try {
+     11|     await migrate(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  1 failed | 16 skipped (17)
+   Start at  02:54:06
+   Duration  6.70s (import 69%, transform 19%, tests 12%)
+
+     Import  205 modules were evaluated 320 times · 4.34s total, 69% of tracked time
+             ~1.56s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+P20 database: FAILED (1)

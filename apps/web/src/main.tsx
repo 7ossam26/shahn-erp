@@ -62,6 +62,7 @@ import {
   EmployeeNewPage,
   EmployeeDetailPage,
 } from './features/employees/employees.js';
+import { PayrollMonthPage, PayrollActionPage } from './features/employees/payroll/payroll.js';
 import {
   ReferenceHome,
   ReferencePage,
@@ -159,6 +160,21 @@ const router = createBrowserRouter([
       { path: '/employees', element: <EmployeesPage /> },
       { path: '/employees/new', element: <EmployeeNewPage /> },
       { path: '/employees/:id', element: <EmployeeDetailPage /> },
+      { path: '/employees/:id/months/:month', element: <PayrollMonthPage /> },
+      { path: '/employees/:id/months/:month/payout', element: <PayrollActionPage mode="payout" /> },
+      {
+        path: '/employees/:id/months/:month/payment',
+        element: <PayrollActionPage mode="payment" />,
+      },
+      {
+        path: '/employees/:id/months/:month/adjustments/new',
+        element: <PayrollActionPage mode="adjustment" />,
+      },
+      {
+        path: '/employees/:id/months/:month/reviews/:reviewId',
+        element: <PayrollActionPage mode="review" />,
+      },
+      { path: '/employees/:id/advances/new', element: <PayrollActionPage mode="advance" /> },
       { path: '/shipments/new', element: <ShipmentNewPage /> },
       { path: '/shipments/:reference', element: <ShipmentDetailPage /> },
       { path: '/shipments/:reference/correction', element: <ShipmentCorrectionPage /> },

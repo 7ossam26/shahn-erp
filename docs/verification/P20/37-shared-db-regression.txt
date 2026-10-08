@@ -1,0 +1,30 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts tests/db/finance.test.ts tests/db/kernel.test.ts tests/integration/p13 tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/employees.test.ts (12 tests) 130919ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 43286ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 43563ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 580ms
+   ✓ history-only outcome followed by delayed arrival retains outcome state and posts one allocation 308ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 76017ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 319ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 32290ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 969ms
+   ✓ a protected correction retains prior postings, creates one review and never moves company cash 446ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 455ms
+ ✓ tests/db/finance.test.ts (18 tests) 47614ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6799ms
+ ✓ tests/db/kernel.test.ts (21 tests) 46552ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6159ms
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 41859ms
+
+ Test Files  6 passed (6)
+      Tests  82 passed (82)
+   Start at  02:45:40
+   Duration  398.76s (tests 97%, import 2%, transform 1%)

@@ -1,0 +1,231 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\.tools\\runtime\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.p20.config.ts"
+    ],
+    "configFile": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\playwright.p20.config.ts",
+    "rootDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/integration/p20",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\teardown.mjs",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/tests/integration/p20",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.ts"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/verification/P20/browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node --import tsx tests/integration/p20/serve.ts",
+      "env": {
+        "TSX_TSCONFIG_PATH": "tsconfig.base.json"
+      },
+      "url": "http://127.0.0.1:4402/health",
+      "reuseExistingServer": false,
+      "timeout": 180000,
+      "gracefulShutdown": {
+        "signal": "SIGTERM",
+        "timeout": 45000
+      }
+    }
+  },
+  "suites": [
+    {
+      "title": "payroll.spec.ts",
+      "file": "payroll.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "actual advance, ordinary deduction, full net, dropped response recovery, immutable payment and long histories",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5702,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T06:08:51.131Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc6b8d35fde39172bade-608308f11477090dcf45",
+          "file": "payroll.spec.ts",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "actual immutable visit basis and late work review approved into a future period",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2778,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('تصحيح استحقاق مرتبط', { exact: true })\nExpected: visible\nError: strict mode violation: getByText('تصحيح استحقاق مرتبط', { exact: true }) resolved to 2 elements:\n    1) <option value=\"earning_correction\">تصحيح استحقاق مرتبط</option> aka getByRole('option', { name: 'تصحيح استحقاق مرتبط' })\n    2) <strong>تصحيح استحقاق مرتبط</strong> aka getByRole('strong').filter({ hasText: 'تصحيح استحقاق مرتبط' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تصحيح استحقاق مرتبط', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تصحيح استحقاق مرتبط', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('تصحيح استحقاق مرتبط', { exact: true })\nExpected: visible\nError: strict mode violation: getByText('تصحيح استحقاق مرتبط', { exact: true }) resolved to 2 elements:\n    1) <option value=\"earning_correction\">تصحيح استحقاق مرتبط</option> aka getByRole('option', { name: 'تصحيح استحقاق مرتبط' })\n    2) <strong>تصحيح استحقاق مرتبط</strong> aka getByRole('strong').filter({ hasText: 'تصحيح استحقاق مرتبط' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تصحيح استحقاق مرتبط', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تصحيح استحقاق مرتبط', { exact: true })\u001b[22m\n\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\payroll.spec.ts:112:67",
+                    "location": {
+                      "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\payroll.spec.ts",
+                      "column": 67,
+                      "line": 112
+                    },
+                    "snippet": "  110 |  await page.getByRole('button',{name:'تأكيد اعتماد مصدر عمل قديم'}).click();\n  111 |  await expect(page.getByRole('heading',{name:'مندوب التجربة'})).toBeVisible();\n> 112 |  await expect(page.getByText('تصحيح استحقاق مرتبط',{exact:true})).toBeVisible();\n      |                                                                   ^\n  113 |  const result=await page.request.get(`/api/v1/employees/${r.sourceEmployee}/months/${r.month}?companyId=${r.sourceCompany}`),after=await result.json();\n  114 |  expect(after.payment).toEqual(before.payment);expect(after.calculation).toEqual(before.calculation);\n  115 |  writeFileSync('docs/verification/P20/browser-late-source.json',JSON.stringify({late,originalPayment:after.payment,review:after.reviews,settlementMonth:next},null,2));"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\payroll.spec.ts",
+                        "column": 67,
+                        "line": 112
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('تصحيح استحقاق مرتبط', { exact: true })\nExpected: visible\nError: strict mode violation: getByText('تصحيح استحقاق مرتبط', { exact: true }) resolved to 2 elements:\n    1) <option value=\"earning_correction\">تصحيح استحقاق مرتبط</option> aka getByRole('option', { name: 'تصحيح استحقاق مرتبط' })\n    2) <strong>تصحيح استحقاق مرتبط</strong> aka getByRole('strong').filter({ hasText: 'تصحيح استحقاق مرتبط' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('تصحيح استحقاق مرتبط', { exact: true }) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText('تصحيح استحقاق مرتبط', { exact: true })\u001b[22m\n\n\n  110 |  await page.getByRole('button',{name:'تأكيد اعتماد مصدر عمل قديم'}).click();\n  111 |  await expect(page.getByRole('heading',{name:'مندوب التجربة'})).toBeVisible();\n> 112 |  await expect(page.getByText('تصحيح استحقاق مرتبط',{exact:true})).toBeVisible();\n      |                                                                   ^\n  113 |  const result=await page.request.get(`/api/v1/employees/${r.sourceEmployee}/months/${r.month}?companyId=${r.sourceCompany}`),after=await result.json();\n  114 |  expect(after.payment).toEqual(before.payment);expect(after.calculation).toEqual(before.calculation);\n  115 |  writeFileSync('docs/verification/P20/browser-late-source.json',JSON.stringify({late,originalPayment:after.payment,review:after.reviews,settlementMonth:next},null,2));\n    at C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\payroll.spec.ts:112:67"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T06:08:57.019Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\test-results\\payroll-actual-immutable-v-32974-proved-into-a-future-period\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\7OSS\\Desktop\\projects\\routing + erp\\shahn-erp\\tests\\integration\\p20\\payroll.spec.ts",
+                    "column": 67,
+                    "line": 112
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "dc6b8d35fde39172bade-a9541c48c97aeccea875",
+          "file": "payroll.spec.ts",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "zero close, carried original balance and stale full payout preview",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T06:09:00.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dc6b8d35fde39172bade-900b894e501e35fea746",
+          "file": "payroll.spec.ts",
+          "line": 118,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-07T06:08:09.313Z",
+    "duration": 55689.253,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

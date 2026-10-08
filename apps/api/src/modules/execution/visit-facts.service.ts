@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import {
   employeeClock,
   lockPayrollControl,
+  lockEmployeeCompany,
   type TransactionClient,
   type DispatchIntentRow,
 } from '@shahn/database';
@@ -365,6 +366,12 @@ export async function applyVisitAndOutcome(
   }
   // Allocation reuses the already-held brand lock and the same UnitOfWork/client.
   if (outcome && allocationSource && !allocationSource.duplicate) {
+    // Payroll freeze and source correction must choose one order on P08's guard.
+    // New visits already hold it through historical employee resolution.
+    if (!visitSource) {
+      u.lockOrder('employee', '0:company:' + company);
+      await lockEmployeeCompany(c, company);
+    }
     const previous = (
       await c.query<{
         outcome_revision: string;

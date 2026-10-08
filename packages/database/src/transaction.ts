@@ -10,6 +10,12 @@ export async function transaction<T>(
   if (active.getStore()) throw new Error('NESTED_INDEPENDENT_TRANSACTION_FORBIDDEN');
   const client = await pool.connect();
   let broken = false;
+  // A socket can fail while a same-transaction service is between queries (for example waiting
+  // on a barrier). Keep that asynchronous error from becoming an unhandled process exception.
+  const disconnected = () => {
+    broken = true;
+  };
+  client.on('error', disconnected);
   try {
     await client.query('BEGIN');
     const result = await active.run(true, () => operation({ query: client.query.bind(client) }));
@@ -23,6 +29,7 @@ export async function transaction<T>(
     }
     throw error;
   } finally {
+    client.removeListener('error', disconnected);
     client.release(broken);
   }
 }

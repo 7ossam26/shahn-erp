@@ -1,0 +1,43 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/foundation.test.ts tests/db/employees.test.ts tests/db/finance.test.ts tests/db/kernel.test.ts tests/integration/p13 tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/db/employees.test.ts (12 tests) 41985ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 19631ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 20604ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 543ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 78117ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 927ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 688ms
+   ✓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome 311ms
+   ✓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 303ms
+   ✓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash 463ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 30468ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 1844ms
+   ✓ a protected correction retains prior postings, creates one review and never moves company cash 1668ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 1154ms
+   ✓ keeps an unmapped return request pending and never advances its applied checkpoint 426ms
+ ✓ tests/db/finance.test.ts (18 tests) 36353ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6537ms
+ ✓ tests/db/kernel.test.ts (21 tests) 30216ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6823ms
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 23500ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 436ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 342ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/db/foundation.test.ts (5 tests) 14204ms
+   ✓ Real isolated PostgreSQL foundation (5)
+     ✓ two migration runners wait for one lock and cannot apply a migration twice 1389ms
+     ✓ real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients 4034ms
+
+ Test Files  7 passed (7)
+      Tests  87 passed (87)
+   Start at  03:00:48
+   Duration  258.57s (tests 95%, import 4%, transform 1%)

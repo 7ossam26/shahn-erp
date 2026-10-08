@@ -103,7 +103,14 @@ export class AccountFundsService {
     fields: PaymentFields;
     direction: 'deposit' | 'withdrawal';
     sourceKind:
-      'general' | 'expense' | 'remittance' | 'brand_payout' | 'storage_receipt' | 'storage_refund';
+      | 'general'
+      | 'expense'
+      | 'remittance'
+      | 'brand_payout'
+      | 'storage_receipt'
+      | 'storage_refund'
+      | 'employee_advance'
+      | 'salary_payout';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
   }) {
@@ -137,7 +144,9 @@ export class AccountFundsService {
       | 'remittance'
       | 'brand_payout'
       | 'storage_receipt'
-      | 'storage_refund';
+      | 'storage_refund'
+      | 'employee_advance'
+      | 'salary_payout';
     reason: string;
     additionalEffects?: readonly JournalEffect[];
   }) {

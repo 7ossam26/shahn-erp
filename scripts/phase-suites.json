@@ -513,5 +513,35 @@
       "applicable": false,
       "reason": "P19 storage issues no Tawsel call and moves no external money. Receipts, refunds and renewals are native local facts verified with real PostgreSQL, real API/web processes and a controlled storage business date."
     }
+  },
+  "P20": {
+    "unit": {
+      "directory": "tests/integration/p20",
+      "script": "test:unit",
+      "extension": ".unit.test",
+      "filter": [
+        "tests/integration/p20/calculation.unit.test.ts",
+        "tests/integration/p20/ui.unit.test.tsx"
+      ]
+    },
+    "database": {
+      "directory": "tests/integration/p20",
+      "script": "test:db",
+      "extension": ".db.test",
+      "filter": [
+        "tests/integration/p20/payroll.db.test.ts",
+        "tests/integration/p20/sources.db.test.ts",
+        "tests/integration/p20/http.db.test.ts",
+        "tests/integration/p20/migration.db.test.ts"
+      ]
+    },
+    "browser": {
+      "reason": "Owner instruction 2026-10-07: skip browser testing and finish P20. Earlier actual-API browser runs and failures remain historical evidence (11, 20, 21); no fresh browser pass or owner manual trial is claimed. Remaining acceptance uses Vitest scripts and real PostgreSQL/HTTP transactions.",
+      "applicable": false
+    },
+    "publicIntegration": {
+      "reason": "P20 sends no public integration request. It consumes the implemented P13 immutable visit connector and P18 obligations; real PostgreSQL/worker tests use explicitly controlled canonical source fixtures. No new independent Tawsel acceptance is claimed.",
+      "applicable": false
+    }
   }
 }

@@ -1,0 +1,38 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/payroll.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p20/payroll.db.test.ts (5 tests | 5 skipped) 8814ms
+   ↓ AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt
+   ↓ AC03 zero closure then next month recovers remaining original 500 once
+   ↓ AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000
+   ↓ AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries
+   ↓ AC07 independent concurrent commands and retained winning identity debit once
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts [ tests/integration/p20/payroll.db.test.ts ]
+Error: INVALID_ACCOUNT_SCOPE
+ ❯ fieldsScope apps/api/src/modules/finance/service.ts:31:11
+     29|   for (const id of f.branchIds) u.assertBranch(id);
+     30|   if (f.type === 'cash' && (f.branchIds.length !== 1 || f.bankDescript…
+     31|     throw new AccessError('INVALID_ACCOUNT_SCOPE', 400);
+       |           ^
+     32| }
+     33| export function financeCommands(
+ ❯ Object.execute apps/api/src/modules/finance/service.ts:126:17
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ account tests/integration/p20/fixtures.ts:19:66
+ ❯ payrollFixture tests/integration/p20/fixtures.ts:20:14
+ ❯ tests/integration/p20/payroll.db.test.ts:7:74
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 skipped (5)
+   Start at  03:16:10
+   Duration  10.31s (tests 87%, import 9%, transform 5%)

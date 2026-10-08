@@ -1,4 +1,4 @@
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { mkdtemp, writeFile, rm, realpath } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -46,19 +46,38 @@ export async function isolatedNativePostgres(bin: string) {
   );
   await rm(passwordFile);
   const control = (args: string[]) =>
-    exec(executable('pg_ctl'), ['-D', data, ...args], { timeout: 30000 });
+    new Promise<string>((accept, reject) => {
+      // PostgreSQL on Windows can inherit pg_ctl's pipes after pg_ctl exits.
+      // Use its exit status and server log, without pipes that keep execFile pending.
+      // pg_ctl still waits up to 60 seconds for a durable startup/shutdown.
+      const child = spawn(executable('pg_ctl'), ['-D', data, '-t', '60', ...args], {
+        stdio: 'ignore',
+        windowsHide: true,
+      });
+      const timer = setTimeout(() => {
+        child.kill();
+        reject(new Error('TEST_POSTGRES_CONTROL_TIMEOUT'));
+      }, 90000);
+      child.once('error', (error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
+      child.once('exit', (code) => {
+        clearTimeout(timer);
+        if (code === 0) accept('');
+        else reject(new Error(`TEST_POSTGRES_CONTROL_FAILED:${code}`));
+      });
+    });
   const start = async () =>
-    (
-      await control([
-        '-l',
-        join(directory, 'postgres.log'),
-        '-o',
-        `-p ${port} -h 127.0.0.1 -c fsync=on -c synchronous_commit=on`,
-        '-w',
-        'start',
-      ])
-    ).stdout;
-  const stop = async () => (await control(['-m', 'fast', '-w', 'stop'])).stdout;
+    await control([
+      '-l',
+      join(directory, 'postgres.log'),
+      '-o',
+      `-p ${port} -h 127.0.0.1 -c fsync=on -c synchronous_commit=on`,
+      '-w',
+      'start',
+    ]);
+  const stop = async () => await control(['-m', 'fast', '-w', 'stop']);
   await start();
   const url = `postgresql://shahn_test:${password}@127.0.0.1:${port}/postgres`;
   const pool = createPool(url);

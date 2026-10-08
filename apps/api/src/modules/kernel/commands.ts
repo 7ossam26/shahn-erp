@@ -31,6 +31,9 @@ export interface CommandDefinition<I extends CommandInput> {
   kind: string;
   capability: Capability;
   authorize(uow: UnitOfWork, value: I | Record<string, unknown>, recovery: boolean): Promise<void>;
+  /** Optional protected-history maintenance after identity locking but before business effects.
+   * May materialize existing past facts; must never perform the requested money mutation. */
+  prepareProtectedHistory?(uow: UnitOfWork, input: I): Promise<void>;
   execute(
     uow: UnitOfWork,
     input: I,
@@ -115,6 +118,7 @@ export class CommandService<I extends CommandInput> {
         await definition.authorize(uow, row.result_reference, true);
         return { status: row.response_status, body: await retainedBody(row, uow, definition) };
       }
+      await definition.prepareProtectedHistory?.(uow, input);
       await client.query('SAVEPOINT command_effects');
       let result;
       try {

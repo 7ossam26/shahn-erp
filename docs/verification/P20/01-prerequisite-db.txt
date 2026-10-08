@@ -1,0 +1,36 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p13/execution.db.test.ts tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 20968ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 441ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 424ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 456ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 348ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 676ms
+   ✓ a permitted partial correction reverses only unremitted basis and retains one earning and original outcome 389ms
+   ✓ tracking permits another assigned branch but never returns wallet/HR data or expands native shipment mutation scope 339ms
+   ✓ company-funded replacement preserves goods 250, tariff 50, waiver 50 and normal commission without cash 332ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 3353ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 884ms
+   ✓ a protected correction retains prior postings, creates one review and never moves company cash 408ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 638ms
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 9787ms
+   ✓ dismissal releases an ordinary shipment hold while retaining history; another active report still blocks correction 307ms
+   ✓ P18-AC-01/02 report has no money; explicit 400/200/200 confirmation atomically posts eligible credit and original classified debt, no cash 402ms
+   ✓ P18-AC-03 zero recipient goods still permits agreed 400 compensation; original branch is snapshotted 334ms
+   ✓ P18-AC-04 injected failure after wallet posting rolls back obligation, wallet, disposition and confirmation together 318ms
+   ✓ P18-AC-04 rejects 399 shares, protected payroll, wrong scope and a second claimed subset without partial effects 474ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 418ms
+   ✓ P18-AC-08 P14 exact disposition queues durably without receipt or available stock; financial confirmation remains separate 555ms
+   ✓ P18-AC-09 immutable history and affected credit hold route to P21 review; dismissal and zero-value reporting create no money 850ms
+   ✓ unavailable source operation does not drop local compensation; explicit follow-up queues the same affected subset with no second money 594ms
+
+ Test Files  2 passed (2)
+      Tests  23 passed (23)
+   Start at  03:09:45
+   Duration  34.92s (tests 89%, import 8%, transform 4%)

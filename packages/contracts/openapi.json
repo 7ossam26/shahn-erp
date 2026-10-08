@@ -8,6 +8,2394 @@
     }
   },
   "paths": {
+    "/api/v1/employees/payroll/catalog": {
+      "get": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authoritative scoped payroll data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "accounts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "name": { "type": "string" },
+                          "type": { "enum": ["cash", "bank"] },
+                          "balanceMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "branchIds": {
+                            "type": "array",
+                            "items": { "type": "string", "format": "uuid" }
+                          }
+                        },
+                        "required": ["id", "name", "type", "balanceMinor", "branchIds"]
+                      }
+                    }
+                  },
+                  "required": ["accounts"]
+                }
+              }
+            }
+          },
+          "403": { "description": "Employee and historical source branch scope denied" }
+        }
+      }
+    },
+    "/api/v1/employees/payroll/commands/{commandId}": {
+      "get": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authoritative scoped payroll data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "403": { "description": "Employee and historical source branch scope denied" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/months/{month}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        },
+        {
+          "in": "path",
+          "name": "month",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" }
+        },
+        {
+          "in": "query",
+          "name": "companyId",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        }
+      ],
+      "get": {
+        "tags": ["Employees payroll"],
+        "responses": {
+          "200": {
+            "description": "Full month with immutable source categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "employeeName": { "type": "string" },
+                    "branchId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "currentMonth": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "state": {
+                      "enum": ["editable_unpaid", "frozen_unpaid", "paid", "zero_net_closed"]
+                    },
+                    "version": { "type": "integer", "minimum": 1 },
+                    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                    "frozenAt": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                    "calculation": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "salary": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "commission": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "bonus": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "overtime": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "positiveEarningAdjustments": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "grossEarning": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "newAdvancesDue": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "newOrdinaryDeductions": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "newIncidentDeductions": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "priorCarriedUnrecoveredObligations": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "obligations": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "recoveryThisPeriod": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "earningDeductionsRecovered": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "advanceRecovered": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "incidentRecovered": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "outstandingAmount": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "reservedForFrozenPeriods": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "availableForNewAllocation": {
+                          "type": "string",
+                          "pattern": "^(0|[1-9][0-9]{0,18})$"
+                        },
+                        "netPayable": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "carryRemaining": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                        "employeeCost": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                        "allocations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "obligationId": { "type": "string", "format": "uuid" },
+                              "kind": { "enum": ["advance", "earning_deduction", "incident"] },
+                              "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                              "remainingMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              }
+                            },
+                            "required": ["obligationId", "kind", "amountMinor", "remainingMinor"]
+                          }
+                        }
+                      },
+                      "required": [
+                        "salary",
+                        "commission",
+                        "bonus",
+                        "overtime",
+                        "positiveEarningAdjustments",
+                        "grossEarning",
+                        "newAdvancesDue",
+                        "newOrdinaryDeductions",
+                        "newIncidentDeductions",
+                        "priorCarriedUnrecoveredObligations",
+                        "obligations",
+                        "recoveryThisPeriod",
+                        "earningDeductionsRecovered",
+                        "advanceRecovered",
+                        "incidentRecovered",
+                        "outstandingAmount",
+                        "reservedForFrozenPeriods",
+                        "availableForNewAllocation",
+                        "netPayable",
+                        "carryRemaining",
+                        "employeeCost",
+                        "allocations"
+                      ]
+                    },
+                    "earnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "kind": {
+                            "enum": [
+                              "salary",
+                              "commission",
+                              "bonus",
+                              "overtime",
+                              "earning_correction",
+                              "earning_deduction"
+                            ]
+                          },
+                          "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "workDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string" },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "label": { "type": "string" },
+                          "visitId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "policyId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "commissionBasis": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "baseMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  },
+                                  "terms": {
+                                    "oneOf": [
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": false, "type": "boolean" },
+                                          "formula": { "type": "null" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "percentage", "type": "string" },
+                                          "basisPoints": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 10000
+                                          },
+                                          "perVisit": { "type": "null" }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                          "enabled",
+                                          "formula",
+                                          "basisPoints",
+                                          "perVisit"
+                                        ],
+                                        "properties": {
+                                          "enabled": { "const": true, "type": "boolean" },
+                                          "formula": { "const": "fixed", "type": "string" },
+                                          "basisPoints": { "type": "null" },
+                                          "perVisit": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": ["currency", "amountMinor"],
+                                            "properties": {
+                                              "currency": { "const": "EGP", "type": "string" },
+                                              "amountMinor": {
+                                                "type": "string",
+                                                "pattern": "^(0|[1-9][0-9]*)$",
+                                                "maxLength": 19
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": ["baseMinor", "terms"]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "amountMinor",
+                          "branchId",
+                          "workDate",
+                          "recordedAt",
+                          "sourceId",
+                          "label",
+                          "visitId",
+                          "policyId"
+                        ]
+                      }
+                    },
+                    "obligations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["advance", "earning_deduction", "incident"] },
+                          "sourceId": { "type": "string", "format": "uuid" },
+                          "sourceLabel": { "type": "string" },
+                          "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                          "effectiveDate": { "type": "string", "format": "date" },
+                          "recordedAt": { "type": "string" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                          "outstandingAmount": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "reservedForFrozenPeriods": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "availableForNewAllocation": {
+                            "type": "string",
+                            "pattern": "^(0|[1-9][0-9]{0,18})$"
+                          },
+                          "advancePayment": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "branchId": { "type": "string", "format": "uuid" },
+                                  "accountId": { "type": "string", "format": "uuid" },
+                                  "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                                  "actualDate": { "type": "string", "format": "date" },
+                                  "movementId": { "type": "string", "format": "uuid" },
+                                  "reference": { "type": "string" }
+                                },
+                                "required": [
+                                  "branchId",
+                                  "accountId",
+                                  "method",
+                                  "actualDate",
+                                  "movementId",
+                                  "reference"
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          },
+                          "recoveries": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "month": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                },
+                                "state": { "enum": ["reserved", "settled"] },
+                                "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" }
+                              },
+                              "required": ["month", "state", "amountMinor"]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "sourceId",
+                          "sourceLabel",
+                          "month",
+                          "effectiveDate",
+                          "recordedAt",
+                          "branchId",
+                          "amountMinor",
+                          "outstandingAmount",
+                          "reservedForFrozenPeriods",
+                          "availableForNewAllocation"
+                        ]
+                      }
+                    },
+                    "reviews": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": { "type": "string", "format": "uuid" },
+                          "visitId": { "type": "string", "format": "uuid" },
+                          "workMonth": {
+                            "type": "string",
+                            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                          },
+                          "workDate": { "type": "string", "format": "date" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "kind": { "enum": ["late_commission", "source_conflict"] },
+                          "amountMinor": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                              { "type": "null" }
+                            ]
+                          },
+                          "postedMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                          "reason": { "type": "string" },
+                          "resolvedMonth": {
+                            "anyOf": [
+                              { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "visitId",
+                          "workMonth",
+                          "workDate",
+                          "branchId",
+                          "kind",
+                          "amountMinor",
+                          "postedMinor",
+                          "reason",
+                          "resolvedMonth"
+                        ]
+                      }
+                    },
+                    "blockers": { "type": "array", "items": { "type": "string" } },
+                    "payment": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "id": { "type": "string", "format": "uuid" },
+                            "commandId": { "type": "string", "format": "uuid" },
+                            "amountMinor": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "actualDate": { "type": "string", "format": "date" },
+                            "accountId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "method": {
+                              "anyOf": [
+                                { "enum": ["cash", "bank_deposit", "instapay"] },
+                                { "type": "null" }
+                              ]
+                            },
+                            "movementId": {
+                              "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                            },
+                            "reference": { "type": "string" },
+                            "recordedAt": { "type": "string" }
+                          },
+                          "required": [
+                            "id",
+                            "commandId",
+                            "amountMinor",
+                            "actualDate",
+                            "accountId",
+                            "method",
+                            "movementId",
+                            "reference",
+                            "recordedAt"
+                          ]
+                        },
+                        { "type": "null" }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "employeeId",
+                    "employeeName",
+                    "branchId",
+                    "month",
+                    "currentMonth",
+                    "state",
+                    "version",
+                    "digest",
+                    "frozenAt",
+                    "calculation",
+                    "earnings",
+                    "obligations",
+                    "reviews",
+                    "blockers",
+                    "payment"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/advances": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.advance" },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "amountMinor",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.adjustment" },
+                      "kind": { "enum": ["bonus", "overtime", "earning_deduction"] },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      },
+                      "workDate": { "type": "string", "format": "date" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "kind",
+                      "amountMinor",
+                      "reason",
+                      "workDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.resolve" },
+                      "reviewId": { "type": "string", "format": "uuid" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "reviewId",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.payout" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.zero-close" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/period-adjustments": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.advance" },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "amountMinor",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.adjustment" },
+                      "kind": { "enum": ["bonus", "overtime", "earning_deduction"] },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      },
+                      "workDate": { "type": "string", "format": "date" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "kind",
+                      "amountMinor",
+                      "reason",
+                      "workDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.resolve" },
+                      "reviewId": { "type": "string", "format": "uuid" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "reviewId",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.payout" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.zero-close" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/source-reviews/resolve": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.advance" },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "amountMinor",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.adjustment" },
+                      "kind": { "enum": ["bonus", "overtime", "earning_deduction"] },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      },
+                      "workDate": { "type": "string", "format": "date" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "kind",
+                      "amountMinor",
+                      "reason",
+                      "workDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.resolve" },
+                      "reviewId": { "type": "string", "format": "uuid" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "reviewId",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.payout" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.zero-close" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/months/{month}/payout": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        },
+        {
+          "in": "path",
+          "name": "month",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.advance" },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "amountMinor",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.adjustment" },
+                      "kind": { "enum": ["bonus", "overtime", "earning_deduction"] },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      },
+                      "workDate": { "type": "string", "format": "date" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "kind",
+                      "amountMinor",
+                      "reason",
+                      "workDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.resolve" },
+                      "reviewId": { "type": "string", "format": "uuid" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "reviewId",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.payout" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.zero-close" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/months/{month}/zero-close": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        },
+        {
+          "in": "path",
+          "name": "month",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.advance" },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "amountMinor",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.adjustment" },
+                      "kind": { "enum": ["bonus", "overtime", "earning_deduction"] },
+                      "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      },
+                      "workDate": { "type": "string", "format": "date" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "kind",
+                      "amountMinor",
+                      "reason",
+                      "workDate"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.resolve" },
+                      "reviewId": { "type": "string", "format": "uuid" },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "reviewId",
+                      "reason"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.payout" },
+                      "funding": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "accountId": { "type": "string", "format": "uuid" },
+                          "branchId": { "type": "string", "format": "uuid" },
+                          "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                          "actualDate": { "type": "string", "format": "date" },
+                          "reference": { "type": "string", "maxLength": 180 }
+                        },
+                        "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type",
+                      "funding"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": { "const": 1 },
+                      "companyId": { "type": "string", "format": "uuid" },
+                      "commandId": { "type": "string", "format": "uuid" },
+                      "employeeId": { "type": "string", "format": "uuid" },
+                      "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                      "expectedVersion": { "type": "integer", "minimum": 1 },
+                      "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                      "type": { "const": "payroll.zero-close" }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "companyId",
+                      "commandId",
+                      "employeeId",
+                      "month",
+                      "expectedVersion",
+                      "expectedDigest",
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "employeeId": { "type": "string", "format": "uuid" },
+                    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                    "recordId": { "type": "string", "format": "uuid" },
+                    "kind": {
+                      "enum": [
+                        "payroll.advance",
+                        "payroll.adjustment",
+                        "payroll.resolve",
+                        "payroll.payout",
+                        "payroll.zero-close"
+                      ]
+                    },
+                    "amountMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" }
+                  },
+                  "required": [
+                    "commandId",
+                    "employeeId",
+                    "month",
+                    "recordId",
+                    "kind",
+                    "amountMinor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
+    "/api/v1/employees/{id}/months/{month}/payout-preview": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "string", "format": "uuid" }
+        },
+        {
+          "in": "path",
+          "name": "month",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" }
+        }
+      ],
+      "post": {
+        "tags": ["Employees payroll"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "in": "header", "name": "Origin", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "expectedVersion": { "type": "integer", "minimum": 1 },
+                  "expectedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                  "funding": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "accountId": { "type": "string", "format": "uuid" },
+                      "branchId": { "type": "string", "format": "uuid" },
+                      "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                      "actualDate": { "type": "string", "format": "date" },
+                      "reference": { "type": "string", "maxLength": 180 }
+                    },
+                    "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                  }
+                },
+                "required": ["companyId", "expectedVersion", "expectedDigest", "funding"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authoritative payroll result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "month": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "employeeId": { "type": "string", "format": "uuid" },
+                        "employeeName": { "type": "string" },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                        "currentMonth": {
+                          "type": "string",
+                          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                        },
+                        "state": {
+                          "enum": ["editable_unpaid", "frozen_unpaid", "paid", "zero_net_closed"]
+                        },
+                        "version": { "type": "integer", "minimum": 1 },
+                        "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "frozenAt": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                        "calculation": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "salary": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "commission": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "bonus": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "overtime": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "positiveEarningAdjustments": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "grossEarning": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "newAdvancesDue": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "newOrdinaryDeductions": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "newIncidentDeductions": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "priorCarriedUnrecoveredObligations": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "obligations": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "recoveryThisPeriod": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "earningDeductionsRecovered": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "advanceRecovered": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "incidentRecovered": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "outstandingAmount": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "reservedForFrozenPeriods": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "availableForNewAllocation": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "netPayable": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                            "carryRemaining": {
+                              "type": "string",
+                              "pattern": "^(0|[1-9][0-9]{0,18})$"
+                            },
+                            "employeeCost": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                            "allocations": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "obligationId": { "type": "string", "format": "uuid" },
+                                  "kind": { "enum": ["advance", "earning_deduction", "incident"] },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^[1-9][0-9]{0,18}$"
+                                  },
+                                  "remainingMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                  }
+                                },
+                                "required": [
+                                  "obligationId",
+                                  "kind",
+                                  "amountMinor",
+                                  "remainingMinor"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "salary",
+                            "commission",
+                            "bonus",
+                            "overtime",
+                            "positiveEarningAdjustments",
+                            "grossEarning",
+                            "newAdvancesDue",
+                            "newOrdinaryDeductions",
+                            "newIncidentDeductions",
+                            "priorCarriedUnrecoveredObligations",
+                            "obligations",
+                            "recoveryThisPeriod",
+                            "earningDeductionsRecovered",
+                            "advanceRecovered",
+                            "incidentRecovered",
+                            "outstandingAmount",
+                            "reservedForFrozenPeriods",
+                            "availableForNewAllocation",
+                            "netPayable",
+                            "carryRemaining",
+                            "employeeCost",
+                            "allocations"
+                          ]
+                        },
+                        "earnings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "kind": {
+                                "enum": [
+                                  "salary",
+                                  "commission",
+                                  "bonus",
+                                  "overtime",
+                                  "earning_correction",
+                                  "earning_deduction"
+                                ]
+                              },
+                              "amountMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "workDate": { "type": "string", "format": "date" },
+                              "recordedAt": { "type": "string" },
+                              "sourceId": { "type": "string", "format": "uuid" },
+                              "label": { "type": "string" },
+                              "visitId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "policyId": {
+                                "anyOf": [
+                                  { "type": "string", "format": "uuid" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "commissionBasis": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "baseMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                      },
+                                      "terms": {
+                                        "oneOf": [
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                              "enabled",
+                                              "formula",
+                                              "basisPoints",
+                                              "perVisit"
+                                            ],
+                                            "properties": {
+                                              "enabled": { "const": false, "type": "boolean" },
+                                              "formula": { "type": "null" },
+                                              "basisPoints": { "type": "null" },
+                                              "perVisit": { "type": "null" }
+                                            }
+                                          },
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                              "enabled",
+                                              "formula",
+                                              "basisPoints",
+                                              "perVisit"
+                                            ],
+                                            "properties": {
+                                              "enabled": { "const": true, "type": "boolean" },
+                                              "formula": {
+                                                "const": "percentage",
+                                                "type": "string"
+                                              },
+                                              "basisPoints": {
+                                                "type": "integer",
+                                                "minimum": 0,
+                                                "maximum": 10000
+                                              },
+                                              "perVisit": { "type": "null" }
+                                            }
+                                          },
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                              "enabled",
+                                              "formula",
+                                              "basisPoints",
+                                              "perVisit"
+                                            ],
+                                            "properties": {
+                                              "enabled": { "const": true, "type": "boolean" },
+                                              "formula": { "const": "fixed", "type": "string" },
+                                              "basisPoints": { "type": "null" },
+                                              "perVisit": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": ["currency", "amountMinor"],
+                                                "properties": {
+                                                  "currency": { "const": "EGP", "type": "string" },
+                                                  "amountMinor": {
+                                                    "type": "string",
+                                                    "pattern": "^(0|[1-9][0-9]*)$",
+                                                    "maxLength": 19
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": ["baseMinor", "terms"]
+                                  },
+                                  { "type": "null" }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "amountMinor",
+                              "branchId",
+                              "workDate",
+                              "recordedAt",
+                              "sourceId",
+                              "label",
+                              "visitId",
+                              "policyId"
+                            ]
+                          }
+                        },
+                        "obligations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "kind": { "enum": ["advance", "earning_deduction", "incident"] },
+                              "sourceId": { "type": "string", "format": "uuid" },
+                              "sourceLabel": { "type": "string" },
+                              "month": {
+                                "type": "string",
+                                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                              },
+                              "effectiveDate": { "type": "string", "format": "date" },
+                              "recordedAt": { "type": "string" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "amountMinor": { "type": "string", "pattern": "^[1-9][0-9]{0,18}$" },
+                              "outstandingAmount": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "reservedForFrozenPeriods": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "availableForNewAllocation": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "advancePayment": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "branchId": { "type": "string", "format": "uuid" },
+                                      "accountId": { "type": "string", "format": "uuid" },
+                                      "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                                      "actualDate": { "type": "string", "format": "date" },
+                                      "movementId": { "type": "string", "format": "uuid" },
+                                      "reference": { "type": "string" }
+                                    },
+                                    "required": [
+                                      "branchId",
+                                      "accountId",
+                                      "method",
+                                      "actualDate",
+                                      "movementId",
+                                      "reference"
+                                    ]
+                                  },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "recoveries": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "month": {
+                                      "type": "string",
+                                      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                                    },
+                                    "state": { "enum": ["reserved", "settled"] },
+                                    "amountMinor": {
+                                      "type": "string",
+                                      "pattern": "^[1-9][0-9]{0,18}$"
+                                    }
+                                  },
+                                  "required": ["month", "state", "amountMinor"]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "kind",
+                              "sourceId",
+                              "sourceLabel",
+                              "month",
+                              "effectiveDate",
+                              "recordedAt",
+                              "branchId",
+                              "amountMinor",
+                              "outstandingAmount",
+                              "reservedForFrozenPeriods",
+                              "availableForNewAllocation"
+                            ]
+                          }
+                        },
+                        "reviews": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": { "type": "string", "format": "uuid" },
+                              "visitId": { "type": "string", "format": "uuid" },
+                              "workMonth": {
+                                "type": "string",
+                                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+                              },
+                              "workDate": { "type": "string", "format": "date" },
+                              "branchId": { "type": "string", "format": "uuid" },
+                              "kind": { "enum": ["late_commission", "source_conflict"] },
+                              "amountMinor": {
+                                "anyOf": [
+                                  { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                                  { "type": "null" }
+                                ]
+                              },
+                              "postedMinor": {
+                                "type": "string",
+                                "pattern": "^(0|[1-9][0-9]{0,18})$"
+                              },
+                              "reason": { "type": "string" },
+                              "resolvedMonth": {
+                                "anyOf": [
+                                  { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+                                  { "type": "null" }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "visitId",
+                              "workMonth",
+                              "workDate",
+                              "branchId",
+                              "kind",
+                              "amountMinor",
+                              "postedMinor",
+                              "reason",
+                              "resolvedMonth"
+                            ]
+                          }
+                        },
+                        "blockers": { "type": "array", "items": { "type": "string" } },
+                        "payment": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "branchId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "id": { "type": "string", "format": "uuid" },
+                                "commandId": { "type": "string", "format": "uuid" },
+                                "amountMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|[1-9][0-9]{0,18})$"
+                                },
+                                "actualDate": { "type": "string", "format": "date" },
+                                "accountId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "method": {
+                                  "anyOf": [
+                                    { "enum": ["cash", "bank_deposit", "instapay"] },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "movementId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "reference": { "type": "string" },
+                                "recordedAt": { "type": "string" }
+                              },
+                              "required": [
+                                "id",
+                                "commandId",
+                                "amountMinor",
+                                "actualDate",
+                                "accountId",
+                                "method",
+                                "movementId",
+                                "reference",
+                                "recordedAt"
+                              ]
+                            },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "employeeId",
+                        "employeeName",
+                        "branchId",
+                        "month",
+                        "currentMonth",
+                        "state",
+                        "version",
+                        "digest",
+                        "frozenAt",
+                        "calculation",
+                        "earnings",
+                        "obligations",
+                        "reviews",
+                        "blockers",
+                        "payment"
+                      ]
+                    },
+                    "funding": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "accountId": { "type": "string", "format": "uuid" },
+                        "branchId": { "type": "string", "format": "uuid" },
+                        "method": { "enum": ["cash", "bank_deposit", "instapay"] },
+                        "actualDate": { "type": "string", "format": "date" },
+                        "reference": { "type": "string", "maxLength": 180 }
+                      },
+                      "required": ["accountId", "branchId", "method", "actualDate", "reference"]
+                    },
+                    "accountName": { "type": "string" },
+                    "availableMinor": { "type": "string", "pattern": "^(0|[1-9][0-9]{0,18})$" },
+                    "blockers": { "type": "array", "items": { "type": "string" } }
+                  },
+                  "required": ["month", "funding", "accountName", "availableMinor", "blockers"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Closed schema rejects partial payment or invalid amount" },
+          "403": { "description": "Scope or CSRF denied" },
+          "409": { "description": "Revised/protected calculation, funds or source review conflict" }
+        }
+      }
+    },
     "/api/v1/storage/agreements": {
       "get": {
         "summary": "Storage agreements with charges, arrears and separate unallocated credit (UI-STORAGE-001)",
@@ -15521,7 +17909,9 @@
                               "remittance",
                               "brand_payout",
                               "storage_receipt",
-                              "storage_refund"
+                              "storage_refund",
+                              "employee_advance",
+                              "salary_payout"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -16806,7 +19196,9 @@
                               "remittance",
                               "brand_payout",
                               "storage_receipt",
-                              "storage_refund"
+                              "storage_refund",
+                              "employee_advance",
+                              "salary_payout"
                             ]
                           },
                           "reason": { "type": "string", "maxLength": 1000 }
@@ -17190,7 +19582,9 @@
                         "remittance",
                         "brand_payout",
                         "storage_receipt",
-                        "storage_refund"
+                        "storage_refund",
+                        "employee_advance",
+                        "salary_payout"
                       ]
                     },
                     "reason": { "type": "string", "maxLength": 1000 }

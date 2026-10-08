@@ -1,0 +1,71 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P20
+P20 browser: NOT APPLICABLE — Owner instruction 2026-10-07: skip browser testing and finish P20. Earlier actual-API browser runs and failures remain historical evidence (11, 20, 21); no fresh browser pass or owner manual trial is claimed. Remaining acceptance uses Vitest scripts and real PostgreSQL/HTTP transactions.
+P20 publicIntegration: NOT APPLICABLE — P20 sends no public integration request. It consumes the implemented P13 immutable visit connector and P18 obligations; real PostgreSQL/worker tests use explicitly controlled canonical source fixtures. No new independent Tawsel acceptance is claimed.
+P20 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/calculation.unit.test.ts (5 tests) 18ms
+ ✓ tests/integration/p20/ui.unit.test.tsx (3 tests) 696ms
+   ✓ read-only full net; unknown response survives remount and 404 retry reuses the exact command identity 477ms
+
+ Test Files  2 passed (2)
+      Tests  8 passed (8)
+   Start at  02:41:41
+   Duration  6.72s (environment 58%, import 25%, tests 6%, transform 6%, setup 5%)
+
+P20 unit: PASSED
+P20 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p20/payroll.db.test.ts (9 tests) 81599ms
+   ✓ before-commit connection termination rolls back; committed payment survives database restart and identity recovery 37576ms
+ ✓ tests/integration/p20/migration.db.test.ts (1 test) 47347ms
+   ✓ populated P19 upgrade preserves P18 original obligations and all actual money; migration fabricates no advance or salary 47346ms
+ ✓ tests/integration/p20/sources.db.test.ts (4 tests) 46778ms
+   ✓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost 551ms
+   ✓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period 518ms
+ ❯ tests/integration/p20/http.db.test.ts (2 tests | 1 failed) 80944ms
+   ✓ HR filters select actual period states, carry and advance balances without widening branch scope 660ms
+   × closed actual HTTP: scope, CSRF, partial payout, supported funded method and unknown-command recovery 324ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/http.db.test.ts [ tests/integration/p20/http.db.test.ts ]
+Error: Command failed: C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\.tools\p18-postgresql\pgsql\bin\pg_ctl.exe -D C:\Users\7OSS\AppData\Local\Temp\shahn-p03-test-XlV7GE\data -m fast -w stop
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/http.db.test.ts > closed actual HTTP: scope, CSRF, partial payout, supported funded method and unknown-command recovery
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/integration/p20/http.db.test.ts:105:5
+    103|       )
+    104|     ).rows[0].n,
+    105|   ).toBe(1);
+       |     ^
+    106| });
+    107|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 15 passed (16)
+   Start at  02:41:48
+   Duration  264.06s (tests 97%, import 2%, transform 1%)
+
+P20 database: FAILED (1)

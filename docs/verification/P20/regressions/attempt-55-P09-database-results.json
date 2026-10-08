@@ -1,0 +1,117 @@
+{
+  "upgrade": {
+    "retainedRows": 3,
+    "migrations": [
+      "0001_foundation",
+      "0002_access",
+      "0003_access_result_error",
+      "0004_kernel",
+      "0005_kernel_allocation_guards",
+      "0006_work_generated_identity",
+      "0007_kernel_guards",
+      "0008_brands_pricing",
+      "0009_p05_products_stock",
+      "0010_p06_parcel_intake",
+      "0011_p07_stock_fulfillment",
+      "0012_p08_employee_terms",
+      "0013_p09_accounts_expenses",
+      "0014_p10_treasury_transfers",
+      "0015_p11_integration",
+      "0016_p12_dispatch",
+      "0017_p13_execution",
+      "0018_p14_returns",
+      "0019_p15_goods_transfers",
+      "0020_p16_remittances",
+      "0021_p17_brand_payouts",
+      "0022_p18_incidents",
+      "0023_p19_storage",
+      "0024_p20_payroll"
+    ]
+  },
+  "trial": {
+    "cash": {
+      "commandId": "0f54e1e8-71cc-455d-9eec-367636ccd2f2",
+      "entityId": "a0a7d877-c7d0-4055-874d-8f4917572412",
+      "version": 1,
+      "movementId": null
+    },
+    "bank": {
+      "commandId": "19f68ec5-9fad-47cc-a66b-1b4d527a9dec",
+      "entityId": "dc7be78b-debe-472b-bf93-4aa2badf1d5e",
+      "version": 1,
+      "movementId": null
+    },
+    "expense": {
+      "commandId": "8170a532-558f-4e16-9d8d-22b5c7e36cf5",
+      "entityId": "b17e4ea9-65ec-45c4-befd-5baf963170f9",
+      "version": 1,
+      "movementId": "d259d55a-f290-4312-a11c-9aefa5750d4e"
+    },
+    "totals": {
+      "movements": 3,
+      "cost": "20000"
+    },
+    "detail": {
+      "id": "b17e4ea9-65ec-45c4-befd-5baf963170f9",
+      "movementId": "d259d55a-f290-4312-a11c-9aefa5750d4e",
+      "sourceId": "09185fcc-09c2-48ef-87ea-81521ec42cef",
+      "costEffectId": "9f64eeaf-e332-452d-9d28-1246591d86c8",
+      "categoryId": "b8aee08a-0c84-4d7b-982c-6086e465c53a",
+      "categoryName": "P09 إيجار",
+      "description": "P09 إيجار سبتمبر",
+      "accountId": "a0a7d877-c7d0-4055-874d-8f4917572412",
+      "branchId": "da3c9c7f-0501-4eef-83db-0fcbc224c856",
+      "amountMinor": "20000",
+      "currency": "EGP",
+      "method": "cash",
+      "actualDate": "2026-09-01",
+      "accountName": "P09 خزينة ب",
+      "branchName": "الفرع ب",
+      "actorId": "23052a7e-ae3d-43bb-b50b-886da7bdb8e6",
+      "actorName": "admin",
+      "recordedAt": "2026-10-08T00:03:37.893Z"
+    }
+  },
+  "protectedPayrollUnchanged": true,
+  "race-movement": {
+    "waiting": true,
+    "balance": "30000"
+  },
+  "race-expense": {
+    "waiting": true,
+    "balance": "30000"
+  },
+  "reconciliation": [
+    {
+      "accountId": "4db73d10-bf16-4a49-b5fc-b9b8cd7287f7",
+      "projectionMinor": "30000",
+      "journalMinor": "30000"
+    },
+    {
+      "accountId": "a0a7d877-c7d0-4055-874d-8f4917572412",
+      "projectionMinor": "70000",
+      "journalMinor": "70000"
+    },
+    {
+      "accountId": "aa885c1c-8a6c-4bd2-a7c6-a4977b093ab7",
+      "projectionMinor": "30000",
+      "journalMinor": "30000"
+    },
+    {
+      "accountId": "dc7be78b-debe-472b-bf93-4aa2badf1d5e",
+      "projectionMinor": "80000",
+      "journalMinor": "80000"
+    }
+  ],
+  "restart": {
+    "beforeExit": 74,
+    "afterExit": 73,
+    "recovered": {
+      "version": 1,
+      "entityId": "e59881c8-956c-4fd1-aa11-9878dfb788a2",
+      "commandId": "a74dd0de-6468-4fc1-8a5c-bc46bd57a997",
+      "movementId": "e59881c8-956c-4fd1-aa11-9878dfb788a2"
+    },
+    "balance": "100000"
+  }
+}

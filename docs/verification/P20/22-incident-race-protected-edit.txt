@@ -1,0 +1,17 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/sources.db.test.ts tests/integration/p20/payroll.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/sources.db.test.ts (3 tests) 40862ms
+   ✓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost 550ms
+   ✓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period 502ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p20/payroll.db.test.ts (9 tests) 70315ms
+   ✓ before-commit connection termination rolls back; committed payment survives database restart and identity recovery 31983ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  09:09:05
+   Duration  114.24s (tests 97%, import 2%, transform 1%)

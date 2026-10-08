@@ -1,0 +1,51 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/payroll.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p20/payroll.db.test.ts (5 tests | 2 failed) 5517ms
+   × AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt 288ms
+   ✓ AC03 zero closure then next month recovers remaining original 500 once 216ms
+   ✓ AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000 299ms
+   ✓ AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries 388ms
+   × AC07 independent concurrent commands and retained winning identity debit once 287ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt
+error: duplicate key value violates unique constraint "journal_effect_company_id_source_id_family_kind_subject_id_key"
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ JournalPosting.append apps/api/src/modules/kernel/journals.ts:122:7
+    120|       const id = randomUUID();
+    121|       ids.push(id);
+    122|       await client.query(
+       |       ^
+    123|         `INSERT INTO kernel.journal_effect(id,company_id,batch_id,sour…
+    124|         branch_id,effective_date,actor_id,supersedes_id,reason) VALUES…
+ ❯ AccountFundsService.postMovement apps/api/src/modules/finance/accounts/service.ts:184:21
+ ❯ Object.execute apps/api/src/modules/employees/payroll.service.ts:109:54
+ ❯ apps/api/src/modules/kernel/commands.ts:121:18
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p20/payroll.db.test.ts:14:73
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC07 independent concurrent commands and retained winning identity debit once
+Error: ALREADY_PAID
+ ❯ apps/api/src/modules/kernel/commands.ts:174:38
+    172|       return result.reply;
+    173|     }).then((reply) => {
+    174|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    175|       return reply;
+    176|     });
+ ❯ tests/integration/p20/payroll.db.test.ts:58:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  03:18:52
+   Duration  6.92s (tests 81%, import 12%, transform 7%)

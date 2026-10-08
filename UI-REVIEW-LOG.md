@@ -59,3 +59,10 @@ ERP-D-199 / ERP-R-208 require advanced filters in relevant later phases. The sam
 ### Next design work after feedback
 
 Extend the approved direction through the shared components and remaining journey specifications in UI-DESIGN-BRIEF.md. Later UI-bearing prompts must cite this revision and the relevant screen references, include advanced-filter acceptance where applicable, and compare desktop/phone output with the approved direction. Retain the required master-plan review before implementation-phase prompts. This approval record changes documentation only; no new runtime test or production implementation is claimed.
+
+
+## P20 implementation review — 2026-10-08
+
+The payroll month, advance, bounded HR addition/deduction/review and immutable payment pages use the approved UI-REV-001 direction, shared Arabic RTL/Cairo tokens, readable exact EGP values and focused forms. Month totals separate earnings, original recovery, carry, employee cost and full net. Payout uses the server amount; zero closure has no account. Unknown responses retain command identity through reload; source histories preserve filters and historical branch attribution.
+
+[P20 evidence](docs/verification/P20/README.md) retains earlier actual API/browser captures at desktop/mobile and long-history widths, including their failed attempts. The owner instructed “skip browser testing, just finish the phase”; final browser/device/manual review was therefore excluded or unrun. Script UI, actual HTTP and real PostgreSQL tests prove their separately stated behaviors. No final browser certification, physical-device review or new owner visual approval is claimed.

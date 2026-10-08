@@ -1,0 +1,13 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.p20.config.ts
+[WebServer] (node:29112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:34888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\integration\p20\payroll.spec.ts:7:1 › actual advance, ordinary deduction, full net, dropped response recovery, immutable payment and long histories (2.0m)
+  ok 2 tests\integration\p20\payroll.spec.ts:18:1 › zero close, carried original balance and stale full payout preview (7.0s)
+
+  2 passed (2.3m)

@@ -116,6 +116,10 @@ export function registerEmployees(app: FastifyInstance, pool: Pool, origin: stri
                     'effectiveDate',
                     'page',
                     'limit',
+                    'payrollMonth',
+                    'payrollState',
+                    'carry',
+                    'advanceStatus',
                   ]
                 : ['companyId'];
             if (Object.keys(q).some((k) => !keys.includes(k)))
@@ -148,6 +152,10 @@ export function registerEmployees(app: FastifyInstance, pool: Pool, origin: stri
                     effectiveDate: q.effectiveDate || null,
                     page: Number(q.page ?? 1),
                     limit: Number(q.limit ?? 20),
+                    ...(q.payrollMonth ? { payrollMonth: q.payrollMonth } : {}),
+                    payrollState: q.payrollState ?? 'all',
+                    carry: q.carry ?? 'all',
+                    advanceStatus: q.advanceStatus ?? 'all',
                   };
                   if (!validateEmployeeFilter(filter))
                     throw new AccessError('VALIDATION_FAILED', 400);

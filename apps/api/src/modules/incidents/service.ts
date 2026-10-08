@@ -936,6 +936,11 @@ export function incidentCommands(pool: Pool, hooks: IncidentHooks = {}) {
                 cairoDate(new Date(i.report.observedAt)),
               ],
             );
+          if (obligationId) {
+            const { acceptIncidentPayrollObligation } =
+              await import('../employees/payroll.service.js');
+            await acceptIncidentPayrollObligation(u.client, company, obligationId);
+          }
           await hooks.afterObligation?.();
           await u.client.query(
             'INSERT INTO incidents.confirmation(company_id,id,incident_id,source_id,command_record_id,fields,goods_value_minor,compensation_minor,company_share_minor,employee_share_minor,responsible_branch_id,employee_id,employee_payroll_branch_id,payroll_month,lot_id,obligation_id,actor_id,actor_name) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)',

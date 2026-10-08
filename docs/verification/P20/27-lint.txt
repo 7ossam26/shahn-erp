@@ -1,0 +1,28 @@
+npm notice run shahn-erp@0.1.0 lint
+npm notice run eslint apps packages tests scripts && prettier --check apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml
+Checking formatting...
+[warn] apps/api/src/app.ts
+[warn] apps/api/src/modules/employees/http.ts
+[warn] apps/api/src/modules/employees/payroll-period.service.ts
+[warn] apps/api/src/modules/employees/payroll.service.ts
+[warn] apps/api/src/modules/employees/service.ts
+[warn] apps/api/src/modules/finance/accounts/service.ts
+[warn] apps/api/src/modules/incidents/service.ts
+[warn] apps/web/src/features/employees/employees.tsx
+[warn] apps/web/src/features/employees/payroll/payroll.tsx
+[warn] apps/web/src/main.tsx
+[warn] packages/contracts/src/employees/index.ts
+[warn] packages/contracts/src/employees/payroll/index.ts
+[warn] packages/database/src/transaction.ts
+[warn] tests/integration/p20/calculation.unit.test.ts
+[warn] tests/integration/p20/fixtures.ts
+[warn] tests/integration/p20/http.db.test.ts
+[warn] tests/integration/p20/migration.db.test.ts
+[warn] tests/integration/p20/payroll.db.test.ts
+[warn] tests/integration/p20/payroll.spec.ts
+[warn] tests/integration/p20/serve.ts
+[warn] tests/integration/p20/sources.db.test.ts
+[warn] tests/integration/p20/ui.unit.test.tsx
+[warn] scripts/phase-suites.json
+[warn] package.json
+[warn] Code style issues found in 24 files. Run Prettier with --write to fix.

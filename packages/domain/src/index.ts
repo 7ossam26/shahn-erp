@@ -78,5 +78,6 @@ export * from './shipments/index.js';
 export * from './inventory/reservation-policy.js';
 export * from './shipments/preparation-policy.js';
 export * from './employees/index.js';
+export * from './employees/payroll-calculation.js';
 export * from './incidents/index.js';
 export * from './storage/index.js';

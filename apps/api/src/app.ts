@@ -37,6 +37,8 @@ import { registerBrands } from './modules/brands/http.js';
 import { registerInventory } from './modules/inventory/http.js';
 import { registerShipments } from './modules/shipments/http.js';
 import { registerEmployees } from './modules/employees/http.js';
+import { registerPayroll } from './modules/employees/payroll.http.js';
+import type { PayrollClock } from './modules/employees/payroll-period.service.js';
 import { identityConfig, type IdentityConfig } from './modules/access/config.js';
 import {
   createPool,
@@ -145,7 +147,7 @@ export async function createApplication(
   identity: IdentityConfig | null = identityConfig(),
   integration: IntegrationRuntime = integrationRuntime(),
   /** Isolated tests/trials only: controlled storage business date. Production omits it. */
-  options: { storageClock?: StorageClock } = {},
+  options: { storageClock?: StorageClock; payrollClock?: PayrollClock } = {},
 ): Promise<NestFastifyApplication> {
   @Module({
     controllers: [StatusController],
@@ -237,6 +239,12 @@ export async function createApplication(
     app.getHttpAdapter().getInstance(),
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+  );
+  registerPayroll(
+    app.getHttpAdapter().getInstance(),
+    app.get(DatabaseLifecycle).pool,
+    identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
+    options.payrollClock,
   );
   registerShipments(
     app.getHttpAdapter().getInstance(),

@@ -1,0 +1,60 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/employees.test.ts (9 tests) 257ms
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 407ms
+ ✓ tests/unit/shipments.test.ts (17 tests) 29ms
+ ✓ tests/unit/access.test.ts (37 tests) 34ms
+ ✓ tests/integration/p19/calendar.unit.test.ts (18 tests) 116ms
+ ✓ tests/integration/p12/contracts.unit.test.ts (23 tests) 71ms
+ ✓ tests/integration/p15/contracts.unit.test.ts (12 tests) 143ms
+ ✓ tests/integration/p14/contracts.unit.test.ts (39 tests) 236ms
+ ✓ tests/integration/p17/contracts.unit.test.ts (17 tests) 25ms
+ ✓ tests/integration/p16/contracts.unit.test.ts (79 tests) 487ms
+ ✓ tests/integration/p13/contracts.unit.test.ts (167 tests) 1114ms
+ ✓ tests/unit/process-lifecycle.test.ts (3 tests) 10563ms
+   ✓ worker registers source, projection and storage renewal queues and gracefully stops its actual process 5067ms
+   ✓ missing mandatory worker variable has a readable failure without a secret 5188ms
+   ✓ seed refuses production before attempting any database access 306ms
+ ✓ tests/integration/p18/outbox-adapter.unit.test.ts (1 test) 31ms
+ ✓ tests/unit/brands.test.ts (4 tests) 21ms
+ ✓ tests/unit/form.test.tsx (2 tests) 4062ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 2550ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 1510ms
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 20ms
+ ✓ tests/integration/p20/ui.unit.test.tsx (3 tests) 2011ms
+   ✓ read-only full net; unknown response survives remount and 404 retry reuses the exact command identity 1407ms
+   ✓ advance form uses explicit actual funding and waits for connection without sending money 438ms
+ ✓ tests/unit/finance.test.ts (12 tests) 20ms
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 20ms
+ ✓ tests/integration/p18/contracts.unit.test.ts (8 tests) 23ms
+ ✓ tests/unit/money.test.ts (22 tests) 19ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 18ms
+ ✓ tests/integration/p20/calculation.unit.test.ts (5 tests) 16ms
+ ✓ tests/unit/inventory.test.ts (4 tests) 14ms
+ ✓ tests/integration/p17/ui.unit.test.tsx (8 tests) 6113ms
+   ✓ P17 payout form (connected browser-equivalent script checks, no Playwright) (6)
+     ✓ labels payable, pending, held and cover separately instead of one balance 555ms
+     ✓ reviews a closed scope, confirms once with the preview revision and follows the committed response 1419ms
+     ✓ requires an off-day reason before confirmation; the server decides off-day 2087ms
+     ✓ shows server blockers (insufficient funds or held credit) and cannot confirm 588ms
+     ✓ an unknown result keeps the same command identity through reload-style recovery; no second payout 704ms
+     ✓ a changed wallet reopens review with committed numbers and keeps the entered intent 541ms
+ ✓ tests/integration/p19/contracts.unit.test.ts (6 tests) 8ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 4ms
+ ✓ tests/integration/p18/ui.unit.test.tsx (3 tests) 10579ms
+   ✓ explicit review explains 400 eligible / 200 obligation / zero cash before confirm and preserves unknown response across remount 4741ms
+   ✓ protected period and incorrect shares keep confirmation disabled; explicit allowed month requires another preview 2860ms
+   ✓ partial report selects only unclaimed pieces, preserves long reasons and has no valuation intake field 2977ms
+
+ Test Files  28 passed (28)
+      Tests  634 passed (634)
+   Start at  09:12:06
+   Duration  19.85s (import 38%, environment 33%, tests 18%, transform 6%, setup 5%)
+
+Environment  jsdom was created 28 times · 67.81s total, 33% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments

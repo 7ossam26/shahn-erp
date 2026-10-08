@@ -1,0 +1,85 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/employees.test.ts tests/db/finance.test.ts tests/db/kernel.test.ts tests/integration/p13 tests/integration/p18/incidents.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 71390ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 32239ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 318ms
+ ✓ tests/db/finance.test.ts (18 tests) 44266ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 6332ms
+ ✓ tests/db/kernel.test.ts (21 tests) 43445ms
+   ✓ P03 committed PostgreSQL command/posting kernel (21)
+     ✓ kills the actual API after commit before response, restarts and recovers the same identity 6394ms
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 40160ms
+ ❯ tests/db/employees.test.ts (12 tests | 1 failed) 78277ms
+   ✓ upgrades P07 and fresh schema without converting users or posting cash/earning 36798ms
+   ✓ creates all independent modes and distinct duplicate names without login/driver linkage 151ms
+   ✓ runs actual denied B query, rejects CSRF/header/schema tampering, and observes current permission revision 147ms
+   ✓ corrects current full salary, schedules future and rejects past absent/frozen/paid/zero periods 170ms
+   ✓ serializes salary edit first then simulated P20 freeze using the real shared control row 102ms
+   ✓ serializes P20 freeze first then edit, which rejects without policy/revision changes 136ms
+   ✓ two independent SQL transactions cannot commit overlapping policies or associations 170ms
+   ✓ concurrent API links produce one exact association and a retained conflict 44ms
+   × resolves exact work-time policy/link/branch snapshots and refuses pending external mapping 30ms
+   ✓ preserves branch/name revisions, deactivation, retained results and reauthorizes revoked recovery 85ms
+   ✓ rolls back injected mutation failure and retains one success after same-intent retry 21ms
+   ✓ enforces same-company FKs, formula constraints, immutable histories and descriptive filters 148ms
+ ❯ tests/integration/p13/monitoring.db.test.ts (8 tests | 8 skipped) 10435ms
+   ↓ fetches authorized scoped HTTP data, retains body on 304 and updates refresh metadata
+   ↓ keeps 503 visibly stale; hides cached source body on 404 without deleting native history
+   ↓ discards a partial 409 page set and restarts under a stable scope/revision
+   ↓ rejects foreign source filtering and requires sourceId for action reads
+   ↓ a quiet inbox and snapshot cannot certify a round without a closure and complete history
+   ↓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction
+   ↓ history-only outcome followed by delayed arrival retains outcome state and posts one allocation
+   ↓ rechecks native authorization before returning cached data after revocation
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p13/monitoring.db.test.ts [ tests/integration/p13/monitoring.db.test.ts ]
+Error: connect ECONNREFUSED 127.0.0.1:63091
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ migrate packages/database/src/migrations.ts:83:18
+ ❯ tests/integration/p13/monitoring.db.test.ts:86:3
+     84|   const port = (server.address() as { port: number }).port;
+     85|   db = await isolatedPostgres();
+     86|   await migrate(db.pool);
+       |   ^
+     87|   f = await executionFixture(db.pool, 'http://127.0.0.1:5331', 'http:/…
+     88|   reader = new MonitoringReader(db.pool, f.runtime);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/p13/monitoring.db.test.ts [ tests/integration/p13/monitoring.db.test.ts ]
+Error: Command failed: C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\.tools\p18-postgresql\pgsql\bin\pg_ctl.exe -D C:\Users\7OSS\AppData\Local\Temp\shahn-p03-test-oLFaNQ\data -m fast -w stop
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/employees.test.ts > resolves exact work-time policy/link/branch snapshots and refuses pending external mapping
+AssertionError: expected 'unresolved' to be 'resolved' // Object.is equality
+
+Expected: "resolved"
+Received: "unresolved"
+
+ ❯ tests/db/employees.test.ts:428:26
+    426|     resolveEmployeeTermsAt(tx, f.company, driver, workAt, { acceptWork…
+    427|   );
+    428|   expect(earlier.status).toBe('resolved');
+       |                          ^
+    429|   const d = nextDate(today);
+    430|   e = await run(change(e, null, { effectiveDate: d, terms: employeeExa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  1 failed | 73 passed | 8 skipped (82)
+   Start at  09:12:30
+   Duration  298.03s (tests 97%, import 3%)

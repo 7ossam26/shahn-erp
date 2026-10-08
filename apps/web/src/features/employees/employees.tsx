@@ -353,6 +353,10 @@ export function EmployeesPage() {
     commission,
     effectiveDate: date,
     page: String(page),
+    ...(query.get('payrollMonth') ? { payrollMonth: query.get('payrollMonth')! } : {}),
+    payrollState: query.get('payrollState') ?? 'all',
+    carry: query.get('carry') ?? 'all',
+    advanceStatus: query.get('advanceStatus') ?? 'all',
   });
   const list = useQuery({
     queryKey: ['employees', company, args.toString()],
@@ -369,7 +373,9 @@ export function EmployeesPage() {
   };
   const card = (r: EmployeeList['items'][number]) => (
     <>
-      <Link to={`/employees/${r.id}`}>{r.fields.name}</Link>
+      <Link to={`/employees/${r.id}?${new URLSearchParams({ returnFilters: query.toString() })}`}>
+        {r.fields.name}
+      </Link>
       <p>
         مرجع {r.reference} · {r.currentBranchName} · {r.fields.active ? 'نشط' : 'موقوف'}
       </p>
@@ -414,7 +420,19 @@ export function EmployeesPage() {
           </select>
         </Field>
         <Button variant="outline" onClick={() => setAdvanced(!advanced)} aria-expanded={advanced}>
-          فلاتر متقدمة ({[salary !== 'all', commission !== 'all', !!date].filter(Boolean).length})
+          فلاتر متقدمة (
+          {
+            [
+              salary !== 'all',
+              commission !== 'all',
+              !!date,
+              !!query.get('payrollMonth'),
+              (query.get('payrollState') ?? 'all') !== 'all',
+              (query.get('carry') ?? 'all') !== 'all',
+              (query.get('advanceStatus') ?? 'all') !== 'all',
+            ].filter(Boolean).length
+          }
+          )
         </Button>
       </div>
       {advanced ? (
@@ -440,7 +458,43 @@ export function EmployeesPage() {
             value={date}
             onChange={(v) => set('effectiveDate', v)}
           />
-          <p className="muted">فلاتر الدفع الشهري تتاح عند تنفيذ حساب ودفع الرواتب.</p>
+          <TextField
+            label="شهر الرواتب"
+            type="month"
+            value={query.get('payrollMonth') ?? catalog.data?.currentMonth ?? ''}
+            onChange={(v) => set('payrollMonth', v)}
+          />
+          <Field label="حالة دفع الراتب">
+            <select
+              value={query.get('payrollState') ?? 'all'}
+              onChange={(e) => set('payrollState', e.target.value)}
+            >
+              <option value="all">الكل</option>
+              <option value="unpaid">لم يُدفع</option>
+              <option value="paid">مدفوع</option>
+              <option value="zero_net_closed">مقفل بصفر</option>
+            </select>
+          </Field>
+          <Field label="التزامات مرحلة متاحة">
+            <select
+              value={query.get('carry') ?? 'all'}
+              onChange={(e) => set('carry', e.target.value)}
+            >
+              <option value="all">الكل</option>
+              <option value="yes">يوجد ترحيل</option>
+              <option value="no">بدون ترحيل</option>
+            </select>
+          </Field>
+          <Field label="حالة السلفة">
+            <select
+              value={query.get('advanceStatus') ?? 'all'}
+              onChange={(e) => set('advanceStatus', e.target.value)}
+            >
+              <option value="all">الكل</option>
+              <option value="outstanding">يوجد رصيد قائم</option>
+              <option value="recovered">يوجد أصل مسترد بالكامل</option>
+            </select>
+          </Field>
         </div>
       ) : null}
       {query.size ? (
@@ -474,7 +528,13 @@ export function EmployeesPage() {
             columns={[
               {
                 label: 'الموظف',
-                render: (r) => <Link to={`/employees/${r.id}`}>{r.fields.name}</Link>,
+                render: (r) => (
+                  <Link
+                    to={`/employees/${r.id}?${new URLSearchParams({ returnFilters: query.toString() })}`}
+                  >
+                    {r.fields.name}
+                  </Link>
+                ),
               },
               { label: 'الفرع', render: (r) => r.currentBranchName },
               {
@@ -631,6 +691,7 @@ function DetailForm({
   catalog: EmployeeCatalog;
   reload: () => void;
 }) {
+  const [detailSearch] = useSearchParams();
   const mutation = useEmployeeMutation(() => {
     setSaved(true);
     setPanel('none');
@@ -753,7 +814,7 @@ function DetailForm({
   return (
     <div className="employees-page">
       <div className="commercial-toolbar">
-        <Link to="/employees">الموظفون</Link>
+        <Link to={`/employees?${detailSearch.get('returnFilters') ?? ''}`}>الموظفون</Link>
         <span>
           مرجع {detail.reference} · نسخة {detail.version} · {detail.fields.active ? 'نشط' : 'موقوف'}
         </span>
@@ -775,10 +836,9 @@ function DetailForm({
               : 'يوجد ربط صريح بهوية مندوب خارجية.'}
         </p>
       </section>
-      <p className="muted">
-        الحساب الشهري والسلف والدفع لم تُنفذ بعد في بيئة التطوير. لا توجد أرصدة أو مدفوعات ناتجة عن
-        هذا الملف.
-      </p>
+      <Link to={`/employees/${detail.id}/months/${catalog.currentMonth}?${detailSearch}`}>
+        الحساب الشهري والسلف والدفع
+      </Link>
       {panel === 'none' ? (
         <div className="employee-actions">
           <Button variant="outline" disabled={disabled} onClick={() => show('profile')}>

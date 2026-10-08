@@ -1,0 +1,113 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/payroll.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p20/payroll.db.test.ts (5 tests | 5 failed) 5083ms
+   × AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt 68ms
+   × AC03 zero closure then next month recovers remaining original 500 once 66ms
+   × AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000 56ms
+   × AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries 56ms
+   × AC07 independent concurrent commands and retained winning identity debit once 58ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ payrollEarnings packages/database/src/employees/payroll.repository.ts:16:11
+ ❯ materializePayroll apps/api/src/modules/employees/payroll-period.service.ts:37:18
+     35|   const policy=resolvePolicy(await readEmployeePolicies(tx,company,emp…
+     36|   const blockers:string[]=[];
+     37|   const earnings=await payrollEarnings(tx,company,employee,month), obl…
+       |                  ^
+     38|   const employed=e.employment_start.slice(0,7)<=month && (!e.employmen…
+     39|   if(employed && policy.status!=='resolved') blockers.push('SALARY_POL…
+ ❯ payrollMonth apps/api/src/modules/employees/payroll-period.service.ts:62:16
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.issue tests/integration/p20/fixtures.ts:26:108
+ ❯ tests/integration/p20/payroll.db.test.ts:10:35
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC03 zero closure then next month recovers remaining original 500 once
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ payrollEarnings packages/database/src/employees/payroll.repository.ts:16:11
+ ❯ materializePayroll apps/api/src/modules/employees/payroll-period.service.ts:37:18
+     35|   const policy=resolvePolicy(await readEmployeePolicies(tx,company,emp…
+     36|   const blockers:string[]=[];
+     37|   const earnings=await payrollEarnings(tx,company,employee,month), obl…
+       |                  ^
+     38|   const employed=e.employment_start.slice(0,7)<=month && (!e.employmen…
+     39|   if(employed && policy.status!=='resolved') blockers.push('SALARY_POL…
+ ❯ payrollMonth apps/api/src/modules/employees/payroll-period.service.ts:62:16
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.issue tests/integration/p20/fixtures.ts:26:108
+ ❯ tests/integration/p20/payroll.db.test.ts:23:50
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ payrollEarnings packages/database/src/employees/payroll.repository.ts:16:11
+ ❯ materializePayroll apps/api/src/modules/employees/payroll-period.service.ts:37:18
+     35|   const policy=resolvePolicy(await readEmployeePolicies(tx,company,emp…
+     36|   const blockers:string[]=[];
+     37|   const earnings=await payrollEarnings(tx,company,employee,month), obl…
+       |                  ^
+     38|   const employed=e.employment_start.slice(0,7)<=month && (!e.employmen…
+     39|   if(employed && policy.status!=='resolved') blockers.push('SALARY_POL…
+ ❯ payrollMonth apps/api/src/modules/employees/payroll-period.service.ts:62:16
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.issue tests/integration/p20/fixtures.ts:26:108
+ ❯ tests/integration/p20/payroll.db.test.ts:31:39
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ payrollEarnings packages/database/src/employees/payroll.repository.ts:16:11
+ ❯ materializePayroll apps/api/src/modules/employees/payroll-period.service.ts:37:18
+     35|   const policy=resolvePolicy(await readEmployeePolicies(tx,company,emp…
+     36|   const blockers:string[]=[];
+     37|   const earnings=await payrollEarnings(tx,company,employee,month), obl…
+       |                  ^
+     38|   const employed=e.employment_start.slice(0,7)<=month && (!e.employmen…
+     39|   if(employed && policy.status!=='resolved') blockers.push('SALARY_POL…
+ ❯ payrollMonth apps/api/src/modules/employees/payroll-period.service.ts:62:16
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p20/payroll.db.test.ts:42:46
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/integration/p20/payroll.db.test.ts > AC07 independent concurrent commands and retained winning identity debit once
+error: operator does not exist: text = uuid
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ payrollEarnings packages/database/src/employees/payroll.repository.ts:16:11
+ ❯ materializePayroll apps/api/src/modules/employees/payroll-period.service.ts:37:18
+     35|   const policy=resolvePolicy(await readEmployeePolicies(tx,company,emp…
+     36|   const blockers:string[]=[];
+     37|   const earnings=await payrollEarnings(tx,company,employee,month), obl…
+       |                  ^
+     38|   const employed=e.employment_start.slice(0,7)<=month && (!e.employmen…
+     39|   if(employed && policy.status!=='resolved') blockers.push('SALARY_POL…
+ ❯ payrollMonth apps/api/src/modules/employees/payroll-period.service.ts:62:16
+ ❯ transaction packages/database/src/transaction.ts:15:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ Object.issue tests/integration/p20/fixtures.ts:26:108
+ ❯ tests/integration/p20/payroll.db.test.ts:53:34
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  03:16:35
+   Duration  6.52s (tests 79%, import 13%, transform 7%)

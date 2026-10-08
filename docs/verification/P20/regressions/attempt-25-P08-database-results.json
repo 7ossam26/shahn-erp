@@ -1,0 +1,119 @@
+{
+  "deniedBranch": {
+    "status": 403,
+    "body": {
+      "code": "FORBIDDEN_SCOPE",
+      "messageKey": "employees.forbidden_scope",
+      "commandId": null,
+      "correlationId": "5bd3e66c-8238-48a9-a486-aa88134b079e"
+    }
+  },
+  "permissionRevision": "1",
+  "salaryRevision": {
+    "employeeId": "918dd4f0-c9df-4aad-8fd6-7e61e6e4b24e",
+    "policies": [
+      {
+        "id": "5ecb966b-acd0-4af9-8938-2a93ef134f38",
+        "axis": "salary",
+        "from": "2026-10-01",
+        "to": null,
+        "superseded": true,
+        "reason": "Initial employee setup",
+        "recordedAt": "2026-10-07T06:17:11.007Z",
+        "terms": {
+          "enabled": true,
+          "monthly": {
+            "currency": "EGP",
+            "amountMinor": "600000"
+          }
+        }
+      },
+      {
+        "id": "0692280d-081f-495a-b185-407f0ae71c3b",
+        "axis": "salary",
+        "from": "2026-10-01",
+        "to": "2026-11-01",
+        "superseded": false,
+        "reason": "تصحيح أو جدولة موثقة",
+        "recordedAt": "2026-10-07T06:17:11.024Z",
+        "terms": {
+          "enabled": true,
+          "monthly": {
+            "currency": "EGP",
+            "amountMinor": "610000"
+          }
+        }
+      },
+      {
+        "id": "e9e55e88-453b-4052-bf24-d93f5f6dc815",
+        "axis": "commission",
+        "from": "2026-10-07",
+        "to": null,
+        "superseded": false,
+        "reason": "Initial employee setup",
+        "recordedAt": "2026-10-07T06:17:11.008Z",
+        "terms": {
+          "enabled": false,
+          "formula": null,
+          "basisPoints": null,
+          "perVisit": null
+        }
+      },
+      {
+        "id": "5011df05-16b2-43db-9259-ceb97293969e",
+        "axis": "salary",
+        "from": "2026-11-01",
+        "to": null,
+        "superseded": false,
+        "reason": "تصحيح أو جدولة موثقة",
+        "recordedAt": "2026-10-07T06:17:11.052Z",
+        "terms": {
+          "enabled": false,
+          "monthly": null
+        }
+      }
+    ],
+    "periods": [
+      {
+        "month": "2026-10",
+        "state": "editable_unpaid",
+        "version": 1
+      },
+      {
+        "month": "2026-11",
+        "state": "editable_unpaid",
+        "version": 1
+      }
+    ]
+  },
+  "editThenFreeze": {
+    "waiting": true,
+    "amount": "650000"
+  },
+  "freezeThenEdit": {
+    "unchanged": true
+  },
+  "sqlRaces": {
+    "links": "23P01",
+    "policies": "23P01"
+  },
+  "apiLinkRace": [
+    "fulfilled",
+    "rejected"
+  ],
+  "deactivation": {
+    "saved": {
+      "commandId": "53894faf-a497-4963-8018-eab86914758a",
+      "employeeId": "a529a006-ec8c-4b4e-b31a-20498db27429",
+      "reference": "17",
+      "version": 4,
+      "branchId": "9d05e866-ad23-484d-9e33-d8cc07bdfa6d"
+    },
+    "audit": [
+      {
+        "principal_id": "8fdb4c50-5125-4f27-855b-2a861cbac4d0",
+        "actor_label": "admin"
+      }
+    ]
+  }
+}

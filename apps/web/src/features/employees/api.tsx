@@ -136,6 +136,14 @@ export function useEmployeeMutation(onSuccess: (r: EmployeeResult) => void, chan
   };
 }
 const messages: Record<string, string> = {
+  PAYROLL_REVISED: 'تغير الحساب أو مصادره. حدّث الحساب وراجع الصافي قبل التأكيد من جديد.',
+  ALREADY_PAID: 'تم دفع أو إقفال الشهر بالفعل. اعرض العملية المحفوظة.',
+  INSUFFICIENT_FUNDS: 'رصيد الحساب غير كافٍ لدفع الصافي بالكامل.',
+  PAYROLL_REVIEW_REQUIRED: 'توجد مصادر تحتاج مراجعة قبل إتمام العملية.',
+  PRIOR_PAYROLL_REVIEW_REQUIRED: 'حساب سابق يحتاج مراجعة مصادره قبل تخصيص استرداد جديد.',
+  FUTURE_PAYROLL: 'الدفع أو الإقفال متاح للشهر الحالي والشهور السابقة فقط.',
+  LINKED_OLD_WORK_REQUIRED: 'تاريخ العمل خارج شهر التسوية يتطلب تصحيحًا مرتبطًا بمصدره الأصلي.',
+  FUTURE_PAYMENT_DATE: 'تاريخ الدفع الفعلي لا يمكن أن يكون في المستقبل.',
   RESULT_UNKNOWN: 'لم تصل نتيجة الحفظ. استرد النتيجة بنفس الطلب قبل تغيير البيانات.',
   CONNECTION_LOST: 'تعذر الاتصال. المدخلات محفوظة هنا؛ حاول مرة أخرى.',
   FORBIDDEN_SCOPE: 'صلاحياتك الحالية لا تسمح بقراءة أو تعديل هذا الملف.',

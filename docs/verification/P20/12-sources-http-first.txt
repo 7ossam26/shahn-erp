@@ -1,0 +1,31 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/sources.db.test.ts tests/integration/p20/http.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/sources.db.test.ts (2 tests) 6148ms
+   ✓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost 1109ms
+   ✓ AC08 late immutable historical earning after paid month becomes one explicit linked future adjustment 516ms
+ ❯ tests/integration/p20/http.db.test.ts (1 test | 1 failed) 3421ms
+   × closed actual HTTP: scope, CSRF, partial payout, supported funded method and unknown-command recovery 166ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p20/http.db.test.ts > closed actual HTTP: scope, CSRF, partial payout, supported funded method and unknown-command recovery
+error: relation "access.session" does not exist
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p20/http.db.test.ts:13:14
+     11|  const get=await fetch(url+path+'?companyId='+f.company,{headers:{cook…
+     12|  const denied=await fetch(url+path+'?companyId='+f.company,{headers:{c…
+     13|  const csrf=(await db.pool.query('SELECT csrf_token FROM access.sessio…
+       |              ^
+     14|  const headers={'Content-Type':'application/json',cookie:'erp_session=…
+     15|  const c=f.command(p,{type:'payroll.payout',funding:f.funding});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 2 passed (3)
+   Start at  03:23:36
+   Duration  13.94s (tests 70%, import 19%, transform 10%)

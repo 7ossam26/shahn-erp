@@ -413,6 +413,9 @@ it('resolves exact work-time policy/link/branch snapshots and refuses pending ex
   let e = await create('Mona temporal', employeeExamples.combined);
   const driver = await newDriver();
   e = await link(e, driver);
+  // PostgreSQL profile revisions have microsecond timestamps; source work uses a JS Date.
+  // Perform this fixture's work after the committed setup, outside its truncated millisecond.
+  await new Promise((resolve) => setTimeout(resolve, 5));
   const workAt = new Date();
   expect(
     await transaction(db.pool, (tx) => resolveEmployeeTermsAt(tx, f.company, driver, workAt)),
@@ -425,7 +428,7 @@ it('resolves exact work-time policy/link/branch snapshots and refuses pending ex
   const earlier = await transaction(db.pool, (tx) =>
     resolveEmployeeTermsAt(tx, f.company, driver, workAt, { acceptWork: true }),
   );
-  expect(earlier.status).toBe('resolved');
+  expect(earlier.status, JSON.stringify(earlier)).toBe('resolved');
   const d = nextDate(today);
   e = await run(change(e, null, { effectiveDate: d, terms: employeeExamples.fixed.commission }));
   const future = await transaction(db.pool, (tx) =>

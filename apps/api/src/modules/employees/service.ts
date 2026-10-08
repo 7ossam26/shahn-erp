@@ -41,6 +41,7 @@ import {
 } from '@shahn/database';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
 import { CommandService, type CommandDefinition } from '../kernel/commands.js';
+import { materializePayroll } from './payroll-period.service.js';
 const disabled = employeeExamples.off;
 async function lock(uow: UnitOfWork) {
   uow.lockOrder('employee', '0:company:' + uow.access.companyId);
@@ -75,6 +76,7 @@ export async function guardEditablePayrollPeriod(
   const control = await lockPayrollControl(tx, companyId, employeeId, month);
   // Check after materializing and acquiring the row; the Cairo boundary can pass while waiting.
   const now = await employeeClock(tx);
+  if (month < now.month) await materializePayroll(tx, companyId, employeeId, month);
   const reason = payrollEditReason(month, control.state, now.now);
   if (reason) throw new AccessError(reason, 409);
   return { ...control, month, currentMonth: now.month };
@@ -217,6 +219,42 @@ export async function employeeList(uow: UnitOfWork, f: EmployeeFilter): Promise<
       (f.commission === 'disabled' ? c.enabled : !c.enabled || c.formula !== f.commission)
     )
       continue;
+    if (
+      (f.payrollState && f.payrollState !== 'all') ||
+      (f.carry && f.carry !== 'all') ||
+      (f.advanceStatus && f.advanceStatus !== 'all')
+    ) {
+      const hidden = await uow.client.query(
+        'SELECT 1 FROM employees.payroll_obligation WHERE company_id=$1 AND employee_id=$2 AND NOT branch_id=ANY($3::uuid[]) LIMIT 1',
+        [uow.access.companyId, row.id, scope],
+      );
+      if (hidden.rowCount) continue;
+      const pm = (f.payrollMonth ?? clock.month) + '-01';
+      const status = (
+        await uow.client.query<{
+          state: string;
+          carry: boolean;
+          outstanding: boolean;
+          recovered: boolean;
+        }>(
+          `SELECT COALESCE((SELECT state FROM employees.payroll_period WHERE company_id=$1 AND employee_id=$2 AND month=$3),'editable_unpaid') AS state,
+      EXISTS(SELECT 1 FROM employees.obligation_balance WHERE company_id=$1 AND employee_id=$2 AND month<$3 AND available_for_new_allocation>0) AS carry,
+      EXISTS(SELECT 1 FROM employees.obligation_balance WHERE company_id=$1 AND employee_id=$2 AND kind='advance' AND month<=$3 AND outstanding_amount>0) AS outstanding,
+      EXISTS(SELECT 1 FROM employees.obligation_balance WHERE company_id=$1 AND employee_id=$2 AND kind='advance' AND month<=$3 AND outstanding_amount=0) AS recovered`,
+          [uow.access.companyId, row.id, pm],
+        )
+      ).rows[0]!;
+      if (
+        f.payrollState &&
+        f.payrollState !== 'all' &&
+        (f.payrollState === 'unpaid'
+          ? !['editable_unpaid', 'frozen_unpaid'].includes(status.state)
+          : status.state !== f.payrollState)
+      )
+        continue;
+      if (f.carry && f.carry !== 'all' && status.carry !== (f.carry === 'yes')) continue;
+      if (f.advanceStatus && f.advanceStatus !== 'all' && !status[f.advanceStatus]) continue;
+    }
     matched.push(r);
   }
   return {
@@ -473,6 +511,24 @@ export function employeeCommands(
     kind,
     family: 'employees.profile',
     capability: 'employees',
+    prepareProtectedHistory: async (uow, input) => {
+      if (
+        validateEmployeeCommand(input) &&
+        input.type === 'employee.terms' &&
+        input.change.salary
+      ) {
+        await lock(uow);
+        const clock = await employeeClock(uow.client);
+        if (input.change.salary.month < clock.month) {
+          await materializePayroll(
+            uow.client,
+            uow.access.companyId,
+            input.employeeId,
+            input.change.salary.month,
+          );
+        }
+      }
+    },
     authorize: async (uow, value, recovery) => {
       if ('branchId' in value && typeof value.branchId === 'string')
         uow.assertBranch(value.branchId);

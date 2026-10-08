@@ -1,0 +1,15 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p20/payroll.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p20/payroll.db.test.ts (5 tests) 6402ms
+   ✓ AC01/02 actual advance + earning deduction: cash 4800, cost 5800, original recovery and no receipt 427ms
+   ✓ AC11 old unpaid freeze reserves 1000, later salary stays 6000, paying old settles fixed 5000 337ms
+   ✓ AC10 failures after debit, allocation and cash leave no advance/debt/freeze/payment; original command retries 394ms
+   ✓ AC07 independent concurrent commands and retained winning identity debit once 347ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  03:19:38
+   Duration  7.84s (tests 83%, import 11%, transform 6%)

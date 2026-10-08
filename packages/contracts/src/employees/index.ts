@@ -128,6 +128,10 @@ export interface EmployeeFilter {
   effectiveDate: string | null;
   page: number;
   limit: number;
+  payrollMonth?: string;
+  payrollState?: 'all' | 'unpaid' | 'paid' | 'zero_net_closed';
+  carry?: 'all' | 'yes' | 'no';
+  advanceStatus?: 'all' | 'outstanding' | 'recovered';
 }
 export interface EmployeeList {
   items: EmployeeRecord[];
@@ -370,7 +374,14 @@ export const employeeFilterSchema = object({
   effectiveDate: nullable(date),
   page: { type: 'integer', minimum: 1 },
   limit: { type: 'integer', minimum: 1, maximum: 100 },
+  payrollMonth: month,
+  payrollState: { enum: ['all', 'unpaid', 'paid', 'zero_net_closed'] },
+  carry: { enum: ['all', 'yes', 'no'] },
+  advanceStatus: { enum: ['all', 'outstanding', 'recovered'] },
 });
+employeeFilterSchema.required = employeeFilterSchema.required.filter(
+  (k) => !['payrollMonth', 'payrollState', 'carry', 'advanceStatus'].includes(k),
+);
 export const employeePreviewInputSchema = object({
   companyId: uuid,
   expectedVersion: edit.expectedVersion,

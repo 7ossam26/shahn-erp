@@ -1,0 +1,118 @@
+.payroll-page {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+.payroll-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.payroll-summary section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+.payroll-summary .payroll-net {
+  background: var(--accent);
+  font-weight: 700;
+}
+.payroll-toolbar,
+.payroll-actions,
+.payroll-balances {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.payroll-panel {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  min-width: 0;
+}
+.payroll-panel summary {
+  cursor: pointer;
+  min-height: 44px;
+  font-weight: 700;
+}
+.payroll-source {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.payroll-source:last-child {
+  border: 0;
+}
+.payroll-source p {
+  margin: 8px 0;
+}
+.payroll-source small {
+  color: var(--muted-foreground);
+}
+.payroll-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.payroll-page fieldset {
+  border: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.payroll-page select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  padding: 8px;
+  font: inherit;
+}
+.payroll-page bdi {
+  overflow-wrap: anywhere;
+}
+.payroll-page .payroll-balances > span {
+  display: grid;
+  gap: 5px;
+}
+.payroll-actions a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.payroll-actions a:first-child {
+  background: var(--accent);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+@media (max-width: 650px) {
+  .payroll-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .payroll-fields {
+    grid-template-columns: 1fr;
+  }
+  .payroll-panel {
+    padding: 16px;
+  }
+  .payroll-summary section {
+    padding: 14px;
+  }
+  .payroll-summary .payroll-net {
+    grid-column: 1/-1;
+  }
+}
+@media (max-width: 350px) {
+  .payroll-summary {
+    grid-template-columns: 1fr;
+  }
+}
