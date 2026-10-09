@@ -1,0 +1,32 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/db/foundation.test.ts (5 tests | 5 skipped) 72289ms
+   ↓ Real isolated PostgreSQL foundation (5)
+     ↓ status is read-only and reports schema missing before a migration
+     ↓ two migration runners wait for one lock and cannot apply a migration twice
+     ↓ rejects modified applied SQL checksum and restores only the test source fixture
+     ↓ commits once, rolls back actual writes, always releases and rejects a nested transaction
+     ↓ real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/db/foundation.test.ts [ tests/db/foundation.test.ts ]
+Error: Isolated PostgreSQL did not become ready
+ ❯ waitReady packages/test-support/src/index.ts:94:13
+ ❯ isolatedPostgres packages/test-support/src/index.ts:96:5
+ ❯ tests/db/foundation.test.ts:12:8
+     10| let db: Awaited<ReturnType<typeof isolatedPostgres>>;
+     11| beforeAll(async () => {
+     12|   db = await isolatedPostgres();
+       |        ^
+     13| });
+     14| afterAll(async () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 skipped (5)
+   Start at  15:37:59
+   Duration  114.37s (tests 65%, import 30%, transform 5%)

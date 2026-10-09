@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import { transaction } from '@shahn/database';
@@ -24,6 +25,7 @@ export class IdentityWorker {
     return claimWork<Work>(this.pool, this.owner, ['identity.reconcile']);
   }
   async runOne(): Promise<boolean> {
+    if (!mutationsEnabled()) return false;
     const work = await this.claim();
     if (!work) return false;
     let subject: string | undefined, error: IssuerFailure | undefined;

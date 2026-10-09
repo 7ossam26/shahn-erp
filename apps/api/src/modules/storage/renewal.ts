@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import { transaction, type TransactionClient } from '@shahn/database';
@@ -154,6 +155,7 @@ export class StorageRenewalService {
   }
   /** One durable job: claim, renew one period, then acknowledge in a separate transaction. */
   async runOne(): Promise<RenewalOutcome | null> {
+    if (!mutationsEnabled()) return null;
     const lease = await this.work.claim(this.options.leaseSeconds ?? 60);
     if (!lease) return null;
     let outcome: RenewalOutcome;

@@ -6,7 +6,13 @@
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "../*.config.ts", "../apps/web/vite.config.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../*.config.ts",
+    "../apps/web/vite.config.ts",
+    "../scripts/verification/p25-backup.ts"
+  ],
   "references": [
     {
       "path": "../packages/contracts"

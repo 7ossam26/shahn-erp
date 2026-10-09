@@ -1,7 +1,8 @@
-import { loadEnvironment } from '@shahn/database';
+import { loadEnvironment, deploymentConfiguration } from '@shahn/database';
 import { createApplication } from './app.js';
 loadEnvironment();
 try {
+  deploymentConfiguration();
   const host = process.env['API_HOST'];
   const portText = process.env['API_PORT'];
   const origin = process.env['APP_ORIGIN'];

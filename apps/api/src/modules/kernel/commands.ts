@@ -4,6 +4,7 @@ import { AccessError, type Capability } from '@shahn/domain';
 import { canonical, digest } from '../access/crypto.js';
 import { appendAudit } from '../access/repository.js';
 import { UnitOfWork } from './unit-of-work.js';
+import { mutationsEnabled } from '@shahn/database';
 
 export interface CommandInput {
   commandId: string;
@@ -81,6 +82,7 @@ export class CommandService<I extends CommandInput> {
     return definition;
   }
   execute(token: string, input: I): Promise<CommandReply> {
+    if (!mutationsEnabled()) throw new AccessError('RESTORE_REVIEW_REQUIRED', 503);
     const definition = this.definition(input.type);
     return UnitOfWork.run(this.pool, token, input.companyId, definition.capability, async (uow) => {
       const { client, access } = uow;

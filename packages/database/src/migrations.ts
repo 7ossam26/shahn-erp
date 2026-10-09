@@ -83,7 +83,15 @@ export async function migrate(pool: Pool, migrations?: Migration[]): Promise<Mig
   const client = await pool.connect();
   let locked = false;
   let broken = false;
+  let original: { statement: string; lock: string } | undefined;
   try {
+    original = (
+      await client.query<{ statement: string; lock: string }>(
+        "SELECT current_setting('statement_timeout') AS statement, current_setting('lock_timeout') AS lock",
+      )
+    ).rows[0];
+    // Release DDL and migration-lock contention need a separate bounded budget from runtime queries.
+    await client.query("SET statement_timeout = '120s'");
     await client.query("SET lock_timeout = '15s'");
     await client.query('SELECT pg_advisory_lock($1)', [lock]);
     locked = true;
@@ -116,7 +124,16 @@ export async function migrate(pool: Pool, migrations?: Migration[]): Promise<Mig
     if (locked) {
       try {
         await client.query('SELECT pg_advisory_unlock($1)', [lock]);
-        await client.query('RESET lock_timeout');
+      } catch {
+        broken = true;
+      }
+    }
+    if (original) {
+      try {
+        await client.query(
+          "SELECT set_config('statement_timeout',$1,false),set_config('lock_timeout',$2,false)",
+          [original.statement, original.lock],
+        );
       } catch {
         broken = true;
       }

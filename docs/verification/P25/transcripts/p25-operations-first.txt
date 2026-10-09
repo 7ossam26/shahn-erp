@@ -1,0 +1,79 @@
+npm notice run shahn-erp@0.1.0 test:p25:operations
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.p25.operations.config.ts
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/integration/p25/acceptance.operations.test.ts (5 tests | 5 failed) 12ms
+   × P25 required checkpoint: clean deployment with actual issuer and pinned image 7ms
+   × P25 required checkpoint: old/current data, queued payloads, compatible repair and lease resumption 1ms
+   × P25 required checkpoint: real public same-action recovery after encrypted restore 1ms
+   × P25 required checkpoint: 55000 shipments/15 staff plus ramp and invariant comparison 1ms
+   × P25 required checkpoint: same immutable release on the second isolated layout 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p25/acceptance.operations.test.ts > P25 required checkpoint: clean deployment with actual issuer and pinned image
+Error: BLOCKED P25: clean deployment with actual issuer and pinned image has not run. See docs/verification/P25/README.md. No substitute or skipped pass.
+ ❯ tests/integration/p25/acceptance.operations.test.ts:20:13
+     18|       evidence = JSON.parse(await readFile('docs/verification/P25/' + …
+     19|     } catch {
+     20|       throw Error(
+       |             ^
+     21|         'BLOCKED P25: ' +
+     22|           label +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/integration/p25/acceptance.operations.test.ts > P25 required checkpoint: old/current data, queued payloads, compatible repair and lease resumption
+Error: BLOCKED P25: old/current data, queued payloads, compatible repair and lease resumption has not run. See docs/verification/P25/README.md. No substitute or skipped pass.
+ ❯ tests/integration/p25/acceptance.operations.test.ts:20:13
+     18|       evidence = JSON.parse(await readFile('docs/verification/P25/' + …
+     19|     } catch {
+     20|       throw Error(
+       |             ^
+     21|         'BLOCKED P25: ' +
+     22|           label +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/integration/p25/acceptance.operations.test.ts > P25 required checkpoint: real public same-action recovery after encrypted restore
+Error: BLOCKED P25: real public same-action recovery after encrypted restore has not run. See docs/verification/P25/README.md. No substitute or skipped pass.
+ ❯ tests/integration/p25/acceptance.operations.test.ts:20:13
+     18|       evidence = JSON.parse(await readFile('docs/verification/P25/' + …
+     19|     } catch {
+     20|       throw Error(
+       |             ^
+     21|         'BLOCKED P25: ' +
+     22|           label +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/integration/p25/acceptance.operations.test.ts > P25 required checkpoint: 55000 shipments/15 staff plus ramp and invariant comparison
+Error: BLOCKED P25: 55000 shipments/15 staff plus ramp and invariant comparison has not run. See docs/verification/P25/README.md. No substitute or skipped pass.
+ ❯ tests/integration/p25/acceptance.operations.test.ts:20:13
+     18|       evidence = JSON.parse(await readFile('docs/verification/P25/' + …
+     19|     } catch {
+     20|       throw Error(
+       |             ^
+     21|         'BLOCKED P25: ' +
+     22|           label +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/integration/p25/acceptance.operations.test.ts > P25 required checkpoint: same immutable release on the second isolated layout
+Error: BLOCKED P25: same immutable release on the second isolated layout has not run. See docs/verification/P25/README.md. No substitute or skipped pass.
+ ❯ tests/integration/p25/acceptance.operations.test.ts:20:13
+     18|       evidence = JSON.parse(await readFile('docs/verification/P25/' + …
+     19|     } catch {
+     20|       throw Error(
+       |             ^
+     21|         'BLOCKED P25: ' +
+     22|           label +
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  06:41:41
+   Duration  348ms (import 50%, transform 32%, tests 10%, worker 7%)

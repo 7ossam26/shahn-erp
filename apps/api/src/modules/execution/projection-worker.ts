@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import type { Pool } from 'pg';
 import { transaction, type TransactionClient } from '@shahn/database';
 import { normalizeExecutionEvent, type NormalizedExecutionEvent } from '@shahn/contracts/execution';
@@ -266,6 +267,7 @@ export class ProjectionWorker {
     readonly options: { failAfterPosting?: () => void } = {},
   ) {}
   async runOne(): Promise<boolean> {
+    if (!mutationsEnabled()) return false;
     // P12 resolves its own result echoes; the ordered pass below incorporates that marker.
     await applyOneDispatchEvent(this.pool);
     const worked = await transaction(this.pool, async (c) => {

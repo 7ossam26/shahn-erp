@@ -1,0 +1,264 @@
+{
+  "boundary": "Uncommitted main working-tree source/document inputs; not immutable release/acceptance provenance",
+  "startingHead": "1e172c80f8c3a7931aa875b1aeb8c0a269ba67c2",
+  "sourceInputDigest": "d0cce7fb6dcff45512df3c259ee49a6fb195fa3154481c5563d890640bd3d4c7",
+  "lockfileSha256": "e39ad05ab1772c8722dc1701b7fde24374ac9dccfa99d36e6df4de02d3cceed0",
+  "inputs": [
+    {
+      "path": ".dockerignore",
+      "sha256": "4dfca26b774ffc7982b4f1b66708aefa078c93f8132d6e30354fe5dc08f451e5"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "c7775499bf34344a0144e591409e6619aad21f6bdbc37011e95607597d758905"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "ff3910e824f35173f4f8047342015e42fd0d2851a5a41aa4d7a5af15657a5dcf"
+    },
+    {
+      "path": "apps/api/src/app.ts",
+      "sha256": "df05a2b03dd5072d7024cfcfcdf25a58989758296efcb8970dfcc0c924ce1bc6"
+    },
+    {
+      "path": "apps/api/src/main.ts",
+      "sha256": "50c253c9d26349763afa0b84ffe0f35310d945368dd1ddf5133b22f129b13e66"
+    },
+    {
+      "path": "apps/api/src/modules/access/worker.ts",
+      "sha256": "3e505859174426785c19c06a3db1328010594bff9ddaba1414a6b842f40dd7cb"
+    },
+    {
+      "path": "apps/api/src/modules/execution/projection-worker.ts",
+      "sha256": "e0ea849630abe24042dcd7aa49939eafb86cd8f75a0a517e062ebb175252dcb9"
+    },
+    {
+      "path": "apps/api/src/modules/integration/recovery-worker.ts",
+      "sha256": "5d83971eb0b19dacb135058ec2a22b3413ec93c31c0f3eae26b8740ad8653ffa"
+    },
+    {
+      "path": "apps/api/src/modules/integration/source-command.service.ts",
+      "sha256": "574a3010d528c1bcc3ca1d2e5f3779d912a196c1a90fc96fb197ad64813cb244"
+    },
+    {
+      "path": "apps/api/src/modules/kernel/commands.ts",
+      "sha256": "a4e19cfd6db18864630e99a66229213356fd716f8ca371aba68f9be0587dea4a"
+    },
+    {
+      "path": "apps/api/src/modules/reporting/exports.ts",
+      "sha256": "1c86a6f329aec2ceff6762738fcfddeb2469464a1d2f5754ea85e4d53970e7be"
+    },
+    {
+      "path": "apps/api/src/modules/storage/renewal.ts",
+      "sha256": "e30b918609a91ce776d4c9e24b7517836602b06945f6de7402c7207bf9bfdcdf"
+    },
+    {
+      "path": "apps/web/src/features/access/access.tsx",
+      "sha256": "aac168385a691c3c913e9e16c8d37917c5b8e323bc0997226d5b39f1b30af4f2"
+    },
+    {
+      "path": "apps/web/src/features/operations/banner.tsx",
+      "sha256": "f5d8077759fc4f512e2002b17a256605ac6d68dc31b770b822f5d7f3be717b60"
+    },
+    {
+      "path": "apps/worker/src/main.ts",
+      "sha256": "a7cf797987ad60c7e3a9e6ce4128dc59d99e0fc4f7c405c6a3e5f23012086782"
+    },
+    {
+      "path": "deploy/backup.cron",
+      "sha256": "e6fb4900a71235d45436d3581ebd4919b0888efced994c74c7ffbd6b2d3bf888"
+    },
+    {
+      "path": "deploy/compose.release.yml",
+      "sha256": "9dbd0e887d14c21898bab68400d00e8b71ccdc1bc782a4bcdb8165b37a23a1e3"
+    },
+    {
+      "path": "deploy/Dockerfile",
+      "sha256": "71828bf1b4906a76e8b9ab73bc98dea278e73acee5e62066dc59db793fbb9dcb"
+    },
+    {
+      "path": "deploy/entrypoint.mjs",
+      "sha256": "c2a589c08465073ffbec2f961865005ca02b8ce2068dd33e899d9aea9539138e"
+    },
+    {
+      "path": "deploy/monitor.mjs",
+      "sha256": "c13dd46ed8fc6913f6be394d57031847a4316d498f53801fd0008f5d1104f329"
+    },
+    {
+      "path": "deploy/pgbackrest.conf.example",
+      "sha256": "72c399fef83e4df36b1a66bb78d13b199b84ee485aa654e5cc9a9b5cdb9567c6"
+    },
+    {
+      "path": "deploy/postgres/Dockerfile",
+      "sha256": "2a00cbe222a7ecd623e3f718bd3d8ca6a401d3a9076fb30b690359ce630abdb8"
+    },
+    {
+      "path": "deploy/postgres/entrypoint.sh",
+      "sha256": "009c6093eb8d8403706c80585b48ea5f87cbeadd2cd71405e84d0d8353b19d8b"
+    },
+    {
+      "path": "deploy/postgres/grants.sql",
+      "sha256": "06c402288cc8c6968b39584ceb92a2ddf3d29b12e73e68dff14ae1adb152381a"
+    },
+    {
+      "path": "deploy/postgres/init-roles.sh",
+      "sha256": "8dc6be195172b2f86793e30693ea1968aac81ece570709773254e43e120a2f62"
+    },
+    {
+      "path": "deploy/release-compatibility.d.mts",
+      "sha256": "d1696113f7c2f9a8a0cdb2a2f843e814d2db973fdc60ff30ed5057c6c232bb43"
+    },
+    {
+      "path": "deploy/release-compatibility.mjs",
+      "sha256": "0ccbc8388913a367bf10b2a3b1bc9503b4f5755ccc1c74e1e7e47f37494277ef"
+    },
+    {
+      "path": "deploy/runbooks/backup-restore.md",
+      "sha256": "01e995fabeadbaffe4be5633741c06c701b42cdb995185d51902bccd3fdc97ff"
+    },
+    {
+      "path": "deploy/runbooks/capacity-cutover.md",
+      "sha256": "b81378367fe5aaf3de3d2e5502a7e3d8e3da98707e60e6bfc1e65beeaaa75d23"
+    },
+    {
+      "path": "deploy/runbooks/costs-2026-10-09.md",
+      "sha256": "b82714f6dffdbadfe89126464d1709446b84b75a5a7d3118ff7e733ca5e914ee"
+    },
+    {
+      "path": "deploy/runbooks/deployment-upgrade.md",
+      "sha256": "cac958eae2e42a47e6a0b211921f97914abf22be68e18af55bc1b68f0b06bcf5"
+    },
+    {
+      "path": "deploy/runtime.env.example",
+      "sha256": "a5b41d0c29f204eba406c0612bea7da01f0c6cf9b1185e066381ba24d178d46e"
+    },
+    {
+      "path": "deploy/web.mjs",
+      "sha256": "6bb553b3ffc1ce702366becc3e12f57ec3b5ee31bec8520d88bc151a386e72c6"
+    },
+    {
+      "path": "docs/verification/P01/VERSIONS.md",
+      "sha256": "910c724ac7091bfd2fa52cb0e1a218ef02f912f9084a0713635754880611a8b9"
+    },
+    {
+      "path": "IMPLEMENTATION-STATUS.md",
+      "sha256": "44278c0f327a0b33bb9212746559f1ee3e6e89d9a26f37dcde2844400c35ecb8"
+    },
+    {
+      "path": "package.json",
+      "sha256": "687037605690cbe5d81ae4c9735f425043234694be661425a92298446c4e037e"
+    },
+    {
+      "path": "packages/contracts/openapi.json",
+      "sha256": "7130a345d171dfa95f12f68d495afaeaf2c05a91bdc3234e01e64e13b38de6f3"
+    },
+    {
+      "path": "packages/contracts/src/index.ts",
+      "sha256": "19d9746a6bb8402ad3deec6e9102f9042dda44e07fb8e6002682e101457ba22a"
+    },
+    {
+      "path": "packages/contracts/src/operations.ts",
+      "sha256": "9748e839cea9cc547409687a93f3d46ad1c9432355cce17cca2b652ef3d7ab0c"
+    },
+    {
+      "path": "packages/database/src/cli.ts",
+      "sha256": "e40b9d14562e61c9f3ab5fe3e637fb4fe996cf38bb31c8070e9c241f6aa0f9f4"
+    },
+    {
+      "path": "packages/database/src/config.ts",
+      "sha256": "c8d8800bd494a33aa3b8c02c44a46a64816d4d406ac1ac8e68e4c0d43ae7c938"
+    },
+    {
+      "path": "packages/database/src/index.ts",
+      "sha256": "77acce08cd6288bc0d09f23beee0c4b22b53f43ee4106ab948db1712ac2e83ea"
+    },
+    {
+      "path": "packages/database/src/migrations.ts",
+      "sha256": "87e2e777a60a2d530403f3cad3e7216883c36b2ece08c1c0321f1e7dad2f3ca9"
+    },
+    {
+      "path": "packages/database/src/operations.ts",
+      "sha256": "9fdd5a66764626f2c3e6986bc3e1685b601f0c01cf6700d40b15426efb996844"
+    },
+    {
+      "path": "packages/test-support/src/index.ts",
+      "sha256": "6656d9bc7a47c611b1b47ebd724d0bf7812fba851c6c537acde6b37241c4de49"
+    },
+    {
+      "path": "phases/execution/P25.md",
+      "sha256": "9c46058e15b429a13104ec9a788bc7174a6d9ac8b8783813a945c6ba083ecfbb"
+    },
+    {
+      "path": "phases/README.md",
+      "sha256": "c854d889b85e3c6a76f0f3fe292a786447de99a877356116dd4ecff8f11cd4f7"
+    },
+    {
+      "path": "playwright.p25.config.ts",
+      "sha256": "62dc2f7fd44c5dfffec289a25a6e2dc54eaaa4f527222fa52bcd34d2a459b9d9"
+    },
+    {
+      "path": "scripts/phase-suites.json",
+      "sha256": "5d9258f6930eacb18e6ef91be7e6b68f2118afd1bf2458903d376b1670e3106b"
+    },
+    {
+      "path": "scripts/test-phase.mjs",
+      "sha256": "e7b79dab058ee06b5150fecc69e2b88b02574399219058c9fb6cb99ed04bc77f"
+    },
+    {
+      "path": "scripts/verification/p25-backup.ts",
+      "sha256": "7e1d56d9dfdf92f8883aa41b0d3bbd4a48e9e0bee5848fcb00cf5458c0f9039f"
+    },
+    {
+      "path": "scripts/verification/p25-image-smoke.mjs",
+      "sha256": "9d840d8a593882a0039a6d758a5929803d885d01e84e72ab911bb99896ab5472"
+    },
+    {
+      "path": "TAWSEL-CHANGE-REQUESTS.md",
+      "sha256": "02b38e781f3da99c0da6bf9d4c77a45aa56ff6233589b56d424c0507ed61f89e"
+    },
+    {
+      "path": "tests/integration/p25/acceptance.operations.test.ts",
+      "sha256": "d9e409b7060ab68e99dcb6fddbe2485ea2baa02e35e29998c45907c7f804c4fc"
+    },
+    {
+      "path": "tests/integration/p25/backup.db.test.ts",
+      "sha256": "784b1165a0096d345c01d018b6adfb336c6973db3c33705d76c8ddd4a462313e"
+    },
+    {
+      "path": "tests/integration/p25/lifecycle.db.test.ts",
+      "sha256": "83a50f24da4eeaa9b687ce2cbffe1189975b455598fca611c748d9e7c10bf740"
+    },
+    {
+      "path": "tests/integration/p25/operations.unit.test.ts",
+      "sha256": "282aef210b3e3b5a41029c18482d54c7b1bb83d2f38fb2119de12a8cf6c8b8f9"
+    },
+    {
+      "path": "tests/integration/p25/restore.spec.ts",
+      "sha256": "606e257ead035c31421379f15621b130e1d67e2378b8deb2005aa33e29996fae"
+    },
+    {
+      "path": "tests/integration/p25/serve.ts",
+      "sha256": "9666a41d48d939f562d686b53bda30da3b2b8addecaca8d88f0179c0f7bbaa35"
+    },
+    {
+      "path": "tests/tsconfig.json",
+      "sha256": "794b7a300792a18658ebd6e7114854a8121168a648f21a95c317dadcb9e8345e"
+    },
+    {
+      "path": "vitest.db.config.ts",
+      "sha256": "b318d3b9d44ad9d683b68677448d98259eabd1575e8060d7ed3646aad4c8633d"
+    },
+    {
+      "path": "vitest.p25.operations.config.ts",
+      "sha256": "891b143aab0896d1f65041df271793f7ebc6ebffc5c60ed8881a0938dd28f3a6"
+    },
+    {
+      "path": "vitest.unit.config.ts",
+      "sha256": "db3729a2ddaefd9dad3be4fade3a3ec2d74d4f4c982ffcfca84284beaef8d936"
+    }
+  ],
+  "runtimeImage": "sha256:8c1d070507225ef8307cf4b50eb64e77bfede0e57895404ae203e0881863da8a",
+  "postgresImage": "sha256:daa7aa79bbb302ed982528868313336a721e04e638a557f9932489ac0e305001",
+  "latestMigrationFixInImage": false,
+  "latestMigrationFixVerifiedThrough": "phase-linux-final.txt; current source mounted and packages rebuilt in disposable container"
+}

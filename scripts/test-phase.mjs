@@ -84,7 +84,7 @@ for (const [layer, definition] of Object.entries(suite)) {
             definition.config ?? 'vitest.db.config.ts',
             ...(definition.filter ?? []),
           ]
-        : layer === 'publicIntegration' || layer === 'externalAcceptance'
+        : layer === 'publicIntegration' || layer === 'externalAcceptance' || layer === 'operations'
           ? [
               'node_modules/vitest/vitest.mjs',
               'run',

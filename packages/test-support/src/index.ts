@@ -7,10 +7,30 @@ import { isolatedNativePostgres } from './native-postgres.js';
 const exec = promisify(execFile);
 export async function docker(args: string[]): Promise<string> {
   try {
-    return (await exec('docker', args, { timeout: 90000, maxBuffer: 1024 * 1024 })).stdout.trim();
-  } catch {
+    const distribution = process.env['SHAHN_TEST_DOCKER_WSL_DISTRIBUTION'];
+    if (
+      distribution &&
+      (process.platform !== 'win32' || !/^[a-zA-Z0-9._-]{1,64}$/.test(distribution))
+    )
+      throw new Error('INVALID_TEST_WSL_DISTRIBUTION');
+    return (
+      await exec(
+        distribution ? 'wsl.exe' : 'docker',
+        distribution ? ['-d', distribution, '-u', 'root', '--', 'docker', ...args] : args,
+        { timeout: 90000, maxBuffer: 1024 * 1024 },
+      )
+    ).stdout.trim();
+  } catch (error) {
+    const failure = error as { code?: string; stderr?: string };
+    const diagnostic = (failure.stderr ?? '')
+      .replace(/[0-9a-f]{48,64}/gi, '[redacted]')
+      .replace(/postgres(?:ql)?:\/\/\S+/gi, '[redacted DSN]')
+      .slice(0, 2000);
     throw new Error(
-      'Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used.',
+      'Isolated P01 Docker operation failed; verify Docker and the pinned PostgreSQL image. No fallback database is used. ' +
+        (failure.code ?? '') +
+        ' ' +
+        diagnostic,
     );
   }
 }

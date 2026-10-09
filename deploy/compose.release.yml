@@ -1,0 +1,118 @@
+# Dokploy: create a Compose project from this file and attach its HTTPS domain to web:8080.
+# No host ports, database sharing or implicit production target. Pin SHAHN_IMAGE by digest.
+name: ${DEPLOYMENT_NAME:?Set a unique deployment name}
+x-runtime: &runtime
+  image: ${SHAHN_IMAGE:?Set immutable release image digest}
+  read_only: true
+  init: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  tmpfs: ['/tmp:mode=1777,size=256m']
+  stop_grace_period: 45s
+  networks: [private, outbound]
+  env_file: [./private/runtime.env]
+  secrets: [runtime_dsn, oidc_client, oidc_admin, session_key, tawsel_config]
+  environment: &environment
+    DATABASE_URL_FILE: /run/secrets/runtime_dsn
+    OIDC_CLIENT_SECRET_FILE: /run/secrets/oidc_client
+    OIDC_ADMIN_CLIENT_SECRET_FILE: /run/secrets/oidc_admin
+    SESSION_ENCRYPTION_KEY_FILE: /run/secrets/session_key
+    TAWSEL_CONFIG_FILE: /run/secrets/tawsel_config
+    PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+services:
+  web:
+    image: ${SHAHN_IMAGE:?Set immutable release image digest}
+    command: [web]
+    read_only: true
+    init: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [private, edge]
+    environment: { API_UPSTREAM: 'http://api:4100' }
+    depends_on:
+      api: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:8080/api/v1/readiness').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    stop_grace_period: 45s
+  api:
+    <<: *runtime
+    command: [api]
+    environment:
+      <<: *environment
+      DATABASE_POOL_MAX: '8'
+    depends_on:
+      db: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:4100/api/v1/readiness').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+  worker:
+    <<: *runtime
+    command: [worker]
+    environment:
+      <<: *environment
+      DATABASE_POOL_MAX: '8'
+    depends_on:
+      api: { condition: service_healthy }
+  migrate:
+    <<: *runtime
+    command: [migrate]
+    profiles: [maintenance]
+    secrets: [runtime_dsn, migration_dsn]
+    environment:
+      DATABASE_URL_FILE: /run/secrets/runtime_dsn
+      MIGRATION_DATABASE_URL_FILE: /run/secrets/migration_dsn
+    depends_on:
+      db: { condition: service_healthy }
+  db:
+    image: ${SHAHN_POSTGRES_IMAGE:?Set the pinned PostgreSQL/pgBackRest image digest}
+    networks: [private]
+    environment:
+      POSTGRES_DB: shahn_erp
+      POSTGRES_PASSWORD_FILE: /run/secrets/database_admin
+    secrets: [database_admin, runtime_password, migration_password, backup_password, backup_config]
+    volumes:
+      - database:/var/lib/postgresql
+      - backup_repository:/var/lib/pgbackrest
+      - ./postgres/init-roles.sh:/docker-entrypoint-initdb.d/10-roles.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U postgres -d shahn_erp']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    stop_grace_period: 60s
+networks:
+  private: { internal: true }
+  outbound: {}
+  edge: {}
+volumes:
+  database: {}
+  backup_repository: {}
+secrets:
+  runtime_dsn: { file: ./private/runtime-dsn }
+  migration_dsn: { file: ./private/migration-dsn }
+  oidc_client: { file: ./private/oidc-client }
+  oidc_admin: { file: ./private/oidc-admin }
+  session_key: { file: ./private/session-key }
+  tawsel_config: { file: ./private/tawsel.json }
+  database_admin: { file: ./private/database-admin }
+  runtime_password: { file: ./private/runtime-password }
+  migration_password: { file: ./private/migration-password }
+  backup_password: { file: ./private/backup-password }
+  backup_config: { file: ./private/pgbackrest.conf }

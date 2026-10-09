@@ -1,0 +1,283 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  31.18MB
+Step 1/11 : FROM postgres:18.6-bookworm@sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c AS builder
+ ---> afc7e2d44132
+Step 2/11 : RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gcc meson ninja-build pkg-config libpq-dev libssl-dev libxml2-dev liblz4-dev libzstd-dev libbz2-dev zlib1g-dev libssh2-1-dev libsystemd-dev
+ ---> Using cache
+ ---> 2b3a5c51a7cb
+Step 3/11 : RUN curl -fsSL https://github.com/pgbackrest/pgbackrest/releases/download/release%2F2.59.3/pgbackrest-2.59.3.tar.gz -o /tmp/source.tar.gz     && echo '14037901db002e5536a948bf9f0fc0ff6cde31f4e675d3e9b46f129071bf2e5f  /tmp/source.tar.gz' | sha256sum -c -     && tar xzf /tmp/source.tar.gz -C /tmp     && meson setup /tmp/build /tmp/pgbackrest-2.59.3     && ninja -j2 -C /tmp/build
+ ---> Running in 5e85c24ffe4a
+/tmp/source.tar.gz: OK
+The Meson build system
+Version: 1.0.1
+Source dir: /tmp/pgbackrest-2.59.3
+Build dir: /tmp/build
+Build type: native build
+Project name: pgbackrest
+Project version: 2.59.3
+C compiler for the host machine: cc (gcc 12.2.0 "cc (Debian 12.2.0-14+deb12u1) 12.2.0")
+C linker for the host machine: cc ld.bfd 2.40
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Compiler for C supports arguments -Wcast-qual: YES
+Compiler for C supports arguments -Wconversion: YES
+Compiler for C supports arguments -Wduplicated-cond: YES
+Compiler for C supports arguments -Wduplicated-branches: YES
+Compiler for C supports arguments -Wfloat-equal: YES
+Compiler for C supports arguments -Wformat=2: YES
+Compiler for C supports arguments -Wformat-overflow=2: YES
+Compiler for C supports arguments -Wformat-signedness: YES
+Compiler for C supports arguments -Winit-self: YES
+Compiler for C supports arguments -Wmissing-prototypes: YES
+Compiler for C supports arguments -Wmissing-variable-declarations: NO
+Compiler for C supports arguments -Wpointer-arith: YES
+Compiler for C supports arguments -Wredundant-decls: YES
+Compiler for C supports arguments -Wstrict-prototypes: YES
+Compiler for C supports arguments -Wvla: YES
+Compiler for C supports arguments -Wwrite-strings: YES
+Compiler for C supports arguments -Wno-clobbered: YES
+Compiler for C supports arguments -Wno-missing-field-initializers: YES
+Compiler for C supports arguments -funroll-loops: YES
+Compiler for C supports arguments -ftree-vectorize: YES
+Program python3 found: YES (/usr/bin/python3)
+Compiler for C supports arguments -fmacro-prefix-map=../pgbackrest-2.59.3/src/=: YES
+Compiler for C supports arguments -fmacro-prefix-map=../pgbackrest-2.59.3/test/src/=test/: YES
+Library backtrace found: YES
+Library bz2 found: YES
+Found pkg-config: /usr/bin/pkg-config (1.8.1)
+Run-time dependency liblz4 found: YES 1.9.4
+Run-time dependency openssl found: YES 3.0.22
+Run-time dependency libpq found: YES 18.6
+Run-time dependency libxml-2.0 found: YES 2.9.14
+Run-time dependency zlib found: YES 1.2.13
+Run-time dependency libsystemd found: YES 252
+Run-time dependency libssh2 found: YES 1.10.0
+Run-time dependency libzstd found: YES 1.5.4
+Configuring build.auto.h using configuration
+Build targets in project: 1
+
+Found ninja-1.11.1 at /usr/bin/ninja
+ninja: Entering directory `/tmp/build'
+[1/191] Compiling C object src/pgbackrest.p/common_debug.c.o
+[2/191] Compiling C object src/pgbackrest.p/common_encode.c.o
+[3/191] Compiling C object src/pgbackrest.p/common_error_error.c.o
+[4/191] Compiling C object src/pgbackrest.p/common_io_filter_buffer.c.o
+[5/191] Compiling C object src/pgbackrest.p/common_io_filter_filter.c.o
+[6/191] Compiling C object src/pgbackrest.p/common_io_filter_sink.c.o
+[7/191] Compiling C object src/pgbackrest.p/common_io_bufferRead.c.o
+[8/191] Compiling C object src/pgbackrest.p/common_io_filter_group.c.o
+[9/191] Compiling C object src/pgbackrest.p/common_io_bufferWrite.c.o
+[10/191] Compiling C object src/pgbackrest.p/common_io_io.c.o
+[11/191] Compiling C object src/pgbackrest.p/common_io_write.c.o
+[12/191] Compiling C object src/pgbackrest.p/common_io_read.c.o
+[13/191] Compiling C object src/pgbackrest.p/common_log.c.o
+[14/191] Compiling C object src/pgbackrest.p/common_memContext.c.o
+[15/191] Compiling C object src/pgbackrest.p/common_stackTrace.c.o
+[16/191] Compiling C object src/pgbackrest.p/common_type_blob.c.o
+[17/191] Compiling C object src/pgbackrest.p/common_time.c.o
+[18/191] Compiling C object src/pgbackrest.p/common_type_buffer.c.o
+[19/191] Compiling C object src/pgbackrest.p/common_type_keyValue.c.o
+[20/191] Compiling C object src/pgbackrest.p/common_type_convert.c.o
+[21/191] Compiling C object src/pgbackrest.p/common_type_object.c.o
+[22/191] Compiling C object src/pgbackrest.p/common_type_list.c.o
+[23/191] Compiling C object src/pgbackrest.p/common_type_stringId.c.o
+[24/191] Compiling C object src/pgbackrest.p/common_type_stringList.c.o
+[25/191] Compiling C object src/pgbackrest.p/common_type_stringStatic.c.o
+[26/191] Compiling C object src/pgbackrest.p/common_type_stringZ.c.o
+[27/191] Compiling C object src/pgbackrest.p/common_type_variant.c.o
+[28/191] Compiling C object src/pgbackrest.p/common_type_variantList.c.o
+[29/191] Compiling C object src/pgbackrest.p/common_type_pack.c.o
+[30/191] Compiling C object src/pgbackrest.p/common_user.c.o
+[31/191] Compiling C object src/pgbackrest.p/common_wait.c.o
+[32/191] Compiling C object src/pgbackrest.p/config_common.c.o
+[33/191] Compiling C object src/pgbackrest.p/storage_posix_read.c.o
+[34/191] Compiling C object src/pgbackrest.p/storage_posix_write.c.o
+[35/191] Compiling C object src/pgbackrest.p/storage_posix_storage.c.o
+[36/191] Compiling C object src/pgbackrest.p/storage_iterator.c.o
+[37/191] Compiling C object src/pgbackrest.p/storage_list.c.o
+[38/191] Compiling C object src/pgbackrest.p/storage_read.c.o
+[39/191] Compiling C object src/pgbackrest.p/storage_write.c.o
+[40/191] Compiling C object src/pgbackrest.p/command_annotate_annotate.c.o
+[41/191] Compiling C object src/pgbackrest.p/storage_storage.c.o
+[42/191] Compiling C object src/pgbackrest.p/command_archive_find.c.o
+[43/191] Compiling C object src/pgbackrest.p/command_archive_common.c.o
+[44/191] Compiling C object src/pgbackrest.p/command_archive_get_file.c.o
+[45/191] Compiling C object src/pgbackrest.p/command_archive_get_protocol.c.o
+[46/191] Compiling C object src/pgbackrest.p/command_archive_push_file.c.o
+[47/191] Compiling C object src/pgbackrest.p/command_archive_push_protocol.c.o
+[48/191] Compiling C object src/pgbackrest.p/command_archive_get_get.c.o
+[49/191] Compiling C object src/pgbackrest.p/command_archive_push_push.c.o
+[50/191] Compiling C object src/pgbackrest.p/command_backup_blockIncr.c.o
+[51/191] Compiling C object src/pgbackrest.p/command_backup_blockMap.c.o
+[52/191] Compiling C object src/pgbackrest.p/command_backup_common.c.o
+[53/191] Compiling C object src/pgbackrest.p/command_backup_pageChecksum.c.o
+[54/191] Compiling C object src/pgbackrest.p/command_backup_protocol.c.o
+[55/191] Compiling C object src/pgbackrest.p/command_backup_backup.c.o
+[56/191] Compiling C object src/pgbackrest.p/command_backup_file.c.o
+[57/191] Compiling C object src/pgbackrest.p/command_check_check.c.o
+[58/191] Compiling C object src/pgbackrest.p/command_check_common.c.o
+[59/191] Compiling C object src/pgbackrest.p/command_check_report.c.o
+[60/191] Compiling C object src/pgbackrest.p/command_exit.c.o
+[61/191] Compiling C object src/pgbackrest.p/command_help_help.c.o
+[62/191] Compiling C object src/pgbackrest.p/command_expire_expire.c.o
+[63/191] Compiling C object src/pgbackrest.p/command_command.c.o
+[64/191] Compiling C object src/pgbackrest.p/command_control_common.c.o
+[65/191] Compiling C object src/pgbackrest.p/command_control_start.c.o
+[66/191] Compiling C object src/pgbackrest.p/command_control_stop.c.o
+[67/191] Compiling C object src/pgbackrest.p/command_local_local.c.o
+[68/191] Compiling C object src/pgbackrest.p/command_info_info.c.o
+[69/191] Compiling C object src/pgbackrest.p/command_lock.c.o
+[70/191] Compiling C object src/pgbackrest.p/command_repo_common.c.o
+[71/191] Compiling C object src/pgbackrest.p/command_repo_get.c.o
+[72/191] Compiling C object src/pgbackrest.p/command_manifest_manifest.c.o
+[73/191] Compiling C object src/pgbackrest.p/command_repo_put.c.o
+[74/191] Compiling C object src/pgbackrest.p/command_repo_ls.c.o
+[75/191] Compiling C object src/pgbackrest.p/command_repo_rm.c.o
+[76/191] Compiling C object src/pgbackrest.p/command_restore_blockChecksum.c.o
+[77/191] Compiling C object src/pgbackrest.p/command_restore_blockDelta.c.o
+[78/191] Compiling C object src/pgbackrest.p/command_restore_protocol.c.o
+[79/191] Compiling C object src/pgbackrest.p/command_restore_file.c.o
+[80/191] Compiling C object src/pgbackrest.p/command_restore_timeline.c.o
+[81/191] Compiling C object src/pgbackrest.p/command_remote_remote.c.o
+[82/191] Compiling C object src/pgbackrest.p/command_server_ping.c.o
+[83/191] Compiling C object src/pgbackrest.p/command_server_server.c.o
+[84/191] Compiling C object src/pgbackrest.p/command_stanza_common.c.o
+[85/191] Compiling C object src/pgbackrest.p/command_stanza_create.c.o
+[86/191] Compiling C object src/pgbackrest.p/command_stanza_delete.c.o
+[87/191] Compiling C object src/pgbackrest.p/command_stanza_upgrade.c.o
+[88/191] Compiling C object src/pgbackrest.p/command_verify_file.c.o
+[89/191] Compiling C object src/pgbackrest.p/command_verify_protocol.c.o
+[90/191] Compiling C object src/pgbackrest.p/command_restore_restore.c.o
+[91/191] Compiling C object src/pgbackrest.p/common_compress_common.c.o
+[92/191] Compiling C object src/pgbackrest.p/common_compress_helper.c.o
+[93/191] Compiling C object src/pgbackrest.p/common_compress_bz2_common.c.o
+[94/191] Compiling C object src/pgbackrest.p/common_compress_bz2_compress.c.o
+[95/191] Compiling C object src/pgbackrest.p/common_compress_bz2_decompress.c.o
+[96/191] Compiling C object src/pgbackrest.p/common_compress_gz_common.c.o
+[97/191] Compiling C object src/pgbackrest.p/common_compress_gz_compress.c.o
+[98/191] Compiling C object src/pgbackrest.p/command_verify_verify.c.o
+[99/191] Compiling C object src/pgbackrest.p/common_compress_lz4_common.c.o
+[100/191] Compiling C object src/pgbackrest.p/common_compress_gz_decompress.c.o
+[101/191] Compiling C object src/pgbackrest.p/common_compress_lz4_compress.c.o
+[102/191] Compiling C object src/pgbackrest.p/common_compress_lz4_decompress.c.o
+[103/191] Compiling C object src/pgbackrest.p/common_compress_zst_common.c.o
+[104/191] Compiling C object src/pgbackrest.p/common_compress_zst_compress.c.o
+[105/191] Compiling C object src/pgbackrest.p/common_compress_zst_decompress.c.o
+[106/191] Compiling C object src/pgbackrest.p/common_crypto_common.c.o
+[107/191] Compiling C object src/pgbackrest.p/common_crypto_cipherBlock.c.o
+[108/191] Compiling C object src/pgbackrest.p/common_crypto_hash.c.o
+[109/191] Compiling C object src/pgbackrest.p/common_error_retry.c.o
+[110/191] Compiling C object src/pgbackrest.p/common_exec.c.o
+[111/191] Compiling C object src/pgbackrest.p/common_fork.c.o
+[112/191] Compiling C object src/pgbackrest.p/common_ini.c.o
+[113/191] Compiling C object src/pgbackrest.p/common_io_client.c.o
+[114/191] Compiling C object src/pgbackrest.p/common_crypto_xxhash.c.o
+[115/191] Compiling C object src/pgbackrest.p/common_io_fd.c.o
+[116/191] Compiling C object src/pgbackrest.p/common_io_fdRead.c.o
+[117/191] Compiling C object src/pgbackrest.p/common_io_fdWrite.c.o
+[118/191] Compiling C object src/pgbackrest.p/common_io_filter_size.c.o
+[119/191] Compiling C object src/pgbackrest.p/common_io_http_client.c.o
+[120/191] Compiling C object src/pgbackrest.p/common_io_http_common.c.o
+[121/191] Compiling C object src/pgbackrest.p/common_io_http_header.c.o
+[122/191] Compiling C object src/pgbackrest.p/common_io_http_query.c.o
+[123/191] Compiling C object src/pgbackrest.p/common_io_http_request.c.o
+[124/191] Compiling C object src/pgbackrest.p/common_io_http_session.c.o
+[125/191] Compiling C object src/pgbackrest.p/common_io_http_response.c.o
+[126/191] Compiling C object src/pgbackrest.p/common_io_http_url.c.o
+[127/191] Compiling C object src/pgbackrest.p/common_io_limitRead.c.o
+[128/191] Compiling C object src/pgbackrest.p/common_io_server.c.o
+[129/191] Compiling C object src/pgbackrest.p/common_io_session.c.o
+[130/191] Compiling C object src/pgbackrest.p/common_io_socket_address.c.o
+[131/191] Compiling C object src/pgbackrest.p/common_io_socket_client.c.o
+[132/191] Compiling C object src/pgbackrest.p/common_io_socket_common.c.o
+[133/191] Compiling C object src/pgbackrest.p/common_io_socket_server.c.o
+[134/191] Compiling C object src/pgbackrest.p/common_io_socket_session.c.o
+[135/191] Compiling C object src/pgbackrest.p/common_io_tls_common.c.o
+[136/191] Compiling C object src/pgbackrest.p/common_io_tls_client.c.o
+[137/191] Compiling C object src/pgbackrest.p/common_io_tls_server.c.o
+[138/191] Compiling C object src/pgbackrest.p/common_io_tls_session.c.o
+[139/191] Compiling C object src/pgbackrest.p/common_regExp.c.o
+[140/191] Compiling C object src/pgbackrest.p/common_lock.c.o
+[141/191] Compiling C object src/pgbackrest.p/common_stat.c.o
+[142/191] Compiling C object src/pgbackrest.p/common_type_string.c.o
+[143/191] Compiling C object src/pgbackrest.p/common_type_xml.c.o
+[144/191] Compiling C object src/pgbackrest.p/common_type_json.c.o
+[145/191] Compiling C object src/pgbackrest.p/config_exec.c.o
+[146/191] Compiling C object src/pgbackrest.p/config_config.c.o
+[147/191] Compiling C object src/pgbackrest.p/config_load.c.o
+[148/191] Compiling C object src/pgbackrest.p/config_protocol.c.o
+[149/191] Compiling C object src/pgbackrest.p/db_db.c.o
+[150/191] Compiling C object src/pgbackrest.p/db_helper.c.o
+[151/191] Compiling C object src/pgbackrest.p/db_protocol.c.o
+[152/191] Compiling C object src/pgbackrest.p/info_info.c.o
+[153/191] Compiling C object src/pgbackrest.p/info_infoArchive.c.o
+[154/191] Compiling C object src/pgbackrest.p/config_parse.c.o
+[155/191] Compiling C object src/pgbackrest.p/info_infoBackup.c.o
+[156/191] Compiling C object src/pgbackrest.p/info_infoPg.c.o
+[157/191] Compiling C object src/pgbackrest.p/postgres_client.c.o
+[158/191] Compiling C object src/pgbackrest.p/postgres_interface.c.o
+[159/191] Compiling C object src/pgbackrest.p/postgres_interface_crc32.c.o
+[160/191] Compiling C object src/pgbackrest.p/info_manifest_manifest.c.o
+[161/191] Compiling C object src/pgbackrest.p/postgres_interface_page.c.o
+[162/191] Compiling C object src/pgbackrest.p/protocol_client.c.o
+[163/191] Compiling C object src/pgbackrest.p/protocol_helper.c.o
+[164/191] Compiling C object src/pgbackrest.p/protocol_parallel.c.o
+[165/191] Compiling C object src/pgbackrest.p/protocol_parallelJob.c.o
+[166/191] Compiling C object src/pgbackrest.p/storage_azure_helper.c.o
+[167/191] Compiling C object src/pgbackrest.p/protocol_server.c.o
+[168/191] Compiling C object src/pgbackrest.p/storage_azure_read.c.o
+[169/191] Compiling C object src/pgbackrest.p/storage_azure_write.c.o
+[170/191] Compiling C object src/pgbackrest.p/storage_cifs_helper.c.o
+[171/191] Compiling C object src/pgbackrest.p/storage_cifs_storage.c.o
+[172/191] Compiling C object src/pgbackrest.p/storage_gcs_helper.c.o
+[173/191] Compiling C object src/pgbackrest.p/storage_azure_storage.c.o
+[174/191] Compiling C object src/pgbackrest.p/storage_gcs_read.c.o
+[175/191] Compiling C object src/pgbackrest.p/storage_gcs_write.c.o
+[176/191] Compiling C object src/pgbackrest.p/storage_helper.c.o
+[177/191] Compiling C object src/pgbackrest.p/storage_remote_read.c.o
+[178/191] Compiling C object src/pgbackrest.p/storage_gcs_storage.c.o
+[179/191] Compiling C object src/pgbackrest.p/storage_remote_storage.c.o
+[180/191] Compiling C object src/pgbackrest.p/storage_remote_protocol.c.o
+[181/191] Compiling C object src/pgbackrest.p/storage_s3_helper.c.o
+[182/191] Compiling C object src/pgbackrest.p/storage_remote_write.c.o
+[183/191] Compiling C object src/pgbackrest.p/storage_s3_read.c.o
+[184/191] Compiling C object src/pgbackrest.p/storage_s3_write.c.o
+[185/191] Compiling C object src/pgbackrest.p/storage_sftp_helper.c.o
+[186/191] Compiling C object src/pgbackrest.p/storage_sftp_read.c.o
+[187/191] Compiling C object src/pgbackrest.p/storage_s3_storage.c.o
+[188/191] Compiling C object src/pgbackrest.p/storage_sftp_write.c.o
+[189/191] Compiling C object src/pgbackrest.p/main.c.o
+[190/191] Compiling C object src/pgbackrest.p/storage_sftp_storage.c.o
+[191/191] Linking target src/pgbackrest
+ ---> Removed intermediate container 5e85c24ffe4a
+ ---> 93df2adfbcc6
+Step 4/11 : FROM postgres:18.6-bookworm@sha256:afc7e2d441324c0388fa80c3d24f733b4194a4eb7f47dd8ee2b08eb1a24a647c
+ ---> afc7e2d44132
+Step 5/11 : RUN apt-get update && apt-get install -y --no-install-recommends libxml2 liblz4-1 libzstd1 libbz2-1.0 libssh2-1 libssl3 && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> 589c16396fd4
+Step 6/11 : COPY --from=builder /tmp/build/src/pgbackrest /usr/bin/pgbackrest
+ ---> Using cache
+ ---> 8940c2340f93
+Step 7/11 : RUN mkdir -p /var/lib/pgbackrest && chown postgres:postgres /var/lib/pgbackrest
+ ---> Using cache
+ ---> 3e36cba8c559
+Step 8/11 : COPY deploy/postgres/entrypoint.sh /usr/local/bin/shahn-postgres-entrypoint.sh
+ ---> 3a6eff2a390a
+Step 9/11 : RUN chmod 755 /usr/local/bin/shahn-postgres-entrypoint.sh
+ ---> Running in fb7d97f76940
+ ---> Removed intermediate container fb7d97f76940
+ ---> 8e977d030ed6
+Step 10/11 : ENTRYPOINT ["/usr/local/bin/shahn-postgres-entrypoint.sh"]
+ ---> Running in 59016318a7c3
+ ---> Removed intermediate container 59016318a7c3
+ ---> 02a67b07aa90
+Step 11/11 : CMD ["postgres"]
+ ---> Running in a60fc75de14c
+ ---> Removed intermediate container a60fc75de14c
+ ---> daa7aa79bbb3
+Successfully built daa7aa79bbb3
+Successfully tagged shahn-p25-postgres:latest

@@ -1,0 +1,32 @@
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ❯ tests/integration/p25/lifecycle.db.test.ts (1 test | 1 failed) 11388ms
+   × concurrent migration, committed command recovery, local readiness and restore-mode service/HTTP guards 11387ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p25/lifecycle.db.test.ts > concurrent migration, committed command recovery, local readiness and restore-mode service/HTTP guards
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/integration/p25/lifecycle.db.test.ts:74:60
+     72|     process.env['OPERATIONS_MODE'] = 'restore';
+     73|     // No issuer or Tawsel network is needed for these local reads; th…
+     74|     expect((await fetch(origin + '/api/v1/ready')).status).toBe(200);
+       |                                                            ^
+     75|     expect((await (await fetch(origin + '/api/v1/operations')).json())…
+     76|       false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  06:21:07
+   Duration  26.06s (import 44%, tests 44%, transform 11%)

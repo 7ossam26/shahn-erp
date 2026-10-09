@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import {
@@ -231,6 +232,7 @@ export class SourceCommandWorker {
     });
   }
   async runOne(): Promise<boolean> {
+    if (!mutationsEnabled()) return false;
     if (await applyOneDispatchEvent(this.pool)) return true;
     const work = await this.claim();
     if (!work) return false;

@@ -1,4 +1,5 @@
 import pg from 'pg';
+export * from './operations.js';
 export * from './repositories/integration.repository.js';
 export * from './commercial.js';
 export * from './inventory/index.js';
@@ -11,7 +12,12 @@ export {
   type Migration,
   type MigrationStatus,
 } from './migrations.js';
-export function createPool(connectionString: string, max = 5): pg.Pool {
+export function createPool(
+  connectionString: string,
+  max = Number(process.env['DATABASE_POOL_MAX'] ?? 5),
+): pg.Pool {
+  if (!Number.isInteger(max) || max < 1 || max > 32)
+    throw new Error('Configuration: DATABASE_POOL_MAX must be 1..32');
   const pool = new pg.Pool({
     connectionString,
     max,

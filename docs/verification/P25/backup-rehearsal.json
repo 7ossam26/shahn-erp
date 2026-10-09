@@ -1,0 +1,225 @@
+{
+  "boundary": "Local encrypted POSIX repository; no offsite provider, production, live issuer or live Tawsel acceptance",
+  "scratch": "/var/lib/shahn-p25-rehearsals/rehearsal-v7j86d",
+  "step": "archive-recovery-check",
+  "backups": [
+    {
+      "label": "20261009-124035F",
+      "type": "full",
+      "timestamp": {
+        "start": 1791549635,
+        "stop": 1791549638
+      },
+      "archive": {
+        "start": "000000010000000000000004",
+        "stop": "000000010000000000000004"
+      }
+    },
+    {
+      "label": "20261009-124035F_20261009-124038D",
+      "type": "diff",
+      "timestamp": {
+        "start": 1791549638,
+        "stop": 1791549640
+      },
+      "archive": {
+        "start": "000000010000000000000006",
+        "stop": "000000010000000000000006"
+      }
+    }
+  ],
+  "restore": {
+    "checkpoint": "p25_9e0d1b31db8249d292fbb52e4d0ae8e3",
+    "checkpointAt": "2026-10-09T12:40:40.623Z",
+    "elapsedMs": 8895,
+    "before": {
+      "kernel.source_record": {
+        "count": 11,
+        "hash": "65595ee35a4c0339e78c59a6b308c38fd7135b907b2100cd4103ab62522ae1a1"
+      },
+      "kernel.journal_effect": {
+        "count": 15,
+        "hash": "54c1a489a247621358d7025e8451a885d8e06a8d575ee92baefa5878f9427223"
+      },
+      "kernel.credit_lot": {
+        "count": 3,
+        "hash": "72f04f1fde21285917e6d93a9bc772041db66e6eba180fae025f5a6bd33cbf51"
+      },
+      "kernel.wallet_hold": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "kernel.lot_allocation": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "kernel.shipping_cover": {
+        "count": 2,
+        "hash": "b175a2d920c3064c0528015588361449c13e46a0f63633488eff9f688126d75f"
+      },
+      "finance.paid_expense": {
+        "count": 2,
+        "hash": "434cc976cf920bfa7db0da7cab0eef6afe81a9f27196025d10e000be6be1595e"
+      },
+      "finance.account_balance": {
+        "count": 4,
+        "hash": "11e8ea700f75141d6da4de52878e976b1b486a22a5fb2d910b5dd04e02f3f92d"
+      },
+      "finance.brand_payout": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "employees.payroll_obligation": {
+        "count": 1,
+        "hash": "5a717519a945e56350275b1810038154b3275e19807614b685477fdd645aae5a"
+      },
+      "storage.period": {
+        "count": 1,
+        "hash": "45e41c0292263eb069b4d9aee99768d10d4744ac4701030ed3a41038890bf0f0"
+      },
+      "storage.receipt": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "inventory.stock_position": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "inventory.stock_reservation": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "shipments.parcel_custody": {
+        "count": 2,
+        "hash": "3652f5a971365e434be3d685eebf41ad00ba55ac29114a576474326be4c14e45"
+      },
+      "command_record": {
+        "count": 38,
+        "hash": "c10ee4abbbc11c82b0ce4c2d322d7b450e2e44f1179189331f16e9e090d9e40e"
+      },
+      "integration.source_command": {
+        "count": 11,
+        "hash": "7662fc10c7a3aa3bc2e340ef4d686ae68988293b4b6b175d1c4000dc9605460f"
+      },
+      "integration.inbox": {
+        "count": 4,
+        "hash": "5d7815aa21f7ec9e12fffaf19d5a1dd91a64a50638722338b061506d098f2d42"
+      },
+      "integration.checkpoint": {
+        "count": 3,
+        "hash": "74203f001bdab4255302a3878740011e733d32dc1ec24ccbf247ce06c8407709"
+      },
+      "work_item": {
+        "count": 12,
+        "hash": "d4c4bf3ab240fb36fc171409d5d9901a5438f9f3d4f5de906e0ecc787ad7656f"
+      }
+    },
+    "after": {
+      "kernel.source_record": {
+        "count": 11,
+        "hash": "65595ee35a4c0339e78c59a6b308c38fd7135b907b2100cd4103ab62522ae1a1"
+      },
+      "kernel.journal_effect": {
+        "count": 15,
+        "hash": "54c1a489a247621358d7025e8451a885d8e06a8d575ee92baefa5878f9427223"
+      },
+      "kernel.credit_lot": {
+        "count": 3,
+        "hash": "72f04f1fde21285917e6d93a9bc772041db66e6eba180fae025f5a6bd33cbf51"
+      },
+      "kernel.wallet_hold": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "kernel.lot_allocation": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "kernel.shipping_cover": {
+        "count": 2,
+        "hash": "b175a2d920c3064c0528015588361449c13e46a0f63633488eff9f688126d75f"
+      },
+      "finance.paid_expense": {
+        "count": 2,
+        "hash": "434cc976cf920bfa7db0da7cab0eef6afe81a9f27196025d10e000be6be1595e"
+      },
+      "finance.account_balance": {
+        "count": 4,
+        "hash": "11e8ea700f75141d6da4de52878e976b1b486a22a5fb2d910b5dd04e02f3f92d"
+      },
+      "finance.brand_payout": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "employees.payroll_obligation": {
+        "count": 1,
+        "hash": "5a717519a945e56350275b1810038154b3275e19807614b685477fdd645aae5a"
+      },
+      "storage.period": {
+        "count": 1,
+        "hash": "45e41c0292263eb069b4d9aee99768d10d4744ac4701030ed3a41038890bf0f0"
+      },
+      "storage.receipt": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "inventory.stock_position": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "inventory.stock_reservation": {
+        "count": 0,
+        "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "shipments.parcel_custody": {
+        "count": 2,
+        "hash": "3652f5a971365e434be3d685eebf41ad00ba55ac29114a576474326be4c14e45"
+      },
+      "command_record": {
+        "count": 38,
+        "hash": "c10ee4abbbc11c82b0ce4c2d322d7b450e2e44f1179189331f16e9e090d9e40e"
+      },
+      "integration.source_command": {
+        "count": 11,
+        "hash": "7662fc10c7a3aa3bc2e340ef4d686ae68988293b4b6b175d1c4000dc9605460f"
+      },
+      "integration.inbox": {
+        "count": 4,
+        "hash": "5d7815aa21f7ec9e12fffaf19d5a1dd91a64a50638722338b061506d098f2d42"
+      },
+      "integration.checkpoint": {
+        "count": 3,
+        "hash": "74203f001bdab4255302a3878740011e733d32dc1ec24ccbf247ce06c8407709"
+      },
+      "work_item": {
+        "count": 12,
+        "hash": "d4c4bf3ab240fb36fc171409d5d9901a5438f9f3d4f5de906e0ecc787ad7656f"
+      }
+    },
+    "equal": true,
+    "lostNativeCommandId": "9b9360bc-7f30-478c-b770-738e4737c7cc",
+    "lostAmountMinor": "2300",
+    "lostMovementAbsent": true,
+    "lastVerifiedRecoveryPoint": "2026-10-09T12:40:40.623Z",
+    "uncertainIntervalStart": "2026-10-09T12:40:40.623Z",
+    "humanDecision": "External cash evidence and typed reconciliation are mandatory before disbursement; Tawsel cannot reconstruct this withdrawal."
+  },
+  "wrongKeyFailure": {
+    "exitCode": 75,
+    "kind": "invalid-decrypted-repository-info"
+  },
+  "wrongEncryptionKeyRejected": true,
+  "wrongKeyStatus": "Actual restore refused and repository info could not be decrypted/parsed with the wrong key; correct-key retrieval and restore passed. No key or raw error logged.",
+  "failedArchiveAlert": {
+    "state": "review-required",
+    "targetSeconds": 300,
+    "lastArchivedAt": "2026-10-09T12:40:40.977Z",
+    "latestBackupStop": null,
+    "lastRecoverableTime": null,
+    "explanation": "Archive time is an observation, not a proven recoverable transaction. Verify the backup and complete WAL chain.",
+    "runbook": "deploy/runbooks/backup-restore.md",
+    "lastVerifiedRecoveryPoint": "2026-10-09T12:40:40.623Z"
+  },
+  "archivingRecovered": true,
+  "secretBoundary": "Encryption configs are in a separate keys directory; repository contains no decryption/issuer material. Local test key retention is operator-controlled."
+}

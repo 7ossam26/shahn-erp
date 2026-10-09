@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import { createHash, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import {
@@ -322,6 +323,7 @@ export class RecoveryWorker {
     });
   }
   async runOne(kind?: 'replay' | 'reconcile') {
+    if (!mutationsEnabled()) return false;
     const work = await claimWork(
       this.pool,
       this.owner,

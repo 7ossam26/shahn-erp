@@ -53,6 +53,7 @@ const Access = createContext<{
   refresh: () => Promise<void>;
 }>({ registry: undefined, session: undefined, authorityError: null, refresh: async () => {} });
 export const useAccess = () => useContext(Access);
+import { OperationsBanner } from '../operations/banner.js';
 export function AccessShell() {
   const location = useLocation(),
     navigate = useNavigate(),
@@ -160,6 +161,7 @@ export function AccessShell() {
             <button onClick={() => setChanged(false)}>فهمت</button>
           </StatePanel>
         )}
+        <OperationsBanner />
         <Outlet key={`${session.data?.principalId ?? 'anonymous'}:${viewCompany ?? 'none'}`} />
         {session.data && (
           <details className="account-menu">

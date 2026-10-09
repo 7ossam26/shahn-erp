@@ -103,3 +103,7 @@ P10 retains all exact dependency pins and the root/prototype lockfiles. Actual r
 ## P23 targeted renderer additions — 2026-10-08
 
 P23 adds exact API runtime pins ExcelJS4.4.0 (MIT), Playwright1.63.0 (Apache2.0, matching existing test pin), and Cairo font5.3.0 (SIL OFL1.1, matching existing web pin). Real XLSX and local Arabic RTL PDF use these maintained existing-compatible interfaces. Final script runtime remains Node24.21.0/npm12.2.0/native PostgreSQL18.3. The root lock changed for the targeted renderer additions; the prototype remains unchanged. [P23 dependencies](../P23/DEPENDENCIES.md) records actual upstream/local license inspection, initial engine failure/rerun, two moderate transitive audit findings and their bounded writer-path assessment, and final artifact identities. No clean-audit, production-capacity, browser/device or P24 profit claim.
+
+## P25 deployment inputs — 2026-10-09
+
+P25 retains all workspace dependency pins and the root lockfile. Local verification uses WSL Docker/PostgreSQL18.6 and a new pinned pgBackRest2.59.3 source build. Its deployment Debian image digest is named separately from the existing P01 test image, with pinned Node24.21.0/npm12.2.0 and Docker CLI29.1.3 inputs. [P25 versions and limits](../P25/VERSIONS.md) records exact identities, build failures/reruns and changing OS package indexes. No application dependency upgrade, aged30-day backup history, remote provider/KVM, complete deployment or production-readiness claim.

@@ -1,3 +1,4 @@
+import { mutationsEnabled } from '@shahn/database';
 import { randomUUID, createHash } from 'node:crypto';
 import type { Pool } from 'pg';
 import { transaction } from '@shahn/database';
@@ -127,6 +128,7 @@ export class ExportWorker {
     this.work = new DurableWork(pool, exportRegistry);
   }
   async runOne(seconds = 300) {
+    if (!mutationsEnabled()) return false;
     const w = await this.work.claim(seconds);
     if (!w) return false;
     try {

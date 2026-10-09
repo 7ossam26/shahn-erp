@@ -1,0 +1,15 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/app[39m
+
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ [32m✓[39m tests/db/foundation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 4887[2mms[22m[39m
+   [32m✓[39m Real isolated PostgreSQL foundation [2m(5)[22m
+     [33m[2m✓[22m[39m two migration runners wait for one lock and cannot apply a migration twice[33m 739[2mms[22m[39m
+     [33m[2m✓[22m[39m real HTTP reports ready, missing/incompatible schema and down; liveness stays honest; shutdown releases clients[33m 1916[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 12:41:32
+[2m   Duration [22m 9.56s[2m (tests 52%, import 30%, transform 18%)[22m

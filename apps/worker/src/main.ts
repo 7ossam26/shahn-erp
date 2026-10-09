@@ -1,4 +1,10 @@
-import { createPool, databaseConfig, loadEnvironment } from '@shahn/database';
+import {
+  createPool,
+  databaseConfig,
+  loadEnvironment,
+  deploymentConfiguration,
+  mutationsEnabled,
+} from '@shahn/database';
 import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/api/access';
 import { integrationRuntime, SourceCommandWorker, RecoveryWorker } from '@shahn/api/integration';
 import { ProjectionWorker } from '@shahn/api/execution';
@@ -6,11 +12,21 @@ import { StorageRenewalJob } from './jobs/storage-renewal.js';
 import { ExportWorker } from '@shahn/api/reporting';
 loadEnvironment();
 try {
-  const db = databaseConfig(),
-    identity = identityConfig();
+  const deployment = deploymentConfiguration();
+  const db = databaseConfig(process.env, 'runtime'),
+    identity = identityConfig(),
+    integration = integrationRuntime();
+  if (
+    deployment &&
+    (!integration.connections.length ||
+      integration.connections.some(
+        (c) => c.companyId !== deployment.companyId || c.issuer !== identity?.issuer,
+      ))
+  )
+    throw new Error('Configuration: Tawsel company/issuer does not match this ERP deployment');
   const pool = createPool(db.runtimeUrl);
-  const sourceWorker = new SourceCommandWorker(pool, integrationRuntime());
-  const recoveryWorker = new RecoveryWorker(pool, integrationRuntime());
+  const sourceWorker = new SourceCommandWorker(pool, integration);
+  const recoveryWorker = new RecoveryWorker(pool, integration);
   const projectionWorker = new ProjectionWorker(pool);
   // P19: scheduled storage renewal on the same PostgreSQL work lane.
   const storageRenewal = new StorageRenewalJob(pool);
@@ -32,6 +48,7 @@ try {
   report('started');
   const heartbeat = setInterval(() => report('idle'), 30000);
   const poll = setInterval(() => {
+    if (!mutationsEnabled()) return;
     // Export formatting has its own bounded lane. An export never gates inbox polling.
     if (!exporting && !stopping) {
       exporting = true;

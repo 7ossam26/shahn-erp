@@ -1,0 +1,4 @@
+# UTC, install under postgres with the restricted config reference. Never log secrets.
+0 2 * * 0 pgbackrest --config=/etc/shahn-secrets/backup_config --stanza=erp --type=full backup
+0 2 * * 1-6 pgbackrest --config=/etc/shahn-secrets/backup_config --stanza=erp --type=diff backup
+# Poll pg_stat_archiver and verified repository evidence every minute; alert on >=5m age or new failure.

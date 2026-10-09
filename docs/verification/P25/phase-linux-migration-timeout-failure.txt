@@ -1,0 +1,44 @@
+P25 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/app[39m
+
+ [32m✓[39m tests/integration/p25/operations.unit.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 12:34:14
+[2m   Duration [22m 14.77s[2m (import 42%, environment 32%, transform 20%, setup 5%)[22m
+
+P25 unit: PASSED
+P25 database: test:db; 2 registered test files (test framework must also reject zero cases)
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.3 [39m[90m/app[39m
+
+ [31m❯[39m tests/integration/p25/lifecycle.db.test.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 26599[2mms[22m[39m
+[31m   [31m×[31m concurrent migration, committed command recovery, local readiness and restore-mode service/HTTP guards[39m[33m 26597[2mms[22m[39m
+ [32m✓[39m tests/integration/p25/backup.db.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 31899[2mms[22m[39m
+   [33m[2m✓[22m[39m encrypted full/differential/WAL restore, lost native cash movement, wrong key and actual archive failure[33m 31897[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/integration/p25/lifecycle.db.test.ts[2m > [22mconcurrent migration, committed command recovery, local readiness and restore-mode service/HTTP guards
+[31m[1merror[22m: canceling statement due to statement timeout[39m
+[90m [2m❯[22m node_modules/pg/lib/client.js:[2m694:17[22m[39m
+[90m [2m❯[22m migrate packages/database/src/migrations.ts:[2m88:5[22m[39m
+[36m [2m❯[22m tests/integration/p25/lifecycle.db.test.ts:[2m44:5[22m[39m
+    [90m 42|[39m     );
+    [90m 43|[39m     // The migration pool checks out independent connections; both con…
+    [90m 44|[39m     await Promise.all([migrate(migrationPool), migrate(migrationPool)]…
+    [90m   |[39m     [31m^[39m
+    [90m 45|[39m     await migrationPool.query(await readFile('deploy/postgres/grants.s…
+    [90m 46|[39m     await expect(
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m 12:34:30
+[2m   Duration [22m 78.91s[2m (tests 75%, transform 13%, import 12%)[22m
+
+P25 database: FAILED (1)

@@ -48,12 +48,16 @@ import {
   migrationStatus,
   readMigrations,
   type DatabaseConfig,
+  operationsMode,
+  mutationsEnabled,
+  deploymentConfiguration,
 } from '@shahn/database';
 import {
   validateReadiness,
   validateLiveness,
   type Readiness,
   type Liveness,
+  validateOperations,
 } from '@shahn/contracts';
 
 const PUBLIC_STATUS = 'foundation.publicStatus';
@@ -145,12 +149,21 @@ class StatusController {
   }
 }
 export async function createApplication(
-  config = databaseConfig(),
+  config = databaseConfig(process.env, 'runtime'),
   identity: IdentityConfig | null = identityConfig(),
   integration: IntegrationRuntime = integrationRuntime(),
   /** Isolated tests/trials only: controlled storage business date. Production omits it. */
   options: { storageClock?: StorageClock; payrollClock?: PayrollClock } = {},
 ): Promise<NestFastifyApplication> {
+  const deployment = deploymentConfiguration();
+  if (
+    deployment &&
+    (!integration.connections.length ||
+      integration.connections.some(
+        (c) => c.companyId !== deployment.companyId || c.issuer !== identity?.issuer,
+      ))
+  )
+    throw new Error('Configuration: Tawsel company/issuer does not match this ERP deployment');
   @Module({
     controllers: [StatusController],
     providers: [
@@ -177,6 +190,31 @@ export async function createApplication(
     },
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
+  const http = app.getHttpAdapter().getInstance();
+  http.addHook('onRequest', async (request, reply) => {
+    if (
+      !mutationsEnabled() &&
+      !['GET', 'HEAD', 'OPTIONS'].includes(request.method) &&
+      !['/api/v1/access/logout', '/api/v1/access/global-signout'].includes(
+        request.url.split('?')[0]!,
+      )
+    ) {
+      await reply
+        .code(503)
+        .send({ code: 'RESTORE_REVIEW_REQUIRED', messageKey: 'operations.restoreReviewRequired' });
+    }
+  });
+  http.get('/api/v1/operations', async () => {
+    const body = {
+      schemaVersion: 1,
+      mode: operationsMode(),
+      mutationsEnabled: mutationsEnabled(),
+      releaseId: deployment?.releaseId ?? null,
+      releaseAuthority: 'company operator after documented reconciliation',
+    };
+    if (!validateOperations(body)) throw new Error('INVALID_OPERATIONS_RESPONSE');
+    return body;
+  });
   registerAccess(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool, identity);
   registerTracking(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);
   registerExecutionReads(app.getHttpAdapter().getInstance(), app.get(DatabaseLifecycle).pool);

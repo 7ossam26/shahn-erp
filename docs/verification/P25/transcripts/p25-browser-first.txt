@@ -1,0 +1,42 @@
+[WebServer] (node:30676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:27768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p25\restore.spec.ts:3:1 › native restore restrictions and Arabic banner survive desktop/mobile reads without successful writes (3.6s)
+
+
+  1) tests\integration\p25\restore.spec.ts:3:1 › native restore restrictions and Arabic banner survive desktop/mobile reads without successful writes
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5425/api/test/p25-login
+    Call log:
+      - navigating to "http://127.0.0.1:5425/api/test/p25-login", waiting until "load"
+
+
+       7 |   for (const width of [1440, 768, 390, 320]) {
+       8 |     await page.setViewportSize({ width, height: width === 1440 ? 1050 : 844 });
+    >  9 |     await page.goto('/api/test/p25-login');
+         |                ^
+      10 |     await expect(page.getByText('النظام متاح للقراءة والمراجعة', { exact: true })).toBeVisible();
+      11 |     await expect(page.getByText(/يُراجع مسؤول|يراجع مسؤول الشركة/)).toBeVisible();
+      12 |     const status = await page.request.get('/api/v1/operations');
+        at C:\Users\ahmed\OneDrive\Документы\ChatGPT\shahn-erp\tests\integration\p25\restore.spec.ts:9:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\restore-native-restore-res-a7302-s-without-successful-writes\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\restore-native-restore-res-a7302-s-without-successful-writes\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\restore-native-restore-res-a7302-s-without-successful-writes\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\restore-native-restore-res-a7302-s-without-successful-writes\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\integration\p25\restore.spec.ts:3:1 › native restore restrictions and Arabic banner survive desktop/mobile reads without successful writes

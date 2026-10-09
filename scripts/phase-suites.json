@@ -703,5 +703,56 @@
       "applicable": false,
       "reason": "P23 performs native authorized read/snapshot/export operations and issues no Tawsel request. Canonical source facts are consumed through implemented P13/P22 adapters. The available existing P22 independent live read suite is separately rerun under P23 evidence; external CR-001/CHECK-003/joint index stay in TAWSEL-CHANGE-REQUESTS.md."
     }
+  },
+  "P25": {
+    "unit": {
+      "directory": "tests/integration/p25",
+      "extension": ".unit.test",
+      "script": "test:unit",
+      "filter": ["tests/integration/p25/operations.unit.test.ts"]
+    },
+    "database": {
+      "directory": "tests/integration/p25",
+      "extension": ".db.test",
+      "script": "test:db",
+      "filter": [
+        "tests/integration/p25/lifecycle.db.test.ts",
+        "tests/integration/p25/backup.db.test.ts"
+      ]
+    },
+    "browser": {
+      "directory": "tests/integration/p25",
+      "extension": ".spec",
+      "script": "test:p25:browser",
+      "config": "playwright.p25.config.ts"
+    },
+    "publicIntegration": {
+      "directory": "tests/integration/p22",
+      "extension": ".public.test",
+      "script": "test:p22:public",
+      "config": "vitest.p22.public.config.ts"
+    },
+    "operations": {
+      "directory": "tests/integration/p25",
+      "extension": ".operations.test",
+      "script": "test:p25:operations",
+      "config": "vitest.p25.operations.config.ts"
+    },
+    "externalAcceptance": {
+      "directory": "tests/integration/p22",
+      "extension": ".acceptance.test",
+      "script": "test:p22:acceptance",
+      "config": "vitest.p22.acceptance.config.ts",
+      "deferred": {
+        "ownerInstruction": "2026-10-08: verified ERP commits may proceed with named Tawsel acceptance deferred",
+        "gates": [
+          "CR-001 replacement baseline/07 adoption and IP-AC-18",
+          "CHECK-003 exact accepted-A-to-B and receipt-A-to-cycle-B public sequence",
+          "complete jointly reviewed43+1-operation/27-event conformance index"
+        ],
+        "reason": "P25 retains the approved Tawsel baseline. Independent current live checks and full isolated restore remain required; missing test setup and ERP acceptance are not deferred. Source fixtures do not supply these reviewed external artifacts.",
+        "handoff": "TAWSEL-CHANGE-REQUESTS.md"
+      }
+    }
   }
 }
