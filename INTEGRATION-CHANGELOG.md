@@ -1,5 +1,13 @@
 # Integration changelog
 
+## P26 exact-byte restoration and live access — 2026-10-09
+
+The earlier mismatch below is resolved in the working tree under the same pin. Per-source LF/CRLF recovery verifies all35 original blocks, then all7 attachments plus manifest reproduce their exact published byte lengths/hashes. `.gitattributes` preserves mixed original endings while retaining normal whitespace checks. No contract field, expected hash or baseline identity changed; this is restoration, not a new adoption. [Before/after evidence](docs/verification/P26/baseline-restoration.json). Actual owner-authorized SSH metadata/public HTTP confirms current live API/workers/issuer; scoped ERP credentials/trial/tunnel remain unavailable. No remote runtime/configuration/database was altered. [Live findings](docs/verification/P26/LIVE-SETUP-REVIEW.md).
+
+## P26 baseline integrity observation — 2026-10-09
+
+No adoption or baseline identity change. Fresh working/Git HEAD hashing found the committed manifest and attachments01/02/03/07 match their recorded original hashes, while working CRLF conversion changes raw bytes. Committed canonical04/05/06 differ from the adopted manifest in byte length/hash; uniform LF/CRLF conversion does not reproduce the expected hashes. Historical files were not overwritten, and no semantic change/corruption cause is inferred. [Measured results and closure](docs/verification/P26/READINESS.md), [machine provenance](docs/verification/P26/coverage-inventory.json). Recover authoritative original package/provenance and reconcile through baseline change control before byte-integrity certification. Actual P26 runtime is unavailable and fresh public checks fail8 cases; historical bounded live results remain preserved below.
+
 P22 owner-ordered ERP-first closure, 2026-10-08: verified ERP recovery implementation and selected actual public scripts may commit under the explicit owner exception in phases/EXECUTION-CONTRACT.md. Named Tawsel acceptance is deferred, not passed: CR-001 reviewed baseline/07/IP-AC-18; CHECK-003 exact accepted-A→B and receipt-A→cycle-B; complete jointly reviewed43+1/27 matrix. Single later handoff: TAWSEL-CHANGE-REQUESTS.md. Actual whole-retry/correction/replay, interrupted source worker retained-result recovery,3-before1/2 current/history recovery, and CI runtime source provenance now have evidence in docs/verification/P22/README.md. No Tawsel code/baseline adoption, full integration-readiness claim or P23 start.
 
 This log records deliberate reference adoption and later reviewed integration changes. It does not monitor Tawsel automatically or certify runtime compatibility from documentation alone.

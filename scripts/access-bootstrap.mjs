@@ -1,5 +1,5 @@
 import { createPool, databaseConfig, loadEnvironment, migrationStatus } from '@shahn/database';
-import { bootstrapSupport, identityConfig } from '@shahn/api/access';
+import { bootstrapSupport, identityConfig, identityAdminBase } from '@shahn/api/access';
 loadEnvironment();
 const config = identityConfig(),
   subject = process.env.BOOTSTRAP_SUPPORT_SUBJECT;
@@ -18,7 +18,7 @@ const tokenResponse = await fetch(config.issuer + '/protocol/openid-connect/toke
 });
 if (!tokenResponse.ok) throw new Error('Operator bootstrap: issuer administration unavailable');
 const token = (await tokenResponse.json()).access_token;
-const admin = config.issuer.replace('/realms/', '/admin/realms/');
+const admin = identityAdminBase(config);
 const options = {
   headers: { Authorization: `Bearer ${token}` },
   signal: AbortSignal.timeout(8000),

@@ -1,0 +1,132 @@
+{
+  "boundary": "Clean isolated release/issuer/roles/admission/drain proof; no load, upgrade or live restore claim",
+  "passed": false,
+  "releaseImageId": "sha256:74b37d7edf43b592db053ce0dec37f28b76f75382055765eea18bb710c8966e5",
+  "sourceTreeDigest": "8ced7d21c909356e7546c86f5c4897f5b8c93ff2a48becfda94a67dadfb1fad3",
+  "origin": "https://app.switch2tech.cloud:25426",
+  "services": [
+    {
+      "service": "db",
+      "imageId": "sha256:20cfe5dc3fc921c64fa22360df01978d4d4639f163c8d4deba8f8897eead3ece",
+      "running": true,
+      "configuredHealth": "healthy"
+    },
+    {
+      "service": "api",
+      "imageId": "sha256:74b37d7edf43b592db053ce0dec37f28b76f75382055765eea18bb710c8966e5",
+      "running": true,
+      "configuredHealth": "healthy"
+    },
+    {
+      "service": "worker",
+      "imageId": "sha256:74b37d7edf43b592db053ce0dec37f28b76f75382055765eea18bb710c8966e5",
+      "running": true,
+      "configuredHealth": "none"
+    },
+    {
+      "service": "web",
+      "imageId": "sha256:74b37d7edf43b592db053ce0dec37f28b76f75382055765eea18bb710c8966e5",
+      "running": true,
+      "configuredHealth": "healthy"
+    },
+    {
+      "service": "edge",
+      "imageId": "sha256:74b37d7edf43b592db053ce0dec37f28b76f75382055765eea18bb710c8966e5",
+      "running": true,
+      "configuredHealth": "none"
+    }
+  ],
+  "roles": [
+    {
+      "rolname": "shahn_backup",
+      "rolsuper": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    },
+    {
+      "rolname": "shahn_migration",
+      "rolsuper": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    },
+    {
+      "rolname": "shahn_runtime",
+      "rolsuper": false,
+      "rolcreaterole": false,
+      "rolcreatedb": false
+    }
+  ],
+  "runtimeDdlAndMigrationWritesDenied": true,
+  "readiness": {
+    "schemaVersion": 1,
+    "service": "api",
+    "status": "ready",
+    "checkedAt": "2026-10-09T14:39:18.169Z",
+    "database": "connected",
+    "migrations": {
+      "state": "current",
+      "applied": [
+        "0001_foundation",
+        "0002_access",
+        "0003_access_result_error",
+        "0004_kernel",
+        "0005_kernel_allocation_guards",
+        "0006_work_generated_identity",
+        "0007_kernel_guards",
+        "0008_brands_pricing",
+        "0009_p05_products_stock",
+        "0010_p06_parcel_intake",
+        "0011_p07_stock_fulfillment",
+        "0012_p08_employee_terms",
+        "0013_p09_accounts_expenses",
+        "0014_p10_treasury_transfers",
+        "0015_p11_integration",
+        "0016_p12_dispatch",
+        "0017_p13_execution",
+        "0018_p14_returns",
+        "0019_p15_goods_transfers",
+        "0020_p16_remittances",
+        "0021_p17_brand_payouts",
+        "0022_p18_incidents",
+        "0023_p19_storage",
+        "0024_p20_payroll",
+        "0025_p21_settlements",
+        "0026_p22_recovery",
+        "0027_p23_reporting",
+        "0028_p24_profit_read_indexes"
+      ],
+      "required": [
+        "0001_foundation",
+        "0002_access",
+        "0003_access_result_error",
+        "0004_kernel",
+        "0005_kernel_allocation_guards",
+        "0006_work_generated_identity",
+        "0007_kernel_guards",
+        "0008_brands_pricing",
+        "0009_p05_products_stock",
+        "0010_p06_parcel_intake",
+        "0011_p07_stock_fulfillment",
+        "0012_p08_employee_terms",
+        "0013_p09_accounts_expenses",
+        "0014_p10_treasury_transfers",
+        "0015_p11_integration",
+        "0016_p12_dispatch",
+        "0017_p13_execution",
+        "0018_p14_returns",
+        "0019_p15_goods_transfers",
+        "0020_p16_remittances",
+        "0021_p17_brand_payouts",
+        "0022_p18_incidents",
+        "0023_p19_storage",
+        "0024_p20_payroll",
+        "0025_p21_settlements",
+        "0026_p22_recovery",
+        "0027_p23_reporting",
+        "0028_p24_profit_read_indexes"
+      ]
+    }
+  },
+  "staticWebAndAsset": true,
+  "failure": "P26_API_GRACEFUL_STOP_FAILED"
+}

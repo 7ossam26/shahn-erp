@@ -1,0 +1,90 @@
+{
+  "service": "app-reboot-open-source-port-yzf61j",
+  "actionId": "111425e4-0c45-4b71-9049-36a20f2d4cc1",
+  "tenantId": "4c7ea88a-c29f-41f0-833d-df7d915bf8c3",
+  "integrationId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+  "runtimeBeforeSha256": "dd9fcdedece81287cbc491bdd05d1edd0ece30f61677e87c1f489b1ff6c30326",
+  "runtimeBeforeBytes": 995,
+  "directSql": false,
+  "bindStatus": 200,
+  "bindResult": {
+    "receipt": {
+      "actionId": "111425e4-0c45-4b71-9049-36a20f2d4cc1",
+      "receiptId": "0ef4b4b1-c511-4a04-977d-cc809ac4796f",
+      "receivedAt": "2026-10-09T14:13:22.670Z",
+      "committedAt": "2026-10-09T14:13:22.724Z",
+      "schemaVersion": "1.0.0",
+      "businessStatus": "accepted",
+      "evidenceStatus": "received",
+      "resourceVersions": {
+        "sourceRevision": 1
+      }
+    },
+    "operationId": "integration.bindSource",
+    "retention": "full",
+    "summary": {
+      "entity": "source",
+      "externalId": "erp-p26-20261009",
+      "resourceId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "issuerStatus": "not-required",
+      "sourceRevision": 1
+    },
+    "response": {
+      "status": 200,
+      "body": {
+        "entity": "source",
+        "externalId": "erp-p26-20261009",
+        "resourceId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+        "issuerStatus": "not-required",
+        "sourceRevision": 1
+      }
+    }
+  },
+  "originalRuntimeBytesRestored": true,
+  "originalRuntimeModeRestored": true,
+  "originalRuntimeOwnerRestored": true,
+  "configurationStatus": 200,
+  "configuration": {
+    "identity": {
+      "mode": "service-operation",
+      "tenantId": "4c7ea88a-c29f-41f0-833d-df7d915bf8c3",
+      "integrationId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "actorId": null
+    },
+    "issuer": "https://auth.switch2tech.cloud/realms/tawsel-company",
+    "supportedVersions": [
+      "1.0.0"
+    ],
+    "allowedOperations": [
+      "integration.rotateCredential",
+      "integration.disableSource",
+      "branch.provision",
+      "branch.disable",
+      "role.defineCapabilities",
+      "user.provision",
+      "user.setRole",
+      "user.setCapabilityExceptions",
+      "user.setBranchMemberships",
+      "user.disable",
+      "driver.provisionReference",
+      "integration.getConfiguration",
+      "provisioning.getStatus",
+      "intake.submitSnapshot",
+      "intake.prepare",
+      "intake.setUrgencyBeforeDeparture",
+      "assignment.receiveBatch",
+      "assignment.withdraw",
+      "assignment.reassignBeforeDeparture",
+      "intake.getTask",
+      "intake.listTasks",
+      "intake.getBatchResult",
+      "return.confirmSubsetReceipt",
+      "return.recordDisposition",
+      "return.listPending",
+      "return.getNativeRequest",
+      "return.getNativeResult"
+    ],
+    "humanDelegation": false
+  },
+  "oldOperatorAfterRestore": 403
+}

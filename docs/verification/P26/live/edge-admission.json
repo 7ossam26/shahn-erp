@@ -1,0 +1,30 @@
+{
+  "boundary": "Pilot TLS proxy real network admission, fixed upstream hostname; no broad UI claim",
+  "checks": [
+    {
+      "path": "/api/v1/readiness",
+      "host": "app.switch2tech.cloud:25426",
+      "status": 200,
+      "expectedStatus": 200
+    },
+    {
+      "path": "//external.invalid/",
+      "host": "app.switch2tech.cloud:25426",
+      "status": 400,
+      "expectedStatus": 400
+    },
+    {
+      "path": "/\\external.invalid/",
+      "host": "app.switch2tech.cloud:25426",
+      "status": 400,
+      "expectedStatus": 400
+    },
+    {
+      "path": "/",
+      "host": "external.invalid:25426",
+      "status": 400,
+      "expectedStatus": 400
+    }
+  ],
+  "passed": true
+}

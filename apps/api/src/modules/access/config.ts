@@ -6,6 +6,7 @@ export interface IdentityConfig {
   encryptionKey: string;
   adminClientId: string;
   adminClientSecret: string;
+  adminOrigin?: string;
   environment: string;
 }
 export function identityConfig(env = process.env): IdentityConfig | null {
@@ -38,6 +39,19 @@ export function identityConfig(env = process.env): IdentityConfig | null {
   }
   if (!/^[a-f0-9]{64}$/.test(env['SESSION_ENCRYPTION_KEY']!))
     throw new Error('Configuration: SESSION_ENCRYPTION_KEY must be 32-byte hex');
+  const adminOrigin = env['OIDC_ADMIN_ORIGIN'];
+  if (adminOrigin) {
+    const url = new URL(adminOrigin);
+    // An explicit private administration origin does not change the public issuer identity.
+    const privateHost = /^[a-zA-Z0-9-]+$/.test(url.hostname);
+    if (
+      url.origin !== adminOrigin ||
+      url.username ||
+      url.password ||
+      !(url.protocol === 'https:' || (url.protocol === 'http:' && privateHost))
+    )
+      throw new Error('Configuration: OIDC_ADMIN_ORIGIN requires HTTPS or a private DNS origin');
+  }
   return {
     issuer: env['OIDC_ISSUER']!,
     clientId: env['OIDC_CLIENT_ID']!,
@@ -46,6 +60,14 @@ export function identityConfig(env = process.env): IdentityConfig | null {
     encryptionKey: env['SESSION_ENCRYPTION_KEY']!,
     adminClientId: env['OIDC_ADMIN_CLIENT_ID']!,
     adminClientSecret: env['OIDC_ADMIN_CLIENT_SECRET']!,
+    ...(adminOrigin ? { adminOrigin } : {}),
     environment: env['APP_ENV']!,
   };
+}
+
+export function identityAdminBase(config: IdentityConfig): string {
+  const issuer = new URL(config.issuer);
+  return config.adminOrigin
+    ? config.adminOrigin + issuer.pathname.replace('/realms/', '/admin/realms/')
+    : config.issuer.replace('/realms/', '/admin/realms/');
 }

@@ -1,0 +1,26 @@
+Inventory IDs unique; source digests current; all final results remain unrun.
+Matrix column widths: 7
+P26 manual/readiness/coverage Markdown links resolve.
+node:internal/errors:986
+  const err = new Error(message);
+              ^
+
+Error: Command failed: git diff --no-index --check -- /dev/null docs/verification/P26/coverage-inventory.json
+    at genericNodeError (node:internal/errors:986:15)
+    at wrappedFn (node:internal/errors:540:14)
+    at checkExecSyncError (node:child_process:942:11)
+    at execFileSync (node:child_process:978:15)
+    at file:///C:/Users/ahmed/OneDrive/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ChatGPT/shahn-erp/[eval1]:1:1410
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:223:26
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:220:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  status: 1,
+  signal: null,
+  output: [ null, '', '' ],
+  pid: 16584,
+  stdout: '',
+  stderr: ''
+}
+
+Node.js v24.21.0

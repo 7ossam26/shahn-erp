@@ -1,0 +1,114 @@
+{
+  "boundary": "Actual native durable source commands, canonical public acceptance and signed callback; no shipment/payment or complete P22 conformance claim",
+  "passed": true,
+  "commands": [
+    {
+      "commandId": "fd9a5691-1f11-4afa-aabd-661e0da46496",
+      "actionId": "47520690-cf3a-4553-9363-2d8556671972",
+      "operationId": "integration.rotateSigningKey",
+      "state": "accepted"
+    },
+    {
+      "commandId": "e781b895-6a07-4e54-92cd-192321bd410e",
+      "actionId": "ef3019a4-a2ab-4a51-a6ca-c2627c0842f2",
+      "operationId": "integration.configureWebhook",
+      "state": "accepted"
+    },
+    {
+      "commandId": "ce7f20d6-c567-4420-b7a5-525788a06e25",
+      "actionId": "b0377fee-5b44-4005-9d68-a618659186d7",
+      "operationId": "branch.provision",
+      "state": "accepted"
+    },
+    {
+      "commandId": "1552acdf-0f41-40d2-86e6-cba22160d234",
+      "actionId": "b668b6f9-df81-4ab2-8adf-807709897284",
+      "operationId": "branch.provision",
+      "state": "accepted"
+    },
+    {
+      "commandId": "3d726e68-52e3-4aaf-aec9-00379f97d03c",
+      "actionId": "9d990708-36c7-48a7-a2b4-e8889abc065a",
+      "operationId": "branch.provision",
+      "state": "accepted"
+    }
+  ],
+  "events": [
+    {
+      "eventId": "e60a0c3c-a889-4b12-9ed5-47be41243b20",
+      "eventType": "provisioning.changed",
+      "aggregateId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "sequence": "4",
+      "applicationState": "pending"
+    },
+    {
+      "eventId": "d5f53057-03ec-4012-8fd7-60dc15dcaabe",
+      "eventType": "provisioning.changed",
+      "aggregateId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "sequence": "3",
+      "applicationState": "pending"
+    },
+    {
+      "eventId": "8e4de83e-5e53-4de5-85cc-3f1d4e34baf2",
+      "eventType": "provisioning.changed",
+      "aggregateId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "sequence": "2",
+      "applicationState": "pending"
+    },
+    {
+      "eventId": "0294654b-ec60-4d11-8087-dfb9af8bda21",
+      "eventType": "provisioning.changed",
+      "aggregateId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "sequence": "1",
+      "applicationState": "pending"
+    }
+  ],
+  "checkpoints": [
+    {
+      "aggregateType": "integration",
+      "aggregateId": "cccab5a7-11d6-44db-9669-cc533b32f48d",
+      "receivedThrough": "4",
+      "receivedHigh": "4",
+      "appliedThrough": "0",
+      "historyComplete": false
+    }
+  ],
+  "branchBindings": [
+    {
+      "entity": "branch",
+      "nativeId": "0de3d216-a3dc-4013-ad28-1a964b45a616",
+      "externalId": "branch:0de3d216-a3dc-4013-ad28-1a964b45a616",
+      "resourceId": "19efd339-cc27-40c5-b027-c1caf698ce1e",
+      "version": 1,
+      "submittedRevision": "1",
+      "acceptedRevision": "1",
+      "issuerStatus": "not-required",
+      "enabled": true,
+      "checkedAt": "2026-10-09T14:54:59.854Z"
+    },
+    {
+      "entity": "branch",
+      "nativeId": "965ad199-20cb-46d5-aa3c-668c2a9f5351",
+      "externalId": "branch:965ad199-20cb-46d5-aa3c-668c2a9f5351",
+      "resourceId": "f928dc17-30ff-4974-a973-fddaf41ba54c",
+      "version": 1,
+      "submittedRevision": "1",
+      "acceptedRevision": "1",
+      "issuerStatus": "not-required",
+      "enabled": true,
+      "checkedAt": "2026-10-09T14:54:58.896Z"
+    },
+    {
+      "entity": "branch",
+      "nativeId": "ed165ebc-f8bf-44f0-80fd-677ff59f83b0",
+      "externalId": "branch:ed165ebc-f8bf-44f0-80fd-677ff59f83b0",
+      "resourceId": "417f3471-15a6-42d0-bc5b-9f7b1c8a39e5",
+      "version": 1,
+      "submittedRevision": "1",
+      "acceptedRevision": "1",
+      "issuerStatus": "not-required",
+      "enabled": true,
+      "checkedAt": "2026-10-09T14:55:00.879Z"
+    }
+  ]
+}

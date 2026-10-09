@@ -12,3 +12,7 @@
 # Preserve the pinned source bytes verified by extract-tawsel-baseline.mjs.
 /packages/contracts/src/tawsel/canonical/**/*.json -text
 /packages/test-support/fixtures/tawsel/*.json -text
+# The publisher bundles contain mixed wrapper/payload line endings and have byte-pinned hashes.
+/docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve verbatim command transcripts, including diagnostic trailing whitespace.
+/docs/verification/P26/transcripts/*.txt -text whitespace=-blank-at-eol,-blank-at-eof

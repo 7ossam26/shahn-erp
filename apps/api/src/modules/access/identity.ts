@@ -1,4 +1,4 @@
-import type { IdentityConfig } from './config.js';
+import { identityAdminBase, type IdentityConfig } from './config.js';
 export interface IdentityIntent {
   username: string;
   name: string;
@@ -28,7 +28,7 @@ export class KeycloakIdentityAdapter {
   constructor(readonly config: IdentityConfig) {}
   private async call(path: string, token: string, method = 'GET', body?: unknown) {
     try {
-      return await fetch(this.config.issuer.replace('/realms/', '/admin/realms/') + path, {
+      return await fetch(identityAdminBase(this.config) + path, {
         method,
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         ...(body ? { body: JSON.stringify(body) } : {}),

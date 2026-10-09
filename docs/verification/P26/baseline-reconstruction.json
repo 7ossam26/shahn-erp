@@ -1,0 +1,268 @@
+{
+  "capturedAt": "2026-10-09T13:31:45.320Z",
+  "pin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+  "mode": "read-only reconstruction",
+  "method": "Recover each embedded LF/CRLF form only when its independent published source hash matches; the wrapper and complete bundle must then match the original manifest exactly.",
+  "semanticChange": false,
+  "baselineAdoption": false,
+  "files": [
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/planning-manifest.json",
+      "beforeBytes": 10325,
+      "beforeSha256": "ae2842ddf684f91b638d9c3fa2865badd1fa94b4e81286d58322fa2fa8c57072",
+      "publisherBytes": 10024,
+      "publisherSha256": "07a6a87a4a7b9720b6310a1dea2f66609a81de7a64237d653b37b74fe8a9a6d9",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": []
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/01-TAWSEL-CURRENT-BASELINE.md",
+      "beforeBytes": 7054,
+      "beforeSha256": "4de060c6b3045018e2dcca2799c19b5938c5f31a7afee2d834ad7a70fd95dfac",
+      "publisherBytes": 6995,
+      "publisherSha256": "e6f58645a3cfad5bd763d3ecf416bc5e96c2ab600f42abd2836398984c31806e",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": []
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/02-BUSINESS-BOUNDARY-AND-MAPPING.md",
+      "beforeBytes": 16077,
+      "beforeSha256": "26745cfb55304fa11e4458fe847530b92181fc3bc87c30d8b51283e41e264d31",
+      "publisherBytes": 15966,
+      "publisherSha256": "4417ef24c218c52b8d72edced0f25ee50e4559660d6a4052ffdab02e9fcb7232",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": []
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/03-CONNECTOR-AND-RECOVERY.md",
+      "beforeBytes": 15773,
+      "beforeSha256": "da6957ea8eb1109219c3379ca59f237666539a400debf53b547710a12023a34d",
+      "publisherBytes": 15647,
+      "publisherSha256": "48d3b4524a123c45a5575d13f71d959c9e29884c43324b1ccf7551d002528c0f",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": []
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/04-CANONICAL-HTTP.md",
+      "beforeBytes": 332758,
+      "beforeSha256": "9189168698486d9260ed9eb11b7d04f0309dd5073eafb20ec819669f0ae69822",
+      "publisherBytes": 332564,
+      "publisherSha256": "cc7a451ba4bacd38e4bbfd05d6ffecdd174cbde58a914458c0c1174c3bcabf65",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": [
+        {
+          "source": "contracts/openapi.yaml",
+          "bytes": 233705,
+          "sha256": "ceb8d0e127d55938439c0ff14c19ca096ebc58cb47b662057407eeb6de70736f"
+        },
+        {
+          "source": "contracts/operations.json",
+          "bytes": 74881,
+          "sha256": "b8c7943ad38d3c1365231e5a6e43494cb74b1cc4bd3637ea35f63cf58f7a7d3b"
+        }
+      ]
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/05-CANONICAL-SCHEMAS.md",
+      "beforeBytes": 473301,
+      "beforeSha256": "6afaef564f9d78f7aed95f1c077bdb56bcd6662eac48572402c06914ffcfbc08",
+      "publisherBytes": 467120,
+      "publisherSha256": "665cf8ccdd3297b9d017707fcad1c65e6b6ae824f049d1e1e71f34bdcbc429b0",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": [
+        {
+          "source": "contracts/action-envelope.v1.schema.json",
+          "bytes": 1916,
+          "sha256": "3e134a59e3cf8415df51800e84949db6f7ccf25c8b54e899f7f179f10f59cf56"
+        },
+        {
+          "source": "contracts/action-result.v1.schema.json",
+          "bytes": 1806,
+          "sha256": "b59e970270e82122f08c3017ad9aabb771de6592b10eec80ec75a2636c486426"
+        },
+        {
+          "source": "contracts/b2b-intake.schema.json",
+          "bytes": 28322,
+          "sha256": "133b951077bab6448f4c0b760543253c6225a588ec00bf4c5f9544fdf8b53d04"
+        },
+        {
+          "source": "contracts/b2c-intake.schema.json",
+          "bytes": 6614,
+          "sha256": "5c9cdea25786dc8656ce7a8ec874d073aede9446e4ed6c7a1b04bc7f0135197d"
+        },
+        {
+          "source": "contracts/branch-activity.schema.json",
+          "bytes": 6426,
+          "sha256": "b068d838956b603eb1e071e0c2fde2ad2a7abd7b32e3721262b68cf3e481c59b"
+        },
+        {
+          "source": "contracts/common.schema.json",
+          "bytes": 25877,
+          "sha256": "2379916f4108d10d8b1176819eaf8f998edb8bc20e951ef73622979a60a3df81"
+        },
+        {
+          "source": "contracts/consumer.schema.json",
+          "bytes": 12793,
+          "sha256": "cbff563ea8ea28a6af9f557e85bab0097c89a095d2cb6ca74e3d066d26352fe1"
+        },
+        {
+          "source": "contracts/corrections.schema.json",
+          "bytes": 10075,
+          "sha256": "6f44c84bd6adc1a39ee0d3f5c01c27f7d3041523c4295243f8672fbdff91aae6"
+        },
+        {
+          "source": "contracts/current-activity.schema.json",
+          "bytes": 28600,
+          "sha256": "7a471aaa12d404c886b4baa33061f0fe8fd908395c8c083bd602c77543444fa4"
+        },
+        {
+          "source": "contracts/device-ownership.schema.json",
+          "bytes": 15132,
+          "sha256": "4fadce037f2cae24b52cd35697623339a5d70ce85244312ff26af97c50cd42f3"
+        },
+        {
+          "source": "contracts/eligibility.schema.json",
+          "bytes": 19515,
+          "sha256": "15e474f47d2695d6d3794ed38a87750502e6402098494ef0f5a98aa5196ef089"
+        },
+        {
+          "source": "contracts/events/envelope.v1.schema.json",
+          "bytes": 3304,
+          "sha256": "d723d62d419e5fe20f896481df0d54ef6b94d8437d19f3057cc47f199eba7ccd"
+        },
+        {
+          "source": "contracts/events/sender-event.v1.schema.json",
+          "bytes": 14025,
+          "sha256": "cbce5b5128d8d2f5cf6c58668c989e6b403876531703921a16834dbcf9fb1f06"
+        },
+        {
+          "source": "contracts/evidence-receipt.v1.schema.json",
+          "bytes": 2200,
+          "sha256": "ee3d27729454cb915ff9f01fbac5ebb2d9a5c9ead0b1521357f05fb6cef71e9e"
+        },
+        {
+          "source": "contracts/local-work.schema.json",
+          "bytes": 6996,
+          "sha256": "8e3dac6fe46e12fbfcbe5b9a36c2dfd96fdfd7788e001a9c74399b67a831bd0b"
+        },
+        {
+          "source": "contracts/location.schema.json",
+          "bytes": 8478,
+          "sha256": "fdffb5d3be3b2dd413f32b8a574dd6ac4c3a882dc53aaefc0f6209dbc233333c"
+        },
+        {
+          "source": "contracts/monitoring.schema.json",
+          "bytes": 22099,
+          "sha256": "0fbf77e77b680b7efb5da297c7d313e3f315ebf7b76a630b732af842b6aea3f6"
+        },
+        {
+          "source": "contracts/outbox.schema.json",
+          "bytes": 17186,
+          "sha256": "acae29b68e9e267b2d1f495c6904880f421f3959684a3c14c8fa7c40f34bbf5b"
+        },
+        {
+          "source": "contracts/outcomes.schema.json",
+          "bytes": 30203,
+          "sha256": "909bfc5356faa2150077754845a4f83c7328fcfe58571254e701edeab1c72927"
+        },
+        {
+          "source": "contracts/planning.schema.json",
+          "bytes": 44862,
+          "sha256": "036bd75af7d42081afd48e6688f6bb14f9f840239d39be1c67d87aacace7f04e"
+        },
+        {
+          "source": "contracts/provisioning.schema.json",
+          "bytes": 36921,
+          "sha256": "a6fe07968bcc85452431ff858764fc934b740ee522ab968859dcd2a0da7679b8"
+        },
+        {
+          "source": "contracts/reporting.schema.json",
+          "bytes": 27051,
+          "sha256": "3a6cb386d62c2a25656f5ea5068c713cfef767a6185eb11f291a570b8f4c82d7"
+        },
+        {
+          "source": "contracts/returns.schema.json",
+          "bytes": 22682,
+          "sha256": "4f2c517fb110241dc841addab69b74aead712b5604cd642138ce1473d8f6949f"
+        },
+        {
+          "source": "contracts/round-start.schema.json",
+          "bytes": 11580,
+          "sha256": "86f030f677de2adfa1dce5dea1d8a5391c70dc2c3d86b7d346039380f94e629b"
+        },
+        {
+          "source": "contracts/routing.schema.json",
+          "bytes": 13403,
+          "sha256": "164fe51675a27b82b1ff6cba92c88a4a768bbbe3406cb50a549343e6a340e793"
+        },
+        {
+          "source": "contracts/session.schema.json",
+          "bytes": 3865,
+          "sha256": "4e36e094d482ff40e7964733fce8c30433b61844234b786b863de378470d2684"
+        },
+        {
+          "source": "contracts/source.schema.json",
+          "bytes": 5872,
+          "sha256": "a715ce999fdca0d7dff7cef0877f65ac6b9a6fc4813fc1341978c83b4e529ae3"
+        },
+        {
+          "source": "contracts/sync.schema.json",
+          "bytes": 3806,
+          "sha256": "d5e8884719dade7563fa2cdc69bbe5845ae58849c7eb4ae38661d6dd1a8fb977"
+        },
+        {
+          "source": "contracts/workday-closure.schema.json",
+          "bytes": 23711,
+          "sha256": "fd695fffc90989241c77157deaa758203c9d0b8d0b7cc5a90ac55f9e9cfb9c68"
+        }
+      ]
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/06-CANONICAL-EXAMPLES.md",
+      "beforeBytes": 708843,
+      "beforeSha256": "e11ce0fcb2623a8e5d5ec276fde6807625e20a604d1b07fbc74926193b1dcb4f",
+      "publisherBytes": 708357,
+      "publisherSha256": "5768bd51f98040882944ccff8b14d975c40ac867103ea0494a0d5737854a84d9",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": [
+        {
+          "source": "contracts/examples/invalid.json",
+          "bytes": 225344,
+          "sha256": "3234326d04ff99b777232ac833bed319ad08158e18653016d34243ce6c2b8827"
+        },
+        {
+          "source": "contracts/examples/README.md",
+          "bytes": 12733,
+          "sha256": "3a3a748a4d5f9298f2f03ee46270da31258c27cea582ff8b787d31af733e85e7"
+        },
+        {
+          "source": "contracts/examples/valid.json",
+          "bytes": 429233,
+          "sha256": "30e2b0b097903a8394a1d80aa380b450beb6d20e2591b8d49b3bdf12ffde1da7"
+        },
+        {
+          "source": "contracts/examples/webhook-signature.v1.json",
+          "bytes": 3068,
+          "sha256": "dd11d4d8427895e2c58a26665890c0031a39023f46246e0bd36d1efc5ccf63df"
+        }
+      ]
+    },
+    {
+      "path": "docs/integration/tawsel-baseline/32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada/07-ERP-DISCOVERY-AND-CHANGE-CONTROL.md",
+      "beforeBytes": 11370,
+      "beforeSha256": "8fa6b516e9f123e4813ca1be99ca5ac15a1a0fe876b48bc48615c6be137582a4",
+      "publisherBytes": 11274,
+      "publisherSha256": "d16aae2692abf0626c3f4fbddb256d28441b94547339a3b150365cf33d4aa633",
+      "originallyMatched": false,
+      "currentRawBytesMatchPublisher": false,
+      "blocks": []
+    }
+  ]
+}

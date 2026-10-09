@@ -1,4 +1,4 @@
-export { identityConfig, type IdentityConfig } from './config.js';
+export { identityConfig, identityAdminBase, type IdentityConfig } from './config.js';
 export { AccessRepository } from './repository.js';
 export { KeycloakIdentityAdapter, IssuerFailure } from './identity.js';
 export { IdentityWorker } from './worker.js';

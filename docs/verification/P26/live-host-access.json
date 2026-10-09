@@ -1,0 +1,45 @@
+{
+  "capturedAt": "2026-10-09T13:32:21.099535Z",
+  "evidenceKind": "actual-ssh-and-http",
+  "scope": "Owner supplied host access for the P26 continuation. Read-only service/configuration metadata inspection; no deployment, restart, Tawsel code/database edit or credential value printed.",
+  "ssh": { "host": "187.77.170.182", "hostname": "srv1728434", "connected": true, "os": "Ubuntu 24.04.4 LTS", "kernel": "6.8.0-111-generic" },
+  "tawselImage": "ghcr.io/7ossam26/tawsel-runtime@sha256:5ed185887f47cf66fcd01d8dd1acaa508d0ae5f6697551e82083994b8760b271",
+  "issuerImage": "ghcr.io/7ossam26/tawsel-issuer@sha256:8fde824f20b681f61a5ff77a2357d28fbfcffa8890b975354897f13201538cd45",
+  "services": [
+    { "name": "app-reboot-open-source-port-yzf61j", "role": "API", "replicas": "1/1" },
+    { "name": "app-compress-optical-program-xz8ugn", "role": "outbox worker", "replicas": "1/1" },
+    { "name": "app-compress-multi-byte-card-ujg9oy", "role": "provisioning worker", "replicas": "1/1" },
+    { "name": "app-copy-virtual-circuit-83h9mz", "role": "issuer", "replicas": "1/1" }
+  ],
+  "http": [
+    { "url": "https://app.switch2tech.cloud/", "status": 200 },
+    { "url": "https://auth.switch2tech.cloud/realms/tawsel-company/.well-known/openid-configuration", "status": 200, "issuer": "https://auth.switch2tech.cloud/realms/tawsel-company" },
+    { "url": "https://app.switch2tech.cloud/api/v1/provisioning/configuration", "status": 401, "credentialUsed": false, "meaning": "Actual scoped service authentication remains required; root access is not a source-service bearer." },
+    { "url": "https://app.switch2tech.cloud/api/p22-acceptance/health", "status": 200, "meaning": "Nginx static bridge health only; does not prove ERP receiver reachability." },
+    { "url": "https://app.switch2tech.cloud/api/p22-acceptance/api/v1/readiness", "status": 404, "meaning": "Bridge routes do not expose ERP readiness." },
+    { "url": "http://127.0.0.1:24481/api/v1/readiness", "result": "connection unavailable", "observedOn": "remote host", "listenerAt24481": false }
+  ],
+  "runtimeConfiguration": {
+    "path": "/etc/dokploy/applications/app-reboot-open-source-port-yzf61j/files/runtime.env",
+    "bytes": 995,
+    "sha256": "dd9fcdedece81287cbc491bdd05d1edd0ece30f61677e87c1f489b1ff6c30326",
+    "operatorConfigured": false,
+    "modified": false
+  },
+  "retainedTestTransport": {
+    "tenantId": "771dfff0-e9bb-4e60-bf1a-73c1e668658b",
+    "integrationId": "b9bf8e77-c620-4a46-bb55-7205cba0f6a5",
+    "callbackUrl": "https://app.switch2tech.cloud/api/p22-acceptance/api/v1/consumer/events",
+    "signingSelectors": ["p22-live", "p22-live-next"],
+    "secretsReadToOutput": false,
+    "oldRemoteSetupFilesPresent": true,
+    "oldLocalCredentialTrialDirectoryPresent": false,
+    "oldLocalTrialDatabaseReferenceAvailable": false
+  },
+  "limits": [
+    "No successful scoped source configuration read, issuer login, actual callback or connected financial journey is claimed.",
+    "No Tawsel/issuer tables were queried. Docker credentials and retained configuration values were not exported.",
+    "Root and Dokploy credentials were not written into repository files or evidence. SSH was used directly; the supplied Dokploy token was not needed.",
+    "P25 operations acceptance remains incomplete independently of host reachability."
+  ]
+}
