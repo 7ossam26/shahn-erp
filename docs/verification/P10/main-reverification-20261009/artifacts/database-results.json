@@ -1,0 +1,244 @@
+{
+  "upgrade": {
+    "retainedJournalRows": 1,
+    "migrations": [
+      "0001_foundation",
+      "0002_access",
+      "0003_access_result_error",
+      "0004_kernel",
+      "0005_kernel_allocation_guards",
+      "0006_work_generated_identity",
+      "0007_kernel_guards",
+      "0008_brands_pricing",
+      "0009_p05_products_stock",
+      "0010_p06_parcel_intake",
+      "0011_p07_stock_fulfillment",
+      "0012_p08_employee_terms",
+      "0013_p09_accounts_expenses",
+      "0014_p10_treasury_transfers",
+      "0015_p11_integration",
+      "0016_p12_dispatch",
+      "0017_p13_execution",
+      "0018_p14_returns",
+      "0019_p15_goods_transfers",
+      "0020_p16_remittances",
+      "0021_p17_brand_payouts",
+      "0022_p18_incidents",
+      "0023_p19_storage",
+      "0024_p20_payroll",
+      "0025_p21_settlements",
+      "0026_p22_recovery",
+      "0027_p23_reporting",
+      "0028_p24_profit_read_indexes"
+    ]
+  },
+  "A01": {
+    "totals": {
+      "accounts": "70000",
+      "transit": "30000",
+      "profitFacts": 0
+    },
+    "transfer": {
+      "id": "be4b6bdd-3d13-4d86-875a-bb81ce039673",
+      "state": "sent",
+      "history": [
+        {
+          "phase": "send",
+          "actorId": "07dbd51e-8462-48c8-8547-1273c813a801",
+          "actualAt": "2026-09-01T10:00:00+00:00",
+          "effectId": "bd4e830e-6b66-40ec-98bc-d733e91fcd95",
+          "sourceId": "39364744-1497-4e6b-b76b-57313bf8c49d",
+          "actorName": "staff-a",
+          "transitId": "4bff0b8d-460c-46f6-a987-d70c4b4d034d",
+          "movementId": "200b6246-4642-413e-b509-8f059302a25f",
+          "recordedAt": "2026-10-09T02:34:59.030257+00:00",
+          "commandRecordId": "2dcad0eb-cb42-496f-a283-c4066a0ff3a5"
+        }
+      ],
+      "receipt": null,
+      "version": 1,
+      "currency": "EGP",
+      "senderId": "07dbd51e-8462-48c8-8547-1273c813a801",
+      "reference": "1",
+      "recordedAt": "2026-10-09T02:34:59.030974+00:00",
+      "senderName": "staff-a",
+      "amountMinor": "30000",
+      "actualSentAt": "2026-09-01T10:00:00+00:00",
+      "transitMinor": "30000",
+      "sourceBranchId": "4a4c2827-3fa9-4761-9eaa-01821030a2ae",
+      "sourceAccountId": "cef13384-4ebe-4c94-910a-52f6bb399128",
+      "sourceBranchName": "الفرع أ",
+      "sourceAccountName": "P10 خزينة أ — الأموال الفعلية المرسلة بين الفروع",
+      "destinationBranchId": "b1f79cef-eebd-4bd7-a658-ea34c80892bb",
+      "destinationAccountId": "bb2cae93-773e-46c9-8f30-8a8a1aeb2509",
+      "destinationBranchName": "الفرع ب",
+      "destinationAccountName": "P09 خزينة ب"
+    }
+  },
+  "A01Journal": {
+    "source": "70000",
+    "destination": "0",
+    "transit": "30000"
+  },
+  "A02": {
+    "totals": {
+      "accounts": "100000",
+      "transit": "0",
+      "profitFacts": 0
+    },
+    "transfer": {
+      "id": "be4b6bdd-3d13-4d86-875a-bb81ce039673",
+      "state": "received",
+      "history": [
+        {
+          "phase": "send",
+          "actorId": "07dbd51e-8462-48c8-8547-1273c813a801",
+          "actualAt": "2026-09-01T10:00:00+00:00",
+          "effectId": "bd4e830e-6b66-40ec-98bc-d733e91fcd95",
+          "sourceId": "39364744-1497-4e6b-b76b-57313bf8c49d",
+          "actorName": "staff-a",
+          "transitId": "4bff0b8d-460c-46f6-a987-d70c4b4d034d",
+          "movementId": "200b6246-4642-413e-b509-8f059302a25f",
+          "recordedAt": "2026-10-09T02:34:59.030257+00:00",
+          "commandRecordId": "2dcad0eb-cb42-496f-a283-c4066a0ff3a5"
+        },
+        {
+          "phase": "receive",
+          "actorId": "f889204d-788a-4d50-bd2c-c6bdc9843a27",
+          "actualAt": "2026-09-01T11:00:00+00:00",
+          "effectId": "4bdf3286-d3a7-4d6d-b257-4614de055bac",
+          "sourceId": "2a300318-8039-4d27-8d78-25d4326b3b26",
+          "actorName": "staff-b",
+          "transitId": "dd616032-6802-46bb-b5be-9d9b2781012a",
+          "movementId": "b025b942-e4d6-4eb2-a5b2-478ed36fe178",
+          "recordedAt": "2026-10-09T02:34:59.10201+00:00",
+          "commandRecordId": "ca8c4ea9-3696-4077-a769-1499cde263a2"
+        }
+      ],
+      "receipt": {
+        "receiverId": "f889204d-788a-4d50-bd2c-c6bdc9843a27",
+        "recordedAt": "2026-10-09T02:34:59.102672+00:00",
+        "receiverName": "staff-b",
+        "actualReceivedAt": "2026-09-01T11:00:00+00:00"
+      },
+      "version": 2,
+      "currency": "EGP",
+      "senderId": "07dbd51e-8462-48c8-8547-1273c813a801",
+      "reference": "1",
+      "recordedAt": "2026-10-09T02:34:59.030974+00:00",
+      "senderName": "staff-a",
+      "amountMinor": "30000",
+      "actualSentAt": "2026-09-01T10:00:00+00:00",
+      "transitMinor": "0",
+      "sourceBranchId": "4a4c2827-3fa9-4761-9eaa-01821030a2ae",
+      "sourceAccountId": "cef13384-4ebe-4c94-910a-52f6bb399128",
+      "sourceBranchName": "الفرع أ",
+      "sourceAccountName": "P10 خزينة أ — الأموال الفعلية المرسلة بين الفروع",
+      "destinationBranchId": "b1f79cef-eebd-4bd7-a658-ea34c80892bb",
+      "destinationAccountId": "bb2cae93-773e-46c9-8f30-8a8a1aeb2509",
+      "destinationBranchName": "الفرع ب",
+      "destinationAccountName": "P09 خزينة ب"
+    }
+  },
+  "A02Journal": {
+    "source": "70000",
+    "destination": "30000",
+    "transit": "0"
+  },
+  "A03": {
+    "waiting": true,
+    "results": [
+      {
+        "commandId": "c54a3fd1-6e71-4515-876e-857bbdaa19dd",
+        "transferId": "2ce20032-1226-40bd-851c-54f11dc03701",
+        "state": "received",
+        "version": 2,
+        "outcome": "received"
+      },
+      {
+        "commandId": "c0ac4d92-d9e2-4a7c-a410-da51625c3cc6",
+        "transferId": "2ce20032-1226-40bd-851c-54f11dc03701",
+        "version": 2,
+        "state": "received",
+        "outcome": "already_received"
+      }
+    ]
+  },
+  "race-send": {
+    "waiting": true,
+    "sourceMinor": "30000"
+  },
+  "race-withdrawal": {
+    "waiting": true,
+    "sourceMinor": "30000"
+  },
+  "A04": {
+    "waiting": true,
+    "sourceMinor": "30000",
+    "transitMinor": "70000"
+  },
+  "A08": {
+    "beforeExit": 74,
+    "afterExit": 73,
+    "recovered": {
+      "state": "received",
+      "outcome": "received",
+      "version": 2,
+      "commandId": "16ffb3c6-6c09-41a2-987c-8d5e1f283222",
+      "transferId": "a0fe0b81-1edf-4282-8e7f-cc9222e605a3"
+    },
+    "transfer": {
+      "id": "a0fe0b81-1edf-4282-8e7f-cc9222e605a3",
+      "state": "received",
+      "history": [
+        {
+          "phase": "send",
+          "actorId": "07dbd51e-8462-48c8-8547-1273c813a801",
+          "actualAt": "2026-09-01T10:00:00+00:00",
+          "effectId": "d056e266-1e59-4d2b-999c-0601de9055e3",
+          "sourceId": "0b4822e4-3f90-44ec-95bc-e76c4ec882bd",
+          "actorName": "staff-a",
+          "transitId": "4667247a-762d-48e4-b5ac-2dbebcd642bb",
+          "movementId": "9e0c42da-f142-4a9b-b166-25a62ea704b1",
+          "recordedAt": "2026-10-09T02:35:00.727307+00:00",
+          "commandRecordId": "035aa551-3200-44b4-9883-54a07ef5000a"
+        },
+        {
+          "phase": "receive",
+          "actorId": "f889204d-788a-4d50-bd2c-c6bdc9843a27",
+          "actualAt": "2026-09-01T11:00:00+00:00",
+          "effectId": "fa87ac06-d7f7-4623-a313-75ad75c9e4d9",
+          "sourceId": "71e26935-182c-4013-87a7-298b648e77d2",
+          "actorName": "staff-b",
+          "transitId": "149ad015-c644-486a-9716-d242c83d129a",
+          "movementId": "79276387-a6bb-433c-b980-af0f1c3c18df",
+          "recordedAt": "2026-10-09T02:35:16.841294+00:00",
+          "commandRecordId": "0a7e7cf6-7b56-4c23-b38c-a1ee0394488c"
+        }
+      ],
+      "receipt": {
+        "receiverId": "f889204d-788a-4d50-bd2c-c6bdc9843a27",
+        "recordedAt": "2026-10-09T02:35:16.842188+00:00",
+        "receiverName": "staff-b",
+        "actualReceivedAt": "2026-09-01T11:00:00+00:00"
+      },
+      "version": 2,
+      "currency": "EGP",
+      "senderId": "07dbd51e-8462-48c8-8547-1273c813a801",
+      "reference": "19",
+      "recordedAt": "2026-10-09T02:35:00.727895+00:00",
+      "senderName": "staff-a",
+      "amountMinor": "100",
+      "actualSentAt": "2026-09-01T10:00:00+00:00",
+      "transitMinor": "0",
+      "sourceBranchId": "4a4c2827-3fa9-4761-9eaa-01821030a2ae",
+      "sourceAccountId": "cef13384-4ebe-4c94-910a-52f6bb399128",
+      "sourceBranchName": "الفرع أ",
+      "sourceAccountName": "P10 خزينة أ — الأموال الفعلية المرسلة بين الفروع",
+      "destinationBranchId": "b1f79cef-eebd-4bd7-a658-ea34c80892bb",
+      "destinationAccountId": "bb2cae93-773e-46c9-8f30-8a8a1aeb2509",
+      "destinationBranchName": "الفرع ب",
+      "destinationAccountName": "P09 خزينة ب"
+    }
+  }
+}

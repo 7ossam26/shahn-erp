@@ -1,0 +1,71 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P10
+P10 unit: test:unit; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 13ms
+
+ Test Files  1 passed (1)
+      Tests  16 passed (16)
+   Start at  05:33:25
+   Duration  51.17s (environment 53%, setup 30%, import 12%, transform 5%)
+
+P10 unit: PASSED
+P10 database: test:db; 1 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/ahmed/OneDrive/Документы/ChatGPT/shahn-erp
+
+ ✓ tests/db/treasury-transfers.test.ts (22 tests) 36415ms
+   ✓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 21400ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  05:34:17
+   Duration  67.81s (tests 54%, import 43%, transform 3%)
+
+P10 database: PASSED
+P10 browser: test:p10:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2762 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Dd0tqwgS.css                          117.88 kB │ gzip:  22.55 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-Cs5avm9V.js                           987.73 kB │ gzip: 218.53 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.99s
+[WebServer] (node:26452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:31596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\p10\treasury.spec.ts:40:1 › sender assigned C sends300 A→B; pending persists after reload, conservation and responsive reviewed screens (6.6s)
+  ok 2 tests\p10\treasury.spec.ts:91:1 › receiver assigned C sees full fixed300; dropped committed response reloads/recover once with exact timeline (4.3s)
+  ok 3 tests\p10\treasury.spec.ts:167:1 › insufficient800 retains inputs, focuses rejection; stale destination needs refresh and re-review (3.0s)
+  ok 4 tests\p10\treasury.spec.ts:191:1 › pending and received filters combine, Arabic reference search, detail/back retention and reset on mobile (2.0s)
+  ok 5 tests\p10\treasury.spec.ts:218:1 › connection loss before commit preserves original intent; unknown lookup replays same command and same person can receive (4.0s)
+  ok 6 tests\p10\treasury.spec.ts:246:1 › receiver expense in unassigned B and general account history stay denied; closed partial API creates no effects (2.4s)
+
+  6 passed (1.1m)
+P10 browser: PASSED
+P10 publicIntegration: NOT APPLICABLE — P10 records local staff assertions with committed PostgreSQL/native HTTP/process/browser evidence. No bank API, external payment or Tawsel integration is part of treasury transfer.
+P10: all required layers passed
