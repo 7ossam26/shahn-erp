@@ -1,0 +1,8 @@
+npm notice run shahn-erp@0.1.0 lint
+npm notice run eslint apps packages tests scripts && prettier --check apps packages tests scripts *.json *.mjs .env.example deploy/compose.dev.yml
+Checking formatting...
+[warn] apps/api/src/modules/reporting/http.ts
+[warn] apps/api/src/modules/reporting/profit-read.ts
+[warn] tests/integration/p24/fixtures.ts
+[warn] tests/integration/p24/profit.db.test.ts
+[warn] Code style issues found in 4 files. Run Prettier with --write to fix.

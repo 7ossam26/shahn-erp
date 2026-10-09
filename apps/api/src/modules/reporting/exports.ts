@@ -11,7 +11,7 @@ import {
 import { CommandService } from '../kernel/commands.js';
 import { DurableWork, lockLease, type Lease } from '../kernel/work.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
-import { authorizedSnapshot, snapshotRows } from './service.js';
+import { authorizedExportSnapshot as authorizedSnapshot, snapshotRows } from './service.js';
 import { renderPdf, renderXlsx } from './render.js';
 
 export const exportRegistry = [{ kind: 'report.export', lane: 'export' as const }];

@@ -45,6 +45,7 @@
                               "REP-10",
                               "REP-12",
                               "REP-14",
+                              "REP-15",
                               "REP-18"
                             ]
                           },
@@ -420,6 +421,7 @@
                       "REP-10",
                       "REP-12",
                       "REP-14",
+                      "REP-15",
                       "REP-18"
                     ]
                   },
@@ -522,6 +524,11 @@
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
+                    "filteredTotalRows": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
                     "snapshot": {
                       "type": "object",
                       "additionalProperties": false,
@@ -537,6 +544,7 @@
                             "REP-10",
                             "REP-12",
                             "REP-14",
+                            "REP-15",
                             "REP-18"
                           ]
                         },
@@ -665,6 +673,327 @@
                           "type": "object",
                           "additionalProperties": false,
                           "properties": {
+                            "profit": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "profitMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "categories": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "category": {
+                                        "enum": [
+                                          "shipping_gross",
+                                          "shipping_waiver",
+                                          "storage_revenue",
+                                          "employee_salary",
+                                          "employee_commission",
+                                          "employee_addition",
+                                          "employee_entitlement_deduction",
+                                          "paid_expense",
+                                          "brand_compensation",
+                                          "employee_compensation_share"
+                                        ]
+                                      },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "sourceCount": { "type": "integer", "minimum": 0 }
+                                    },
+                                    "required": ["category", "amountMinor", "sourceCount"]
+                                  }
+                                },
+                                "branches": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                      "branchName": { "type": "string" },
+                                      "profitMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      }
+                                    },
+                                    "required": ["branchId", "branchName", "profitMinor"]
+                                  }
+                                },
+                                "shipping": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "grossMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "waiverMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "netMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": ["grossMinor", "waiverMinor", "netMinor"]
+                                },
+                                "payroll": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "salaryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "commissionMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "additionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "entitlementDeductionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "employeeCostMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "advanceRecoveryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "incidentRecoveryWithheldMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "payoutMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": [
+                                    "salaryMinor",
+                                    "commissionMinor",
+                                    "additionsMinor",
+                                    "entitlementDeductionsMinor",
+                                    "employeeCostMinor",
+                                    "advanceRecoveryMinor",
+                                    "incidentRecoveryWithheldMinor",
+                                    "payoutMinor"
+                                  ]
+                                },
+                                "laterEntryCount": { "type": "integer", "minimum": 0 },
+                                "calculationComplete": { "type": "boolean" },
+                                "limitations": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "profitMinor",
+                                "categories",
+                                "branches",
+                                "shipping",
+                                "payroll",
+                                "laterEntryCount",
+                                "calculationComplete",
+                                "limitations"
+                              ]
+                            },
+                            "actualMoney": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "asOf": { "type": "string", "format": "date-time" },
+                                "dateBasis": { "const": "current" },
+                                "accounts": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "name": { "type": "string" },
+                                      "type": { "type": "string" },
+                                      "bookMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "journalMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "heldMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "availableMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "projectionVersion": { "type": "string" }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "type",
+                                      "bookMinor",
+                                      "journalMinor",
+                                      "heldMinor",
+                                      "availableMinor",
+                                      "projectionVersion"
+                                    ]
+                                  }
+                                },
+                                "fundsInTransitMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "heldDiscrepanciesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "unremittedRecipientMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandLiabilitiesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandPendingMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandHeldMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageDueMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageCreditMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "notes": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "asOf",
+                                "dateBasis",
+                                "accounts",
+                                "fundsInTransitMinor",
+                                "heldDiscrepanciesMinor",
+                                "unremittedRecipientMinor",
+                                "brandLiabilitiesMinor",
+                                "brandPendingMinor",
+                                "brandHeldMinor",
+                                "storageDueMinor",
+                                "storageCreditMinor",
+                                "notes"
+                              ]
+                            },
+                            "sourceIssues": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "code": { "type": "string" },
+                                  "targetKind": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "effectiveDate": { "type": ["string", "null"], "format": "date" },
+                                  "recordedAt": {
+                                    "type": ["string", "null"],
+                                    "format": "date-time"
+                                  },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" },
+                                  "sourcePath": { "type": ["string", "null"] }
+                                },
+                                "required": [
+                                  "code",
+                                  "targetKind",
+                                  "targetId",
+                                  "branchId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "deltaMinor",
+                                  "effectiveDate",
+                                  "recordedAt",
+                                  "message",
+                                  "sourceCapability",
+                                  "sourcePath"
+                                ]
+                              }
+                            },
+                            "reconciliation": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "kind": { "type": "string" },
+                                  "targetType": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "expectedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "asOf": { "type": "string", "format": "date-time" },
+                                  "branchIds": {
+                                    "type": "array",
+                                    "items": { "type": "string", "format": "uuid" }
+                                  },
+                                  "recoveryPath": { "type": ["string", "null"] },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "targetType",
+                                  "targetId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "expectedMinor",
+                                  "observedMinor",
+                                  "deltaMinor",
+                                  "asOf",
+                                  "branchIds",
+                                  "recoveryPath",
+                                  "message",
+                                  "sourceCapability"
+                                ]
+                              }
+                            },
                             "walletScope": { "type": "string" },
                             "period": { "type": "string" },
                             "openingByBrand": {
@@ -925,6 +1254,65 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "ordinal": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "economicEffect": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "companyId": { "type": "string", "format": "uuid" },
+                              "sourceId": { "type": "string" },
+                              "effectId": { "type": "string" },
+                              "category": {
+                                "enum": [
+                                  "shipping_gross",
+                                  "shipping_waiver",
+                                  "storage_revenue",
+                                  "employee_salary",
+                                  "employee_commission",
+                                  "employee_addition",
+                                  "employee_entitlement_deduction",
+                                  "paid_expense",
+                                  "brand_compensation",
+                                  "employee_compensation_share"
+                                ]
+                              },
+                              "amountMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                              "effectiveDate": { "type": "string", "format": "date" },
+                              "recordedAt": { "type": "string", "format": "date-time" },
+                              "historicalBranchId": {
+                                "type": ["string", "null"],
+                                "format": "uuid"
+                              },
+                              "postingBatchId": { "type": ["string", "null"] },
+                              "correctionOf": { "type": "array", "items": { "type": "string" } },
+                              "revision": { "type": "string" },
+                              "sourceCapability": { "type": "string" },
+                              "sourcePath": { "type": ["string", "null"] },
+                              "shipmentId": { "type": "string", "format": "uuid" },
+                              "periodId": { "type": "string" },
+                              "employeeId": { "type": "string", "format": "uuid" },
+                              "incidentId": { "type": "string", "format": "uuid" }
+                            },
+                            "required": [
+                              "companyId",
+                              "sourceId",
+                              "effectId",
+                              "category",
+                              "amountMinor",
+                              "effectiveDate",
+                              "recordedAt",
+                              "historicalBranchId",
+                              "postingBatchId",
+                              "correctionOf",
+                              "revision",
+                              "sourceCapability",
+                              "sourcePath"
+                            ]
+                          },
                           "id": { "type": "string" },
                           "values": {
                             "type": "object",
@@ -1251,6 +1639,11 @@
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
+                    "filteredTotalRows": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
                     "snapshot": {
                       "type": "object",
                       "additionalProperties": false,
@@ -1266,6 +1659,7 @@
                             "REP-10",
                             "REP-12",
                             "REP-14",
+                            "REP-15",
                             "REP-18"
                           ]
                         },
@@ -1394,6 +1788,327 @@
                           "type": "object",
                           "additionalProperties": false,
                           "properties": {
+                            "profit": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "profitMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "categories": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "category": {
+                                        "enum": [
+                                          "shipping_gross",
+                                          "shipping_waiver",
+                                          "storage_revenue",
+                                          "employee_salary",
+                                          "employee_commission",
+                                          "employee_addition",
+                                          "employee_entitlement_deduction",
+                                          "paid_expense",
+                                          "brand_compensation",
+                                          "employee_compensation_share"
+                                        ]
+                                      },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "sourceCount": { "type": "integer", "minimum": 0 }
+                                    },
+                                    "required": ["category", "amountMinor", "sourceCount"]
+                                  }
+                                },
+                                "branches": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                      "branchName": { "type": "string" },
+                                      "profitMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      }
+                                    },
+                                    "required": ["branchId", "branchName", "profitMinor"]
+                                  }
+                                },
+                                "shipping": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "grossMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "waiverMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "netMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": ["grossMinor", "waiverMinor", "netMinor"]
+                                },
+                                "payroll": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "salaryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "commissionMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "additionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "entitlementDeductionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "employeeCostMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "advanceRecoveryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "incidentRecoveryWithheldMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "payoutMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": [
+                                    "salaryMinor",
+                                    "commissionMinor",
+                                    "additionsMinor",
+                                    "entitlementDeductionsMinor",
+                                    "employeeCostMinor",
+                                    "advanceRecoveryMinor",
+                                    "incidentRecoveryWithheldMinor",
+                                    "payoutMinor"
+                                  ]
+                                },
+                                "laterEntryCount": { "type": "integer", "minimum": 0 },
+                                "calculationComplete": { "type": "boolean" },
+                                "limitations": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "profitMinor",
+                                "categories",
+                                "branches",
+                                "shipping",
+                                "payroll",
+                                "laterEntryCount",
+                                "calculationComplete",
+                                "limitations"
+                              ]
+                            },
+                            "actualMoney": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "asOf": { "type": "string", "format": "date-time" },
+                                "dateBasis": { "const": "current" },
+                                "accounts": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "name": { "type": "string" },
+                                      "type": { "type": "string" },
+                                      "bookMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "journalMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "heldMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "availableMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "projectionVersion": { "type": "string" }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "type",
+                                      "bookMinor",
+                                      "journalMinor",
+                                      "heldMinor",
+                                      "availableMinor",
+                                      "projectionVersion"
+                                    ]
+                                  }
+                                },
+                                "fundsInTransitMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "heldDiscrepanciesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "unremittedRecipientMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandLiabilitiesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandPendingMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandHeldMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageDueMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageCreditMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "notes": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "asOf",
+                                "dateBasis",
+                                "accounts",
+                                "fundsInTransitMinor",
+                                "heldDiscrepanciesMinor",
+                                "unremittedRecipientMinor",
+                                "brandLiabilitiesMinor",
+                                "brandPendingMinor",
+                                "brandHeldMinor",
+                                "storageDueMinor",
+                                "storageCreditMinor",
+                                "notes"
+                              ]
+                            },
+                            "sourceIssues": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "code": { "type": "string" },
+                                  "targetKind": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "effectiveDate": { "type": ["string", "null"], "format": "date" },
+                                  "recordedAt": {
+                                    "type": ["string", "null"],
+                                    "format": "date-time"
+                                  },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" },
+                                  "sourcePath": { "type": ["string", "null"] }
+                                },
+                                "required": [
+                                  "code",
+                                  "targetKind",
+                                  "targetId",
+                                  "branchId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "deltaMinor",
+                                  "effectiveDate",
+                                  "recordedAt",
+                                  "message",
+                                  "sourceCapability",
+                                  "sourcePath"
+                                ]
+                              }
+                            },
+                            "reconciliation": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "kind": { "type": "string" },
+                                  "targetType": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "expectedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "asOf": { "type": "string", "format": "date-time" },
+                                  "branchIds": {
+                                    "type": "array",
+                                    "items": { "type": "string", "format": "uuid" }
+                                  },
+                                  "recoveryPath": { "type": ["string", "null"] },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "targetType",
+                                  "targetId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "expectedMinor",
+                                  "observedMinor",
+                                  "deltaMinor",
+                                  "asOf",
+                                  "branchIds",
+                                  "recoveryPath",
+                                  "message",
+                                  "sourceCapability"
+                                ]
+                              }
+                            },
                             "walletScope": { "type": "string" },
                             "period": { "type": "string" },
                             "openingByBrand": {
@@ -1654,6 +2369,65 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                          "ordinal": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "economicEffect": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "companyId": { "type": "string", "format": "uuid" },
+                              "sourceId": { "type": "string" },
+                              "effectId": { "type": "string" },
+                              "category": {
+                                "enum": [
+                                  "shipping_gross",
+                                  "shipping_waiver",
+                                  "storage_revenue",
+                                  "employee_salary",
+                                  "employee_commission",
+                                  "employee_addition",
+                                  "employee_entitlement_deduction",
+                                  "paid_expense",
+                                  "brand_compensation",
+                                  "employee_compensation_share"
+                                ]
+                              },
+                              "amountMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                              "effectiveDate": { "type": "string", "format": "date" },
+                              "recordedAt": { "type": "string", "format": "date-time" },
+                              "historicalBranchId": {
+                                "type": ["string", "null"],
+                                "format": "uuid"
+                              },
+                              "postingBatchId": { "type": ["string", "null"] },
+                              "correctionOf": { "type": "array", "items": { "type": "string" } },
+                              "revision": { "type": "string" },
+                              "sourceCapability": { "type": "string" },
+                              "sourcePath": { "type": ["string", "null"] },
+                              "shipmentId": { "type": "string", "format": "uuid" },
+                              "periodId": { "type": "string" },
+                              "employeeId": { "type": "string", "format": "uuid" },
+                              "incidentId": { "type": "string", "format": "uuid" }
+                            },
+                            "required": [
+                              "companyId",
+                              "sourceId",
+                              "effectId",
+                              "category",
+                              "amountMinor",
+                              "effectiveDate",
+                              "recordedAt",
+                              "historicalBranchId",
+                              "postingBatchId",
+                              "correctionOf",
+                              "revision",
+                              "sourceCapability",
+                              "sourcePath"
+                            ]
+                          },
                           "id": { "type": "string" },
                           "values": {
                             "type": "object",
@@ -1979,6 +2753,58 @@
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
+                    "ordinal": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "economicEffect": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "companyId": { "type": "string", "format": "uuid" },
+                        "sourceId": { "type": "string" },
+                        "effectId": { "type": "string" },
+                        "category": {
+                          "enum": [
+                            "shipping_gross",
+                            "shipping_waiver",
+                            "storage_revenue",
+                            "employee_salary",
+                            "employee_commission",
+                            "employee_addition",
+                            "employee_entitlement_deduction",
+                            "paid_expense",
+                            "brand_compensation",
+                            "employee_compensation_share"
+                          ]
+                        },
+                        "amountMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                        "effectiveDate": { "type": "string", "format": "date" },
+                        "recordedAt": { "type": "string", "format": "date-time" },
+                        "historicalBranchId": { "type": ["string", "null"], "format": "uuid" },
+                        "postingBatchId": { "type": ["string", "null"] },
+                        "correctionOf": { "type": "array", "items": { "type": "string" } },
+                        "revision": { "type": "string" },
+                        "sourceCapability": { "type": "string" },
+                        "sourcePath": { "type": ["string", "null"] },
+                        "shipmentId": { "type": "string", "format": "uuid" },
+                        "periodId": { "type": "string" },
+                        "employeeId": { "type": "string", "format": "uuid" },
+                        "incidentId": { "type": "string", "format": "uuid" }
+                      },
+                      "required": [
+                        "companyId",
+                        "sourceId",
+                        "effectId",
+                        "category",
+                        "amountMinor",
+                        "effectiveDate",
+                        "recordedAt",
+                        "historicalBranchId",
+                        "postingBatchId",
+                        "correctionOf",
+                        "revision",
+                        "sourceCapability",
+                        "sourcePath"
+                      ]
+                    },
                     "id": { "type": "string" },
                     "values": {
                       "type": "object",
@@ -2051,6 +2877,1140 @@
                     "recordedAt",
                     "detail"
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Closed validation, authority, identity, expiry or retry error; no phantom download",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": ["code", "messageKey", "correlationId"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/snapshots/{id}/category/{category}": {
+      "get": {
+        "operationId": "erp.reports.category",
+        "security": [{ "erpSession": [] }],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "shipping_gross",
+                "shipping_waiver",
+                "storage_revenue",
+                "employee_salary",
+                "employee_commission",
+                "employee_addition",
+                "employee_entitlement_deduction",
+                "paid_expense",
+                "brand_compensation",
+                "employee_compensation_share"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          { "name": "limit", "in": "query", "required": false, "schema": { "enum": [25, 50, 100] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized materialized snapshot or retained export identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "filteredTotalRows": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "snapshot": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": { "type": "string", "format": "uuid" },
+                        "reportId": {
+                          "enum": [
+                            "REP-01",
+                            "REP-05",
+                            "REP-07",
+                            "REP-08",
+                            "REP-09",
+                            "REP-10",
+                            "REP-12",
+                            "REP-14",
+                            "REP-15",
+                            "REP-18"
+                          ]
+                        },
+                        "companyName": { "type": "string" },
+                        "asOf": { "type": "string", "format": "date-time" },
+                        "filterDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "dataDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                        "filters": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "brandIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "driverIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "accountIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "categoryIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "governorateIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "areaIds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "services": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "statuses": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "methods": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "conditions": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "kinds": {
+                              "type": "array",
+                              "maxItems": 50,
+                              "uniqueItems": true,
+                              "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+                            },
+                            "from": { "type": "string", "format": "date" },
+                            "to": { "type": "string", "format": "date" },
+                            "search": { "type": "string", "maxLength": 180 },
+                            "dateBasis": { "type": "string", "maxLength": 30 },
+                            "minMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                            "maxMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" }
+                          }
+                        },
+                        "sort": { "enum": ["dateAsc", "dateDesc"] },
+                        "dateBasis": { "type": "string" },
+                        "scope": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "branchIds": {
+                              "type": "array",
+                              "items": { "type": "string", "format": "uuid" }
+                            },
+                            "authorizationRevision": { "type": "string" },
+                            "completeCompany": { "type": "boolean" },
+                            "policy": { "enum": ["assigned", "wallet"] }
+                          },
+                          "required": [
+                            "branchIds",
+                            "authorizationRevision",
+                            "completeCompany",
+                            "policy"
+                          ]
+                        },
+                        "totalRows": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "totals": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "pattern": "^(0|-?[1-9][0-9]*)$"
+                          }
+                        },
+                        "context": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "profit": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "profitMinor": {
+                                  "type": "string",
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "categories": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "category": {
+                                        "enum": [
+                                          "shipping_gross",
+                                          "shipping_waiver",
+                                          "storage_revenue",
+                                          "employee_salary",
+                                          "employee_commission",
+                                          "employee_addition",
+                                          "employee_entitlement_deduction",
+                                          "paid_expense",
+                                          "brand_compensation",
+                                          "employee_compensation_share"
+                                        ]
+                                      },
+                                      "amountMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "sourceCount": { "type": "integer", "minimum": 0 }
+                                    },
+                                    "required": ["category", "amountMinor", "sourceCount"]
+                                  }
+                                },
+                                "branches": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                      "branchName": { "type": "string" },
+                                      "profitMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      }
+                                    },
+                                    "required": ["branchId", "branchName", "profitMinor"]
+                                  }
+                                },
+                                "shipping": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "grossMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "waiverMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "netMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": ["grossMinor", "waiverMinor", "netMinor"]
+                                },
+                                "payroll": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "salaryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "commissionMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "additionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "entitlementDeductionsMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "employeeCostMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "advanceRecoveryMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "incidentRecoveryWithheldMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    },
+                                    "payoutMinor": {
+                                      "type": "string",
+                                      "pattern": "^(0|-?[1-9][0-9]*)$"
+                                    }
+                                  },
+                                  "required": [
+                                    "salaryMinor",
+                                    "commissionMinor",
+                                    "additionsMinor",
+                                    "entitlementDeductionsMinor",
+                                    "employeeCostMinor",
+                                    "advanceRecoveryMinor",
+                                    "incidentRecoveryWithheldMinor",
+                                    "payoutMinor"
+                                  ]
+                                },
+                                "laterEntryCount": { "type": "integer", "minimum": 0 },
+                                "calculationComplete": { "type": "boolean" },
+                                "limitations": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "profitMinor",
+                                "categories",
+                                "branches",
+                                "shipping",
+                                "payroll",
+                                "laterEntryCount",
+                                "calculationComplete",
+                                "limitations"
+                              ]
+                            },
+                            "actualMoney": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "asOf": { "type": "string", "format": "date-time" },
+                                "dateBasis": { "const": "current" },
+                                "accounts": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "id": { "type": "string", "format": "uuid" },
+                                      "name": { "type": "string" },
+                                      "type": { "type": "string" },
+                                      "bookMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "journalMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "heldMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "availableMinor": {
+                                        "type": "string",
+                                        "pattern": "^(0|-?[1-9][0-9]*)$"
+                                      },
+                                      "projectionVersion": { "type": "string" }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "type",
+                                      "bookMinor",
+                                      "journalMinor",
+                                      "heldMinor",
+                                      "availableMinor",
+                                      "projectionVersion"
+                                    ]
+                                  }
+                                },
+                                "fundsInTransitMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "heldDiscrepanciesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "unremittedRecipientMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandLiabilitiesMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandPendingMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "brandHeldMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageDueMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "storageCreditMinor": {
+                                  "type": ["string", "null"],
+                                  "pattern": "^(0|-?[1-9][0-9]*)$"
+                                },
+                                "notes": { "type": "array", "items": { "type": "string" } }
+                              },
+                              "required": [
+                                "asOf",
+                                "dateBasis",
+                                "accounts",
+                                "fundsInTransitMinor",
+                                "heldDiscrepanciesMinor",
+                                "unremittedRecipientMinor",
+                                "brandLiabilitiesMinor",
+                                "brandPendingMinor",
+                                "brandHeldMinor",
+                                "storageDueMinor",
+                                "storageCreditMinor",
+                                "notes"
+                              ]
+                            },
+                            "sourceIssues": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "code": { "type": "string" },
+                                  "targetKind": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "effectiveDate": { "type": ["string", "null"], "format": "date" },
+                                  "recordedAt": {
+                                    "type": ["string", "null"],
+                                    "format": "date-time"
+                                  },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" },
+                                  "sourcePath": { "type": ["string", "null"] }
+                                },
+                                "required": [
+                                  "code",
+                                  "targetKind",
+                                  "targetId",
+                                  "branchId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "deltaMinor",
+                                  "effectiveDate",
+                                  "recordedAt",
+                                  "message",
+                                  "sourceCapability",
+                                  "sourcePath"
+                                ]
+                              }
+                            },
+                            "reconciliation": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string" },
+                                  "kind": { "type": "string" },
+                                  "targetType": { "type": "string" },
+                                  "targetId": { "type": "string" },
+                                  "sourceIds": { "type": "array", "items": { "type": "string" } },
+                                  "observedVersion": { "type": "string" },
+                                  "expectedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "deltaMinor": {
+                                    "type": ["string", "null"],
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "asOf": { "type": "string", "format": "date-time" },
+                                  "branchIds": {
+                                    "type": "array",
+                                    "items": { "type": "string", "format": "uuid" }
+                                  },
+                                  "recoveryPath": { "type": ["string", "null"] },
+                                  "message": { "type": "string" },
+                                  "sourceCapability": { "type": "string" }
+                                },
+                                "required": [
+                                  "id",
+                                  "kind",
+                                  "targetType",
+                                  "targetId",
+                                  "sourceIds",
+                                  "observedVersion",
+                                  "expectedMinor",
+                                  "observedMinor",
+                                  "deltaMinor",
+                                  "asOf",
+                                  "branchIds",
+                                  "recoveryPath",
+                                  "message",
+                                  "sourceCapability"
+                                ]
+                              }
+                            },
+                            "walletScope": { "type": "string" },
+                            "period": { "type": "string" },
+                            "openingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByBrand": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "openingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "closingByAccount": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "branchWallets": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "brandId": { "type": "string", "format": "uuid" },
+                                  "branchId": { "type": ["string", "null"], "format": "uuid" },
+                                  "branchName": { "type": "string" },
+                                  "eligibleMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "pendingMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "debitsMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "coverMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "brandId",
+                                  "branchId",
+                                  "branchName",
+                                  "eligibleMinor",
+                                  "pendingMinor",
+                                  "heldMinor",
+                                  "debitsMinor",
+                                  "coverMinor"
+                                ]
+                              }
+                            },
+                            "filteredStatement": { "type": "boolean" },
+                            "units": { "type": "string" },
+                            "stockTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "parcelTotals": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^(0|-?[1-9][0-9]*)$"
+                              }
+                            },
+                            "accounts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "name": { "type": "string" },
+                                  "bookMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "availableMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name",
+                                  "bookMinor",
+                                  "heldMinor",
+                                  "availableMinor"
+                                ]
+                              }
+                            },
+                            "transit": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": { "type": "string", "format": "uuid" },
+                                  "sourceAccount": { "type": "string" },
+                                  "destinationAccount": { "type": "string" },
+                                  "amountMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "sentAt": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "id",
+                                  "sourceAccount",
+                                  "destinationAccount",
+                                  "amountMinor",
+                                  "sentAt"
+                                ]
+                              }
+                            },
+                            "discrepancies": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "caseId": { "type": "string", "format": "uuid" },
+                                  "account": { "type": "string" },
+                                  "bookAtObservationMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "observedMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "differenceMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "heldMinor": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "actualDate": { "type": "string", "format": "date" }
+                                },
+                                "required": [
+                                  "caseId",
+                                  "account",
+                                  "bookAtObservationMinor",
+                                  "observedMinor",
+                                  "differenceMinor",
+                                  "heldMinor",
+                                  "actualDate"
+                                ]
+                              }
+                            }
+                          },
+                          "required": []
+                        },
+                        "coverage": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "complete": { "type": "boolean" },
+                            "flags": { "type": "array", "items": { "type": "string" } },
+                            "revisions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "source_id": { "type": "string", "format": "uuid" },
+                                  "aggregate_type": { "type": "string" },
+                                  "aggregate_id": { "type": "string", "format": "uuid" },
+                                  "revision": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_high": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "received_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "applied_through": {
+                                    "type": "string",
+                                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                                  },
+                                  "history_complete": { "type": "boolean" },
+                                  "financial_ready": { "type": "boolean" },
+                                  "gapped": { "type": "boolean" },
+                                  "updated_at": { "type": "string", "format": "date-time" }
+                                },
+                                "required": [
+                                  "source_id",
+                                  "aggregate_type",
+                                  "aggregate_id",
+                                  "revision",
+                                  "received_high",
+                                  "received_through",
+                                  "applied_through",
+                                  "history_complete",
+                                  "financial_ready",
+                                  "gapped",
+                                  "updated_at"
+                                ]
+                              }
+                            }
+                          },
+                          "required": ["complete", "flags", "revisions"]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "reportId",
+                        "companyName",
+                        "asOf",
+                        "filterDigest",
+                        "dataDigest",
+                        "filters",
+                        "sort",
+                        "dateBasis",
+                        "scope",
+                        "totalRows",
+                        "totals",
+                        "context",
+                        "coverage"
+                      ]
+                    },
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "ordinal": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "economicEffect": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "companyId": { "type": "string", "format": "uuid" },
+                              "sourceId": { "type": "string" },
+                              "effectId": { "type": "string" },
+                              "category": {
+                                "enum": [
+                                  "shipping_gross",
+                                  "shipping_waiver",
+                                  "storage_revenue",
+                                  "employee_salary",
+                                  "employee_commission",
+                                  "employee_addition",
+                                  "employee_entitlement_deduction",
+                                  "paid_expense",
+                                  "brand_compensation",
+                                  "employee_compensation_share"
+                                ]
+                              },
+                              "amountMinor": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+                              "effectiveDate": { "type": "string", "format": "date" },
+                              "recordedAt": { "type": "string", "format": "date-time" },
+                              "historicalBranchId": {
+                                "type": ["string", "null"],
+                                "format": "uuid"
+                              },
+                              "postingBatchId": { "type": ["string", "null"] },
+                              "correctionOf": { "type": "array", "items": { "type": "string" } },
+                              "revision": { "type": "string" },
+                              "sourceCapability": { "type": "string" },
+                              "sourcePath": { "type": ["string", "null"] },
+                              "shipmentId": { "type": "string", "format": "uuid" },
+                              "periodId": { "type": "string" },
+                              "employeeId": { "type": "string", "format": "uuid" },
+                              "incidentId": { "type": "string", "format": "uuid" }
+                            },
+                            "required": [
+                              "companyId",
+                              "sourceId",
+                              "effectId",
+                              "category",
+                              "amountMinor",
+                              "effectiveDate",
+                              "recordedAt",
+                              "historicalBranchId",
+                              "postingBatchId",
+                              "correctionOf",
+                              "revision",
+                              "sourceCapability",
+                              "sourcePath"
+                            ]
+                          },
+                          "id": { "type": "string" },
+                          "values": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "reference": { "type": ["string", "null"] },
+                              "branch": { "type": ["string", "null"] },
+                              "brand": { "type": ["string", "null"] },
+                              "recipient": { "type": ["string", "null"] },
+                              "phone": { "type": ["string", "null"] },
+                              "service": { "type": ["string", "null"] },
+                              "status": { "type": ["string", "null"] },
+                              "execution": { "type": ["string", "null"] },
+                              "custody": { "type": ["string", "null"] },
+                              "custodyBranch": { "type": ["string", "null"] },
+                              "originalOutcome": { "type": ["string", "null"] },
+                              "effectiveOutcome": { "type": ["string", "null"] },
+                              "tier": { "type": ["string", "null"] },
+                              "tariffMinor": { "type": ["string", "null"] },
+                              "tariffRevision": { "type": ["string", "null"] },
+                              "date": { "type": ["string", "null"] },
+                              "recordedAt": { "type": ["string", "null"] },
+                              "kind": { "type": ["string", "null"] },
+                              "driver": { "type": ["string", "null"] },
+                              "visits": { "type": ["string", "null"] },
+                              "shipments": { "type": ["string", "null"] },
+                              "endAt": { "type": ["string", "null"] },
+                              "offered": { "type": ["string", "null"] },
+                              "received": { "type": ["string", "null"] },
+                              "sound": { "type": ["string", "null"] },
+                              "damaged": { "type": ["string", "null"] },
+                              "handed": { "type": ["string", "null"] },
+                              "handoverAt": { "type": ["string", "null"] },
+                              "amountMinor": { "type": ["string", "null"] },
+                              "balanceMinor": { "type": ["string", "null"] },
+                              "reason": { "type": ["string", "null"] },
+                              "weekdays": { "type": ["string", "null"] },
+                              "signedMinor": { "type": ["string", "null"] },
+                              "pendingMinor": { "type": ["string", "null"] },
+                              "heldMinor": { "type": ["string", "null"] },
+                              "coverMinor": { "type": ["string", "null"] },
+                              "eligibleMinor": { "type": ["string", "null"] },
+                              "paidMinor": { "type": ["string", "null"] },
+                              "account": { "type": ["string", "null"] },
+                              "payoutExtent": { "type": ["string", "null"] },
+                              "method": { "type": ["string", "null"] },
+                              "category": { "type": ["string", "null"] },
+                              "description": { "type": ["string", "null"] },
+                              "actor": { "type": ["string", "null"] },
+                              "onHand": { "type": ["string", "null"] },
+                              "reserved": { "type": ["string", "null"] },
+                              "available": { "type": ["string", "null"] },
+                              "unavailable": { "type": ["string", "null"] },
+                              "carrier": { "type": ["string", "null"] }
+                            },
+                            "required": []
+                          },
+                          "sourceIds": { "type": "array", "items": { "type": "string" } },
+                          "revision": { "type": "string" },
+                          "effectiveAt": { "type": ["string", "null"], "format": "date-time" },
+                          "recordedAt": { "type": ["string", "null"], "format": "date-time" },
+                          "detail": { "type": ["string", "null"] }
+                        },
+                        "required": [
+                          "id",
+                          "values",
+                          "sourceIds",
+                          "revision",
+                          "effectiveAt",
+                          "recordedAt",
+                          "detail"
+                        ]
+                      }
+                    },
+                    "page": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+                    "limit": { "enum": [25, 50, 100] }
+                  },
+                  "required": ["snapshot", "rows", "page", "limit"]
                 }
               }
             }

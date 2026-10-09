@@ -18,7 +18,7 @@ import {
   renderXlsx,
 } from '../../../apps/api/src/modules/reporting/render.js';
 const uuid = '00000000-0000-4000-8000-000000000001';
-it('selected registry excludes profit/count/BI, combines payout placement, declares sources/dates and only closed filter contracts', () => {
+it('selected registry includes P24 profit and excludes count/BI, combines payout placement, declares sources/dates and only closed filter contracts', () => {
   expect(reportRegistry.map((r) => r.id)).toEqual([
     'REP-01',
     'REP-05',
@@ -28,6 +28,7 @@ it('selected registry excludes profit/count/BI, combines payout placement, decla
     'REP-10',
     'REP-12',
     'REP-14',
+    'REP-15',
     'REP-18',
   ]);
   expect(reportRegistry.filter((r) => r.scope === 'wallet').map((r) => r.surface)).toEqual([
@@ -46,7 +47,7 @@ it('selected registry excludes profit/count/BI, combines payout placement, decla
   expect(validateReportCommand(input)).toBe(true);
   expect(validateReportCommand({ ...input, sql: 'DROP TABLE' })).toBe(false);
   expect(validateReportCommand({ ...input, filters: { arbitrary: 'x' } })).toBe(false);
-  expect(validateReportCommand({ ...input, reportId: 'REP-15' })).toBe(false);
+  expect(validateReportCommand({ ...input, reportId: 'REP-15' })).toBe(true);
   expect(() => normalizeReportFilters('REP-18', { from: '2026-10-01' })).toThrow(
     'INVALID_REPORT_FILTER',
   );

@@ -1,0 +1,742 @@
+{
+  "before": {
+    "snapshot": {
+      "id": "bd9d4e3b-132d-4988-b699-572003853368",
+      "asOf": "2026-10-09T02:04:11.380Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "620000"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "الفرع أ",
+              "profitMinor": "620000"
+            },
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-150000",
+              "sourceCount": 1
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "620000",
+          "laterEntryCount": 0,
+          "calculationComplete": true
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:11.380Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "9850000",
+              "heldMinor": "0",
+              "journalMinor": "9850000",
+              "availableMinor": "9850000",
+              "projectionVersion": "1:2"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": []
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [],
+        "complete": true,
+        "revisions": [
+          {
+            "gapped": false,
+            "revision": "7",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "2",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "2"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 8,
+      "dataDigest": "acd2b321a4b44bf0b329027accda70fc7ac527024ee0a1e4c101c5e13e105102",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "after": {
+    "snapshot": {
+      "id": "829ac491-6b94-442b-b402-d5c72e10ea16",
+      "asOf": "2026-10-09T02:04:18.146Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "619000"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "الفرع أ",
+              "profitMinor": "619000"
+            },
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-151000",
+              "sourceCount": 2
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "619000",
+          "laterEntryCount": 0,
+          "calculationComplete": true
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:18.146Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "9849000",
+              "heldMinor": "0",
+              "journalMinor": "9849000",
+              "availableMinor": "9849000",
+              "projectionVersion": "1:3"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": []
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [],
+        "complete": true,
+        "revisions": [
+          {
+            "gapped": false,
+            "revision": "7",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "2",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "2"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 9,
+      "dataDigest": "458306a23796fcc2d4e732a80c8fac20cbbdcdb5ead0fa31667497d6b0a95fae",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "29cfc34c-a9bf-4c5f-bc23-fea9005a3f77",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:16.968580Z",
+          "amountMinor": "-1000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:16.968580Z",
+        "detail": null
+      },
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 9,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "widths": [
+    1440,
+    390,
+    320,
+    768
+  ],
+  "emptyPeriod": [
+    "2099-01-01",
+    "2099-01-31"
+  ]
+}

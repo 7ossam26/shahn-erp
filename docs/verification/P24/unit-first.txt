@@ -1,0 +1,15 @@
+npm notice run shahn-erp@0.1.0 test:unit
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.unit.config.ts tests/integration/p24/contracts.unit.test.ts tests/integration/p24/sources.unit.test.ts tests/integration/p23/contracts.unit.test.ts tests/integration/p23/ui.unit.test.tsx
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/sources.unit.test.ts (15 tests) 19ms
+ ✓ tests/integration/p24/contracts.unit.test.ts (3 tests) 7ms
+ ✓ tests/integration/p23/contracts.unit.test.ts (5 tests) 78ms
+ ✓ tests/integration/p23/ui.unit.test.tsx (3 tests) 488ms
+   ✓ advanced filters stay collapsed by default, pagination keeps filters, applying/resetting starts page1 and source gaps stay visible 307ms
+
+ Test Files  4 passed (4)
+      Tests  26 passed (26)
+   Start at  21:38:32
+   Duration  5.30s (import 51%, environment 30%, transform 13%, setup 3%, tests 3%)

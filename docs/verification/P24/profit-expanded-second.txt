@@ -1,0 +1,36 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/profit.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p24/profit.db.test.ts (7 tests | 1 failed) 9897ms
+   ✓ A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources 71ms
+   × A01 generic deposit, transfer, goods payout, advance, withholding and retries change money only 135ms
+   ✓ A06 report summaries retain ordinary source permissions; denied scope/revocation deny frozen rows and downloads 115ms
+   ✓ A07 exact account projection delta, stale/unauthorized rebuild refusal and idempotent audited repair post no cash 76ms
+   ✓ coherent snapshots race committed incident earning correction with independent connections; old evidence remains reproducible 195ms
+   ✓ indexed real source query is parameterized and deterministic, with measured plan and no join fanout 12ms
+   ✓ P23 frozen XLSX/PDF preserve every source and totals while export rendering overlaps committed inbox progress 777ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > A01 generic deposit, transfer, goods payout, advance, withholding and retries change money only
+Error: PAST_PAYROLL_PROTECTED
+ ❯ apps/api/src/modules/kernel/commands.ts:178:38
+    176|       return result.reply;
+    177|     }).then((reply) => {
+    178|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    179|       return reply;
+    180|     });
+ ❯ tests/integration/p24/profit.db.test.ts:41:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  21:30:54
+   Duration  13.28s (tests 75%, import 15%, transform 10%)

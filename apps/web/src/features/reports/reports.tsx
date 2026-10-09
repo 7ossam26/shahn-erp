@@ -20,9 +20,19 @@ import {
   type ReportId,
   type ReportPage,
   type ReportRow,
+  type ProfitSummary,
+  type ProfitActualMoney,
+  type ProfitReconciliationFinding,
 } from '@shahn/contracts';
 import { useAccess } from '../access/access.js';
 import './reports.css';
+import {
+  ProfitFormula,
+  ProfitOverview,
+  ProfitMoney,
+  ProfitReconciliation,
+  profitCategoryLabels,
+} from './profit-view.js';
 const PageHeading = ({ title, description }: { title: string; description: string }) => (
   <SharedHeading eyebrow="التقارير" title={title} description={description} />
 );
@@ -171,10 +181,6 @@ function ReportPicker() {
                 <span>{r.id === 'REP-09' ? 'المستحق وتاريخ الصرف معاً' : r.dateMeaning}</span>
               </Link>
             ))}
-          <div>
-            <strong>الربح التشغيلي</strong>
-            <span>REP-15 · يعتمد على المرحلة P24؛ لم ينفذ بعد.</span>
-          </div>
         </div>
       )}
     </PageContainer>
@@ -191,6 +197,7 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
   const def = reportDefinition(reportId),
     key = params.get('filters') ?? '{}',
     snapshotId = params.get('snapshot') ?? '',
+    category = reportId === 'REP-15' ? (params.get('category') ?? '') : '',
     page = Number(params.get('page') ?? 1),
     sort = params.get('sort') === 'dateDesc' ? 'dateDesc' : 'dateAsc';
   let filters: ReportFilters = {};
@@ -233,11 +240,23 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
     retry: false,
   });
   const q = useQuery({
-    queryKey: ['report-page', company, reportId, key, sort, snapshotId, page, identityKey],
+    queryKey: [
+      'report-page',
+      company,
+      reportId,
+      key,
+      sort,
+      snapshotId,
+      page,
+      identityKey,
+      category,
+    ],
     enabled: !!company && !!def,
     queryFn: () =>
       snapshotId
-        ? request<ReportPage>(`snapshots/${snapshotId}?companyId=${company}&page=${page}`)
+        ? request<ReportPage>(
+            `snapshots/${snapshotId}${category ? '/category/' + encodeURIComponent(category) : ''}?companyId=${company}&page=${page}`,
+          )
         : request<ReportPage>(
             'snapshots',
             {
@@ -281,6 +300,8 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
     const next = new URLSearchParams(params);
     next.set('filters', JSON.stringify(reset ? {} : draft));
     next.delete('snapshot');
+    next.delete('category');
+    next.delete('overviewPage');
     next.delete('page');
     next.set('refresh', crypto.randomUUID());
     setParams(next);
@@ -288,6 +309,8 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
   const fresh = () => {
     const next = new URLSearchParams(params);
     next.delete('snapshot');
+    next.delete('category');
+    next.delete('overviewPage');
     next.delete('page');
     next.set('refresh', crypto.randomUUID());
     setParams(next);
@@ -351,6 +374,21 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
     await exportFile(job.data.format);
   };
   if (!def) return <StatePanel title="التقرير غير مختار لهذه المرحلة" />;
+  const visibleTotal = q.data?.filteredTotalRows ?? q.data?.snapshot.totalRows ?? 0;
+  const categoryHref = (selected: string) => {
+    const next = new URLSearchParams(params);
+    next.set('category', selected);
+    next.set('overviewPage', String(page));
+    next.set('page', '1');
+    return '/reports/REP-15?' + next;
+  };
+  const categoryBack = () => {
+    const next = new URLSearchParams(params);
+    next.set('page', next.get('overviewPage') ?? '1');
+    next.delete('category');
+    next.delete('overviewPage');
+    return '/reports/REP-15?' + next;
+  };
   const options = (k: keyof ReportFilters): Option[] => {
     const c = catalog.data;
     if (!c) return [];
@@ -428,7 +466,13 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
   };
   return (
     <PageContainer>
-      <PageHeading title={def.title} description={def.dateMeaning} />
+      <PageHeading
+        title={category ? (profitCategoryLabels[category] ?? category) : def.title}
+        description={
+          category ? 'مصادر الفئة من نفس لقطة الربح؛ الفلاتر والفترة محفوظة.' : def.dateMeaning
+        }
+      />
+      {category && <Link to={categoryBack()}>عودة إلى ملخص الربح والفلاتر</Link>}
       <Link to="/reports">اختيار تقرير آخر</Link>
       <form
         className="report-filters"
@@ -478,13 +522,31 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
                       recorded: 'وقت التسجيل',
                       created: 'إنشاء الشحنة',
                       lastState: 'آخر حالة مسجلة',
-                      effective: 'تاريخ الحركة الفعال',
+                      effective:
+                        reportId === 'REP-15' ? 'فترة الاستحقاق التشغيلي' : 'تاريخ الحركة الفعال',
                       visit: 'الزيارة الفعلية',
                       round: 'بداية الجولة',
                       receipt: 'الاستلام الفعلي',
                       offered: 'عرض المرتجع',
                     } as Record<string, string>
                   )[b] ?? b}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {reportId === 'REP-15' && (
+          <label>
+            نطاق الشركة / الفرع
+            <select
+              aria-label="نطاق الشركة / الفرع"
+              value={draft.branchIds?.length === 1 ? draft.branchIds[0] : ''}
+              onChange={(e) => set('branchIds', e.target.value ? [e.target.value] : [])}
+            >
+              <option value="">كافة الفروع المصرح بها</option>
+              {options('branchIds').map((o) => (
+                <option key={o.id} value={o.id}>
+                  {o.name}
                 </option>
               ))}
             </select>
@@ -504,7 +566,11 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
           </summary>
           <div className="report-advanced">
             {def.filters
-              .filter((k) => !['search', 'from', 'to', 'dateBasis'].includes(k))
+              .filter(
+                (k) =>
+                  !['search', 'from', 'to', 'dateBasis'].includes(k) &&
+                  !(reportId === 'REP-15' && k === 'branchIds'),
+              )
               .map((k) =>
                 k === 'minMinor' || k === 'maxMinor' ? (
                   <label key={k}>
@@ -578,7 +644,8 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
         <>
           <section className="report-context">
             <p>
-              لقطة بتاريخ <bdi>{q.data.snapshot.asOf}</bdi> · {q.data.snapshot.totalRows} صف · EGP
+              {q.data.snapshot.companyName} · لقطة بتاريخ <bdi>{q.data.snapshot.asOf}</bdi> ·{' '}
+              {visibleTotal} صف · EGP
             </p>
             <p>
               {q.data.snapshot.scope.completeCompany
@@ -586,9 +653,30 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
                 : 'نطاق الفروع المصرح بها المختارة'}
             </p>
             <p>{def.formula}</p>
-            <p>
-              الفلاتر المطبقة: <bdi>{JSON.stringify(q.data.snapshot.filters)}</bdi>
-            </p>
+            {reportId === 'REP-15' && <ProfitFormula />}
+            {reportId === 'REP-15' ? (
+              <p aria-label="الفلاتر المطبقة">
+                الفترة: <bdi>{q.data.snapshot.filters.from ?? 'دون حد بداية'}</bdi> إلى{' '}
+                <bdi>{q.data.snapshot.filters.to ?? 'دون حد نهاية'}</bdi> · أساس التاريخ:{' '}
+                {q.data.snapshot.dateBasis === 'recorded'
+                  ? 'وقت التسجيل'
+                  : 'فترة الاستحقاق التشغيلي'}
+                {' · '}الفروع:{' '}
+                {q.data.snapshot.filters.branchIds?.length
+                  ? (q.data.snapshot.context['profit'] as ProfitSummary).branches
+                      .filter(
+                        (b) =>
+                          b.branchId && q.data.snapshot.filters.branchIds?.includes(b.branchId),
+                      )
+                      .map((b) => b.branchName)
+                      .join('، ')
+                  : 'جميع الفروع ضمن صلاحيات هذه اللقطة'}
+              </p>
+            ) : (
+              <p>
+                الفلاتر المطبقة: <bdi>{JSON.stringify(q.data.snapshot.filters)}</bdi>
+              </p>
+            )}
             {!q.data.snapshot.coverage.complete && (
               <p role="status">البيانات غير مكتملة: {q.data.snapshot.coverage.flags.join(' · ')}</p>
             )}
@@ -604,13 +692,29 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
               </Button>
             </div>
           </section>
-          {!q.data.rows.length ? (
+          {category && (
+            <p>
+              التصدير يشمل كل الصفوف المختارة بفلاتر لقطة الربح. فتح الفئة يركز العرض على مصادرها
+              فقط.
+            </p>
+          )}
+          {reportId === 'REP-15' && !category && (
+            <ProfitOverview
+              profit={q.data.snapshot.context['profit'] as ProfitSummary}
+              categoryHref={categoryHref}
+            />
+          )}
+          {(
+            reportId === 'REP-15' && !category
+              ? q.data.snapshot.totalRows === 0
+              : !q.data.rows.length
+          ) ? (
             <StatePanel
               state="empty"
               title="لا توجد بيانات لهذه الفلاتر"
               detail="الفلاتر محفوظة. يمكنك مسحها أو اختيار فترة أخرى."
             />
-          ) : (
+          ) : reportId !== 'REP-15' || category ? (
             <div className="report-rows">
               {q.data.rows.map((r, i) => (
                 <article key={r.id}>
@@ -625,14 +729,14 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
                     ))}
                   </dl>
                   <Link
-                    to={`/reports/snapshots/${q.data.snapshot.id}/rows/${(page - 1) * q.data.limit + i + 1}?${params}&report=${reportId}`}
+                    to={`/reports/snapshots/${q.data.snapshot.id}/rows/${r.ordinal ?? (page - 1) * q.data.limit + i + 1}?${params}&report=${reportId}`}
                   >
                     تفاصيل ومصادر
                   </Link>
                 </article>
               ))}
             </div>
-          )}
+          ) : null}
           <div className="report-totals" aria-label="إجماليات اللقطة">
             {def.columns
               .filter((c) => c.total)
@@ -645,7 +749,7 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
                 </p>
               ))}
           </div>
-          {reportContextDisplay(q.data.snapshot).length > 0 && (
+          {reportId !== 'REP-15' && reportContextDisplay(q.data.snapshot).length > 0 && (
             <details>
               <summary>الأرصدة والسياق داخل اللقطة</summary>
               {reportContextDisplay(q.data.snapshot).map((line, i) => (
@@ -653,39 +757,52 @@ export function ReportWorkspace({ reportId }: { reportId: ReportId }) {
               ))}
             </details>
           )}
+          {reportId === 'REP-15' && !category && (
+            <>
+              <ProfitMoney money={q.data.snapshot.context['actualMoney'] as ProfitActualMoney} />
+              <ProfitReconciliation
+                findings={
+                  q.data.snapshot.context['reconciliation'] as ProfitReconciliationFinding[]
+                }
+                asOf={q.data.snapshot.asOf}
+              />
+            </>
+          )}
           <details>
             <summary>تغطية المصادر وآخر تحديث</summary>
             <pre className="report-json">
               {JSON.stringify(q.data.snapshot.coverage.revisions, null, 2)}
             </pre>
           </details>
-          <div className="report-actions">
-            <Button
-              variant="outline"
-              disabled={page <= 1}
-              onClick={() => {
-                const n = new URLSearchParams(params);
-                n.set('page', String(page - 1));
-                setParams(n);
-              }}
-            >
-              السابق
-            </Button>
-            <span>
-              صفحة {page} من {Math.max(1, Math.ceil(q.data.snapshot.totalRows / q.data.limit))}
-            </span>
-            <Button
-              variant="outline"
-              disabled={page * q.data.limit >= q.data.snapshot.totalRows}
-              onClick={() => {
-                const n = new URLSearchParams(params);
-                n.set('page', String(page + 1));
-                setParams(n);
-              }}
-            >
-              التالي
-            </Button>
-          </div>
+          {(reportId !== 'REP-15' || category) && (
+            <div className="report-actions">
+              <Button
+                variant="outline"
+                disabled={page <= 1}
+                onClick={() => {
+                  const n = new URLSearchParams(params);
+                  n.set('page', String(page - 1));
+                  setParams(n);
+                }}
+              >
+                السابق
+              </Button>
+              <span>
+                صفحة {page} من {Math.max(1, Math.ceil(visibleTotal / q.data.limit))}
+              </span>
+              <Button
+                variant="outline"
+                disabled={page * q.data.limit >= visibleTotal}
+                onClick={() => {
+                  const n = new URLSearchParams(params);
+                  n.set('page', String(page + 1));
+                  setParams(n);
+                }}
+              >
+                التالي
+              </Button>
+            </div>
+          )}
         </>
       )}
       {error && <p role="alert">{error}</p>}
@@ -758,6 +875,32 @@ export function ReportRowPage() {
             <p>المراجعة: {q.data.revision}</p>
             <p>التاريخ الفعال: {q.data.effectiveAt ?? 'غير معلوم'}</p>
             <p>وقت التسجيل: {q.data.recordedAt ?? 'غير معلوم'}</p>
+            {q.data.economicEffect && (
+              <>
+                <p>
+                  هوية الأثر: <bdi>{q.data.economicEffect.effectId}</bdi>
+                </p>
+                <p>
+                  فرع الاستحقاق التاريخي:{' '}
+                  <bdi>{q.data.economicEffect.historicalBranchId ?? 'غير منسوب؛ يحتاج مراجعة'}</bdi>
+                </p>
+                <p>
+                  دفعة القيد:{' '}
+                  <bdi>
+                    {q.data.economicEffect.postingBatchId ?? 'لا توجد دفعة مالية لهذا المصدر'}
+                  </bdi>
+                </p>
+                {q.data.economicEffect.correctionOf.length > 0 && (
+                  <p>
+                    مرتبط بتصحيح المصادر:{' '}
+                    <bdi>{q.data.economicEffect.correctionOf.join(' · ')}</bdi>
+                  </p>
+                )}
+                {q.data.economicEffect.sourcePath && (
+                  <Link to={q.data.economicEffect.sourcePath}>فتح سجل المصدر المصرح به</Link>
+                )}
+              </>
+            )}
             <pre className="report-json">{q.data.sourceIds.join('\n')}</pre>
           </>
         )

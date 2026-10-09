@@ -1,0 +1,101 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/profit.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p24/profit.db.test.ts (7 tests | 5 failed) 15514ms
+   × A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources 57ms
+   × A01 generic deposit, transfer, goods payout, advance, withholding and retries change money only 138ms
+   ✓ A06 report summaries retain ordinary source permissions; denied scope/revocation deny frozen rows and downloads 122ms
+   ✓ A07 exact account projection delta, stale/unauthorized rebuild refusal and idempotent audited repair post no cash 82ms
+   × coherent snapshots race committed incident earning correction with independent connections; old evidence remains reproducible 5111ms
+   × indexed real source query is parameterized and deterministic, with measured plan and no join fanout 3ms
+   × P23 frozen XLSX/PDF preserve every source and totals while export rendering overlaps committed inbox progress 410ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/p24/profit.db.test.ts:27:33
+     25|   const p=r.snapshot.context['profit'] as ProfitSummary;
+     26|   expect(p.profitMinor).toBe('620000');
+     27|   expect(p.calculationComplete).toBe(true);
+       |                                 ^
+     28|   expect(p.shipping.grossMinor).toBe('1000000');expect(p.payroll.emplo…
+     29|   expect(p.branches.reduce((n,b)=>n+BigInt(b.profitMinor),0n).toString…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > A01 generic deposit, transfer, goods payout, advance, withholding and retries change money only
+Error: PAYROLL_PERIOD_PROTECTED
+ ❯ apps/api/src/modules/kernel/commands.ts:178:38
+    176|       return result.reply;
+    177|     }).then((reply) => {
+    178|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    179|       return reply;
+    180|     });
+ ❯ tests/integration/p24/profit.db.test.ts:40:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > coherent snapshots race committed incident earning correction with independent connections; old evidence remains reproducible
+error: canceling statement due to statement timeout
+ ❯ node_modules/pg/lib/client.js:694:17
+ ❯ loadAccess apps/api/src/modules/access/sessions.ts:125:3
+    123|     displayName = user.name;
+    124|   }
+    125|   await client.query(
+       |   ^
+    126|     `UPDATE access.server_session SET idle_expires_at=LEAST(absolute_e…
+    127|     [session.id],
+ ❯ apps/api/src/modules/kernel/unit-of-work.ts:54:26
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ tests/integration/p24/profit.db.test.ts:107:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > indexed real source query is parameterized and deterministic, with measured plan and no join fanout
+error: bind message supplies 5 parameters, but prepared statement "" requires 6
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p24/profit.db.test.ts:121:15
+    119|   const args=[f.company,[f.a,f.b],f.from,f.to,'effective'];
+    120|   const started=performance.now();
+    121|   const plan=(await db.pool.query('EXPLAIN (ANALYZE,BUFFERS,FORMAT JSO…
+       |               ^
+    122|   const a=(await db.pool.query(profitEffectsSql,args)).rows,b=(await d…
+    123|   expect(a).toEqual(b);expect(new Set(a.map(r=>r.effectId)).size).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > P23 frozen XLSX/PDF preserve every source and totals while export rendering overlaps committed inbox progress
+AssertionError: expected '6200.00' to be '6300.00' // Object.is equality
+
+Expected: "6300.00"
+Received: "6200.00"
+
+ ❯ tests/integration/p24/profit.db.test.ts:141:84
+    139|       const workbook=new ExcelJS.Workbook();await workbook.xlsx.load(U…
+    140|       expect(workbook.getWorksheet('المصادر')!.rowCount).toBe(rows.len…
+    141|       expect(workbook.getWorksheet('التقرير')!.getCell('C'+(rows.lengt…
+       |                                                                                    ^
+    142|       for(let i=0;i<rows.length;i++) expect(workbook.getWorksheet('الم…
+    143|     } else expect(artifact.bytes!.subarray(0,5).toString()).toBe('%PDF…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  21:29:39
+   Duration  18.74s (tests 83%, import 10%, transform 7%)

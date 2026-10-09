@@ -1,0 +1,2582 @@
+{
+  "fault": {
+    "snapshot": {
+      "id": "7bca88c9-9719-4931-911e-9d51629d5c5a",
+      "asOf": "2026-10-09T02:04:29.907Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "619000"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "الفرع أ",
+              "profitMinor": "619000"
+            },
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-151000",
+              "sourceCount": 2
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "619000",
+          "laterEntryCount": 0,
+          "calculationComplete": true
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:29.907Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "9849123",
+              "heldMinor": "0",
+              "journalMinor": "9849000",
+              "availableMinor": "9849123",
+              "projectionVersion": "1:3"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": [
+          {
+            "id": "013827529901754f30d3c7823d3da531277ca043f6d9ddd266d0393354e0002d",
+            "asOf": "2026-10-09T02:04:29.907Z",
+            "kind": "account_projection",
+            "message": "إسقاط رصيد الحساب لا يطابق سجل المال؛ يلزم إعادة بناء الإسقاط من مصادره المحفوظة.",
+            "targetId": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+            "branchIds": [
+              "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+            ],
+            "sourceIds": [
+              "af86a006-66e5-4b84-9e2a-a7aad802a482",
+              "06c727db-86e6-4533-be28-c1c494d95f92",
+              "ac9f01b6-3f16-4acd-8210-94268644da49",
+              "5d4adf17-32bb-4005-9605-5c069f5eb32a",
+              "d696789d-8c1f-4baa-8f34-feeaf05829a2",
+              "86f2af9b-86d8-4efa-af6a-345a329cde32"
+            ],
+            "deltaMinor": "123",
+            "targetType": "account",
+            "recoveryPath": "/settlements",
+            "expectedMinor": "9849000",
+            "observedMinor": "9849123",
+            "observedVersion": "1:3",
+            "sourceCapability": "finance.accounts"
+          }
+        ]
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [],
+        "complete": true,
+        "revisions": [
+          {
+            "gapped": false,
+            "revision": "7",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "2",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "2"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 9,
+      "dataDigest": "cbde32ce0dc75d65b04ea9cfe8f6908d2e0e14ba2c6af516ec77d1be277e6b7e",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "29cfc34c-a9bf-4c5f-bc23-fea9005a3f77",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:16.968580Z",
+          "amountMinor": "-1000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:16.968580Z",
+        "detail": null
+      },
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 9,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "rebuilt": {
+    "snapshot": {
+      "id": "1b28293c-13f7-4a15-8bac-59ed6a6b017c",
+      "asOf": "2026-10-09T02:04:30.255Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "619000"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "الفرع أ",
+              "profitMinor": "619000"
+            },
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-151000",
+              "sourceCount": 2
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "619000",
+          "laterEntryCount": 0,
+          "calculationComplete": true
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:30.255Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "9849000",
+              "heldMinor": "0",
+              "journalMinor": "9849000",
+              "availableMinor": "9849000",
+              "projectionVersion": "1:3"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": []
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [],
+        "complete": true,
+        "revisions": [
+          {
+            "gapped": false,
+            "revision": "7",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "2",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "2"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 9,
+      "dataDigest": "b0413d9ac5a2f213d391229257b78a3da770a4fde532b2cd86a10656587bf68e",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "29cfc34c-a9bf-4c5f-bc23-fea9005a3f77",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:16.968580Z",
+          "amountMinor": "-1000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:16.968580Z",
+        "detail": null
+      },
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "الفرع أ",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 9,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "الفرع أ",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "large": {
+    "snapshot": {
+      "id": "6ad97cb6-eb99-4f42-8fe5-e446c3b3ba5d",
+      "asOf": "2026-10-09T02:04:30.756Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "-9007199254124993"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            },
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+              "profitMinor": "-9007199254124993"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-9007199254894993",
+              "sourceCount": 33
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "-9007199254124993",
+          "laterEntryCount": 0,
+          "calculationComplete": true
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:30.756Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "992800755105007",
+              "heldMinor": "0",
+              "journalMinor": "992800755105007",
+              "availableMinor": "992800755105007",
+              "projectionVersion": "1:35"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": []
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [],
+        "complete": true,
+        "revisions": [
+          {
+            "gapped": false,
+            "revision": "7",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "2",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "2"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          },
+          {
+            "gapped": false,
+            "revision": "4",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "1",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": true,
+            "history_complete": true,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 40,
+      "dataDigest": "903b7af01690750f711a16376f04fa7070c772191c0244faad21950493fd1685",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "29cfc34c-a9bf-4c5f-bc23-fea9005a3f77",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:16.968580Z",
+          "amountMinor": "-1000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:16.968580Z",
+        "detail": null
+      },
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "0771d3b8-d9a7-45a2-a717-aa425574ae68",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.464175Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.464175Z",
+        "detail": null
+      },
+      {
+        "id": "1255bbe4-1d20-4e43-8cd2-7ce6a53fd6d3",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.665305Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.665305Z",
+        "detail": null
+      },
+      {
+        "id": "1d2a8b4f-8fc3-43ba-ab98-8b7e32b13e9b",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.552863Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.552863Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "27b33c34-28c3-4808-9955-27c723e31542",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.502889Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.502889Z",
+        "detail": null
+      },
+      {
+        "id": "307dc096-20d4-4838-a2e5-22153485da94",
+        "ordinal": 9,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.616722Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.616722Z",
+        "detail": null
+      },
+      {
+        "id": "388e7450-eb1d-40e2-8f6b-dcf4a3af514e",
+        "ordinal": 10,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.474125Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.474125Z",
+        "detail": null
+      },
+      {
+        "id": "3989528b-2d06-4546-896d-4c1d18e61c10",
+        "ordinal": 11,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.513032Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.513032Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 12,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "46a6c05c-42f8-454d-8d41-9fc7ae54d435",
+        "ordinal": 13,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.677254Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.677254Z",
+        "detail": null
+      },
+      {
+        "id": "4d36662e-90f7-482c-ba77-7b35202622d1",
+        "ordinal": 14,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.710031Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.710031Z",
+        "detail": null
+      },
+      {
+        "id": "595eb94c-ebd0-42f6-ba55-3dce75c335b1",
+        "ordinal": 15,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.583571Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.583571Z",
+        "detail": null
+      },
+      {
+        "id": "67e1a413-f2aa-4023-83f6-72cdd35d4017",
+        "ordinal": 16,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.641696Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.641696Z",
+        "detail": null
+      },
+      {
+        "id": "67f52155-23aa-4296-8606-25976d606b46",
+        "ordinal": 17,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.435156Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.435156Z",
+        "detail": null
+      },
+      {
+        "id": "6aa40fd8-20fe-48f0-8db2-9e98d2ba5d88",
+        "ordinal": 18,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.573597Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.573597Z",
+        "detail": null
+      },
+      {
+        "id": "6c616e62-0ee5-4973-bf61-23b270ce9631",
+        "ordinal": 19,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.492249Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.492249Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 20,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 21,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "84d073d9-bce9-4008-895f-2bb5e7c6f4d2",
+        "ordinal": 22,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.532939Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.532939Z",
+        "detail": null
+      },
+      {
+        "id": "86831324-51df-48dd-af5b-1a28266eb090",
+        "ordinal": 23,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.446519Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.446519Z",
+        "detail": null
+      },
+      {
+        "id": "8a1db731-25bf-4a4f-b55d-058e4228a4a2",
+        "ordinal": 24,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.603156Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.603156Z",
+        "detail": null
+      },
+      {
+        "id": "930e9cf5-8313-46be-9caa-5b0f7b006f53",
+        "ordinal": 25,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.563267Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.563267Z",
+        "detail": null
+      },
+      {
+        "id": "9bfbf689-b99c-4ccf-a962-cf22a0d30798",
+        "ordinal": 26,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.592768Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.592768Z",
+        "detail": null
+      },
+      {
+        "id": "9fcaa480-48ef-43e0-a16e-49eb1f21f33b",
+        "ordinal": 27,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.384668Z",
+          "amountMinor": "-9007199254740993"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.384668Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 28,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "a2f1adff-0644-46b6-b8a6-5ce4758396c8",
+        "ordinal": 29,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.543217Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.543217Z",
+        "detail": null
+      },
+      {
+        "id": "afa612f3-ce7c-4283-ad51-a3f4af5a337d",
+        "ordinal": 30,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.652956Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.652956Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 31,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      },
+      {
+        "id": "c215f581-36e7-4568-991a-2314b09be324",
+        "ordinal": 32,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.523307Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.523307Z",
+        "detail": null
+      },
+      {
+        "id": "c33a7536-f26d-4206-a018-857e76527502",
+        "ordinal": 33,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.399174Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.399174Z",
+        "detail": null
+      },
+      {
+        "id": "c7bba6da-f67d-44c7-8665-5e27071d1b2b",
+        "ordinal": 34,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.483347Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.483347Z",
+        "detail": null
+      },
+      {
+        "id": "d5c28d7c-b7ee-4bea-baae-9d21627a11d8",
+        "ordinal": 35,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.687718Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.687718Z",
+        "detail": null
+      },
+      {
+        "id": "ed235a60-d0b4-4049-80be-622bb2bf0376",
+        "ordinal": 36,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.629263Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.629263Z",
+        "detail": null
+      },
+      {
+        "id": "ee41ea7e-7741-4e98-beac-6a35e1321886",
+        "ordinal": 37,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.698468Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.698468Z",
+        "detail": null
+      },
+      {
+        "id": "f9fd4bdd-9113-4a79-a2f8-747c32524138",
+        "ordinal": 38,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.423119Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.423119Z",
+        "detail": null
+      },
+      {
+        "id": "fe88caaf-8033-466d-ad1a-b8f5d24273d3",
+        "ordinal": 39,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.455721Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.455721Z",
+        "detail": null
+      },
+      {
+        "id": "ff62ccfd-2108-4473-b643-859c170c0e12",
+        "ordinal": 40,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.410327Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.410327Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "incomplete": {
+    "snapshot": {
+      "id": "799c0659-3768-4a98-92f8-004a2c3ad04a",
+      "asOf": "2026-10-09T02:04:34.893Z",
+      "sort": "dateAsc",
+      "scope": {
+        "policy": "assigned",
+        "branchIds": [
+          "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+          "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+        ],
+        "completeCompany": true,
+        "authorizationRevision": "1"
+      },
+      "totals": {
+        "amountMinor": "-9007199254124993"
+      },
+      "context": {
+        "profit": {
+          "payroll": {
+            "payoutMinor": "0",
+            "salaryMinor": "300000",
+            "additionsMinor": "0",
+            "commissionMinor": "100000",
+            "employeeCostMinor": "400000",
+            "advanceRecoveryMinor": "0",
+            "entitlementDeductionsMinor": "0",
+            "incidentRecoveryWithheldMinor": "0"
+          },
+          "branches": [
+            {
+              "branchId": "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "branchName": "الفرع ب",
+              "profitMinor": "0"
+            },
+            {
+              "branchId": "d0af5845-e9d0-409b-9d6c-96be7ab276b2",
+              "branchName": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+              "profitMinor": "-9007199254124993"
+            }
+          ],
+          "shipping": {
+            "netMinor": "1000000",
+            "grossMinor": "1000000",
+            "waiverMinor": "0"
+          },
+          "categories": [
+            {
+              "category": "shipping_gross",
+              "amountMinor": "1000000",
+              "sourceCount": 1
+            },
+            {
+              "category": "shipping_waiver",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "storage_revenue",
+              "amountMinor": "200000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_salary",
+              "amountMinor": "-300000",
+              "sourceCount": 2
+            },
+            {
+              "category": "employee_commission",
+              "amountMinor": "-100000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_addition",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "employee_entitlement_deduction",
+              "amountMinor": "0",
+              "sourceCount": 0
+            },
+            {
+              "category": "paid_expense",
+              "amountMinor": "-9007199254894993",
+              "sourceCount": 33
+            },
+            {
+              "category": "brand_compensation",
+              "amountMinor": "-50000",
+              "sourceCount": 1
+            },
+            {
+              "category": "employee_compensation_share",
+              "amountMinor": "20000",
+              "sourceCount": 1
+            }
+          ],
+          "limitations": [
+            "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+          ],
+          "profitMinor": "-9007199254124993",
+          "laterEntryCount": 0,
+          "calculationComplete": false
+        },
+        "actualMoney": {
+          "asOf": "2026-10-09T02:04:34.893Z",
+          "notes": [
+            "الأرصدة الحالية للحسابات التي تقع جميع فروع استخدامها داخل النطاق؛ الحساب المشترك الأوسع لا يعرض جزئياً.",
+            "التزامات البراند من الدفعات المتبقية وديون مصادر الفروع المحددة؛ صرف أي فرع يستهلك المصدر الأصلي مرة واحدة.",
+            "مستحق التخزين حسب فرع الفترة، والائتمان غير المخصص حسب فرع الاتفاق؛ استلام المال في فرع آخر لا يغير الإيراد."
+          ],
+          "accounts": [
+            {
+              "id": "5efcacdd-9e97-472f-a02c-141f3d7177e6",
+              "name": "P24 خزنة أ",
+              "type": "cash",
+              "bookMinor": "992800755105007",
+              "heldMinor": "0",
+              "journalMinor": "992800755105007",
+              "availableMinor": "992800755105007",
+              "projectionVersion": "1:35"
+            },
+            {
+              "id": "73b615f2-2131-4825-ad81-a836e23f20b5",
+              "name": "خزنة الرواتب التجريبية",
+              "type": "cash",
+              "bookMinor": "100000000",
+              "heldMinor": "0",
+              "journalMinor": "100000000",
+              "availableMinor": "100000000",
+              "projectionVersion": "1:1"
+            },
+            {
+              "id": "763df8eb-7303-4479-8cba-30a5511cdd24",
+              "name": "P24 خزنة ب",
+              "type": "cash",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            },
+            {
+              "id": "ae9d2550-2566-4fa8-a2ad-aac620b3f4f2",
+              "name": "بنك الرواتب التجريبي",
+              "type": "bank",
+              "bookMinor": "0",
+              "heldMinor": "0",
+              "journalMinor": "0",
+              "availableMinor": "0",
+              "projectionVersion": "1:0"
+            }
+          ],
+          "dateBasis": "current",
+          "brandHeldMinor": "0",
+          "storageDueMinor": "200000",
+          "brandPendingMinor": "25000",
+          "storageCreditMinor": "0",
+          "fundsInTransitMinor": "0",
+          "brandLiabilitiesMinor": "1075000",
+          "heldDiscrepanciesMinor": "0",
+          "unremittedRecipientMinor": "1025000"
+        },
+        "sourceIssues": [],
+        "reconciliation": [
+          {
+            "id": "773cb3d2391c487c50dc7fac725077b4bd31a755f79afb2a61f16819167707b1",
+            "asOf": "2026-10-09T02:04:34.893Z",
+            "kind": "source_checkpoint",
+            "message": "تغطية المصدر غير مكتملة: استلم حتى 3 وطبق حتى 2؛ يلزم مسار الاستعادة دون قيد مالي تلقائي.",
+            "targetId": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "branchIds": [
+              "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+            ],
+            "sourceIds": [
+              "161d1489-f8d3-4e9e-a409-028c8019b9a6"
+            ],
+            "deltaMinor": null,
+            "targetType": "task",
+            "recoveryPath": "/integration/recovery",
+            "expectedMinor": null,
+            "observedMinor": null,
+            "observedVersion": "8:received=3:applied=2",
+            "sourceCapability": "integration"
+          },
+          {
+            "id": "aabcea1d3e47567615d0ea909ffecae120cab717e84b1777cfadf4e2d4a04228",
+            "asOf": "2026-10-09T02:04:34.893Z",
+            "kind": "source_checkpoint",
+            "message": "تغطية المصدر غير مكتملة: استلم حتى 2 وطبق حتى 1؛ يلزم مسار الاستعادة دون قيد مالي تلقائي.",
+            "targetId": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "branchIds": [
+              "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+            ],
+            "sourceIds": [
+              "161d1489-f8d3-4e9e-a409-028c8019b9a6"
+            ],
+            "deltaMinor": null,
+            "targetType": "trip",
+            "recoveryPath": "/integration/recovery",
+            "expectedMinor": null,
+            "observedMinor": null,
+            "observedVersion": "5:received=2:applied=1",
+            "sourceCapability": "integration"
+          },
+          {
+            "id": "d72e93e112a570271e3619654448baa87cd5a6aed31fa28b9d93744e55b9c1fd",
+            "asOf": "2026-10-09T02:04:34.893Z",
+            "kind": "source_checkpoint",
+            "message": "تغطية المصدر غير مكتملة: استلم حتى 2 وطبق حتى 1؛ يلزم مسار الاستعادة دون قيد مالي تلقائي.",
+            "targetId": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "branchIds": [
+              "54350ff8-98b4-4de9-97fb-ed16a54ee3bc",
+              "d0af5845-e9d0-409b-9d6c-96be7ab276b2"
+            ],
+            "sourceIds": [
+              "161d1489-f8d3-4e9e-a409-028c8019b9a6"
+            ],
+            "deltaMinor": null,
+            "targetType": "trip",
+            "recoveryPath": "/integration/recovery",
+            "expectedMinor": null,
+            "observedMinor": null,
+            "observedVersion": "5:received=2:applied=1",
+            "sourceCapability": "integration"
+          }
+        ]
+      },
+      "filters": {
+        "to": "2026-10-09",
+        "from": "2026-10-01",
+        "dateBasis": "effective"
+      },
+      "coverage": {
+        "flags": [
+          "SOURCE_HISTORY_INCOMPLETE",
+          "SOURCE_FINANCIAL_READINESS_PENDING"
+        ],
+        "complete": false,
+        "revisions": [
+          {
+            "gapped": true,
+            "revision": "8",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.904161Z",
+            "aggregate_id": "2556ba6b-0a0e-4932-8f8f-cd46b940024d",
+            "received_high": "3",
+            "aggregate_type": "task",
+            "applied_through": "2",
+            "financial_ready": false,
+            "history_complete": false,
+            "received_through": "2"
+          },
+          {
+            "gapped": true,
+            "revision": "5",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:05.868484Z",
+            "aggregate_id": "5f23b8e4-da53-4c27-8477-97f53f16f5cb",
+            "received_high": "2",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": false,
+            "history_complete": false,
+            "received_through": "1"
+          },
+          {
+            "gapped": true,
+            "revision": "5",
+            "source_id": "161d1489-f8d3-4e9e-a409-028c8019b9a6",
+            "updated_at": "2026-10-09T02:04:06.015022Z",
+            "aggregate_id": "9eb208ff-1858-4225-a1b7-d487f5f83b7f",
+            "received_high": "2",
+            "aggregate_type": "trip",
+            "applied_through": "1",
+            "financial_ready": false,
+            "history_complete": false,
+            "received_through": "1"
+          }
+        ]
+      },
+      "reportId": "REP-15",
+      "dateBasis": "effective",
+      "totalRows": 40,
+      "dataDigest": "bc37c7bbd06b0e2441b87b2ca85eaca22f20e297725ed6ef1664d8826aa3e0ae",
+      "companyName": "P24 isolated operating profit acceptance company",
+      "filterDigest": "4b9cb782cb3ecc7b266be2180cc0723516def7ea7947d520309bb116250c798a"
+    },
+    "rows": [
+      {
+        "id": "29cfc34c-a9bf-4c5f-bc23-fea9005a3f77",
+        "ordinal": 1,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:16.968580Z",
+          "amountMinor": "-1000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:16.968580Z",
+        "detail": null
+      },
+      {
+        "id": "38fa41d2-4031-46fe-a2b8-c178eb633722",
+        "ordinal": 2,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.119648Z",
+          "amountMinor": "0"
+        },
+        "sourceIds": [],
+        "revision": "e89f61eb291926c60ec60d0b90c88a8ae9fe9cdf90091f3def9d800728236317",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.119648Z",
+        "detail": null
+      },
+      {
+        "id": "791bb30e-f30a-4e13-ab73-e8442e1e6002",
+        "ordinal": 3,
+        "values": {
+          "date": "2026-10-01",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_salary",
+          "recordedAt": "2026-10-09T02:04:06.104629Z",
+          "amountMinor": "-300000"
+        },
+        "sourceIds": [],
+        "revision": "fc01fa22acc61f513fb8a4b5bedd7140ee45cff37f04b732ab323909586d8864",
+        "effectiveAt": "2026-09-30T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.104629Z",
+        "detail": null
+      },
+      {
+        "id": "0771d3b8-d9a7-45a2-a717-aa425574ae68",
+        "ordinal": 4,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.464175Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.464175Z",
+        "detail": null
+      },
+      {
+        "id": "1255bbe4-1d20-4e43-8cd2-7ce6a53fd6d3",
+        "ordinal": 5,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.665305Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.665305Z",
+        "detail": null
+      },
+      {
+        "id": "1d2a8b4f-8fc3-43ba-ab98-8b7e32b13e9b",
+        "ordinal": 6,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.552863Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.552863Z",
+        "detail": null
+      },
+      {
+        "id": "1d94b411-ec87-48ca-b995-e27f40856e7a",
+        "ordinal": 7,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:05.729827Z",
+          "amountMinor": "-150000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.729827Z",
+        "detail": null
+      },
+      {
+        "id": "27b33c34-28c3-4808-9955-27c723e31542",
+        "ordinal": 8,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.502889Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.502889Z",
+        "detail": null
+      },
+      {
+        "id": "307dc096-20d4-4838-a2e5-22153485da94",
+        "ordinal": 9,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.616722Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.616722Z",
+        "detail": null
+      },
+      {
+        "id": "388e7450-eb1d-40e2-8f6b-dcf4a3af514e",
+        "ordinal": 10,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.474125Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.474125Z",
+        "detail": null
+      },
+      {
+        "id": "3989528b-2d06-4546-896d-4c1d18e61c10",
+        "ordinal": 11,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.513032Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.513032Z",
+        "detail": null
+      },
+      {
+        "id": "3b15ba22-2d0c-448c-9c37-dfff872f5eaf",
+        "ordinal": 12,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "brand_compensation",
+          "recordedAt": "2026-10-09T02:04:06.057807Z",
+          "amountMinor": "-50000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.057807Z",
+        "detail": null
+      },
+      {
+        "id": "46a6c05c-42f8-454d-8d41-9fc7ae54d435",
+        "ordinal": 13,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.677254Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.677254Z",
+        "detail": null
+      },
+      {
+        "id": "4d36662e-90f7-482c-ba77-7b35202622d1",
+        "ordinal": 14,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.710031Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.710031Z",
+        "detail": null
+      },
+      {
+        "id": "595eb94c-ebd0-42f6-ba55-3dce75c335b1",
+        "ordinal": 15,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.583571Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.583571Z",
+        "detail": null
+      },
+      {
+        "id": "67e1a413-f2aa-4023-83f6-72cdd35d4017",
+        "ordinal": 16,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.641696Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.641696Z",
+        "detail": null
+      },
+      {
+        "id": "67f52155-23aa-4296-8606-25976d606b46",
+        "ordinal": 17,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.435156Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.435156Z",
+        "detail": null
+      },
+      {
+        "id": "6aa40fd8-20fe-48f0-8db2-9e98d2ba5d88",
+        "ordinal": 18,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.573597Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.573597Z",
+        "detail": null
+      },
+      {
+        "id": "6c616e62-0ee5-4973-bf61-23b270ce9631",
+        "ordinal": 19,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.492249Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.492249Z",
+        "detail": null
+      },
+      {
+        "id": "6efe6dc7-ac5b-4bcb-ac45-7160d526f14f",
+        "ordinal": 20,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_compensation_share",
+          "recordedAt": "2026-10-09T02:04:06.058533Z",
+          "amountMinor": "20000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.058533Z",
+        "detail": null
+      },
+      {
+        "id": "8086f8bc-8a9a-4edd-a1f2-2938f6e6ba41",
+        "ordinal": 21,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "shipping_gross",
+          "recordedAt": "2026-10-09T02:04:05.882437Z",
+          "amountMinor": "1000000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.882437Z",
+        "detail": null
+      },
+      {
+        "id": "84d073d9-bce9-4008-895f-2bb5e7c6f4d2",
+        "ordinal": 22,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.532939Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.532939Z",
+        "detail": null
+      },
+      {
+        "id": "86831324-51df-48dd-af5b-1a28266eb090",
+        "ordinal": 23,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.446519Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.446519Z",
+        "detail": null
+      },
+      {
+        "id": "8a1db731-25bf-4a4f-b55d-058e4228a4a2",
+        "ordinal": 24,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.603156Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.603156Z",
+        "detail": null
+      },
+      {
+        "id": "930e9cf5-8313-46be-9caa-5b0f7b006f53",
+        "ordinal": 25,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.563267Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.563267Z",
+        "detail": null
+      },
+      {
+        "id": "9bfbf689-b99c-4ccf-a962-cf22a0d30798",
+        "ordinal": 26,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.592768Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.592768Z",
+        "detail": null
+      },
+      {
+        "id": "9fcaa480-48ef-43e0-a16e-49eb1f21f33b",
+        "ordinal": 27,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.384668Z",
+          "amountMinor": "-9007199254740993"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.384668Z",
+        "detail": null
+      },
+      {
+        "id": "a0d080f0-c507-4d52-aa89-8a619f4afef0",
+        "ordinal": 28,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "storage_revenue",
+          "recordedAt": "2026-10-09T02:04:06.088521Z",
+          "amountMinor": "200000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:06.088521Z",
+        "detail": null
+      },
+      {
+        "id": "a2f1adff-0644-46b6-b8a6-5ce4758396c8",
+        "ordinal": 29,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.543217Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.543217Z",
+        "detail": null
+      },
+      {
+        "id": "afa612f3-ce7c-4283-ad51-a3f4af5a337d",
+        "ordinal": 30,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.652956Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.652956Z",
+        "detail": null
+      },
+      {
+        "id": "bbc43702-34fc-4fc9-ba87-ab5d6bf94d2c",
+        "ordinal": 31,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "employee_commission",
+          "recordedAt": "2026-10-09T02:04:05.883437Z",
+          "amountMinor": "-100000"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:05.883437Z",
+        "detail": null
+      },
+      {
+        "id": "c215f581-36e7-4568-991a-2314b09be324",
+        "ordinal": 32,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.523307Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.523307Z",
+        "detail": null
+      },
+      {
+        "id": "c33a7536-f26d-4206-a018-857e76527502",
+        "ordinal": 33,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.399174Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.399174Z",
+        "detail": null
+      },
+      {
+        "id": "c7bba6da-f67d-44c7-8665-5e27071d1b2b",
+        "ordinal": 34,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.483347Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.483347Z",
+        "detail": null
+      },
+      {
+        "id": "d5c28d7c-b7ee-4bea-baae-9d21627a11d8",
+        "ordinal": 35,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.687718Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.687718Z",
+        "detail": null
+      },
+      {
+        "id": "ed235a60-d0b4-4049-80be-622bb2bf0376",
+        "ordinal": 36,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.629263Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.629263Z",
+        "detail": null
+      },
+      {
+        "id": "ee41ea7e-7741-4e98-beac-6a35e1321886",
+        "ordinal": 37,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.698468Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.698468Z",
+        "detail": null
+      },
+      {
+        "id": "f9fd4bdd-9113-4a79-a2f8-747c32524138",
+        "ordinal": 38,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.423119Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.423119Z",
+        "detail": null
+      },
+      {
+        "id": "fe88caaf-8033-466d-ad1a-b8f5d24273d3",
+        "ordinal": 39,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.455721Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.455721Z",
+        "detail": null
+      },
+      {
+        "id": "ff62ccfd-2108-4473-b643-859c170c0e12",
+        "ordinal": 40,
+        "values": {
+          "date": "2026-10-09",
+          "branch": "فرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق",
+          "category": "paid_expense",
+          "recordedAt": "2026-10-09T02:04:30.410327Z",
+          "amountMinor": "-100"
+        },
+        "sourceIds": [],
+        "revision": "1",
+        "effectiveAt": "2026-10-08T21:00:00.000Z",
+        "recordedAt": "2026-10-09T02:04:30.410327Z",
+        "detail": null
+      }
+    ],
+    "page": 1,
+    "limit": 100
+  },
+  "expectedFaultDeltaMinor": "123",
+  "largeExpenseMinor": "9007199254740993",
+  "exportsPreserveAllRows": true
+}

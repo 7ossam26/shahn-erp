@@ -1,0 +1,69 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/db/finance.test.ts tests/db/treasury-transfers.test.ts tests/integration/p13/execution.db.test.ts tests/integration/p16/remittance.db.test.ts tests/integration/p17/payout.db.test.ts tests/integration/p18/incidents.db.test.ts tests/integration/p18/replacement.db.test.ts tests/integration/p19/storage.db.test.ts tests/integration/p20/payroll.db.test.ts tests/integration/p20/sources.db.test.ts tests/integration/p21/settlements.db.test.ts tests/integration/p23/reporting.db.test.ts tests/integration/p23/exports.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p18/incidents.db.test.ts (10 tests) 8232ms
+   ✓ P18-AC-05 competing reports cannot reserve the same units; lost confirm response recovers one original result 340ms
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 18348ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 1430ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 543ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 665ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 436ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 592ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 382ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 371ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 673ms
+   ✓ rechecks native branch/grant for review and retained result 411ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 3532ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 354ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 328ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 616ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 596ms
+ ✓ tests/integration/p23/exports.db.test.ts (5 tests) 19104ms
+   ✓ A06 actual process dies before/after publication; lease reclaim returns one artifact and lost-response replay retains one job 6783ms
+   ✓ stale worker cannot publish or announce success under a reclaimed fence 1198ms
+   ✓ expiry denies old endpoint, purges only bytes, retains snapshot/metadata and allows a new export intent 2214ms
+   ✓ A01 readable real PDF and XLSX consume same27-row snapshot and expense200; rendering holds no database transaction 972ms
+   ✓ export lane preparation overlaps actual source application; records sample size/timing without a capacity claim 543ms
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests) 11539ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 452ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 365ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 363ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 436ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 326ms
+   ✓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 401ms
+   ✓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 3019ms
+ ✓ tests/db/treasury-transfers.test.ts (22 tests) 16572ms
+   ✓ A08 crashes actual receipt process before/after commit, restarts and recovers one source/transit/destination result 9459ms
+ ✓ tests/db/finance.test.ts (18 tests) 15374ms
+   ✓ crashes real process before and after commit, restarts and recovers exactly one record 9132ms
+ ✓ tests/integration/p23/reporting.db.test.ts (10 tests) 15480ms
+   ✓ cash positions keep unresolved negative and positive observations separate from posted balances 6672ms
+   ✓ prepaid zero-goods delivery adds no goods credit, pending dues stay separate, current delivered parcel is not carrier stock; reporting cannot reprice its source 373ms
+ ✓ tests/integration/p20/sources.db.test.ts (4 tests) 7859ms
+   ✓ AC04/05 actual P13 visits 50+5 at 10%, replay, P18 original share 200, cross-branch payout and cost 515ms
+   ✓ incident obligation versus payout on independent backends chooses either revised preview or protected incident period 537ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p20/payroll.db.test.ts (10 tests) 8974ms
+   ✓ before-commit connection termination rolls back; committed payment survives database restart and identity recovery 1429ms
+ ✓ tests/integration/p19/storage.db.test.ts (13 tests) 10766ms
+   ✓ P19 storage periods, receipts, credit and refunds (real PostgreSQL) (13)
+     ✓ P19-AC-05: stop keeps arrears, credit and history; the worker never renews after it 372ms
+     ✓ P19-AC-07: a duplicate receipt after a dropped response is recovered without a second credit 2948ms
+     ✓ database guards reject over-allocation, unrecorded storage money, history edits and retroactive terms 305ms
+ ✓ tests/integration/p21/settlements.db.test.ts (10 tests) 6995ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 9214ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 368ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 1762ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 340ms
+ ✓ tests/integration/p18/replacement.db.test.ts (2 tests) 7010ms
+
+ Test Files  13 passed (13)
+      Tests  145 passed (145)
+   Start at  20:55:23
+   Duration  178.94s (tests 88%, import 11%, transform 1%)

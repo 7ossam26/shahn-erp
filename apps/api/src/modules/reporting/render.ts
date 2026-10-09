@@ -109,6 +109,7 @@ export async function renderXlsx(snapshot: ReportSnapshot, rows: ReportRow[]): P
     'الفعال UTC',
     'التسجيل UTC',
     'القيم الأصلية - قروش صحيحة',
+    'الأثر الاقتصادي وتصحيحه',
   ]);
   for (const row of rows)
     source.addRow(
@@ -119,6 +120,7 @@ export async function renderXlsx(snapshot: ReportSnapshot, rows: ReportRow[]): P
         row.effectiveAt ?? 'unknown',
         row.recordedAt ?? 'unknown',
         JSON.stringify(row.values),
+        JSON.stringify(row.economicEffect ?? null),
       ].map(spreadsheetText),
     );
   source.columns.forEach((c) => {

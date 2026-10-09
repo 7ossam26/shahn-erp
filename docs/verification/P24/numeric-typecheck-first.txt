@@ -1,0 +1,5 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run tsc -p tests --pretty false --incremental false
+tests/integration/p24/numeric.db.test.ts(42,33): error TS2344: Type 'typeof ReportingService' does not satisfy the constraint '(...args: any) => any'.
+  Type 'typeof ReportingService' provides no match for the signature '(...args: any): any'.
+tests/integration/p24/numeric.db.test.ts(53,48): error TS2339: Property 'unallocatedCreditMinor' does not exist on type 'StorageAgreementDetail'.

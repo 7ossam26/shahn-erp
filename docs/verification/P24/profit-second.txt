@@ -1,0 +1,33 @@
+
+> shahn-erp@0.1.0 test:db
+> node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/profit.db.test.ts
+
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p24/profit.db.test.ts (1 test | 1 failed) 6541ms
+   × A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources 43ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources
+AssertionError: expected '420000' to be '620000' // Object.is equality
+
+Expected: "620000"
+Received: "420000"
+
+ ❯ tests/integration/p24/profit.db.test.ts:16:25
+     14|   expect(reportingResponseValidators.page(r),JSON.stringify(reportingR…
+     15|   const p=r.snapshot.context['profit'] as ProfitSummary;
+     16|   expect(p.profitMinor).toBe('620000');
+       |                         ^
+     17|   expect(p.shipping.grossMinor).toBe('1000000');expect(p.payroll.emplo…
+     18|   expect(p.branches.reduce((n,b)=>n+BigInt(b.profitMinor),0n).toString…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  21:18:18
+   Duration  8.86s (tests 75%, import 14%, transform 11%)

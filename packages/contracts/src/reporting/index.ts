@@ -1,5 +1,19 @@
 import AjvModule from 'ajv';
 import formatsModule from 'ajv-formats';
+import {
+  profitCategoryLabels,
+  profitCategories,
+  economicEffectSchema,
+  profitSummarySchema,
+  profitSourceIssueSchema,
+  profitActualMoneySchema,
+  profitReconciliationFindingSchema,
+  type EconomicEffect,
+  type ProfitSummary,
+  type ProfitActualMoney,
+  type ProfitReconciliationFinding,
+} from './profit.js';
+export * from './profit.js';
 
 export const reportIds = [
   'REP-01',
@@ -10,6 +24,7 @@ export const reportIds = [
   'REP-10',
   'REP-12',
   'REP-14',
+  'REP-15',
   'REP-18',
 ] as const;
 export type ReportId = (typeof reportIds)[number];
@@ -62,6 +77,8 @@ const reportTextLabels: Record<string, string> = {
   stock: 'قطع مخزون',
 };
 export function reportDisplayText(key: string, value: string) {
+  if (key === 'category' && profitCategories.includes(value as never))
+    return profitCategoryLabels[value as keyof typeof profitCategoryLabels];
   if (key === 'weekdays') {
     try {
       const days = JSON.parse(value) as number[];
@@ -352,6 +369,24 @@ export const reportRegistry: readonly ReportDefinition[] = [
     ],
   }),
   spec({
+    id: 'REP-15',
+    title: 'الربح التشغيلي',
+    surface: '/reports/REP-15',
+    scope: 'assigned',
+    capabilities: ['reports'],
+    filters: ['branchIds', ...range],
+    dateBases: ['effective', 'recorded'],
+    dateMeaning: 'فترة الاستحقاق التشغيلي أو وقت التسجيل بتوقيت القاهرة؛ الأرصدة الحالية منفصلة',
+    formula:
+      'الشحن والتغليف − إعفاء البديل + كامل التخزين عند بداية الفترة − استحقاق الموظفين بعد خصم الاستحقاق وقبل السلف − المصروف المدفوع − التعويض + حصة الموظف مرة واحدة. المصروف غير المدفوع الذي لم يدخل غير مشمول؛ لا إقفال محاسبي.',
+    columns: [
+      col('category', 'الفئة الاقتصادية'),
+      col('branch', 'الفرع التاريخي'),
+      col('amountMinor', 'الأثر في الربح EGP', 'money', true),
+      ...dates,
+    ],
+  }),
+  spec({
     id: 'REP-18',
     title: 'متابعة المخزون والعهدة',
     surface: '/reports/REP-18',
@@ -376,6 +411,8 @@ export const reportRegistry: readonly ReportDefinition[] = [
 ];
 export const reportDefinition = (id: ReportId) => reportRegistry.find((r) => r.id === id)!;
 export interface ReportRow {
+  ordinal?: number;
+  economicEffect?: EconomicEffect;
   id: string;
   values: Record<string, string | null>;
   sourceIds: string[];
@@ -406,6 +443,7 @@ export interface ReportSnapshot {
   coverage: { complete: boolean; flags: string[]; revisions: unknown[] };
 }
 export interface ReportPage {
+  filteredTotalRows?: number;
   snapshot: ReportSnapshot;
   rows: ReportRow[];
   page: number;
@@ -475,6 +513,57 @@ export function reportContextDisplay(snapshot: ReportSnapshot) {
   if (c['walletScope']) lines.push('المحفظة المشتركة للبراند ضمن نطاق الشركة المالي المعتمد');
   if (c['filteredStatement'])
     lines.push('الحركات مقيدة بالفلاتر؛ الختامي المعروض مشتق من الافتتاحي والحركات المختارة');
+  if (c['profit']) {
+    const p = c['profit'] as ProfitSummary;
+    lines.push(
+      `${p.calculationComplete ? 'الربح التشغيلي' : 'النتيجة المعروفة الجزئية'}: ${amount(p.profitMinor)}`,
+    );
+    for (const cat of p.categories)
+      lines.push(
+        `${profitCategoryLabels[cat.category]}: ${amount(cat.amountMinor)} · ${cat.sourceCount} مصدر`,
+      );
+    for (const b of p.branches) lines.push(`${b.branchName}: ${amount(b.profitMinor)}`);
+    for (const [key, label] of Object.entries({
+      salaryMinor: 'الراتب',
+      commissionMinor: 'العمولة',
+      additionsMinor: 'الإضافات',
+      entitlementDeductionsMinor: 'خصم الاستحقاق',
+      employeeCostMinor: 'تكلفة الموظف',
+      advanceRecoveryMinor: 'استرداد السلف',
+      incidentRecoveryWithheldMinor: 'استرداد الحادث عبر الرواتب',
+      payoutMinor: 'صافي دفع الرواتب الفعلي',
+    }))
+      lines.push(`${label}: ${amount(p.payroll[key as keyof typeof p.payroll])}`);
+    if (p.laterEntryCount)
+      lines.push(`قيود مسجلة بعد فترة استحقاقها: ${p.laterEntryCount}؛ اللقطات السابقة ثابتة.`);
+    lines.push(...p.limitations);
+  }
+  if (c['actualMoney']) {
+    const m = c['actualMoney'] as ProfitActualMoney;
+    lines.push(`المال الفعلي والالتزامات الحالية وقت اللقطة ${m.asOf}`);
+    for (const a of m.accounts)
+      lines.push(
+        `${a.name}: الفعلي ${amount(a.bookMinor)} · السجل ${amount(a.journalMinor)} · المحجوز ${amount(a.heldMinor)} · المتاح ${amount(a.availableMinor)}`,
+      );
+    for (const [key, label] of Object.entries({
+      fundsInTransitMinor: 'المال في الطريق',
+      heldDiscrepanciesMinor: 'فروق محجوزة',
+      unremittedRecipientMinor: 'غير مورد من المستلمين',
+      brandLiabilitiesMinor: 'التزامات البراند',
+      brandPendingMinor: 'معلق للبراند',
+      brandHeldMinor: 'محجوز للبراند',
+      storageDueMinor: 'مستحق التخزين',
+      storageCreditMinor: 'ائتمان التخزين',
+    })) {
+      const v = m[key as keyof typeof m];
+      lines.push(`${label}: ${v === null ? 'غير معلوم / محجوب' : amount(v)}`);
+    }
+    lines.push(...m.notes);
+  }
+  for (const finding of (c['reconciliation'] ?? []) as ProfitReconciliationFinding[])
+    lines.push(
+      `${finding.message} · الفرق ${finding.deltaMinor === null ? 'غير معلوم' : amount(finding.deltaMinor)} · النسخة ${finding.observedVersion} · ${finding.asOf}`,
+    );
   return lines;
 }
 export interface ReportCommand {
@@ -590,15 +679,20 @@ const minorText = { type: 'string', pattern: '^(0|-?[1-9][0-9]*)$' };
 const dictionary = { type: 'object', additionalProperties: minorText };
 const array = (items: unknown) => ({ type: 'array', items });
 const valueKeys = [...new Set(reportRegistry.flatMap((d) => d.columns.map((c) => c.key)))];
-export const reportRowSchema = closed({
-  id: text,
-  values: closed(Object.fromEntries(valueKeys.map((k) => [k, nullableText])), []),
-  sourceIds: array(text),
-  revision: text,
-  effectiveAt: nullableDateTime,
-  recordedAt: nullableDateTime,
-  detail: nullableText,
-});
+export const reportRowSchema = closed(
+  {
+    ordinal: { ...integer, minimum: 1 },
+    economicEffect: economicEffectSchema,
+    id: text,
+    values: closed(Object.fromEntries(valueKeys.map((k) => [k, nullableText])), []),
+    sourceIds: array(text),
+    revision: text,
+    effectiveAt: nullableDateTime,
+    recordedAt: nullableDateTime,
+    detail: nullableText,
+  },
+  ['id', 'values', 'sourceIds', 'revision', 'effectiveAt', 'recordedAt', 'detail'],
+);
 const checkpoint = closed({
   source_id: uuid,
   aggregate_type: text,
@@ -620,6 +714,10 @@ const scopeSchema = closed({
 });
 const contextSchema = closed(
   {
+    profit: profitSummarySchema,
+    actualMoney: profitActualMoneySchema,
+    sourceIssues: array(profitSourceIssueSchema),
+    reconciliation: array(profitReconciliationFindingSchema),
     walletScope: text,
     period: text,
     openingByBrand: dictionary,
@@ -690,12 +788,16 @@ export const reportSnapshotSchema = closed({
   context: contextSchema,
   coverage: closed({ complete: boolean, flags: array(text), revisions: array(checkpoint) }),
 });
-export const reportPageSchema = closed({
-  snapshot: reportSnapshotSchema,
-  rows: array(reportRowSchema),
-  page: { ...integer, minimum: 1 },
-  limit: { enum: [25, 50, 100] },
-});
+export const reportPageSchema = closed(
+  {
+    filteredTotalRows: integer,
+    snapshot: reportSnapshotSchema,
+    rows: array(reportRowSchema),
+    page: { ...integer, minimum: 1 },
+    limit: { enum: [25, 50, 100] },
+  },
+  ['snapshot', 'rows', 'page', 'limit'],
+);
 export const exportJobSchema = closed({
   id: uuid,
   snapshotId: uuid,
@@ -764,6 +866,7 @@ export const reportingPaths = Object.fromEntries(
     ['snapshots', 'post', 'erp.reports.snapshot', reportPageSchema, reportCommandSchema],
     ['snapshots/{id}', 'get', 'erp.reports.page', reportPageSchema, null],
     ['snapshots/{id}/rows/{ordinal}', 'get', 'erp.reports.row', reportRowSchema, null],
+    ['snapshots/{id}/category/{category}', 'get', 'erp.reports.category', reportPageSchema, null],
     ['exports', 'post', 'erp.reports.export', exportJobSchema, exportCommandSchema],
     ['exports/{id}', 'get', 'erp.reports.exportJob', exportJobSchema, null],
     [
@@ -780,7 +883,9 @@ export const reportingPaths = Object.fromEntries(
     if (route.includes('{id}')) parameters.push(parameter('id', uuid, 'path'));
     if (route.includes('{ordinal}'))
       parameters.push(parameter('ordinal', { type: 'integer', minimum: 1 }, 'path'));
-    if (route === 'snapshots/{id}')
+    if (route.includes('{category}'))
+      parameters.push(parameter('category', { enum: profitCategories }, 'path'));
+    if (route === 'snapshots/{id}' || route.includes('{category}'))
       parameters.push(
         parameter('page', { type: 'integer', minimum: 1 }, 'query', false),
         parameter('limit', { enum: [25, 50, 100] }, 'query', false),

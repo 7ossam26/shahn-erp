@@ -24,6 +24,7 @@ export function registerReporting(app: FastifyInstance, pool: Pool, origin: stri
     ['POST', 'snapshots', 'snapshot'],
     ['GET', 'snapshots/:id', 'page'],
     ['GET', 'snapshots/:id/rows/:ordinal', 'detail'],
+    ['GET', 'snapshots/:id/category/:category', 'category'],
     ['POST', 'exports', 'export'],
     ['GET', 'exports/:id', 'job'],
     ['GET', 'exports/:id/download', 'download'],
@@ -69,7 +70,8 @@ export function registerReporting(app: FastifyInstance, pool: Pool, origin: stri
             const result = await commands.execute(token, req.body as never);
             return reply.code(result.status).send(checked('job', result.body));
           }
-          const allowed = kind === 'page' ? ['companyId', 'page', 'limit'] : ['companyId'];
+          const allowed =
+            kind === 'page' || kind === 'category' ? ['companyId', 'page', 'limit'] : ['companyId'];
           if (
             !uuid.test(q['companyId'] ?? '') ||
             Object.keys(q).some((k) => !allowed.includes(k)) ||
@@ -77,6 +79,20 @@ export function registerReporting(app: FastifyInstance, pool: Pool, origin: stri
           )
             throw new AccessError('VALIDATION_FAILED', 400);
           const company = q['companyId']!;
+          if (kind === 'category')
+            return reply.send(
+              checked(
+                'page',
+                await reporting.category(
+                  token,
+                  company,
+                  p['id']!,
+                  p['category']! as never,
+                  Number(q['page'] ?? 1),
+                  Number(q['limit'] ?? 25),
+                ),
+              ),
+            );
           if (kind === 'page')
             return reply.send(
               checked(

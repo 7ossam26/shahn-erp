@@ -1,0 +1,552 @@
+{
+  "restart": [
+    {
+      "boundary": "before",
+      "exitCode": 76,
+      "firstArtifactId": null,
+      "completed": {
+        "id": "c34ff718-b5c8-4fad-b9c5-a140d2f33630",
+        "snapshotId": "03d0d66f-96c2-46c9-ab58-e629697b652a",
+        "format": "xlsx",
+        "state": "completed",
+        "attempts": 2,
+        "error": null,
+        "artifactId": "d40594d6-9147-4139-bebc-f32b6b0dda21",
+        "expiresAt": "2026-10-09T18:57:16.536Z",
+        "downloadUrl": "/api/v1/reports/exports/c34ff718-b5c8-4fad-b9c5-a140d2f33630/download?companyId=d6ec99d2-5583-4d29-8388-050a4830b2c4"
+      }
+    },
+    {
+      "boundary": "after",
+      "exitCode": 77,
+      "firstArtifactId": "9288b761-c820-4cc0-b09f-baa9315aa01c",
+      "completed": {
+        "id": "57813c3e-97c8-4ef0-abfc-da3f29984f04",
+        "snapshotId": "b4008a47-37d1-4332-bfd5-71cd1aeaa1e0",
+        "format": "xlsx",
+        "state": "completed",
+        "attempts": 2,
+        "error": null,
+        "artifactId": "9288b761-c820-4cc0-b09f-baa9315aa01c",
+        "expiresAt": "2026-10-09T18:57:20.115Z",
+        "downloadUrl": "/api/v1/reports/exports/57813c3e-97c8-4ef0-abfc-da3f29984f04/download?companyId=d6ec99d2-5583-4d29-8388-050a4830b2c4"
+      }
+    }
+  ],
+  "pdf": {
+    "rowCount": 27,
+    "completionMs": 1046.828999999998,
+    "snapshotId": "ee6401f8-03c4-44e4-820a-ccc1a0ff4cd9",
+    "dataDigest": "235152b6134493da7ecf997d9764bcf028d98d211b85a7d386f304cdde5609b1",
+    "artifactSha256": "3508c611de9bdb59750f8642870fc2f1b10d65bb5912e7f5c8b6d8243edc65b7",
+    "xlsxSha256": "9efb74ae72bc52207723edb754adc97cb91b632c9e24b55c5cb204578a36973b",
+    "expenseSnapshot": {
+      "id": "46f29b1a-946e-4fed-b1d5-4ca72f389d1b",
+      "reportId": "REP-14",
+      "companyName": "شركة التجربة",
+      "asOf": "2026-10-08T18:57:27.618Z",
+      "filterDigest": "f2125d581c49fafd946b2d48d86156fe6f5b812686a686ef469bccc343db8a12",
+      "dataDigest": "dda64728a37ea2aa8d5587e31802c96d4be1d63753f02bbd964ab36a8fc8a5a8",
+      "filters": {
+        "from": "2026-10-08",
+        "to": "2026-10-08",
+        "branchIds": [
+          "5587c2ca-91f9-437a-8ee6-08f69cd9b3f0"
+        ]
+      },
+      "sort": "dateAsc",
+      "dateBasis": "actual",
+      "scope": {
+        "branchIds": [
+          "5587c2ca-91f9-437a-8ee6-08f69cd9b3f0"
+        ],
+        "authorizationRevision": "1",
+        "completeCompany": false,
+        "policy": "assigned"
+      },
+      "totalRows": 1,
+      "totals": {
+        "amountMinor": "20000"
+      },
+      "context": {},
+      "coverage": {
+        "complete": true,
+        "flags": [],
+        "revisions": [
+          {
+            "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "aggregate_type": "task",
+            "aggregate_id": "b0cc9223-8116-4a02-bb1d-ad784404f180",
+            "revision": "7",
+            "received_high": "2",
+            "received_through": "2",
+            "applied_through": "2",
+            "history_complete": true,
+            "financial_ready": true,
+            "gapped": false,
+            "updated_at": "2026-10-08T18:57:15.554291Z"
+          },
+          {
+            "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "aggregate_type": "trip",
+            "aggregate_id": "e4e4e119-97bf-4b01-b583-a471d4a81dac",
+            "revision": "7",
+            "received_high": "2",
+            "received_through": "2",
+            "applied_through": "2",
+            "history_complete": true,
+            "financial_ready": true,
+            "gapped": false,
+            "updated_at": "2026-10-08T18:57:15.592223Z"
+          }
+        ]
+      }
+    }
+  },
+  "laneSample": {
+    "appliedEvents": 11,
+    "elapsedMs": 827.6182999999983,
+    "sourceMs": 825.0960999999988,
+    "sourceStartedMs": 2.3915999999990163,
+    "sourceCompletedMs": 827.4876999999979,
+    "roundId": "33ef5251-154d-4e96-97a8-242a58a4a375",
+    "report": {
+      "snapshot": {
+        "id": "b7aab30b-7549-4185-8012-105d9b04357f",
+        "reportId": "REP-05",
+        "companyName": "شركة التجربة",
+        "asOf": "2026-10-08T18:57:28.924Z",
+        "filterDigest": "19883afd763314a96459cff7d338469af8a8e3e90d6f6c0fbe915446b28af440",
+        "dataDigest": "aa6d07ecc827f96afee5745a0c715532b966297e3b115e74fd87421373cbf3eb",
+        "filters": {
+          "driverIds": [
+            "ec532035-49e2-4967-9f3f-0897b60c193b"
+          ]
+        },
+        "sort": "dateAsc",
+        "dateBasis": "visit",
+        "scope": {
+          "branchIds": [
+            "2d9dd2ff-8717-4300-93a3-40b24069418a",
+            "5587c2ca-91f9-437a-8ee6-08f69cd9b3f0"
+          ],
+          "authorizationRevision": "1",
+          "completeCompany": true,
+          "policy": "assigned"
+        },
+        "totalRows": 10,
+        "totals": {
+          "visits": "4"
+        },
+        "context": {},
+        "coverage": {
+          "complete": true,
+          "flags": [],
+          "revisions": [
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "task",
+              "aggregate_id": "23ff9b49-21ad-46b6-829e-1d9aba6ad8b3",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.843016Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "task",
+              "aggregate_id": "2b69f12e-3a36-4197-ba4e-66d0ed9ff5b7",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.878460Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "task",
+              "aggregate_id": "7c289c02-aca9-4add-af5a-391c0f22992c",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.909504Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "task",
+              "aggregate_id": "b0cc9223-8116-4a02-bb1d-ad784404f180",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:15.554291Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "14381924-0690-41c5-b5f7-82216a43320c",
+              "revision": "4",
+              "received_high": "1",
+              "received_through": "1",
+              "applied_through": "1",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.480153Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "1b60ff60-31d0-40cc-90fe-e358afb88c38",
+              "revision": "4",
+              "received_high": "1",
+              "received_through": "1",
+              "applied_through": "1",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:15.445927Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "33ef5251-154d-4e96-97a8-242a58a4a375",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.920058Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "6234afe9-3c00-42dc-8c64-c5155f2e6185",
+              "revision": "4",
+              "received_high": "1",
+              "received_through": "1",
+              "applied_through": "1",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.786912Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "e4e4e119-97bf-4b01-b583-a471d4a81dac",
+              "revision": "7",
+              "received_high": "2",
+              "received_through": "2",
+              "applied_through": "2",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:15.592223Z"
+            },
+            {
+              "source_id": "09d19a73-d370-416c-bd1a-17a301a26df8",
+              "aggregate_type": "trip",
+              "aggregate_id": "f9904e45-13b1-4adb-95e6-197e9fcdc816",
+              "revision": "4",
+              "received_high": "1",
+              "received_through": "1",
+              "applied_through": "1",
+              "history_complete": true,
+              "financial_ready": true,
+              "gapped": false,
+              "updated_at": "2026-10-08T18:57:28.277242Z"
+            }
+          ]
+        }
+      },
+      "rows": [
+        {
+          "id": "1b60ff60-31d0-40cc-90fe-e358afb88c38:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:15.417Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "open",
+            "visits": "0",
+            "reference": "1b60ff60-31d0-40cc-90fe-e358afb88c38",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:15.433133Z"
+          },
+          "sourceIds": [
+            "1b60ff60-31d0-40cc-90fe-e358afb88c38",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "b896eb93-9868-4075-9ce4-ea670914862c"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:15.417Z",
+          "recordedAt": "2026-10-08T18:57:15.433Z",
+          "detail": null
+        },
+        {
+          "id": "e4e4e119-97bf-4b01-b583-a471d4a81dac:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:15.439Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": "2026-10-08T18:57:15.572Z",
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "closed",
+            "visits": "0",
+            "reference": "e4e4e119-97bf-4b01-b583-a471d4a81dac",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:15.451086Z"
+          },
+          "sourceIds": [
+            "e4e4e119-97bf-4b01-b583-a471d4a81dac",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "1ed6f09f-450a-4c1e-a26f-4da56a122fa5"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:15.439Z",
+          "recordedAt": "2026-10-08T18:57:15.451Z",
+          "detail": null
+        },
+        {
+          "id": "648fcd31-ff1f-4c33-9b72-950d067f4d13:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:15.472Z",
+            "kind": "visit",
+            "brand": "P23 البراند المستحق",
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "full",
+            "visits": "1",
+            "reference": "10000",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:15.501613Z"
+          },
+          "sourceIds": [
+            "648fcd31-ff1f-4c33-9b72-950d067f4d13",
+            "12a73f56-23da-44ec-9f75-a0ffc95bb62d",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "b0cc9223-8116-4a02-bb1d-ad784404f180",
+            "e4e4e119-97bf-4b01-b583-a471d4a81dac",
+            "69afd525-2015-4be4-a398-17e31fc348eb",
+            "a709d4fc-6ffb-4518-a935-c19d82d1fb68"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:15.472Z",
+          "recordedAt": "2026-10-08T18:57:15.501Z",
+          "detail": "/tracking/a709d4fc-6ffb-4518-a935-c19d82d1fb68"
+        },
+        {
+          "id": "f9904e45-13b1-4adb-95e6-197e9fcdc816:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.257Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "open",
+            "visits": "0",
+            "reference": "f9904e45-13b1-4adb-95e6-197e9fcdc816",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.269910Z"
+          },
+          "sourceIds": [
+            "f9904e45-13b1-4adb-95e6-197e9fcdc816",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "4ee0bbb3-a39c-4222-ab82-4abe82da1421"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.257Z",
+          "recordedAt": "2026-10-08T18:57:28.269Z",
+          "detail": null
+        },
+        {
+          "id": "14381924-0690-41c5-b5f7-82216a43320c:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.433Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "open",
+            "visits": "0",
+            "reference": "14381924-0690-41c5-b5f7-82216a43320c",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.444473Z"
+          },
+          "sourceIds": [
+            "14381924-0690-41c5-b5f7-82216a43320c",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "5a3e3514-0e48-4a43-9430-fad5e5096dd9"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.433Z",
+          "recordedAt": "2026-10-08T18:57:28.444Z",
+          "detail": null
+        },
+        {
+          "id": "6234afe9-3c00-42dc-8c64-c5155f2e6185:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.768Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "open",
+            "visits": "0",
+            "reference": "6234afe9-3c00-42dc-8c64-c5155f2e6185",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.780150Z"
+          },
+          "sourceIds": [
+            "6234afe9-3c00-42dc-8c64-c5155f2e6185",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "49223c43-6b61-4e01-8c4f-b293fdee23dd"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.768Z",
+          "recordedAt": "2026-10-08T18:57:28.780Z",
+          "detail": null
+        },
+        {
+          "id": "33ef5251-154d-4e96-97a8-242a58a4a375:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.778Z",
+            "kind": "round",
+            "brand": null,
+            "endAt": "2026-10-08T18:57:28.900Z",
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "closed",
+            "visits": "0",
+            "reference": "33ef5251-154d-4e96-97a8-242a58a4a375",
+            "shipments": "3",
+            "recordedAt": "2026-10-08T18:57:28.789667Z"
+          },
+          "sourceIds": [
+            "33ef5251-154d-4e96-97a8-242a58a4a375",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "6f8f7c91-936a-486e-b2cd-67601656de1f"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.778Z",
+          "recordedAt": "2026-10-08T18:57:28.789Z",
+          "detail": null
+        },
+        {
+          "id": "3d31125d-7478-4c62-a3af-db4975fdae2f:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.790Z",
+            "kind": "visit",
+            "brand": "P23 البراند المستحق",
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "full",
+            "visits": "1",
+            "reference": "10028",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.811288Z"
+          },
+          "sourceIds": [
+            "3d31125d-7478-4c62-a3af-db4975fdae2f",
+            "8ffe458a-c265-4cb1-8102-22b3d0132718",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "23ff9b49-21ad-46b6-829e-1d9aba6ad8b3",
+            "33ef5251-154d-4e96-97a8-242a58a4a375",
+            "efc48564-b231-47df-b7c9-5a050e964e2b",
+            "df61ef24-bb67-4732-8e9b-db34104aeea9"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.790Z",
+          "recordedAt": "2026-10-08T18:57:28.811Z",
+          "detail": "/tracking/df61ef24-bb67-4732-8e9b-db34104aeea9"
+        },
+        {
+          "id": "e88e124f-8510-4301-a548-25344e5d6b34:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.833Z",
+            "kind": "visit",
+            "brand": "P23 البراند المستحق",
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "refused",
+            "visits": "1",
+            "reference": "10029",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.853998Z"
+          },
+          "sourceIds": [
+            "e88e124f-8510-4301-a548-25344e5d6b34",
+            "396b3038-edfd-4343-a91a-21bcbcb75c54",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "2b69f12e-3a36-4197-ba4e-66d0ed9ff5b7",
+            "33ef5251-154d-4e96-97a8-242a58a4a375",
+            "d3e31669-31d9-4c05-b293-e37f810aa125",
+            "783c47ec-e0c3-4170-bb64-00fe4adcca74"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.833Z",
+          "recordedAt": "2026-10-08T18:57:28.853Z",
+          "detail": "/tracking/783c47ec-e0c3-4170-bb64-00fe4adcca74"
+        },
+        {
+          "id": "79cbf6eb-a40f-4587-91fd-83b49d1a0cec:5587c2ca-91f9-437a-8ee6-08f69cd9b3f0",
+          "values": {
+            "date": "2026-10-08T18:57:28.869Z",
+            "kind": "visit",
+            "brand": "P23 البراند المستحق",
+            "endAt": null,
+            "branch": "الفرع أ",
+            "driver": "سائق التجربة",
+            "status": "no-answer",
+            "visits": "1",
+            "reference": "10030",
+            "shipments": "1",
+            "recordedAt": "2026-10-08T18:57:28.887314Z"
+          },
+          "sourceIds": [
+            "79cbf6eb-a40f-4587-91fd-83b49d1a0cec",
+            "0af4eab6-d0ca-49b3-b5d8-4f416e0f25ba",
+            "09d19a73-d370-416c-bd1a-17a301a26df8",
+            "7c289c02-aca9-4add-af5a-391c0f22992c",
+            "33ef5251-154d-4e96-97a8-242a58a4a375",
+            "df515249-26a6-4c3c-9a7d-f7213673d97f",
+            "9684ee48-5de0-4f0d-888c-3375139b22ae"
+          ],
+          "revision": "1",
+          "effectiveAt": "2026-10-08T18:57:28.869Z",
+          "recordedAt": "2026-10-08T18:57:28.887Z",
+          "detail": "/tracking/9684ee48-5de0-4f0d-888c-3375139b22ae"
+        }
+      ],
+      "page": 1,
+      "limit": 25
+    },
+    "claim": "isolated functional overlap sample only; not production capacity"
+  }
+}

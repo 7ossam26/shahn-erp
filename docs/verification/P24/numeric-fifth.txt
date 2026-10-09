@@ -1,0 +1,15 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/numeric.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/numeric.db.test.ts (4 tests) 29520ms
+   ✓ A02 complete storage fee belongs to January/agreement A despite advance and partial receipts at B; persisted XLSX/PDF use the same rows 4982ms
+   ✓ A05 native late earning resolves into a future payroll month while retaining its original work period; racing frozen reports stay coherent 6137ms
+   ✓ A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery 7667ms
+   ✓ A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue 10731ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  21:35:12
+   Duration  32.50s (tests 91%, import 6%, transform 3%)

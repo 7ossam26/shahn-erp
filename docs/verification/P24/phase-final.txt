@@ -1,0 +1,59 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P24
+P24 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/sources.unit.test.ts (16 tests) 16ms
+ ✓ tests/integration/p24/contracts.unit.test.ts (3 tests) 8ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  21:48:10
+   Duration  3.98s (import 46%, environment 34%, transform 15%, setup 4%)
+
+P24 unit: PASSED
+P24 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/numeric.db.test.ts (4 tests) 45709ms
+   ✓ A02 complete storage fee belongs to January/agreement A despite advance and partial receipts at B; persisted XLSX/PDF use the same rows 6589ms
+   ✓ A05 native late earning resolves into a future payroll month while retaining its original work period; racing frozen reports stay coherent 7191ms
+   ✓ A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery 18151ms
+   ✓ A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue 13774ms
+ ❯ tests/integration/p24/profit.db.test.ts (8 tests | 1 failed) 11621ms
+   ✓ A01 real visits/storage/payroll/expense/incident reproduce profit6200 and drill into immutable sources 69ms
+   ✓ A01 generic deposit, transfer, goods payout, advance, withholding and retries change money only 256ms
+   ✓ A06 report summaries retain ordinary source permissions; denied scope/revocation deny frozen rows and downloads 123ms
+   × A07 exact account projection delta, stale/unauthorized rebuild refusal and idempotent audited repair post no cash 63ms
+   ✓ coherent snapshots race committed incident earning correction with independent connections; old evidence remains reproducible 204ms
+   ✓ indexed real source query is parameterized and deterministic, with measured plan and no join fanout 15ms
+   ✓ P23 frozen XLSX/PDF preserve every source and totals while export rendering overlaps committed inbox progress 824ms
+   ✓ an unresolved source checkpoint keeps unrelated amounts and frozen prior evidence, with read-only scoped freshness 92ms
+ ✓ tests/integration/p24/reconciliation.db.test.ts (6 tests) 10823ms
+ ✓ tests/integration/p24/migration.db.test.ts (1 test) 9670ms
+   ✓ additive0028 upgrades populated0027 without changing sources, money, payroll or grants and is idempotent 9668ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/profit.db.test.ts > A07 exact account projection delta, stale/unauthorized rebuild refusal and idempotent audited repair post no cash
+Error: ACCOUNT_RECONCILIATION_REQUIRED
+ ❯ apps/api/src/modules/kernel/commands.ts:178:38
+    176|       return result.reply;
+    177|     }).then((reply) => {
+    178|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    179|       return reply;
+    180|     });
+ ❯ tests/integration/p24/profit.db.test.ts:189:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 18 passed (19)
+   Start at  21:48:15
+   Duration  85.69s (tests 91%, import 7%, transform 1%)
+
+P24 database: FAILED (1)

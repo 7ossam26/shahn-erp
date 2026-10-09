@@ -1,5 +1,7 @@
 # Tawsel Change Requests for the ERP
 
+P24 ERP execution observation,2026-10-08–09: REP-15 consumes the existing native visit/waiver, incident, payroll, storage, expense and money sources through authorized frozen snapshots. Native A→B packing/transport/visit and replacement numeric fixtures demonstrate ERP classification only; they do not close the public CHECK-003 accepted/returned redispatch sequence. Available independent P22 recovery/restore/issuer/proxy scripts are rerun, with the original isolated ERP administrator session renewed after idle expiry. CR-001 reviewed replacement baseline/07/IP-AC-18, CHECK-003 exact accepted-A→B/receipt-A→cycle-B and the full joint43+1/27 conformance index remain explicitly deferred by the owner, with existing owners and closure artifacts below. No Tawsel source, wire field, runtime deployment or accepted baseline is changed. [P24 evidence](docs/verification/P24/README.md).
+
 P22 ERP execution observation, 2026-10-08: actual dedicated live connection/recovery/financial/restore scripts do not supply a separately reviewed CR-001 replacement baseline/07 adoption or CHECK-003 accepted-A→B/receipt-A→cycle-B sequence. Existing requests below remain the sole consolidated handoff. No Tawsel source edit, new reason wire field/enum or inferred branch lifecycle support/prohibition. See [P22 evidence](docs/verification/P22/README.md).
 
 ## Owner execution order — 2026-10-08

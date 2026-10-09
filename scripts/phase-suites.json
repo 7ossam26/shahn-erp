@@ -623,6 +623,56 @@
       }
     }
   },
+  "P24": {
+    "unit": {
+      "directory": "tests/integration/p24",
+      "extension": ".unit.test",
+      "script": "test:unit",
+      "filter": [
+        "tests/integration/p24/contracts.unit.test.ts",
+        "tests/integration/p24/sources.unit.test.ts"
+      ]
+    },
+    "database": {
+      "directory": "tests/integration/p24",
+      "extension": ".db.test",
+      "script": "test:db",
+      "filter": [
+        "tests/integration/p24/profit.db.test.ts",
+        "tests/integration/p24/numeric.db.test.ts",
+        "tests/integration/p24/reconciliation.db.test.ts",
+        "tests/integration/p24/migration.db.test.ts"
+      ]
+    },
+    "browser": {
+      "directory": "tests/integration/p24",
+      "extension": ".spec",
+      "script": "test:p24:browser",
+      "config": "playwright.p24.config.ts"
+    },
+    "publicIntegration": {
+      "directory": "tests/integration/p22",
+      "extension": ".public.test",
+      "script": "test:p22:public",
+      "config": "vitest.p22.public.config.ts"
+    },
+    "externalAcceptance": {
+      "directory": "tests/integration/p22",
+      "extension": ".acceptance.test",
+      "script": "test:p22:acceptance",
+      "config": "vitest.p22.acceptance.config.ts",
+      "deferred": {
+        "ownerInstruction": "2026-10-08: verified ERP commits may proceed with named Tawsel acceptance deferred",
+        "gates": [
+          "CR-001 replacement baseline/07 adoption and IP-AC-18",
+          "CHECK-003 exact accepted-A-to-B and receipt-A-to-cycle-B public sequence",
+          "complete jointly reviewed43+1-operation/27-event conformance index"
+        ],
+        "reason": "P24 consumes existing native facts and adds no Tawsel protocol. The available independent live recovery checks remain required. Source fixtures do not supply these reviewed external artifacts.",
+        "handoff": "TAWSEL-CHANGE-REQUESTS.md"
+      }
+    }
+  },
   "P23": {
     "unit": {
       "directory": "tests/integration/p23",

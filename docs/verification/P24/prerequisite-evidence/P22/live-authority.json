@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-09T02:04:53.510Z",
+  "distinctDriverIds": [
+    "861e0465-f8c5-4bdf-944a-e90b20540280",
+    "39169044-4167-418f-a420-164e1ccf5b91"
+  ],
+  "cases": [
+    {
+      "path": "/api/v1/integration/deliveries?limit=1",
+      "status": 401,
+      "serviceAuthorized": false
+    },
+    {
+      "path": "/api/v1/integration/deliveries?limit=0",
+      "status": 400,
+      "serviceAuthorized": true
+    },
+    {
+      "path": "/api/v1/integration/deliveries?limit=101",
+      "status": 400,
+      "serviceAuthorized": true
+    },
+    {
+      "path": "/api/v1/integration/deliveries/08df24dc-d3a4-49bf-8183-7bfb928848e3",
+      "status": 403,
+      "serviceAuthorized": true
+    },
+    {
+      "path": "/api/v1/integration/replay?aggregateType=global&aggregateId=9163135c-99bb-4b40-8318-abbf15bbba02&afterSequence=0&limit=1",
+      "status": 400,
+      "serviceAuthorized": true
+    },
+    {
+      "path": "/api/v1/integration/reconciliation?aggregateType=task&aggregateId=0b30d8cd-6329-4430-bcbd-8c182e5f6d35",
+      "status": 403,
+      "serviceAuthorized": true
+    },
+    {
+      "path": "/api/session/context?kind=company",
+      "status": 401,
+      "serviceAuthorized": true
+    }
+  ]
+}

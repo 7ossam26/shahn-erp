@@ -3,6 +3,7 @@ import { reportDefinition } from '@shahn/contracts';
 import { AccessError, cairoDayRange } from '@shahn/domain';
 import type { UnitOfWork } from '../kernel/unit-of-work.js';
 import { walletTotals } from '../finance/brand-wallet/queries.js';
+import { readProfit } from './profit-read.js';
 
 /** All SQL fragments below are server-owned. Outer predicates are closed registry dimensions. */
 const scope = (alias: string, field = 'branch_id') =>
@@ -215,6 +216,7 @@ export async function readReport(
   f: ReportFilters,
   sort: string,
 ): Promise<{ rows: ReportRow[]; context: Record<string, unknown> }> {
+  if (id === 'REP-15') return readProfit(u, branches, f, sort);
   if (id === 'REP-09') {
     const totals = await walletTotals(u, f.brandIds?.length ? f.brandIds : undefined);
     const brands = (

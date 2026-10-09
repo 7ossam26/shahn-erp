@@ -1,0 +1,157 @@
+npm notice run shahn-erp@0.1.0 test:phase
+npm notice run node scripts/test-phase.mjs P24
+P24 unit: test:unit; 2 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/sources.unit.test.ts (16 tests) 16ms
+ ✓ tests/integration/p24/contracts.unit.test.ts (3 tests) 7ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  21:56:26
+   Duration  4.34s (import 50%, environment 32%, transform 14%, setup 3%)
+
+P24 unit: PASSED
+P24 database: test:db; 4 registered test files (test framework must also reject zero cases)
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p24/numeric.db.test.ts (4 tests) 46866ms
+   ✓ A02 complete storage fee belongs to January/agreement A despite advance and partial receipts at B; persisted XLSX/PDF use the same rows 12193ms
+   ✓ A05 native late earning resolves into a future payroll month while retaining its original work period; racing frozen reports stay coherent 13439ms
+   ✓ A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery 10358ms
+   ✓ A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue 10873ms
+ ✓ tests/integration/p24/migration.db.test.ts (1 test) 9432ms
+   ✓ additive0028 upgrades populated0027 without changing sources, money, payroll or grants and is idempotent 9431ms
+ ✓ tests/integration/p24/profit.db.test.ts (8 tests) 12538ms
+   ✓ P23 frozen XLSX/PDF preserve every source and totals while export rendering overlaps committed inbox progress 859ms
+ ✓ tests/integration/p24/reconciliation.db.test.ts (8 tests) 15590ms
+
+ Test Files  4 passed (4)
+      Tests  21 passed (21)
+   Start at  21:56:31
+   Duration  92.74s (tests 91%, import 7%, transform 1%)
+
+P24 database: PASSED
+P24 browser: test:p24:browser; 1 registered test files (test framework must also reject zero cases)
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 2762 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/web/dist/index.html                                           1.02 kB │ gzip:   0.42 kB
+apps/web/dist/assets/cairo-latin-ext-wght-normal-at8nfxId.woff2   16.64 kB
+apps/web/dist/assets/cairo-arabic-wght-normal-CJWMIGCx.woff2      30.89 kB
+apps/web/dist/assets/cairo-latin-wght-normal-PfPtmrPZ.woff2       33.82 kB
+apps/web/dist/assets/index-Dd0tqwgS.css                          117.88 kB │ gzip:  22.55 kB
+apps/web/dist/assets/rolldown-runtime-B0Z9INg1.js                  0.90 kB │ gzip:   0.51 kB
+apps/web/dist/assets/vendor-SLa0ejgA.js                           34.08 kB │ gzip:  11.49 kB
+apps/web/dist/assets/vendor-AmoZHGQq.js                           62.41 kB │ gzip:  19.50 kB
+apps/web/dist/assets/vendor-PuHLFsry.js                          109.60 kB │ gzip:  36.75 kB
+apps/web/dist/assets/vendor-B6KjmTQw.js                          114.46 kB │ gzip:  33.30 kB
+apps/web/dist/assets/vendor-CkEKIbMh.js                          117.05 kB │ gzip:  32.62 kB
+apps/web/dist/assets/vendor-BUeedict.js                          229.03 kB │ gzip:  72.07 kB
+apps/web/dist/assets/index-0bnde_vT.js                           986.91 kB │ gzip: 218.35 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 893ms
+[WebServer] (node:5628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:36208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p24\reports.spec.ts:55:1 › A01/A05 actual6200 frozen category/back, late refresh, Arabic phone/desktop, XLSX/PDF and empty filters (24.0s)
+(node:6592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\integration\p24\reports.spec.ts:167:1 › A06 actual denied branch scope, source detail/export boundaries and revoked report/download grant (9.6s)
+  x  3 tests\integration\p24\reports.spec.ts:249:1 › A07 real projection fault/rebuild, incomplete sources, large exact values, long Arabic branch, paginated exports (23.9s)
+
+
+  1) tests\integration\p24\reports.spec.ts:55:1 › A01/A05 actual6200 frozen category/back, late refresh, Arabic phone/desktop, XLSX/PDF and empty filters
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('P24-A01-SHIPPING').first()
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('P24-A01-SHIPPING').first() with timeout 20000ms
+      - waiting for getByText('P24-A01-SHIPPING').first()
+
+
+      78 |   await page.getByRole('link', { name: 'فتح سجل المصدر المصرح به' }).click();
+      79 |   await expect(page).toHaveURL(/\/tracking\/[a-f0-9-]+/);
+    > 80 |   await expect(page.getByText('P24-A01-SHIPPING', { exact: false }).first()).toBeVisible();
+         |                                                                              ^
+      81 |   await page.goBack();
+      82 |   await page.getByRole('link', { name: 'عودة إلى التقرير والفلاتر' }).click();
+      83 |   await expect(
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p24\reports.spec.ts:80:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\p24\reports-A01-A05-actual6200-a0d24--XLSX-PDF-and-empty-filters\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\p24\reports-A01-A05-actual6200-a0d24--XLSX-PDF-and-empty-filters\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\p24\reports-A01-A05-actual6200-a0d24--XLSX-PDF-and-empty-filters\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\p24\reports-A01-A05-actual6200-a0d24--XLSX-PDF-and-empty-filters\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests\integration\p24\reports.spec.ts:249:1 › A07 real projection fault/rebuild, incomplete sources, large exact values, long Arabic branch, paginated exports
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('ملخص الربح التشغيلي')
+    Expected substring: "90071992541249.93"
+    Received string:    "الربح التشغيلي−90071992541239.93 ج.مالمصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة.تعريفة الشحن والتغليف1 مصدر · عرض التفاصيل10000.00 ج.مإعفاء شحن البديل المعتمد0 مصدر · عرض التفاصيل0.00 ج.مرسوم التخزين المستحقة1 مصدر · عرض التفاصيل2000.00 ج.مالراتب المستحق2 مصدر · عرض التفاصيل−3000.00 ج.معمولة الزيارات1 مصدر · عرض التفاصيل−1000.00 ج.مإضافات استحقاق الموظف0 مصدر · عرض التفاصيل0.00 ج.مخصومات الاستحقاق المعتمدة0 مصدر · عرض التفاصيل0.00 ج.مالمصروفات المدفوعة32 مصدر · عرض التفاصيل−90071992548939.93 ج.متعويض البراند المؤكد1 مصدر · عرض التفاصيل−500.00 ج.محصة الموظف المعتمدة من التعويض1 مصدر · عرض التفاصيل200.00 ج.مالشحن والتغليف قبل الإعفاء10000.00 ج.مإعفاء شحن البديل0.00 ج.مصافي الشحن10000.00 ج.ماستحقاق الموظفين والتكلفة والدفع الفعليالراتب3000.00 ج.مالعمولة1000.00 ج.مالإضافات0.00 ج.مخصومات الاستحقاق0.00 ج.متكلفة الموظفين بعد خصم الاستحقاق4000.00 ج.ماسترداد السلف من الرواتب0.00 ج.ماسترداد الحوادث المحجوز من الرواتب0.00 ج.مصافي دفع الرواتب الفعلي0.00 ج.ماسترداد السلفة لا يخفض تكلفة الاستحقاق. حصة الموظف من الحادث تُحسب عند التأكيد مرة واحدة، وصافي الدفع يوضح حركة المال.الربح بحسب الفرع التاريخيالفرع ب0.00 ج.مفرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق−90071992541239.93 ج.مالزيارة لفرع العمل، التخزين لفرع الاتفاق، الراتب لفرع الموظف التاريخي والتعويض لفرع الحادث المسؤول."
+    Timeout: 20000ms
+
+    Call log:
+      - Expect "toContainText" getByLabel('ملخص الربح التشغيلي') with timeout 20000ms
+      - waiting for getByLabel('ملخص الربح التشغيلي')
+        41 × locator resolved to <section class="profit-overview" aria-label="ملخص الربح التشغيلي">…</section>
+           - unexpected value "الربح التشغيلي−90071992541239.93 ج.مالمصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة.تعريفة الشحن والتغليف1 مصدر · عرض التفاصيل10000.00 ج.مإعفاء شحن البديل المعتمد0 مصدر · عرض التفاصيل0.00 ج.مرسوم التخزين المستحقة1 مصدر · عرض التفاصيل2000.00 ج.مالراتب المستحق2 مصدر · عرض التفاصيل−3000.00 ج.معمولة الزيارات1 مصدر · عرض التفاصيل−1000.00 ج.مإضافات استحقاق الموظف0 مصدر · عرض التفاصيل0.00 ج.مخصومات الاستحقاق المعتمدة0 مصدر · عرض التفاصيل0.00 ج.مالمصروفات المدفوعة32 مصدر · عرض التفاصيل−90071992548939.93 ج.متعويض البراند المؤكد1 مصدر · عرض التفاصيل−500.00 ج.محصة الموظف المعتمدة من التعويض1 مصدر · عرض التفاصيل200.00 ج.مالشحن والتغليف قبل الإعفاء10000.00 ج.مإعفاء شحن البديل0.00 ج.مصافي الشحن10000.00 ج.ماستحقاق الموظفين والتكلفة والدفع الفعليالراتب3000.00 ج.مالعمولة1000.00 ج.مالإضافات0.00 ج.مخصومات الاستحقاق0.00 ج.متكلفة الموظفين بعد خصم الاستحقاق4000.00 ج.ماسترداد السلف من الرواتب0.00 ج.ماسترداد الحوادث المحجوز من الرواتب0.00 ج.مصافي دفع الرواتب الفعلي0.00 ج.ماسترداد السلفة لا يخفض تكلفة الاستحقاق. حصة الموظف من الحادث تُحسب عند التأكيد مرة واحدة، وصافي الدفع يوضح حركة المال.الربح بحسب الفرع التاريخيالفرع ب0.00 ج.مفرع القاهرة التاريخي لخدمة العملاء والمخزون والتخزين والتحصيل مع اسم عربي طويل لا يغير الاستحقاق−90071992541239.93 ج.مالزيارة لفرع العمل، التخزين لفرع الاتفاق، الراتب لفرع الموظف التاريخي والتعويض لفرع الحادث المسؤول."
+
+
+      269 |   await control(page, f, '/long-large');
+      270 |   await page.getByRole('button', { name: 'تحديث وإنشاء لقطة جديدة', exact: true }).click();
+    > 271 |   await expect(page.getByLabel('ملخص الربح التشغيلي')).toContainText('90071992541249.93');
+          |                                                        ^
+      272 |   await expect(page.getByLabel('ملخص الربح التشغيلي')).toContainText('فرع القاهرة التاريخي');
+      273 |   const large = await snapshot(page, f);
+      274 |   expect(large.snapshot.totalRows).toBeGreaterThan(25);
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p24\reports.spec.ts:271:56
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\p24\reports-A07-real-projectio-f05fd-ic-branch-paginated-exports\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\p24\reports-A07-real-projectio-f05fd-ic-branch-paginated-exports\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\p24\reports-A07-real-projectio-f05fd-ic-branch-paginated-exports\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\p24\reports-A07-real-projectio-f05fd-ic-branch-paginated-exports\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests\integration\p24\reports.spec.ts:55:1 › A01/A05 actual6200 frozen category/back, late refresh, Arabic phone/desktop, XLSX/PDF and empty filters
+    tests\integration\p24\reports.spec.ts:249:1 › A07 real projection fault/rebuild, incomplete sources, large exact values, long Arabic branch, paginated exports
+  1 passed (1.2m)
+P24 browser: FAILED (1)

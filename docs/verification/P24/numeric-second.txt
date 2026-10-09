@@ -1,0 +1,40 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/numeric.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p24/numeric.db.test.ts (3 tests | 1 failed) 20231ms
+   ✓ A02 complete storage fee belongs to January/agreement A despite advance and partial receipts at B; persisted XLSX/PDF use the same rows 6278ms
+   × A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery 6713ms
+   ✓ A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue 7236ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/numeric.db.test.ts > A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery
+AssertionError: expected { salaryMinor: '600000', …(7) } to match object { salaryMinor: '600000', …(5) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "advanceRecoveryMinor": "100000",
+-   "employeeCostMinor": "580000",
+-   "entitlementDeductionsMinor": "20000",
++   "employeeCostMinor": "600000",
++   "entitlementDeductionsMinor": "0",
+    "incidentRecoveryWithheldMinor": "10000",
+    "payoutMinor": "470000",
+    "salaryMinor": "600000",
+  }
+
+ ❯ tests/integration/p24/numeric.db.test.ts:122:35
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  21:30:33
+   Duration  23.16s (tests 88%, import 8%, transform 4%)

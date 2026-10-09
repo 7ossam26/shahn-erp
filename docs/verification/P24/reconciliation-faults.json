@@ -1,0 +1,833 @@
+{
+  "economic_source": {
+    "finding": {
+      "kind": "economic_source_mismatch",
+      "targetType": "visit_shipping",
+      "targetId": "3b4c3740-2e85-4ad5-812b-33651a17a545",
+      "sourceIds": [
+        "0dc43b9d-cfd3-4c96-a1a8-1c5e37f335e5",
+        "7850ffe2-ff5c-419c-83e5-55c7e4b82602"
+      ],
+      "observedVersion": "source:1000000:effect:1000001",
+      "expectedMinor": "1000000",
+      "observedMinor": "1000001",
+      "deltaMinor": "1",
+      "recoveryPath": "/tracking/5117e5f1-3c2e-4b45-b41f-1680261a0b95",
+      "message": "المصدر الاقتصادي وأثره لا يتطابقان؛ الجزء المتأثر خارج الحساب حتى مراجعة السجل الأصلي.",
+      "sourceCapability": "tracking",
+      "asOf": "2026-10-09T02:03:34.737Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8"
+      ],
+      "id": "5e5fbb2fffe2d06db1e7ca1f393d615a24660cf0c5e3402a31ebaa6cfcfa6671"
+    },
+    "sourceIssues": [
+      {
+        "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+        "sourceIds": [
+          "0dc43b9d-cfd3-4c96-a1a8-1c5e37f335e5",
+          "7850ffe2-ff5c-419c-83e5-55c7e4b82602"
+        ],
+        "observedVersion": "source:1000000:effect:1000001",
+        "deltaMinor": "1",
+        "effectiveDate": "2026-10-09",
+        "recordedAt": "2026-10-09T02:03:34.367998Z",
+        "sourceCapability": "tracking",
+        "sourcePath": "/tracking/5117e5f1-3c2e-4b45-b41f-1680261a0b95",
+        "code": "ECONOMIC_SOURCE_MISMATCH",
+        "targetKind": "visit_shipping",
+        "targetId": "3b4c3740-2e85-4ad5-812b-33651a17a545",
+        "message": "المصدر الاقتصادي وأثره لا يتطابقان؛ الجزء المتأثر خارج الحساب حتى مراجعة السجل الأصلي."
+      }
+    ],
+    "profit": {
+      "profitMinor": "-380000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "أ",
+          "profitMinor": "-380000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "0",
+        "waiverMinor": "0",
+        "netMinor": "0"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": false,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة.",
+        "النتيجة جزئية: المبالغ المكتملة ظاهرة، والمصادر غير المحسومة خارج الحساب حتى المعالجة."
+      ]
+    },
+    "restoration": "Normal mutation rejected. Test-only savepoint rollback restores original source and immutable guard; no financial repair posting."
+  },
+  "missing_economic_source": {
+    "finding": {
+      "kind": "missing_economic_source",
+      "targetType": "visit_shipping",
+      "targetId": "3b4c3740-2e85-4ad5-812b-33651a17a545",
+      "sourceIds": [
+        "0dc43b9d-cfd3-4c96-a1a8-1c5e37f335e5"
+      ],
+      "observedVersion": "source:1000000:effect:missing",
+      "expectedMinor": "1000000",
+      "observedMinor": null,
+      "deltaMinor": "-1000000",
+      "recoveryPath": "/tracking/5117e5f1-3c2e-4b45-b41f-1680261a0b95",
+      "message": "المصدر الاقتصادي وأثره لا يتطابقان؛ الجزء المتأثر خارج الحساب حتى مراجعة السجل الأصلي.",
+      "sourceCapability": "tracking",
+      "asOf": "2026-10-09T02:03:34.864Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8"
+      ],
+      "id": "96ad3ab244e30c9971e08087dc84f98c30a0fbb0af7f04cbfb15d41c09cd11a4"
+    },
+    "sourceIssues": [
+      {
+        "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+        "sourceIds": [
+          "0dc43b9d-cfd3-4c96-a1a8-1c5e37f335e5"
+        ],
+        "observedVersion": "source:1000000:effect:missing",
+        "deltaMinor": "-1000000",
+        "effectiveDate": "2026-10-09",
+        "recordedAt": "2026-10-09T02:03:34.367998Z",
+        "sourceCapability": "tracking",
+        "sourcePath": "/tracking/5117e5f1-3c2e-4b45-b41f-1680261a0b95",
+        "code": "MISSING_ECONOMIC_EFFECT",
+        "targetKind": "visit_shipping",
+        "targetId": "3b4c3740-2e85-4ad5-812b-33651a17a545",
+        "message": "المصدر الاقتصادي وأثره لا يتطابقان؛ الجزء المتأثر خارج الحساب حتى مراجعة السجل الأصلي."
+      }
+    ],
+    "profit": {
+      "profitMinor": "-380000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "أ",
+          "profitMinor": "-380000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "0",
+        "waiverMinor": "0",
+        "netMinor": "0"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": false,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة.",
+        "النتيجة جزئية: المبالغ المكتملة ظاهرة، والمصادر غير المحسومة خارج الحساب حتى المعالجة."
+      ]
+    },
+    "restoration": "Normal mutation rejected. Test-only savepoint rollback restores original source and immutable guard; no financial repair posting."
+  },
+  "transit": {
+    "finding": {
+      "kind": "transit_projection",
+      "targetType": "treasury_transfer",
+      "targetId": "790ed9a0-646e-48ee-82b6-555530bebd2b",
+      "sourceIds": [
+        "e1c851df-c72e-40bc-b774-ddb05d54be84",
+        "b17753f0-152d-45c0-8a4c-eff224ab0b0a",
+        "0fa5c2c1-4bff-462f-b0aa-1900de1e9812"
+      ],
+      "observedVersion": "2:receive",
+      "expectedMinor": "-30000",
+      "observedMinor": "-29991",
+      "deltaMinor": "9",
+      "recoveryPath": "/treasury/transfers/790ed9a0-646e-48ee-82b6-555530bebd2b",
+      "message": "سجل الأموال العابرة لا يطابق مرحلة receive للتحويل؛ المراجعة عبر مسار التحويل.",
+      "sourceCapability": "treasury.send",
+      "asOf": "2026-10-09T02:03:34.999Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8",
+        "04ee3efb-df71-47d6-96cd-67f69751e3a0"
+      ],
+      "id": "4304b9129584f32829459c44b58b3597523c6cbd36eef601debca04eb31556b8"
+    },
+    "sourceIssues": [],
+    "profit": {
+      "profitMinor": "620000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "1000000",
+          "sourceCount": 1
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "أ",
+          "profitMinor": "620000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "1000000",
+        "waiverMinor": "0",
+        "netMinor": "1000000"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": true,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+      ]
+    },
+    "restoration": "Normal mutation rejected. Test-only savepoint rollback restores original source and immutable guard; no financial repair posting."
+  },
+  "wallet": {
+    "finding": {
+      "kind": "wallet_lots",
+      "targetType": "brand",
+      "targetId": "0e5b6029-40b9-4ca9-9a8d-ae0261e2b12a",
+      "sourceIds": [
+        "0fc62c41-c76c-42bf-847d-648bfd10cbb8",
+        "534b1755-380a-418f-8b66-6311e5e489c3",
+        "bc1f71ee-c21e-4222-ad00-8c8e91c53d23",
+        "408553bc-18cf-487c-8744-e6c5702460c2",
+        "019f43de-3530-48bf-8c07-c33890ba0544",
+        "4cf2cfc6-3727-4ee8-89a3-2ffe88959352"
+      ],
+      "observedVersion": "3",
+      "expectedMinor": "1075000",
+      "observedMinor": "1075011",
+      "deltaMinor": "11",
+      "recoveryPath": "/brand-payouts/brands/0e5b6029-40b9-4ca9-9a8d-ae0261e2b12a",
+      "message": "رصيد المحفظة من الدفعات والتخصيصات لا يطابق السجل؛ يلزم مراجعة المصادر.",
+      "sourceCapability": "brand.payout",
+      "asOf": "2026-10-09T02:03:35.234Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8",
+        "04ee3efb-df71-47d6-96cd-67f69751e3a0"
+      ],
+      "id": "5d83a2efeba00839fe66e1fc6571fb8aa865318a9a71659c33cc2a04e501e2f2"
+    },
+    "sourceIssues": [],
+    "profit": {
+      "profitMinor": "620000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "1000000",
+          "sourceCount": 1
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "أ",
+          "profitMinor": "620000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "1000000",
+        "waiverMinor": "0",
+        "netMinor": "1000000"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": true,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+      ]
+    },
+    "restoration": "Normal mutation rejected. Test-only savepoint rollback restores original source and immutable guard; no financial repair posting."
+  },
+  "storage_credit": {
+    "finding": {
+      "kind": "storage_credit",
+      "targetType": "storage_credit",
+      "targetId": "d5f649df-2991-43bb-91c7-b46b98ca2aa3",
+      "sourceIds": [
+        "55ac0860-face-43e5-be3b-c2988dec6517",
+        "b36c2463-5308-4c33-a3ba-f381fa244253",
+        "c87496b9-d028-4c06-8ebf-d785f810a5c1"
+      ],
+      "observedVersion": "3",
+      "expectedMinor": "100013",
+      "observedMinor": "100000",
+      "deltaMinor": "-13",
+      "recoveryPath": "/storage",
+      "message": "ائتمان التخزين من الإيصالات والتخصيصات لا يطابق سجله؛ لا تنشأ تسوية تلقائية.",
+      "sourceCapability": "storage",
+      "asOf": "2026-10-09T02:03:35.457Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8",
+        "04ee3efb-df71-47d6-96cd-67f69751e3a0"
+      ],
+      "id": "01b5e4bf8653642acb641d4ebdf157e2b5b9a4348fe8e3f3af0a927543cd5f60"
+    },
+    "sourceIssues": [],
+    "profit": {
+      "profitMinor": "620000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "1000000",
+          "sourceCount": 1
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "أ",
+          "profitMinor": "620000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "1000000",
+        "waiverMinor": "0",
+        "netMinor": "1000000"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": true,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+      ]
+    },
+    "restoration": "Normal mutation rejected. Test-only savepoint rollback restores original source and immutable guard; no financial repair posting."
+  },
+  "opening_exclusion": {
+    "employeeId": "0619e26d-5054-4ac4-902a-d05d1765cbba",
+    "commandId": "1247e1c4-22bb-4fa7-95ed-0d43dadebaf9",
+    "sourceId": "199170e5-09a3-48bc-9505-3a44fca035e7",
+    "before": {
+      "profitMinor": "620000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "1000000",
+          "sourceCount": 1
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "الفرع أ",
+          "profitMinor": "620000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "الفرع ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "1000000",
+        "waiverMinor": "0",
+        "netMinor": "1000000"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": true,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+      ]
+    },
+    "after": {
+      "profitMinor": "620000",
+      "categories": [
+        {
+          "category": "shipping_gross",
+          "amountMinor": "1000000",
+          "sourceCount": 1
+        },
+        {
+          "category": "shipping_waiver",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "storage_revenue",
+          "amountMinor": "200000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_salary",
+          "amountMinor": "-300000",
+          "sourceCount": 2
+        },
+        {
+          "category": "employee_commission",
+          "amountMinor": "-100000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_addition",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "employee_entitlement_deduction",
+          "amountMinor": "0",
+          "sourceCount": 0
+        },
+        {
+          "category": "paid_expense",
+          "amountMinor": "-150000",
+          "sourceCount": 1
+        },
+        {
+          "category": "brand_compensation",
+          "amountMinor": "-50000",
+          "sourceCount": 1
+        },
+        {
+          "category": "employee_compensation_share",
+          "amountMinor": "20000",
+          "sourceCount": 1
+        }
+      ],
+      "branches": [
+        {
+          "branchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+          "branchName": "الفرع أ",
+          "profitMinor": "620000"
+        },
+        {
+          "branchId": "04ee3efb-df71-47d6-96cd-67f69751e3a0",
+          "branchName": "الفرع ب",
+          "profitMinor": "0"
+        }
+      ],
+      "shipping": {
+        "grossMinor": "1000000",
+        "waiverMinor": "0",
+        "netMinor": "1000000"
+      },
+      "payroll": {
+        "salaryMinor": "300000",
+        "commissionMinor": "100000",
+        "additionsMinor": "0",
+        "entitlementDeductionsMinor": "0",
+        "employeeCostMinor": "400000",
+        "advanceRecoveryMinor": "0",
+        "incidentRecoveryWithheldMinor": "0",
+        "payoutMinor": "0"
+      },
+      "laterEntryCount": 0,
+      "calculationComplete": true,
+      "limitations": [
+        "المصروفات العادية تدخل عند دفعها فقط؛ التكاليف غير المدفوعة التي لم تسجل غير مشمولة. لا إقفال محاسبي للفترة."
+      ]
+    }
+  },
+  "recorded_window_ancestor": {
+    "commandId": "6a061336-67f7-49e6-bb79-ded069286791",
+    "correctionId": "9c242791-80fc-4ce8-b6fc-d7b42586f109",
+    "originalId": "3bf5a878-f0b1-458b-a947-0ce22af48bde",
+    "selectedRecordedDate": "2026-10-10",
+    "validCorrection": {
+      "companyId": "1957a6ee-a95b-492c-8461-703350fd8e73",
+      "sourceId": "ef070a40-117c-4094-beab-697e79f1763b",
+      "effectId": "9c242791-80fc-4ce8-b6fc-d7b42586f109",
+      "category": "brand_compensation",
+      "amountMinor": "10000",
+      "effectiveDate": "2026-10-09",
+      "recordedAt": "2026-10-10T12:00:00.000000Z",
+      "historicalBranchId": "eed15262-a3d1-4e06-9740-238df2271ae8",
+      "postingBatchId": "292b9fbc-e7e1-4f76-a7eb-a0b15ae68988",
+      "correctionOf": [
+        "3bf5a878-f0b1-458b-a947-0ce22af48bde"
+      ],
+      "revision": "1",
+      "sourceCapability": "incidents",
+      "sourcePath": "/incidents/09e7b060-29be-4526-af4d-c79e5a739120",
+      "employeeId": "0464b25f-8159-4bff-9583-20fcbcc9f9c2",
+      "incidentId": "09e7b060-29be-4526-af4d-c79e5a739120"
+    },
+    "finding": {
+      "kind": "economic_source_mismatch",
+      "targetType": "incident_compensation",
+      "targetId": "09e7b060-29be-4526-af4d-c79e5a739120",
+      "sourceIds": [
+        "4cf2cfc6-3727-4ee8-89a3-2ffe88959352",
+        "3bf5a878-f0b1-458b-a947-0ce22af48bde"
+      ],
+      "observedVersion": "source:-50000:effect:-50001",
+      "expectedMinor": "-50000",
+      "observedMinor": "-50001",
+      "deltaMinor": "-1",
+      "recoveryPath": "/incidents/09e7b060-29be-4526-af4d-c79e5a739120",
+      "message": "المصدر الاقتصادي وأثره لا يتطابقان؛ الجزء المتأثر خارج الحساب حتى مراجعة السجل الأصلي.",
+      "sourceCapability": "incidents",
+      "asOf": "2026-10-09T02:03:35.775Z",
+      "branchIds": [
+        "eed15262-a3d1-4e06-9740-238df2271ae8"
+      ],
+      "id": "a0b688e65ec73c74211a7b32129694da00df459e1e2d2843fdf25def884af63f"
+    },
+    "restoration": "Only isolated savepoint fault timestamps create the separate recorded window; original amount, timestamp and immutable guard roll back. No future recorded business event is claimed."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "capturedAt": "2026-10-09T02:04:57.842Z",
+  "scope": "Generated transport variants of original live event; duplicate/collision causes no posting. Boundary unit test covers exact ±300000ms; public clock tests allow network transit.",
+  "results": [
+    {
+      "name": "original-byte duplicate",
+      "status": 200,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "duplicate security header",
+      "status": 401,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "wrong scope",
+      "status": 401,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "wrong key selector",
+      "status": 401,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "tampered bytes",
+      "status": 401,
+      "bytes": 901,
+      "sha256": "c81bc59dc2f643b9e4bd16c30055b97e07dbfdb39537f1939b9717f49a5e5dd5"
+    },
+    {
+      "name": "outside clock window",
+      "status": 401,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "inside clock window",
+      "status": 200,
+      "bytes": 900,
+      "sha256": "cc2d2ee484ce1d577ffbbab31b21991d86e7d13ab9c4ff4b0f2b4886dea37c3d"
+    },
+    {
+      "name": "unsupported version",
+      "status": 422,
+      "bytes": 900,
+      "sha256": "66cfef7293f10516fb1ff8345cc969635254e383c01dc6725d77111896873413"
+    },
+    {
+      "name": "2 MiB signed body reaches receiver collision check",
+      "status": 409,
+      "bytes": 2097152,
+      "sha256": "e1c593742c7608e19782402ea79c513a3207fe3eea884e3bb397bf324cbfa51e"
+    },
+    {
+      "name": "2 MiB plus one rejected by public proxy",
+      "status": 413,
+      "bytes": 2097153,
+      "sha256": "ef0c951adb208a56336f853b4e13b7ece155fe826f1c250909d9d96831ca5dd5"
+    }
+  ]
+}

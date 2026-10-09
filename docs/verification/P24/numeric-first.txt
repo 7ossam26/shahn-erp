@@ -1,0 +1,51 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p24/numeric.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p24/numeric.db.test.ts (3 tests | 2 failed) 23673ms
+   ✓ A02 complete storage fee belongs to January/agreement A despite advance and partial receipts at B; persisted XLSX/PDF use the same rows 6852ms
+   × A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery 6632ms
+   × A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue 10186ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p24/numeric.db.test.ts > A03 salary6000 minus entitlement200 costs5800; advance1000 and separately linked incident100 yield payout4700 without another profit recovery
+Error: INCIDENT_EMPLOYEE_CUSTODY_REQUIRED
+ ❯ apps/api/src/modules/kernel/commands.ts:178:38
+    176|       return result.reply;
+    177|     }).then((reply) => {
+    178|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    179|       return reply;
+    180|     });
+ ❯ tests/integration/p24/numeric.db.test.ts:112:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p24/numeric.db.test.ts > A04 actual intake/packing A and internal transfer earn no visit; B earns tariff55 and commission5, replacement waives55 while goods250 remain outside revenue
+AssertionError: expected [] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+- [
+-   "fe858fbd-0f98-4603-bbed-ac82e0a4be5e",
+- ]
++ []
+
+ ❯ tests/integration/p24/numeric.db.test.ts:180:141
+    178|     expect(profit(ordinaryReport).shipping).toEqual({ grossMinor: '550…
+    179|     expect(category(ordinaryReport, 'employee_commission').amountMinor…
+    180|     expect(ordinaryReport.rows.filter(r => r.economicEffect?.category …
+       |                                                                                                                                             ^
+    181|     const damaged = await f.create({ brandReference: 'P24-A04-INCIDENT…
+    182|     const incident = await f.report(damaged.shipmentId);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  21:29:26
+   Duration  26.70s (tests 89%, import 7%, transform 4%)

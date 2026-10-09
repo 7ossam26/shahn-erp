@@ -17,6 +17,12 @@ import {
   type ReportPage,
   type ReportRow,
   type ReportSnapshot,
+  profitCategories,
+  type ProfitCategory,
+  type ProfitSummary,
+  type ProfitActualMoney,
+  type ProfitSourceIssue,
+  type ProfitReconciliationFinding,
 } from '@shahn/contracts';
 import { loadAccess } from '../access/sessions.js';
 import { canonical, digest } from '../access/crypto.js';
@@ -74,8 +80,89 @@ export async function authorizedSnapshot(u: UnitOfWork, id: string): Promise<Rep
   const current = reportScope(u, r.metadata.reportId, r.metadata.filters);
   if (r.metadata.scope.branchIds.some((b) => !current.branchIds.includes(b)))
     throw new AccessError('FORBIDDEN_SCOPE');
-  return r.metadata;
+  if (r.metadata.reportId === 'REP-15') {
+    const m = r.metadata.context['actualMoney'] as ProfitActualMoney;
+    for (const [present, cap] of [
+      [m.accounts.length > 0, 'finance.accounts'],
+      [m.fundsInTransitMinor !== null, 'finance.accounts'],
+      [m.unremittedRecipientMinor !== null, 'remittances'],
+      [m.brandLiabilitiesMinor !== null, 'brand.payout'],
+      [m.storageCreditMinor !== null, 'storage'],
+    ] as const)
+      if (present) assertCapability(u.access, cap);
+  }
+  return publicSnapshot(u, r.metadata);
 }
+/** Summary permission reveals amounts, while source targets retain their ordinary permission. */
+function publicSnapshot(u: UnitOfWork, snapshot: ReportSnapshot): ReportSnapshot {
+  if (snapshot.reportId !== 'REP-15') return snapshot;
+  const redact = <
+    T extends {
+      sourceCapability: string;
+      sourceIds: string[];
+      targetId: string;
+      observedVersion: string;
+    },
+  >(
+    item: T,
+  ): T =>
+    u.access.grants.includes(item.sourceCapability as Capability)
+      ? item
+      : {
+          ...item,
+          targetId: 'restricted',
+          sourceIds: [],
+          observedVersion: 'restricted',
+          ...('sourcePath' in item ? { sourcePath: null } : {}),
+          ...('recoveryPath' in item ? { recoveryPath: null } : {}),
+        };
+  return {
+    ...snapshot,
+    context: {
+      ...snapshot.context,
+      sourceIssues: (snapshot.context['sourceIssues'] as Parameters<typeof redact>[0][]).map(
+        redact,
+      ),
+      reconciliation: (snapshot.context['reconciliation'] as Parameters<typeof redact>[0][]).map(
+        redact,
+      ),
+    },
+  };
+}
+/** Full source exports require each source's ordinary grant at creation, recovery and download. */
+export async function authorizedExportSnapshot(u: UnitOfWork, id: string) {
+  const s = await authorizedSnapshot(u, id);
+  if (s.reportId === 'REP-15') {
+    const caps = (
+      await u.client.query<{ cap: string }>(
+        `SELECT DISTINCT row_data->'economicEffect'->>'sourceCapability' AS cap FROM reporting.snapshot_row WHERE company_id=$1 AND snapshot_id=$2`,
+        [u.access.companyId, id],
+      )
+    ).rows;
+    for (const { cap } of caps) assertCapability(u.access, cap as Capability);
+    // Artifact workers read full frozen metadata, including warnings whose targets may have
+    // an ordinary permission different from any computed row (for example source recovery).
+    for (const item of [
+      ...(s.context['sourceIssues'] as ProfitSourceIssue[]),
+      ...(s.context['reconciliation'] as ProfitReconciliationFinding[]),
+    ])
+      assertCapability(u.access, item.sourceCapability as Capability);
+  }
+  return s;
+}
+const reportPublicRow = (row: ReportRow): ReportRow =>
+  row.economicEffect
+    ? {
+        id: row.id,
+        ...(row.ordinal ? { ordinal: row.ordinal } : {}),
+        values: row.values,
+        sourceIds: [],
+        revision: row.revision,
+        effectiveAt: row.effectiveAt,
+        recordedAt: row.recordedAt,
+        detail: null,
+      }
+    : row;
 export async function snapshotRows(
   client: UnitOfWork['client'],
   company: string,
@@ -135,8 +222,8 @@ export class ReportingService {
       if (old) {
         if (old.payload_digest !== payloadHash)
           throw new AccessError('COMMAND_PAYLOAD_CONFLICT', 409);
-        await authorizedSnapshot(u, old.metadata.id);
-        return this.pageIn(u, old.metadata, 1, 25);
+        const authorized = await authorizedSnapshot(u, old.metadata.id);
+        return this.pageIn(u, authorized, 1, 25);
       }
       const asOf = (
         await client.query<{ at: Date }>('SELECT transaction_timestamp() AS at')
@@ -166,6 +253,15 @@ export class ReportingService {
       if (['REP-01', 'REP-05', 'REP-07', 'REP-08', 'REP-09', 'REP-10'].includes(input.reportId)) {
         if (!revisions.length) flags.push('SOURCE_COVERAGE_UNKNOWN');
       }
+      if (input.reportId === 'REP-15') {
+        const absent = (
+          await client.query(
+            `SELECT 1 FROM execution.visit_fact v WHERE v.company_id=$1 AND v.branch_id=ANY($2::uuid[]) AND NOT EXISTS(SELECT 1 FROM integration.checkpoint cp WHERE cp.company_id=$1 AND cp.source_id=v.source_id AND cp.aggregate_id=v.task_id) LIMIT 1`,
+            [access.companyId, scope.branchIds],
+          )
+        ).rowCount;
+        if (absent) flags.push('SOURCE_COVERAGE_UNKNOWN');
+      }
       if (input.reportId !== 'REP-14') {
         if (revisions.some((r) => r.gapped || !r.history_complete))
           flags.push('SOURCE_HISTORY_INCOMPLETE');
@@ -173,6 +269,35 @@ export class ReportingService {
           flags.push('SOURCE_FINANCIAL_READINESS_PENDING');
       }
       if (rows.some((r) => r.values['date'] === null)) flags.push('UNKNOWN_BUSINESS_DATE');
+      if (input.reportId === 'REP-15') {
+        const issues = context['sourceIssues'] as { code: string }[];
+        flags.push(...new Set(issues.map((i) => i.code)));
+        (context['profit'] as ProfitSummary).calculationComplete = !flags.length;
+        const findings = context[
+          'reconciliation'
+        ] as import('@shahn/contracts').ProfitReconciliationFinding[];
+        for (const r of revisions.filter(
+          (r) => r.gapped || !r.history_complete || !r.financial_ready,
+        ))
+          findings.push({
+            id: digest(
+              canonical([access.companyId, r.source_id, r.aggregate_id, r.revision, asOf]),
+            ),
+            kind: 'source_checkpoint',
+            targetType: r.aggregate_type,
+            targetId: r.aggregate_id,
+            sourceIds: [r.source_id],
+            observedVersion: `${r.revision}:received=${r.received_high}:applied=${r.applied_through}`,
+            expectedMinor: null,
+            observedMinor: null,
+            deltaMinor: null,
+            asOf,
+            branchIds: scope.branchIds,
+            recoveryPath: '/integration/recovery',
+            sourceCapability: 'integration',
+            message: `تغطية المصدر غير مكتملة: استلم حتى ${r.received_high} وطبق حتى ${r.applied_through}؛ يلزم مسار الاستعادة دون قيد مالي تلقائي.`,
+          });
+      }
       const totals: Record<string, string> = {};
       for (const c of reportDefinition(input.reportId).columns.filter((c) => c.total))
         totals[c.key] = rows
@@ -242,7 +367,12 @@ export class ReportingService {
           rowCount: rows.length,
         },
       );
-      return { snapshot, rows: rows.slice(0, 25), page: 1, limit: 25 };
+      return {
+        snapshot: publicSnapshot(u, snapshot),
+        rows: rows.slice(0, 25).map(reportPublicRow),
+        page: 1,
+        limit: 25,
+      };
     });
   }
   async pageIn(
@@ -259,7 +389,7 @@ export class ReportingService {
         [u.access.companyId, snapshot.id, limit, (page - 1) * limit],
       )
     ).rows.map((r) => r.row_data);
-    return { snapshot, rows, page, limit };
+    return { snapshot, rows: rows.map(reportPublicRow), page, limit };
   }
   page(token: string, company: string, id: string, page = 1, limit = 25) {
     return UnitOfWork.run(this.pool, token, company, 'reports', async (u) =>
@@ -278,7 +408,44 @@ export class ReportingService {
         )
       ).rows[0];
       if (!row) throw new AccessError('NOT_FOUND', 404);
+      if (row.row_data.economicEffect)
+        assertCapability(u.access, row.row_data.economicEffect.sourceCapability as Capability);
       return row.row_data;
+    });
+  }
+  category(
+    token: string,
+    company: string,
+    id: string,
+    category: ProfitCategory,
+    page = 1,
+    limit = 25,
+  ) {
+    return UnitOfWork.run(this.pool, token, company, 'reports', async (u) => {
+      const snapshot = await authorizedSnapshot(u, id);
+      if (
+        snapshot.reportId !== 'REP-15' ||
+        !profitCategories.includes(category) ||
+        !Number.isSafeInteger(page) ||
+        page < 1 ||
+        ![25, 50, 100].includes(limit)
+      )
+        throw new AccessError('VALIDATION_FAILED', 400);
+      const all = (
+        await u.client.query<{ row_data: ReportRow }>(
+          `SELECT row_data FROM reporting.snapshot_row WHERE company_id=$1 AND snapshot_id=$2 AND row_data->'values'->>'category'=$3 ORDER BY ordinal`,
+          [company, id, category],
+        )
+      ).rows.map((r) => r.row_data);
+      for (const r of all)
+        assertCapability(u.access, r.economicEffect!.sourceCapability as Capability);
+      return {
+        snapshot,
+        rows: all.slice((page - 1) * limit, page * limit),
+        page,
+        limit,
+        filteredTotalRows: all.length,
+      };
     });
   }
 }
