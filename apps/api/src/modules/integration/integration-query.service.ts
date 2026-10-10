@@ -1,3 +1,4 @@
+import { connectionCandidates } from './config.js';
 import { sourceByCompany, type IntegrationBinding } from '@shahn/database';
 import type { Pool } from 'pg';
 import { AccessError } from '@shahn/domain';
@@ -25,7 +26,7 @@ export async function integrationStatus(
   filter: IntegrationFilter,
 ) {
   const source = await sourceByCompany(u.client, u.access.companyId);
-  const connections = runtime.connections
+  const connections = (await connectionCandidates(runtime, u.access.companyId))
     .filter((c) => c.companyId === u.access.companyId)
     .map((c) => ({ selector: c.selector, baseUrl: c.baseUrl, issuer: c.issuer }));
   const catalog = await integrationCatalog(u);
@@ -92,7 +93,7 @@ export async function integrationStatus(
       id: source.id,
       tenantId: source.tenant_id,
       integrationId: source.integration_id,
-      baseUrl: source.base_url,
+      baseUrl: connections.find((c) => c.selector === source.selector)?.baseUrl ?? source.base_url,
       issuer: source.issuer,
       enabled: source.enabled,
       configuration: source.configuration,
@@ -167,13 +168,13 @@ export async function refreshIntegration(
     sourceByCompany(u.client, companyId),
   );
   if (!source) throw new AccessError('CONNECTION_REQUIRED', 409);
-  const c = runtime.connections.find(
+  const c = (await connectionCandidates(runtime, companyId)).find(
     (c) =>
       c.companyId === companyId &&
       c.selector === source.selector &&
       c.tenantId === source.tenant_id &&
       c.integrationId === source.integration_id &&
-      c.baseUrl === source.base_url &&
+      (runtime.resolve || c.baseUrl === source.base_url) &&
       c.issuer === source.issuer,
   );
   if (!c) throw new AccessError('CONNECTION_CONFIGURATION_REQUIRED', 409);

@@ -1,0 +1,1780 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/planning.schema.json",
+  "title": "Durable planning and forecast revisions v1",
+  "$defs": {
+    "Status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "complete",
+        "partial",
+        "failed",
+        "superseded"
+      ]
+    },
+    "Settings": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "routing.schema.json#/$defs/Mode"
+        },
+        "origin": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "manual-pin"
+            },
+            "coordinates": {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            }
+          },
+          "required": [
+            "kind",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        "endpoint": {
+          "$ref": "routing.schema.json#/$defs/Endpoint",
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "branch"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "branchId": {
+                    "$ref": "common.schema.json#/$defs/Uuid"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "plannedStartAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "mode",
+        "origin",
+        "endpoint",
+        "plannedStartAt"
+      ],
+      "additionalProperties": false,
+      "description": "Explicit manual origin, never GPS or physical arrival. plannedStartAt is the eligibility and forecast anchor, not round start. Whole-route policy validates the endpoint."
+    },
+    "SaveDraft": {
+      "type": "object",
+      "properties": {
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedSettingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "settings": {
+          "$ref": "#/$defs/Settings"
+        }
+      },
+      "required": [
+        "driverId",
+        "expectedSettingsRevision",
+        "settings"
+      ],
+      "additionalProperties": false
+    },
+    "Request": {
+      "type": "object",
+      "properties": {
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedSettingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "driverId",
+        "expectedSettingsRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Member": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "branchId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrationId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "priority": {
+          "enum": [
+            "ordinary",
+            "urgent"
+          ]
+        },
+        "earliestAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "departureAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reservationState": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "exclusionReason": {
+          "anyOf": [
+            {
+              "enum": [
+                "not-held",
+                "location-unresolved",
+                "future",
+                "not-reserved",
+                "resolved-or-paused"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "serviceEstimateSeconds": {
+          "const": 600
+        }
+      },
+      "required": [
+        "taskId",
+        "attemptId",
+        "dispatchCycleId",
+        "branchId",
+        "integrationId",
+        "sourceRevision",
+        "assignmentRevision",
+        "pinRevision",
+        "coordinates",
+        "priority",
+        "earliestAt",
+        "departureAt",
+        "reservationState",
+        "eligible",
+        "exclusionReason",
+        "serviceEstimateSeconds"
+      ],
+      "additionalProperties": false
+    },
+    "Input": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "tenantId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "accountKind": {
+          "enum": [
+            "personal",
+            "company"
+          ]
+        },
+        "inputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "settingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "executionRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "manualRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "currentTarget": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "taskId": {
+                  "$ref": "common.schema.json#/$defs/Uuid"
+                },
+                "attemptId": {
+                  "$ref": "common.schema.json#/$defs/Uuid"
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "taskId",
+                "attemptId",
+                "revision"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "locationInputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "settings": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputSettings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Member"
+          }
+        },
+        "physicalOrigin": {
+          "anyOf": [
+            {
+              "$ref": "current-activity.schema.json#/$defs/PhysicalOrigin"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Absent or null means no recorded physical correction/arrival. Omitted until evidence exists to preserve unchanged pre-P16 input fingerprints."
+        },
+        "branchActivity": {
+          "$ref": "current-activity.schema.json#/$defs/BranchActivity"
+        }
+      },
+      "required": [
+        "version",
+        "tenantId",
+        "driverId",
+        "accountKind",
+        "inputRevision",
+        "settingsRevision",
+        "executionRevision",
+        "manualRevision",
+        "currentTarget",
+        "locationInputRevision",
+        "settings",
+        "members"
+      ],
+      "additionalProperties": false
+    },
+    "Job": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "settingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "blockedReason": {
+          "anyOf": [
+            {
+              "enum": [
+                "settings-required",
+                "no-eligible-work",
+                "capacity-exceeded",
+                "branch-service"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "leaseExpiresAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nextAttemptAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "routing.schema.json#/$defs/Failure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supersededByJobId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resultKind": {
+          "anyOf": [
+            {
+              "enum": [
+                "full",
+                "partial",
+                "invalid",
+                "dependency-failed"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "jobId",
+        "driverId",
+        "status",
+        "fingerprint",
+        "settingsRevision",
+        "blockedReason",
+        "attempts",
+        "leaseExpiresAt",
+        "nextAttemptAt",
+        "error",
+        "planId",
+        "supersededByJobId",
+        "createdAt",
+        "finishedAt"
+      ],
+      "additionalProperties": false,
+      "description": "Durable calculation state. resultKind distinguishes full, partial, invalid provider/policy response and dependency failure. Historical P13 complete jobs may still point to unvalidated drafts; inspect the plan state. Never implies an active round.",
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "running"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "leaseExpiresAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "attempts": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "complete",
+                  "partial",
+                  "failed",
+                  "superseded"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "leaseExpiresAt": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "running"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "planId": {
+                "type": "null"
+              },
+              "finishedAt": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "complete",
+                  "partial"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "planId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "finishedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "error": {
+                "type": "null"
+              },
+              "blockedReason": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "failed",
+                  "superseded"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "planId": {
+                "type": "null"
+              },
+              "finishedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "DraftResult": {
+      "type": "object",
+      "properties": {
+        "settingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "job": {
+          "$ref": "#/$defs/Job"
+        }
+      },
+      "required": [
+        "settingsRevision",
+        "job"
+      ],
+      "additionalProperties": false
+    },
+    "ForecastMember": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "membership": {
+          "enum": [
+            "assigned",
+            "unassigned",
+            "excluded",
+            "manual",
+            "paused"
+          ]
+        },
+        "exclusionReason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "position": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedArrivalAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedCompletionAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "taskId",
+        "attemptId",
+        "dispatchCycleId",
+        "sourceRevision",
+        "assignmentRevision",
+        "pinRevision",
+        "membership",
+        "exclusionReason",
+        "position",
+        "expectedArrivalAt",
+        "expectedCompletionAt"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "membership": {
+                "const": "assigned"
+              }
+            },
+            "required": [
+              "membership"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "expectedArrivalAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "expectedCompletionAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "else": {
+            "if": {
+              "type": "object",
+              "properties": {
+                "membership": {
+                  "enum": [
+                    "manual",
+                    "paused"
+                  ]
+                }
+              },
+              "required": [
+                "membership"
+              ]
+            },
+            "then": {
+              "type": "object",
+              "properties": {
+                "position": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "expectedArrivalAt": {
+                  "type": "null"
+                },
+                "expectedCompletionAt": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "type": "object",
+              "properties": {
+                "position": {
+                  "type": "null"
+                },
+                "expectedArrivalAt": {
+                  "type": "null"
+                },
+                "expectedCompletionAt": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Forecast": {
+      "type": "object",
+      "properties": {
+        "forecastId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workloadId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "kind": {
+          "const": "planning-estimate"
+        },
+        "timeOrigin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expectedFinishAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ForecastMember"
+          }
+        }
+      },
+      "required": [
+        "forecastId",
+        "workloadId",
+        "kind",
+        "timeOrigin",
+        "expectedFinishAt",
+        "members"
+      ],
+      "additionalProperties": false
+    },
+    "Plan": {
+      "type": "object",
+      "properties": {
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "jobId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state": {
+          "enum": [
+            "draft",
+            "ready",
+            "partial",
+            "manual",
+            "branch"
+          ]
+        },
+        "current": {
+          "type": "boolean"
+        },
+        "inputCurrent": {
+          "type": "boolean"
+        },
+        "policyValidated": {
+          "type": "boolean"
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "routing.schema.json#/$defs/OptimizationResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input": {
+          "$ref": "#/$defs/Input"
+        },
+        "forecast": {
+          "$ref": "#/$defs/Forecast"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "routePolicy": {
+          "$ref": "#/$defs/RoutePolicy"
+        }
+      },
+      "required": [
+        "planId",
+        "jobId",
+        "driverId",
+        "revision",
+        "fingerprint",
+        "state",
+        "current",
+        "inputCurrent",
+        "policyValidated",
+        "candidate",
+        "input",
+        "forecast",
+        "createdAt"
+      ],
+      "additionalProperties": false,
+      "description": "Immutable historical draft, validated ready or explicit partial plan. Only a current valid ready/manual revision may be considered for online start by P15. No baseline is overwritten.",
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "enum": [
+                  "manual",
+                  "branch"
+                ]
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "candidate": {
+                "type": "null"
+              },
+              "jobId": {
+                "type": "null"
+              },
+              "forecast": {
+                "type": "object",
+                "properties": {
+                  "expectedFinishAt": {
+                    "type": "null"
+                  }
+                }
+              },
+              "routePolicy": {
+                "type": "object",
+                "properties": {
+                  "method": {
+                    "enum": [
+                      "manual",
+                      "branch-service"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "properties": {
+              "candidate": {
+                "$ref": "routing.schema.json#/$defs/OptimizationResult"
+              },
+              "jobId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "type": "object",
+                  "properties": {
+                    "candidate": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "const": "partial"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "properties": {
+                    "forecast": {
+                      "type": "object",
+                      "properties": {
+                        "expectedFinishAt": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                },
+                "else": {
+                  "type": "object",
+                  "properties": {
+                    "forecast": {
+                      "type": "object",
+                      "properties": {
+                        "expectedFinishAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "enum": [
+                  "ready",
+                  "partial",
+                  "manual",
+                  "branch"
+                ]
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "policyValidated": {
+                "const": true
+              },
+              "routePolicy": {
+                "$ref": "#/$defs/RoutePolicy"
+              }
+            },
+            "required": [
+              "routePolicy"
+            ]
+          },
+          "else": {
+            "type": "object",
+            "properties": {
+              "policyValidated": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "ready"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "candidate": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "const": "complete"
+                  },
+                  "visits": {
+                    "type": "array",
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "partial"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "candidate": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "const": "partial"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "branch"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "routePolicy": {
+                "properties": {
+                  "method": {
+                    "const": "branch-service"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "routePolicy": {
+                "properties": {
+                  "method": {
+                    "enum": [
+                      "manual",
+                      "grouped-heuristic"
+                    ]
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Plans": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Plan"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latestJob": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Job"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "settingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "manualRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "continuation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Continuation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor",
+        "latestJob",
+        "settingsRevision"
+      ],
+      "additionalProperties": false
+    },
+    "PublishedEvent": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "forecastId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workloadId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "state": {
+          "enum": [
+            "draft",
+            "ready",
+            "partial",
+            "manual",
+            "branch"
+          ]
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "manual",
+            "branch"
+          ]
+        },
+        "policyValidated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "jobId",
+        "planId",
+        "driverId",
+        "revision",
+        "forecastId",
+        "workloadId",
+        "state",
+        "status",
+        "policyValidated"
+      ],
+      "additionalProperties": false
+    },
+    "SaveDraftCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "planning.saveDraft"
+            },
+            "payload": {
+              "$ref": "#/$defs/SaveDraft"
+            }
+          }
+        }
+      ]
+    },
+    "RequestPreviewCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "planning.requestPreview"
+            },
+            "payload": {
+              "$ref": "#/$defs/Request"
+            }
+          }
+        }
+      ]
+    },
+    "RequestReplanCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "planning.requestReplan"
+            },
+            "payload": {
+              "$ref": "#/$defs/Request"
+            }
+          }
+        }
+      ]
+    },
+    "RoutePolicy": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "method": {
+          "enum": [
+            "grouped-heuristic",
+            "manual",
+            "branch-service"
+          ]
+        },
+        "orderedTaskIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Uuid"
+          },
+          "maxItems": 50,
+          "uniqueItems": true
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "taskId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "reason": {
+                "enum": [
+                  "unassigned-current",
+                  "unassigned-urgent",
+                  "unassigned-ordinary",
+                  "blocked-by-current"
+                ]
+              }
+            },
+            "required": [
+              "taskId",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "branchStop": {
+          "type": "object",
+          "properties": {
+            "segmentId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "branchId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "coordinates": {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            },
+            "serviceEstimateSeconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 86400
+            }
+          },
+          "required": [
+            "segmentId",
+            "branchId",
+            "coordinates",
+            "serviceEstimateSeconds"
+          ],
+          "additionalProperties": false
+        },
+        "roadRoute": {
+          "anyOf": [
+            {
+              "$ref": "routing.schema.json#/$defs/RouteResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "P33 optional OSRM-validated road geometry for this immutable plan order, captured outside the publication transaction. Null or absent means unavailable (including older/manual plans). It does not establish basemap coverage, movement, arrival or a new forecast."
+        }
+      },
+      "required": [
+        "version",
+        "method",
+        "orderedTaskIds",
+        "exceptions"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "branch-service"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "properties": {
+              "orderedTaskIds": {
+                "maxItems": 0,
+                "type": "array"
+              },
+              "exceptions": {
+                "maxItems": 0,
+                "type": "array"
+              },
+              "branchStop": {
+                "type": "object",
+                "properties": {
+                  "segmentId": {
+                    "$ref": "common.schema.json#/$defs/Uuid"
+                  },
+                  "branchId": {
+                    "$ref": "common.schema.json#/$defs/Uuid"
+                  },
+                  "coordinates": {
+                    "$ref": "common.schema.json#/$defs/Coordinates"
+                  },
+                  "serviceEstimateSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 86400
+                  }
+                },
+                "required": [
+                  "segmentId",
+                  "branchId",
+                  "coordinates",
+                  "serviceEstimateSeconds"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "branchStop"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "branchStop"
+              ],
+              "properties": {
+                "branchStop": {}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ManualOrder": {
+      "type": "object",
+      "properties": {
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedSettingsRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedInputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedManualRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "selection": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "order"
+                },
+                "taskIds": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/Uuid"
+                  },
+                  "minItems": 1,
+                  "maxItems": 50,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "taskIds"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "select-first"
+                },
+                "taskId": {
+                  "$ref": "common.schema.json#/$defs/Uuid"
+                }
+              },
+              "required": [
+                "kind",
+                "taskId"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "driverId",
+        "expectedSettingsRevision",
+        "expectedInputRevision",
+        "expectedManualRevision",
+        "selection"
+      ],
+      "additionalProperties": false,
+      "description": "An explicit complete eligible manual sequence, or a first suggestion followed by retained/grouped remaining work. Does not assert heading, physical arrival or round start. Current target and urgent order remain constraints. Unknown road metrics and times stay null."
+    },
+    "ManualOrderCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "planning.setManualOrder"
+            },
+            "payload": {
+              "$ref": "#/$defs/ManualOrder"
+            }
+          }
+        }
+      ]
+    },
+    "ManualResult": {
+      "type": "object",
+      "properties": {
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "manualRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "inputRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "planId",
+        "revision",
+        "manualRevision",
+        "inputRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Continuation": {
+      "type": "object",
+      "properties": {
+        "sourcePlanId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "orderedTaskIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Uuid"
+          },
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true
+        },
+        "mode": {
+          "const": "reoptimization-pending"
+        },
+        "requiresManualConfirmation": {
+          "const": true
+        },
+        "roadMetricsAvailable": {
+          "const": false
+        }
+      },
+      "required": [
+        "sourcePlanId",
+        "orderedTaskIds",
+        "mode",
+        "requiresManualConfirmation",
+        "roadMetricsAvailable"
+      ],
+      "additionalProperties": false
+    },
+    "InputSettings": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "$ref": "routing.schema.json#/$defs/Mode"
+        },
+        "origin": {
+          "$ref": "routing.schema.json#/$defs/Origin"
+        },
+        "endpoint": {
+          "$ref": "routing.schema.json#/$defs/Endpoint",
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "branch"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "branchId": {
+                    "$ref": "common.schema.json#/$defs/Uuid"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "plannedStartAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "mode",
+        "origin",
+        "endpoint",
+        "plannedStartAt"
+      ],
+      "additionalProperties": false,
+      "description": "Server-effective settings. Origin is the last explicit arrival/manual correction, falling back to the draft manual pin. A caller cannot assert last-confirmed-stop through saveDraft."
+    }
+  }
+}

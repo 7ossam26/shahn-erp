@@ -33,6 +33,7 @@ import { useAccess } from '../access/access.js';
 import { shipmentApi, useShipmentCatalog, useShipmentMutation, ShipmentApiError } from './api.js';
 import './shipments.css';
 import { StockHistory } from '../preparation/stock-order.js';
+import { ShipmentRejectionHistory } from '../tracking/rejection-history.js';
 export const preparationNames = {
   not_required: 'لا يحتاج تجهيزًا',
   awaiting_preparation: 'بانتظار التجهيز',
@@ -1007,6 +1008,7 @@ export function ShipmentDetailPage() {
             </ol>
           </section>
           <div className="intake-next">
+            <ShipmentRejectionHistory shipmentId={d.id} />
             {d.preparation === 'awaiting_preparation' &&
             d.state === 'active' &&
             access.registry?.context.grants.includes('intake') ? (

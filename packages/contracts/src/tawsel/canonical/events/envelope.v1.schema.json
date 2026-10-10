@@ -8,7 +8,10 @@
       "const": "1.0.0"
     },
     "payloadVersion": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "2.0.0"
+      ]
     },
     "eventId": {
       "$ref": "../common.schema.json#/$defs/Uuid"
@@ -117,14 +120,18 @@
         ]
       },
       "then": {
-        "properties": { "snapshotRevision": true },
+        "properties": {
+          "snapshotRevision": true
+        },
         "required": [
           "snapshotRevision"
         ]
       },
       "else": {
         "not": {
-          "properties": { "snapshotRevision": true },
+          "properties": {
+            "snapshotRevision": true
+          },
           "required": [
             "snapshotRevision"
           ]

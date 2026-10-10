@@ -1,0 +1,929 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/workday-closure.schema.json",
+  "title": "Explicit round/workday closure and holder carry-forward v1",
+  "$defs": {
+    "Close": {
+      "type": "object",
+      "properties": {
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedActiveRoundId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedCurrentAttemptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentAction": {
+          "enum": [
+            "require-none",
+            "pause-heading"
+          ]
+        }
+      },
+      "required": [
+        "workdayId",
+        "roundId",
+        "expectedActiveRoundId",
+        "expectedActivityRevision",
+        "expectedCurrentAttemptId",
+        "currentAction"
+      ],
+      "additionalProperties": false,
+      "description": "roundId anchors execution ownership. Day end without an active round must name the most recent round in that day. A heading needs explicit pause-heading; an arrived customer requires an outcome first. Unknown dependencies keep the action pending and are replayed with its original ID."
+    },
+    "EndRoundCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "round.end"
+            },
+            "payload": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/Close"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "expectedActiveRoundId": {
+                      "$ref": "common.schema.json#/$defs/Uuid"
+                    }
+                  }
+                }
+              ]
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "EndDayCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "workday.end"
+            },
+            "payload": {
+              "$ref": "#/$defs/Close"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Record": {
+      "type": "object",
+      "properties": {
+        "closureId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "enum": [
+            "round.end",
+            "workday.end"
+          ]
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "ownerRoundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "endedRoundId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "roundEndedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workdayEndedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pausedActivity": {
+          "anyOf": [
+            {
+              "$ref": "current-activity.schema.json#/$defs/Activity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "time": {
+          "$ref": "current-activity.schema.json#/$defs/ActionTime"
+        }
+      },
+      "required": [
+        "closureId",
+        "operationId",
+        "workdayId",
+        "driverId",
+        "ownerRoundId",
+        "endedRoundId",
+        "roundEndedAt",
+        "workdayEndedAt",
+        "pausedActivity",
+        "activityRevision",
+        "time"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operationId": {
+                "const": "round.end"
+              }
+            },
+            "required": [
+              "operationId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "endedRoundId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "roundEndedAt": {
+                "$ref": "common.schema.json#/$defs/UtcInstant"
+              },
+              "workdayEndedAt": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "workdayEndedAt": {
+                "$ref": "common.schema.json#/$defs/UtcInstant"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "endedRoundId": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "endedRoundId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "roundEndedAt": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "roundEndedAt": {
+                "$ref": "common.schema.json#/$defs/UtcInstant"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CommandResult": {
+      "type": "object",
+      "properties": {
+        "disposition": {
+          "enum": [
+            "closed",
+            "already-closed"
+          ]
+        },
+        "closure": {
+          "$ref": "#/$defs/Record"
+        }
+      },
+      "required": [
+        "disposition",
+        "closure"
+      ],
+      "additionalProperties": false
+    },
+    "ActionResult": {
+      "allOf": [
+        {
+          "$ref": "action-result.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "enum": [
+                "round.end",
+                "workday.end"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "accepted"
+                      }
+                    },
+                    "required": [
+                      "businessStatus"
+                    ]
+                  }
+                },
+                "required": [
+                  "receipt"
+                ]
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "body": {
+                        "$ref": "#/$defs/CommandResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ActionStatus": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "pending"
+            }
+          },
+          "required": [
+            "actionId",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "enum": [
+                "accepted",
+                "rejected",
+                "review-required"
+              ]
+            },
+            "result": {
+              "$ref": "#/$defs/ActionResult"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "result"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SourceItem": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "sourceReference": {
+          "$ref": "common.schema.json#/$defs/SourceReference"
+        },
+        "sourceDispatchCycleId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "taskId",
+        "dispatchCycleId",
+        "sourceReference",
+        "sourceDispatchCycleId"
+      ],
+      "additionalProperties": false
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "closureId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "endedRoundId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "roundEndedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workdayEndedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time": {
+          "$ref": "current-activity.schema.json#/$defs/ActionTime"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceItem"
+          }
+        }
+      },
+      "required": [
+        "closureId",
+        "driverId",
+        "workdayId",
+        "endedRoundId",
+        "roundEndedAt",
+        "workdayEndedAt",
+        "time",
+        "tasks"
+      ],
+      "additionalProperties": false
+    },
+    "CarryItem": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceReference": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/SourceReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceDispatchCycleId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "pinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "earliestAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deferred": {
+          "type": "boolean"
+        },
+        "admittedInWorkday": {
+          "type": "boolean"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "full",
+                "partial",
+                "refused",
+                "no-answer"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "unfinished",
+            "return-required",
+            "unsuccessful"
+          ]
+        },
+        "eligibleNow": {
+          "type": "boolean"
+        },
+        "blocker": {
+          "anyOf": [
+            {
+              "enum": [
+                "result-required",
+                "deferred",
+                "earliest-time",
+                "location-required",
+                "receipt-or-disposition",
+                "capacity-admission"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "heldReturnRequiredPieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "heldPieces": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unpaidShippingMinor": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        }
+      },
+      "required": [
+        "taskId",
+        "attemptId",
+        "dispatchCycleId",
+        "sourceReference",
+        "sourceDispatchCycleId",
+        "sourceRevision",
+        "assignmentRevision",
+        "pinRevision",
+        "earliestAt",
+        "deferred",
+        "admittedInWorkday",
+        "outcome",
+        "disposition",
+        "eligibleNow",
+        "blocker",
+        "heldReturnRequiredPieces",
+        "heldPieces",
+        "unpaidShippingMinor"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "eligibleNow": {
+                "const": true
+              }
+            },
+            "required": [
+              "eligibleNow"
+            ]
+          },
+          "then": {
+            "properties": {
+              "blocker": {
+                "type": "null"
+              },
+              "deferred": {
+                "const": false
+              },
+              "outcome": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "blocker": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sourceReference": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "sourceReference"
+            ]
+          },
+          "then": {
+            "properties": {
+              "dispatchCycleId": {
+                "type": "null"
+              },
+              "sourceDispatchCycleId": {
+                "type": "null"
+              },
+              "heldPieces": {
+                "type": "null"
+              },
+              "heldReturnRequiredPieces": {
+                "const": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "dispatchCycleId": {
+                "$ref": "common.schema.json#/$defs/Uuid"
+              },
+              "sourceDispatchCycleId": {
+                "type": "string"
+              },
+              "heldPieces": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CarryForward": {
+      "type": "object",
+      "properties": {
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "asOf": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CarryItem"
+          }
+        }
+      },
+      "required": [
+        "workdayId",
+        "driverId",
+        "asOf",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "RoundSummary": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "startedAt": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "firstPlanId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstForecastId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstWorkloadId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "Current retained activity revision, including a closure pause; use for explicit day end between rounds."
+        }
+      },
+      "required": [
+        "roundId",
+        "startedAt",
+        "endedAt",
+        "firstPlanId",
+        "firstForecastId",
+        "firstWorkloadId"
+      ],
+      "additionalProperties": false
+    },
+    "Summary": {
+      "type": "object",
+      "properties": {
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "displayTimeZone": {
+          "const": "Africa/Cairo"
+        },
+        "openedAt": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/UtcInstant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asOf": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "rounds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoundSummary"
+          }
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "shipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "attempts": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "processedAttempts": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "fullShipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "partialShipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "refusedShipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "noAnswerShipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "unfinishedShipments": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "shipments",
+            "attempts",
+            "processedAttempts",
+            "fullShipments",
+            "partialShipments",
+            "refusedShipments",
+            "noAnswerShipments",
+            "unfinishedShipments"
+          ],
+          "additionalProperties": false
+        },
+        "collection": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "currency": {
+                "const": "EGP"
+              },
+              "exponent": {
+                "const": 2
+              },
+              "reportedMinor": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              },
+              "unreportedAttempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "currency",
+              "exponent",
+              "reportedMinor",
+              "unreportedAttempts"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "outcomes.schema.json#/$defs/Record"
+          }
+        },
+        "carryForward": {
+          "$ref": "#/$defs/CarryForward"
+        }
+      },
+      "required": [
+        "workdayId",
+        "driverId",
+        "displayTimeZone",
+        "openedAt",
+        "endedAt",
+        "asOf",
+        "rounds",
+        "scope",
+        "collection",
+        "outcomes",
+        "carryForward"
+      ],
+      "additionalProperties": false,
+      "description": "Workday admissions define distinct shipment and attempt denominators; each attempt is counted once across rounds. Outcomes are retained day-scoped history; shipment buckets use the latest outcome in this workday. Collections sum only amounts reported in this workday, never settlement. Carry-forward is a separately labelled current-holder read at asOf, not historical day inventory."
+    }
+  }
+}

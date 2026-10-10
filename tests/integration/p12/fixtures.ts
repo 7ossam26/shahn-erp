@@ -26,31 +26,42 @@ import { UnitOfWork } from '../../../apps/api/src/modules/kernel/unit-of-work.js
 import { JournalPosting } from '../../../apps/api/src/modules/kernel/journals.js';
 import { WalletService } from '../../../apps/api/src/modules/kernel/wallet.js';
 import { shipmentFields } from '../../support/shipments.js';
+import type { IntegrationConnection } from '../../../apps/api/src/modules/integration/config.js';
+import type { TawselClient } from '../../../apps/api/src/modules/integration/tawsel-client.js';
 export async function dispatchFixture(
   pool: Pool,
   origin = 'http://127.0.0.1:5321',
   baseUrl = 'http://127.0.0.1:1',
+  live?: {
+    issuer: string;
+    capabilities?: string[];
+    configure(f: Awaited<ReturnType<typeof integrationFixture>>): Promise<SourceConfiguration>;
+    clientFor(c: IntegrationConnection): TawselClient;
+    afterProvision?(entity: BindingKind, nativeId: string): Promise<void>;
+  },
 ) {
-  const f = await integrationFixture(pool, origin, baseUrl),
+  const f = await integrationFixture(pool, origin, baseUrl, live?.issuer),
     seed = await seedCommercial(pool, f.admin.token, f.company, f.a, 'test'),
-    worker = new SourceCommandWorker(pool, f.runtime);
-  const configuration: SourceConfiguration = {
-    identity: {
-      mode: 'service-operation',
-      tenantId: f.connection.tenantId,
-      integrationId: f.connection.integrationId,
-      actorId: null,
-    },
-    issuer: f.config.issuer,
-    supportedVersions: ['1.0.0'],
-    allowedOperations: [
-      ...Object.keys(intakeOperations),
-      'intake.getTask',
-      'intake.listTasks',
-      'intake.getBatchResult',
-    ],
-    humanDelegation: false,
-  };
+    worker = new SourceCommandWorker(pool, f.runtime, live?.clientFor);
+  const configuration: SourceConfiguration = live
+    ? await live.configure(f)
+    : {
+        identity: {
+          mode: 'service-operation',
+          tenantId: f.connection.tenantId,
+          integrationId: f.connection.integrationId,
+          actorId: null,
+        },
+        issuer: f.config.issuer,
+        supportedVersions: ['1.0.0'],
+        allowedOperations: [
+          ...Object.keys(intakeOperations),
+          'intake.getTask',
+          'intake.listTasks',
+          'intake.getBatchResult',
+        ],
+        humanDelegation: false,
+      };
   await pool.query(
     'UPDATE integration.source SET configuration=$1,configuration_checked_at=clock_timestamp() WHERE company_id=$2',
     [JSON.stringify(configuration), f.company],
@@ -74,6 +85,16 @@ export async function dispatchFixture(
     const lease = (await worker.claim())!,
       e = JSON.parse(lease.request_body) as SourceEnvelope,
       resourceId = randomUUID();
+    if (live) {
+      await worker.deliver(lease);
+      await live.afterProvision?.(entity, nativeId);
+      return (
+        await pool.query(
+          'SELECT resource_id FROM integration.binding WHERE company_id=$1 AND native_id=$2',
+          [f.company, nativeId],
+        )
+      ).rows[0].resource_id as string;
+    }
     await worker.complete(lease, {
       result: acceptedResult(e),
       status: 200,
@@ -104,7 +125,7 @@ export async function dispatchFixture(
   });
   await provision('role', f.adminRole, 'role.defineCapabilities', {
     name: 'مدير الشركة',
-    capabilities: [],
+    capabilities: live?.capabilities ?? [],
   });
   await provision('user', f.admin.id, 'user.provision', {
     subject: f.admin.subject,
@@ -180,6 +201,16 @@ export async function dispatchFixture(
     if (!lease) return null;
     const e = JSON.parse(lease.request_body) as SourceEnvelope,
       result = acceptedResult(e);
+    if (live) {
+      await worker.deliver(lease);
+      const refs = Array.isArray(e.payload.items) ? e.payload.items : [e.payload];
+      for (const ref of refs as { externalId?: string }[])
+        if (ref.externalId?.startsWith('shipment:')) {
+          const task = await live.clientFor(f.connection).intakeTask(ref.externalId);
+          tasks.set(task.externalId, task);
+        }
+      return lease;
+    }
     if (options.reject) {
       result.receipt.businessStatus = 'rejected';
       result.receipt.problem = {

@@ -17,7 +17,7 @@ export type ProvisioningOperation = keyof typeof provisioningOperations;
 export type BindingKind = 'source' | 'branch' | 'role' | 'user' | 'driver';
 export interface SourceEnvelope {
   schemaVersion: '1.0.0';
-  payloadVersion: '1.0.0';
+  payloadVersion: '1.0.0' | '2.0.0';
   actionId: string;
   operationId: string;
   context: { kind: 'integration'; tenantId: string; integrationId: string };
@@ -45,6 +45,9 @@ export interface SourceConfiguration {
   supportedVersions: string[];
   allowedOperations: string[];
   humanDelegation: false;
+  erpCompanyId?: string | null;
+  interopVersion?: '1.0.0' | '2.0.0';
+  serviceCapabilities?: string[];
 }
 export interface ActionResult {
   receipt: {

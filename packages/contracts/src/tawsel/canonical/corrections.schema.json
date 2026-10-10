@@ -37,6 +37,9 @@
             },
             "reportedCollection": {
               "$ref": "outcomes.schema.json#/$defs/Money"
+            },
+            "rejection": {
+              "$ref": "./outcomes.schema.json#/$defs/Rejection"
             }
           },
           "required": [
@@ -60,6 +63,9 @@
                 "collected",
                 "refused"
               ]
+            },
+            "rejection": {
+              "$ref": "./outcomes.schema.json#/$defs/Rejection"
             }
           },
           "required": [
@@ -112,28 +118,64 @@
       "additionalProperties": false
     },
     "CorrectCommand": {
-      "allOf": [
+      "oneOf": [
         {
-          "$ref": "action-envelope.v1.schema.json"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "operationId": {
-              "const": "outcome.correct"
+          "allOf": [
+            {
+              "$ref": "action-envelope.v1.schema.json"
             },
-            "context": {
+            {
               "type": "object",
               "properties": {
-                "kind": {
-                  "const": "device"
+                "operationId": {
+                  "const": "outcome.correct"
+                },
+                "context": {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "device"
+                    }
+                  }
+                },
+                "payload": {
+                  "$ref": "#/$defs/LegacyCorrect"
+                },
+                "payloadVersion": {
+                  "const": "1.0.0"
                 }
               }
-            },
-            "payload": {
-              "$ref": "#/$defs/Correct"
             }
-          }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "action-envelope.v1.schema.json"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "operationId": {
+                  "const": "outcome.correct"
+                },
+                "context": {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "const": "device"
+                    }
+                  }
+                },
+                "payload": {
+                  "$ref": "#/$defs/CorrectV2"
+                },
+                "payloadVersion": {
+                  "const": "2.0.0"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -379,6 +421,382 @@
       "required": [
         "actionId",
         "status"
+      ],
+      "additionalProperties": false
+    },
+    "LegacyReplacement": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "full"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "partial"
+            },
+            "pieces": {
+              "type": "array",
+              "items": {
+                "$ref": "outcomes.schema.json#/$defs/Piece"
+              },
+              "minItems": 1,
+              "maxItems": 100
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            }
+          },
+          "required": [
+            "outcome",
+            "pieces",
+            "reportedCollection"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "refused"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            },
+            "shippingPayment": {
+              "enum": [
+                "collected",
+                "refused"
+              ]
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "no-answer"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ReplacementV2": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "full"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "partial"
+            },
+            "pieces": {
+              "type": "array",
+              "items": {
+                "$ref": "outcomes.schema.json#/$defs/Piece"
+              },
+              "minItems": 1,
+              "maxItems": 100
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            },
+            "rejection": {
+              "$ref": "./outcomes.schema.json#/$defs/Rejection"
+            }
+          },
+          "required": [
+            "outcome",
+            "pieces",
+            "reportedCollection"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "refused"
+            },
+            "reportedCollection": {
+              "$ref": "outcomes.schema.json#/$defs/Money"
+            },
+            "shippingPayment": {
+              "enum": [
+                "collected",
+                "refused"
+              ]
+            },
+            "rejection": {
+              "$ref": "./outcomes.schema.json#/$defs/Rejection"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "const": "no-answer"
+            }
+          },
+          "required": [
+            "outcome"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "LegacyCorrect": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedOutcomeRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "replacement": {
+          "$ref": "#/$defs/LegacyReplacement"
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "expectedOutcomeRevision",
+        "replacement"
+      ],
+      "additionalProperties": false
+    },
+    "CorrectV2": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedOutcomeRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "replacement": {
+          "$ref": "#/$defs/ReplacementV2"
+        }
+      },
+      "required": [
+        "roundId",
+        "taskId",
+        "attemptId",
+        "expectedOutcomeRevision",
+        "replacement"
+      ],
+      "additionalProperties": false
+    },
+    "LegacyRecord": {
+      "type": "object",
+      "properties": {
+        "correctionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "previousOutcomeId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previousRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "outcome": {
+          "$ref": "outcomes.schema.json#/$defs/LegacyRecord"
+        },
+        "evidenceActionId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidenceReceiptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correctionId",
+        "previousOutcomeId",
+        "previousRevision",
+        "outcome",
+        "evidenceActionId",
+        "evidenceReceiptId"
+      ],
+      "additionalProperties": false
+    },
+    "LegacyEvent": {
+      "type": "object",
+      "properties": {
+        "correction": {
+          "$ref": "#/$defs/LegacyRecord"
+        },
+        "previousOutcome": {
+          "anyOf": [
+            {
+              "$ref": "outcomes.schema.json#/$defs/LegacyRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correction",
+        "previousOutcome"
+      ],
+      "additionalProperties": false
+    },
+    "EventV2": {
+      "type": "object",
+      "properties": {
+        "correction": {
+          "$ref": "#/$defs/RecordV2"
+        },
+        "previousOutcome": {
+          "anyOf": [
+            {
+              "$ref": "outcomes.schema.json#/$defs/Record"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correction",
+        "previousOutcome"
+      ],
+      "additionalProperties": false
+    },
+    "RecordV2": {
+      "type": "object",
+      "properties": {
+        "correctionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "previousOutcomeId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previousRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "outcome": {
+          "$ref": "outcomes.schema.json#/$defs/RecordV2"
+        },
+        "evidenceActionId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidenceReceiptId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "correctionId",
+        "previousOutcomeId",
+        "previousRevision",
+        "outcome",
+        "evidenceActionId",
+        "evidenceReceiptId"
       ],
       "additionalProperties": false
     }

@@ -92,7 +92,10 @@
     "p24:trial": "node scripts/build.mjs && node --import tsx tests/integration/p24/serve.ts",
     "test:p25:browser": "node scripts/build.mjs && playwright test --config playwright.p25.config.ts",
     "test:p25:operations": "node scripts/build-packages.mjs && vitest run --config vitest.p25.operations.config.ts",
-    "p25:backup": "node --import tsx scripts/verification/p25-backup.ts"
+    "p25:backup": "node --import tsx scripts/verification/p25-backup.ts",
+    "test:p27:browser": "node scripts/build.mjs && playwright test --config playwright.p27.config.ts",
+    "test:p27:public": "node scripts/build-packages.mjs && vitest run --config vitest.p27.public.config.ts",
+    "p27:writer-gate": "node scripts/verification/p27-reader-gate.mjs"
   },
   "devDependencies": {
     "typescript": "6.0.3",

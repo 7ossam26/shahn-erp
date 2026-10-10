@@ -76,6 +76,7 @@ export interface ReturnLineView {
     condition: ReturnCondition;
     version: number;
     receivedAt: string;
+    transferredTo: { branchId: string; branchName: string; quantity: number }[];
   }[];
 }
 export interface ReturnRequestView {
@@ -279,6 +280,7 @@ export const returnDeskSchema = obj({
               condition,
               version: { type: 'integer', minimum: 1 },
               receivedAt: date,
+              transferredTo: array(obj({ branchId: uuid, branchName: str, quantity: whole })),
             }),
           ),
         }),

@@ -5,6 +5,8 @@ import { dispatchPaths } from './dispatch/index.js';
 export * from './dispatch/index.js';
 import { financePaths } from './finance/index.js';
 import { integrationPaths } from './integration.js';
+import { connectionSetupPaths } from './connection-setup.js';
+export * from './connection-setup.js';
 export * from './integration.js';
 import { treasuryPaths } from './finance/treasury-transfers/index.js';
 export * from './finance/treasury-transfers/index.js';
@@ -131,6 +133,7 @@ export const openApi: Record<string, unknown> = {
     },
   },
   paths: {
+    ...connectionSetupPaths,
     ...operationsPaths,
     ...reportingPaths,
     ...recoveryPaths,

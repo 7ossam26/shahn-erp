@@ -7,8 +7,7 @@
       "type": "string",
       "enum": [
         "car",
-        "motorcycle",
-        "bicycle"
+        "motorcycle"
       ]
     },
     "Origin": {
@@ -515,8 +514,8 @@
           "items": {
             "$ref": "#/$defs/Mode"
           },
-          "minItems": 3,
-          "maxItems": 3,
+          "minItems": 2,
+          "maxItems": 2,
           "uniqueItems": true
         },
         "defaultCustomerServiceSeconds": {

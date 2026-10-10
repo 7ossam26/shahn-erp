@@ -1,0 +1,32 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/reasons.db.test.ts (3 tests | 1 failed) 5407ms
+   ✓ signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes 488ms
+   ✓ unsupported new signed event and missing Other detail are rejected without durable application 145ms
+   × real signed application displays a v2 partial driver reason, retained legacy refusal and no-answer with authoritative arrival as distinct states 196ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/reasons.db.test.ts > real signed application displays a v2 partial driver reason, retained legacy refusal and no-answer with authoritative arrival as distinct states
+AssertionError: expected 'قطع ناقصة' to be 'نقص قطع' // Object.is equality
+
+Expected: "نقص قطع"
+Received: "قطع ناقصة"
+
+ ❯ tests/integration/p27/reasons.db.test.ts:230:62
+    228|       reasonState: kind === 'partial' ? 'known' : kind === 'refused' ?…
+    229|     });
+    230|     if (kind === 'partial') expect(view.attempts[0]!.reason).toBe('نقص…
+       |                                                              ^
+    231|     expect(
+    232|       (
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  23:58:16
+   Duration  12.69s (tests 43%, import 37%, transform 20%)
+

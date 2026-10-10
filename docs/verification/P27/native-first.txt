@@ -1,0 +1,52 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/connection.db.test.ts (4 tests | 2 failed) 4574ms
+   ✓ rejects ordinary screen grants, foreign package/company/issuer and unapproved origin before remote IO 24ms
+   × recovers encrypted import and exact confirmation after a lost response; anchors revision seven without a fake command 6ms
+   × does not confirm missing grants or invented bootstrap status 3ms
+   ✓ fails closed when the selected-company support session expires 3ms
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 490ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/connection.db.test.ts > recovers encrypted import and exact confirmation after a lost response; anchors revision seven without a fake command
+Error: PRIVATE_PACKAGE_VALIDATION_FAILED
+ ❯ apps/api/src/modules/integration/connection-setup.service.ts:35:136
+     33|       if (!approval || origin !== approval.apiUrl) throw new AccessErr…
+     34|       let p:PrivateConnectionPackage;
+     35|       try { p=validatePackageApproval(value,approval,company,this.inst…
+       |                                                                                                                                        ^
+     36|       const companyCode = (await u.client.query<{code:string}>('SELECT…
+     37|       if (companyCode !== p.metadata.companyCode) throw new AccessErro…
+ ❯ apps/api/src/modules/kernel/unit-of-work.ts:56:18
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ ConnectionSetup.import apps/api/src/modules/integration/connection-setup.service.ts:30:5
+ ❯ tests/integration/p27/connection.db.test.ts:41:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p27/connection.db.test.ts > does not confirm missing grants or invented bootstrap status
+Error: PRIVATE_PACKAGE_VALIDATION_FAILED
+ ❯ apps/api/src/modules/integration/connection-setup.service.ts:35:136
+     33|       if (!approval || origin !== approval.apiUrl) throw new AccessErr…
+     34|       let p:PrivateConnectionPackage;
+     35|       try { p=validatePackageApproval(value,approval,company,this.inst…
+       |                                                                                                                                        ^
+     36|       const companyCode = (await u.client.query<{code:string}>('SELECT…
+     37|       if (companyCode !== p.metadata.companyCode) throw new AccessErro…
+ ❯ apps/api/src/modules/kernel/unit-of-work.ts:56:18
+ ❯ transaction packages/database/src/transaction.ts:21:20
+ ❯ UnitOfWork.run apps/api/src/modules/kernel/unit-of-work.ts:51:16
+ ❯ ConnectionSetup.import apps/api/src/modules/integration/connection-setup.service.ts:30:5
+ ❯ tests/integration/p27/connection.db.test.ts:66:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 476 passed (478)
+   Start at  12:13:48
+   Duration  8.16s (tests 64%, import 24%, transform 12%)
+

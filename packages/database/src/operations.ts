@@ -35,10 +35,14 @@ export function deploymentConfiguration(env = process.env): DeploymentConfigurat
     'SESSION_ENCRYPTION_KEY',
     'OIDC_ADMIN_CLIENT_ID',
     'OIDC_ADMIN_CLIENT_SECRET',
-    'TAWSEL_CONFIG_FILE',
     'BACKUP_REPOSITORY_REFERENCE',
     'BACKUP_KEY_REFERENCE',
   ];
+  if (!['file', 'setup-required', 'database'].includes(env['TAWSEL_CONNECTION_MODE'] ?? 'file'))
+    throw new Error('Configuration: TAWSEL_CONNECTION_MODE is invalid');
+  if (!['setup-required', 'database'].includes(env['TAWSEL_CONNECTION_MODE'] ?? 'file'))
+    required.push('TAWSEL_CONFIG_FILE');
+  else required.push('TAWSEL_INSTALLATION_APPROVAL_FILE', 'TAWSEL_ENCRYPTION_KEYS_FILE');
   for (const key of required)
     if (!env[key] || env[key]!.includes('REPLACE_'))
       throw new Error(`Configuration: ${key} is required`);

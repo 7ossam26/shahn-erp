@@ -951,6 +951,9 @@
         },
         "snapshot": {
           "$ref": "#/$defs/SourceSnapshot"
+        },
+        "transfer": {
+          "$ref": "#/$defs/Transfer"
         }
       },
       "required": [
@@ -961,27 +964,63 @@
       "additionalProperties": false
     },
     "RedispatchCommand": {
-      "allOf": [
+      "oneOf": [
         {
-          "$ref": "./action-envelope.v1.schema.json"
+          "allOf": [
+            {
+              "$ref": "./action-envelope.v1.schema.json"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "operationId": {
+                  "const": "dispatch.createFromReceipt"
+                },
+                "context": {
+                  "$ref": "./common.schema.json#/$defs/IntegrationContext"
+                },
+                "payload": {
+                  "$ref": "#/$defs/LegacyRedispatch"
+                },
+                "payloadVersion": {
+                  "const": "1.0.0"
+                }
+              },
+              "required": [
+                "operationId",
+                "context",
+                "payload"
+              ]
+            }
+          ]
         },
         {
-          "type": "object",
-          "properties": {
-            "operationId": {
-              "const": "dispatch.createFromReceipt"
+          "allOf": [
+            {
+              "$ref": "./action-envelope.v1.schema.json"
             },
-            "context": {
-              "$ref": "./common.schema.json#/$defs/IntegrationContext"
-            },
-            "payload": {
-              "$ref": "#/$defs/Redispatch"
+            {
+              "type": "object",
+              "properties": {
+                "operationId": {
+                  "const": "dispatch.createFromReceipt"
+                },
+                "context": {
+                  "$ref": "./common.schema.json#/$defs/IntegrationContext"
+                },
+                "payload": {
+                  "$ref": "#/$defs/RedispatchV2"
+                },
+                "payloadVersion": {
+                  "const": "2.0.0"
+                }
+              },
+              "required": [
+                "operationId",
+                "context",
+                "payload"
+              ]
             }
-          },
-          "required": [
-            "operationId",
-            "context",
-            "payload"
           ]
         }
       ]
@@ -1010,6 +1049,173 @@
       "required": [
         "items",
         "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "Transfer": {
+      "type": "object",
+      "properties": {
+        "sourceBranchExternalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "transferId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "destinationReceiptId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "receivedAtDestination": {
+          "const": true
+        }
+      },
+      "required": [
+        "sourceBranchExternalId",
+        "transferId",
+        "destinationReceiptId",
+        "receivedAtDestination"
+      ],
+      "additionalProperties": false,
+      "description": "Scoped ERP assertion of completed transfer and actual destination receipt. Opaque native references retained for audit, not independent physical proof or a cross-system lock."
+    },
+    "LegacyRedispatch": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SourceSnapshot"
+        }
+      },
+      "required": [
+        "externalId",
+        "previousDispatchCycleId",
+        "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "RedispatchV2": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SourceSnapshot"
+        },
+        "transfer": {
+          "$ref": "#/$defs/Transfer"
+        }
+      },
+      "required": [
+        "externalId",
+        "previousDispatchCycleId",
+        "snapshot"
+      ],
+      "additionalProperties": false
+    },
+    "Relocate": {
+      "type": "object",
+      "properties": {
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SourceSnapshot"
+        },
+        "transfer": {
+          "$ref": "#/$defs/Transfer"
+        }
+      },
+      "required": [
+        "externalId",
+        "previousDispatchCycleId",
+        "snapshot",
+        "transfer"
+      ],
+      "additionalProperties": false
+    },
+    "RelocateCommand": {
+      "allOf": [
+        {
+          "$ref": "./action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "dispatch.relocateBeforeDeparture"
+            },
+            "payloadVersion": {
+              "const": "2.0.0"
+            },
+            "context": {
+              "$ref": "./common.schema.json#/$defs/IntegrationContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Relocate"
+            }
+          }
+        }
+      ]
+    },
+    "RelocatedEvent": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "task": {
+          "$ref": "#/$defs/Task"
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "transfer": {
+          "$ref": "#/$defs/Transfer"
+        }
+      },
+      "required": [
+        "actionId",
+        "task",
+        "previousDispatchCycleId",
+        "transfer"
+      ],
+      "additionalProperties": false
+    },
+    "RedispatchedEvent": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "task": {
+          "$ref": "#/$defs/Task"
+        },
+        "previousDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "transfer": {
+          "$ref": "#/$defs/Transfer"
+        }
+      },
+      "required": [
+        "actionId",
+        "task",
+        "previousDispatchCycleId"
       ],
       "additionalProperties": false
     }

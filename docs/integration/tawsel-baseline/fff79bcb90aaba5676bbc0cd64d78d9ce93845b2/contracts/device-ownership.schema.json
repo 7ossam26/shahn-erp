@@ -1,0 +1,560 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/device-ownership.schema.json",
+  "title": "Online same-driver takeover and preserved evidence v1",
+  "$defs": {
+    "Takeover": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedGeneration": {
+          "$ref": "common.schema.json#/$defs/Generation"
+        }
+      },
+      "required": [
+        "roundId",
+        "expectedGeneration"
+      ],
+      "additionalProperties": false
+    },
+    "TakeoverCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "device.takeOver"
+            },
+            "payload": {
+              "$ref": "#/$defs/Takeover"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TakeoverResult": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "deviceId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "generation": {
+              "$ref": "common.schema.json#/$defs/Generation"
+            }
+          },
+          "required": [
+            "accountId",
+            "deviceId",
+            "generation"
+          ],
+          "additionalProperties": false
+        },
+        "snapshotRequired": {
+          "const": true
+        }
+      },
+      "required": [
+        "roundId",
+        "workdayId",
+        "driverId",
+        "owner",
+        "snapshotRequired"
+      ],
+      "additionalProperties": false
+    },
+    "Context": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "deviceId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "generation": {
+              "$ref": "common.schema.json#/$defs/Generation"
+            }
+          },
+          "required": [
+            "accountId",
+            "deviceId",
+            "generation"
+          ],
+          "additionalProperties": false
+        },
+        "viewerDeviceId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "mode": {
+          "enum": [
+            "owner",
+            "view-only"
+          ]
+        },
+        "roundState": {
+          "enum": [
+            "active",
+            "ended"
+          ]
+        },
+        "workdayState": {
+          "enum": [
+            "open",
+            "closed"
+          ]
+        },
+        "mayTakeover": {
+          "type": "boolean"
+        },
+        "snapshotRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "roundId",
+        "workdayId",
+        "driverId",
+        "owner",
+        "viewerDeviceId",
+        "mode",
+        "roundState",
+        "workdayState",
+        "mayTakeover",
+        "snapshotRequired"
+      ],
+      "additionalProperties": false
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/$defs/Context"
+        },
+        "confirmedAt": {
+          "$ref": "common.schema.json#/$defs/UtcInstant"
+        },
+        "current": {
+          "anyOf": [
+            {
+              "$ref": "current-activity.schema.json#/$defs/Snapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshotToken": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "context",
+        "confirmedAt",
+        "current",
+        "snapshotToken"
+      ],
+      "additionalProperties": false
+    },
+    "ActionStatus": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "pending"
+            }
+          },
+          "required": [
+            "actionId",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "enum": [
+                "accepted",
+                "rejected",
+                "review-required"
+              ]
+            },
+            "result": {
+              "$ref": "action-result.v1.schema.json"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "result"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FormerSubmission": {
+      "description": "Submit the ORIGINAL immutable execution envelope and action ID. This evidence-only endpoint never executes it, including when it is still owned. Exact duplicate returns the original business result. Not a second wrapper action.",
+      "oneOf": [
+        {
+          "$ref": "current-activity.schema.json#/$defs/SelectHeadingCommand"
+        },
+        {
+          "$ref": "current-activity.schema.json#/$defs/ArrivalCommand"
+        },
+        {
+          "$ref": "current-activity.schema.json#/$defs/CorrectOriginCommand"
+        },
+        {
+          "$ref": "outcomes.schema.json#/$defs/FullCommand"
+        },
+        {
+          "$ref": "outcomes.schema.json#/$defs/PartialCommand"
+        },
+        {
+          "$ref": "outcomes.schema.json#/$defs/RefusalCommand"
+        },
+        {
+          "$ref": "outcomes.schema.json#/$defs/NoAnswerCommand"
+        },
+        {
+          "$ref": "eligibility.schema.json#/$defs/DeferCommand"
+        },
+        {
+          "$ref": "eligibility.schema.json#/$defs/RetryCommand"
+        },
+        {
+          "$ref": "eligibility.schema.json#/$defs/ActivateCommand"
+        },
+        {
+          "$ref": "eligibility.schema.json#/$defs/UrgencyCommand"
+        },
+        {
+          "$ref": "workday-closure.schema.json#/$defs/EndRoundCommand"
+        },
+        {
+          "$ref": "workday-closure.schema.json#/$defs/EndDayCommand"
+        }
+      ]
+    },
+    "EvidenceSubmissionResult": {
+      "type": "object",
+      "properties": {
+        "submissionStatus": {
+          "enum": [
+            "received",
+            "duplicate"
+          ]
+        },
+        "result": {
+          "$ref": "action-result.v1.schema.json"
+        }
+      },
+      "required": [
+        "submissionStatus",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "Recovery": {
+      "type": "object",
+      "properties": {
+        "adoptionImplemented": {
+          "const": true
+        },
+        "state": {
+          "enum": [
+            "blocked",
+            "requires-validation"
+          ]
+        },
+        "constraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "closed-workday",
+              "dependent-receipt",
+              "changed-assignment",
+              "changed-source",
+              "changed-attempt",
+              "not-current-owner",
+              "correction-not-authorized",
+              "unsupported-operation",
+              "dependent-redispatch",
+              "unknown-generation",
+              "changed-pin",
+              "already-adopted",
+              "ended-round",
+              "claimed-handover",
+              "unresolved-dependency"
+            ]
+          }
+        },
+        "currentGeneration": {
+          "$ref": "common.schema.json#/$defs/Generation"
+        },
+        "effectiveOutcomeRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "activityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "adoptedOutcomeId": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "adoptionImplemented",
+        "state",
+        "constraints",
+        "currentGeneration",
+        "effectiveOutcomeRevision",
+        "activityRevision",
+        "adoptedOutcomeId"
+      ],
+      "additionalProperties": false
+    },
+    "Evidence": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "result": {
+          "$ref": "action-result.v1.schema.json"
+        },
+        "envelope": {
+          "anyOf": [
+            {
+              "$ref": "action-envelope.v1.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "durableReceipt": {
+          "const": true
+        },
+        "recovery": {
+          "$ref": "#/$defs/Recovery"
+        },
+        "taskLabel": {
+          "type": "string",
+          "description": "Authorized admitted task recipient label for human review; absent for non-task evidence."
+        }
+      },
+      "required": [
+        "actionId",
+        "result",
+        "envelope",
+        "durableReceipt",
+        "recovery"
+      ],
+      "additionalProperties": false
+    },
+    "Adoption": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "evidenceActionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "evidenceReceiptId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedGeneration": {
+          "$ref": "common.schema.json#/$defs/Generation"
+        },
+        "expectedOutcomeRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedActivityRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedSourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedAssignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "expectedPinRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "roundId",
+        "evidenceActionId",
+        "evidenceReceiptId",
+        "expectedGeneration",
+        "expectedOutcomeRevision",
+        "expectedActivityRevision",
+        "expectedSourceRevision",
+        "expectedAssignmentRevision",
+        "expectedPinRevision"
+      ],
+      "additionalProperties": false,
+      "description": "P23 implemented: current assigned owner explicitly adopts a retained delivery outcome with the original receipt and unchanged source/assignment/pin. Expected revisions and current generation are revalidated. Open original day and no dependent receipt/disposition/redispatch or later attempt. Arrival-only evidence is retained but not adoptable. Client time grants no authority."
+    },
+    "AdoptionCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "evidence.adoptCompatible"
+            },
+            "payload": {
+              "$ref": "#/$defs/Adoption"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TransferEvent": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "generation": {
+          "$ref": "common.schema.json#/$defs/Generation"
+        }
+      },
+      "required": [
+        "actionId",
+        "roundId",
+        "driverId",
+        "generation"
+      ],
+      "additionalProperties": false,
+      "description": "Durable account-recipient notification intent; no shipment transfer, device secret or ERP business mutation. Transport is P25."
+    },
+    "EvidenceEvent": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "businessStatus": {
+          "enum": [
+            "rejected",
+            "review-required"
+          ]
+        },
+        "code": {
+          "$ref": "common.schema.json#/$defs/Problem/properties/code"
+        }
+      },
+      "required": [
+        "actionId",
+        "roundId",
+        "driverId",
+        "businessStatus",
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "Durable submitting-account notification after rejected domain writes roll back. Query the scoped original action receipt; never imply business acceptance. No envelope/contact/money data in the notification."
+    }
+  }
+}

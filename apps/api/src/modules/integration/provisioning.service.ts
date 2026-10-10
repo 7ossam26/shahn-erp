@@ -1,3 +1,4 @@
+import { connectionCandidates } from './config.js';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import { sourceByCompany, type IntegrationSource, type IntegrationBinding } from '@shahn/database';
@@ -17,6 +18,7 @@ import { DurableWork } from '../kernel/work.js';
 import type { UnitOfWork } from '../kernel/unit-of-work.js';
 import type { IntegrationRuntime } from './config.js';
 import { callbackShape } from './callback-policy.js';
+import { requireConnectionAuthority } from './setup-authority.js';
 export const sourceWorkRegistry = [{ kind: 'integration.source', lane: 'source' as const }];
 const nativeTables = {
   branch: 'access.branch',
@@ -142,18 +144,61 @@ export function provisioningCommands(pool: Pool, runtime: IntegrationRuntime) {
       if (!recovery && !validateIntegrationCommand(value))
         throw new AccessError('VALIDATION_FAILED', 400);
       if (
+        value.type === 'integration.setup' ||
+        ('entity' in value && value.entity === 'source') ||
+        (typeof value.operationId === 'string' &&
+          [
+            'integration.bindSource',
+            'integration.rotateCredential',
+            'integration.disableSource',
+            'integration.configureWebhook',
+            'integration.rotateSigningKey',
+          ].includes(value.operationId))
+      )
+        requireConnectionAuthority(u);
+      // Validate the complete closed wire shape before CommandService retains a
+      // generic payload. Private packages/keys cannot enter this command family.
+      if (!recovery && value.type === 'integration.queue') {
+        const op = value.operationId as string,
+          entity = Object.hasOwn(provisioningOperations, op);
+        const candidate = {
+          schemaVersion: '1.0.0',
+          payloadVersion: '1.0.0',
+          actionId: randomUUID(),
+          operationId: op,
+          context: { kind: 'integration', tenantId: randomUUID(), integrationId: randomUUID() },
+          resources: {},
+          baseVersions: {},
+          dependsOnActionIds: [],
+          observation: { observedAt: null, clock: { quality: 'unknown' } },
+          payload: {
+            ...(value.payload as object),
+            ...(entity ? { externalId: 'validation', sourceRevision: 1 } : {}),
+          },
+        };
+        if (!validateProvisioningCommand(candidate) && !validateDeliveryCommand(candidate))
+          throw new AccessError('VALIDATION_FAILED', 400);
+      }
+      if (
         typeof value.nativeId === 'string' &&
         'entity' in value &&
         typeof value.entity === 'string'
       )
         await requireNative(u, value.entity as BindingKind, value.nativeId);
-      if (recovery && typeof value.actionId === 'string') {
+      if (typeof value.actionId === 'string') {
         const row = (
           await u.client.query(
-            `SELECT b.entity,b.native_id FROM integration.source_command c LEFT JOIN integration.binding b ON b.company_id=c.company_id AND b.id=c.binding_id WHERE c.company_id=$1 AND c.action_id=$2`,
+            `SELECT b.entity,b.native_id,c.operation_id FROM integration.source_command c LEFT JOIN integration.binding b ON b.company_id=c.company_id AND b.id=c.binding_id WHERE c.company_id=$1 AND c.action_id=$2`,
             [u.access.companyId, value.actionId],
           )
         ).rows[0];
+        if (
+          row?.entity === 'source' ||
+          ['integration.configureWebhook', 'integration.rotateSigningKey'].includes(
+            row?.operation_id,
+          )
+        )
+          requireConnectionAuthority(u);
         if (row?.entity) await requireNative(u, row.entity, row.native_id);
       }
     },
@@ -161,7 +206,7 @@ export function provisioningCommands(pool: Pool, runtime: IntegrationRuntime) {
       u.lockOrder('aggregate', 'integration');
       const company = u.access.companyId;
       if (input.type === 'integration.setup') {
-        const c = runtime.connections.find(
+        const c = (await connectionCandidates(runtime, company)).find(
           (c) => c.selector === input.selector && c.companyId === company,
         );
         if (!c) throw new AccessError('CONNECTION_CONFIGURATION_REQUIRED', 409);
@@ -230,6 +275,27 @@ export function provisioningCommands(pool: Pool, runtime: IntegrationRuntime) {
       }
       if (!source.enabled) throw new AccessError('SOURCE_DISABLED', 409);
       const operation = input.operationId!;
+      if (
+        operation === 'user.provision' &&
+        (
+          await u.client.query(
+            "SELECT to_regclass('integration.connection_revision') IS NOT NULL AS installed",
+          )
+        ).rows[0].installed &&
+        (
+          await u.client.query(
+            'SELECT 1 FROM integration.connection_revision WHERE company_id=$1 AND source_id=$2',
+            [company, source.id],
+          )
+        ).rowCount
+      ) {
+        const authorized = await u.client.query(
+          `SELECT 1 FROM integration.enrollment_request r JOIN integration.enrollment_operator_result o ON(o.company_id,o.request_id)=(r.company_id,r.id) JOIN access.ordinary_user p ON p.company_id=r.company_id JOIN access.issuer_binding b ON b.principal_id=p.id WHERE r.company_id=$1 AND r.source_id=$2 AND p.id=$3 AND EXISTS(SELECT 1 FROM jsonb_array_elements(r.requests) x WHERE x->>'erpPrincipalId'=p.id::text AND x->>'erpCorrelationId'=p.correlation_id::text AND x->>'issuer'=b.issuer AND x->>'subject'=b.subject)`,
+          [company, source.id, input.nativeId],
+        );
+        if (!authorized.rowCount)
+          throw new AccessError('AWAITING_TAWSEL_IDENTITY_AUTHORIZATION', 409);
+      }
       const mapping = Object.hasOwn(provisioningOperations, operation)
         ? provisioningOperations[operation as ProvisioningOperation]
         : null;
@@ -276,7 +342,7 @@ export function provisioningCommands(pool: Pool, runtime: IntegrationRuntime) {
         throw new AccessError('VALIDATION_FAILED', 400);
       if (mapping)
         await verifyReferences(u, source, mapping[1], input.nativeId!, operation, envelope.payload);
-      const connection = runtime.connections.find(
+      const connection = (await connectionCandidates(runtime, company)).find(
         (c) => c.selector === source.selector && c.companyId === company,
       );
       if (operation === 'integration.configureWebhook')

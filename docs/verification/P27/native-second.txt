@@ -1,0 +1,26 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/connection.db.test.ts (4 tests | 4 skipped) 3797ms
+   ↓ rejects ordinary screen grants, foreign package/company/issuer and unapproved origin before remote IO
+   ↓ recovers encrypted import and exact confirmation after a lost response; anchors revision seven without a fake command
+   ↓ does not confirm missing grants or invented bootstrap status
+   ↓ fails closed when the selected-company support session expires
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 473ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/connection.db.test.ts [ tests/integration/p27/connection.db.test.ts ]
+error: new row for relation "company" violates check constraint "company_code_check"
+ ❯ node_modules/pg-pool/index.js:45:11
+ ❯ tests/integration/p27/connection.db.test.ts:17:2
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  474 passed | 4 skipped (478)
+   Start at  12:15:17
+   Duration  7.16s (tests 61%, import 26%, transform 12%)
+

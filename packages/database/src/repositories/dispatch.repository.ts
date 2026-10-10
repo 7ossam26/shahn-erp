@@ -14,6 +14,7 @@ export interface DispatchIntentRow {
   actor_name: string;
   version: number;
   state: DispatchState;
+  assignment_requested: boolean;
   last_error: string | null;
   created_at: Date;
 }

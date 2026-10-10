@@ -402,7 +402,18 @@ export function TrackingDetailPage() {
               <article className="tracking-attempt" key={x.attemptId}>
                 <strong>{x.outcome ? label(x.outcome) : 'بانتظار النتيجة'}</strong>
                 <span>{x.visitKnown ? 'دليل وصول متاح' : 'بانتظار دليل الوصول'}</span>
-                <small>سبب الرفض التفصيلي غير متاح في المصدر الحالي.</small>
+                <p>{x.reason}</p>
+                {x.reasonDetail && <p>{x.reasonDetail}</p>}
+                {x.history.length > 1 && (
+                  <details>
+                    <summary>السبب الأصلي والتصحيحات</summary>
+                    {x.history.map((h) => (
+                      <p key={h.outcomeId + ':' + h.revision}>
+                        {h.revision}: {h.reason} {h.reasonDetail ?? ''}
+                      </p>
+                    ))}
+                  </details>
+                )}
               </article>
             ))
           )}

@@ -1,0 +1,2923 @@
+{
+  "date": "2026-10-10",
+  "classification": "Tawsel implementation conformance evidence; no native Shahn, physical custody, human acceptance or deployment closure inferred",
+  "provenance": {
+    "initialTawselCommit": "bbc977b6662a9093eabd0039661f4992a0e5f292",
+    "shahnCurrentReadOnlyCommit": "ccd685cdbd20b24b3a20f437e6949ba04ff93b84",
+    "shahnApprovedPublisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+    "sourceCommit": "fff79bcb90aaba5676bbc0cd64d78d9ce93845b2",
+    "sourceSha256": "1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a",
+    "consumerRuntimeSha256": "763b801501aed62f04ef11db5e40b991bdb1f00cdd45ed5e79797842a9d680b6",
+    "applicationImageDigest": null,
+    "deployedRuntimeIdentity": null,
+    "originalByteHashRule": "SHA256 on original bytes; no LF normalization",
+    "ownerArchiveSha256": "a1ef0f2b57a20d1cf1373380962d4fcc70b8c9f51ef89c0b9503a552646a1537"
+  },
+  "inventory": {
+    "startingServiceOperations": 43,
+    "newServiceOperations": 1,
+    "serviceOperations": 44,
+    "operatorBootstrap": 1,
+    "startingSenderVariants": 27,
+    "newVersionedVariants": 4,
+    "senderVariants": 31,
+    "distinctSenderTypes": 28
+  },
+  "operatorBootstrap": {
+    "operationId": "integration.bindSource",
+    "authority": "ProvisioningOperator only; exact subjects, no global token export",
+    "generatedFixtures": [
+      {
+        "fixtureId": "p08-integration.bindSource",
+        "schema": "provisioning.schema.json#/$defs/BindSourceCommand",
+        "actionId": "81000000-0000-4000-8000-000000000003",
+        "classification": "generated valid shape; no runtime acceptance inferred"
+      }
+    ],
+    "helperProof": "docs/verification/installation-helper-2026-10-10.json",
+    "helperClassification": "protected directory and simulated public-response recovery; not native installation",
+    "status": "local-bootstrap-regression-and-helper; actual-installation-pending"
+  },
+  "operations": [
+    {
+      "operationId": "integration.configureWebhook",
+      "method": "POST",
+      "path": "/api/v1/integration/commands/integration.configureWebhook",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "77391bd8-a2bb-444a-9ec4-c58e13b63fd5",
+          "status": "accepted",
+          "receiptId": "13411138-0d9d-42f8-bb19-6e19f5ee9f81"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/outbox-inbox-recovery.test.ts",
+        "apps/api/test/integration/outbox-sender.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.rotateSigningKey",
+      "method": "POST",
+      "path": "/api/v1/integration/commands/integration.rotateSigningKey",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "28fbdce0-a7fb-4902-9ccc-75652136e01a",
+          "status": "accepted",
+          "receiptId": "99343ad7-997a-44e7-8e64-7e80eccd5699"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/outbox-inbox-recovery.test.ts",
+        "apps/api/test/integration/outbox-sender.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.retryDelivery",
+      "method": "POST",
+      "path": "/api/v1/integration/commands/integration.retryDelivery",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/outbox-sender.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getDeliveryStatus",
+      "method": "GET",
+      "path": "/api/v1/integration/deliveries",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.962Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "type": "integration"
+          },
+          "reportedAt": "2026-10-10T08:33:01.823Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.906Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "type": "return-request"
+          },
+          "reportedAt": "2026-10-10T08:33:01.931Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "e98e99f2-cf5c-4bc7-a162-abc4381d5451",
+            "type": "trip"
+          },
+          "reportedAt": "2026-10-10T08:33:01.870Z",
+          "status": "read-positive"
+        }
+      ],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.replayEvents",
+      "method": "GET",
+      "path": "/api/v1/integration/replay",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.962Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "type": "integration"
+          },
+          "reportedAt": "2026-10-10T08:33:01.823Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.906Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "type": "return-request"
+          },
+          "reportedAt": "2026-10-10T08:33:01.931Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "e98e99f2-cf5c-4bc7-a162-abc4381d5451",
+            "type": "trip"
+          },
+          "reportedAt": "2026-10-10T08:33:01.870Z",
+          "status": "read-positive"
+        }
+      ],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getDeliveryDetail",
+      "method": "GET",
+      "path": "/api/v1/integration/deliveries/{eventId}",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.rotateCredential",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/integration.rotateCredential",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-integration.rotateCredential",
+          "schema": "provisioning.schema.json#/$defs/RotateCredentialCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.disableSource",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/integration.disableSource",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-integration.disableSource",
+          "schema": "provisioning.schema.json#/$defs/DisableSourceCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "branch.provision",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/branch.provision",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-branch.provision",
+          "schema": "provisioning.schema.json#/$defs/BranchCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "f7cda910-718d-4513-a505-e34e393f5dd0",
+          "status": "accepted",
+          "receiptId": "11200155-e56e-4a1c-a97f-b87bdae67cdc"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/authorization-isolation.test.ts",
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/branch-interruption.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts",
+        "apps/api/test/integration/reporting-query.test.ts",
+        "apps/mock-erp/test/integration/mock-source-outbox.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "branch.disable",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/branch.disable",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-branch.disable",
+          "schema": "provisioning.schema.json#/$defs/DisableBranchCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/authorization-isolation.test.ts",
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "role.defineCapabilities",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/role.defineCapabilities",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-role.defineCapabilities",
+          "schema": "provisioning.schema.json#/$defs/RoleCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "26d1fc2a-6c57-4370-a413-e0d3573d11a3",
+          "status": "accepted",
+          "receiptId": "d3294628-3f90-4de4-b243-9ef23bbbeb4f"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/monitoring-snapshot.test.ts",
+        "apps/api/test/integration/offline-device-takeover.test.ts",
+        "apps/api/test/integration/outcome-progress-outbox.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts",
+        "apps/api/test/integration/report-export.test.ts",
+        "apps/api/test/integration/reporting-query.test.ts",
+        "apps/api/test/integration/retry-deferral-urgency.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "user.provision",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/user.provision",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-user.provision",
+          "schema": "provisioning.schema.json#/$defs/UserCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "20ade8e8-5c73-4816-bd70-7955d3503674",
+          "status": "accepted",
+          "receiptId": "b80cd842-4cdc-4957-8f7b-3fe1957698fa"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/monitoring-snapshot.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "user.setRole",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/user.setRole",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-user.setRole",
+          "schema": "provisioning.schema.json#/$defs/UserRoleCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "user.setCapabilityExceptions",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/user.setCapabilityExceptions",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-user.setCapabilityExceptions",
+          "schema": "provisioning.schema.json#/$defs/UserExceptionsCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/provisioning-actor.test.ts",
+        "apps/mock-erp/test/integration/native-session.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "user.setBranchMemberships",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/user.setBranchMemberships",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-user.setBranchMemberships",
+          "schema": "provisioning.schema.json#/$defs/UserBranchesCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "user.disable",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/user.disable",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-user.disable",
+          "schema": "provisioning.schema.json#/$defs/DisableUserCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "driver.provisionReference",
+      "method": "POST",
+      "path": "/api/v1/provisioning/commands/driver.provisionReference",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p08-driver.provisionReference",
+          "schema": "provisioning.schema.json#/$defs/DriverCommand",
+          "actionId": "81000000-0000-4000-8000-000000000003",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "a6305f29-efef-4f65-97db-7d7c3a70c94c",
+          "status": "accepted",
+          "receiptId": "383d7343-bed3-4a89-97c1-4da52acc5928"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/provisioning-actor.test.ts",
+        "apps/api/test/integration/routing-mode-retirement.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getConfiguration",
+      "method": "GET",
+      "path": "/api/v1/provisioning/configuration",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "provisioning.getStatus",
+      "method": "GET",
+      "path": "/api/v1/provisioning/status",
+      "capability": "identity.provision",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.submitSnapshot",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/intake.submitSnapshot",
+      "capability": "intake.prepare",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p10-SourceSnapshot",
+          "schema": "b2b-intake.schema.json#/$defs/SourceSnapshotCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "9d315822-95f5-4c61-81ef-32dcce52e437",
+          "status": "accepted",
+          "receiptId": "31d07726-f6bf-4acb-a472-3225109865e2"
+        },
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "e89171ab-f254-40c5-8d20-f09b279841e3",
+          "status": "accepted",
+          "receiptId": "ed2280ec-cd37-46af-bb5e-3b4c3fedfe5b"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/branch-interruption.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/location-provenance.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/reporting-query.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts",
+        "apps/mock-erp/test/integration/mock-source-outbox.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.prepare",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/intake.prepare",
+      "capability": "intake.prepare",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "action-source-envelope",
+          "schema": "action-envelope.v1.schema.json",
+          "actionId": "10000000-0000-4000-8000-000000000040",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        },
+        {
+          "fixtureId": "p10-Prepare",
+          "schema": "b2b-intake.schema.json#/$defs/PrepareCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "9b8c974f-f444-482e-b2bd-c6d61ebd39e8",
+          "status": "accepted",
+          "receiptId": "6f2d69a4-248f-46e1-b94b-3ab15d807031"
+        },
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "500f68f1-1dbe-494f-83cd-cb50a28e7598",
+          "status": "accepted",
+          "receiptId": "9ef543ee-9158-45d1-b511-25d77c2e0c76"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "assignment.receiveBatch",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/assignment.receiveBatch",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p10-ReceiveBatch",
+          "schema": "b2b-intake.schema.json#/$defs/ReceiveBatchCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "ef6878bd-d1be-4788-878d-e7bdbdef2a06",
+          "status": "accepted",
+          "receiptId": "1584e31d-97bf-4295-bfb3-badbed6066e5"
+        },
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "d91a8511-5c07-4a2d-baba-4a75b3eeb366",
+          "status": "accepted",
+          "receiptId": "d9feaa30-9d0a-4b51-b3b0-644162b7e0d4"
+        },
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "0d2be219-4fd8-4388-bfae-9b7843379647",
+          "status": "accepted",
+          "receiptId": "9402d55e-c4f5-4726-b6e0-67dd8037adbc"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/branch-interruption.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts",
+        "apps/mock-erp/test/integration/mock-source-outbox.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "assignment.withdraw",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/assignment.withdraw",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p10-Withdraw",
+          "schema": "b2b-intake.schema.json#/$defs/WithdrawCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "532d5149-69d2-4daa-9cae-a4987ebada2a",
+          "status": "rejected",
+          "receiptId": "c2a575d0-8d08-4a83-9782-251afb8a1d83"
+        },
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "8be557d0-4397-48a7-a421-bd3b29f5b48c",
+          "status": "accepted",
+          "receiptId": "e268b20e-c20d-4872-902e-846a7cd378d5"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "assignment.reassignBeforeDeparture",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/assignment.reassignBeforeDeparture",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p10-Reassign",
+          "schema": "b2b-intake.schema.json#/$defs/ReassignCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.setUrgencyBeforeDeparture",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/intake.setUrgencyBeforeDeparture",
+      "capability": "intake.prepare",
+      "newInDelta": false,
+      "businessSelection": "conditional adapter only; no added ERP business action",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p10-Urgency",
+          "schema": "b2b-intake.schema.json#/$defs/UrgencyCommand",
+          "actionId": "10000000-0000-4000-8000-000000000001",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [
+        "apps/api/test/integration/b2b-intake-admission.test.ts",
+        "apps/api/test/integration/planning-publication.test.ts",
+        "apps/api/test/integration/retry-deferral-urgency.test.ts",
+        "apps/api/test/integration/start-assignment-race.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.getTask",
+      "method": "GET",
+      "path": "/api/v1/intake/task",
+      "capability": "intake.prepare",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.listTasks",
+      "method": "GET",
+      "path": "/api/v1/intake/tasks",
+      "capability": "intake.prepare",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "intake.getBatchResult",
+      "method": "GET",
+      "path": "/api/v1/intake/results/{actionId}",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "return.confirmSubsetReceipt",
+      "method": "POST",
+      "path": "/api/v1/erp/returns/commands/return.confirmSubsetReceipt",
+      "capability": "return.receive",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p21-receive-command",
+          "schema": "returns.schema.json#/$defs/ReceiveCommand",
+          "actionId": "8cf24011-6cd1-4dbf-a75b-457aeaf3c114",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        },
+        {
+          "fixtureId": "p21-accepted",
+          "schema": "returns.schema.json#/$defs/ActionResult",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "bbbdebfa-fde7-478f-9995-57322b481bc8",
+          "status": "accepted",
+          "receiptId": "773434db-91e1-4863-aa2c-e23c84db64a8"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/branch-interruption.test.ts",
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/offline-device-takeover.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/reporting-query.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "return.recordDisposition",
+      "method": "POST",
+      "path": "/api/v1/erp/returns/commands/return.recordDisposition",
+      "capability": "return.dispose",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p21-loss-command",
+          "schema": "returns.schema.json#/$defs/DisposeCommand",
+          "actionId": "52cdfe05-5e9e-47c8-84a2-51cfb3e53e21",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "8b41e52f-b1a1-4f31-845a-2b02c4b882ae",
+          "status": "accepted",
+          "receiptId": "c694efe6-07b6-4540-bb49-02f3fbbc67ad"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts",
+        "apps/api/test/integration/reporting-query.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "return.listPending",
+      "method": "GET",
+      "path": "/api/v1/erp/returns/pending",
+      "capability": "return.receive",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "return.getNativeRequest",
+      "method": "GET",
+      "path": "/api/v1/erp/returns/requests/{requestId}",
+      "capability": "return.receive",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "return.getNativeResult",
+      "method": "GET",
+      "path": "/api/v1/erp/returns/actions/{actionId}",
+      "capability": "return.receive",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "dispatch.createFromReceipt",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/dispatch.createFromReceipt",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p22-redispatch",
+          "schema": "b2b-intake.schema.json#/$defs/RedispatchCommand",
+          "actionId": "b6c51493-7433-4959-be8d-7cb6b4b0f6b0",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        },
+        {
+          "fixtureId": "interop-returned-public-request-v2",
+          "schema": "b2b-intake.schema.json#/$defs/RedispatchCommand",
+          "actionId": "27ab08dc-eac9-4c54-91a6-af6118513bba",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh separate-process public HTTP reference source",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "actionId": "cc64b8ab-bb89-4227-8cd2-65c9c12d5e69",
+          "status": "accepted",
+          "receiptId": "ee5040c2-7199-4819-8dca-f70a365410c7"
+        },
+        {
+          "classification": "fresh authenticated public HTTP injection with real PostgreSQL",
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "actionId": "7301f2e8-2afd-4327-969f-eaa84f940614",
+          "receiptId": "8fafdbe8-33dd-4631-8c86-6b1974f32e3b",
+          "status": "accepted"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/dispatch-cycle.test.ts",
+        "apps/api/test/integration/interoperability.test.ts",
+        "apps/api/test/integration/partial-return-correction.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "dispatch.listCycles",
+      "method": "GET",
+      "path": "/api/v1/intake/cycles",
+      "capability": "assignment.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getExecutionProjection",
+      "method": "GET",
+      "path": "/api/v1/erp/monitoring/drivers/{id}",
+      "capability": "monitor.read",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getTripProjection",
+      "method": "GET",
+      "path": "/api/v1/erp/monitoring/trips/{id}",
+      "capability": "monitor.read",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getTaskHistory",
+      "method": "GET",
+      "path": "/api/v1/erp/monitoring/tasks/{id}/history",
+      "capability": "monitor.read",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getWorkdayHistory",
+      "method": "GET",
+      "path": "/api/v1/erp/monitoring/workdays/{id}/history",
+      "capability": "monitor.read",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getMonitoringAction",
+      "method": "GET",
+      "path": "/api/v1/erp/monitoring/actions/{id}",
+      "capability": "monitor.read",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getReconciliationSnapshot",
+      "method": "GET",
+      "path": "/api/v1/integration/reconciliation",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.reportAppliedCheckpoint",
+      "method": "POST",
+      "path": "/api/v1/integration/commands/integration.reportAppliedCheckpoint",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p26-report-command-fixture",
+          "schema": "consumer.schema.json#/$defs/ReportCommand",
+          "actionId": "31274284-d534-4f52-b6fc-da94b469b50d",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-regression-and-fixtures; fresh-public-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "integration.getAppliedCheckpoint",
+      "method": "GET",
+      "path": "/api/v1/integration/applied-checkpoint",
+      "capability": "integration.manage",
+      "newInDelta": false,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.962Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "type": "integration"
+          },
+          "reportedAt": "2026-10-10T08:33:01.823Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "type": "task"
+          },
+          "reportedAt": "2026-10-10T08:33:01.906Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "type": "return-request"
+          },
+          "reportedAt": "2026-10-10T08:33:01.931Z",
+          "status": "read-positive"
+        },
+        {
+          "classification": "fresh public HTTP read with concrete recipient aggregate; see source runner and recorded signed events/checkpoints",
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "aggregate": {
+            "id": "e98e99f2-cf5c-4bc7-a162-abc4381d5451",
+            "type": "trip"
+          },
+          "reportedAt": "2026-10-10T08:33:01.870Z",
+          "status": "read-positive"
+        }
+      ],
+      "regressionSuites": [],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    },
+    {
+      "operationId": "dispatch.relocateBeforeDeparture",
+      "method": "POST",
+      "path": "/api/v1/intake/commands/dispatch.relocateBeforeDeparture",
+      "capability": "assignment.manage",
+      "newInDelta": true,
+      "businessSelection": "retained source boundary",
+      "generatedFixtures": [
+        {
+          "fixtureId": "interop-predeparture-public-request",
+          "schema": "b2b-intake.schema.json#/$defs/RelocateCommand",
+          "actionId": "f1edc804-931c-4438-8113-c3576d2bcade",
+          "classification": "generated valid shape; no runtime acceptance inferred"
+        }
+      ],
+      "freshPublicWitnesses": [
+        {
+          "classification": "fresh authenticated public HTTP injection with real PostgreSQL",
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "actionId": "a0cd90ca-34ba-474d-b57a-7d74ad5d266a",
+          "receiptId": "42670b62-f4cf-4156-ac23-b0ed2dd12b82",
+          "status": "accepted"
+        }
+      ],
+      "regressionSuites": [
+        "apps/api/test/integration/interoperability.test.ts"
+      ],
+      "regressionClassification": "real disposable database and route/domain suites; matching operation string is traceability, not proof of every HTTP case or a per-command identity",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "publisherPin": "32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "selected historical subset only; not a fresh run or closed acceptance"
+      },
+      "status": "local-public-positive-exercised; native-full-row-pending",
+      "pending": [
+        "native Shahn conformance and adoption",
+        "joint authority/negative/recovery case review",
+        "separate-server business/operations acceptance"
+      ]
+    }
+  ],
+  "senderVariants": [
+    {
+      "eventType": "provisioning.changed",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-provisioning.changed",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "8475eacb-d53b-404f-849e-63b46e6ea21a",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "33015288-cfb4-40c9-b21e-36a0fa6a7789",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 1,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "14af0d3f-2ea1-43c7-b22a-f12a890e8093",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 2,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "a18d2793-befb-4ef5-ad00-4c3ffd8cdd02",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 3,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "a22e95b3-81e3-45eb-ba54-ef0cec6d54b7",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 4,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "f77b5b97-096b-4405-9819-ae3c721ae177",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 5,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "7655c2ac-bdde-465f-af1c-0620ae728d9e",
+          "eventType": "provisioning.changed",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 6,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.snapshotAccepted",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-task.snapshotAccepted",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "da22db3d-9d3c-44fe-8886-7e3ca3ac2b9e",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "40117a9d-7a85-429b-812b-9b8ddd0fc8b6",
+          "eventType": "task.snapshotAccepted",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 1,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "7462da19-e153-452c-aef1-0e8069195f9b",
+          "eventType": "task.snapshotAccepted",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 1,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "eventId": "41c2c2e5-e651-40df-959c-d7d7a4ff7485",
+          "aggregate": {
+            "id": "593ceff2-70e0-56ce-a59a-8b3a146c1e38",
+            "recipientSequence": 1,
+            "type": "task"
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "2008f4a9-6d8d-48de-a895-8f663a149211",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 1
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "eventId": "2be77382-a60c-447e-991a-748e4cae91c3",
+          "aggregate": {
+            "type": "task",
+            "id": "38fca57d-9256-556f-a006-0a19dc23a26d",
+            "recipientSequence": 1
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "assignment.prepared",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "999a5ac6-0954-42de-bb6f-6e1c3b1fe16b",
+          "eventType": "assignment.prepared",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 2,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "00c12c9f-69a1-4e2a-987e-37a595418e98",
+          "eventType": "assignment.prepared",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 6,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "edbedc24-fef9-4d70-a8e7-e51e31222c48",
+          "eventType": "assignment.prepared",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 2,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "eventId": "344de84e-c3cf-4ae2-95f5-51d129520033",
+          "aggregate": {
+            "id": "593ceff2-70e0-56ce-a59a-8b3a146c1e38",
+            "recipientSequence": 2,
+            "type": "task"
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "assignment.received",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-assignment.received",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "c65911e6-b199-4eb1-b06f-ce2ddfc81009",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "89be287a-3bbc-4351-81c6-4583cccd8d6f",
+          "eventType": "assignment.received",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 3,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "0ce210cf-2e09-4937-b225-e38c478f3989",
+          "eventType": "assignment.received",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 7,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "3adc9169-cd97-4985-aadb-8531e3c0cd54",
+          "eventType": "assignment.received",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 3,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "e6f395b4-992a-49cb-8241-6c86bf963d41",
+          "eventType": "assignment.received",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 5,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "100193a2-1455-45c7-a0b1-65605176b59f",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 2
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "73d69a5d-394c-4247-b6e6-bef9630c6b8b",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 5
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "eventId": "1d51b009-26c8-4b69-adcb-885f6614372b",
+          "aggregate": {
+            "type": "task",
+            "id": "38fca57d-9256-556f-a006-0a19dc23a26d",
+            "recipientSequence": 2
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "assignment.withdrawn",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "33f31f61-9eca-4265-8779-f9336ec8bca1",
+          "eventType": "assignment.withdrawn",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 4,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "eventId": "a47c205b-5f26-4b7b-b7fa-30b3955de262",
+          "aggregate": {
+            "id": "593ceff2-70e0-56ce-a59a-8b3a146c1e38",
+            "recipientSequence": 3,
+            "type": "task"
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "assignment.reassigned",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.urgencyChanged",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "dispatch.createdFromReceipt",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "03a18fab-c97f-4e13-bbe5-34e8257e9200",
+          "eventType": "dispatch.createdFromReceipt",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 5,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "location.pinConfirmed",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "plan.revisionPublished",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-plan.revisionPublished",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "99ad1c3f-2505-4ba2-ba3d-b4cb1afbd0f5",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "70b70397-3496-4072-b27b-ae57890e6178",
+          "eventType": "plan.revisionPublished",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "c8c2fad8-4134-4288-8f5c-5abb0fe25c15",
+            "recipientSequence": 7,
+            "type": "integration"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "round.started",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-round.started",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "9cc47884-9265-4435-8cd9-d1a9c2b6491d",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "6b88b0ba-1e10-4db1-8c19-75e0375c61a1",
+          "eventType": "round.started",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "e98e99f2-cf5c-4bc7-a162-abc4381d5451",
+            "recipientSequence": 1,
+            "type": "trip"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "current.headingSelected",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "current.arrivalRecorded",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "outcome.recorded",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "event-outcome-transition",
+          "schema": "events/envelope.v1.schema.json",
+          "eventId": "10000000-0000-4000-8000-000000000050",
+          "classification": "generated schema fixture"
+        },
+        {
+          "fixtureId": "p25-outcome.recorded",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "7c6e03bc-19bf-48c1-8282-c2d7adcff7bf",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "ebcde190-4ae4-4fc6-bf46-da746ceef2fd",
+          "eventType": "outcome.recorded",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "0f5f0130-2945-52fb-ac23-21eb0e4d0ffe",
+            "recipientSequence": 4,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        },
+        {
+          "eventId": "96a4d764-10d2-48a7-8530-e76c18c46a3d",
+          "eventType": "outcome.recorded",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "07529209-ee63-53d7-aade-001fac8cc1d1",
+            "recipientSequence": 6,
+            "type": "task"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.deferred",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.retryAdmitted",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.deferredActivated",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "task.driverUrgencyChanged",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "round.ended",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "workday.ended",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "return.requested",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "event-return-request",
+          "schema": "events/envelope.v1.schema.json",
+          "eventId": "10000000-0000-4000-8000-000000000052",
+          "classification": "generated schema fixture"
+        },
+        {
+          "fixtureId": "p25-return.requested",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "ac830ff4-017b-445e-8b39-36185141f250",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "56f6eece-e9ab-4588-ae98-212847751fca",
+          "eventType": "return.requested",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "recipientSequence": 1,
+            "type": "return-request"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "return.subsetReceived",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "p25-return.subsetReceived",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "5ffe71a8-dc5a-439c-8b93-9ef345d06389",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "f39ce30f-406d-431d-bf9e-e392f867b39d",
+          "eventType": "return.subsetReceived",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "recipientSequence": 2,
+            "type": "return-request"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "return.dispositionRecorded",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "c260fa75-8a15-4404-85c1-29bf37f2321c",
+          "eventType": "return.dispositionRecorded",
+          "payloadVersion": "1.0.0",
+          "aggregate": {
+            "id": "a85d4ef4-a0cb-440e-82ef-a2b2bbde5671",
+            "recipientSequence": 3,
+            "type": "return-request"
+          },
+          "proof": "docs/verification/integration-local-2026-10-10.json",
+          "classification": "fresh signed producer/independent HTTP reference consumer; applied reports in proof"
+        }
+      ],
+      "freshProducerWitnesses": [],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "branch.roundInterrupted",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "branch.arrivalRecorded",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "branch.roundResumed",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "outcome.corrected",
+      "payloadVersion": "1.0.0",
+      "schema": "contracts/events/sender-event.v1.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "event-correction-transition",
+          "schema": "events/envelope.v1.schema.json",
+          "eventId": "10000000-0000-4000-8000-000000000053",
+          "classification": "generated schema fixture"
+        },
+        {
+          "fixtureId": "p25-outcome.corrected",
+          "schema": "events/sender-event.v1.schema.json",
+          "eventId": "48da7d14-baea-4af1-b0e1-9f18cefcb9f8",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [],
+      "freshProducerWitnesses": [],
+      "status": "generated-fixtures-and-regression; fresh-signed-full-row-pending",
+      "historicalEvidence": {
+        "date": "2026-10-08",
+        "reference": "owner archive: attachments/docs/verification/P22/OPERATION-EVENT-EVIDENCE.md",
+        "scope": "15/27 historical sender types exercised; no blanket closure; other rows pending"
+      },
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "dispatch.createdFromReceipt",
+      "payloadVersion": "2.0.0",
+      "schema": "contracts/events/sender-event.v2.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "interop-sender-v2-dispatch.createdFromReceipt",
+          "schema": "events/sender-event.v2.schema.json",
+          "eventId": "2d91ebe9-5aae-49d3-9980-c8e1dd0c6bd0",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "6dd4430a-9dc2-4baa-ae3f-0794bb4e18fd",
+          "eventType": "dispatch.createdFromReceipt",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "6dd4430a-9dc2-4baa-ae3f-0794bb4e18fd",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 4
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": null,
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "outcome.recorded",
+      "payloadVersion": "2.0.0",
+      "schema": "contracts/events/sender-event.v2.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "interop-sender-v2-outcome.recorded",
+          "schema": "events/sender-event.v2.schema.json",
+          "eventId": "715405f9-1b2f-4593-861b-6556cc7c7916",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "09f17e63-f722-4ba5-b0e8-6cf41e66554e",
+          "eventType": "outcome.recorded",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        },
+        {
+          "eventId": "120a1dd6-8307-4b2b-9e92-6acc1f16ce90",
+          "eventType": "outcome.recorded",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        },
+        {
+          "eventId": "91f882c7-c16c-441f-bc3e-f66bc745fc38",
+          "eventType": "outcome.recorded",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "09f17e63-f722-4ba5-b0e8-6cf41e66554e",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 3
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+          "eventId": "120a1dd6-8307-4b2b-9e92-6acc1f16ce90",
+          "aggregate": {
+            "type": "task",
+            "id": "07f956ef-7aa8-556b-af0a-a0e5111ee101",
+            "recipientSequence": 6
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        },
+        {
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "eventId": "91f882c7-c16c-441f-bc3e-f66bc745fc38",
+          "aggregate": {
+            "type": "task",
+            "id": "38fca57d-9256-556f-a006-0a19dc23a26d",
+            "recipientSequence": 3
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": null,
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "outcome.corrected",
+      "payloadVersion": "2.0.0",
+      "schema": "contracts/events/sender-event.v2.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "interop-sender-v2-outcome.corrected",
+          "schema": "events/sender-event.v2.schema.json",
+          "eventId": "23d99957-f487-44a8-953c-8cad26a3ac91",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "00a8b53c-7024-482a-85f1-a5a3d5de9e85",
+          "eventType": "outcome.corrected",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-reasons-2026-10-10.json",
+          "eventId": "00a8b53c-7024-482a-85f1-a5a3d5de9e85",
+          "aggregate": {
+            "type": "task",
+            "id": "38fca57d-9256-556f-a006-0a19dc23a26d",
+            "recipientSequence": 4
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": null,
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    },
+    {
+      "eventType": "dispatch.relocatedBeforeDeparture",
+      "payloadVersion": "2.0.0",
+      "schema": "contracts/events/sender-event.v2.schema.json",
+      "generatedFixtures": [
+        {
+          "fixtureId": "interop-sender-v2-dispatch.relocatedBeforeDeparture",
+          "schema": "events/sender-event.v2.schema.json",
+          "eventId": "73b93ed5-b7bc-4562-bae4-c83404f4f7c8",
+          "classification": "generated schema fixture"
+        }
+      ],
+      "freshSignedWitnesses": [
+        {
+          "eventId": "32544808-b6b0-48f5-9b9a-36cac7bea6f0",
+          "eventType": "dispatch.relocatedBeforeDeparture",
+          "payloadVersion": "2.0.0",
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "classification": "fresh signed HTTP into separate durable reference receiver; atomic independent projection checked"
+        }
+      ],
+      "freshProducerWitnesses": [
+        {
+          "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+          "eventId": "32544808-b6b0-48f5-9b9a-36cac7bea6f0",
+          "aggregate": {
+            "id": "593ceff2-70e0-56ce-a59a-8b3a146c1e38",
+            "recipientSequence": 4,
+            "type": "task"
+          },
+          "classification": "real committed producer plus schema-valid public replay/reconciliation"
+        }
+      ],
+      "status": "local-reference-signed-positive; native-full-row-pending",
+      "historicalEvidence": null,
+      "pending": [
+        "native closed union reader before writer",
+        "native projection/duplicate/gap/replay/checkpoint/correction cases",
+        "actual separate-server acceptance"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "fixed-b2b-reasons",
+      "local": "implemented: UI/immutable capture/server/history/correction/signed union/replay/reconciliation",
+      "proof": [
+        "docs/verification/interoperability-examples-2026-10-10.json",
+        "docs/verification/interoperability-browser-2026-10-10.json"
+      ],
+      "external": "native reader/display/stock/financial adoption pending"
+    },
+    {
+      "id": "actual-arrival-no-answer",
+      "local": "implemented and browser exercised; accepted arrival retained, reported null, payment zero/not-attempted",
+      "proof": "docs/verification/interoperability-browser-2026-10-10.json",
+      "external": "actual device/user acceptance pending"
+    },
+    {
+      "id": "predeparture-A-to-B",
+      "local": "implemented with explicit withdrawal, received assertion, immutable cycle branch and dual source scope",
+      "proof": "docs/verification/interoperability-predeparture-2026-10-10.json",
+      "external": "native actual transfer/receipt and unknown-outcome custody fence pending"
+    },
+    {
+      "id": "returned-A-to-B",
+      "local": "implemented using actual unallocated Tawsel receipt balance; B return and A history preserved",
+      "proof": "docs/verification/interoperability-examples-2026-10-10.json",
+      "external": "native ERP receipt/mapping/concurrency acceptance pending"
+    },
+    {
+      "id": "automatic-enrollment",
+      "local": "incomplete; no secure issuer writer ownership inventory established",
+      "shipped": "operator-assisted-exact-subjects with nonsecret pending EnrollmentRequest",
+      "external": "trusted issuer namespace/writers/admin boundary and independent marker verification absent"
+    },
+    {
+      "id": "independent-installation",
+      "local": "helper, metadata/schema/backend verifier implemented",
+      "external": "native administrator UI, signed-callback activation, HTTPS443 deployment and joint acceptance pending"
+    }
+  ]
+}

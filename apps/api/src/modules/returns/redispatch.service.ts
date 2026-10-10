@@ -10,6 +10,10 @@ import { buildSourceSnapshot } from '../dispatch/snapshot.js';
 import { lockShippingWallets, reserveShippingCover } from '../dispatch/shipping-cover.service.js';
 import { reserveStock } from '../inventory/service.js';
 import { lockReceiptAllocation, consumeReceiptAllocation } from './brand-handover.service.js';
+import {
+  transferredReceiptAllocation,
+  allocateTransferredReturn,
+} from './transferred-allocation.js';
 export async function prepareReceiptRedispatch(
   pool: Pool,
   u: UnitOfWork,
@@ -25,7 +29,9 @@ export async function prepareReceiptRedispatch(
     )
   ).rows[0];
   if (!previous) throw new AccessError('NOT_FOUND', 404);
-  if (previous.branch_id !== input.branchId) throw new AccessError('TAWSEL_CHECK_003', 409);
+  const relocated = previous.branch_id !== input.branchId;
+  if (relocated && (s.configuration as { interopVersion?: string })?.interopVersion !== '2.0.0')
+    throw new AccessError('TAWSEL_CHECK_003', 409);
   if (!previous.latest || !previous.remote_cycle_id)
     throw new AccessError('CURRENT_CYCLE_REQUIRED', 409);
   const branch = await readyBinding(u.client, company, s.id, 'branch', input.branchId),
@@ -44,7 +50,18 @@ export async function prepareReceiptRedispatch(
         { intentId: id, shipmentId: previous.shipment_id },
       )
     ).id;
-  const rows = await lockReceiptAllocation(u, input.branchId, input.allocations);
+  const transported = relocated
+    ? await transferredReceiptAllocation(
+        u,
+        s,
+        previous.shipment_id,
+        previous.branch_id,
+        input.branchId,
+        input.allocations,
+      )
+    : null;
+  const rows =
+    transported?.rows ?? (await lockReceiptAllocation(u, input.branchId, input.allocations));
   if (rows.some((l) => l.cycle_id !== previous.id || l.shipment_id !== previous.shipment_id))
     throw new AccessError('INCOMPATIBLE_RETURN_RECEIPT', 409);
   const old = (await readDispatchItems(u.client, company, previous.current_intent_id)).find(
@@ -69,10 +86,26 @@ export async function prepareReceiptRedispatch(
   )
     throw new AccessError('INCOMPATIBLE_RETURN_LINES', 409);
   const goods = lines.reduce((n, l) => n + BigInt(l.quantity) * BigInt(l.unitDue.amountMinor), 0n);
+  const collected = BigInt(
+    (
+      await u.client.query<{ shipping: string }>(
+        `SELECT COALESCE(sum((record->'collection'->'shipping'->>'amountMinor')::bigint),0)::text AS shipping FROM (SELECT DISTINCT ON(attempt_id) record FROM execution.outcome_fact WHERE company_id=$1 AND cycle_id=$2 ORDER BY attempt_id,revision DESC)o`,
+        [company, previous.id],
+      )
+    ).rows[0]!.shipping,
+  );
+  const outstanding = BigInt(old.price.recipientShippingMinor) - collected;
+  if (outstanding < 0n) throw new AccessError('OUTSTANDING_SHIPPING_REVIEW_REQUIRED', 409);
   const price: DispatchPrice = {
     ...old.price,
     goodsDueMinor: goods.toString(),
-    recipientDueMinor: (goods + BigInt(old.price.recipientShippingMinor)).toString(),
+    recipientShippingMinor: outstanding.toString(),
+    brandShippingMinor: (
+      BigInt(old.price.tariffMinor) -
+      BigInt(old.price.waiverMinor) -
+      outstanding
+    ).toString(),
+    recipientDueMinor: (goods + outstanding).toString(),
   };
   const snapshot = buildSourceSnapshot(
     { ...detail, fields: { ...detail.fields, lines } } as ShipmentDetail,
@@ -119,15 +152,36 @@ export async function prepareReceiptRedispatch(
       previous.id,
     ],
   );
-  await consumeReceiptAllocation(u, rows, input.allocations, 'redispatch', id, cycle);
+  if (transported) {
+    await u.client.query(
+      `INSERT INTO dispatch.relocation(company_id,cycle_id,previous_cycle_id,transfer_id,destination_receipt_id,kind,whole_parcel) VALUES($1,$2,$3,$4,$5,'returned',$6)`,
+      [
+        company,
+        cycle,
+        previous.id,
+        transported.transfer.transferId,
+        transported.transfer.destinationReceiptId,
+        transported.transfer.parcel,
+      ],
+    );
+    await allocateTransferredReturn(
+      u,
+      cycle,
+      id,
+      previous.shipment_id,
+      rows,
+      input.allocations,
+      transported.transfer,
+    );
+  } else await consumeReceiptAllocation(u, rows, input.allocations, 'redispatch', id, cycle);
   // Use P05 reservations; these same returned units remain physically at the branch until P12 receipt.
   const stockSource = randomUUID();
-  if (rows.some((l) => l.variant_id))
+  if (!transported && rows.some((l) => l.variant_id))
     await u.client.query(
       `INSERT INTO inventory.stock_source(company_id,id,kind,source_system,source_identity,revision) VALUES($1,$2,'order','return-redispatch',$3,1)`,
       [company, stockSource, cycle],
     );
-  for (const l of rows.filter((l) => l.variant_id)) {
+  for (const l of rows.filter((l) => !transported && l.variant_id)) {
     await reserveStock(
       u,
       { branchId: l.branch_id, brandId: l.brand_id, variantId: l.variant_id! },
@@ -179,6 +233,16 @@ export async function prepareReceiptRedispatch(
       externalId: previous.external_id,
       previousDispatchCycleId: previous.remote_cycle_id,
       snapshot,
+      ...(transported
+        ? {
+            transfer: {
+              sourceBranchExternalId: transported.transfer.sourceBranchExternalId,
+              transferId: transported.transfer.transferId,
+              destinationReceiptId: transported.transfer.destinationReceiptId,
+              receivedAtDestination: true,
+            },
+          }
+        : {}),
     },
     detail.id,
   );

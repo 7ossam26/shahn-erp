@@ -13,9 +13,21 @@ export interface IntegrationConnection {
   signingKeys: Record<string, string>;
   initialKeyId: string | null;
   allowedCallbackUrls: string[];
+  approvedOrigin?: string;
 }
 export interface IntegrationRuntime {
   connections: IntegrationConnection[];
+  resolve?: (companyId: string) => Promise<IntegrationConnection | undefined>;
+}
+export async function connectionFor(runtime: IntegrationRuntime, companyId: string) {
+  return runtime.resolve
+    ? runtime.resolve(companyId)
+    : runtime.connections.find((c) => c.companyId === companyId);
+}
+export async function connectionCandidates(runtime: IntegrationRuntime, companyId: string) {
+  if (!runtime.resolve) return runtime.connections;
+  const c = await runtime.resolve(companyId);
+  return c ? [c] : [];
 }
 export function integrationRuntime(): IntegrationRuntime {
   const file = process.env['TAWSEL_CONFIG_FILE'];

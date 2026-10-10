@@ -8,6 +8,1451 @@
     }
   },
   "paths": {
+    "/api/v1/integration/connection/status": {
+      "get": {
+        "operationId": "erp.connection.status",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": { "enum": ["configured", "setup-required"] },
+                        "connection": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "revision": { "type": "integer", "minimum": 1 },
+                                "metadata": {
+                                  "type": "object",
+                                  "properties": {
+                                    "packageVersion": { "const": "1.0.0" },
+                                    "tenantId": { "type": "string", "format": "uuid" },
+                                    "integrationId": { "type": "string", "format": "uuid" },
+                                    "erpCompanyId": { "type": "string", "format": "uuid" },
+                                    "sourceExternalId": { "type": "string" },
+                                    "issuer": { "type": "string" },
+                                    "apiUrl": { "type": "string" },
+                                    "callbackUrl": { "type": "string" },
+                                    "companyCode": { "type": "string" },
+                                    "sourceCommit": { "type": "string" },
+                                    "contractSha256": { "type": "string" },
+                                    "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                                    "capabilities": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    },
+                                    "enrollmentMode": {
+                                      "const": "operator-assisted-exact-subjects"
+                                    },
+                                    "bootstrapActionId": { "type": "string", "format": "uuid" }
+                                  },
+                                  "required": [
+                                    "packageVersion",
+                                    "tenantId",
+                                    "integrationId",
+                                    "erpCompanyId",
+                                    "sourceExternalId",
+                                    "issuer",
+                                    "apiUrl",
+                                    "callbackUrl",
+                                    "companyCode",
+                                    "sourceCommit",
+                                    "contractSha256",
+                                    "interopVersion",
+                                    "capabilities",
+                                    "enrollmentMode",
+                                    "bootstrapActionId"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "key_version": { "type": "string" },
+                                "credentialExpiresAt": { "type": "string", "format": "date-time" },
+                                "configuration": {
+                                  "type": "object",
+                                  "properties": {
+                                    "identity": {
+                                      "type": "object",
+                                      "properties": {
+                                        "mode": { "const": "service-operation" },
+                                        "tenantId": { "type": "string", "format": "uuid" },
+                                        "integrationId": { "type": "string", "format": "uuid" },
+                                        "actorId": { "type": "null" }
+                                      },
+                                      "required": ["mode", "tenantId", "integrationId", "actorId"],
+                                      "additionalProperties": false
+                                    },
+                                    "issuer": { "type": "string" },
+                                    "supportedVersions": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    },
+                                    "allowedOperations": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    },
+                                    "humanDelegation": { "const": false },
+                                    "erpCompanyId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                                    "serviceCapabilities": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    }
+                                  },
+                                  "required": [
+                                    "identity",
+                                    "issuer",
+                                    "supportedVersions",
+                                    "allowedOperations",
+                                    "humanDelegation"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "configuration_checked_at": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "enabled": { "type": "boolean" },
+                                "last_error": {
+                                  "anyOf": [{ "type": "string" }, { "type": "null" }]
+                                }
+                              },
+                              "required": [
+                                "revision",
+                                "metadata",
+                                "key_version",
+                                "credentialExpiresAt",
+                                "configuration",
+                                "configuration_checked_at",
+                                "enabled",
+                                "last_error"
+                              ],
+                              "additionalProperties": false
+                            },
+                            { "type": "null" }
+                          ]
+                        },
+                        "receipt": {
+                          "type": "object",
+                          "properties": {
+                            "lastSignedReceipt": {
+                              "anyOf": [
+                                { "type": "string", "format": "date-time" },
+                                { "type": "null" }
+                              ]
+                            },
+                            "applied": { "type": "integer", "minimum": 0 }
+                          },
+                          "required": ["lastSignedReceipt", "applied"],
+                          "additionalProperties": false
+                        },
+                        "grantsRequired": { "type": "array", "items": { "type": "string" } },
+                        "enrollment": { "const": "operator-assisted-exact-subjects" },
+                        "issuerIndependent": { "const": true }
+                      },
+                      "required": [
+                        "state",
+                        "connection",
+                        "receipt",
+                        "grantsRequired",
+                        "enrollment",
+                        "issuerIndependent"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "importId": { "type": "string", "format": "uuid" },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {
+                            "packageVersion": { "const": "1.0.0" },
+                            "tenantId": { "type": "string", "format": "uuid" },
+                            "integrationId": { "type": "string", "format": "uuid" },
+                            "erpCompanyId": { "type": "string", "format": "uuid" },
+                            "sourceExternalId": { "type": "string" },
+                            "issuer": { "type": "string" },
+                            "apiUrl": { "type": "string" },
+                            "callbackUrl": { "type": "string" },
+                            "companyCode": { "type": "string" },
+                            "sourceCommit": { "type": "string" },
+                            "contractSha256": { "type": "string" },
+                            "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                            "capabilities": { "type": "array", "items": { "type": "string" } },
+                            "enrollmentMode": { "const": "operator-assisted-exact-subjects" },
+                            "bootstrapActionId": { "type": "string", "format": "uuid" }
+                          },
+                          "required": [
+                            "packageVersion",
+                            "tenantId",
+                            "integrationId",
+                            "erpCompanyId",
+                            "sourceExternalId",
+                            "issuer",
+                            "apiUrl",
+                            "callbackUrl",
+                            "companyCode",
+                            "sourceCommit",
+                            "contractSha256",
+                            "interopVersion",
+                            "capabilities",
+                            "enrollmentMode",
+                            "bootstrapActionId"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "credentialExpiresAt": { "type": "string", "format": "date-time" },
+                        "state": { "enum": ["source-verified", "imported-awaiting-verification"] },
+                        "signing": { "const": "awaiting-signed-callback" }
+                      },
+                      "required": [
+                        "importId",
+                        "metadata",
+                        "credentialExpiresAt",
+                        "state",
+                        "signing"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": { "const": "operator-installation-required" },
+                        "configured": { "const": false }
+                      },
+                      "required": ["state", "configured"],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/import": {
+      "post": {
+        "operationId": "erp.connection.import",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "importId": { "type": "string", "format": "uuid" },
+                  "origin": { "type": "string" },
+                  "package": { "type": "object" }
+                },
+                "required": ["companyId", "importId", "origin", "package"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "importId": { "type": "string", "format": "uuid" },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "packageVersion": { "const": "1.0.0" },
+                        "tenantId": { "type": "string", "format": "uuid" },
+                        "integrationId": { "type": "string", "format": "uuid" },
+                        "erpCompanyId": { "type": "string", "format": "uuid" },
+                        "sourceExternalId": { "type": "string" },
+                        "issuer": { "type": "string" },
+                        "apiUrl": { "type": "string" },
+                        "callbackUrl": { "type": "string" },
+                        "companyCode": { "type": "string" },
+                        "sourceCommit": { "type": "string" },
+                        "contractSha256": { "type": "string" },
+                        "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                        "capabilities": { "type": "array", "items": { "type": "string" } },
+                        "enrollmentMode": { "const": "operator-assisted-exact-subjects" },
+                        "bootstrapActionId": { "type": "string", "format": "uuid" }
+                      },
+                      "required": [
+                        "packageVersion",
+                        "tenantId",
+                        "integrationId",
+                        "erpCompanyId",
+                        "sourceExternalId",
+                        "issuer",
+                        "apiUrl",
+                        "callbackUrl",
+                        "companyCode",
+                        "sourceCommit",
+                        "contractSha256",
+                        "interopVersion",
+                        "capabilities",
+                        "enrollmentMode",
+                        "bootstrapActionId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "credentialExpiresAt": { "type": "string", "format": "date-time" },
+                    "state": { "enum": ["source-verified", "imported-awaiting-verification"] },
+                    "signing": { "const": "awaiting-signed-callback" }
+                  },
+                  "required": ["importId", "metadata", "credentialExpiresAt", "state", "signing"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/verify": {
+      "post": {
+        "operationId": "erp.connection.verify",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "importId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["companyId", "importId"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "importId": { "type": "string", "format": "uuid" },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "packageVersion": { "const": "1.0.0" },
+                        "tenantId": { "type": "string", "format": "uuid" },
+                        "integrationId": { "type": "string", "format": "uuid" },
+                        "erpCompanyId": { "type": "string", "format": "uuid" },
+                        "sourceExternalId": { "type": "string" },
+                        "issuer": { "type": "string" },
+                        "apiUrl": { "type": "string" },
+                        "callbackUrl": { "type": "string" },
+                        "companyCode": { "type": "string" },
+                        "sourceCommit": { "type": "string" },
+                        "contractSha256": { "type": "string" },
+                        "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                        "capabilities": { "type": "array", "items": { "type": "string" } },
+                        "enrollmentMode": { "const": "operator-assisted-exact-subjects" },
+                        "bootstrapActionId": { "type": "string", "format": "uuid" }
+                      },
+                      "required": [
+                        "packageVersion",
+                        "tenantId",
+                        "integrationId",
+                        "erpCompanyId",
+                        "sourceExternalId",
+                        "issuer",
+                        "apiUrl",
+                        "callbackUrl",
+                        "companyCode",
+                        "sourceCommit",
+                        "contractSha256",
+                        "interopVersion",
+                        "capabilities",
+                        "enrollmentMode",
+                        "bootstrapActionId"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "credentialExpiresAt": { "type": "string", "format": "date-time" },
+                    "state": { "enum": ["source-verified", "imported-awaiting-verification"] },
+                    "signing": { "const": "awaiting-signed-callback" }
+                  },
+                  "required": ["importId", "metadata", "credentialExpiresAt", "state", "signing"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/confirm": {
+      "post": {
+        "operationId": "erp.connection.confirm",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "schemaVersion": { "const": 1 },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "type": { "const": "integration.confirmConnection" },
+                  "importId": { "type": "string", "format": "uuid" }
+                },
+                "required": ["schemaVersion", "companyId", "commandId", "type", "importId"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "importId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "sourceId": { "type": "string", "format": "uuid" },
+                    "configurationRevision": { "type": "integer", "minimum": 1 },
+                    "state": { "const": "connected-awaiting-signed-callback" }
+                  },
+                  "required": [
+                    "importId",
+                    "commandId",
+                    "sourceId",
+                    "configurationRevision",
+                    "state"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/result": {
+      "get": {
+        "operationId": "erp.connection.result",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "importId": { "type": "string", "format": "uuid" },
+                        "commandId": { "type": "string", "format": "uuid" },
+                        "sourceId": { "type": "string", "format": "uuid" },
+                        "configurationRevision": { "type": "integer", "minimum": 1 },
+                        "state": { "const": "connected-awaiting-signed-callback" }
+                      },
+                      "required": [
+                        "importId",
+                        "commandId",
+                        "sourceId",
+                        "configurationRevision",
+                        "state"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "messageKey": { "type": "string" },
+                        "correlationId": { "type": "string", "format": "uuid" },
+                        "commandId": { "type": "string", "format": "uuid" },
+                        "currentVersion": { "type": "integer", "minimum": 0 }
+                      },
+                      "required": ["code", "messageKey", "correlationId"],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/enrollment": {
+      "post": {
+        "operationId": "erp.connection.enrollment",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "schemaVersion": { "const": 1 },
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "commandId": { "type": "string", "format": "uuid" },
+                  "type": { "const": "integration.requestEnrollment" },
+                  "principalIds": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "uuid" },
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true
+                  }
+                },
+                "required": ["schemaVersion", "companyId", "commandId", "type", "principalIds"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "requestId": { "type": "string", "format": "uuid" },
+                    "state": { "const": "awaiting-tawsel-identity-authorization" },
+                    "requests": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "requestVersion": { "const": "1.0.0" },
+                          "state": { "const": "pending-operator-reservation" },
+                          "tenantId": { "type": "string", "format": "uuid" },
+                          "integrationId": { "type": "string", "format": "uuid" },
+                          "erpCompanyId": { "type": "string", "format": "uuid" },
+                          "issuer": { "type": "string" },
+                          "subject": { "type": "string" },
+                          "erpPrincipalId": { "type": "string", "format": "uuid" },
+                          "erpCorrelationId": { "type": "string", "format": "uuid" }
+                        },
+                        "required": [
+                          "requestVersion",
+                          "state",
+                          "tenantId",
+                          "integrationId",
+                          "erpCompanyId",
+                          "issuer",
+                          "subject",
+                          "erpPrincipalId",
+                          "erpCorrelationId"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 1,
+                      "maxItems": 100
+                    }
+                  },
+                  "required": ["requestId", "state", "requests"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/enrollment-result": {
+      "post": {
+        "operationId": "erp.connection.enrollment-result",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyId": { "type": "string", "format": "uuid" },
+                  "requestId": { "type": "string", "format": "uuid" },
+                  "result": { "type": "object" }
+                },
+                "required": ["companyId", "requestId", "result"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "requestId": { "type": "string", "format": "uuid" },
+                    "state": { "const": "operator-result-recorded-awaiting-user-provision" },
+                    "actionId": { "type": "string", "format": "uuid" }
+                  },
+                  "required": ["requestId", "state", "actionId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/enrollment-status": {
+      "get": {
+        "operationId": "erp.connection.enrollment-status",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "requestId": { "type": "string", "format": "uuid" },
+                          "requests": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "requestVersion": { "const": "1.0.0" },
+                                "state": { "const": "pending-operator-reservation" },
+                                "tenantId": { "type": "string", "format": "uuid" },
+                                "integrationId": { "type": "string", "format": "uuid" },
+                                "erpCompanyId": { "type": "string", "format": "uuid" },
+                                "issuer": { "type": "string" },
+                                "subject": { "type": "string" },
+                                "erpPrincipalId": { "type": "string", "format": "uuid" },
+                                "erpCorrelationId": { "type": "string", "format": "uuid" }
+                              },
+                              "required": [
+                                "requestVersion",
+                                "state",
+                                "tenantId",
+                                "integrationId",
+                                "erpCompanyId",
+                                "issuer",
+                                "subject",
+                                "erpPrincipalId",
+                                "erpCorrelationId"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "actionId": {
+                            "anyOf": [{ "type": "string", "format": "uuid" }, { "type": "null" }]
+                          },
+                          "state": {
+                            "enum": [
+                              "awaiting-tawsel-identity-authorization",
+                              "operator-result-recorded-awaiting-user-provision"
+                            ]
+                          }
+                        },
+                        "required": ["requestId", "requests", "actionId", "state"],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": ["items"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/integration/connection/enrollment-recover": {
+      "get": {
+        "operationId": "erp.connection.enrollment-recover",
+        "summary": "Protected MFA selected-company support connection administration; no raw secret response",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "companyId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "in": "query",
+            "name": "commandId",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Safe retained state; durable receipt and application remain distinct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "state": { "type": "string" },
+                    "configured": { "type": "boolean" }
+                  },
+                  "required": ["state", "configured"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid closed or canonical package/result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Current support authority or CSRF denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Original identity or remote setup requires reconciliation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Protected key or bounded remote IO unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "messageKey": { "type": "string" },
+                    "correlationId": { "type": "string", "format": "uuid" },
+                    "commandId": { "type": "string", "format": "uuid" },
+                    "currentVersion": { "type": "integer", "minimum": 0 }
+                  },
+                  "required": ["code", "messageKey", "correlationId"],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/operations": {
       "get": {
         "summary": "Safe local restore restrictions; no credentials or business detail",
@@ -32629,7 +34074,18 @@
                                       "type": "array",
                                       "items": { "type": "string" }
                                     },
-                                    "humanDelegation": { "const": false }
+                                    "humanDelegation": { "const": false },
+                                    "erpCompanyId": {
+                                      "anyOf": [
+                                        { "type": "string", "format": "uuid" },
+                                        { "type": "null" }
+                                      ]
+                                    },
+                                    "interopVersion": { "enum": ["1.0.0", "2.0.0"] },
+                                    "serviceCapabilities": {
+                                      "type": "array",
+                                      "items": { "type": "string" }
+                                    }
                                   },
                                   "required": [
                                     "identity",
@@ -33516,7 +34972,8 @@
                         },
                         "minItems": 1,
                         "maxItems": 100
-                      }
+                      },
+                      "prepareAssignment": { "type": "boolean" }
                     },
                     "required": [
                       "schemaVersion",
@@ -33948,7 +35405,25 @@
                                         "enum": ["sound", "damaged", "uncertain"]
                                       },
                                       "version": { "type": "integer", "minimum": 1 },
-                                      "receivedAt": { "type": "string", "format": "date-time" }
+                                      "receivedAt": { "type": "string", "format": "date-time" },
+                                      "transferredTo": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "branchId": { "type": "string", "format": "uuid" },
+                                            "branchName": { "type": "string" },
+                                            "quantity": {
+                                              "type": "integer",
+                                              "minimum": 1,
+                                              "maximum": 1000000
+                                            }
+                                          },
+                                          "required": ["branchId", "branchName", "quantity"],
+                                          "additionalProperties": false
+                                        },
+                                        "minItems": 0
+                                      }
                                     },
                                     "required": [
                                       "id",
@@ -33956,7 +35431,8 @@
                                       "consumed",
                                       "condition",
                                       "version",
-                                      "receivedAt"
+                                      "receivedAt",
+                                      "transferredTo"
                                     ],
                                     "additionalProperties": false
                                   },
@@ -34251,7 +35727,25 @@
                                         "enum": ["sound", "damaged", "uncertain"]
                                       },
                                       "version": { "type": "integer", "minimum": 1 },
-                                      "receivedAt": { "type": "string", "format": "date-time" }
+                                      "receivedAt": { "type": "string", "format": "date-time" },
+                                      "transferredTo": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "branchId": { "type": "string", "format": "uuid" },
+                                            "branchName": { "type": "string" },
+                                            "quantity": {
+                                              "type": "integer",
+                                              "minimum": 1,
+                                              "maximum": 1000000
+                                            }
+                                          },
+                                          "required": ["branchId", "branchName", "quantity"],
+                                          "additionalProperties": false
+                                        },
+                                        "minItems": 0
+                                      }
                                     },
                                     "required": [
                                       "id",
@@ -34259,7 +35753,8 @@
                                       "consumed",
                                       "condition",
                                       "version",
-                                      "receivedAt"
+                                      "receivedAt",
+                                      "transferredTo"
                                     ],
                                     "additionalProperties": false
                                   },
@@ -34923,9 +36418,49 @@
                           "attemptId": { "type": "string", "format": "uuid" },
                           "outcome": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
                           "visitKnown": { "type": "boolean" },
-                          "reason": { "const": "legacy reason unavailable" }
+                          "reason": { "type": "string" },
+                          "reasonState": { "type": "string" },
+                          "reasonDetail": { "anyOf": [{ "type": "string" }, { "type": "null" }] },
+                          "history": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "outcomeId": { "type": "string", "format": "uuid" },
+                                "revision": { "type": "integer", "minimum": 1 },
+                                "correctionId": {
+                                  "anyOf": [
+                                    { "type": "string", "format": "uuid" },
+                                    { "type": "null" }
+                                  ]
+                                },
+                                "reason": { "type": "string" },
+                                "reasonState": { "type": "string" },
+                                "reasonDetail": {
+                                  "anyOf": [{ "type": "string" }, { "type": "null" }]
+                                }
+                              },
+                              "required": [
+                                "outcomeId",
+                                "revision",
+                                "correctionId",
+                                "reason",
+                                "reasonState",
+                                "reasonDetail"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
                         },
-                        "required": ["attemptId", "outcome", "visitKnown", "reason"],
+                        "required": [
+                          "attemptId",
+                          "outcome",
+                          "visitKnown",
+                          "reason",
+                          "reasonState",
+                          "reasonDetail",
+                          "history"
+                        ],
                         "additionalProperties": false
                       }
                     },

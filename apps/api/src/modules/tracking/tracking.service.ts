@@ -1,3 +1,4 @@
+import { rejectionDisplay, type OutcomeRecord } from '@shahn/contracts/execution';
 import { AccessError, cairoDayRange } from '@shahn/domain';
 import type {
   TrackingFilter,
@@ -146,8 +147,19 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
     )
   ).rows;
   const attempts = (
-    await u.client.query<{ attemptId: string; outcome: string | null; visitKnown: boolean }>(
-      `WITH ids AS(SELECT attempt_id FROM execution.visit_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3 UNION SELECT attempt_id FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3) SELECT ids.attempt_id AS "attemptId",o.record->>'outcome' AS outcome,EXISTS(SELECT 1 FROM execution.visit_fact v WHERE v.company_id=$1 AND v.source_id=$2 AND v.task_id=$3 AND v.attempt_id=ids.attempt_id) AS "visitKnown" FROM ids LEFT JOIN LATERAL(SELECT record FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3 AND attempt_id=ids.attempt_id ORDER BY revision DESC LIMIT 1)o ON true ORDER BY ids.attempt_id`,
+    await u.client.query<{
+      attemptId: string;
+      outcome: string | null;
+      visitKnown: boolean;
+      record: OutcomeRecord | null;
+      history: {
+        outcomeId: string;
+        revision: number;
+        correctionId: string | null;
+        record: OutcomeRecord;
+      }[];
+    }>(
+      `WITH ids AS(SELECT attempt_id FROM execution.visit_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3 UNION SELECT attempt_id FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3) SELECT ids.attempt_id AS "attemptId",o.record->>'outcome' AS outcome,o.record,COALESCE((SELECT jsonb_agg(jsonb_build_object('outcomeId',h.outcome_id,'revision',h.revision,'correctionId',h.correction_id,'record',h.record) ORDER BY h.revision) FROM execution.outcome_fact h WHERE h.company_id=$1 AND h.source_id=$2 AND h.task_id=$3 AND h.attempt_id=ids.attempt_id),'[]'::jsonb) AS history,EXISTS(SELECT 1 FROM execution.visit_fact v WHERE v.company_id=$1 AND v.source_id=$2 AND v.task_id=$3 AND v.attempt_id=ids.attempt_id) AS "visitKnown" FROM ids LEFT JOIN LATERAL(SELECT record FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND task_id=$3 AND attempt_id=ids.attempt_id ORDER BY revision DESC LIMIT 1)o ON true ORDER BY ids.attempt_id`,
       [company, r.source_id, r.task_id],
     )
   ).rows;
@@ -329,7 +341,11 @@ export async function trackingDetail(u: UnitOfWork, id: string): Promise<Trackin
     ].sort((a, b) =>
       (a.recordedAt ?? a.receivedAt ?? '').localeCompare(b.recordedAt ?? b.receivedAt ?? ''),
     ),
-    attempts: attempts.map((a) => ({ ...a, reason: 'legacy reason unavailable' })),
+    attempts: attempts.map(({ record, history, ...a }) => ({
+      ...a,
+      ...rejectionDisplay(record),
+      history: history.map(({ record, ...h }) => ({ ...h, ...rejectionDisplay(record) })),
+    })),
     pendingReasons: [
       ...pending.map((p) => p.pending_reason),
       ...(gaps ? ['KNOWN_STREAM_GAP'] : []),

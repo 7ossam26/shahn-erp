@@ -29,6 +29,7 @@ import {
 } from '@shahn/contracts/tawsel';
 import { validatePublicCallback } from './callback-policy.js';
 import type { IntegrationConnection } from './config.js';
+import { approvedTransport } from './approved-transport.js';
 const validateProblem = tawselValidator<{
   actionId?: string;
   status: number;
@@ -49,7 +50,9 @@ export class SourceFailure extends Error {
 export class TawselClient {
   constructor(
     readonly connection: IntegrationConnection,
-    readonly transport: typeof fetch = fetch,
+    readonly transport: typeof fetch = connection.approvedOrigin
+      ? approvedTransport(connection.approvedOrigin)
+      : fetch,
   ) {}
   async request(
     path: string,

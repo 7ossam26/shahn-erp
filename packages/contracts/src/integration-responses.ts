@@ -14,18 +14,24 @@ const closed = (properties: Record<string, unknown>, required = Object.keys(prop
   required,
   additionalProperties: false,
 });
-const sourceConfiguration = closed({
-  identity: closed({
-    mode: { const: 'service-operation' },
-    tenantId: u,
-    integrationId: u,
-    actorId: { type: 'null' },
-  }),
-  issuer: s,
-  supportedVersions: list(s),
-  allowedOperations: list(s),
-  humanDelegation: { const: false },
-});
+export const integrationSourceConfigurationSchema = closed(
+  {
+    identity: closed({
+      mode: { const: 'service-operation' },
+      tenantId: u,
+      integrationId: u,
+      actorId: { type: 'null' },
+    }),
+    issuer: s,
+    supportedVersions: list(s),
+    allowedOperations: list(s),
+    humanDelegation: { const: false },
+    erpCompanyId: nullable(u),
+    interopVersion: { enum: ['1.0.0', '2.0.0'] },
+    serviceCapabilities: list(s),
+  },
+  ['identity', 'issuer', 'supportedVersions', 'allowedOperations', 'humanDelegation'],
+);
 const choice = { id: u, name: s, active: b };
 const command = {
   actionId: u,
@@ -77,7 +83,7 @@ export const integrationViewSchema = closed({
       baseUrl: s,
       issuer: s,
       enabled: b,
-      configuration: nullable(sourceConfiguration),
+      configuration: nullable(integrationSourceConfigurationSchema),
       lastError: nullable(s),
     }),
   ),

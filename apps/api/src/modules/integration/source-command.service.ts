@@ -1,3 +1,5 @@
+import { connectionCandidates } from './config.js';
+import { installedSourceEvidence } from './installed-source-evidence.js';
 import { mutationsEnabled } from '@shahn/database';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
@@ -55,15 +57,21 @@ export async function recordProvisioningStatus(
       [source.company_id, source.id, b.id, status.lastActionId, status.sourceRevision],
     )
   ).rowCount;
+  const imported =
+    status.entity === 'source' &&
+    (await installedSourceEvidence(client, source.company_id, source.id, {
+      ...status,
+      actionId: status.lastActionId,
+    }));
   if (
-    !action ||
+    (!action && !imported) ||
     status.sourceRevision < Number(b.accepted_revision) ||
-    status.sourceRevision > Number(b.submitted_revision) ||
+    (!imported && status.sourceRevision > Number(b.submitted_revision)) ||
     (b.resource_id && b.resource_id !== status.resourceId)
   )
     return false;
   await client.query(
-    `UPDATE integration.binding SET resource_id=$1,accepted_revision=$2,issuer_status=$3,enabled=$4,last_action_id=$5,evidence=$6,checked_at=clock_timestamp() WHERE company_id=$7 AND id=$8`,
+    `UPDATE integration.binding SET resource_id=$1,accepted_revision=$2,submitted_revision=GREATEST(submitted_revision,$2),issuer_status=$3,enabled=$4,last_action_id=$5,evidence=$6,checked_at=clock_timestamp() WHERE company_id=$7 AND id=$8`,
     [
       status.resourceId,
       status.sourceRevision,
@@ -247,13 +255,13 @@ export class SourceCommandWorker {
           [work.company_id, work.source_id],
         )
       ).rows[0];
-      const connection = this.runtime.connections.find(
+      const connection = (await connectionCandidates(this.runtime, work.company_id)).find(
         (c) =>
           c.selector === source?.selector &&
           c.companyId === source.company_id &&
           c.tenantId === source.tenant_id &&
           c.integrationId === source.integration_id &&
-          c.baseUrl === source.base_url &&
+          (this.runtime.resolve || c.baseUrl === source.base_url) &&
           c.issuer === source.issuer,
       );
       if (!connection)
@@ -294,7 +302,11 @@ export class SourceCommandWorker {
           ? (envelope.payload.items as { externalId: string }[])
           : [envelope.payload as { externalId: string }];
         for (const ref of refs) {
-          if (work.operation_id === 'dispatch.createFromReceipt') {
+          if (
+            ['dispatch.createFromReceipt', 'dispatch.relocateBeforeDeparture'].includes(
+              work.operation_id,
+            )
+          ) {
             const all = await client.intakeCycles(ref.externalId),
               target = (envelope.payload.snapshot as IntakeTask['snapshot']).sourceDispatchCycleId;
             const current = all.find((t) => t.sourceDispatchCycleId === target);

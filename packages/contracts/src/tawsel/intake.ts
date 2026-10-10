@@ -59,6 +59,7 @@ export interface IntakeTask {
 }
 export const intakeOperations = {
   'dispatch.createFromReceipt': 'RedispatchCommand',
+  'dispatch.relocateBeforeDeparture': 'RelocateCommand',
   'intake.submitSnapshot': 'SourceSnapshotCommand',
   'intake.prepare': 'PrepareCommand',
   'assignment.receiveBatch': 'ReceiveBatchCommand',
@@ -79,7 +80,7 @@ export const validateIntakeCommand = (value: unknown): value is SourceEnvelope =
     Object.hasOwn(validators, op) &&
     !!validators[op]!(value) &&
     (op !== 'intake.submitSnapshot' || validSnapshotSemantics((value as SourceEnvelope).payload)) &&
-    (op !== 'dispatch.createFromReceipt' ||
+    (!['dispatch.createFromReceipt', 'dispatch.relocateBeforeDeparture'].includes(op) ||
       (validSnapshotSemantics((value as SourceEnvelope).payload.snapshot) &&
         (value as SourceEnvelope).payload.externalId ===
           ((value as SourceEnvelope).payload.snapshot as SourceSnapshot).externalId))

@@ -92,6 +92,7 @@ export async function applyVisitAndOutcome(
     outcome = n.outcome;
   const attempt = n.attemptId!,
     driverSource = n.driverId!;
+  let reasonOnly = false;
   const driver = (
     await c.query<{ native_id: string }>(
       `SELECT native_id FROM integration.binding WHERE company_id=$1 AND source_id=$2 AND entity='driver' AND resource_id=$3 AND accepted_revision>0`,
@@ -148,12 +149,25 @@ export async function applyVisitAndOutcome(
       throw new ExecutionDependency('OUTCOME_GOODS_CONFLICT');
     commercialAllocation(cy.price, outcome);
     if (n.correction) {
+      reasonOnly = !!(
+        await c.query(
+          `SELECT 1 FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND outcome_id=$3 AND revision=$4 AND (record-'rejection'-'recordVersion'-'outcomeId'-'revision'-'time')=($5::jsonb-'rejection'-'recordVersion'-'outcomeId'-'revision'-'time')`,
+          [
+            company,
+            source,
+            n.correction.previousOutcomeId,
+            n.correction.previousRevision,
+            JSON.stringify(outcome),
+          ],
+        )
+      ).rowCount;
       const physical = await c.query(
         `SELECT 1 FROM returns.transition t JOIN returns.item i ON(i.company_id,i.source_id,i.id)=(t.company_id,t.source_id,t.item_id) WHERE i.company_id=$1 AND i.source_id=$2 AND i.cycle_id=$3 AND i.original->>'attemptId'=$4 LIMIT 1`,
         [company, source, cy.id, attempt],
       );
       if (
         physical.rowCount &&
+        !reasonOnly &&
         !(
           await c.query(
             `SELECT 1 FROM execution.outcome_fact WHERE company_id=$1 AND source_id=$2 AND outcome_id=$3 AND revision=$4 AND record=$5::jsonb`,
@@ -386,6 +400,31 @@ export async function applyVisitAndOutcome(
     ).rows[0];
     if (previous && Number(previous.outcome_revision) >= outcome.revision) return;
     const basis = commercialAllocation(cy.price, outcome);
+    // An accepted reason-only replacement advances history without cancelling,
+    // re-crediting, holding settled money or adding a fee/commission/cash entry.
+    if (
+      n.correction &&
+      reasonOnly &&
+      previous &&
+      basis.goods === previous.goods_minor &&
+      basis.fee === previous.brand_fee_minor
+    ) {
+      await c.query(
+        `INSERT INTO execution.allocation(company_id,visit_id,outcome_id,outcome_revision,source_record_id,goods_minor,brand_fee_minor,goods_effect_id,fee_effect_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+        [
+          company,
+          visitId,
+          outcome.outcomeId,
+          outcome.revision,
+          allocationSource.id,
+          previous.goods_minor,
+          previous.brand_fee_minor,
+          previous.goods_effect_id,
+          previous.fee_effect_id,
+        ],
+      );
+      return;
+    }
     const protectedRow = (
       await c.query(
         `SELECT 1 FROM execution.protected_basis WHERE company_id=$1 AND visit_id=$2 UNION ALL SELECT 1 FROM kernel.credit_release WHERE company_id=$1 AND lot_id=$3`,

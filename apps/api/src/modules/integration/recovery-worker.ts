@@ -28,10 +28,10 @@ import {
 import { recoveryConnection } from './recovery.service.js';
 import type { IntegrationRuntime } from './config.js';
 
-const baseline = '32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada';
+const baseline = 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2';
 const hashes = {
-  replay: 'acae29b68e9e267b2d1f495c6904880f421f3959684a3c14c8fa7c40f34bbf5b',
-  reconcile: 'cbff563ea8ea28a6af9f557e85bab0097c89a095d2cb6ca74e3d066d26352fe1',
+  replay: '3caf10f546d24bcd9f3209bc1c128befe87fd683a743c52884f043aca6e3e997',
+  reconcile: '316b64d695836f938a6d6d981974ad144362023010b2a8dc3fc4eea828b10d37',
 };
 export interface RecoveryJobRow {
   company_id: string;
@@ -159,8 +159,10 @@ export class RecoveryWorker {
   constructor(
     readonly pool: Pool,
     readonly runtime: IntegrationRuntime,
-    readonly clientFactory = (s: IntegrationSource) =>
-      new RecoveryClient(recoveryConnection(runtime, s)),
+    readonly clientFactory: (
+      s: IntegrationSource,
+    ) => RecoveryClient | Promise<RecoveryClient> = async (s) =>
+      new RecoveryClient(await recoveryConnection(runtime, s)),
     readonly beforeCommit?: () => Promise<void>,
   ) {}
   async basis(work: Lease): Promise<RecoveryBasis> {
@@ -334,7 +336,7 @@ export class RecoveryWorker {
     try {
       const basis = await this.basis(work),
         a = { type: basis.job.aggregate_type, id: basis.job.aggregate_id },
-        client = this.clientFactory(basis.source);
+        client = await this.clientFactory(basis.source);
       const result =
         basis.job.kind === 'replay'
           ? await client.replay(a, Number(basis.job.next_after))

@@ -68,8 +68,8 @@ describe('P11 pinned public contracts and signatures', () => {
     it(`${f.id}: ${f.valid ? 'accept' : 'reject'} pinned fixture`, () => {
       expect(tawselValidator(f.schema)(f.data)).toBe(f.valid);
     });
-  it('validates all 27 closed mappings and nested sender identity', () => {
-    expect(senderEventTypes).toHaveLength(27);
+  it('validates retained 27 mappings and the adopted 28 type union and nested sender identity', () => {
+    expect(senderEventTypes).toHaveLength(28);
     for (const f of validFixtures.filter((f) => f.schema === 'events/sender-event.v1.schema.json'))
       expect(validateSenderEvent(f.data), f.id).toBe(true);
     const event = senderFixture();

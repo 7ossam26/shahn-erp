@@ -429,7 +429,11 @@ export function ReturnsPage() {
                             disabled={busy || !!pending}
                           />
                           {i.receipts
-                            .filter((p) => p.condition === 'sound' && p.consumed < p.quantity)
+                            .filter(
+                              (p) =>
+                                p.condition === 'sound' &&
+                                (p.consumed < p.quantity || p.transferredTo.length > 0),
+                            )
                             .map((p) => (
                               <UseReceipt
                                 key={p.id + ':' + p.version}
@@ -688,11 +692,14 @@ function UseReceipt({
   const [mode, setMode] = useState(''),
     [quantity, setQuantity] = useState('1'),
     [driver, setDriver] = useState(r.driverId),
+    [destination, setDestination] = useState(r.branchId),
     [recipient, setRecipient] = useState(''),
     [actual, setActual] = useState(false);
   return (
     <section className="return-form">
-      <h4>كمية سليمة متاحة: {p.quantity - p.consumed}</h4>
+      <h4>
+        كمية سليمة متاحة في {r.branchName}: {p.quantity - p.consumed}
+      </h4>
       <label>
         الإجراء التالي
         <select
@@ -703,8 +710,8 @@ function UseReceipt({
           }}
         >
           <option value="">اختر الإجراء</option>
-          {canDispatch && <option value="redispatch">إعادة إرسال من نفس الفرع</option>}
-          <option value="brand">تسليم فعلي للبراند</option>
+          {canDispatch && <option value="redispatch">إعادة إرسال من مخزون مستلم فعلياً</option>}
+          {p.consumed < p.quantity && <option value="brand">تسليم فعلي للبراند</option>}
         </select>
       </label>
       {mode && (
@@ -715,7 +722,7 @@ function UseReceipt({
               schemaVersion: 1 as const,
               commandId: crypto.randomUUID(),
               companyId: company,
-              branchId: r.branchId,
+              branchId: mode === 'redispatch' ? destination : r.branchId,
               allocations: [
                 { receiptLineId: p.id, expectedVersion: p.version, quantity: Number(quantity) },
               ],
@@ -745,7 +752,11 @@ function UseReceipt({
               required
               type="number"
               min="1"
-              max={p.quantity - p.consumed}
+              max={
+                destination === r.branchId
+                  ? p.quantity - p.consumed
+                  : (p.transferredTo.find((t) => t.branchId === destination)?.quantity ?? 0)
+              }
               step="1"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
@@ -753,6 +764,19 @@ function UseReceipt({
           </label>
           {mode === 'redispatch' ? (
             <>
+              <label>
+                فرع الدورة الجديدة
+                <select value={destination} onChange={(e) => setDestination(e.target.value)}>
+                  <option value={r.branchId} disabled={p.quantity === p.consumed}>
+                    {r.branchName}
+                  </option>
+                  {p.transferredTo.map((t) => (
+                    <option key={t.branchId} value={t.branchId}>
+                      {t.branchName} — استلام داخلي فعلي: {t.quantity}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label>
                 مندوب الدورة الجديدة
                 <select required value={driver} onChange={(e) => setDriver(e.target.value)}>
@@ -763,7 +787,10 @@ function UseReceipt({
                   ))}
                 </select>
               </label>
-              <p>دورة جديدة لنفس الشحنة من {r.branchName}. يبقى تاريخ التسليم السابق محفوظاً.</p>
+              <p>
+                دورة جديدة لنفس الشحنة من الفرع المختار بعد قبول المصدر. يبقى تاريخ الفرع الأصلي
+                واستلامه الفعلي محفوظين.
+              </p>
             </>
           ) : (
             <>

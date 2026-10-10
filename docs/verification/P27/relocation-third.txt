@@ -1,0 +1,75 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/relocation.db.test.ts (5 tests | 3 failed) 4752ms
+   ✓ pending/lost withdrawal keeps the physical fence; accepted original result permits actual A→B relocation with stable shipment/price and isolated cycle scope 237ms
+   ✓ unassigned source registration permits transfer without fictitious withdrawal and competing customer dispatch loses the native claim race 122ms
+   × held before departure requires actual branch receipt plus accepted withdrawal before A→B movement, without a Tawsel return receipt 145ms
+   × actual partial stored-stock return/loose B receipt funds only eligible quantity and never charges collected recipient shipping again 126ms
+   × actual sound return at A funds native B transfer and fresh B cycle without fabricating a B return receipt 60ms
+ ✓ tests/integration/p27/reasons.db.test.ts (2 tests) 4369ms
+   ✓ signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes 370ms
+ ✓ tests/integration/p27/connection.db.test.ts (4 tests) 4099ms
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 478ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/relocation.db.test.ts > held before departure requires actual branch receipt plus accepted withdrawal before A→B movement, without a Tawsel return receipt
+AssertionError: expected Error: RETURN_RECEIPT_REQUIRED { …(4) } to match object { code: 'PARCEL_ALREADY_CLAIMED' }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+- {
+-   "code": "PARCEL_ALREADY_CLAIMED",
++ RetainedCommandError {
++   "code": "RETURN_RECEIPT_REQUIRED",
+  }
+
+ ❯ tests/integration/p27/relocation.db.test.ts:68:38
+     66|  const held=await f.detail(d.id);expect((await f.read(s.shipmentId))!.…
+     67|  await dc().execute(f.admin.token,{schemaVersion:1,companyId:f.company…
+     68|  await expect(transfer(s.shipmentId)).rejects.toMatchObject({code:'PAR…
+       |                                      ^
+     69|  await f.completeNext();expect((await f.read(s.shipmentId))!.handedOve…
+     70|  const b=await prepareB(s);await acceptNewCycle();await f.completeNext…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/p27/relocation.db.test.ts > actual partial stored-stock return/loose B receipt funds only eligible quantity and never charges collected recipient shipping again
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ Object.received tests/integration/p13/fixtures.ts:141:5
+ ❯ Object.setup tests/integration/p14/fixtures.ts:133:11
+ ❯ tests/integration/p27/relocation.db.test.ts:74:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/p27/relocation.db.test.ts > actual sound return at A funds native B transfer and fresh B cycle without fabricating a B return receipt
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ Object.received tests/integration/p13/fixtures.ts:141:5
+ ❯ Object.setup tests/integration/p14/fixtures.ts:129:23
+ ❯ tests/integration/p27/relocation.db.test.ts:90:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  3 failed | 482 passed (485)
+   Start at  12:41:50
+   Duration  21.08s (tests 66%, import 26%, transform 8%)
+

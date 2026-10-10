@@ -14,6 +14,7 @@ export interface DispatchPrice extends ShipmentPrice {
 }
 export type DispatchState =
   | 'synchronizing'
+  | 'unassigned'
   | 'preparing'
   | 'prepared'
   | 'receiving'
@@ -26,6 +27,7 @@ export type DispatchState =
 export type DispatchCommand = { schemaVersion: 1; commandId: string; companyId: string } & (
   | {
       type: 'dispatch.prepare';
+      prepareAssignment?: boolean;
       branchId: string;
       driverId: string;
       items: { shipmentId: string; expectedVersion: number }[];
@@ -142,15 +144,27 @@ const command = (type: string, props: Record<string, unknown>) =>
   closed({ ...envelope, type: { const: type }, ...props });
 export const dispatchCommandSchema = {
   oneOf: [
-    command('dispatch.prepare', {
-      branchId: uuid,
-      driverId: uuid,
-      items: {
-        ...array(closed({ shipmentId: uuid, expectedVersion: version })),
-        minItems: 1,
-        maxItems: 100,
-      },
-    }),
+    {
+      ...command('dispatch.prepare', {
+        branchId: uuid,
+        driverId: uuid,
+        items: {
+          ...array(closed({ shipmentId: uuid, expectedVersion: version })),
+          minItems: 1,
+          maxItems: 100,
+        },
+        prepareAssignment: { type: 'boolean' },
+      }),
+      required: [
+        'schemaVersion',
+        'commandId',
+        'companyId',
+        'type',
+        'branchId',
+        'driverId',
+        'items',
+      ],
+    },
     command('dispatch.receive', {
       intentId: uuid,
       expectedVersion: version,

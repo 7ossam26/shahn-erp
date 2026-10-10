@@ -1,5 +1,6 @@
 import { validateSenderEvent, type SenderEvent } from '../tawsel/sender-event.js';
 export * from './tracking.js';
+export * from './rejection.js';
 
 /** Ownership is deliberately exhaustive. Receipt never implies domain application. */
 export const executionEventOwners = {
@@ -11,6 +12,7 @@ export const executionEventOwners = {
   'assignment.reassigned': 'dispatch',
   'task.urgencyChanged': 'dispatch',
   'dispatch.createdFromReceipt': 'dispatch',
+  'dispatch.relocatedBeforeDeparture': 'dispatch',
   'location.pinConfirmed': 'execution',
   'plan.revisionPublished': 'execution',
   'round.started': 'execution',
@@ -43,6 +45,8 @@ export interface ReportedMoney {
   amountMinor: number;
 }
 export interface OutcomeRecord {
+  recordVersion?: '2.0.0';
+  rejection?: { catalogVersion: '1.0.0'; code: string; detail?: string };
   kind: 'company' | 'personal';
   outcome: 'full' | 'partial' | 'refused' | 'no-answer';
   outcomeId: string;

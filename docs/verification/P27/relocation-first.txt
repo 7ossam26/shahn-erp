@@ -1,0 +1,47 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/relocation.db.test.ts (3 tests | 2 failed) 4448ms
+   × pending/lost withdrawal keeps the physical fence; accepted original result permits actual A→B relocation with stable shipment/price and isolated cycle scope 164ms
+   ✓ unassigned source registration permits transfer without fictitious withdrawal and competing customer dispatch loses the native claim race 111ms
+   × actual sound return at A funds native B transfer and fresh B cycle without fabricating a B return receipt 266ms
+ ✓ tests/integration/p27/reasons.db.test.ts (2 tests) 4365ms
+   ✓ signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes 355ms
+ ✓ tests/integration/p27/connection.db.test.ts (4 tests) 3777ms
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 535ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/relocation.db.test.ts > pending/lost withdrawal keeps the physical fence; accepted original result permits actual A→B relocation with stable shipment/price and isolated cycle scope
+Error: PARCEL_ALREADY_CLAIMED
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ transfer tests/integration/p27/relocation.db.test.ts:21:14
+ ❯ tests/integration/p27/relocation.db.test.ts:41:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/p27/relocation.db.test.ts > actual sound return at A funds native B transfer and fresh B cycle without fabricating a B return receipt
+Error: COMPLETE_TRANSFER_ALLOCATION_REQUIRED
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ tests/integration/p27/relocation.db.test.ts:65:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  2 failed | 481 passed (483)
+   Start at  12:33:25
+   Duration  20.45s (tests 65%, import 26%, transform 8%)
+

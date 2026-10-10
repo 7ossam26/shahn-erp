@@ -1,3 +1,4 @@
+import { connectionCandidates } from '../integration/config.js';
 import type { Pool } from 'pg';
 import { sourceByCompany } from '@shahn/database';
 import { AccessError, type Capability } from '@shahn/domain';
@@ -71,7 +72,7 @@ export class MonitoringReader {
         return { source, cache };
       });
     const { source, cache } = await load(),
-      connection = this.runtime.connections.find(
+      connection = (await connectionCandidates(this.runtime, company)).find(
         (x) =>
           x.companyId === company &&
           x.integrationId === source.integration_id &&

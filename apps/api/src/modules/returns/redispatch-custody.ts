@@ -17,10 +17,16 @@ type Allocation = ReceiptLineRow & {
 export async function assertRedispatchGoods(u: UnitOfWork, cycle: string) {
   const rows = (
     await u.client.query<Allocation>(
-      `SELECT l.*,a.quantity AS allocated,a.reservation_id,r.active,r.shortage_held FROM returns.receipt_allocation a JOIN returns.return_receipt_line l ON(l.company_id,l.id)=(a.company_id,a.receipt_line_id) LEFT JOIN inventory.stock_reservation r ON(r.company_id,r.id)=(a.company_id,a.reservation_id) WHERE a.company_id=$1 AND a.cycle_id=$2 AND a.kind='redispatch' ORDER BY l.branch_id,l.brand_id,l.variant_id,l.id`,
+      `SELECT * FROM (
+      SELECT l.*,a.quantity AS allocated,a.reservation_id,r.active,r.shortage_held,l.branch_id AS physical_branch_id FROM returns.receipt_allocation a JOIN returns.return_receipt_line l ON(l.company_id,l.id)=(a.company_id,a.receipt_line_id) LEFT JOIN inventory.stock_reservation r ON(r.company_id,r.id)=(a.company_id,a.reservation_id) WHERE a.company_id=$1 AND a.cycle_id=$2 AND a.kind='redispatch'
+      UNION ALL SELECT l.*,a.quantity AS allocated,a.reservation_id,r.active,r.shortage_held,a.branch_id AS physical_branch_id FROM dispatch.transferred_return_allocation a JOIN returns.return_receipt_line l ON(l.company_id,l.id)=(a.company_id,a.receipt_line_id) LEFT JOIN inventory.stock_reservation r ON(r.company_id,r.id)=(a.company_id,a.reservation_id) WHERE a.company_id=$1 AND a.cycle_id=$2
+      )l ORDER BY physical_branch_id,brand_id,variant_id,id`,
       [u.access.companyId, cycle],
     )
-  ).rows;
+  ).rows.map((l) => ({
+    ...l,
+    branch_id: (l as Allocation & { physical_branch_id: string }).physical_branch_id,
+  }));
   if (
     !rows.length ||
     rows.some((l) => l.condition !== 'sound' || (l.variant_id && (!l.active || l.shortage_held)))

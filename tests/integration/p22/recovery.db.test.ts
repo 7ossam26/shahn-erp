@@ -1,5 +1,6 @@
 import { beforeEach, afterEach, it, expect } from 'vitest';
 import { randomUUID } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { isolatedPostgres } from '@shahn/test-support';
 import {
   migrate,
@@ -162,6 +163,45 @@ it('sequence 3, current snapshot through 3, late events 1/2 and live/replay dupl
   await drain();
   await f.receive(arrival);
   await drain();
+  const release = JSON.parse(
+    readFileSync(
+      'docs/integration/tawsel-baseline/fff79bcb90aaba5676bbc0cd64d78d9ce93845b2/release-manifest.json',
+      'utf8',
+    ),
+  );
+  const evidence = (
+    await db.pool.query(
+      `SELECT kind,baseline,schema_hash,raw_body FROM integration.recovery_evidence WHERE company_id=$1 ORDER BY kind`,
+      [f.company],
+    )
+  ).rows;
+  expect(evidence).toHaveLength(2);
+  for (const record of evidence) {
+    expect(record.baseline).toBe(release.release.baseCommit);
+    expect(record.schema_hash).toBe(
+      release.artifacts.find(
+        (x: { path: string }) =>
+          x.path ===
+          (record.kind === 'replay'
+            ? 'contracts/outbox.schema.json'
+            : 'contracts/consumer.schema.json'),
+      ).sha256,
+    );
+    expect(record.raw_body).toEqual(
+      Buffer.from(
+        JSON.stringify(
+          record.kind === 'replay'
+            ? {
+                events: [arrival, duplicate, third],
+                nextAfterSequence: null,
+                retention: 'indefinite-no-purge',
+                projectionStatus: 'unknown',
+              }
+            : snapshot,
+        ),
+      ),
+    );
+  }
   expect(await cp(x.task.taskId)).toMatchObject({
     received_through: '3',
     applied_through: '3',

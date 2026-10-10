@@ -25,12 +25,24 @@ import {
 import { registerSignedReceiver } from './signed-receiver.controller.js';
 import type { IntegrationRuntime } from './config.js';
 import { registerRecovery } from './recovery.http.js';
+import { registerConnectionSetup } from './connection-setup.http.js';
+import { connectionInstallation } from './connection-provider.js';
+import type { ConnectionSetup } from './connection-setup.service.js';
 export function registerIntegration(
   app: FastifyInstance,
   pool: Pool,
   origin: string,
   runtime: IntegrationRuntime,
+  setup?: ConnectionSetup,
 ) {
+  registerConnectionSetup(
+    app,
+    pool,
+    origin,
+    setup?.installation ?? connectionInstallation(),
+    runtime,
+    setup,
+  );
   registerSignedReceiver(app, pool, runtime);
   registerRecovery(app, pool, origin, runtime);
   const commands = provisioningCommands(pool, runtime);

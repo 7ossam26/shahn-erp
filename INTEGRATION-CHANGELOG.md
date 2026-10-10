@@ -1,5 +1,13 @@
 # Integration changelog
 
+## P27 attachment07 adoption — 2026-10-10–11
+
+Reviewed and adopted the actual returned candidate `fff79bcb90aaba5676bbc0cd64d78d9ce93845b2` as the current ERP public-contract pin, replacing `32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada` without editing its closed retained files. All799 original archive artifacts verify exactly;34 active schemas were extracted from publisher bytes. API/client/reference0.2.0 and union v1/v2 readers are implemented. Four publisher source inventory byte digests remain qualified/unreproduced; full per-file source/semantic/runtime distinctions are explicit in [07 review](docs/verification/P27/CONTRACT-ADOPTION.md). No normalized hash is substituted and no newer HEAD/deployed image is assumed.
+
+P27 implements read-only driver reasons/Other/corrected lineage with unchanged reason-only money; exact supported predeparture relocation and A receipt→actual B transfer/receipt→new cycle; scoped encrypted private-package UI, support MFA/company authority, shared runtime DB provider, deliberate unbound setup, immutable existing-source migration, rotation/recovery, and exact-subject operator-assisted enrollment. Car/motorcycle are the current driver choices. The ordinary integration grant does not grant secret/endpoint administration. [ERP checks and independent isolated HTTP proof](docs/verification/P27/README.md), [installation/recovery/three-origin trial](docs/integration/P27-CONNECTION-OPERATIONS.md).
+
+Remaining publisher original-source-byte, recipient deployment/issuer/device, full joint matrix and business acceptance closure remains only in [TAWSEL-CHANGE-REQUESTS.md](TAWSEL-CHANGE-REQUESTS.md). P25/P26 unrun ERP collectors remain outstanding, not deferred as external passes. No live/shared Tawsel/issuer infrastructure changed and no deployment/full-readiness claim follows.
+
 ## P26 exact-byte restoration and live access — 2026-10-09
 
 The earlier mismatch below is resolved in the working tree under the same pin. Per-source LF/CRLF recovery verifies all35 original blocks, then all7 attachments plus manifest reproduce their exact published byte lengths/hashes. `.gitattributes` preserves mixed original endings while retaining normal whitespace checks. No contract field, expected hash or baseline identity changed; this is restoration, not a new adoption. [Before/after evidence](docs/verification/P26/baseline-restoration.json). Actual owner-authorized SSH metadata/public HTTP confirms current live API/workers/issuer; scoped ERP credentials/trial/tunnel remain unavailable. No remote runtime/configuration/database was altered. [Live findings](docs/verification/P26/LIVE-SETUP-REVIEW.md).

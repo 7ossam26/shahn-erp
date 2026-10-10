@@ -1,4 +1,6 @@
 export * from './config.js';
+export * from './connection-provider.js';
+export * from './managed-connection.js';
 export * from './provisioning.service.js';
 export * from './source-command.service.js';
 export * from './signature-verifier.js';

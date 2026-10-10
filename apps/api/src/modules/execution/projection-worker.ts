@@ -4,6 +4,7 @@ import { transaction, type TransactionClient } from '@shahn/database';
 import { normalizeExecutionEvent, type NormalizedExecutionEvent } from '@shahn/contracts/execution';
 import { applyOneDispatchEvent } from '../dispatch/acceptance.js';
 import { applyReturnEvent } from '../returns/return-events.js';
+import { installedSourceEvidence } from '../integration/installed-source-evidence.js';
 import {
   executionCycle,
   applyVisitAndOutcome,
@@ -47,7 +48,22 @@ async function applyExecution(
         [company, source, p.actionId, p.resourceId, p.sourceRevision, p.entity, p.externalId],
       )
     ).rowCount;
-    if (!accepted) throw new ExecutionDependency('P11_PROVISIONING_ACCEPTANCE_REQUIRED');
+    const imported =
+      p.entity === 'source' &&
+      (await installedSourceEvidence(
+        c,
+        company,
+        source,
+        {
+          actionId: p.actionId,
+          sourceRevision: p.sourceRevision,
+          resourceId: p.resourceId,
+          externalId: p.externalId,
+        },
+        true,
+      ));
+    if (!accepted && !imported)
+      throw new ExecutionDependency('P11_PROVISIONING_ACCEPTANCE_REQUIRED');
     return;
   }
   if (n.owner === 'dispatch') {

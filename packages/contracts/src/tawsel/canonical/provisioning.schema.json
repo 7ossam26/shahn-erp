@@ -75,6 +75,16 @@
             ]
           },
           "description": "Operator-only replacement of monitoring grants. Omitted preserves; [] revokes. Never permits another source or branch."
+        },
+        "erpCompanyId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "interopVersion": {
+          "enum": [
+            "1.0.0",
+            "2.0.0"
+          ],
+          "description": "Operator release gate. Enable v2 only after recipient readers adopt this candidate. Omission preserves."
         }
       },
       "required": [
@@ -381,8 +391,7 @@
         "profile": {
           "enum": [
             "car",
-            "motorcycle",
-            "bicycle"
+            "motorcycle"
           ]
         }
       },
@@ -509,7 +518,10 @@
         "supportedVersions": {
           "type": "array",
           "items": {
-            "const": "1.0.0"
+            "enum": [
+              "1.0.0",
+              "2.0.0"
+            ]
           },
           "uniqueItems": true,
           "maxItems": 100
@@ -524,6 +536,30 @@
         },
         "humanDelegation": {
           "const": false
+        },
+        "erpCompanyId": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "interopVersion": {
+          "enum": [
+            "1.0.0",
+            "2.0.0"
+          ]
+        },
+        "serviceCapabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "maxItems": 100
         }
       },
       "required": [

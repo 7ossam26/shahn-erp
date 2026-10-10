@@ -1,5 +1,15 @@
 # Tawsel contract baseline
 
+## Current approved ERP public-contract baseline — P27, 2026-10-11
+
+Approved pin: **`fff79bcb90aaba5676bbc0cd64d78d9ce93845b2`**, adopted through existing attachment07 review for the implemented ERP interoperability/connection scope. API/client/reference0.2.0; envelopes1.0.0; retained v1 and reviewed v2 payload readers;34 original-byte schemas,31 sender variants/28 distinct types. All799 original ZIP artifacts match exact publisher hashes. Original ZIP12,373,233 bytes SHA-256 `f753229f426646034ecd2172892cdf198d5b5689178b3f6607a5a79714cffafe`; manifest195,802 bytes SHA-256 `50cdbcdc420dc5ef2d3b7ba8415eb4d65c8705f8a3ce1bde3eb5ce59861ffe31`.
+
+Publisher source inventory declaration `1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a` is internally verified; four original source-file byte digests remain unreproduced from current Git/checkout and are a named publisher follow-up. Exact candidate Git source inventory used for the independent executable trial is separately hashed `8771a994f7660d58d55986253acfdf19e8ee65cae0327c240a365e07b4285fa1`. Normalized semantic equality is not original-byte provenance. Actual current publisher HEAD `eb1221e8762aeb0a208ebf610f1eda686fadc946` is distinct from the reviewed returned candidate and is not a deployed-image claim.
+
+[07 review and compatibility disposition](docs/verification/P27/CONTRACT-ADOPTION.md), [exact extraction](docs/verification/P27/candidate-extraction.json), [original retained package](docs/integration/tawsel-baseline/fff79bcb90aaba5676bbc0cd64d78d9ce93845b2/original-publisher.zip), [fresh verification](docs/verification/P27/README.md), [migration/key recovery/release gate](docs/integration/P27-CONNECTION-OPERATIONS.md). Reader-before-writer deployment evidence, target/owner/device acceptance and full joint matrix remain in [TAWSEL-CHANGE-REQUESTS.md](TAWSEL-CHANGE-REQUESTS.md). P25/P26 acceptance is not waived. This is ERP contract adoption, not production-readiness or remote deployment authorization.
+
+The following original planning baseline and its dated observations remain historical evidence. Its retained publisher files are unchanged; references01–07 continue to identify that original package.
+
 Pinned on: 2026-10-03 (Africa/Cairo), discovery session 019.
 
 Status: existing reference identity pinned for ERP planning. This does not approve the final integration mapping, upgrade Tawsel, certify its runtime, or approve the master plan and implementation phases.

@@ -1,0 +1,159 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p27/connection.db.test.ts (4 tests) 3915ms
+ ❯ tests/integration/p27/reasons.db.test.ts (2 tests | 1 failed) 5091ms
+   × signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes 466ms
+   ✓ unsupported new signed event and missing Other detail are rejected without durable application 108ms
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 493ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/reasons.db.test.ts > signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes
+AssertionError: promise resolved "{ shipment: { …(15) }, …(9) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "address": "عنوان البوليصة المكتوب — القاهرة",
++   "attempts": [
++     {
++       "attemptId": "16b66787-8bb2-4449-b7f9-aff9416cbaa5",
++       "history": [
++         {
++           "correctionId": null,
++           "outcomeId": "27e910e1-35e0-438d-93f6-a03707297880",
++           "reason": "أخرى",
++           "reasonDetail": "المقاس غير مناسب",
++           "reasonState": "known",
++           "revision": 1,
++         },
++         {
++           "correctionId": "8a62591c-ac2f-4313-b808-dd3af79ed160",
++           "outcomeId": "e0a67f2c-8d8e-4912-a77c-61dbf0d09dbe",
++           "reason": "تغيير الرأي أو عدم الحاجة",
++           "reasonDetail": null,
++           "reasonState": "known",
++           "revision": 2,
++         },
++       ],
++       "outcome": "refused",
++       "reason": "تغيير الرأي أو عدم الحاجة",
++       "reasonDetail": null,
++       "reasonState": "known",
++       "visitKnown": true,
++     },
++   ],
++   "cashReceiptKnown": false,
++   "detailPath": null,
++   "evidenceReceivedOnly": true,
++   "nextAction": "بانتظار تحديث المندوب أو الاستلام الفعلي للمرتجع",
++   "pendingReasons": [],
++   "returns": [],
++   "shipment": {
++     "branchId": "29ecf47c-6d11-473b-94c6-e1e8a3c1cf26",
++     "branchName": "الفرع أ",
++     "brandId": "a86203c7-a308-49ff-b996-a32194e600e1",
++     "brandName": "براند التجربة — منتجات القاهرة والخدمات المتفق عليها",
++     "createdAt": "2026-10-10T09:17:16.450Z",
++     "custodian": "driver",
++     "driverName": "سائق التجربة",
++     "id": "a20eb5b7-0321-4911-a65a-06c4de5317c9",
++     "lastEventAt": "2026-10-10T09:17:16.781Z",
++     "pending": false,
++     "phone": "٠١٠ ١٢٣٤ ٥٦٧٨",
++     "recipientName": "مستلم التجربة",
++     "reference": "10000",
++     "service": "brand_packed",
++     "state": "refused",
++   },
++   "timeline": [
++     {
++       "id": "native:1",
++       "kind": "received",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "ERP",
++       "receivedAt": null,
++       "recordedAt": "2026-10-10T09:17:16.456Z",
++     },
++     {
++       "id": "acceptance:0e5ba403-ea4a-4f60-ae92-33031fd3798a",
++       "kind": "task.snapshotAccepted",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.499Z",
++       "recordedAt": "2026-10-10T09:17:16.484Z",
++     },
++     {
++       "id": "acceptance:527e84e7-bb2b-4536-b5f0-231a8b06cd0f",
++       "kind": "assignment.prepared",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.512Z",
++       "recordedAt": "2026-10-10T09:17:16.498Z",
++     },
++     {
++       "id": "acceptance:cfe3337e-48c3-46ec-a420-9b9bc8bf147c",
++       "kind": "assignment.received",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.548Z",
++       "recordedAt": "2026-10-10T09:17:16.534Z",
++     },
++     {
++       "id": "78426c0e-afc9-4c32-a47f-a0f05eb39365",
++       "kind": "round.started",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.562Z",
++       "recordedAt": null,
++     },
++     {
++       "id": "a1fbb1ba-a819-4af4-b80e-a9e34314997a",
++       "kind": "current.arrivalRecorded",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.743Z",
++       "recordedAt": "2026-10-10T09:17:16.564Z",
++     },
++     {
++       "id": "22bf342c-30a8-41a3-ba6b-b539e8cc9fb5",
++       "kind": "outcome.recorded",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.723Z",
++       "recordedAt": "2026-10-10T09:17:16.565Z",
++     },
++     {
++       "id": "8d368f88-37fc-4032-b042-40bec3e834ae",
++       "kind": "outcome.corrected",
++       "observationUnknown": true,
++       "observedAt": null,
++       "origin": "Tawsel",
++       "receivedAt": "2026-10-10T09:17:16.806Z",
++       "recordedAt": "2026-10-10T09:17:16.781Z",
++     },
++   ],
+  }
+
+ ❯ tests/integration/p27/reasons.db.test.ts:41:111
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 479 passed (480)
+   Start at  12:17:02
+   Duration  16.43s (tests 59%, import 31%, transform 10%)
+

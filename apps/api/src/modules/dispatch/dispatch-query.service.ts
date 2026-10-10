@@ -94,7 +94,8 @@ export async function dispatchList(u: UnitOfWork, f: DispatchFilter): Promise<Di
     if (!d.stock.eligible) blockers.push('STOCK_SHORTAGE');
     if (d.handedOver) blockers.push('ALREADY_HANDED_OVER');
     if (r.claim_kind === 'transfer') blockers.push('COMPETING_PARCEL_CLAIM');
-    if (r.intent_id && r.state !== 'withdrawn') blockers.push('EXISTING_DISPATCH');
+    if (r.intent_id && !['withdrawn', 'unassigned'].includes(r.state ?? ''))
+      blockers.push('EXISTING_DISPATCH');
     if (!sourceReady) blockers.push('SOURCE_NOT_READY');
     else
       try {

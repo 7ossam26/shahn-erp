@@ -31,7 +31,7 @@ export async function deliveryQuery(
   },
 ) {
   const s = await authorizedSource(pool, token, companyId),
-    c = new RecoveryClient(recoveryConnection(runtime, s));
+    c = new RecoveryClient(await recoveryConnection(runtime, s));
   const r = q.eventId
     ? await c.delivery(q.eventId, q.limit, q.beforeAttempt)
     : await c.deliveries(q.limit, q.cursor);

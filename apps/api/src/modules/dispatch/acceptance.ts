@@ -32,6 +32,7 @@ import { JournalPosting } from '../kernel/journals.js';
 import { lockShippingWallets, closeShippingCover } from './shipping-cover.service.js';
 import type { SourceLease } from '../integration/source-command.service.js';
 import { assertRedispatchGoods, handoverRedispatchGoods } from '../returns/redispatch-custody.js';
+import { acceptPredepartureReceipt } from './predeparture-receipt.js';
 /** Both authenticated result reads and signed event echoes enter this semantic acceptance gate. */
 export async function applyDispatchAcceptance(
   pool: Pool,
@@ -117,12 +118,9 @@ export async function applyDispatchAcceptance(
   const details = await lockDispatchShipments(
     u,
     items.map((i) => i.shipment_id),
+    items.every((x) => x.previous_cycle_id) ? intent.branch_id : undefined,
   );
-  if (releaseSources.size)
-    await lockShippingWallets(
-      u,
-      details.map((d) => d.fields.brandId),
-    );
+  const withdrawals: DispatchItemRow[] = [];
   let mismatch =
     !!result &&
     targetItems.some(
@@ -135,14 +133,18 @@ export async function applyDispatchAcceptance(
     if (item && recorded.has(item.cycle_id)) continue;
     const payload = envelope.payload;
     const reference = references.find((r) => r.externalId === task.externalId);
-    const expectedAssignment = ['intake.submitSnapshot', 'dispatch.createFromReceipt'].includes(
-      work.operation_id,
-    )
+    const expectedAssignment = [
+      'intake.submitSnapshot',
+      'dispatch.createFromReceipt',
+      'dispatch.relocateBeforeDeparture',
+    ].includes(work.operation_id)
       ? Number(item?.assignment_revision ?? 0)
       : Number(reference?.assignmentRevision);
-    const expectedState = ['intake.submitSnapshot', 'dispatch.createFromReceipt'].includes(
-      work.operation_id,
-    )
+    const expectedState = [
+      'intake.submitSnapshot',
+      'dispatch.createFromReceipt',
+      'dispatch.relocateBeforeDeparture',
+    ].includes(work.operation_id)
       ? 'unassigned'
       : work.operation_id === 'assignment.receiveBatch'
         ? 'held'
@@ -159,7 +161,9 @@ export async function applyDispatchAcceptance(
       canonical(task.snapshot) !== canonical(item.snapshot) ||
       (item.task_id && task.taskId !== item.task_id) ||
       (item.remote_cycle_id && task.dispatchCycleId !== item.remote_cycle_id) ||
-      (work.operation_id === 'dispatch.createFromReceipt' &&
+      (['dispatch.createFromReceipt', 'dispatch.relocateBeforeDeparture'].includes(
+        work.operation_id,
+      ) &&
         task.previousDispatchCycleId !== payload.previousDispatchCycleId) ||
       (['held', 'prepared'].includes(task.state) &&
         (task.driverExternalId !== String(payload.driverExternalId) ||
@@ -201,23 +205,20 @@ export async function applyDispatchAcceptance(
         [company, item.shipment_id],
       );
     if (task.state === 'withdrawn') {
-      if (item.cover_source_id)
-        await closeShippingCover(
-          u,
-          details.find((d) => d.id === item.shipment_id)!.fields.brandId,
-          item.cover_source_id,
-          releaseSources.get(item.shipment_id)!,
-          null,
-          'Accepted predeparture withdrawal; goods remained at branch',
-        );
-      await c.query(
-        `DELETE FROM shipments.parcel_claim WHERE company_id=$1 AND shipment_id=$2 AND kind='dispatch' AND owner_id=$3`,
-        [company, item.shipment_id, intent.id],
-      );
+      withdrawals.push(item);
     }
     if (task.state === 'held') {
       const d = (await readShipment(c, company, item.shipment_id))!;
-      if (item.previous_cycle_id) await assertRedispatchGoods(u, item.cycle_id);
+      const relocated = item.previous_cycle_id
+        ? (
+            await c.query<{ kind: string; whole_parcel: boolean }>(
+              'SELECT kind,whole_parcel FROM dispatch.relocation WHERE company_id=$1 AND cycle_id=$2',
+              [company, item.cycle_id],
+            )
+          ).rows[0]
+        : undefined;
+      if (item.previous_cycle_id && relocated?.kind !== 'predeparture')
+        await assertRedispatchGoods(u, item.cycle_id);
       else await assertStockPreparation(u, d);
       const effect = await c.query(
         `INSERT INTO dispatch.custody_effect(company_id,cycle_id,assignment_revision,action_id,shipment_id,driver_id,received_at) VALUES($1,$2,$3,$4,$5,$6,$7) ON CONFLICT DO NOTHING RETURNING cycle_id`,
@@ -232,8 +233,15 @@ export async function applyDispatchAcceptance(
         ],
       );
       if (effect.rowCount) {
-        if (item.previous_cycle_id) {
+        if (item.previous_cycle_id && relocated?.kind !== 'predeparture') {
           await handoverRedispatchGoods(u, item.cycle_id, task.receivedAt!);
+          if (relocated?.kind === 'returned' && relocated.whole_parcel) {
+            const moved = await c.query(
+              `UPDATE shipments.parcel_custody SET holder='driver',driver_id=$1,version=version+1 WHERE company_id=$2 AND shipment_id=$3 AND holder='branch' AND branch_id=$4 AND transfer_id IS NULL RETURNING shipment_id`,
+              [intent.driver_id, company, item.shipment_id, intent.branch_id],
+            );
+            if (!moved.rowCount) throw Error('DISPATCH_CUSTODY_CONFLICT');
+          }
           continue;
         }
         if (d.handedOver) throw Error('DISPATCH_CUSTODY_CONFLICT');
@@ -285,12 +293,51 @@ export async function applyDispatchAcceptance(
     );
     return false;
   }
+  for (const item of withdrawals)
+    if (item.task?.state === 'held')
+      await acceptPredepartureReceipt(
+        u,
+        item,
+        details.find((d) => d.id === item.shipment_id)!,
+      );
+  if (releaseSources.size)
+    await lockShippingWallets(
+      u,
+      details.map((d) => d.fields.brandId),
+    );
+  for (const item of withdrawals) {
+    if (item.cover_source_id)
+      await closeShippingCover(
+        u,
+        details.find((d) => d.id === item.shipment_id)!.fields.brandId,
+        item.cover_source_id,
+        releaseSources.get(item.shipment_id)!,
+        null,
+        'Accepted withdrawal after asserted actual branch receipt',
+      );
+    await c.query(
+      `DELETE FROM shipments.parcel_claim WHERE company_id=$1 AND shipment_id=$2 AND kind='dispatch' AND owner_id=$3`,
+      [company, item.shipment_id, intent.id],
+    );
+  }
   const current = await readDispatchItems(c, company, intent.id);
   const all = (state: IntakeTask['state']) => current.every((x) => x.task?.state === state);
   if (
     intent.state === 'synchronizing' &&
     current.every((x) => Number(x.accepted_revision) === x.snapshot.sourceRevision)
   ) {
+    if (intent.assignment_requested === false) {
+      await c.query(
+        `UPDATE dispatch.intent SET state='unassigned',version=version+1 WHERE company_id=$1 AND id=$2`,
+        [company, intent.id],
+      );
+      for (const item of current)
+        await c.query(
+          `DELETE FROM shipments.parcel_claim WHERE company_id=$1 AND shipment_id=$2 AND kind='dispatch' AND owner_id=$3`,
+          [company, item.shipment_id, intent.id],
+        );
+      return true;
+    }
     const source = (
       await c.query<IntegrationSource>(
         'SELECT * FROM integration.source WHERE company_id=$1 AND id=$2',
@@ -326,7 +373,7 @@ export async function applyOneDispatchEvent(pool: Pool) {
   return transaction(pool, async (c) => {
     const candidate = (
       await c.query(
-        `SELECT b.company_id,b.source_id,b.event_id FROM integration.inbox b JOIN dispatch.action a ON a.company_id=b.company_id AND a.action_id=(b.envelope->'correlation'->>'actionId')::uuid WHERE b.application_state='pending' AND b.pending_reason<>'P12_RECONCILIATION_REQUIRED' AND b.event_type IN ('task.snapshotAccepted','dispatch.createdFromReceipt','assignment.prepared','assignment.received','assignment.withdrawn','assignment.reassigned') ORDER BY b.received_at LIMIT 1`,
+        `SELECT b.company_id,b.source_id,b.event_id FROM integration.inbox b JOIN dispatch.action a ON a.company_id=b.company_id AND a.action_id=(b.envelope->'correlation'->>'actionId')::uuid WHERE b.application_state='pending' AND b.pending_reason<>'P12_RECONCILIATION_REQUIRED' AND b.event_type IN ('task.snapshotAccepted','dispatch.createdFromReceipt','dispatch.relocatedBeforeDeparture','assignment.prepared','assignment.received','assignment.withdrawn','assignment.reassigned') ORDER BY b.received_at LIMIT 1`,
       )
     ).rows[0];
     if (!candidate) return false;
@@ -355,6 +402,7 @@ export async function applyOneDispatchEvent(pool: Pool) {
     if (!work) return false;
     const types: Record<string, string> = {
       'dispatch.createFromReceipt': 'dispatch.createdFromReceipt',
+      'dispatch.relocateBeforeDeparture': 'dispatch.relocatedBeforeDeparture',
       'intake.submitSnapshot': 'task.snapshotAccepted',
       'intake.prepare': 'assignment.prepared',
       'assignment.receiveBatch': 'assignment.received',

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/report-export.schema.json",
+  "title": "Authorized synchronous Excel export lifecycle",
+  "$defs": {
+    "Filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roundId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "driverId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "branchId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "outcome": { "enum": ["full", "partial", "refused", "no-answer", "unfinished", "deferred"] }
+      }
+    },
+    "Request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "snapshotId": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "filters": { "$ref": "#/$defs/Filters" }
+      },
+      "required": ["snapshotId"]
+    },
+    "Status": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exportId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "status": { "enum": ["ready", "expired"] },
+        "snapshotId": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "createdAt": { "$ref": "./common.schema.json#/$defs/UtcInstant" },
+        "expiresAt": { "$ref": "./common.schema.json#/$defs/UtcInstant" },
+        "fileName": { "type": "string", "pattern": "^tawsel-workday-[0-9a-f]{8}-[0-9a-f]{8}\\.xlsx$" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 4194304 },
+        "downloadUrl": {
+          "anyOf": [
+            { "type": "string", "pattern": "^/api/v1/report-exports/[0-9a-f-]{36}/download\\?kind=(personal|company)$" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "required": ["exportId", "status", "snapshotId", "createdAt", "expiresAt", "fileName", "bytes", "downloadUrl"]
+    }
+  }
+}

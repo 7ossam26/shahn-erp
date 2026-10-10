@@ -1,3 +1,4 @@
+import { connectionCandidates } from './config.js';
 import { randomUUID } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import type { FastifyInstance } from 'fastify';
@@ -41,7 +42,7 @@ export function registerSignedReceiver(
           )
         ).rows[0];
         if (!source) throw new ReceiverError('invalid_signature', 401);
-        const connection = runtime.connections.find(
+        const connection = (await connectionCandidates(runtime, source.company_id)).find(
           (c) =>
             c.selector === source.selector &&
             c.companyId === source.company_id &&

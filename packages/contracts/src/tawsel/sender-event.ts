@@ -1,8 +1,9 @@
 import { tawselValidator } from './validation.js';
 import sender from './canonical/events/sender-event.v1.schema.json' with { type: 'json' };
+import senderV2 from './canonical/events/sender-event.v2.schema.json' with { type: 'json' };
 export interface SenderEvent {
   schemaVersion: '1.0.0';
-  payloadVersion: '1.0.0';
+  payloadVersion: '1.0.0' | '2.0.0';
   eventId: string;
   eventType: string;
   eventKind: 'transition';
@@ -18,10 +19,10 @@ export interface SenderEvent {
   committedAt: string;
   payload: Record<string, unknown>;
 }
-export const senderEventTypes = sender.oneOf.map((x) => x.properties.eventType.const);
-export const validateSenderSchema = tawselValidator<SenderEvent>(
-  'events/sender-event.v1.schema.json',
-);
+export const senderEventTypes = [
+  ...new Set([...sender.oneOf, ...senderV2.oneOf].map((x) => x.properties.eventType.const)),
+];
+export const validateSenderSchema = tawselValidator<SenderEvent>('events/sender-event.schema.json');
 type Obj = Record<string, unknown>;
 const object = (v: unknown): Obj =>
   v && typeof v === 'object' && !Array.isArray(v) ? (v as Obj) : {};

@@ -11,6 +11,7 @@ import { useAccess, Reauthenticate } from '../access/access.js';
 import { Field } from '../brands/api.js';
 import { cairoInput, cairoTimestamp } from '../finance/treasury-transfers/time.js';
 import './integration.css';
+import { ConnectionSetupPanel } from './connection-setup.js';
 const labels: Record<string, string> = {
   service: 'تفويض خدمة الربط',
   operator: 'تفويض مسؤول الربط',
@@ -210,6 +211,10 @@ export function IntegrationPage() {
         description="تابع تأكيد الطلبات وجاهزية الهويات واستلام الأحداث كلّاً على حدة."
       />
       <Link to="/execution/reviews">مراجعات تصحيح التنفيذ</Link>
+      <ConnectionSetupPanel
+        key={registry?.context.companyId ?? 'unselected'}
+        users={q.data?.catalog.users ?? []}
+      />
       {q.isPending && <p role="status">جارٍ تحميل حالة الاتصال…</p>}
       <ErrorBox error={q.error ?? error} />
       {intent.recovery}
@@ -217,7 +222,7 @@ export function IntegrationPage() {
         <section className="integration-card">
           <h2>لم يُجهّز الاتصال بعد</h2>
           <p>يلزم عنوان توصيل وخدمة هوية وبيانات اتصال محفوظة لدى المسؤول.</p>
-          {data.connections.length ? (
+          {data.connections.length && registry?.context.principalKind === 'support' ? (
             data.connections.map((c) => (
               <Button
                 key={c.selector}
@@ -626,7 +631,6 @@ export function IntegrationProvisionPage() {
                 <select value={profile} onChange={(e) => setProfile(e.target.value)}>
                   <option value="car">سيارة</option>
                   <option value="motorcycle">دراجة نارية</option>
-                  <option value="bicycle">دراجة هوائية</option>
                 </select>
               </Field>
             </>

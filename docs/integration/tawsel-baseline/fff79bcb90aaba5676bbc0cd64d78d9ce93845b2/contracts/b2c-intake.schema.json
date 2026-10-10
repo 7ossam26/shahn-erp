@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/b2c-intake.schema.json",
+  "title": "Independent-driver intake — Phase 09",
+  "$defs": {
+    "RecipientPhone": {
+      "type": "string",
+      "pattern": "^(?:\\+[1-9][0-9]{7,14}|01[0125][0-9]{8})$",
+      "description": "E.164 or an Egyptian mobile number. The service stores the submitted value and a separate normalized E.164 value."
+    },
+    "AddressDestination": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "address" },
+        "addressText": { "type": "string", "minLength": 1, "maxLength": 500 }
+      },
+      "required": ["kind", "addressText"],
+      "additionalProperties": false
+    },
+    "ConfirmedPinDestination": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "confirmed-pin" },
+        "coordinates": { "$ref": "./common.schema.json#/$defs/Coordinates" },
+        "addressText": { "type": "string", "minLength": 1, "maxLength": 500 }
+      },
+      "required": ["kind", "coordinates"],
+      "additionalProperties": false
+    },
+    "IndependentDestination": {
+      "oneOf": [
+        { "$ref": "#/$defs/AddressDestination" },
+        { "$ref": "#/$defs/ConfirmedPinDestination" }
+      ],
+      "description": "Original driver input. Address-only input remains non-executable until P11 confirms a destination."
+    },
+    "IndependentCollectionAmount": {
+      "type": "object",
+      "properties": {
+        "amountMinor": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "currency": { "const": "EGP" },
+        "exponent": { "const": 2 }
+      },
+      "required": ["amountMinor", "currency", "exponent"],
+      "additionalProperties": false,
+      "description": "Optional simple B2C collection only: positive EGP minor units, no item or fee model."
+    },
+    "IndependentTaskInput": {
+      "type": "object",
+      "properties": {
+        "recipientName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "recipientPhone": { "$ref": "#/$defs/RecipientPhone" },
+        "destination": { "$ref": "#/$defs/IndependentDestination" },
+        "collectionAmount": { "$ref": "#/$defs/IndependentCollectionAmount" },
+        "instructions": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      },
+      "required": ["recipientName", "recipientPhone", "destination"],
+      "additionalProperties": false
+    },
+    "CreateIndependentPayload": {
+      "$ref": "#/$defs/IndependentTaskInput"
+    },
+    "ReviseIndependentPayload": {
+      "type": "object",
+      "properties": {
+        "taskId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "expectedRevision": { "$ref": "./common.schema.json#/$defs/Revision" },
+        "recipientName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "recipientPhone": { "$ref": "#/$defs/RecipientPhone" },
+        "destination": { "$ref": "#/$defs/IndependentDestination" },
+        "collectionAmount": { "$ref": "#/$defs/IndependentCollectionAmount" },
+        "instructions": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      },
+      "required": ["taskId", "expectedRevision", "recipientName", "recipientPhone", "destination"],
+      "additionalProperties": false
+    },
+    "IndependentTask": {
+      "type": "object",
+      "properties": {
+        "taskId": { "$ref": "./common.schema.json#/$defs/Uuid" },
+        "revision": { "$ref": "./common.schema.json#/$defs/Revision" },
+        "recipientName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "recipientPhone": { "$ref": "#/$defs/RecipientPhone" },
+        "destination": { "$ref": "#/$defs/IndependentDestination" },
+        "collectionAmount": { "$ref": "#/$defs/IndependentCollectionAmount" },
+        "instructions": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "locationReadiness": { "type": "string", "enum": ["needs-resolution", "confirmed"] },
+        "executionReady": { "type": "boolean" },
+        "editable": { "type": "boolean" },
+        "createdAt": { "$ref": "./common.schema.json#/$defs/UtcInstant" },
+        "updatedAt": { "$ref": "./common.schema.json#/$defs/UtcInstant" }
+      },
+      "required": ["taskId", "revision", "recipientName", "recipientPhone", "destination", "locationReadiness", "executionReady", "editable", "createdAt", "updatedAt"],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "locationReadiness": { "const": "needs-resolution" } }, "required": ["locationReadiness"] },
+          "then": { "properties": { "executionReady": { "const": false } } }
+        },
+        {
+          "if": { "properties": { "locationReadiness": { "const": "confirmed" } }, "required": ["locationReadiness"] },
+          "then": { "properties": { "executionReady": { "const": true } } }
+        }
+      ]
+    },
+    "IndependentTaskResponse": { "$ref": "#/$defs/IndependentTask" },
+    "IndependentTaskList": {
+      "type": "object",
+      "properties": {
+        "items": { "type": "array", "items": { "$ref": "#/$defs/IndependentTask" }, "maxItems": 50 },
+        "nextCursor": { "type": "string", "minLength": 1, "maxLength": 512 }
+      },
+      "required": ["items"],
+      "additionalProperties": false
+    },
+    "IntakeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string", "minLength": 1, "maxLength": 100 },
+            "message": { "type": "string", "minLength": 1, "maxLength": 1000 },
+            "fields": { "type": "object", "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 500 } }
+          },
+          "required": ["code", "message"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["error"],
+      "additionalProperties": false
+    },
+    "CreateIndependentCommand": {
+      "allOf": [
+        { "$ref": "./action-envelope.v1.schema.json" },
+        { "type": "object", "properties": { "operationId": { "const": "task.createIndependent" }, "payload": { "$ref": "#/$defs/CreateIndependentPayload" } } }
+      ]
+    },
+    "ReviseIndependentCommand": {
+      "allOf": [
+        { "$ref": "./action-envelope.v1.schema.json" },
+        { "type": "object", "properties": { "operationId": { "const": "task.reviseIndependent" }, "payload": { "$ref": "#/$defs/ReviseIndependentPayload" } } }
+      ]
+    }
+  }
+}

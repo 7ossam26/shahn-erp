@@ -67,7 +67,17 @@ export interface TrackingDetail {
     attemptId: string;
     outcome: string | null;
     visitKnown: boolean;
-    reason: 'legacy reason unavailable';
+    reason: string;
+    reasonState: string;
+    reasonDetail: string | null;
+    history: {
+      outcomeId: string;
+      revision: number;
+      correctionId: string | null;
+      reason: string;
+      reasonState: string;
+      reasonDetail: string | null;
+    }[];
   }[];
   pendingReasons: string[];
   evidenceReceivedOnly: true;
@@ -167,7 +177,20 @@ export const trackingDetailSchema = closed({
       attemptId: uuid,
       outcome: nullable,
       visitKnown: { type: 'boolean' },
-      reason: { const: 'legacy reason unavailable' },
+      reason: text,
+      reasonState: text,
+      reasonDetail: nullable,
+      history: {
+        type: 'array',
+        items: closed({
+          outcomeId: uuid,
+          revision: { type: 'integer', minimum: 1 },
+          correctionId: { anyOf: [uuid, { type: 'null' }] },
+          reason: text,
+          reasonState: text,
+          reasonDetail: nullable,
+        }),
+      },
     }),
   },
   pendingReasons: { type: 'array', items: text },

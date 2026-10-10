@@ -236,7 +236,8 @@ it('two receipt-funded redispatches race: one allocation, immutable old history 
   const fresh = await f.redispatch();
   expect(fresh.task.dispatchCycleId).not.toBe(x.task.dispatchCycleId);
   expect(fresh.task.snapshot.lines[0]!.quantity).toBe(1);
-  expect(fresh.task.snapshot.totalDue.amountMinor).toBe(15000);
+  expect(fresh.task.snapshot.shippingDue.amountMinor).toBe(0);
+  expect(fresh.task.snapshot.totalDue.amountMinor).toBe(10000);
   expect(
     (
       await db.pool.query(`SELECT count(*)::int n FROM dispatch.cycle WHERE shipment_id=$1`, [

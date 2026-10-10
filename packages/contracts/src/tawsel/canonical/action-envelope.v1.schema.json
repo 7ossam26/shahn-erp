@@ -9,7 +9,10 @@
       "const": "1.0.0"
     },
     "payloadVersion": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "2.0.0"
+      ]
     },
     "actionId": {
       "$ref": "./common.schema.json#/$defs/Uuid"
@@ -55,5 +58,36 @@
     "observation",
     "payload"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "payloadVersion": {
+            "const": "2.0.0"
+          }
+        },
+        "required": [
+          "payloadVersion"
+        ]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "operationId": {
+            "enum": [
+              "outcome.recordFull",
+              "outcome.recordPartial",
+              "outcome.recordRefusal",
+              "outcome.recordNoAnswer",
+              "outcome.correct",
+              "dispatch.createFromReceipt",
+              "dispatch.relocateBeforeDeparture"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

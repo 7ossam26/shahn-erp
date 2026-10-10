@@ -15,6 +15,7 @@ import { displayMinor } from '../brands/api.js';
 import './dispatch.css';
 const labels: Record<string, string> = {
   synchronizing: 'جارٍ إرسال بيانات الشحنة',
+  unassigned: 'مُسجلة لدى توصيل دون تعيين',
   preparing: 'بانتظار قبول التحضير',
   prepared: 'مُحضّر للمندوب — لم يُسلّم',
   receiving: 'تسليم فعلي بانتظار تأكيد توصيل',
@@ -197,6 +198,7 @@ export function DispatchPage() {
     location = useLocation();
   const [selected, setSelected] = useState<Record<string, number>>({}),
     [driver, setDriver] = useState(''),
+    [prepareAssignment, setPrepareAssignment] = useState(true),
     [review, setReview] = useState(false),
     [advanced, setAdvanced] = useState(false);
   const query = useQuery({
@@ -475,6 +477,14 @@ export function DispatchPage() {
             {branches.size > 1 && <p role="alert">اختر شحنات من فرع واحد لكل دفعة.</p>}
             {review ? (
               <>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={prepareAssignment}
+                    onChange={(e) => setPrepareAssignment(e.target.checked)}
+                  />
+                  تحضير التعيين للمندوب بعد تسجيل المصدر
+                </label>
                 <p>
                   التحضير يحدد الشحنات والمندوب. يبقى التسليم الفعلي خطوة مستقلة بعد قبول توصيل.
                 </p>
@@ -483,6 +493,7 @@ export function DispatchPage() {
                   onClick={() =>
                     void mutation.submit({
                       type: 'dispatch.prepare',
+                      prepareAssignment,
                       branchId: chosen[0]!.branchId,
                       driverId: driver,
                       items: chosen.map((x) => ({
@@ -492,7 +503,9 @@ export function DispatchPage() {
                     })
                   }
                 >
-                  تأكيد التحضير للمندوب
+                  {prepareAssignment
+                    ? 'تأكيد التحضير للمندوب'
+                    : 'تسجيل دون تعيين — تبقى البضاعة بالفرع'}
                 </Button>
                 <Button disabled={!!mutation.pending} onClick={() => setReview(false)}>
                   تعديل الاختيار

@@ -1,3 +1,5 @@
+P27 current, 2026-10-11: [reviewed interoperability and protected connection](27-tawsel-interoperability-and-connection.md) is [verified within stated ERP scope](execution/P27.md), with actual isolated native/browser/Tawsel HTTP evidence. Active approved public-contract pin `fff79bcb90aaba5676bbc0cd64d78d9ce93845b2`; qualified source byte provenance and joint target acceptance stay in [the single register](../TAWSEL-CHANGE-REQUESTS.md). P25/P26 collectors remain separately unrun/incomplete. No production-readiness claim or automatic next phase. Earlier dated instructions/status below are historical.
+
 Current delivery instruction, 2026-10-09: the owner explicitly requested **“commit as phase 26 and final then push it”** after disclosure of pending acceptance. The current bounded implementation and final handoff are authorized for commit/push as a task-specific exception. Full phase/V1 acceptance remains blocked; earlier no-commit statements describe the preceding decision. No test is relabeled as passed. See the final execution entry.
 
 P26 authorized setup continuation, 2026-10-09: isolated ERP/DB/issuer client and4 real user logins now exist;3 canonical branch provisions accepted and4 signed receipts recorded (application pending). Shared issuer/admin/operator/callback cleanup verified; isolated ERP retained. Bounded release, encrypted backup and real lifecycle checks pass. **Full P26 blocked by incomplete P25 acceptance and unrun connected business fixture/journeys**, not missing server access. [Current readiness](../docs/verification/P26/READINESS.md). No completion commit/push. Earlier observations below are historical.
@@ -54,6 +56,7 @@ The decomposition yields 26 results from the dependencies and demonstrable journ
 | P24 | [Operating profit and source reconciliation](24-operating-profit-and-reconciliation.md) | P18, P19, P20, P21, P23 | `gpt-6-astra` / `xhigh` | [Verified ERP/browser/live script scope; Tawsel acceptance deferred](execution/P24.md) |
 | P25 | [Portable deployment and isolated restore](25-deployment-backup-and-restore.md) | P22, P23, P24 | `gpt-6-astra` / `xhigh` | [Partial; required acceptance blocked](execution/P25.md) |
 | P26 | [Complete V1 pilot and evidence handoff](26-complete-pilot-and-handoff.md) | P22, P23, P24, P25 | `gpt-6-astra` / `xhigh` | [Setup verified; P25/final pilot acceptance blocked](execution/P26.md) |
+| P27 | [Reviewed Tawsel interoperability and protected connection](27-tawsel-interoperability-and-connection.md) | Existing P11–P22 implementations and current returned package review | Session default | [Verified ERP scope; joint target acceptance pending](execution/P27.md) |
 
 ## Dependency and shared-interface rules
 

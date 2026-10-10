@@ -5,6 +5,7 @@ import type { SenderEvent, SourceEnvelope, ActionResult } from '@shahn/contracts
 import type { IntegrationRuntime } from '../../../apps/api/src/modules/integration/config.js';
 import { provisioningCommands } from '../../../apps/api/src/modules/integration/provisioning.service.js';
 import { accessFixture, fixtureConfig } from '../../support/access.js';
+import { AccessRepository } from '../../../apps/api/src/modules/access/repository.js';
 export interface CanonicalFixture {
   id: string;
   schema: string;
@@ -54,8 +55,16 @@ export async function integrationFixture(
   pool: Pool,
   origin = 'http://127.0.0.1:5317',
   baseUrl = 'http://127.0.0.1:1',
+  issuer?: string,
 ) {
-  const f = await accessFixture(pool, fixtureConfig(origin));
+  const f = await accessFixture(pool, fixtureConfig(origin, issuer));
+  await new AccessRepository(pool).command(f.support.token, {
+    schemaVersion: 1,
+    commandId: randomUUID(),
+    companyId: f.company,
+    type: 'support.start',
+    reason: 'Isolated integration installation fixture',
+  });
   await pool.query(
     `INSERT INTO access.role_grant(company_id,role_id,capability) VALUES($1,$2,'integration') ON CONFLICT DO NOTHING`,
     [f.company, f.adminRole],
@@ -84,7 +93,7 @@ export async function integrationFixture(
   const runtime: IntegrationRuntime = { connections: [connection] },
     commands = provisioningCommands(pool, runtime);
   const setup = (
-    await commands.execute(f.admin.token, {
+    await commands.execute(f.support.token, {
       schemaVersion: 1,
       commandId: randomUUID(),
       companyId: f.company,

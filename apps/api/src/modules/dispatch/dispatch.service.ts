@@ -38,6 +38,7 @@ import { lockOrderPositions, assertStockPreparation } from '../inventory/stock-f
 import { buildSourceSnapshot, dispatchPrice, type ApprovedShippingWaiver } from './snapshot.js';
 import { lockShippingWallets, reserveShippingCover } from './shipping-cover.service.js';
 import { assertRedispatchGoods } from '../returns/redispatch-custody.js';
+import { actualParcelTransfer } from './relocation.js';
 export const assignmentReference = (i: DispatchItemRow): AssignmentReference => ({
   externalId: i.external_id,
   sourceDispatchCycleId: i.source_cycle_id,
@@ -128,7 +129,11 @@ export async function enqueueIntake(
     throw new AccessError('OPERATION_NOT_ALLOWED', 409);
   const envelope: SourceEnvelope = {
     schemaVersion: '1.0.0',
-    payloadVersion: '1.0.0',
+    payloadVersion:
+      operation === 'dispatch.relocateBeforeDeparture' ||
+      (operation === 'dispatch.createFromReceipt' && payload.transfer)
+        ? '2.0.0'
+        : '1.0.0',
     actionId: randomUUID(),
     operationId: operation,
     context: { kind: 'integration', tenantId: s.tenant_id, integrationId: s.integration_id },
@@ -160,7 +165,7 @@ export async function enqueueIntake(
   );
   return envelope.actionId;
 }
-export async function lockDispatchShipments(u: UnitOfWork, ids: string[]) {
+export async function lockDispatchShipments(u: UnitOfWork, ids: string[], cycleBranch?: string) {
   const details: ShipmentDetail[] = [];
   for (const id of [...new Set(ids)].sort()) {
     u.lockOrder('aggregate', 'shipment:' + id);
@@ -170,12 +175,12 @@ export async function lockDispatchShipments(u: UnitOfWork, ids: string[]) {
     );
     const d = await readShipment(u.client, u.access.companyId, id);
     if (!d) throw new AccessError('NOT_FOUND', 404);
-    u.assertBranch(d.fields.branchId);
+    u.assertBranch(cycleBranch ?? d.fields.branchId);
     details.push(d);
   }
   await lockOrderPositions(
     u,
-    details.flatMap((d) =>
+    (cycleBranch ? [] : details).flatMap((d) =>
       d.stock.allocations
         .filter((a) => a.active)
         .map((a) => ({ branchId: a.branchId, brandId: d.fields.brandId, variantId: a.variantId })),
@@ -219,6 +224,10 @@ export async function prepareDispatch(
     input.items.map((i) => i.shipmentId),
   );
   const reusable = new Map<string, DispatchItemRow>();
+  const relocations = new Map<
+    string,
+    { old: DispatchItemRow; transfer: Awaited<ReturnType<typeof actualParcelTransfer>> }
+  >();
   for (const d of details) {
     await assertPhysical(
       u,
@@ -228,20 +237,42 @@ export async function prepareDispatch(
     );
     const prior = (
       await u.client.query(
-        'SELECT branch_id,current_intent_id,task FROM dispatch.cycle WHERE company_id=$1 AND shipment_id=$2 AND latest',
+        'SELECT * FROM dispatch.cycle WHERE company_id=$1 AND shipment_id=$2 AND latest',
         [company, d.id],
       )
     ).rows[0];
     if (prior) {
-      if (prior.branch_id !== input.branchId) throw new AccessError('TAWSEL_CHECK_003', 409);
-      if (prior.task?.state !== 'withdrawn' || !prior.task.editable)
-        throw new AccessError('EXISTING_CYCLE_REVIEW_REQUIRED', 409);
-      const old = (await readDispatchItems(u.client, company, prior.current_intent_id)).find(
-        (x) => x.shipment_id === d.id,
-      )!;
-      if (old.shipment_revision !== d.revision)
-        throw new AccessError('SOURCE_CORRECTION_REVIEW_REQUIRED', 409);
-      reusable.set(d.id, old);
+      if (prior.branch_id !== input.branchId) {
+        if (
+          !['withdrawn', 'unassigned'].includes(prior.task?.state) ||
+          !prior.task?.editable ||
+          prior.task?.driverId ||
+          !prior.remote_cycle_id ||
+          (
+            await u.client.query(
+              `SELECT 1 FROM execution.outcome_fact WHERE company_id=$1 AND cycle_id=$2 UNION ALL SELECT 1 FROM execution.visit_fact WHERE company_id=$1 AND cycle_id=$2 LIMIT 1`,
+              [company, prior.id],
+            )
+          ).rowCount
+        )
+          throw new AccessError('TAWSEL_CHECK_003', 409);
+        const transfer = await actualParcelTransfer(u, s, d.id, prior.branch_id, input.branchId);
+        const old = (await readDispatchItems(u.client, company, prior.current_intent_id)).find(
+          (x) => x.cycle_id === prior.id,
+        )!;
+        relocations.set(d.id, { old, transfer });
+      } else {
+        if (!['withdrawn', 'unassigned'].includes(prior.task?.state) || !prior.task.editable)
+          throw new AccessError('EXISTING_CYCLE_REVIEW_REQUIRED', 409);
+        if (input.prepareAssignment === false)
+          throw new AccessError('EXISTING_UNASSIGNED_INTENT_REQUIRED', 409);
+        const old = (await readDispatchItems(u.client, company, prior.current_intent_id)).find(
+          (x) => x.shipment_id === d.id,
+        )!;
+        if (old.shipment_revision !== d.revision)
+          throw new AccessError('SOURCE_CORRECTION_REVIEW_REQUIRED', 409);
+        reusable.set(d.id, old);
+      }
     }
     if (!(await claimParcel(u.client, company, d.id, 'dispatch', id)))
       throw new AccessError('COMPETING_PARCEL_CLAIM', 409);
@@ -261,22 +292,42 @@ export async function prepareDispatch(
       u.access.displayName,
     ],
   );
+  if (input.prepareAssignment === false)
+    await u.client.query(
+      'UPDATE dispatch.intent SET assignment_requested=false WHERE company_id=$1 AND id=$2',
+      [company, id],
+    );
   const intent = (await readDispatchIntent(u.client, company, id))!;
   for (const d of details) {
+    const relocation = relocations.get(d.id);
     const old = reusable.get(d.id),
       cycle = old?.cycle_id ?? randomUUID(),
       price =
         old?.price ??
+        relocation?.old.price ??
         dispatchPrice(d.price, d.id, (await replacementWaiver(u, d.id)) ?? waivers.get(d.id));
     const snapshot =
       old?.snapshot ??
-      buildSourceSnapshot(d, price as ReturnType<typeof dispatchPrice>, {
-        externalId: 'shipment:' + d.id,
-        sourceDispatchCycleId: 'cycle:' + cycle,
-        sourceBranchExternalId: branch.external_id,
-        sourceRevision: 1,
-        expectedSourceRevision: 0,
-      });
+      (relocation
+        ? {
+            ...relocation.old.snapshot,
+            sourceDispatchCycleId: 'cycle:' + cycle,
+            sourceBranchExternalId: branch.external_id,
+            sourceRevision: Number(relocation.old.accepted_revision) + 1,
+            expectedSourceRevision: Number(relocation.old.accepted_revision),
+          }
+        : buildSourceSnapshot(d, price as ReturnType<typeof dispatchPrice>, {
+            externalId: 'shipment:' + d.id,
+            sourceDispatchCycleId: 'cycle:' + cycle,
+            sourceBranchExternalId: branch.external_id,
+            sourceRevision: 1,
+            expectedSourceRevision: 0,
+          }));
+    if (relocation)
+      await u.client.query('UPDATE dispatch.cycle SET latest=false WHERE company_id=$1 AND id=$2', [
+        company,
+        relocation.old.cycle_id,
+      ]);
     if (old)
       await u.client.query(
         'UPDATE dispatch.cycle SET current_intent_id=$1 WHERE company_id=$2 AND id=$3',
@@ -284,7 +335,7 @@ export async function prepareDispatch(
       );
     else
       await u.client.query(
-        `INSERT INTO dispatch.cycle(company_id,id,shipment_id,source_id,branch_id,external_id,source_cycle_id,pending_revision,current_intent_id) VALUES($1,$2,$3,$4,$5,$6,$7,1,$8)`,
+        `INSERT INTO dispatch.cycle(company_id,id,shipment_id,source_id,branch_id,external_id,source_cycle_id,pending_revision,desired_revision,current_intent_id,previous_cycle_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$8,$9,$10)`,
         [
           company,
           cycle,
@@ -293,7 +344,20 @@ export async function prepareDispatch(
           input.branchId,
           snapshot.externalId,
           snapshot.sourceDispatchCycleId,
+          snapshot.sourceRevision,
           id,
+          relocation?.old.cycle_id ?? null,
+        ],
+      );
+    if (relocation)
+      await u.client.query(
+        `INSERT INTO dispatch.relocation(company_id,cycle_id,previous_cycle_id,transfer_id,destination_receipt_id,kind) VALUES($1,$2,$3,$4,$5,'predeparture')`,
+        [
+          company,
+          cycle,
+          relocation.old.cycle_id,
+          relocation.transfer.transferId,
+          relocation.transfer.destinationReceiptId,
         ],
       );
     await u.client.query(
@@ -307,12 +371,24 @@ export async function prepareDispatch(
         s,
         intent,
         recordId,
-        'intake.submitSnapshot',
-        { ...snapshot },
+        relocation ? 'dispatch.relocateBeforeDeparture' : 'intake.submitSnapshot',
+        relocation
+          ? {
+              externalId: snapshot.externalId,
+              previousDispatchCycleId: relocation.old.remote_cycle_id,
+              snapshot,
+              transfer: {
+                sourceBranchExternalId: relocation.transfer.sourceBranchExternalId,
+                transferId: relocation.transfer.transferId,
+                destinationReceiptId: relocation.transfer.destinationReceiptId,
+                receivedAtDestination: true,
+              },
+            }
+          : { ...snapshot },
         d.id,
       );
   }
-  if (reusable.size === details.length) {
+  if (reusable.size === details.length && input.prepareAssignment !== false) {
     await enqueueIntake(pool, u.client, s, intent, recordId, 'intake.prepare', {
       driverExternalId: intent.driver_external_id,
       items: (await readDispatchItems(u.client, company, id)).map(assignmentReference),
@@ -461,10 +537,20 @@ export function dispatchCommands(
             const details = await lockDispatchShipments(
               u,
               items.map((x) => x.shipment_id),
+              items.every((x) => x.previous_cycle_id) ? i.branch_id : undefined,
             );
             for (const d of details) {
               const item = items.find((x) => x.shipment_id === d.id)!;
-              if (item.previous_cycle_id) await assertRedispatchGoods(u, item.cycle_id);
+              const relocated = item.previous_cycle_id
+                ? (
+                    await u.client.query<{ kind: string }>(
+                      'SELECT kind FROM dispatch.relocation WHERE company_id=$1 AND cycle_id=$2',
+                      [company, item.cycle_id],
+                    )
+                  ).rows[0]
+                : undefined;
+              if (item.previous_cycle_id && relocated?.kind !== 'predeparture')
+                await assertRedispatchGoods(u, item.cycle_id);
               else await assertPhysical(u, d, i.branch_id);
               if (d.revision !== items.find((x) => x.shipment_id === d.id)!.shipment_revision)
                 throw new AccessError('SNAPSHOT_REVISION_CONFLICT', 409);
@@ -517,8 +603,30 @@ export function dispatchCommands(
             i.state = 'receiving';
           } else if (input.type === 'dispatch.withdraw') {
             // A received parcel must use the actual branch-return lifecycle (P14); never teleport it.
-            if (items.some((x) => x.task?.state === 'held') || i.state === 'accepted')
-              throw new AccessError('ACTUAL_RETURN_LIFECYCLE_REQUIRED', 409);
+            const held = items.filter((x) => x.task?.state === 'held');
+            if (held.length) {
+              if ((s.configuration as { interopVersion?: string })?.interopVersion !== '2.0.0')
+                throw new AccessError('ACTUAL_RETURN_LIFECYCLE_REQUIRED', 409);
+              for (const item of held) {
+                const execution = await u.client.query(
+                  `SELECT 1 FROM execution.outcome_fact WHERE company_id=$1 AND cycle_id=$2 UNION ALL SELECT 1 FROM execution.visit_fact WHERE company_id=$1 AND cycle_id=$2 UNION ALL SELECT 1 FROM execution.timeline WHERE company_id=$1 AND task_id=$3 AND event_type LIKE 'current.%' LIMIT 1`,
+                  [company, item.cycle_id, item.task_id],
+                );
+                if (execution.rowCount)
+                  throw new AccessError('ACTUAL_RETURN_LIFECYCLE_REQUIRED', 409);
+                await u.client.query(
+                  `INSERT INTO dispatch.predeparture_receipt(company_id,cycle_id,command_record_id,shipment_id,branch_id,snapshot) VALUES($1,$2,$3,$4,$5,$6)`,
+                  [
+                    company,
+                    item.cycle_id,
+                    recordId,
+                    item.shipment_id,
+                    i.branch_id,
+                    JSON.stringify(item.snapshot),
+                  ],
+                );
+              }
+            }
             if (items.some((x) => !x.task?.editable))
               throw new AccessError('PROTECTED_LIFECYCLE', 409);
             for (const item of items)

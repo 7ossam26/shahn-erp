@@ -1,3 +1,4 @@
+import { connectionCandidates } from '../integration/config.js';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { Pool } from 'pg';
 import type { FastifyInstance } from 'fastify';
@@ -77,13 +78,13 @@ export function registerDispatch(
                   };
                 },
               );
-              const connection = runtime.connections.find(
+              const connection = (await connectionCandidates(runtime, input.companyId)).find(
                 (x) =>
                   x.companyId === input.companyId &&
                   x.selector === saved.source?.selector &&
                   x.tenantId === saved.source.tenant_id &&
                   x.integrationId === saved.source.integration_id &&
-                  x.baseUrl === saved.source.base_url &&
+                  (runtime.resolve || x.baseUrl === saved.source.base_url) &&
                   x.issuer === saved.source.issuer,
               );
               if (!connection) throw new AccessError('SOURCE_NOT_READY', 409);

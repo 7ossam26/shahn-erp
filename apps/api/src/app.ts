@@ -14,6 +14,12 @@ import { registerSettlements } from './modules/settlements/http.js';
 import type { StorageClock } from './modules/storage/clock.js';
 import { registerIntegration } from './modules/integration/http.js';
 import { integrationRuntime, type IntegrationRuntime } from './modules/integration/config.js';
+import { validateManagedConnection } from './modules/integration/managed-connection.js';
+import {
+  authoritativeRuntime,
+  connectionInstallation,
+} from './modules/integration/connection-provider.js';
+import type { ConnectionSetup } from './modules/integration/connection-setup.service.js';
 import { registerTreasury } from './modules/finance/treasury-transfers/http.js';
 import 'reflect-metadata';
 import {
@@ -153,12 +159,18 @@ export async function createApplication(
   identity: IdentityConfig | null = identityConfig(),
   integration: IntegrationRuntime = integrationRuntime(),
   /** Isolated tests/trials only: controlled storage business date. Production omits it. */
-  options: { storageClock?: StorageClock; payrollClock?: PayrollClock } = {},
+  options: {
+    storageClock?: StorageClock;
+    payrollClock?: PayrollClock;
+    connectionSetup?: ConnectionSetup;
+  } = {},
 ): Promise<NestFastifyApplication> {
+  if (options.connectionSetup && config.environment !== 'test')
+    throw new Error('Configuration: connection test dependency is forbidden outside tests');
   const deployment = deploymentConfiguration();
   if (
     deployment &&
-    (!integration.connections.length ||
+    ((!integration.connections.length && !connectionInstallation()) ||
       integration.connections.some(
         (c) => c.companyId !== deployment.companyId || c.issuer !== identity?.issuer,
       ))
@@ -190,6 +202,24 @@ export async function createApplication(
     },
   });
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
+  integration = authoritativeRuntime(
+    app.get(DatabaseLifecycle).pool,
+    integration,
+    connectionInstallation(),
+  );
+  try {
+    if (deployment)
+      await validateManagedConnection(
+        app.get(DatabaseLifecycle).pool,
+        integration,
+        deployment.companyId,
+        identity?.issuer,
+        process.env['TAWSEL_CONNECTION_MODE'],
+      );
+  } catch (error) {
+    await app.close();
+    throw error;
+  }
   const http = app.getHttpAdapter().getInstance();
   http.addHook('onRequest', async (request, reply) => {
     if (
@@ -241,6 +271,7 @@ export async function createApplication(
     app.get(DatabaseLifecycle).pool,
     identity?.origin ?? process.env['APP_ORIGIN'] ?? '',
     integration,
+    options.connectionSetup,
   );
   registerFinance(
     app.getHttpAdapter().getInstance(),

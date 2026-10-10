@@ -24,8 +24,8 @@ let db: Awaited<ReturnType<typeof isolatedPostgres>>,
   f: Awaited<ReturnType<typeof integrationFixture>>,
   app: Awaited<ReturnType<typeof createApplication>>,
   origin: string;
-const run = (input: Partial<IntegrationCommand>) =>
-  f.commands.execute(f.admin.token, {
+const run = (input: Partial<IntegrationCommand>, token?: string) =>
+  f.commands.execute(token ?? f.admin.token, {
     schemaVersion: 1,
     companyId: f.company,
     commandId: randomUUID(),
@@ -395,12 +395,15 @@ it('queues exact operator bootstrap without making operator credentials availabl
   const payload = { ...canonical.payload };
   delete payload.externalId;
   delete payload.sourceRevision;
-  const queued = await run({
-    nativeId: f.company,
-    expectedVersion: 0,
-    operationId: 'integration.bindSource',
-    payload,
-  });
+  const queued = await run(
+    {
+      nativeId: f.company,
+      expectedVersion: 0,
+      operationId: 'integration.bindSource',
+      payload,
+    },
+    f.support.token,
+  );
   const ordinary = new SourceCommandWorker(db.pool, f.runtime);
   expect(await ordinary.claim()).toBeNull();
   const operator = new SourceCommandWorker(db.pool, f.runtime, undefined, 'operator-test-only'),
@@ -668,12 +671,15 @@ it('enforces recorded old-key expiry while accepting the preprovisioned next key
   );
 });
 it('records returned key rotation overlap without exposing secret values', async () => {
-  await run({
-    nativeId: f.company,
-    expectedVersion: 0,
-    operationId: 'integration.rotateSigningKey',
-    payload: { keyId: 'next', overlapSeconds: 300 },
-  });
+  await run(
+    {
+      nativeId: f.company,
+      expectedVersion: 0,
+      operationId: 'integration.rotateSigningKey',
+      payload: { keyId: 'next', overlapSeconds: 300 },
+    },
+    f.support.token,
+  );
   const worker = new SourceCommandWorker(db.pool, f.runtime),
     lease = await worker.claim();
   const envelope = JSON.parse(lease!.request_body) as SourceEnvelope,

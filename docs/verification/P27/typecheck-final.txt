@@ -1,0 +1,6 @@
+npm notice run shahn-erp@0.1.0 typecheck
+npm notice run tsc -b
+apps/api/src/modules/execution/projection-worker.ts(52,83): error TS2345: Argument of type 'Record<string, unknown>' is not assignable to parameter of type '{ actionId?: unknown; sourceRevision: unknown; resourceId: unknown; externalId: unknown; }'.
+  Type 'Record<string, unknown>' is missing the following properties from type '{ actionId?: unknown; sourceRevision: unknown; resourceId: unknown; externalId: unknown; }': sourceRevision, resourceId, externalId
+tests/integration/p27/reader-gate.unit.test.ts(3,1): error TS2578: Unused '@ts-expect-error' directive.
+tests/integration/p27/reader-gate.unit.test.ts(7,8): error TS7016: Could not find a declaration file for module '../../../scripts/verification/p27-reader-gate.mjs'. 'C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/scripts/verification/p27-reader-gate.mjs' implicitly has an 'any' type.

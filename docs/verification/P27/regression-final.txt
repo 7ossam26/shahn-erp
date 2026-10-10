@@ -1,0 +1,111 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovery.db.test.ts (5 tests) 29302ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 6151ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 6241ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 5504ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 5660ms
+   ✓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 5744ms
+ ✓ tests/integration/p16/remittance.db.test.ts (14 tests) 26567ms
+   ✓ A01 counts eight effective paid reports among ten assigned, preserving null versus explicit zero 3428ms
+   ✓ A02/A03 exact 800 cash + 200 InstaPay releases only 850 goods, with immutable unique coverage 1151ms
+   ✓ A04 source pages/409/304/denial/outage retain uncertainty and do not certify partial data 1040ms
+   ✓ A05 different commands racing one round produce one receipt and one coverage set 612ms
+   ✓ A06 correction before confirmation rejects stale witness and accepts the reviewed amount 691ms
+   ✓ A07 accepted correction after receipt preserves cash and creates one linked review and affected hold 670ms
+   ✓ A08 explicit zero and unreported no-answer are checked without account movement or credit release 812ms
+   ✓ rolls all effects back at coverage, money, release and result fault boundaries 1593ms
+   ✓ rechecks native branch/grant for review and retained result 714ms
+   ✓ A09 a process dies after commit; a separate restarted process recovers the same receipt 5170ms
+   ✓ confirmation wins the source lock; concurrently received correction follows with one review and unchanged cash 833ms
+   ✓ correction commits after remote refresh but before confirmation locks; stale money cannot post 606ms
+   ✓ a known predecessor gap blocks only its round, leaving an unrelated round usable 1049ms
+   ✓ prepaid goods release no second goods credit; one round crossing Cairo midnight keeps its complete shipping-only receipt 1020ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p11/boundary.db.test.ts (19 tests) 23901ms
+   ✓ fresh and upgrade migrations preserve old native identities and add no fake synchronized bindings 2438ms
+   ✓ upgrades existing native users and committed command/outbox history without relabelling them synchronized 1381ms
+   ✓ kills a real worker after fixture HTTP acceptance and recovers the same action from a compacted result 3731ms
+   ✓ kills receiver after committed inbox before acknowledgement, then redelivers once after restart 4551ms
+   ✓ retains committed inbox/outbox after database restart and denies revoked command recovery 3219ms
+ ✓ tests/integration/p17/payout.db.test.ts (14 tests) 16569ms
+   ✓ A01 goods 250 + shipping 50: pending 250 before full receipt, eligible 250 after, payout 100 leaves 150 779ms
+   ✓ A02 eligible 300: simultaneous 200 payouts from branches A and B — one succeeds, the other sees 100 (both commit orders) 624ms
+   ✓ A03 eligible 100 with real P12 cover 50: payable 50, payout 60 fails without debit, payout 50 keeps cover intact 304ms
+   ✓ payout versus P12 cover reservation: both commit orders on independent connections spend the credit once 562ms
+   ✓ A04 pending 250 with a real brand debit 50: signed 200, payable 0; after full remittance payable 200 676ms
+   ✓ A07 accepted correction after payout keeps the original payout, opens one linked review/hold and leaves unrelated credit usable 649ms
+   ✓ statement/readiness queries: empty, pending-only, cross-branch totals; unlocked list totals equal the locked lot model 770ms
+   ✓ A08 a process dies after commit; a separate process recovers it; revoked grant or branch cannot recover details 5954ms
+   ✓ migrated wallet projections reconcile to source lots for every brand; P17 adds no eligibility 409ms
+ ✓ tests/integration/p14/returns.db.test.ts (11 tests) 12252ms
+   ✓ accepted full history has no return offer; refused history keeps the entire dispatch in driver custody 540ms
+   ✓ correction before receipt invalidates old outcome; correction after actual receipt cannot rewrite physical stock history 590ms
+   ✓ out-of-order offer waits for outcome and never creates stock 529ms
+   ✓ subset receipt result/event/replay and concurrent same transition create one actual receipt; late offer cannot reset counters 1111ms
+   ✓ rollback after transition/receipt posting leaves no stock, fact or applied marker; retry succeeds 733ms
+   ✓ wrong branch, excess, duplicate and stale input have no physical effect 433ms
+   ✓ parcel brand handover consumes custody once, creates no SKU stock or money 483ms
+   ✓ two receipt-funded redispatches race: one allocation, immutable old history and distinct fresh cycle 682ms
+   ✓ stored stock: offer stays at zero, sound subset becomes available, damaged subset remains unavailable without compensation 806ms
+   ✓ legitimate disposition races receipt: one immutable pending subset; losing command cannot retry a changed payload 594ms
+   ✓ transfer reservation and actual brand handover compete with redispatch for one receipt quantity 462ms
+ ✓ tests/integration/p15/transfer.db.test.ts (6 tests) 9862ms
+   ✓ one physical manifest with immutable custody (6)
+     ✓ rechecks active carrier at handover and serializes cancellation against departure 4242ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p12/dispatch.db.test.ts (20 tests) 8794ms
+   ✓ persists exact prices, source bytes and quantities after PostgreSQL restart 1057ms
+   ✓ pending 500 alone cannot reserve 60, while allow-negative creates no payout cash 332ms
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+{"event":"database_idle_connection_unavailable"}
+ ✓ tests/integration/p13/execution.db.test.ts (13 tests) 11194ms
+   ✓ arrival earns once, keeps payer pending, and no-answer allocates brand fee while canonical report stays null 669ms
+   ✓ buffers sequence 3 before 1/2 and commits one visit with two workers and independent transactions 575ms
+   ✓ failure after journal posting rolls back facts, sources and applied marker; retry succeeds 314ms
+   ✓ an outcome without arrival waits for visit evidence and later arrival completes exactly one allocation 422ms
+   ✓ a real signed receiver request establishes a packed 55 visit and 5 commission, while phone defer earns nothing 803ms
+   ✓ committed visit survives database restart and lost worker acknowledgement without another earning 1361ms
+   ✓ another driver on a distinct retry earns only after their own arrival; an absent employee link stays unresolved 548ms
+   ✓ rejects an arrival attached to a different known round without posting or advancing 391ms
+ ✓ tests/integration/p14/transport.db.test.ts (1 test) 7071ms
+   ✓ paginated scoped reads and process death after receipt commit recover unchanged action exactly once 7069ms
+ ✓ tests/integration/p22/restore.db.test.ts (1 test) 7567ms
+   ✓ backs up disposable ERP, restores a separate DB, rebuilds API/worker and redelivers original messages without additional ledger/custody/visit effects 7565ms
+ ✓ tests/integration/p13/monitoring.db.test.ts (8 tests) 5098ms
+   ✓ recovers a missing predecessor from complete authorized history without inventing event sequence; witness invalidates on later correction 474ms
+ ✓ tests/integration/p12/transport.db.test.ts (1 test) 7291ms
+   ✓ kills a worker after HTTP fixture commit, then recovers the exact action over real HTTP once 7289ms
+ ✓ tests/integration/p15/returned-parcel.db.test.ts (2 tests) 5946ms
+   ✓ moves only an entirely sound accepted customer return, reserves its receipt against brand handover, and leaves CHECK-003 disabled 515ms
+   ✓ claims an accepted partial stored-stock return before moving loose goods, so later replenishment cannot reuse its receipt 427ms
+ ✓ tests/integration/p17/http.db.test.ts (3 tests) 5875ms
+ ✓ tests/integration/p17/trial.db.test.ts (1 test) 7838ms
+   ✓ owner trial: shared brand eligible 250 paid partially from B and A cash, off-day reason, cover and retry 1586ms
+ ✓ tests/integration/p22/return-snapshot.db.test.ts (1 test) 6721ms
+   ✓ reconciles original return identity with accumulated balances, rejects a zero reset and deduplicates later receipt history 6719ms
+ ✓ tests/integration/p22/migration.db.test.ts (1 test) 6209ms
+   ✓ detects inconsistent old checkpoints without rewriting counters or posted remittance, payout and custody 6207ms
+ ✓ tests/integration/p17/migration.db.test.ts (1 test) 4759ms
+   ✓ populated P16 upgrade adds payout tables only: no eligibility, payout or balance change; projections reconcile to lots 4758ms
+ ✓ tests/integration/p14/migration.db.test.ts (1 test) 4690ms
+   ✓ upgrades a populated P13 database without changing native identity, prices, balances or grants 4688ms
+ ✓ tests/integration/p12/migration.db.test.ts (1 test) 5232ms
+   ✓ upgrades a populated P11 database without changing native identity, prices, balances or grants 5230ms
+ ✓ tests/integration/p16/migration.db.test.ts (1 test) 4999ms
+   ✓ populated P15 upgrade preserves wallets, accounts, movements and identities without fictional receipts 4997ms
+
+ Test Files  21 passed (21)
+      Tests  125 passed (125)
+   Start at  23:50:54
+   Duration  270.78s (tests 81%, import 17%, transform 2%)
+

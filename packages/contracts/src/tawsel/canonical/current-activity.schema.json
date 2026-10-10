@@ -330,6 +330,10 @@
             "additionalProperties": false
           },
           "description": "Frozen source allocation for exact whole-piece selection; empty for personal tasks. Optional for compatibility with older readers."
+        },
+        "rejectionCatalogVersion": {
+          "const": "1.0.0",
+          "description": "Present only when the source has adopted v2; new partial/refusal writers then require a fixed rejection reason."
         }
       },
       "required": [

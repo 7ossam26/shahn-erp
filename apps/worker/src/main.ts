@@ -6,7 +6,14 @@ import {
   mutationsEnabled,
 } from '@shahn/database';
 import { identityConfig, IdentityWorker, KeycloakIdentityAdapter } from '@shahn/api/access';
-import { integrationRuntime, SourceCommandWorker, RecoveryWorker } from '@shahn/api/integration';
+import {
+  integrationRuntime,
+  SourceCommandWorker,
+  RecoveryWorker,
+  authoritativeRuntime,
+  connectionInstallation,
+  validateManagedConnection,
+} from '@shahn/api/integration';
 import { ProjectionWorker } from '@shahn/api/execution';
 import { StorageRenewalJob } from './jobs/storage-renewal.js';
 import { ExportWorker } from '@shahn/api/reporting';
@@ -18,15 +25,29 @@ try {
     integration = integrationRuntime();
   if (
     deployment &&
-    (!integration.connections.length ||
+    ((!integration.connections.length && !connectionInstallation()) ||
       integration.connections.some(
         (c) => c.companyId !== deployment.companyId || c.issuer !== identity?.issuer,
       ))
   )
     throw new Error('Configuration: Tawsel company/issuer does not match this ERP deployment');
   const pool = createPool(db.runtimeUrl);
-  const sourceWorker = new SourceCommandWorker(pool, integration);
-  const recoveryWorker = new RecoveryWorker(pool, integration);
+  const runtime = authoritativeRuntime(pool, integration, connectionInstallation());
+  try {
+    if (deployment)
+      await validateManagedConnection(
+        pool,
+        runtime,
+        deployment.companyId,
+        identity?.issuer,
+        process.env['TAWSEL_CONNECTION_MODE'],
+      );
+  } catch (error) {
+    await pool.end();
+    throw error;
+  }
+  const sourceWorker = new SourceCommandWorker(pool, runtime);
+  const recoveryWorker = new RecoveryWorker(pool, runtime);
   const projectionWorker = new ProjectionWorker(pool);
   // P19: scheduled storage renewal on the same PostgreSQL work lane.
   const storageRenewal = new StorageRenewalJob(pool);

@@ -1,3 +1,4 @@
+import { connectionCandidates } from './config.js';
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import {
@@ -35,14 +36,14 @@ export const recoveryWorkRegistry = [
   { kind: 'integration.reconcile', lane: 'inbox' as const },
   { kind: 'integration.source', lane: 'source' as const },
 ];
-export function recoveryConnection(runtime: IntegrationRuntime, s: IntegrationSource) {
-  const c = runtime.connections.find(
+export async function recoveryConnection(runtime: IntegrationRuntime, s: IntegrationSource) {
+  const c = (await connectionCandidates(runtime, s.company_id)).find(
     (c) =>
       c.companyId === s.company_id &&
       c.selector === s.selector &&
       c.tenantId === s.tenant_id &&
       c.integrationId === s.integration_id &&
-      c.baseUrl === s.base_url &&
+      (runtime.resolve || c.baseUrl === s.base_url) &&
       c.issuer === s.issuer,
   );
   if (!c || !s.enabled) throw new AccessError('CONNECTION_CONFIGURATION_REQUIRED', 409);
@@ -532,7 +533,9 @@ export async function readReportedCheckpoint(
       return s;
     });
   const s = await authorize();
-  const result = await new RecoveryClient(recoveryConnection(runtime, s)).appliedCheckpoint(a);
+  const result = await new RecoveryClient(await recoveryConnection(runtime, s)).appliedCheckpoint(
+    a,
+  );
   const current = await authorize();
   if (current.id !== s.id || !current.enabled) throw new AccessError('FORBIDDEN_SCOPE');
   return result.body;

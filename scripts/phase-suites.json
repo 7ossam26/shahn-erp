@@ -754,5 +754,56 @@
         "handoff": "TAWSEL-CHANGE-REQUESTS.md"
       }
     }
+  },
+  "P27": {
+    "unit": {
+      "directory": "tests/integration/p27",
+      "extension": ".unit.test",
+      "script": "test:unit",
+      "config": "vitest.p27.config.ts",
+      "filter": [
+        "tests/integration/p27/contracts.unit.test.ts",
+        "tests/integration/p27/transport.unit.test.ts",
+        "tests/integration/p27/reader-gate.unit.test.ts"
+      ]
+    },
+    "database": {
+      "directory": "tests/integration/p27",
+      "extension": ".db.test",
+      "script": "test:db",
+      "config": "vitest.p27.config.ts",
+      "filter": [
+        "tests/integration/p27/connection.db.test.ts",
+        "tests/integration/p27/setup-http.db.test.ts",
+        "tests/integration/p27/managed.db.test.ts",
+        "tests/integration/p27/reasons.db.test.ts",
+        "tests/integration/p27/relocation.db.test.ts",
+        "tests/integration/p27/migration.db.test.ts"
+      ]
+    },
+    "browser": {
+      "directory": "tests/integration/p27",
+      "extension": ".spec",
+      "script": "test:p27:browser",
+      "config": "playwright.p27.config.ts"
+    },
+    "publicIntegration": {
+      "directory": "tests/integration/p27",
+      "extension": ".public.test",
+      "script": "test:p27:public",
+      "config": "vitest.p27.public.config.ts"
+    },
+    "externalAcceptance": {
+      "deferred": {
+        "ownerInstruction": "2026-10-08 ERP implementation commits with named Tawsel acceptance deferred",
+        "reason": "Independent isolated actual HTTP trial is required above. Joint recipient deployment, owner/device, separate-server issuer and full operation matrix acceptance remain external. P25/P26 ERP collectors remain separately unrun; this P27 scope does not waive or pass them.",
+        "gates": [
+          "separate-server recipient reader/writer deployment and lawful callback acceptance",
+          "owner/device CR-001 and CHECK-003 complete business trial",
+          "joint full operation/event conformance index"
+        ],
+        "handoff": "TAWSEL-CHANGE-REQUESTS.md"
+      }
+    }
   }
 }

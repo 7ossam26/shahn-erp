@@ -1,0 +1,17 @@
+npm notice run shahn-erp@0.1.0 test:db
+npm notice run node scripts/build-packages.mjs && vitest run --config vitest.db.config.ts tests/integration/p22/recovery.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p22/recovery.db.test.ts (5 tests) 21273ms
+   ✓ sequence 3, current snapshot through 3, late events 1/2 and live/replay duplicate yield one visit and no cash 4353ms
+   ✓ rolls back inbox, evidence and cursor together; ignores an old fenced response 4138ms
+   ✓ persists 410 as expired and bounds 503 retry without altering confirmed counters 4238ms
+   ✓ follows bounded replay pages with competing workers and revalidates a changed live basis 4104ms
+   ✓ binds authenticated bytes after replay, rejects subsequent byte collisions and rechecks cached job access 4437ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  00:18:26
+   Duration  26.55s (tests 81%, import 12%, transform 8%)
+

@@ -51,10 +51,17 @@ export async function returnDesk(
       ).rows.map((o) => ({ ...o, observedAt: o.observedAt.toISOString() }));
       const receipts = (
         await u.client.query(
-          `SELECT l.id,l.quantity,l.consumed,l.condition,l.version,r.accepted_at AS "receivedAt" FROM returns.return_receipt_line l JOIN returns.return_receipt r ON(r.company_id,r.id)=(l.company_id,l.receipt_id) WHERE l.company_id=$1 AND l.source_id=$2 AND l.item_id=$3 ORDER BY r.accepted_at,l.id`,
-          [company, r.source_id, i.id],
+          `SELECT l.id,l.quantity,l.consumed,l.condition,l.version,r.accepted_at AS "receivedAt",COALESCE((SELECT jsonb_agg(jsonb_build_object('branchId',m.destination_branch_id,'branchName',b.name,'quantity',a.quantity)) FROM returns.receipt_allocation a JOIN goods_transfer.manifest m ON(m.company_id,m.id)=(a.company_id,a.owner_id) JOIN access.branch b ON(b.company_id,b.id)=(m.company_id,m.destination_branch_id) WHERE a.company_id=l.company_id AND a.receipt_line_id=l.id AND a.kind='transfer' AND m.state='closed' AND m.destination_branch_id=ANY($4::uuid[]) AND EXISTS(SELECT 1 FROM goods_transfer.line tl JOIN goods_transfer.receipt tr ON(tr.company_id,tr.manifest_id)=(tl.company_id,tl.manifest_id) JOIN goods_transfer.receipt_line dr ON(dr.company_id,dr.receipt_id,dr.line_id)=(tr.company_id,tr.id,tl.id) WHERE tl.company_id=m.company_id AND tl.manifest_id=m.id AND tr.kind='destination' AND dr.sound=tl.quantity AND dr.damaged=0 AND dr.uncertain=0 AND NOT dr.suspected_internal_issue AND (tl.shipment_id=l.shipment_id OR tl.kind='loose' AND (tl.brand_id,tl.variant_id)=(l.brand_id,l.variant_id))) AND NOT EXISTS(SELECT 1 FROM dispatch.transferred_return_allocation x WHERE x.company_id=l.company_id AND x.receipt_line_id=l.id)),'[]'::jsonb) AS "transferredTo" FROM returns.return_receipt_line l JOIN returns.return_receipt r ON(r.company_id,r.id)=(l.company_id,l.receipt_id) WHERE l.company_id=$1 AND l.source_id=$2 AND l.item_id=$3 ORDER BY r.accepted_at,l.id`,
+          [company, r.source_id, i.id, branches.map((b) => b.id)],
         )
       ).rows.map((x) => ({ ...x, receivedAt: x.receivedAt.toISOString() }));
+      const sourceVersion = (
+        await u.client.query(
+          "SELECT configuration->>'interopVersion' AS version FROM integration.source WHERE company_id=$1 AND id=$2",
+          [company, r.source_id],
+        )
+      ).rows[0]?.version;
+      if (sourceVersion !== '2.0.0') for (const receipt of receipts) receipt.transferredTo = [];
       if (f) {
         if (f.brands.length && !f.brands.includes(sh.brand_id)) continue;
         const digits = (v: string) =>

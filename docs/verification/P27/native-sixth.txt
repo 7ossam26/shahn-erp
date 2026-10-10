@@ -1,0 +1,19 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p27/relocation.db.test.ts (5 tests) 6521ms
+   ✓ held before departure requires actual branch receipt plus accepted withdrawal before A→B movement, without a Tawsel return receipt 319ms
+   ✓ actual partial stored-stock return/loose B receipt funds only eligible quantity and never charges collected recipient shipping again 486ms
+   ✓ actual sound return at A funds native B transfer and fresh B cycle without fabricating a B return receipt 341ms
+ ✓ tests/integration/p27/reasons.db.test.ts (2 tests) 5520ms
+   ✓ signed v2 driver Other reaches authorized history through a gap; reason correction preserves protected money and original raw bytes 501ms
+ ✓ tests/integration/p27/connection.db.test.ts (4 tests) 5280ms
+ ✓ tests/integration/p27/setup-http.db.test.ts (3 tests) 5454ms
+ ✓ tests/integration/p27/contracts.unit.test.ts (474 tests) 517ms
+ ✓ tests/integration/p27/transport.unit.test.ts (3 tests) 24ms
+
+ Test Files  6 passed (6)
+      Tests  491 passed (491)
+   Start at  23:32:16
+   Duration  34.58s (tests 69%, import 24%, transform 7%)
+
