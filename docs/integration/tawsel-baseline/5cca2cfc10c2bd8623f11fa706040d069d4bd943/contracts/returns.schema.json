@@ -1,0 +1,866 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/returns.schema.json",
+  "title": "Source-branch offers, actual subset receipt and separate disposition v1",
+  "description": "Request is an offer only. Item revisions fence incremental receipt/disposition; unresolved never implies clearance. Confirmation checks only the explicitly claimed subset. No stock or commercial settlement claim. No returns quota; request body size remains transport bounded. Service operations use explicit grants and actorId null, never caller-asserted human identity. Duplicate item keys rejected by domain validation. Request cannot block an otherwise compatible whole retry.",
+  "$defs": {
+    "Offer": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "outcomeId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceLineId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "taskId",
+        "dispatchCycleId",
+        "outcomeId",
+        "sourceLineId",
+        "quantity"
+      ],
+      "additionalProperties": false
+    },
+    "Request": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Offer"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "roundId",
+        "sourceBranchId",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "SubsetItem": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "itemId",
+        "expectedRevision",
+        "quantity"
+      ],
+      "additionalProperties": false
+    },
+    "Receive": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "receivingBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SubsetItem"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "requestId",
+        "receivingBranchId",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "Dispose": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "receivingBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SubsetItem"
+          },
+          "minItems": 1
+        },
+        "disposition": {
+          "enum": [
+            "lost",
+            "damaged"
+          ]
+        }
+      },
+      "required": [
+        "requestId",
+        "receivingBranchId",
+        "items",
+        "disposition"
+      ],
+      "additionalProperties": false
+    },
+    "RequestCommand": {
+      "allOf": [
+        {
+          "$ref": "./action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "return.requestHandover"
+            },
+            "context": {
+              "$ref": "./common.schema.json#/$defs/DeviceContext"
+            },
+            "payload": {
+              "$ref": "#/$defs/Request"
+            }
+          },
+          "required": [
+            "operationId",
+            "context",
+            "payload"
+          ]
+        }
+      ]
+    },
+    "ReceiveCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "return.confirmSubsetReceipt"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Receive"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "DisposeCommand": {
+      "description": "P05 hash v1 includes every envelope field plus trusted actor identity: sorted object keys, original array order, UTF-8 JSON, no default insertion or Unicode normalization. Keep the immutable envelope across retries; source scope is authenticated and stable across token refresh. A generic valid envelope does not validate or authorize its feature payload.",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0.0"
+        },
+        "payloadVersion": {
+          "const": "1.0.0"
+        },
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "operationId": {
+          "const": "return.recordDisposition"
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integration"
+            },
+            "tenantId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            "integrationId": {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "tenantId",
+            "integrationId"
+          ],
+          "additionalProperties": false
+        },
+        "resources": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "baseVersions": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "dependsOnActionIds": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "observation": {
+          "$ref": "./common.schema.json#/$defs/Observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/Dispose"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "payloadVersion",
+        "actionId",
+        "operationId",
+        "context",
+        "resources",
+        "baseVersions",
+        "dependsOnActionIds",
+        "observation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "Custody": {
+      "$ref": "./common.schema.json#/$defs/PieceBalance"
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "outcomeId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "attemptId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceLineId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "requested": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "received": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "lost": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "damaged": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "unresolved": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "eligibility": {
+          "enum": [
+            "pending",
+            "settled",
+            "superseded"
+          ]
+        },
+        "custody": {
+          "$ref": "#/$defs/Custody"
+        }
+      },
+      "required": [
+        "itemId",
+        "taskId",
+        "dispatchCycleId",
+        "outcomeId",
+        "attemptId",
+        "sourceLineId",
+        "externalId",
+        "sourceDispatchCycleId",
+        "sourceRevision",
+        "revision",
+        "requested",
+        "received",
+        "lost",
+        "damaged",
+        "unresolved",
+        "eligibility",
+        "custody"
+      ],
+      "additionalProperties": false
+    },
+    "RequestView": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "integrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "roundId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "requestedAt": {
+          "$ref": "./common.schema.json#/$defs/UtcInstant"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Item"
+          },
+          "minItems": 1
+        },
+        "sourceBranchName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Current source-provisioned branch label for driver display; sourceBranchId remains authoritative."
+        }
+      },
+      "required": [
+        "requestId",
+        "driverId",
+        "sourceBranchId",
+        "integrationId",
+        "roundId",
+        "requestedAt",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "RequestList": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RequestView"
+          },
+          "minItems": 0
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "$ref": "./common.schema.json#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "GroupLine": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "outcomeId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceLineId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "externalId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "availableToRequest": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "custody": {
+          "$ref": "#/$defs/Custody"
+        }
+      },
+      "required": [
+        "taskId",
+        "dispatchCycleId",
+        "outcomeId",
+        "sourceLineId",
+        "externalId",
+        "sourceDispatchCycleId",
+        "availableToRequest",
+        "custody"
+      ],
+      "additionalProperties": false
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "sourceBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "integrationId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GroupLine"
+          },
+          "minItems": 1
+        },
+        "sourceBranchName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Current source-provisioned branch label for driver display; sourceBranchId remains authoritative."
+        }
+      },
+      "required": [
+        "sourceBranchId",
+        "integrationId",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "Groups": {
+      "type": "object",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Group"
+          },
+          "minItems": 0
+        },
+        "pendingRequests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RequestView"
+          },
+          "description": "Authorized unresolved offers rediscovered across reload and phone takeover; request is not physical receipt."
+        }
+      },
+      "required": [
+        "groups"
+      ],
+      "additionalProperties": false
+    },
+    "Claim": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "itemId",
+        "quantity"
+      ],
+      "additionalProperties": false
+    },
+    "ConfirmationQuery": {
+      "type": "object",
+      "properties": {
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "claims"
+      ],
+      "additionalProperties": false
+    },
+    "Confirmation": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "state": {
+          "enum": [
+            "confirmed",
+            "waiting"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "$ref": "./common.schema.json#/$defs/Uuid"
+              },
+              "claimed": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "confirmed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "waiting": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              }
+            },
+            "required": [
+              "itemId",
+              "claimed",
+              "confirmed",
+              "waiting"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "requestId",
+        "state",
+        "message",
+        "claims"
+      ],
+      "additionalProperties": false
+    },
+    "Transition": {
+      "type": "object",
+      "properties": {
+        "transitionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "requestId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "itemId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "taskId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "dispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "outcomeId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "sourceLineId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceReference": {
+          "$ref": "./common.schema.json#/$defs/SourceReference"
+        },
+        "sourceDispatchCycleId": {
+          "$ref": "./common.schema.json#/$defs/ExternalId"
+        },
+        "sourceBranchId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "kind": {
+          "enum": [
+            "received",
+            "lost",
+            "damaged"
+          ]
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "time": {
+          "$ref": "./current-activity.schema.json#/$defs/ActionTime"
+        },
+        "identity": {
+          "$ref": "./provisioning.schema.json#/$defs/VerifiedService"
+        }
+      },
+      "required": [
+        "transitionId",
+        "requestId",
+        "itemId",
+        "taskId",
+        "dispatchCycleId",
+        "outcomeId",
+        "sourceLineId",
+        "sourceReference",
+        "sourceDispatchCycleId",
+        "sourceBranchId",
+        "kind",
+        "quantity",
+        "revision",
+        "time",
+        "identity"
+      ],
+      "additionalProperties": false
+    },
+    "CommandResult": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/$defs/RequestView"
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Transition"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "request",
+        "transitions"
+      ],
+      "additionalProperties": false
+    },
+    "ActionResult": {
+      "$ref": "./action-result.v1.schema.json"
+    },
+    "ActionStatus": {
+      "type": "object",
+      "properties": {
+        "actionId": {
+          "$ref": "./common.schema.json#/$defs/Uuid"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        },
+        "result": {
+          "$ref": "#/$defs/ActionResult"
+        }
+      },
+      "required": [
+        "actionId",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "RequestedEvent": {
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/$defs/RequestView"
+        }
+      },
+      "required": [
+        "request"
+      ],
+      "additionalProperties": false
+    },
+    "ReceivedEvent": {
+      "type": "object",
+      "properties": {
+        "transition": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Transition"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "received"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "transition"
+      ],
+      "additionalProperties": false
+    },
+    "DispositionEvent": {
+      "type": "object",
+      "properties": {
+        "transition": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Transition"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "lost",
+                    "damaged"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "transition"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

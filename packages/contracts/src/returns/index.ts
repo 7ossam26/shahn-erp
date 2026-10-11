@@ -76,7 +76,13 @@ export interface ReturnLineView {
     condition: ReturnCondition;
     version: number;
     receivedAt: string;
-    transferredTo: { branchId: string; branchName: string; quantity: number }[];
+    transferredTo: {
+      branchId: string;
+      branchName: string;
+      quantity: number;
+      wholeParcel: boolean;
+      contents: (ReceiptAllocation & { description: string })[];
+    }[];
   }[];
 }
 export interface ReturnRequestView {
@@ -280,7 +286,22 @@ export const returnDeskSchema = obj({
               condition,
               version: { type: 'integer', minimum: 1 },
               receivedAt: date,
-              transferredTo: array(obj({ branchId: uuid, branchName: str, quantity: whole })),
+              transferredTo: array(
+                obj({
+                  branchId: uuid,
+                  branchName: str,
+                  quantity: whole,
+                  wholeParcel: { type: 'boolean' },
+                  contents: array(
+                    obj({
+                      receiptLineId: uuid,
+                      expectedVersion: { ...rev, minimum: 1 },
+                      quantity: whole,
+                      description: str,
+                    }),
+                  ),
+                }),
+              ),
             }),
           ),
         }),

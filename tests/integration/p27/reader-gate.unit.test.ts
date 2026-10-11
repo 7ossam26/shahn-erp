@@ -2,13 +2,14 @@ import { it, expect } from 'vitest';
 import { randomUUID } from 'node:crypto';
 import {
   readerContractDigest,
+  adoptedCommit,
   requireCompatibleReaders,
 } from '../../../scripts/verification/p27-reader-gate.mjs';
 it('writer gate requires both deployed readers, actual migrations and signed application evidence for this recipient', () => {
   const d = readerContractDigest(),
     reader = {
       releaseId: 'isolated-test-witness',
-      contractCommit: 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2',
+      contractCommit: adoptedCommit,
       contractDigest: d,
       artifactSha256: '1'.repeat(64),
       measurementSha256: '2'.repeat(64),

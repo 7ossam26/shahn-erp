@@ -1,0 +1,22 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.p27.config.ts tests/integration/p27/returned-parcel.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/integration/p27/returned-parcel.db.test.ts (10 tests) 13385ms
+   ✓ rejects a single commercial line of a whole transferred parcel without a cycle, allocation or physical claim 595ms
+   ✓ rejects duplicate IDs, reduced parcel quantity, missing receipts and stale versions without consuming native custody 703ms
+   ✓ keeps a destination parcel with damaged evidence unavailable to customer redispatch 521ms
+   ✓ keeps a destination parcel with uncertain evidence unavailable to customer redispatch 539ms
+   ✓ keeps a destination parcel with suspected evidence unavailable to customer redispatch 524ms
+   ✓ competing whole-parcel redispatches allocate each original receipt exactly once and unknown results retain the original parcel fence and source identity 950ms
+   ✓ definitively rejected remote preparation retains the complete physical claim and cannot hand stock or parcel to a driver 721ms
+   ✓ hands over complete repeated stock with separate captured commercial identities/prices and one total physical movement 702ms
+   ✓ hands over complete distinct stock with separate captured commercial identities/prices and one total physical movement 681ms
+   ✓ hands over complete packed stock with separate captured commercial identities/prices and one total physical movement 455ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  19:42:21
+   Duration  18.70s (tests 72%, import 16%, transform 11%)
+

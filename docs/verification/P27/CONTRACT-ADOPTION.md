@@ -1,3 +1,5 @@
+Latest audit adoption, 2026-10-11: active source `5cca2cfc10c2bd8623f11fa706040d069d4bd943`. [New exact-byte review and conformance](audit-2026-10-11/README.md). Previous adoption and qualified mismatch evidence below remain historical and unchanged.
+
 # Attachment 07 review and P27 adoption disposition
 
 Reviewed 2026-10-10–11 under the current owner instruction and existing attachment 07 change control. Active ERP public-contract baseline advances from `32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada` to the actual reviewed candidate `fff79bcb90aaba5676bbc0cd64d78d9ce93845b2`. This approves the concrete ERP contract/mapping implementation and stated verification scope; it does not approve deployment, certify publisher source-byte/runtime provenance beyond the observations below, or close full joint acceptance. The previous retained baseline is unchanged.

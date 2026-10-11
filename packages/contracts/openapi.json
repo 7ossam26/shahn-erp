@@ -35417,9 +35417,47 @@
                                               "type": "integer",
                                               "minimum": 1,
                                               "maximum": 1000000
+                                            },
+                                            "wholeParcel": { "type": "boolean" },
+                                            "contents": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "receiptLineId": {
+                                                    "type": "string",
+                                                    "format": "uuid"
+                                                  },
+                                                  "expectedVersion": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 9007199254740991
+                                                  },
+                                                  "quantity": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 1000000
+                                                  },
+                                                  "description": { "type": "string" }
+                                                },
+                                                "required": [
+                                                  "receiptLineId",
+                                                  "expectedVersion",
+                                                  "quantity",
+                                                  "description"
+                                                ],
+                                                "additionalProperties": false
+                                              },
+                                              "minItems": 0
                                             }
                                           },
-                                          "required": ["branchId", "branchName", "quantity"],
+                                          "required": [
+                                            "branchId",
+                                            "branchName",
+                                            "quantity",
+                                            "wholeParcel",
+                                            "contents"
+                                          ],
                                           "additionalProperties": false
                                         },
                                         "minItems": 0
@@ -35739,9 +35777,47 @@
                                               "type": "integer",
                                               "minimum": 1,
                                               "maximum": 1000000
+                                            },
+                                            "wholeParcel": { "type": "boolean" },
+                                            "contents": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "receiptLineId": {
+                                                    "type": "string",
+                                                    "format": "uuid"
+                                                  },
+                                                  "expectedVersion": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 9007199254740991
+                                                  },
+                                                  "quantity": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 1000000
+                                                  },
+                                                  "description": { "type": "string" }
+                                                },
+                                                "required": [
+                                                  "receiptLineId",
+                                                  "expectedVersion",
+                                                  "quantity",
+                                                  "description"
+                                                ],
+                                                "additionalProperties": false
+                                              },
+                                              "minItems": 0
                                             }
                                           },
-                                          "required": ["branchId", "branchName", "quantity"],
+                                          "required": [
+                                            "branchId",
+                                            "branchName",
+                                            "quantity",
+                                            "wholeParcel",
+                                            "contents"
+                                          ],
                                           "additionalProperties": false
                                         },
                                         "minItems": 0

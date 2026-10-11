@@ -1,3 +1,4 @@
+import { adoptedTawselRelease } from '@shahn/contracts/tawsel';
 import { it, expect } from 'vitest';
 import { randomBytes, randomUUID, createHash } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -5,7 +6,8 @@ import { pathToFileURL } from 'node:url';
 import { writeFile } from 'node:fs/promises';
 import { Pool } from 'pg';
 import { isolatedPostgres } from '@shahn/test-support';
-import { migrate, transaction } from '@shahn/database';
+import { migrate, transaction, readBrand, readProducts } from '@shahn/database';
+import { cairoDate } from '@shahn/domain';
 import { dispatchFixture } from '../p12/fixtures.js';
 import { TawselClient } from '../../../apps/api/src/modules/integration/tawsel-client.js';
 import type { IntegrationConnection } from '../../../apps/api/src/modules/integration/config.js';
@@ -19,7 +21,10 @@ import { ProjectionWorker } from '../../../apps/api/src/modules/execution/projec
 import { UnitOfWork } from '../../../apps/api/src/modules/kernel/unit-of-work.js';
 import { trackingDetail } from '../../../apps/api/src/modules/tracking/tracking.service.js';
 import { returnCommands } from '../../../apps/api/src/modules/returns/returns.service.js';
-import type { ReturnCommand, ReturnResult } from '@shahn/contracts';
+import type { ReturnCommand, ReturnResult, InventoryResult } from '@shahn/contracts';
+import { inventoryCommands } from '../../../apps/api/src/modules/inventory/service.js';
+import { commercialCommands } from '../../../apps/api/src/modules/brands/service.js';
+import { shipmentCommands } from '../../../apps/api/src/modules/shipments/service.js';
 import type { ReturnRequest } from '@shahn/contracts/tawsel';
 import { goodsTransferCommands } from '../../../apps/api/src/modules/goods-transfers/transfer.service.js';
 import { transferView } from '@shahn/database';
@@ -226,8 +231,77 @@ it('native commercial work crosses independent actual Tawsel HTTP/issuer worker/
       expect(r.status).toBe(200);
       expect((await r.json()).receipt.businessStatus).toBe('accepted');
     }
-    const s = await f.create(),
-      prepared = await f.prepared([s]);
+    const {
+      id: brandId,
+      version: brandVersion,
+      ...brandFields
+    } = (await readBrand(erp.pool, f.company, f.seed.brand))!;
+    await commercialCommands(erp.pool).execute(f.admin.token, {
+      schemaVersion: 1,
+      companyId: f.company,
+      commandId: randomUUID(),
+      type: 'brand.update',
+      entityId: brandId,
+      expectedVersion: brandVersion,
+      fields: {
+        ...brandFields,
+        services: ['brand_packed', 'stored_stock'],
+        defaultService: 'brand_packed',
+        storage: {
+          monthlyFeeMinor: '10000',
+          branchId: f.a,
+          startDate: cairoDate(new Date()),
+          anniversaryDay: Number(cairoDate(new Date()).slice(-2)),
+          active: true,
+          stopDate: null,
+        },
+      },
+    });
+    const product = (
+      await inventoryCommands(erp.pool).execute(f.admin.token, {
+        schemaVersion: 1,
+        companyId: f.company,
+        commandId: randomUUID(),
+        type: 'product.create',
+        brandId,
+        fields: {
+          name: 'Independent whole parcel',
+          active: true,
+          variants: [{ name: 'Shared variant', options: '', active: true }],
+        },
+      })
+    ).body as InventoryResult;
+    const variantId = (await readProducts(erp.pool, f.company)).find(
+      (p) => p.id === product.entityId,
+    )!.variants[0]!.id;
+    await inventoryCommands(erp.pool).execute(f.admin.token, {
+      schemaVersion: 1,
+      companyId: f.company,
+      commandId: randomUUID(),
+      type: 'stock.receive',
+      branchId: f.a,
+      brandId,
+      actualDate: cairoDate(new Date()),
+      lines: [{ variantId, quantity: 3, condition: 'sound' }],
+    });
+    const commercialLines = [1, 2].map((quantity) => ({
+      id: randomUUID(),
+      variantId,
+      description: 'Commercial parcel line ' + quantity,
+      quantity,
+      unitDue: { currency: 'EGP' as const, amountMinor: quantity === 1 ? '10000' : '20000' },
+    }));
+    const s = await f.create({ service: 'stored_stock', lines: commercialLines });
+    await shipmentCommands(erp.pool).execute(f.admin.token, {
+      schemaVersion: 1,
+      companyId: f.company,
+      commandId: randomUUID(),
+      type: 'shipment.prepare',
+      shipmentId: s.shipmentId,
+      expectedVersion: s.version,
+    });
+    s.version = (await f.read(s.shipmentId))!.version;
+    const prepared = await f.prepared([s]);
     await f.commands.execute(
       f.admin.token,
       f.command({
@@ -597,7 +671,7 @@ it('native commercial work crosses independent actual Tawsel HTTP/issuer worker/
           expectedRevision: 0,
           quantity: item.requested,
           condition: 'sound',
-          inspection: 'parcel-exterior',
+          inspection: 'counted-pieces',
           suspectedShortage: false,
         })),
       }),
@@ -689,6 +763,36 @@ it('native commercial work crosses independent actual Tawsel HTTP/issuer worker/
     // Disclosed isolated fixture funding supplies the next dispatch's required
     // shipping cover; it is not a receipt, company remittance or readiness probe.
     await f.credit(f.seed.brand, '100000', '0');
+    await expect(
+      returns.execute(
+        f.admin.token,
+        nativeReturn({
+          type: 'return.redispatch',
+          branchId: f.b,
+          previousCycleId: previous,
+          driverId: f.driver,
+          allocations: returnedLine.slice(0, 1).map((line) => ({
+            receiptLineId: line.id,
+            expectedVersion: line.version + 1,
+            quantity: line.quantity,
+          })),
+        }),
+      ),
+    ).rejects.toMatchObject({ code: 'COMPLETE_TRANSFER_ALLOCATION_REQUIRED' });
+    expect(
+      (
+        await erp.pool.query('SELECT count(*)::int n FROM dispatch.cycle WHERE shipment_id=$1', [
+          s.shipmentId,
+        ])
+      ).rows[0].n,
+    ).toBe(1);
+    expect(
+      (
+        await erp.pool.query('SELECT holder FROM shipments.parcel_custody WHERE shipment_id=$1', [
+          s.shipmentId,
+        ])
+      ).rows[0].holder,
+    ).toBe('branch');
     const again = (
       await returns.execute(
         f.admin.token,
@@ -713,6 +817,61 @@ it('native commercial work crosses independent actual Tawsel HTTP/issuer worker/
     expect(returnedCycles.find((c) => c.latest)?.snapshot.sourceBranchExternalId).toBe(
       'branch:' + f.b,
     );
+    const latestReturn = returnedCycles.find((c) => c.latest)!;
+    expect(latestReturn.snapshot.lines).toHaveLength(2);
+    for (const line of commercialLines)
+      expect(latestReturn.snapshot.lines.find((l) => l.sourceLineId === line.id)).toMatchObject({
+        quantity: line.quantity,
+        unitDue: { amountMinor: Number(line.unitDue.amountMinor) },
+      });
+    expect(
+      (await erp.pool.query('SELECT price FROM dispatch.item WHERE cycle_id=$1', [again.entityId]))
+        .rows[0].price.goodsDueMinor,
+    ).toBe('50000');
+    const dispatch = await f.detail(again.dispatchIntentId!);
+    await f.commands.execute(
+      f.admin.token,
+      f.command({
+        type: 'dispatch.receive',
+        intentId: dispatch.id,
+        expectedVersion: dispatch.version,
+        receiptAsserted: true,
+      }),
+    );
+    await f.completeNext();
+    expect((await f.detail(dispatch.id)).state).toBe('accepted');
+    expect(
+      (
+        await erp.pool.query(
+          'SELECT holder,branch_id,driver_id FROM shipments.parcel_custody WHERE shipment_id=$1',
+          [s.shipmentId],
+        )
+      ).rows[0],
+    ).toEqual({ holder: 'driver', branch_id: f.b, driver_id: f.driver });
+    expect(
+      (
+        await erp.pool.query(
+          'SELECT sum(quantity)::int n,count(*)::int lines FROM dispatch.transferred_return_allocation WHERE cycle_id=$1',
+          [again.entityId],
+        )
+      ).rows[0],
+    ).toEqual({ n: 3, lines: 2 });
+    expect(
+      (
+        await erp.pool.query(
+          'SELECT sound_on_hand::text n FROM inventory.stock_position WHERE branch_id=$1 AND variant_id=$2',
+          [f.b, variantId],
+        )
+      ).rows[0].n,
+    ).toBe('0');
+    expect(
+      (
+        await erp.pool.query(
+          "SELECT sum(m.sound_delta)::text n FROM inventory.stock_movement m JOIN inventory.stock_source ss ON(ss.company_id,ss.id)=(m.company_id,m.source_id) WHERE ss.source_system='redispatch-handover' AND ss.source_identity=$1",
+          [again.entityId],
+        )
+      ).rows[0].n,
+    ).toBe('-3');
     expect(
       (
         await erp.pool.query(
@@ -740,12 +899,12 @@ it('native commercial work crosses independent actual Tawsel HTTP/issuer worker/
     const journals = before.length;
     void Corrections;
     await writeFile(
-      'docs/verification/P27/independent-business.json',
+      'docs/verification/P27/audit-2026-10-11/independent-business.json',
       JSON.stringify(
         {
           classification:
             'Exact candidate Git source in an isolated copy, independent disposable PostgreSQL clusters, actual routing HTTP/scoped provisioning, separate HTTP issuer-administration/OIDC fixture, actual issuer/outbox workers, real driver-session HTTP refusal and signed HTTP native projection. Planning/current actions use authorized domain services. Local protocol issuer, no owner/device/Keycloak/production claim.',
-          publisherCommit: 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2',
+          publisherCommit: adoptedTawselRelease.sourceCommit,
           nativeShipmentId: s.shipmentId,
           taskId: task.taskId,
           roundId: round.roundId,

@@ -192,10 +192,16 @@ export function registerConnectionSetup(
               typeof input.origin !== 'string'
             )
               throw new AccessError('VALIDATION_FAILED', 400);
-            return service.import(token, company, input.importId, input.origin, input.package);
+            return await service.import(
+              token,
+              company,
+              input.importId,
+              input.origin,
+              input.package,
+            );
           }
           if (Object.keys(input).length !== 2) throw new AccessError('VALIDATION_FAILED', 400);
-          return service.verify(token, company, input.importId);
+          return await service.verify(token, company, input.importId);
         } catch (e) {
           if (e instanceof RetainedCommandError)
             return reply.code(e.reply.status).send(e.reply.body);

@@ -1,3 +1,5 @@
+Latest all-findings audit continuation: [2026-10-11 exact adoption, corrections and fresh results](audit-2026-10-11/README.md). Earlier results below retain their original scope and source identity.
+
 # P27 evidence: reviewed interoperability and protected connection
 
 ERP-owned scope verified on disposable local systems; joint target/owner/device acceptance remains pending. No live/shared Tawsel or issuer was modified, deployed or accessed for this task. The approved public-contract pin and qualified source provenance are in [attachment 07 review](CONTRACT-ADOPTION.md); installation, migration, encrypted key recovery and isolated two-server trial are in [connection operations](../../integration/P27-CONNECTION-OPERATIONS.md). The single remaining handoff is [TAWSEL-CHANGE-REQUESTS.md](../../../TAWSEL-CHANGE-REQUESTS.md).

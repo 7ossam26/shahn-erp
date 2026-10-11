@@ -1,7 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { it, expect } from 'vitest';
-import { tawselValidator, validateSenderEvent } from '@shahn/contracts/tawsel';
+import {
+  tawselValidator,
+  validateSenderEvent,
+  adoptedTawselRelease,
+} from '@shahn/contracts/tawsel';
 import { rejectionDisplay } from '@shahn/contracts/execution';
 import {
   approvedOrigin,
@@ -14,8 +18,7 @@ import {
   openPackage,
   type PrivateConnectionPackage,
 } from '../../../apps/api/src/modules/integration/connection-package.js';
-const root =
-  'docs/integration/tawsel-baseline/fff79bcb90aaba5676bbc0cd64d78d9ce93845b2/contracts/examples/';
+const root = `docs/integration/tawsel-baseline/${adoptedTawselRelease.sourceCommit}/contracts/examples/`;
 const examples = (name: string) =>
   JSON.parse(readFileSync(root + name + '.json', 'utf8')) as {
     id: string;
@@ -91,8 +94,8 @@ it('authenticated encryption binds the company/import/key version and supports r
   ) as PrivateConnectionPackage['metadata'];
   // The publisher example uses an illustrative callback. The ERP destination is fixed.
   metadata.callbackUrl = 'https://shahn.example.com/api/v1/consumer/events';
-  metadata.sourceCommit = 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2';
-  metadata.contractSha256 = '1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a';
+  metadata.sourceCommit = adoptedTawselRelease.sourceCommit;
+  metadata.contractSha256 = adoptedTawselRelease.contractSha256;
   const p: PrivateConnectionPackage = {
     metadata,
     credential: {

@@ -7,7 +7,6 @@ it('worker registers source, projection and storage renewal queues and gracefull
       ...process.env,
       APP_ENV: 'test',
       DATABASE_URL: 'postgres://test:LOCAL_SENTINEL@127.0.0.1/unused',
-      MIGRATION_DATABASE_URL: 'postgres://test:LOCAL_SENTINEL@127.0.0.1/unused',
     },
     stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
   });
@@ -40,19 +39,21 @@ it('worker registers source, projection and storage renewal queues and gracefull
   expect(output).toContain('"businessQueues":5');
   expect(output + errors).not.toContain('LOCAL_SENTINEL');
 }, 20000);
-it('missing mandatory worker variable has a readable failure without a secret', () => {
+it('missing runtime DATABASE_URL worker variable has a readable failure without a secret', () => {
   const env = {
     ...process.env,
     APP_ENV: 'test',
     DATABASE_URL: 'postgres://test:LOCAL_SENTINEL@127.0.0.1/unused',
   };
-  delete env['MIGRATION_DATABASE_URL' as keyof typeof env];
+  delete env['DATABASE_URL' as keyof typeof env];
   const result = spawnSync(process.execPath, ['--import', 'tsx', 'apps/worker/src/main.ts'], {
     env,
     encoding: 'utf8',
+    timeout: 15000,
+    windowsHide: true,
   });
   expect(result.status).toBe(1);
-  expect(result.stderr).toContain('MIGRATION_DATABASE_URL is required');
+  expect(result.stderr).toContain('DATABASE_URL is required');
   expect(result.stderr).not.toContain('LOCAL_SENTINEL');
 });
 it('seed refuses production before attempting any database access', () => {
@@ -64,6 +65,8 @@ it('seed refuses production before attempting any database access', () => {
       MIGRATION_DATABASE_URL: 'postgres://test:LOCAL_SENTINEL@127.0.0.1/unused',
     },
     encoding: 'utf8',
+    timeout: 15000,
+    windowsHide: true,
   });
   expect(result.status).toBe(1);
   expect(result.stderr).toContain('seed:dev refuses non-development');

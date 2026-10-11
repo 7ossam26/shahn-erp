@@ -5,6 +5,8 @@ import {
   openPackage,
   packageConnection,
   validInstallationApproval,
+  validInstallationApprovals,
+  matchingInstallationApproval,
   type InstallationApproval,
 } from './connection-package.js';
 
@@ -26,9 +28,7 @@ export function connectionInstallation(): ConnectionInstallation | null {
       keys: Record<string, string>;
     };
     if (
-      !Array.isArray(approvals) ||
-      approvals.some((a) => !validInstallationApproval(a)) ||
-      new Set(approvals.map((a) => a.erpCompanyId)).size !== approvals.length ||
+      !validInstallationApprovals(approvals) ||
       typeof raw.current !== 'string' ||
       !/^[A-Za-z0-9._-]{1,64}$/.test(raw.current) ||
       Object.keys(raw.keys).some((v) => !/^[A-Za-z0-9._-]{1,64}$/.test(v)) ||
@@ -78,9 +78,9 @@ export function authoritativeRuntime(
             throw Error('IMMUTABLE_SIGNING_KEY_ID');
           c.signingKeys[id] = secret;
         }
-      const approval = installation.approvals.find((a) => a.erpCompanyId === companyId);
-      if (!approval) throw Error('INSTALLATION_APPROVAL_REQUIRED');
       const p = openPackage(row.ciphertext, key, companyId + ':' + row.id + ':' + row.key_version);
+      const approval = matchingInstallationApproval(installation.approvals, p.metadata);
+      if (!approval) throw Error('INSTALLATION_APPROVAL_MISMATCH');
       // Scope/endpoint policy is rechecked even after a process or credential restart.
       // Expired credentials remain recoverable and fail authorization at the client boundary.
       if (

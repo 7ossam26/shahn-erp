@@ -1,3 +1,4 @@
+import { adoptedTawselRelease } from '@shahn/contracts/tawsel';
 import { mutationsEnabled } from '@shahn/database';
 import { createHash, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
@@ -28,10 +29,10 @@ import {
 import { recoveryConnection } from './recovery.service.js';
 import type { IntegrationRuntime } from './config.js';
 
-const baseline = 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2';
+const baseline = adoptedTawselRelease.sourceCommit;
 const hashes = {
-  replay: '3caf10f546d24bcd9f3209bc1c128befe87fd683a743c52884f043aca6e3e997',
-  reconcile: '316b64d695836f938a6d6d981974ad144362023010b2a8dc3fc4eea828b10d37',
+  replay: adoptedTawselRelease.schemaSha256['contracts/outbox.schema.json'],
+  reconcile: adoptedTawselRelease.schemaSha256['contracts/consumer.schema.json'],
 };
 export interface RecoveryJobRow {
   company_id: string;

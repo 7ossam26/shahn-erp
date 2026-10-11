@@ -1,0 +1,25 @@
+{
+  "packageVersion": "1.0.0",
+  "tenantId": "10000000-0000-4000-8000-000000000001",
+  "integrationId": "10000000-0000-4000-8000-000000000002",
+  "erpCompanyId": "10000000-0000-4000-8000-000000000003",
+  "sourceExternalId": "shahn",
+  "issuer": "https://identity.example.com/realms/company",
+  "apiUrl": "https://tawsel.example.com/",
+  "callbackUrl": "https://shahn.example.com/api/integrations/tawsel/events",
+  "companyCode": "SHAHN",
+  "sourceCommit": "bbc977b6662a9093eabd0039661f4992a0e5f292",
+  "contractSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "interopVersion": "1.0.0",
+  "capabilities": [
+    "identity.provision",
+    "integration.manage",
+    "intake.prepare",
+    "assignment.manage",
+    "monitor.read",
+    "return.receive",
+    "return.dispose"
+  ],
+  "enrollmentMode": "operator-assisted-exact-subjects",
+  "bootstrapActionId": "10000000-0000-4000-8000-000000000004"
+}

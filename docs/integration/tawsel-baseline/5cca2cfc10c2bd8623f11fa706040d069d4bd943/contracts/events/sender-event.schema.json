@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/events/sender-event.schema.json",
+  "oneOf": [
+    {
+      "$ref": "./sender-event.v1.schema.json"
+    },
+    {
+      "$ref": "./sender-event.v2.schema.json"
+    }
+  ]
+}

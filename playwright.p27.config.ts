@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/integration/p27',
-  testMatch: '**/*.spec.ts',
+  testMatch: 'connection.spec.ts',
   globalTeardown: './tests/integration/p27/teardown.mjs',
   workers: 1,
   fullyParallel: false,

@@ -8,6 +8,14 @@ const publisher = resolve('../tawsel-routing'),
 const identity = JSON.parse(
   await readFile(resolve(candidate, 'metadata/source-identity.json'), 'utf8'),
 );
+const adopted = JSON.parse(
+  await readFile('packages/contracts/src/tawsel/adopted-release.json', 'utf8'),
+);
+if (
+  identity.baseCommit !== adopted.sourceCommit ||
+  identity.sourceSha256 !== adopted.contractSha256
+)
+  throw Error('UNADOPTED_PUBLISHER_SOURCE');
 const sha = (b) => createHash('sha256').update(b).digest('hex');
 await mkdir(target, { recursive: true });
 const origins = [];
@@ -22,6 +30,8 @@ for (const x of identity.files) {
     checkout = await readFile(resolve(publisher, x.path));
   if (git.toString().replaceAll('\r\n', '\n') !== checkout.toString().replaceAll('\r\n', '\n'))
     throw Error('PUBLISHER_SOURCE_SEMANTIC_CHANGE ' + x.path);
+  if (identity.format === 'git-blobs-v1' && sha(git) !== x.sha256)
+    throw Error('PUBLISHER_SOURCE_BYTE_MISMATCH ' + x.path);
   const bytes = git;
   origins.push({
     path: x.path,
@@ -57,11 +67,13 @@ for (const path of ['tsconfig.base.json'])
     execFileSync('git', ['show', identity.baseCommit + ':' + path], { cwd: publisher }),
   );
 await writeFile(
-  'docs/verification/P27/publisher-source-fixture.json',
+  'docs/verification/P27/audit-2026-10-11/publisher-source-fixture.json',
   JSON.stringify(
     {
       classification:
-        'Isolated test source uses exact candidate Git objects; current checkout semantically compared after newline normalization. Publisher source inventory is a separately retained declaration: mixed historical filesystem line endings mean some source digests cannot be reproduced from current checkout/Git. No normalized hash replaces publisher-byte provenance. Original package/manifest/schema/client attachments are verified independently. Installed dependencies reused; no publisher service/build mutation.',
+        identity.format === 'git-blobs-v1'
+          ? 'Exact immutable Git source bytes match every publisher declared digest; checkout comparison handles Git EOL filters only. Current adopted identity verified; generated client separately copied from exact verified bundle. Dependencies reused; isolated databases/processes only.'
+          : 'Legacy exact Git source fixture with explicitly retained original raw-byte mismatch disclosures; no normalized digest replaces publisher declaration.',
       sourceCommit: identity.baseCommit,
       publisherDeclaredSourceSha256: identity.sourceSha256,
       files: identity.files.length,

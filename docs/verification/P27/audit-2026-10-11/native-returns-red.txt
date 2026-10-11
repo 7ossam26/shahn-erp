@@ -1,0 +1,65 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.p27.config.ts tests/integration/p27/returned-parcel.db.test.ts
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/returned-parcel.db.test.ts (4 tests | 4 failed) 6902ms
+   × rejects a single commercial line of a whole transferred parcel without a cycle, allocation or physical claim 672ms
+   × hands over complete repeated stock with separate captured commercial identities/prices and one total physical movement 259ms
+   × hands over complete distinct stock with separate captured commercial identities/prices and one total physical movement 228ms
+   × hands over complete packed stock with separate captured commercial identities/prices and one total physical movement 150ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/returned-parcel.db.test.ts > rejects a single commercial line of a whole transferred parcel without a cycle, allocation or physical claim
+AssertionError: promise resolved "{ status: 202, body: { …(5) } }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "body": {
++     "actionId": "0f733fa5-150d-403e-abd4-6166b313d699",
++     "branchId": "0c53e1ab-5a30-4656-bdbb-b4e94c8447fa",
++     "commandId": "a456eda2-5c00-4078-9012-58122b07c454",
++     "dispatchIntentId": "85a26c61-82e2-45d4-821a-f8467d727fc4",
++     "entityId": "0caa3b5d-e6d6-433b-bafa-2e16f843deec",
++   },
++   "status": 202,
+  }
+
+ ❯ tests/integration/p27/returned-parcel.db.test.ts:25:56
+     23|   const x = await returnedParcel(db.pool, f); await moveReturnedParcel…
+     24|   const all = await allocations(x.s.shipmentId);
+     25|   await expect(redispatch(x.previous, all.slice(0, 1))).rejects.toMatc…
+       |                                                        ^
+     26|   expect((await db.pool.query('SELECT count(*)::int n FROM dispatch.tr…
+     27|   expect((await db.pool.query('SELECT count(*)::int n FROM dispatch.cy…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/integration/p27/returned-parcel.db.test.ts > hands over complete repeated stock with separate captured commercial identities/prices and one total physical movement
+ FAIL  tests/integration/p27/returned-parcel.db.test.ts > hands over complete distinct stock with separate captured commercial identities/prices and one total physical movement
+ FAIL  tests/integration/p27/returned-parcel.db.test.ts > hands over complete packed stock with separate captured commercial identities/prices and one total physical movement
+Error: PENDING_REMOTE_CONFIRMATION
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ Object.received tests/integration/p13/fixtures.ts:141:5
+ ❯ returnedParcel tests/integration/p27/returned-parcel-fixture.ts:43:13
+ ❯ tests/integration/p27/returned-parcel.db.test.ts:32:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  19:33:07
+   Duration  10.78s (tests 65%, import 20%, transform 15%)
+

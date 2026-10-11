@@ -77,6 +77,26 @@ export async function transferredReceiptAllocation(
   const parcel = chosen.every((w) => w.kind === 'parcel');
   if (!parcel && chosen.some((w) => w.kind === 'parcel'))
     throw new AccessError('INCOMPATIBLE_RETURN_LINES', 409);
+  if (parcel) {
+    // The physical claim covers the entire parcel, including receipt lines the
+    // caller omitted. Its immutable transfer allocation is the funding boundary.
+    const contents = (
+      await u.client.query<{ receipt_line_id: string; quantity: number }>(
+        `SELECT a.receipt_line_id,a.quantity FROM returns.receipt_allocation a JOIN returns.return_receipt_line r ON(r.company_id,r.id)=(a.company_id,a.receipt_line_id) WHERE a.company_id=$1 AND a.kind='transfer' AND a.owner_id=$2 AND r.shipment_id=$3 ORDER BY a.receipt_line_id`,
+        [u.access.companyId, first.transferId, shipment],
+      )
+    ).rows;
+    if (
+      contents.length !== selections.length ||
+      contents.some(
+        (c) =>
+          !selections.some(
+            (a) => a.receiptLineId === c.receipt_line_id && a.quantity === c.quantity,
+          ),
+      )
+    )
+      throw new AccessError('COMPLETE_TRANSFER_ALLOCATION_REQUIRED', 409);
+  }
   for (const r of rows) {
     const selected = selections.find((x) => x.receiptLineId === r.id)!,
       w = chosen.find((x) => x.receipt_line_id === r.id)!;
@@ -137,26 +157,47 @@ export async function allocateTransferredReturn(
     !(await claimParcel(u.client, u.access.companyId, shipment, 'dispatch', intent))
   )
     throw new AccessError('COMPETING_PARCEL_CLAIM', 409);
-  const keys = rows
-    .filter((r) => r.variant_id)
-    .map((r) => ({ branchId: r.branch_id, brandId: r.brand_id, variantId: r.variant_id! }))
-    .sort((a, b) => positionKey(a).localeCompare(positionKey(b)));
+  const keys = [
+    ...new Map(
+      rows
+        .filter((r) => r.variant_id)
+        .map((r) => ({ branchId: r.branch_id, brandId: r.brand_id, variantId: r.variant_id! }))
+        .map((k) => [positionKey(k), k]),
+    ).values(),
+  ].sort((a, b) => positionKey(a).localeCompare(positionKey(b)));
   for (const k of keys) u.lockOrder('stock', positionKey(k));
   await new StockPositionRepository().lock(u.client, u.access.companyId, keys);
+  const parcelReservations = new Map<string, string>();
+  if (transfer.parcel) {
+    for (const k of keys) {
+      const required = rows
+        .filter(
+          (r) =>
+            r.branch_id === k.branchId && r.brand_id === k.brandId && r.variant_id === k.variantId,
+        )
+        .reduce(
+          (total, r) => total + selections.find((a) => a.receiptLineId === r.id)!.quantity,
+          0,
+        );
+      const reservations = (
+        await u.client.query<{ id: string; quantity: string }>(
+          `SELECT r.id,r.quantity FROM shipments.stock_allocation a JOIN shipments.shipment s ON(s.company_id,s.id,s.revision)=(a.company_id,a.shipment_id,a.revision) JOIN inventory.stock_reservation r ON(r.company_id,r.id)=(a.company_id,a.reservation_id) WHERE s.company_id=$1 AND s.id=$2 AND (a.branch_id,a.brand_id,a.variant_id)=($3,$4,$5) AND r.active AND NOT r.shortage_held FOR UPDATE OF r`,
+          [u.access.companyId, shipment, k.branchId, k.brandId, k.variantId],
+        )
+      ).rows;
+      if (reservations.length !== 1 || Number(reservations[0]!.quantity) !== required)
+        throw new AccessError('DESTINATION_RESERVATION_REQUIRED', 409);
+      parcelReservations.set(positionKey(k), reservations[0]!.id);
+    }
+  }
   for (const r of rows) {
     const quantity = selections.find((x) => x.receiptLineId === r.id)!.quantity;
     let reservation: string | null = null;
     if (r.variant_id) {
       if (transfer.parcel) {
-        const row = (
-          await u.client.query<{ id: string; quantity: string }>(
-            `SELECT r.id,r.quantity FROM shipments.stock_allocation a JOIN shipments.shipment s ON(s.company_id,s.id,s.revision)=(a.company_id,a.shipment_id,a.revision) JOIN inventory.stock_reservation r ON(r.company_id,r.id)=(a.company_id,a.reservation_id) WHERE s.company_id=$1 AND s.id=$2 AND a.branch_id=$3 AND a.variant_id=$4 AND r.active AND NOT r.shortage_held FOR UPDATE OF r`,
-            [u.access.companyId, shipment, r.branch_id, r.variant_id],
-          )
-        ).rows[0];
-        if (!row || Number(row.quantity) !== quantity)
-          throw new AccessError('DESTINATION_RESERVATION_REQUIRED', 409);
-        reservation = row.id;
+        reservation = parcelReservations.get(
+          positionKey({ branchId: r.branch_id, brandId: r.brand_id, variantId: r.variant_id }),
+        )!;
       } else {
         const source = randomUUID();
         await u.client.query(

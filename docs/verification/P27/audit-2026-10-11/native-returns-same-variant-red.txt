@@ -1,0 +1,32 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run vitest run --config vitest.p27.config.ts tests/integration/p27/returned-parcel.db.test.ts -t complete repeated
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ❯ tests/integration/p27/returned-parcel.db.test.ts (4 tests | 1 failed | 3 skipped) 6832ms
+   ↓ rejects a single commercial line of a whole transferred parcel without a cycle, allocation or physical claim
+   × hands over complete repeated stock with separate captured commercial identities/prices and one total physical movement 816ms
+   ↓ hands over complete distinct stock with separate captured commercial identities/prices and one total physical movement
+   ↓ hands over complete packed stock with separate captured commercial identities/prices and one total physical movement
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/p27/returned-parcel.db.test.ts > hands over complete repeated stock with separate captured commercial identities/prices and one total physical movement
+Error: DESTINATION_RESERVATION_REQUIRED
+ ❯ apps/api/src/modules/kernel/commands.ts:180:38
+    178|       return result.reply;
+    179|     }).then((reply) => {
+    180|       if (reply.status >= 400) throw new RetainedCommandError(reply);
+       |                                      ^
+    181|       return reply;
+    182|     });
+ ❯ tests/integration/p27/returned-parcel.db.test.ts:34:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  19:33:29
+   Duration  11.81s (tests 59%, import 25%, transform 16%)
+

@@ -1,0 +1,77 @@
+
+ RUN  v5.0.3 C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp
+
+ ✓ tests/unit/process-lifecycle.test.ts (3 tests) 5075ms
+   ✓ worker registers source, projection and storage renewal queues and gracefully stops its actual process 2380ms
+   ✓ missing runtime DATABASE_URL worker variable has a readable failure without a secret 2224ms
+   ✓ seed refuses production before attempting any database access 470ms
+ ✓ tests/integration/p18/ui.unit.test.tsx (3 tests) 10256ms
+   ✓ explicit review explains 400 eligible / 200 obligation / zero cash before confirm and preserves unknown response across remount 3005ms
+   ✓ protected period and incorrect shares keep confirmation disabled; explicit allowed month requires another preview 2928ms
+   ✓ partial report selects only unclaimed pieces, preserves long reasons and has no valuation intake field 4322ms
+ ✓ tests/integration/p21/ui.unit.test.tsx (12 tests) 6257ms
+   ✓ normal: the reviewed observation is confirmed once with the previewed versions and a required reason 646ms
+   ✓ stale: nothing is recorded, the new effect is re-previewed and must be confirmed again 721ms
+   ✓ blocked: a blocker is shown with its consequence and confirmation is impossible 402ms
+   ✓ unknown result survives remount, blocks a second identity and recovers with the same command 588ms
+   ✓ already resolved: the definite answer releases the identity and explains where to look 544ms
+   ✓ denied: an out-of-scope target answer records nothing and keeps the form 523ms
+   ✓ storage refund requires the explicit actual cash-out assertion before review 400ms
+   ✓ opening batch: typed lines, no-profit notice and one confirmation 730ms
+   ✓ opening duplicate target is blocked with the existing batch reference 482ms
+   ✓ opening lost response is recovered from the command record without a second batch 820ms
+ ✓ tests/unit/form.test.tsx (2 tests) 1938ms
+   ✓ Demonstration form connected behavior (2)
+     ✓ validates, confirms exact amount, disables while pending, retains values and focuses error 1246ms
+     ✓ rejects whitespace title, extra precision and overflow before confirmation 690ms
+ ✓ tests/integration/p17/ui.unit.test.tsx (8 tests) 3594ms
+   ✓ P17 payout form (connected browser-equivalent script checks, no Playwright) (6)
+     ✓ reviews a closed scope, confirms once with the preview revision and follows the committed response 655ms
+     ✓ requires an off-day reason before confirmation; the server decides off-day 1076ms
+     ✓ shows server blockers (insufficient funds or held credit) and cannot confirm 361ms
+     ✓ an unknown result keeps the same command identity through reload-style recovery; no second payout 574ms
+     ✓ a changed wallet reopens review with committed numbers and keeps the entered intent 529ms
+ ✓ tests/integration/p20/ui.unit.test.tsx (4 tests) 1179ms
+   ✓ read-only full net; unknown response survives remount and 404 retry reuses the exact command identity 642ms
+ ✓ tests/integration/p13/contracts.unit.test.ts (167 tests) 407ms
+ ✓ tests/integration/p16/contracts.unit.test.ts (79 tests) 173ms
+ ✓ tests/integration/p23/ui.unit.test.tsx (3 tests) 616ms
+ ✓ tests/unit/employees.test.ts (9 tests) 115ms
+ ✓ tests/integration/p11/contracts.unit.test.ts (98 tests) 70ms
+ ✓ tests/integration/p23/contracts.unit.test.ts (5 tests) 92ms
+ ✓ tests/integration/p19/calendar.unit.test.ts (18 tests) 35ms
+ ✓ tests/integration/p14/contracts.unit.test.ts (39 tests) 60ms
+ ✓ tests/integration/p15/contracts.unit.test.ts (12 tests) 49ms
+ ✓ tests/integration/p12/contracts.unit.test.ts (23 tests) 24ms
+ ✓ tests/integration/p22/contracts.unit.test.ts (7 tests) 45ms
+ ✓ tests/integration/p21/contracts.unit.test.ts (13 tests) 28ms
+ ✓ tests/integration/p17/contracts.unit.test.ts (17 tests) 10ms
+ ✓ tests/integration/p18/contracts.unit.test.ts (8 tests) 11ms
+ ✓ tests/integration/p20/calculation.unit.test.ts (6 tests) 13ms
+ ✓ tests/integration/p24/sources.unit.test.ts (16 tests) 16ms
+ ✓ tests/unit/access.test.ts (37 tests) 11ms
+ ✓ tests/integration/p18/outbox-adapter.unit.test.ts (1 test) 17ms
+ ✓ tests/unit/shipments.test.ts (17 tests) 13ms
+ ✓ tests/unit/kernel.test.ts (15 tests) 10ms
+ ✓ tests/integration/p19/contracts.unit.test.ts (6 tests) 6ms
+ ✓ tests/unit/brands.test.ts (4 tests) 11ms
+ ✓ tests/unit/treasury-transfers.test.ts (16 tests) 9ms
+ ✓ tests/unit/money.test.ts (22 tests) 8ms
+ ✓ tests/unit/stock-fulfillment.test.ts (4 tests) 9ms
+ ✓ tests/unit/finance.test.ts (12 tests) 8ms
+ ✓ tests/unit/inventory.test.ts (4 tests) 7ms
+ ✓ tests/integration/p25/operations.unit.test.ts (4 tests) 6ms
+ ✓ tests/integration/p24/contracts.unit.test.ts (3 tests) 6ms
+ ✓ tests/integration/p26/issuer-config.unit.test.ts (2 tests) 3ms
+ ✓ tests/unit/contracts.test.ts (2 tests) 4ms
+
+ Test Files  37 passed (37)
+      Tests  701 passed (701)
+   Start at  22:02:43
+   Duration  56.69s (import 45%, tests 28%, environment 19%, transform 4%, setup 4%)
+
+     Import  281 modules were evaluated 3571 times · 48.55s total, 45% of tracked time
+             ~21.07s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+JSON report written to C:/Users/7OSS/Desktop/projects/routing + erp/shahn-erp/docs/verification/P27/audit-2026-10-11/unit-final-bounded.json

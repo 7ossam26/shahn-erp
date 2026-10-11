@@ -6,3 +6,5 @@ export * from './intake.js';
 export * from './canonical-json.js';
 export * from './returns.js';
 export * from './recovery.js';
+
+export { default as adoptedTawselRelease } from './adopted-release.json' with { type: 'json' };

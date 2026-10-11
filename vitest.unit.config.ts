@@ -23,6 +23,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['tests/unit/setup.ts'],
     passWithNoTests: false,
+    // Bound simultaneous jsdom runtimes so UI polling keeps its existing deadlines.
+    maxWorkers: 2,
     reporters: ['default'],
     testTimeout: 10000,
   },

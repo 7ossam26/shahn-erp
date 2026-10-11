@@ -1,0 +1,1038 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/monitoring.schema.json",
+  "title": "Coherent scoped monitoring",
+  "$defs": {
+    "Change": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "correlationId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "recordedAt",
+        "correlationId"
+      ]
+    },
+    "Freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "refreshedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "receivedEvidenceOnly": {
+          "const": true
+        },
+        "deviceContactAt": {
+          "type": "null"
+        },
+        "lastReceivedActionAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrationDelivery": {
+          "const": "unavailable"
+        }
+      },
+      "required": [
+        "refreshedAt",
+        "receivedEvidenceOnly",
+        "deviceContactAt",
+        "lastReceivedActionAt",
+        "integrationDelivery"
+      ]
+    },
+    "Progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "processedAttempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "processedShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "fullDeliveredShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "partialShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "failedShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "remainingShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "shipments",
+        "attempts",
+        "processedAttempts",
+        "processedShipments",
+        "fullDeliveredShipments",
+        "partialShipments",
+        "failedShipments",
+        "remainingShipments"
+      ]
+    },
+    "Groups": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preparedShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "heldShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "deferredShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "returnRequiredShipments": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "heldPieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "returnRequiredPieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "preparedShipments",
+        "heldShipments",
+        "deferredShipments",
+        "returnRequiredShipments",
+        "heldPieces",
+        "returnRequiredPieces"
+      ]
+    },
+    "Round": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "roundId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workdayId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "roundId",
+        "workdayId",
+        "startedAt",
+        "endedAt"
+      ]
+    },
+    "Workday": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workdayId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "openedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "workdayId",
+        "openedAt",
+        "endedAt"
+      ]
+    },
+    "Task": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "dispatchCycleId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attemptId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "branchId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "recipientName": {
+          "type": "string"
+        },
+        "recipientPhone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "$ref": "common.schema.json#/$defs/Coordinates"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "enum": [
+            "prepared",
+            "held",
+            "unassigned",
+            "withdrawn",
+            "personal"
+          ]
+        },
+        "earliestAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deferred": {
+          "type": "boolean"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "full",
+                "partial",
+                "refused",
+                "no-answer"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outcomeRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "heldPieces": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "returnRequiredPieces": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "eligible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "taskId",
+        "dispatchCycleId",
+        "attemptId",
+        "branchId",
+        "integrationId",
+        "sourceRevision",
+        "assignmentRevision",
+        "recipientName",
+        "recipientPhone",
+        "coordinates",
+        "state",
+        "earliestAt",
+        "deferred",
+        "outcome",
+        "outcomeRevision",
+        "heldPieces",
+        "returnRequiredPieces",
+        "eligible"
+      ]
+    },
+    "Current": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "customer",
+            "branch"
+          ]
+        },
+        "taskId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attemptId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "branchId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stage": {
+          "enum": [
+            "heading",
+            "arrived",
+            "awaiting-receipt"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "taskId",
+        "attemptId",
+        "branchId",
+        "stage"
+      ]
+    },
+    "Plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "orderedTaskIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "planId",
+        "revision",
+        "orderedTaskIds"
+      ]
+    },
+    "Owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "deviceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "accountId",
+        "deviceId",
+        "generation"
+      ]
+    },
+    "Action": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "actionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "acceptedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "businessStatus": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "review-required"
+          ]
+        }
+      },
+      "required": [
+        "sourceId",
+        "actionId",
+        "operationId",
+        "receivedAt",
+        "acceptedAt",
+        "businessStatus"
+      ]
+    },
+    "Cycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dispatchCycleId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "taskId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "driverId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignmentRevision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "enum": [
+            "unassigned",
+            "prepared",
+            "held",
+            "withdrawn"
+          ]
+        },
+        "receivedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "departureAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "dispatchCycleId",
+        "taskId",
+        "driverId",
+        "sourceRevision",
+        "assignmentRevision",
+        "state",
+        "receivedAt",
+        "departureAt",
+        "latest"
+      ]
+    },
+    "Attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "attemptId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "taskId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "roundId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "dispatchCycleId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "admittedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "stage": {
+          "enum": [
+            "available",
+            "heading",
+            "arrived",
+            "paused",
+            "resolved"
+          ]
+        }
+      },
+      "required": [
+        "attemptId",
+        "taskId",
+        "roundId",
+        "dispatchCycleId",
+        "admittedAt",
+        "stage"
+      ]
+    },
+    "HistoryItem": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "outcome"
+            },
+            "outcome": {
+              "$ref": "outcomes.schema.json#/$defs/Record"
+            },
+            "effective": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "outcome",
+            "effective"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "correction"
+            },
+            "correction": {
+              "$ref": "corrections.schema.json#/$defs/Record"
+            }
+          },
+          "required": [
+            "kind",
+            "correction"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "cycle"
+            },
+            "cycle": {
+              "$ref": "#/$defs/Cycle"
+            }
+          },
+          "required": [
+            "kind",
+            "cycle"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "attempt"
+            },
+            "attempt": {
+              "$ref": "#/$defs/Attempt"
+            }
+          },
+          "required": [
+            "kind",
+            "attempt"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "action"
+            },
+            "action": {
+              "$ref": "#/$defs/Action"
+            }
+          },
+          "required": [
+            "kind",
+            "action"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "round"
+            },
+            "round": {
+              "$ref": "#/$defs/Round"
+            }
+          },
+          "required": [
+            "kind",
+            "round"
+          ]
+        }
+      ]
+    },
+    "Snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scopeKey": {
+          "type": "string"
+        },
+        "snapshotRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "lastCommittedChange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Change"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness": {
+          "$ref": "#/$defs/Freshness"
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "driverId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "workday": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Workday"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "round": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Round"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Current"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nextSuggestion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Task"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plan": {
+          "$ref": "#/$defs/Plan"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Owner"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "progress": {
+          "$ref": "#/$defs/Progress"
+        },
+        "groups": {
+          "$ref": "#/$defs/Groups"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Task"
+          }
+        }
+      },
+      "required": [
+        "scopeKey",
+        "snapshotRevision",
+        "lastCommittedChange",
+        "freshness",
+        "nextCursor",
+        "driverId",
+        "workday",
+        "round",
+        "current",
+        "nextSuggestion",
+        "plan",
+        "owner",
+        "progress",
+        "groups",
+        "items"
+      ]
+    },
+    "History": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scopeKey": {
+          "type": "string"
+        },
+        "snapshotRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "lastCommittedChange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Change"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness": {
+          "$ref": "#/$defs/Freshness"
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resourceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "progress": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Progress"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HistoryItem"
+          }
+        }
+      },
+      "required": [
+        "scopeKey",
+        "snapshotRevision",
+        "lastCommittedChange",
+        "freshness",
+        "nextCursor",
+        "resourceId",
+        "progress",
+        "items"
+      ]
+    },
+    "ActionSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scopeKey": {
+          "type": "string"
+        },
+        "snapshotRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "lastCommittedChange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Change"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness": {
+          "$ref": "#/$defs/Freshness"
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action": {
+          "$ref": "#/$defs/Action"
+        }
+      },
+      "required": [
+        "scopeKey",
+        "snapshotRevision",
+        "lastCommittedChange",
+        "freshness",
+        "nextCursor",
+        "action"
+      ]
+    }
+  }
+}

@@ -1,0 +1,646 @@
+{
+  "classification": "Actual isolated Keycloak8185, disposable PostgreSQL, production PWA/Chromium/IndexedDB and browser-process restart; controlled routing; no native Shahn/physical-device claim",
+  "browser": "153.0.8010.12",
+  "offlineActions": [
+    {
+      "scope": "[\"company\",\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"4de463ab-9b4e-4f0e-b0a0-391616652788\"]",
+      "actionId": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+      "sequence": 2,
+      "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+      "envelope": {
+        "schemaVersion": "1.0.0",
+        "payloadVersion": "1.0.0",
+        "actionId": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+        "operationId": "current.recordArrival",
+        "context": {
+          "kind": "device",
+          "tenantId": "d0eb6b45-669f-49e3-9c89-1990048be5c4",
+          "accountId": "36a149de-1ce5-4655-a86c-122fc2ecf5db",
+          "deviceId": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+          "deviceGeneration": 1,
+          "deviceSequence": 2
+        },
+        "resources": {
+          "tripId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        },
+        "baseVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 1,
+          "sourceRevision": 1,
+          "assignmentGeneration": 1
+        },
+        "dependsOnActionIds": [],
+        "observation": {
+          "observedAt": "2026-10-10T08:19:44.308Z",
+          "clock": {
+            "quality": "uncertain"
+          }
+        },
+        "payload": {
+          "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedActivityRevision": 1,
+          "expectedCurrentAttemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedSourceRevision": 1,
+          "expectedAssignmentRevision": 1,
+          "expectedPinRevision": 0
+        }
+      },
+      "bytes": "{\"schemaVersion\":\"1.0.0\",\"payloadVersion\":\"1.0.0\",\"actionId\":\"7c9880eb-bd0e-454f-b156-e0167c789a7a\",\"operationId\":\"current.recordArrival\",\"context\":{\"kind\":\"device\",\"tenantId\":\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"accountId\":\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"deviceId\":\"4de463ab-9b4e-4f0e-b0a0-391616652788\",\"deviceGeneration\":1,\"deviceSequence\":2},\"resources\":{\"tripId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\"},\"baseVersions\":{\"deviceGeneration\":1,\"resourceRevision\":1,\"sourceRevision\":1,\"assignmentGeneration\":1},\"dependsOnActionIds\":[],\"observation\":{\"observedAt\":\"2026-10-10T08:19:44.308Z\",\"clock\":{\"quality\":\"uncertain\"}},\"payload\":{\"roundId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedActivityRevision\":1,\"expectedCurrentAttemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedSourceRevision\":1,\"expectedAssignmentRevision\":1,\"expectedPinRevision\":0}}",
+      "capturedAt": "2026-10-10T08:19:44.321Z",
+      "href": "/rounds/current?kind=company"
+    },
+    {
+      "scope": "[\"company\",\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"4de463ab-9b4e-4f0e-b0a0-391616652788\"]",
+      "actionId": "9147acb9-bb01-4ded-bac6-0b90e0698ff6",
+      "sequence": 3,
+      "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+      "envelope": {
+        "schemaVersion": "1.0.0",
+        "payloadVersion": "2.0.0",
+        "actionId": "9147acb9-bb01-4ded-bac6-0b90e0698ff6",
+        "operationId": "outcome.recordPartial",
+        "context": {
+          "kind": "device",
+          "tenantId": "d0eb6b45-669f-49e3-9c89-1990048be5c4",
+          "accountId": "36a149de-1ce5-4655-a86c-122fc2ecf5db",
+          "deviceId": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+          "deviceGeneration": 1,
+          "deviceSequence": 3
+        },
+        "resources": {
+          "tripId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        },
+        "baseVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 2,
+          "sourceRevision": 1,
+          "assignmentGeneration": 1
+        },
+        "dependsOnActionIds": [],
+        "observation": {
+          "observedAt": "2026-10-10T08:19:45.916Z",
+          "clock": {
+            "quality": "uncertain"
+          }
+        },
+        "payload": {
+          "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedActivityRevision": 2,
+          "expectedCurrentAttemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedSourceRevision": 1,
+          "expectedAssignmentRevision": 1,
+          "expectedPinRevision": 0,
+          "pieces": [
+            {
+              "sourceLineId": "pieces",
+              "delivered": 2
+            }
+          ],
+          "reportedCollection": {
+            "amountMinor": 25000,
+            "currency": "EGP",
+            "exponent": 2
+          },
+          "rejection": {
+            "catalogVersion": "1.0.0",
+            "code": "missing-pieces"
+          }
+        }
+      },
+      "bytes": "{\"schemaVersion\":\"1.0.0\",\"payloadVersion\":\"2.0.0\",\"actionId\":\"9147acb9-bb01-4ded-bac6-0b90e0698ff6\",\"operationId\":\"outcome.recordPartial\",\"context\":{\"kind\":\"device\",\"tenantId\":\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"accountId\":\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"deviceId\":\"4de463ab-9b4e-4f0e-b0a0-391616652788\",\"deviceGeneration\":1,\"deviceSequence\":3},\"resources\":{\"tripId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\"},\"baseVersions\":{\"deviceGeneration\":1,\"resourceRevision\":2,\"sourceRevision\":1,\"assignmentGeneration\":1},\"dependsOnActionIds\":[],\"observation\":{\"observedAt\":\"2026-10-10T08:19:45.916Z\",\"clock\":{\"quality\":\"uncertain\"}},\"payload\":{\"roundId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedActivityRevision\":2,\"expectedCurrentAttemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedSourceRevision\":1,\"expectedAssignmentRevision\":1,\"expectedPinRevision\":0,\"pieces\":[{\"sourceLineId\":\"pieces\",\"delivered\":2}],\"reportedCollection\":{\"amountMinor\":25000,\"currency\":\"EGP\",\"exponent\":2},\"rejection\":{\"catalogVersion\":\"1.0.0\",\"code\":\"missing-pieces\"}}}",
+      "capturedAt": "2026-10-10T08:19:45.932Z",
+      "href": "/rounds/current?kind=company"
+    },
+    {
+      "scope": "[\"company\",\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"4de463ab-9b4e-4f0e-b0a0-391616652788\"]",
+      "actionId": "9e48c2a3-e289-439f-b3cd-c550e90eda8a",
+      "sequence": 1,
+      "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+      "envelope": {
+        "schemaVersion": "1.0.0",
+        "payloadVersion": "1.0.0",
+        "actionId": "9e48c2a3-e289-439f-b3cd-c550e90eda8a",
+        "operationId": "current.selectHeading",
+        "context": {
+          "kind": "device",
+          "tenantId": "d0eb6b45-669f-49e3-9c89-1990048be5c4",
+          "accountId": "36a149de-1ce5-4655-a86c-122fc2ecf5db",
+          "deviceId": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+          "deviceGeneration": 1,
+          "deviceSequence": 1
+        },
+        "resources": {
+          "tripId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        },
+        "baseVersions": {
+          "deviceGeneration": 1,
+          "sourceRevision": 1,
+          "assignmentGeneration": 1
+        },
+        "dependsOnActionIds": [],
+        "observation": {
+          "observedAt": "2026-10-10T08:19:42.520Z",
+          "clock": {
+            "quality": "uncertain"
+          }
+        },
+        "payload": {
+          "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedActivityRevision": 0,
+          "expectedCurrentAttemptId": null,
+          "expectedSourceRevision": 1,
+          "expectedAssignmentRevision": 1,
+          "expectedPinRevision": 0
+        }
+      },
+      "bytes": "{\"schemaVersion\":\"1.0.0\",\"payloadVersion\":\"1.0.0\",\"actionId\":\"9e48c2a3-e289-439f-b3cd-c550e90eda8a\",\"operationId\":\"current.selectHeading\",\"context\":{\"kind\":\"device\",\"tenantId\":\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"accountId\":\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"deviceId\":\"4de463ab-9b4e-4f0e-b0a0-391616652788\",\"deviceGeneration\":1,\"deviceSequence\":1},\"resources\":{\"tripId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\"},\"baseVersions\":{\"deviceGeneration\":1,\"sourceRevision\":1,\"assignmentGeneration\":1},\"dependsOnActionIds\":[],\"observation\":{\"observedAt\":\"2026-10-10T08:19:42.520Z\",\"clock\":{\"quality\":\"uncertain\"}},\"payload\":{\"roundId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedActivityRevision\":0,\"expectedCurrentAttemptId\":null,\"expectedSourceRevision\":1,\"expectedAssignmentRevision\":1,\"expectedPinRevision\":0}}",
+      "capturedAt": "2026-10-10T08:19:42.540Z",
+      "href": "/rounds/current?kind=company"
+    },
+    {
+      "scope": "[\"company\",\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"4de463ab-9b4e-4f0e-b0a0-391616652788\"]",
+      "actionId": "d3a97641-8d53-4603-b386-f915cdee2a89",
+      "sequence": 4,
+      "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+      "envelope": {
+        "schemaVersion": "1.0.0",
+        "payloadVersion": "2.0.0",
+        "actionId": "d3a97641-8d53-4603-b386-f915cdee2a89",
+        "context": {
+          "kind": "device",
+          "tenantId": "d0eb6b45-669f-49e3-9c89-1990048be5c4",
+          "accountId": "36a149de-1ce5-4655-a86c-122fc2ecf5db",
+          "deviceId": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+          "deviceGeneration": 1,
+          "deviceSequence": 4
+        },
+        "resources": {
+          "tripId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        },
+        "baseVersions": {
+          "deviceGeneration": 1
+        },
+        "dependsOnActionIds": [],
+        "observation": {
+          "observedAt": "2026-10-10T08:19:49.002Z",
+          "clock": {
+            "quality": "uncertain"
+          }
+        },
+        "operationId": "outcome.correct",
+        "payload": {
+          "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+          "expectedOutcomeRevision": 1,
+          "replacement": {
+            "outcome": "partial",
+            "pieces": [
+              {
+                "sourceLineId": "pieces",
+                "delivered": 1
+              }
+            ],
+            "reportedCollection": {
+              "amountMinor": 15000,
+              "currency": "EGP",
+              "exponent": 2
+            },
+            "rejection": {
+              "catalogVersion": "1.0.0",
+              "code": "other",
+              "detail": "اللون مختلف عن الطلب"
+            }
+          }
+        }
+      },
+      "bytes": "{\"schemaVersion\":\"1.0.0\",\"payloadVersion\":\"2.0.0\",\"actionId\":\"d3a97641-8d53-4603-b386-f915cdee2a89\",\"context\":{\"kind\":\"device\",\"tenantId\":\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"accountId\":\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"deviceId\":\"4de463ab-9b4e-4f0e-b0a0-391616652788\",\"deviceGeneration\":1,\"deviceSequence\":4},\"resources\":{\"tripId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\"},\"baseVersions\":{\"deviceGeneration\":1},\"dependsOnActionIds\":[],\"observation\":{\"observedAt\":\"2026-10-10T08:19:49.002Z\",\"clock\":{\"quality\":\"uncertain\"}},\"operationId\":\"outcome.correct\",\"payload\":{\"roundId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"3ff04132-906a-5a49-a8bd-b6c528080f96\",\"attemptId\":\"e17faa56-912c-4ac4-b3c4-6297d48726ca\",\"expectedOutcomeRevision\":1,\"replacement\":{\"outcome\":\"partial\",\"pieces\":[{\"sourceLineId\":\"pieces\",\"delivered\":1}],\"reportedCollection\":{\"amountMinor\":15000,\"currency\":\"EGP\",\"exponent\":2},\"rejection\":{\"catalogVersion\":\"1.0.0\",\"code\":\"other\",\"detail\":\"اللون مختلف عن الطلب\"}}}}",
+      "capturedAt": "2026-10-10T08:19:49.067Z",
+      "href": "/execution/correction?kind=company&attemptId=e17faa56-912c-4ac4-b3c4-6297d48726ca"
+    },
+    {
+      "scope": "[\"company\",\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"4de463ab-9b4e-4f0e-b0a0-391616652788\"]",
+      "actionId": "e025c8cf-3431-405b-b1d1-014053aa5844",
+      "sequence": 5,
+      "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+      "envelope": {
+        "schemaVersion": "1.0.0",
+        "payloadVersion": "2.0.0",
+        "actionId": "e025c8cf-3431-405b-b1d1-014053aa5844",
+        "operationId": "outcome.recordRefusal",
+        "context": {
+          "kind": "device",
+          "tenantId": "d0eb6b45-669f-49e3-9c89-1990048be5c4",
+          "accountId": "36a149de-1ce5-4655-a86c-122fc2ecf5db",
+          "deviceId": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+          "deviceGeneration": 1,
+          "deviceSequence": 5
+        },
+        "resources": {
+          "tripId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "ac5746fa-aaa8-5935-a22f-82824bc3c4e7",
+          "attemptId": "158d9a11-766c-4e95-8f82-572ff03fe6f2"
+        },
+        "baseVersions": {
+          "deviceGeneration": 1,
+          "resourceRevision": 3,
+          "sourceRevision": 1,
+          "assignmentGeneration": 1
+        },
+        "dependsOnActionIds": [],
+        "observation": {
+          "observedAt": "2026-10-10T08:19:51.042Z",
+          "clock": {
+            "quality": "uncertain"
+          }
+        },
+        "payload": {
+          "roundId": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+          "taskId": "ac5746fa-aaa8-5935-a22f-82824bc3c4e7",
+          "attemptId": "158d9a11-766c-4e95-8f82-572ff03fe6f2",
+          "expectedActivityRevision": 3,
+          "expectedCurrentAttemptId": null,
+          "expectedSourceRevision": 1,
+          "expectedAssignmentRevision": 1,
+          "expectedPinRevision": 0,
+          "shippingPayment": "collected",
+          "reportedCollection": {
+            "amountMinor": 5000,
+            "currency": "EGP",
+            "exponent": 2
+          },
+          "rejection": {
+            "catalogVersion": "1.0.0",
+            "code": "other",
+            "detail": "العميل لم يعد يحتاج الشحنة"
+          }
+        }
+      },
+      "bytes": "{\"schemaVersion\":\"1.0.0\",\"payloadVersion\":\"2.0.0\",\"actionId\":\"e025c8cf-3431-405b-b1d1-014053aa5844\",\"operationId\":\"outcome.recordRefusal\",\"context\":{\"kind\":\"device\",\"tenantId\":\"d0eb6b45-669f-49e3-9c89-1990048be5c4\",\"accountId\":\"36a149de-1ce5-4655-a86c-122fc2ecf5db\",\"deviceId\":\"4de463ab-9b4e-4f0e-b0a0-391616652788\",\"deviceGeneration\":1,\"deviceSequence\":5},\"resources\":{\"tripId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"ac5746fa-aaa8-5935-a22f-82824bc3c4e7\",\"attemptId\":\"158d9a11-766c-4e95-8f82-572ff03fe6f2\"},\"baseVersions\":{\"deviceGeneration\":1,\"resourceRevision\":3,\"sourceRevision\":1,\"assignmentGeneration\":1},\"dependsOnActionIds\":[],\"observation\":{\"observedAt\":\"2026-10-10T08:19:51.042Z\",\"clock\":{\"quality\":\"uncertain\"}},\"payload\":{\"roundId\":\"5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71\",\"taskId\":\"ac5746fa-aaa8-5935-a22f-82824bc3c4e7\",\"attemptId\":\"158d9a11-766c-4e95-8f82-572ff03fe6f2\",\"expectedActivityRevision\":3,\"expectedCurrentAttemptId\":null,\"expectedSourceRevision\":1,\"expectedAssignmentRevision\":1,\"expectedPinRevision\":0,\"shippingPayment\":\"collected\",\"reportedCollection\":{\"amountMinor\":5000,\"currency\":\"EGP\",\"exponent\":2},\"rejection\":{\"catalogVersion\":\"1.0.0\",\"code\":\"other\",\"detail\":\"العميل لم يعد يحتاج الشحنة\"}}}",
+      "capturedAt": "2026-10-10T08:19:51.050Z",
+      "href": "/rounds/current?kind=company"
+    }
+  ],
+  "state": {
+    "rounds": [
+      {
+        "driver_id": "e64fc073-1521-4f49-b701-c312d39f7844",
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "owner_device_id": "4de463ab-9b4e-4f0e-b0a0-391616652788",
+        "device_generation": "1"
+      }
+    ],
+    "outcomes": [
+      {
+        "task_id": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+        "attempt_id": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+        "revision": "1",
+        "outcome": "partial",
+        "arrival": {
+          "actionId": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+          "recordedAt": "2026-10-10T08:19:44.427Z",
+          "observation": {
+            "clock": {
+              "quality": "uncertain"
+            },
+            "observedAt": "2026-10-10T08:19:44.308Z"
+          }
+        },
+        "collection": {
+          "goods": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 20000
+          },
+          "reported": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 25000
+          },
+          "shipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 5000
+          },
+          "shippingStatus": "collected",
+          "unpaidShipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          }
+        },
+        "rejection": {
+          "code": "missing-pieces",
+          "catalogVersion": "1.0.0"
+        }
+      },
+      {
+        "task_id": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+        "attempt_id": "e17faa56-912c-4ac4-b3c4-6297d48726ca",
+        "revision": "2",
+        "outcome": "partial",
+        "arrival": {
+          "actionId": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+          "recordedAt": "2026-10-10T08:19:44.427Z",
+          "observation": {
+            "clock": {
+              "quality": "uncertain"
+            },
+            "observedAt": "2026-10-10T08:19:44.308Z"
+          }
+        },
+        "collection": {
+          "goods": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 10000
+          },
+          "reported": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 15000
+          },
+          "shipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 5000
+          },
+          "shippingStatus": "collected",
+          "unpaidShipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          }
+        },
+        "rejection": {
+          "code": "other",
+          "detail": "اللون مختلف عن الطلب",
+          "catalogVersion": "1.0.0"
+        }
+      },
+      {
+        "task_id": "ac5746fa-aaa8-5935-a22f-82824bc3c4e7",
+        "attempt_id": "158d9a11-766c-4e95-8f82-572ff03fe6f2",
+        "revision": "1",
+        "outcome": "refused",
+        "arrival": null,
+        "collection": {
+          "goods": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          },
+          "reported": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 5000
+          },
+          "shipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 5000
+          },
+          "shippingStatus": "collected",
+          "unpaidShipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          }
+        },
+        "rejection": {
+          "code": "other",
+          "detail": "العميل لم يعد يحتاج الشحنة",
+          "catalogVersion": "1.0.0"
+        }
+      },
+      {
+        "task_id": "d49c4a83-acb3-5275-a0b6-bd51b43c1575",
+        "attempt_id": "be425607-9090-459a-8ddb-285c489c51fb",
+        "revision": "1",
+        "outcome": "no-answer",
+        "arrival": {
+          "actionId": "87d691e6-be93-41d0-8272-9b659c31e9de",
+          "recordedAt": "2026-10-10T08:19:55.667Z",
+          "observation": {
+            "clock": {
+              "quality": "uncertain"
+            },
+            "observedAt": "2026-10-10T08:19:55.602Z"
+          }
+        },
+        "collection": {
+          "goods": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          },
+          "reported": null,
+          "shipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          },
+          "shippingStatus": "not-attempted",
+          "unpaidShipping": {
+            "currency": "EGP",
+            "exponent": 2,
+            "amountMinor": 0
+          }
+        },
+        "rejection": null
+      }
+    ],
+    "actions": [
+      {
+        "operation_id": "task.createIndependent",
+        "action_id": "48377861-a597-434b-a20a-26267471b905",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "task.createIndependent",
+        "action_id": "56bf725e-bca7-4af3-8546-03f85ba3b51e",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "current.selectHeading",
+        "action_id": "9e48c2a3-e289-439f-b3cd-c550e90eda8a",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "current.recordArrival",
+        "action_id": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "outcome.recordPartial",
+        "action_id": "9147acb9-bb01-4ded-bac6-0b90e0698ff6",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "outcome.correct",
+        "action_id": "d3a97641-8d53-4603-b386-f915cdee2a89",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "outcome.recordRefusal",
+        "action_id": "e025c8cf-3431-405b-b1d1-014053aa5844",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "current.selectHeading",
+        "action_id": "3e9069ae-5a23-46c6-a0c4-262f6a06d847",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "current.recordArrival",
+        "action_id": "87d691e6-be93-41d0-8272-9b659c31e9de",
+        "business_status": "accepted"
+      },
+      {
+        "operation_id": "outcome.recordNoAnswer",
+        "action_id": "6c8dfe84-db84-459b-a810-5b95f31e9e0e",
+        "business_status": "accepted"
+      }
+    ],
+    "history": [
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "1",
+        "operation_id": "current.selectHeading",
+        "current_activity": {
+          "stage": "heading",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "arrival": null,
+          "heading": {
+            "actionId": "9e48c2a3-e289-439f-b3cd-c550e90eda8a",
+            "recordedAt": "2026-10-10T08:19:42.623Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:42.520Z"
+            }
+          },
+          "revision": 1,
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        }
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "2",
+        "operation_id": "current.recordArrival",
+        "current_activity": {
+          "stage": "arrived",
+          "taskId": "3ff04132-906a-5a49-a8bd-b6c528080f96",
+          "arrival": {
+            "actionId": "7c9880eb-bd0e-454f-b156-e0167c789a7a",
+            "recordedAt": "2026-10-10T08:19:44.427Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:44.308Z"
+            }
+          },
+          "heading": {
+            "actionId": "9e48c2a3-e289-439f-b3cd-c550e90eda8a",
+            "recordedAt": "2026-10-10T08:19:42.623Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:42.520Z"
+            }
+          },
+          "revision": 2,
+          "attemptId": "e17faa56-912c-4ac4-b3c4-6297d48726ca"
+        }
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "3",
+        "operation_id": "outcome.recordPartial",
+        "current_activity": null
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "4",
+        "operation_id": "outcome.recordRefusal",
+        "current_activity": null
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "5",
+        "operation_id": "current.selectHeading",
+        "current_activity": {
+          "stage": "heading",
+          "taskId": "d49c4a83-acb3-5275-a0b6-bd51b43c1575",
+          "arrival": null,
+          "heading": {
+            "actionId": "3e9069ae-5a23-46c6-a0c4-262f6a06d847",
+            "recordedAt": "2026-10-10T08:19:54.175Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:54.074Z"
+            }
+          },
+          "revision": 5,
+          "attemptId": "be425607-9090-459a-8ddb-285c489c51fb"
+        }
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "6",
+        "operation_id": "current.recordArrival",
+        "current_activity": {
+          "stage": "arrived",
+          "taskId": "d49c4a83-acb3-5275-a0b6-bd51b43c1575",
+          "arrival": {
+            "actionId": "87d691e6-be93-41d0-8272-9b659c31e9de",
+            "recordedAt": "2026-10-10T08:19:55.667Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:55.602Z"
+            }
+          },
+          "heading": {
+            "actionId": "3e9069ae-5a23-46c6-a0c4-262f6a06d847",
+            "recordedAt": "2026-10-10T08:19:54.175Z",
+            "observation": {
+              "clock": {
+                "quality": "uncertain"
+              },
+              "observedAt": "2026-10-10T08:19:54.074Z"
+            }
+          },
+          "revision": 6,
+          "attemptId": "be425607-9090-459a-8ddb-285c489c51fb"
+        }
+      },
+      {
+        "round_id": "5abbba7f-4c3e-4e78-ad6f-9e1e0989ee71",
+        "revision": "7",
+        "operation_id": "outcome.recordNoAnswer",
+        "current_activity": null
+      }
+    ]
+  }
+}

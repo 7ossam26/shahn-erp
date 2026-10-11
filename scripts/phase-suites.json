@@ -764,7 +764,9 @@
       "filter": [
         "tests/integration/p27/contracts.unit.test.ts",
         "tests/integration/p27/transport.unit.test.ts",
-        "tests/integration/p27/reader-gate.unit.test.ts"
+        "tests/integration/p27/reader-gate.unit.test.ts",
+        "tests/integration/p27/monitoring-transport.unit.test.ts",
+        "tests/integration/p27/approval-transition.unit.test.ts"
       ]
     },
     "database": {
@@ -778,7 +780,9 @@
         "tests/integration/p27/managed.db.test.ts",
         "tests/integration/p27/reasons.db.test.ts",
         "tests/integration/p27/relocation.db.test.ts",
-        "tests/integration/p27/migration.db.test.ts"
+        "tests/integration/p27/returned-parcel.db.test.ts",
+        "tests/integration/p27/migration.db.test.ts",
+        "tests/integration/p27/release-provenance.db.test.ts"
       ]
     },
     "browser": {
@@ -786,6 +790,12 @@
       "extension": ".spec",
       "script": "test:p27:browser",
       "config": "playwright.p27.config.ts"
+    },
+    "returnedParcelBrowser": {
+      "directory": "tests/integration/p27",
+      "extension": ".spec",
+      "script": "playwright test --config playwright.returned-parcel.config.ts",
+      "config": "playwright.returned-parcel.config.ts"
     },
     "publicIntegration": {
       "directory": "tests/integration/p27",

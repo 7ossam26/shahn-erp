@@ -62,6 +62,27 @@ export async function returnDesk(
         )
       ).rows[0]?.version;
       if (sourceVersion !== '2.0.0') for (const receipt of receipts) receipt.transferredTo = [];
+      else
+        for (const receipt of receipts) {
+          for (const destination of receipt.transferredTo) {
+            const witness = (
+              await u.client.query<{ owner_id: string; kind: string }>(
+                `SELECT a.owner_id,tl.kind FROM returns.receipt_allocation a JOIN goods_transfer.manifest m ON(m.company_id,m.id)=(a.company_id,a.owner_id) JOIN goods_transfer.line tl ON(tl.company_id,tl.manifest_id)=(m.company_id,m.id) WHERE a.company_id=$1 AND a.receipt_line_id=$2 AND a.kind='transfer' AND m.state='closed' AND m.destination_branch_id=$3 AND (tl.kind='parcel' AND tl.shipment_id=$4 OR tl.kind='loose' AND (tl.brand_id,tl.variant_id)=(SELECT brand_id,variant_id FROM returns.return_receipt_line WHERE company_id=$1 AND id=$2)) ORDER BY m.created_at DESC LIMIT 1`,
+                [company, receipt.id, destination.branchId, i.shipment_id],
+              )
+            ).rows[0]!;
+            destination.wholeParcel = witness.kind === 'parcel';
+            destination.contents =
+              witness.kind === 'parcel'
+                ? (
+                    await u.client.query(
+                      `SELECT l.id AS "receiptLineId",l.version AS "expectedVersion",a.quantity,sl.description FROM returns.receipt_allocation a JOIN returns.return_receipt_line l ON(l.company_id,l.id)=(a.company_id,a.receipt_line_id) JOIN shipments.shipment s ON(s.company_id,s.id)=(l.company_id,l.shipment_id) JOIN shipments.line sl ON(sl.company_id,sl.shipment_id,sl.revision,sl.id::text)=(s.company_id,s.id,s.revision,l.source_line_id) WHERE a.company_id=$1 AND a.kind='transfer' AND a.owner_id=$2 AND l.shipment_id=$3 ORDER BY l.source_line_id,l.id`,
+                      [company, witness.owner_id, i.shipment_id],
+                    )
+                  ).rows
+                : [];
+          }
+        }
       if (f) {
         if (f.brands.length && !f.brands.includes(sh.brand_id)) continue;
         const digits = (v: string) =>

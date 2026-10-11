@@ -17,7 +17,21 @@ await migrate(db.pool);
 const f = await setupFixture(db.pool, origin),
   privateDir = await mkdtemp(join(tmpdir(), 'shahn-p27-browser-'));
 await mkdir('docs/verification/P27/screenshots', { recursive: true });
+await mkdir('docs/verification/P27/audit-2026-10-11/screenshots', { recursive: true });
 await writeFile(join(privateDir, 'operator-package.json'), JSON.stringify(f.p), { mode: 0o600 });
+const revoked = structuredClone(f.p);
+revoked.credential.bearer = 'twp_' + crypto.randomUUID() + '.' + randomBytes(32).toString('hex');
+f.rejectedBearers.add(revoked.credential.bearer);
+await writeFile(join(privateDir, 'revoked-package.json'), JSON.stringify(revoked), { mode: 0o600 });
+const expired = structuredClone(f.p),
+  rotated = structuredClone(f.p);
+expired.credential.expiresAt = '2026-01-01T00:00:00Z';
+rotated.credential.bearer = 'twp_' + crypto.randomUUID() + '.' + randomBytes(32).toString('hex');
+rotated.credential.expiresAt = '2027-10-02T00:00:00Z';
+rotated.signingKeys[0]!.verifyUntil = '2027-01-01T00:00:00Z';
+rotated.signingKeys.push({ keyId: 'rotated', secret: randomBytes(32).toString('hex') });
+await writeFile(join(privateDir, 'expired-package.json'), JSON.stringify(expired), { mode: 0o600 });
+await writeFile(join(privateDir, 'rotated-package.json'), JSON.stringify(rotated), { mode: 0o600 });
 const app = await createApplication(
   { environment: 'test', runtimeUrl: db.url, migrationUrl: db.url },
   f.config,
@@ -56,6 +70,9 @@ await writeFile(
     secret,
     companyId: f.company,
     packagePath: join(privateDir, 'operator-package.json'),
+    revokedPackagePath: join(privateDir, 'revoked-package.json'),
+    expiredPackagePath: join(privateDir, 'expired-package.json'),
+    rotatedPackagePath: join(privateDir, 'rotated-package.json'),
   }),
   { mode: 0o600 },
 );

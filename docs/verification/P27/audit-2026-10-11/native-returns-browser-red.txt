@@ -1,0 +1,39 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.returned-parcel.config.ts
+[WebServer] (node:1176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:20460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group (17.9s)
+
+
+  1) tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('section.return-form').first().getByText('إعادة إرسال الطرد كاملاً بجميع محتوياته')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('section.return-form').first().getByText('إعادة إرسال الطرد كاملاً بجميع محتوياته') with timeout 10000ms
+      - waiting for locator('section.return-form').first().getByText('إعادة إرسال الطرد كاملاً بجميع محتوياته')
+
+
+      10 |     await form.getByLabel('الإجراء التالي').selectOption('redispatch');
+      11 |     await form.getByLabel('فرع الدورة الجديدة').selectOption(f.branch);
+    > 12 |     await expect(form.getByText('إعادة إرسال الطرد كاملاً بجميع محتوياته')).toBeVisible();
+         |                                                                             ^
+      13 |     await expect(form.getByRole('list', { name: 'محتويات الطرد لإعادة الإرسال' }).getByRole('listitem')).toHaveCount(2);
+      14 |     await expect(form.getByRole('spinbutton')).toHaveCount(0);
+      15 |     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p27\returned-parcel.spec.ts:12:77
+
+    Error Context: test-results\returned-parcel-mobile-and-d11b3-s-one-full-allocation-group\error-context.md
+
+  1 failed
+    tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group 

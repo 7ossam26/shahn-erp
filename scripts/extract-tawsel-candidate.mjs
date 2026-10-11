@@ -1,7 +1,8 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { createHash } from 'node:crypto';
-const commit = 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2';
+const commit = process.argv[2];
+if (!/^[a-f0-9]{40}$/.test(commit ?? '')) throw Error('EXPLICIT_REVIEWED_CANDIDATE_REQUIRED');
 const root = `docs/integration/tawsel-baseline/${commit}`;
 const manifest = JSON.parse(await readFile(`${root}/release-manifest.json`, 'utf8'));
 const extracted = [];
@@ -27,7 +28,7 @@ await writeFile(
     '];\n',
 );
 await writeFile(
-  'docs/verification/P27/candidate-extraction.json',
+  `docs/verification/P27/audit-2026-10-11/candidate-extraction-${commit}.json`,
   JSON.stringify({ candidateCommit: commit, extracted }, null, 2) + '\n',
 );
 console.log(JSON.stringify({ candidateCommit: commit, schemas: extracted.length }));

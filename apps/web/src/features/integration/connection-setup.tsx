@@ -12,6 +12,11 @@ interface SafeImport {
   state: string;
   signing: string;
 }
+interface ConnectionIntent {
+  importId: string;
+  commandId: string;
+  stage: 'checking' | 'review-required' | 'confirmation-pending' | 'confirmation-rejected';
+}
 interface ConnectionStatus {
   state: string;
   connection?: {
@@ -38,16 +43,44 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
     [file, setFile] = useState<File | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
-    [intent, setIntent] = useState<{ importId: string; commandId: string } | null>(() => {
+    [intent, setIntent] = useState<ConnectionIntent | null>(() => {
       try {
         const x = JSON.parse(sessionStorage.getItem(key) ?? 'null');
-        return x && typeof x.importId === 'string' && typeof x.commandId === 'string' ? x : null;
+        return x && typeof x.importId === 'string' && typeof x.commandId === 'string'
+          ? {
+              importId: x.importId,
+              commandId: x.commandId,
+              stage: [
+                'checking',
+                'review-required',
+                'confirmation-pending',
+                'confirmation-rejected',
+              ].includes(x.stage)
+                ? x.stage
+                : 'confirmation-pending',
+            }
+          : null;
       } catch {
         return null;
       }
     }),
-    [imported, setImported] = useState<SafeImport | null>(null),
-    [rejected, setRejected] = useState(false);
+    [imported, setImported] = useState<SafeImport | null>(null);
+  const rejected = intent?.stage === 'confirmation-rejected',
+    pending = intent?.stage === 'confirmation-pending',
+    review = rejected || intent?.stage === 'review-required';
+  function retain(ids: ConnectionIntent | null) {
+    if (ids) sessionStorage.setItem(key, JSON.stringify(ids));
+    else sessionStorage.removeItem(key);
+    setIntent(ids);
+  }
+  function stage(next: ConnectionIntent['stage']) {
+    setIntent((prior) => {
+      if (!prior) return null;
+      const value = { ...prior, stage: next };
+      sessionStorage.setItem(key, JSON.stringify(value));
+      return value;
+    });
+  }
   async function call(path: string, body?: unknown) {
     const r = await fetch('/api/v1/integration/connection/' + path, {
       credentials: 'same-origin',
@@ -69,6 +102,10 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
         'يلزم تضمين المفتاح السابق وموعد انتهاء تداخل التحقق لحماية التسليمات المعلقة.',
       REMOTE_SETUP_CHANGED_REIMPORT_REQUIRED:
         'تغير الإعداد المؤكد لدى توصيل. يلزم حزمة محدثة مع الاحتفاظ بطلبات التشغيل القديمة.',
+      AUTHORIZATION_EXPIRED:
+        'توصيل رفض تفويض الحزمة؛ اطلب حزمة مصححة أو تدويراً معتمداً، ثم ابدأ استيراداً جديداً بعد المراجعة.',
+      IMPORT_IDENTITY_CONFLICT:
+        'محتوى الحزمة مختلف عن الاستيراد المحفوظ. بعد المراجعة ابدأ استيراداً جديداً بهوية مستقلة.',
     };
     if (!r.ok) {
       if (
@@ -76,7 +113,11 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
         r.status === 409 &&
         x.commandId === intent?.commandId
       )
-        setRejected(true);
+        stage('confirmation-rejected');
+      else if (path === 'confirm' && !x.commandId && errors[x.code])
+        // These errors are returned by the pre-command verification boundary.
+        // A lost response remains pending; it cannot authorize a new identity.
+        stage('review-required');
       throw Error(
         errors[x.code] ?? 'تعذر التحقق. احتفظنا بمعرّف الطلب؛ استرد حالته قبل إنشاء طلب آخر.',
       );
@@ -89,13 +130,17 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
     queryFn: () => call('status?companyId=' + encodeURIComponent(company)),
   });
   if (!support) return null;
-  async function perform(work: () => Promise<void>) {
+  async function perform(work: () => Promise<void>, reviewOnFailure = false) {
     setBusy(true);
     setError('');
     try {
       await work();
       await q.refetch();
     } catch (e) {
+      if (reviewOnFailure) {
+        setImported(null);
+        stage('review-required');
+      }
       setError(e instanceof Error ? e.message : 'تعذر استكمال الإعداد');
     } finally {
       setBusy(false);
@@ -140,15 +185,16 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
           />
           {
             <Button
-              disabled={!file || !origin || busy}
+              disabled={!file || !origin || busy || !!intent}
               onClick={() =>
                 perform(async () => {
                   const ids = intent ?? {
                     importId: crypto.randomUUID(),
                     commandId: crypto.randomUUID(),
+                    stage: 'checking' as const,
                   };
-                  setIntent(ids);
-                  sessionStorage.setItem(key, JSON.stringify(ids));
+                  retain(ids);
+                  setImported(null);
                   const selected = file!;
                   setFile(null);
                   let value: unknown;
@@ -173,7 +219,7 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
                     if (input) input.value = '';
                   }
                   setImported(await call('verify', { companyId: company, importId: ids.importId }));
-                })
+                }, true)
               }
             >
               استيراد وفحص الاتصال
@@ -181,19 +227,20 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
           }
           {intent && (
             <Button
-              disabled={busy}
+              disabled={busy || pending || rejected}
               onClick={() =>
                 perform(async () => {
                   setImported(
                     await call('verify', { companyId: company, importId: intent.importId }),
                   );
-                })
+                  stage('checking');
+                }, !pending)
               }
             >
               استرداد الفحص بنفس الهوية
             </Button>
           )}
-          {intent && !imported && (
+          {intent && (!imported || pending) && (
             <Button
               disabled={busy}
               onClick={() =>
@@ -205,8 +252,8 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
                       encodeURIComponent(intent.commandId),
                   );
                   if (result.sourceId) {
-                    sessionStorage.removeItem(key);
-                    setIntent(null);
+                    retain(null);
+                    setImported(null);
                   }
                 })
               }
@@ -214,26 +261,55 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
               استرداد نتيجة التأكيد
             </Button>
           )}
-          {rejected && (
+          {pending && (
+            <p role="status">
+              نتيجة التأكيد غير محسومة. استرد النتيجة أو أعد التأكيد بنفس الهوية؛ لا تبدأ استيراداً
+              آخر حتى حسم الطلب الأصلي.
+            </p>
+          )}
+          {pending && !imported && (
+            <Button
+              disabled={busy}
+              onClick={() =>
+                perform(async () => {
+                  if (!intent) return;
+                  await call('confirm', {
+                    schemaVersion: 1,
+                    companyId: company,
+                    type: 'integration.confirmConnection',
+                    importId: intent.importId,
+                    commandId: intent.commandId,
+                  });
+                  retain(null);
+                })
+              }
+            >
+              إعادة التأكيد بنفس الهوية
+            </Button>
+          )}
+          {review && (
             <>
               <p>
-                الطلب الأصلي مرفوض نهائياً ومحفوظ للمراجعة. بعد معالجة السبب، ابدأ استيراداً جديداً؛
-                الاسترداد لا يغيّر الرفض.
+                {rejected
+                  ? 'طلب التأكيد مرفوض نهائياً ومحفوظ للمراجعة.'
+                  : 'تعذر استكمال استيراد الحزمة أو فحصها؛ لم يُرسل تأكيد لهذا الطلب. يمكنك استرداد الفحص أو ترك هذا الاستيراد بعد المراجعة.'}{' '}
+                بعد معالجة السبب ابدأ استيراداً جديداً بهوية مستقلة. تبقى أدلة الاستيراد القديم
+                محفوظة.
               </p>
               <Button
                 disabled={busy}
                 onClick={() => {
-                  sessionStorage.removeItem(key);
-                  setIntent(null);
+                  retain(null);
                   setImported(null);
-                  setRejected(false);
+                  setError('');
+                  setFile(null);
                 }}
               >
                 بدء استيراد جديد بعد المراجعة
               </Button>
             </>
           )}
-          {imported && !rejected && (
+          {imported && !rejected && !review && (
             <>
               <dl>
                 <dt>الشركة</dt>
@@ -258,14 +334,15 @@ export function ConnectionSetupPanel({ users }: { users: IntegrationNativeChoice
                 onClick={() =>
                   perform(async () => {
                     if (!intent) return;
+                    stage('confirmation-pending');
                     await call('confirm', {
                       schemaVersion: 1,
                       companyId: company,
                       type: 'integration.confirmConnection',
-                      ...intent,
+                      importId: intent.importId,
+                      commandId: intent.commandId,
                     });
-                    sessionStorage.removeItem(key);
-                    setIntent(null);
+                    retain(null);
                     setImported(null);
                   })
                 }

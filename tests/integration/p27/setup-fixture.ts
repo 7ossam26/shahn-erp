@@ -1,5 +1,6 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
+import { adoptedTawselRelease } from '@shahn/contracts/tawsel';
 import { accessFixture, fixtureConfig } from '../../support/access.js';
 import { AccessRepository } from '../../../apps/api/src/modules/access/repository.js';
 import { ConnectionSetup } from '../../../apps/api/src/modules/integration/connection-setup.service.js';
@@ -33,8 +34,8 @@ export async function setupFixture(pool: Pool, origin = 'http://127.0.0.1:5337')
       apiUrl: 'https://routing.example/',
       callbackUrl: 'https://erp.example/api/v1/consumer/events',
       companyCode: 'TRIAL',
-      sourceCommit: 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2',
-      contractSha256: '1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a',
+      sourceCommit: adoptedTawselRelease.sourceCommit,
+      contractSha256: adoptedTawselRelease.contractSha256,
       interopVersion: '2.0.0',
       capabilities: requiredGrants,
       enrollmentMode: 'operator-assisted-exact-subjects',
@@ -68,23 +69,27 @@ export async function setupFixture(pool: Pool, origin = 'http://127.0.0.1:5337')
     publicOrigin: 'https://erp.example',
     issuer: f.config.issuer,
   };
+  const rejectedBearers = new Set<string>();
   const client = (value: PrivateConnectionPackage) => {
     const c = new TawselClient(packageConnection(value));
-    c.configuration = async () => ({
-      identity: {
-        mode: 'service-operation',
-        tenantId: p.metadata.tenantId,
-        integrationId: p.metadata.integrationId,
-        actorId: null,
-      },
-      issuer: p.metadata.issuer,
-      supportedVersions: ['1.0.0', '2.0.0'],
-      allowedOperations: [],
-      humanDelegation: false,
-      erpCompanyId: f.company,
-      interopVersion: '2.0.0',
-      serviceCapabilities: requiredGrants,
-    });
+    c.configuration = async () => {
+      if (rejectedBearers.has(value.credential.bearer)) throw Error('AUTHORIZATION_EXPIRED');
+      return {
+        identity: {
+          mode: 'service-operation',
+          tenantId: p.metadata.tenantId,
+          integrationId: p.metadata.integrationId,
+          actorId: null,
+        },
+        issuer: p.metadata.issuer,
+        supportedVersions: ['1.0.0', '2.0.0'],
+        allowedOperations: [],
+        humanDelegation: false,
+        erpCompanyId: f.company,
+        interopVersion: '2.0.0',
+        serviceCapabilities: requiredGrants,
+      };
+    };
     c.status = async () => ({
       entity: 'source',
       externalId: 'shahn',
@@ -99,5 +104,11 @@ export async function setupFixture(pool: Pool, origin = 'http://127.0.0.1:5337')
     });
     return c;
   };
-  return { ...f, p, installation, service: new ConnectionSetup(pool, installation, client) };
+  return {
+    ...f,
+    p,
+    installation,
+    rejectedBearers,
+    service: new ConnectionSetup(pool, installation, client),
+  };
 }

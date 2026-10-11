@@ -1,3 +1,4 @@
+import adoptedRelease from '../packages/contracts/src/tawsel/adopted-release.json' with { type: 'json' };
 import { createHash } from 'node:crypto';
 import { readMigrations, migrationStatus } from '@shahn/database';
 export async function releaseManifest(pool, { releaseId, configVersion, backupCheckpoint }) {
@@ -9,7 +10,9 @@ export async function releaseManifest(pool, { releaseId, configVersion, backupCh
     releaseId,
     configVersion,
     backupCheckpoint,
-    tawselBaseline: '32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada',
+    tawselBaseline: adoptedRelease.sourceCommit,
+    tawselSourceSha256: adoptedRelease.contractSha256,
+    tawselConsumerRuntimeSha256: adoptedRelease.consumerRuntimeSha256,
     migrations: migrations.map(({ version, checksum }) => ({ version, checksum })),
     migrationDigest: createHash('sha256')
       .update(JSON.stringify(migrations.map(({ version, checksum }) => ({ version, checksum }))))

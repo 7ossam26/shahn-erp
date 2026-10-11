@@ -5,6 +5,37 @@ import { AccessError, type Capability } from '@shahn/domain';
 import { tawselValidator, tawselUuid } from '@shahn/contracts/tawsel';
 import type { IntegrationRuntime } from '../integration/config.js';
 import { UnitOfWork } from '../kernel/unit-of-work.js';
+import { connectionTransport } from '../integration/approved-transport.js';
+const monitoringMaxBytes = 2097152;
+/** Keep the deadline active after headers, including explicitly injected test streams. */
+async function monitoringText(response: Response, signal: AbortSignal): Promise<string> {
+  if (!response.body) return '';
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  const stop = () => {
+    void reader.cancel().catch(() => {});
+  };
+  signal.addEventListener('abort', stop, { once: true });
+  try {
+    while (true) {
+      signal.throwIfAborted();
+      const { done, value } = await reader.read();
+      signal.throwIfAborted();
+      if (done) break;
+      size += value.length;
+      if (size > monitoringMaxBytes) {
+        void reader.cancel().catch(() => {});
+        throw new AccessError('MONITORING_TOO_LARGE', 502);
+      }
+      chunks.push(value);
+    }
+    return Buffer.concat(chunks).toString('utf8');
+  } finally {
+    signal.removeEventListener('abort', stop);
+    reader.releaseLock();
+  }
+}
 export type MonitoringKind = 'drivers' | 'trips' | 'tasks' | 'workdays' | 'actions';
 export interface MonitoringBody {
   scopeKey: string;
@@ -40,7 +71,7 @@ export class MonitoringReader {
   constructor(
     readonly pool: Pool,
     readonly runtime: IntegrationRuntime,
-    readonly transport: typeof fetch = fetch,
+    readonly transport?: typeof fetch,
   ) {}
   async read(
     token: string,
@@ -84,6 +115,7 @@ export class MonitoringReader {
       Date.parse(connection.serviceExpiresAt) <= Date.now()
     )
       throw new AccessError('SOURCE_AUTHORIZATION_REQUIRED', 409);
+    const transport = this.transport ?? connectionTransport(connection, monitoringMaxBytes);
     let body: MonitoringBody | null = null,
       etag: string | null = null,
       status = 503,
@@ -100,16 +132,23 @@ export class MonitoringReader {
         if (cursor) q.set('cursor', cursor);
         q.set('limit', '100');
         let response: Response;
+        let raw = '';
+        const signal = AbortSignal.timeout(15000);
         try {
-          response = await this.transport(new URL(path + '?' + q, connection.baseUrl), {
+          response = await transport(new URL(path + '?' + q, connection.baseUrl), {
             redirect: 'error',
-            signal: AbortSignal.timeout(15000),
+            signal,
             headers: {
               Authorization: 'Bearer ' + connection.serviceBearer,
               ...(!cursor && !restart && cache?.etag ? { 'If-None-Match': cache.etag } : {}),
             },
           });
-        } catch {
+          if (response.status === 200) raw = await monitoringText(response, signal);
+          else if (response.body) void response.body.cancel().catch(() => {});
+        } catch (error) {
+          if (error instanceof AccessError) throw error;
+          if (error instanceof Error && error.message === 'REMOTE_RESULT_TOO_LARGE')
+            throw new AccessError('MONITORING_TOO_LARGE', 502);
           status = 503;
           break;
         }
@@ -136,8 +175,6 @@ export class MonitoringReader {
           break;
         }
         if (status !== 200) break;
-        const raw = await response.text();
-        if (Buffer.byteLength(raw) > 2097152) throw new AccessError('MONITORING_TOO_LARGE', 502);
         let page: unknown;
         try {
           page = JSON.parse(raw);

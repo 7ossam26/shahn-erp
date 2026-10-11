@@ -15,7 +15,11 @@ import {
   type PrivateConnectionPackage,
 } from '../../../apps/api/src/modules/integration/connection-package.js';
 import { TawselClient } from '../../../apps/api/src/modules/integration/tawsel-client.js';
-import type { SourceConfiguration, ProvisioningStatus } from '@shahn/contracts/tawsel';
+import {
+  adoptedTawselRelease,
+  type SourceConfiguration,
+  type ProvisioningStatus,
+} from '@shahn/contracts/tawsel';
 let db: Awaited<ReturnType<typeof isolatedPostgres>>,
   f: Awaited<ReturnType<typeof accessFixture>>,
   installation: ConnectionInstallation,
@@ -50,8 +54,8 @@ beforeAll(async () => {
       apiUrl: 'https://routing.example/',
       callbackUrl: f.config.origin + '/api/v1/consumer/events',
       companyCode: 'TRIAL',
-      sourceCommit: 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2',
-      contractSha256: '1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a',
+      sourceCommit: adoptedTawselRelease.sourceCommit,
+      contractSha256: adoptedTawselRelease.contractSha256,
       interopVersion: '2.0.0',
       capabilities: requiredGrants,
       enrollmentMode: 'operator-assisted-exact-subjects',

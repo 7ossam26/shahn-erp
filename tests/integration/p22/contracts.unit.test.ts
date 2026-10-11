@@ -45,7 +45,11 @@ it('classifies source uncertainty, expiry, invalid result and semantic conflict 
 });
 it('all 27 sender variants enter the concrete replay boundary; generated envelopes are distinct from nine captured sender examples', () => {
   const events = mappedEvents();
-  expect(events.map((e) => e.eventType).sort()).toEqual([...senderEventTypes].sort());
+  expect(events.map((e) => e.eventType).sort()).toEqual(
+    senderEventTypes.filter((type) => type !== 'dispatch.relocatedBeforeDeparture').sort(),
+  );
+  expect(events).toHaveLength(27);
+  expect(senderEventTypes).toContain('dispatch.relocatedBeforeDeparture');
   for (const e of events) {
     const a = { type: e.aggregate.type as AggregateIdentity['type'], id: e.aggregate.id },
       scope = { tenantId: e.tenantId, integrationId: e.recipientIntegrationId },

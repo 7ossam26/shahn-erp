@@ -1,3 +1,4 @@
+import { adoptedTawselRelease } from '@shahn/contracts/tawsel';
 import { beforeEach, afterEach, it, expect } from 'vitest';
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -165,7 +166,7 @@ it('sequence 3, current snapshot through 3, late events 1/2 and live/replay dupl
   await drain();
   const release = JSON.parse(
     readFileSync(
-      'docs/integration/tawsel-baseline/fff79bcb90aaba5676bbc0cd64d78d9ce93845b2/release-manifest.json',
+      `docs/integration/tawsel-baseline/${adoptedTawselRelease.sourceCommit}/release-manifest.json`,
       'utf8',
     ),
   );

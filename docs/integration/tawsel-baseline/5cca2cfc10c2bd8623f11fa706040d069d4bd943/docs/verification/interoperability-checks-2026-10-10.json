@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-10",
+  "classification": "Actual local runs; matching public proof has separate source/runtime hashes; reference/mock consumer is not native Shahn",
+  "runs": [
+    {
+      "command": "npm run check",
+      "result": "passed; 1180 tests / 67 files; audit-high, lint, contracts, typecheck, builds",
+      "privateLogSha256": "0d021ce13e8bc2a39d51febf86ad9e78f4acf2522ed9aee050e7d9e46b01cb30"
+    },
+    {
+      "command": "reason signed identity recording",
+      "result": "1 passed (focused rerun; 19 unselected tests)",
+      "privateLogSha256": "b973d0b4cd1effb897fd81bc411387dfde08367d075c3e91c093889005418826"
+    },
+    {
+      "command": "canonical/queued-action/release tests",
+      "result": "passed; new canonical examples and unsupported-version reader",
+      "privateLogSha256": "cef8184a3a599d3790c030ca62df61369b4991fc2f568ef35e9ece90486894e9"
+    },
+    {
+      "command": "production v2 browser restart/offline/arrival",
+      "result": "1 passed",
+      "privateLogSha256": "ee8a52d3d9769381c07f964422a7cc6a44797492f5c2ed93337cc6df6b90227b"
+    },
+    {
+      "command": "production legacy exception/retry/correction journey",
+      "result": "1 passed",
+      "privateLogSha256": "eb877f858c51c2fffad92563435570d80fa270ca0722da6696e498557d7884e1"
+    },
+    {
+      "command": "legacy replay browser",
+      "result": "2 passed",
+      "privateLogSha256": "6568ef0f97ff4c31a762116fd73e0efa33fb32ba8213b3d6f02b455169acea11"
+    },
+    {
+      "command": "legacy offline browser",
+      "result": "1 passed",
+      "privateLogSha256": "9ef5cb5c868ad838264e48e16c869e9e37c9a07ff2a64e4ca53bc03847f65c3b"
+    },
+    {
+      "command": "protected installation helper",
+      "result": "passed; simulated public responses",
+      "privateLogSha256": "58a444a36803a0d779edee032dbc1a0c763fd6a09806aa322c458eab8297f73b"
+    },
+    {
+      "command": "canonical generation",
+      "result": "34 schemas; 279 valid / 179 invalid fixtures; 189 catalog entries",
+      "privateLogSha256": "25c7120612a33269aeab97dff14b2a6467add466f0b0c7e6bf041e6210c1f803"
+    },
+    {
+      "command": "final interoperability and recovery suite",
+      "result": "24 passed; held/departed, real dropped committed response, already-allocated and independent returned-dispatch race included",
+      "privateLogSha256": "f6fa85abc41ad9d6c861e408c136c52faf98d45b8447b1ebac2624c813718980"
+    },
+    {
+      "command": "final typecheck",
+      "result": "passed",
+      "privateLogSha256": "3f8709c68162b1c265f36976c94863e676ce146cdc9b112549bd1a58fad22c72"
+    },
+    {
+      "command": "final publisher lint",
+      "result": "passed",
+      "privateLogSha256": "f83186c50b95aa695b291b60b3c42e41926db1e45ff14f44c6d40127a8672c1a"
+    }
+  ],
+  "earlierFailures": "Resolved: new fixture keywords, migration inventory/table expectations, master-branch scope expectation, pending deferred-FK migration DDL, unknown payload fixture, development duplicate reads and production browser prerequisite race. No failed acceptance was waived.",
+  "audit": "Required high-level audit passes; two moderate exceljs/uuid advisories remain, no forced breaking downgrade.",
+  "fixtures": {
+    "postgres": "retained existing local cluster; uniquely named marked disposable test databases created/dropped",
+    "issuer": "new isolated marked .local/interop-identity-2026-10-10 on8185; existing8085 issuer never mutated",
+    "routing": "controlled local provider/manual plans where declared",
+    "deployment": "none; no shared/live server or Shahn mutation"
+  },
+  "originalPublisherBytes": {
+    "archive": "integration-handoff-2026-10-10.zip",
+    "sha256": "a1ef0f2b57a20d1cf1373380962d4fcc70b8c9f51ef89c0b9503a552646a1537",
+    "manifest": "docs/erp/releases/release-manifest-2026-10-03.json",
+    "manifestOriginalByteSha256": "2095f9ecaf0aca1bd70546070060c95263c0541c80789b9aa466399836bd2b20",
+    "rule": "Original byte hashes, no line-ending normalization; owner archive and earlier dated proof retained."
+  },
+  "verificationOrder": "Full check passed 1180 tests before 13 additional canonical fixtures and four new recovery/concurrency tests. Final affected subsets passed 488 contract/queued-action/release tests and 24 interoperability tests, followed by final lint/typecheck. Same-source public clean-consumer proof is generated separately after source pinning.",
+  "recoveryProofs": [
+    "docs/verification/interoperability-lost-response-2026-10-10.json",
+    "docs/verification/interoperability-return-race-2026-10-10.json"
+  ]
+}

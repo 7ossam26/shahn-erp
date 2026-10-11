@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/events/sender-event.v2.schema.json",
+  "title": "Reviewed interoperability v2 sender variants",
+  "allOf": [
+    {
+      "$ref": "./envelope.v1.schema.json"
+    }
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "dispatch.createdFromReceipt"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "2.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/RedispatchedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "outcome.recorded"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "2.0.0"
+        },
+        "payload": {
+          "$ref": "../outcomes.schema.json#/$defs/EventV2"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "outcome.corrected"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "2.0.0"
+        },
+        "payload": {
+          "$ref": "../corrections.schema.json#/$defs/EventV2"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "const": "dispatch.relocatedBeforeDeparture"
+        },
+        "eventKind": {
+          "const": "transition"
+        },
+        "payloadVersion": {
+          "const": "2.0.0"
+        },
+        "payload": {
+          "$ref": "../b2b-intake.schema.json#/$defs/RelocatedEvent"
+        }
+      },
+      "required": [
+        "eventType",
+        "eventKind",
+        "payloadVersion",
+        "payload"
+      ]
+    }
+  ]
+}

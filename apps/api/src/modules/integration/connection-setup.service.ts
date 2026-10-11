@@ -13,6 +13,8 @@ import {
   validatePackageApproval,
   validateRemotePackage,
   packageConnection,
+  matchingInstallationApproval,
+  validatePrivatePackage,
   type PrivateConnectionPackage,
 } from './connection-package.js';
 import { TawselClient } from './tawsel-client.js';
@@ -59,14 +61,19 @@ export class ConnectionSetup {
     if (!tawselUuid(company) || !tawselUuid(id)) throw new AccessError('VALIDATION_FAILED', 400);
     await UnitOfWork.run(this.pool, token, company, 'integration', async (u) => {
       requireConnectionAuthority(u);
-      const approval = this.installation.approvals.find((a) => a.erpCompanyId === company);
+      const approval = this.installation.approvals.find(
+        (a) => a.erpCompanyId === company && a.apiUrl === origin,
+      );
       if (!approval || origin !== approval.apiUrl)
         throw new AccessError('INSTALLATION_APPROVAL_REQUIRED', 409);
       let p: PrivateConnectionPackage;
       try {
+        const exact = validatePrivatePackage(value)
+          ? matchingInstallationApproval(this.installation.approvals, value.metadata)
+          : undefined;
         p = validatePackageApproval(
           value,
-          approval,
+          exact ?? approval,
           company,
           this.installation.publicOrigin,
           this.installation.issuer,
@@ -152,7 +159,7 @@ export class ConnectionSetup {
     const key = this.installation.keys[row.key_version];
     if (!key) throw new AccessError('INTEGRATION_SECRET_RECOVERY_REQUIRED', 503);
     const p = openPackage(row.ciphertext, key, company + ':' + id + ':' + row.key_version);
-    const approval = this.installation.approvals.find((a) => a.erpCompanyId === company);
+    const approval = matchingInstallationApproval(this.installation.approvals, p.metadata);
     if (!approval) throw new AccessError('INSTALLATION_APPROVAL_REQUIRED', 409);
     // Revalidate protected policy on recovery, before attaching any credential.
     validatePackageApproval(
@@ -258,7 +265,7 @@ export class ConnectionSetup {
         const key = this.installation.keys[row.key_version];
         if (!key) throw new AccessError('INTEGRATION_SECRET_RECOVERY_REQUIRED', 503);
         const p = openPackage(row.ciphertext, key, company + ':' + row.id + ':' + row.key_version);
-        const approval = this.installation.approvals.find((a) => a.erpCompanyId === company);
+        const approval = matchingInstallationApproval(this.installation.approvals, p.metadata);
         if (!approval) throw new AccessError('INSTALLATION_APPROVAL_REQUIRED', 409);
         validatePackageApproval(
           p,

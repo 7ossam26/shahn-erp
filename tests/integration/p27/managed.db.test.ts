@@ -12,6 +12,104 @@ import { registerSignedReceiver } from '../../../apps/api/src/modules/integratio
 import { signatureFor } from '../../../apps/api/src/modules/integration/signature-verifier.js';
 import { ProjectionWorker } from '../../../apps/api/src/modules/execution/projection-worker.js';
 import { validateSenderEvent } from '@shahn/contracts/tawsel';
+it('retains current approval while independently reviewed replacement is imported, confirmed and observed by both managed processes', async () => {
+  const db = await isolatedPostgres();
+  try {
+    await migrate(db.pool);
+    const f = await setupFixture(db.pool),
+      originalId = randomUUID();
+    await f.service.import(f.support.token, f.company, originalId, f.p.metadata.apiUrl, f.p);
+    const confirm = (importId: string, commandId = randomUUID()) => ({
+      schemaVersion: 1 as const,
+      type: 'integration.confirmConnection' as const,
+      companyId: f.company,
+      commandId,
+      importId,
+    });
+    await f.service.confirm(f.support.token, confirm(originalId));
+    const before = (
+      await db.pool.query('SELECT * FROM integration.source WHERE company_id=$1', [f.company])
+    ).rows[0];
+    const replacement = structuredClone(f.p);
+    replacement.metadata.apiUrl = 'https://replacement.example/';
+    const nextApproval = { ...f.installation.approvals[0]!, apiUrl: replacement.metadata.apiUrl };
+    f.installation.approvals.push(nextApproval);
+    const api = authoritativeRuntime(db.pool, { connections: [] }, f.installation),
+      worker = authoritativeRuntime(
+        db.pool,
+        { connections: [] },
+        { ...f.installation, approvals: [...f.installation.approvals] },
+      );
+    await validateManagedConnection(db.pool, api, f.company, f.config.issuer, 'database');
+    await validateManagedConnection(db.pool, worker, f.company, f.config.issuer, 'database');
+    const replacementId = randomUUID(),
+      command = confirm(replacementId);
+    f.rejectedBearers.add(replacement.credential.bearer);
+    await f.service.import(
+      f.support.token,
+      f.company,
+      replacementId,
+      replacement.metadata.apiUrl,
+      replacement,
+    );
+    expect((await api.resolve!(f.company))!.baseUrl).toBe(f.p.metadata.apiUrl);
+    await expect(f.service.confirm(f.support.token, command)).rejects.toThrow(
+      'AUTHORIZATION_EXPIRED',
+    );
+    await validateManagedConnection(db.pool, api, f.company, f.config.issuer, 'database');
+    expect((await worker.resolve!(f.company))!.baseUrl).toBe(f.p.metadata.apiUrl);
+    expect(
+      (await db.pool.query('SELECT count(*)::int n FROM integration.connection_revision')).rows[0]
+        .n,
+    ).toBe(1);
+    f.rejectedBearers.clear();
+    await f.service.confirm(f.support.token, command);
+    expect((await api.resolve!(f.company))!.baseUrl).toBe(replacement.metadata.apiUrl);
+    expect(await api.resolve!(f.company)).toEqual(await worker.resolve!(f.company));
+    expect(await f.service.confirm(f.support.token, command)).toEqual(
+      await f.service
+        .commands()
+        .recover(f.support.token, f.company, 'connection', command.commandId),
+    );
+    const after = (
+      await db.pool.query('SELECT * FROM integration.source WHERE company_id=$1', [f.company])
+    ).rows[0];
+    for (const field of [
+      'id',
+      'selector',
+      'tenant_id',
+      'integration_id',
+      'external_id',
+      'issuer',
+      'base_url',
+    ])
+      expect(after[field]).toEqual(before[field]);
+    expect(
+      (await db.pool.query('SELECT count(*)::int n FROM integration.connection_revision')).rows[0]
+        .n,
+    ).toBe(2);
+    await validateManagedConnection(
+      db.pool,
+      authoritativeRuntime(db.pool, { connections: [] }, f.installation),
+      f.company,
+      f.config.issuer,
+      'database',
+    );
+    await expect(
+      authoritativeRuntime(
+        db.pool,
+        { connections: [] },
+        { ...f.installation, approvals: [f.installation.approvals[0]!] },
+      ).resolve!(f.company),
+    ).rejects.toThrow('INSTALLATION_APPROVAL_MISMATCH');
+    const rollbackId = randomUUID();
+    await f.service.import(f.support.token, f.company, rollbackId, f.p.metadata.apiUrl, f.p);
+    await f.service.confirm(f.support.token, confirm(rollbackId));
+    expect((await worker.resolve!(f.company))!.baseUrl).toBe(f.p.metadata.apiUrl);
+  } finally {
+    await db.dispose();
+  }
+});
 it('shared managed API/worker admission permits deliberate unbound setup, refuses accidental empty and never weakens bound recovery; installed history preserves its remote anchor', async () => {
   const db = await isolatedPostgres();
   try {

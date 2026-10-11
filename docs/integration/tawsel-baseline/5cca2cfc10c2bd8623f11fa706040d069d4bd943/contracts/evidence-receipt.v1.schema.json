@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/evidence-receipt.v1.schema.json",
+  "title": "Durable evidence receipt v1 — designed",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "receiptId": {
+      "$ref": "./common.schema.json#/$defs/Uuid"
+    },
+    "actionId": {
+      "$ref": "./common.schema.json#/$defs/Uuid"
+    },
+    "evidenceStatus": {
+      "$ref": "./common.schema.json#/$defs/EvidenceStatus"
+    },
+    "businessStatus": {
+      "$ref": "./common.schema.json#/$defs/BusinessStatus"
+    },
+    "receivedAt": {
+      "$ref": "./common.schema.json#/$defs/UtcInstant"
+    },
+    "committedAt": {
+      "$ref": "./common.schema.json#/$defs/UtcInstant"
+    },
+    "resourceVersions": {
+      "$ref": "./common.schema.json#/$defs/Versions"
+    },
+    "problem": {
+      "$ref": "./common.schema.json#/$defs/Problem"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "receiptId",
+    "actionId",
+    "evidenceStatus",
+    "businessStatus",
+    "receivedAt"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "businessStatus": {
+            "const": "accepted"
+          }
+        },
+        "required": [
+          "businessStatus"
+        ]
+      },
+      "then": {
+        "properties": { "committedAt": true, "resourceVersions": true },
+        "required": [
+          "committedAt",
+          "resourceVersions"
+        ],
+        "not": {
+          "properties": { "problem": true },
+          "required": [
+            "problem"
+          ]
+        }
+      },
+      "else": {
+        "not": {
+          "properties": { "committedAt": true },
+          "required": [
+            "committedAt"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "businessStatus": {
+            "enum": [
+              "rejected",
+              "review-required"
+            ]
+          }
+        },
+        "required": [
+          "businessStatus"
+        ]
+      },
+      "then": {
+        "properties": { "problem": true },
+        "required": [
+          "problem"
+        ]
+      }
+    }
+  ]
+}

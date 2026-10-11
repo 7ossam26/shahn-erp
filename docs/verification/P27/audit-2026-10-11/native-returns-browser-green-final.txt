@@ -1,0 +1,44 @@
+npm notice run shahn-erp@0.1.0 npx
+npm notice run playwright test --config playwright.returned-parcel.config.ts
+[WebServer] (node:30620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:28044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group (8.9s)
+
+
+  1) tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group 
+
+    Error: route.abort: Route is already handled!
+
+      38 |   await page.route('**/api/v1/returns/commands', async (route) => {
+      39 |     await route.fetch();
+    > 40 |     await route.abort('failed');
+         |                 ^
+      41 |   });
+      42 |   await page
+      43 |     .locator('section.return-form')
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p27\returned-parcel.spec.ts:40:17
+
+    Error: page.reload: Test ended.
+    Call log:
+      - waiting for navigation until "load"
+        - navigated to "http://127.0.0.1:5351/returns/463aac22-6454-4a06-8ef2-dadad61f6898"
+
+
+      54 |   ).toBeVisible();
+      55 |   await page.unroute('**/api/v1/returns/commands');
+    > 56 |   await page.reload();
+         |              ^
+      57 |   await page.getByRole('button', { name: 'تحقق من الطلب الأصلي' }).click();
+      58 |   await expect(page.getByRole('status')).toContainText('حُجزت الكمية لدورة جديدة');
+      59 |   expect(
+        at C:\Users\7OSS\Desktop\projects\routing + erp\shahn-erp\tests\integration\p27\returned-parcel.spec.ts:56:14
+
+    Error Context: test-results\returned-parcel-mobile-and-d11b3-s-one-full-allocation-group\error-context.md
+
+  1 failed
+    tests\integration\p27\returned-parcel.spec.ts:3:1 › mobile and desktop parcel action reviews all commercial contents and submits one full allocation group 

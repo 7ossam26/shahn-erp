@@ -1,11 +1,10 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
-export const adoptedCommit = 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2';
+import adoptedRelease from '../../packages/contracts/src/tawsel/adopted-release.json' with { type: 'json' };
+export const adoptedCommit = adoptedRelease.sourceCommit;
 export function readerContractDigest() {
-  const extraction = JSON.parse(
-    readFileSync('docs/verification/P27/candidate-extraction.json', 'utf8'),
-  );
+  const extraction = JSON.parse(readFileSync(adoptedRelease.extractionRecord, 'utf8'));
   if (extraction.candidateCommit !== adoptedCommit) throw Error('READER_BASELINE_MISMATCH');
   for (const x of extraction.extracted) {
     const b = readFileSync(x.destination);

@@ -1,0 +1,444 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.tawsel.invalid/v1/round-start.schema.json",
+  "title": "Online round start and departure authority v1",
+  "$defs": {
+    "ReadinessRequest": {
+      "type": "object",
+      "properties": {
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "deviceId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedPlanRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "relevantActionIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Uuid"
+          },
+          "uniqueItems": true,
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "driverId",
+        "deviceId",
+        "planId",
+        "expectedPlanRevision",
+        "relevantActionIds"
+      ],
+      "additionalProperties": false,
+      "description": "Online preparation verifies each relevant action is durably accepted in the authenticated account, and reads fresh authorized planning input. P34 supplies the complete local journal barrier; omitted unsent actions cannot be discovered by the server. No alreadySynced flag."
+    },
+    "Readiness": {
+      "type": "object",
+      "properties": {
+        "readinessId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "deviceId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inputFingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "verifiedActionIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Uuid"
+          },
+          "uniqueItems": true
+        },
+        "issuedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "readinessId",
+        "driverId",
+        "deviceId",
+        "planId",
+        "planRevision",
+        "inputFingerprint",
+        "verifiedActionIds",
+        "issuedAt",
+        "expiresAt"
+      ],
+      "additionalProperties": false,
+      "description": "Server-issued evidence expires after 60 seconds and is bound to account/device/plan/input. Start rechecks authority, accepted dependencies and the locked fingerprint. It does not activate work."
+    },
+    "Start": {
+      "type": "object",
+      "properties": {
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "readinessId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "planId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "expectedPlanRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "driverId",
+        "readinessId",
+        "planId",
+        "expectedPlanRevision"
+      ],
+      "additionalProperties": false
+    },
+    "Workday": {
+      "type": "object",
+      "properties": {
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "state": {
+          "const": "open"
+        },
+        "openedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "workdayId",
+        "driverId",
+        "state",
+        "openedAt"
+      ],
+      "additionalProperties": false
+    },
+    "Round": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "state": {
+          "const": "active"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "deviceId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "generation": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "accountId",
+            "deviceId",
+            "generation"
+          ],
+          "additionalProperties": false
+        },
+        "firstPlanId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstForecastId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstWorkloadId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "currentActivity": {
+          "anyOf": [
+            {
+              "$ref": "current-activity.schema.json#/$defs/Activity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "roundId",
+        "workdayId",
+        "driverId",
+        "state",
+        "startedAt",
+        "owner",
+        "firstPlanId",
+        "firstForecastId",
+        "firstWorkloadId",
+        "currentActivity"
+      ],
+      "additionalProperties": false,
+      "description": "Authoritative server round only. The immutable selected forecast retains its original planning time origin; startedAt is separate. No heading or arrival is implied. Takeover belongs to P20."
+    },
+    "Current": {
+      "type": "object",
+      "properties": {
+        "workday": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Workday"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "round": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Round"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "workday",
+        "round"
+      ],
+      "additionalProperties": false
+    },
+    "StartResult": {
+      "type": "object",
+      "properties": {
+        "disposition": {
+          "enum": [
+            "started",
+            "already-active"
+          ]
+        },
+        "workday": {
+          "$ref": "#/$defs/Workday"
+        },
+        "round": {
+          "$ref": "#/$defs/Round"
+        }
+      },
+      "required": [
+        "disposition",
+        "workday",
+        "round"
+      ],
+      "additionalProperties": false
+    },
+    "StartCommand": {
+      "allOf": [
+        {
+          "$ref": "action-envelope.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "round.start"
+            },
+            "payload": {
+              "$ref": "#/$defs/Start"
+            },
+            "context": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "device"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ActionStatus": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "const": "pending"
+            }
+          },
+          "required": [
+            "actionId",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actionId": {
+              "$ref": "common.schema.json#/$defs/Uuid"
+            },
+            "status": {
+              "enum": [
+                "accepted",
+                "rejected",
+                "review-required"
+              ]
+            },
+            "result": {
+              "$ref": "#/$defs/StartActionResult"
+            }
+          },
+          "required": [
+            "actionId",
+            "status",
+            "result"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "StartedEvent": {
+      "type": "object",
+      "properties": {
+        "roundId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "workdayId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "driverId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "firstPlanId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstForecastId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "firstWorkloadId": {
+          "$ref": "common.schema.json#/$defs/Uuid"
+        },
+        "taskIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Uuid"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "roundId",
+        "workdayId",
+        "driverId",
+        "startedAt",
+        "firstPlanId",
+        "firstForecastId",
+        "firstWorkloadId",
+        "taskIds"
+      ],
+      "additionalProperties": false
+    },
+    "StartActionResult": {
+      "allOf": [
+        {
+          "$ref": "action-result.v1.schema.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "const": "round.start"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "type": "object",
+                "properties": {
+                  "receipt": {
+                    "type": "object",
+                    "properties": {
+                      "businessStatus": {
+                        "const": "accepted"
+                      }
+                    },
+                    "required": [
+                      "businessStatus"
+                    ]
+                  }
+                },
+                "required": [
+                  "receipt"
+                ]
+              },
+              "then": {
+                "type": "object",
+                "properties": {
+                  "response": {
+                    "type": "object",
+                    "properties": {
+                      "body": {
+                        "$ref": "#/$defs/StartResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

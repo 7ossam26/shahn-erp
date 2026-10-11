@@ -75,6 +75,11 @@ it('actual HTTP rejects spoofed/wrong-company, CSRF and extra fields; responses 
     origin: f.p.metadata.apiUrl,
     package: f.p,
   };
+  const expired = structuredClone(f.p);
+  expired.credential.expiresAt = '2026-01-01T00:00:00Z';
+  const expiredReply = await post('import', { ...input, importId: randomUUID(), package: expired });
+  expect(expiredReply.status).toBe(400);
+  expect((await expiredReply.json()).code).toBe('PRIVATE_PACKAGE_VALIDATION_FAILED');
   for (const [csrf, origin] of [
     ['wrong', f.config.origin],
     [f.support.csrfToken, 'https://foreign.example'],
@@ -87,6 +92,11 @@ it('actual HTTP rejects spoofed/wrong-company, CSRF and extra fields; responses 
   const safe = await r.text();
   expect(safe).not.toContain(f.p.credential.bearer);
   expect(safe).not.toContain(f.p.signingKeys[0]!.secret);
+  f.rejectedBearers.add(f.p.credential.bearer);
+  const verification = await post('verify', { companyId: f.company, importId: input.importId });
+  expect(verification.status).toBe(503);
+  expect((await verification.json()).code).toBe('AUTHORIZATION_EXPIRED');
+  f.rejectedBearers.clear();
   const confirm = {
     schemaVersion: 1,
     companyId: f.company,

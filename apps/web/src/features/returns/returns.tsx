@@ -29,6 +29,11 @@ const words: Record<string, string> = {
   RECEIPT_ALLOCATION_CONFLICT: 'سبق استخدام الكمية أو تغيّرت حالتها. حدّث البيانات.',
   RETURN_ALREADY_ALLOCATED: 'هذه الكمية مستخدمة بالفعل.',
   RETURN_CONDITION_UNAVAILABLE: 'الحالة لا تسمح بإعادة الإرسال.',
+  COMPLETE_TRANSFER_ALLOCATION_REQUIRED: 'يجب إعادة إرسال الطرد كاملاً بجميع سطوره وكمياته.',
+  TRANSFER_RECEIPT_ALLOCATION_CONFLICT:
+    'تغيّر استلام النقل أو نسخته. حدّث البيانات وراجع محتويات الطرد.',
+  DESTINATION_RESERVATION_REQUIRED: 'مخزون الطرد في فرع الوصول غير متاح بالكميات المطلوبة.',
+  COMPETING_PARCEL_CLAIM: 'الطرد محجوز لإجراء آخر. حدّث الحالة قبل المتابعة.',
   TAWSEL_CHECK_003: 'إعادة الإرسال من فرع آخر غير متاحة حالياً.',
   SOURCE_NOT_READY: 'لم يكتمل إعداد اتصال توصيل.',
   FORBIDDEN_SCOPE: 'ليس لديك صلاحية لهذا الفرع أو الإجراء.',
@@ -695,6 +700,11 @@ function UseReceipt({
     [destination, setDestination] = useState(r.branchId),
     [recipient, setRecipient] = useState(''),
     [actual, setActual] = useState(false);
+  const transferred =
+    mode === 'redispatch' && destination !== r.branchId
+      ? p.transferredTo.find((t) => t.branchId === destination)
+      : undefined;
+  const parcelContents = transferred?.wholeParcel ? transferred.contents : null;
   return (
     <section className="return-form">
       <h4>
@@ -723,9 +733,13 @@ function UseReceipt({
               commandId: crypto.randomUUID(),
               companyId: company,
               branchId: mode === 'redispatch' ? destination : r.branchId,
-              allocations: [
-                { receiptLineId: p.id, expectedVersion: p.version, quantity: Number(quantity) },
-              ],
+              allocations: parcelContents
+                ? parcelContents.map(({ receiptLineId, expectedVersion, quantity }) => ({
+                    receiptLineId,
+                    expectedVersion,
+                    quantity,
+                  }))
+                : [{ receiptLineId: p.id, expectedVersion: p.version, quantity: Number(quantity) }],
             };
             void submit(
               mode === 'redispatch'
@@ -746,22 +760,35 @@ function UseReceipt({
             );
           }}
         >
-          <label>
-            الكمية المختارة
-            <input
-              required
-              type="number"
-              min="1"
-              max={
-                destination === r.branchId
-                  ? p.quantity - p.consumed
-                  : (p.transferredTo.find((t) => t.branchId === destination)?.quantity ?? 0)
-              }
-              step="1"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </label>
+          {parcelContents ? (
+            <>
+              <p>إعادة إرسال الطرد كاملاً بجميع محتوياته</p>
+              <ul aria-label="محتويات الطرد لإعادة الإرسال">
+                {parcelContents.map((line) => (
+                  <li key={line.receiptLineId}>
+                    {line.description} · الكمية {line.quantity}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <label>
+              الكمية المختارة
+              <input
+                required
+                type="number"
+                min="1"
+                max={
+                  destination === r.branchId
+                    ? p.quantity - p.consumed
+                    : (p.transferredTo.find((t) => t.branchId === destination)?.quantity ?? 0)
+                }
+                step="1"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </label>
+          )}
           {mode === 'redispatch' ? (
             <>
               <label>

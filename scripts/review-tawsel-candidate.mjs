@@ -20,6 +20,7 @@ const entries = manifest.artifacts.filter(
     e.path === 'packages/api-client/package.json' ||
     e.path.startsWith('docs/verification/interoperability-') ||
     e.path === 'docs/verification/integration-local-2026-10-10.json' ||
+    e.path === manifest.consumerProofPath ||
     e.path === 'docs/erp/interoperability-2026-10-10.md' ||
     e.path === 'docs/erp/connection-metadata.example.json' ||
     e.path === 'docs/erp/enrollment-request.example.json',
@@ -36,14 +37,22 @@ for (const entry of entries) {
   }
 }
 await mkdir(retained, { recursive: true });
-await writeFile(`${retained}/release-manifest.json`, manifestBytes);
-await mkdir('docs/verification/P27', { recursive: true });
+try {
+  if (!manifestBytes.equals(await readFile(`${retained}/release-manifest.json`)))
+    throw Error('RETAINED_MANIFEST_CONFLICT');
+} catch (e) {
+  if (e.code !== 'ENOENT') throw e;
+  await writeFile(`${retained}/release-manifest.json`, manifestBytes);
+}
+await mkdir('docs/verification/P27/audit-2026-10-11', { recursive: true });
 await writeFile(
-  'docs/verification/P27/publisher-review.json',
+  `docs/verification/P27/audit-2026-10-11/publisher-review-${commit}.json`,
   JSON.stringify(
     {
       candidateCommit: commit,
-      approvedPinUnchanged: '32aad03e8a1a04ac36b95a5a77ab7bf8f7623ada',
+      activePinBeforeReview: JSON.parse(
+        await readFile('packages/contracts/src/tawsel/adopted-release.json', 'utf8'),
+      ).sourceCommit,
       manifestBytes: manifestBytes.length,
       manifestSha256: hash(manifestBytes),
       verification,

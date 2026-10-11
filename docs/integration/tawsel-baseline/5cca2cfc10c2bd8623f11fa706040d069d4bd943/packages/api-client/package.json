@@ -1,0 +1,56 @@
+{
+  "name": "@tawsel/api-client",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Tawsel public protocol types and provisioning, intake, execution and return HTTP consumers",
+  "types": "src/schema.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/schema.d.ts"
+    },
+    "./src/*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src/schema.d.ts",
+    "src/provisioning.ts",
+    "examples/provision-company.ts",
+    "README.md",
+    "src/intake.ts",
+    "src/locations.ts",
+    "src/planning.ts",
+    "src/rounds.ts",
+    "src/current.ts",
+    "src/outcomes.ts",
+    "src/eligibility.ts",
+    "src/closure.ts",
+    "src/devices.ts",
+    "src/returns.ts",
+    "src/branches.ts",
+    "src/corrections.ts",
+    "src/monitoring.ts",
+    "src/outbox.ts",
+    "src/webhook-signature.ts",
+    "src/sync.ts",
+    "src/session.ts",
+    "src/reporting.ts",
+    "src/diagnostics.ts",
+    "src/connection-package.ts"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-public-client.mjs",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

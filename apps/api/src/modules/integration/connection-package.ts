@@ -2,6 +2,7 @@ import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 import {
   tawselValidator,
   tawselUuid,
+  adoptedTawselRelease,
   type SourceConfiguration,
   type ProvisioningStatus,
 } from '@shahn/contracts/tawsel';
@@ -35,6 +36,43 @@ export type InstallationApproval = Omit<
   ConnectionMetadata,
   'packageVersion' | 'bootstrapActionId' | 'capabilities' | 'enrollmentMode' | 'interopVersion'
 >;
+/** A protected file can retain current and separately reviewed replacement records.
+ * Select by the entire immutable package identity, never by company or host alone. */
+export function matchingInstallationApproval(
+  approvals: InstallationApproval[],
+  metadata: ConnectionMetadata,
+): InstallationApproval | undefined {
+  return approvals.find(
+    (a) =>
+      validInstallationApproval(a) &&
+      Object.entries(a).every(
+        ([field, value]) => metadata[field as keyof ConnectionMetadata] === value,
+      ),
+  );
+}
+export function validInstallationApprovals(
+  approvals: unknown,
+): approvals is InstallationApproval[] {
+  if (!Array.isArray(approvals) || approvals.some((a) => !validInstallationApproval(a)))
+    return false;
+  const identities = approvals.map((a) =>
+    JSON.stringify(Object.entries(a).sort(([a], [b]) => a.localeCompare(b))),
+  );
+  if (new Set(identities).size !== identities.length) return false;
+  const immutable = [
+    'tenantId',
+    'integrationId',
+    'sourceExternalId',
+    'companyCode',
+    'issuer',
+    'callbackUrl',
+  ] as const;
+  return approvals.every((a) =>
+    approvals.every(
+      (b) => a.erpCompanyId !== b.erpCompanyId || immutable.every((field) => a[field] === b[field]),
+    ),
+  );
+}
 export function validInstallationApproval(value: unknown): value is InstallationApproval {
   if (!value || typeof value !== 'object') return false;
   const a = value as InstallationApproval;
@@ -91,8 +129,8 @@ export function validatePackageApproval(
   if (!validInstallationApproval(approval)) throw Error('INSTALLATION_APPROVAL_MISMATCH');
   const p = value;
   if (
-    p.metadata.sourceCommit !== 'fff79bcb90aaba5676bbc0cd64d78d9ce93845b2' ||
-    p.metadata.contractSha256 !== '1da953c86788247a1deaad49bec0c87b5170ab9d795cac8a50dc84c4a0cf869a'
+    p.metadata.sourceCommit !== adoptedTawselRelease.sourceCommit ||
+    p.metadata.contractSha256 !== adoptedTawselRelease.contractSha256
   )
     throw Error('UNREVIEWED_PACKAGE_CONTRACT');
   if (requiredGrants.some((g) => !p.metadata.capabilities.includes(g)))
